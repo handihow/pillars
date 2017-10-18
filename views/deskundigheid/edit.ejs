@@ -1,0 +1,54 @@
+<% include ../partials/header %>
+<% include ../partials/side-header %>
+
+<div class="fourteen wide stretched column">
+    <div class="ui segment">
+      <h2 class="ui top attached header"><i class="doctor icon"></i>Deskundigheid van Leerkrachten van <%= school.instellingsnaam %></h2>
+    
+    <form class="ui form" action="/scholen/deskundigheid/<%=school._id%>?_method=PUT" method="POST">
+         <h4 class="ui dividing header">Deskundigheid van Leerkrachten Bewerken</h4>
+          <div class="two fields">
+            <div class="field">
+                <label>Beoordeel de gemiddelde deskundigheid van leerkrachten</label>
+                <input type="number" min=1 max=6 name="school[deskLeerkrachten]" value="<%=school.deskLeerkrachten%>">
+            </div>
+            <div class="field">
+                <label>Beoordeel de gemiddelde effectiviteit van digitale leermiddelen op jouw school</label>
+                <input type="number" min=1 max=6 name="school[deskEffectiviteit]" value="<%=school.deskEffectiviteit%>">
+            </div>
+          </div>
+          <div class="two fields">
+            <div class="field">
+                <input type="hidden" value="0" name="school[deskOndersteuning]">
+                <div class="ui toggle checkbox">
+                    <input 
+                        type="checkbox" 
+                        name="school[deskOndersteuning]"
+                        <% if(school.deskOndersteuning) { %>
+                        checked="checked"
+                        <% } %>
+                    >
+                    <label>Leerkrachten hebben ondersteuning of training nodig</label>
+                 </div>
+            </div>
+            <div class="field">
+                <div class="ui toggle checkbox">
+                    <input type="hidden" value="0" name="school[deskOvereenstemming]">
+                    <input 
+                        type="checkbox" 
+                        name="school[deskOvereenstemming]"
+                        <% if(school.deskOvereenstemming) { %>
+                        checked="checked"
+                        <% } %>
+                    >
+                    <label>Overeenstemming over de verdeling van taken</label>
+                 </div>
+            </div>
+          </div>
+          <button class="ui button" type="submit">Bewaren</button>
+        </form>
+    </div>
+</div>
+
+<% include ../partials/side-footer %>
+<% include ../partials/footer %>

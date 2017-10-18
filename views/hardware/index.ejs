@@ -1,0 +1,65 @@
+<% include ../partials/header %>
+<% include ../partials/side-header %>
+
+  <div class="fourteen wide stretched column">
+    <div class="ui segment">
+      <h2 class="ui header"><i class="desktop icon"></i></i>Hardware van <%= school.instellingsnaam %></h2>
+        <div class="ui cards">
+          <!--make a card for each type of hardware-->
+          <% global.hardwareTypes.forEach(function(type){ %>
+          <div class="card">
+            <div class="content">
+              <div class="header" id="countHeader"><%=type.meervoud%></div>
+              <div class="description" id="count">
+                  <% var count = 0 %>
+                  <% school.hardware.forEach(function(hardware){ %>
+                      <% if(!isNaN(hardware.aantalWerkplekkenMultipoint) && hardware.type === type.enkelvoud) { count += hardware.aantalWerkplekkenMultipoint %>
+                      <% } else if(hardware.type === type.enkelvoud) { count += 1} %>
+                  <% }); %>
+                  <%= count %>
+              </div>
+            </div>
+            <div class="ui bottom attached button">
+              <a href="/scholen/<%=school._id%>/hardware/new/<%=type.enkelvoud%>">
+              <i class="add icon"></i>
+              <%=type.enkelvoud%> Toevoegen
+              </a>
+            </div>
+          </div>
+          <% }); %>
+        </div>
+    </div>
+    <div class="ui segment">
+        <div class="ui huge header">Hardware</div>
+        <table class="ui celled table unstackable">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Naam</th>
+                    <th>Merk</th>
+                    <th>Meer info</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                <% school.hardware.forEach(function(hardware){ %>
+                    <tr>
+                        <td><%= hardware.type %></td>
+                        <td><%= hardware.naam %></td>
+                        <td><%= hardware.merk %></td>
+                        <td>
+                          <a 
+                            class="ui primary basic button" 
+                            href="/scholen/<%=school._id%>/hardware/<%=hardware._id%>">
+                            Toon info
+                          </a>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+    </div>
+  </div>
+  
+<% include ../partials/side-footer %>
+<% include ../partials/footer %>
+

@@ -1,0 +1,32 @@
+<% include ../partials/header %>
+
+<div class="ui main text container">
+    <h2 class="ui center aligned icon header">
+      <i class="address book icon"></i>
+      <div>Scholen</div>
+    </h2>
+    <a class="positive ui button right" href="/scholen/new">School Toevoegen</a>
+    <!--tabel met scholen-->
+    <table class="ui celled table unstackable">
+        <thead>
+            <tr>
+                <th>BRIN</th>
+                <th>Instellingsnaam</th>
+                <th>Plaatsnaam</th>
+                <th>Meer info</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            <% scholen.forEach(function(school){ %>
+                <tr>
+                    <td><%= school.brin %></td>
+                    <td><%= school.instellingsnaam %></td>
+                    <td><%= school.plaatsnaam %></td>
+                    <td><a class="ui primary basic button" href="/scholen/<%=school._id%>">Toon info</a></td>
+                </tr>
+            <% }); %>
+        </tbody>
+</div>
+
+<% include ../partials/footer %>

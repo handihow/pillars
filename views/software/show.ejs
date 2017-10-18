@@ -1,0 +1,182 @@
+<% include ../partials/header %>
+<% include ../partials/side-header %>
+
+  <div class="fourteen wide stretched column">
+    <div class="ui segment">
+      <h2 class="ui header"><i class="student icon"></i></i>Digitaal Leermiddel van <%= school.instellingsnaam %></h2>
+        <div class="ui attached segment">
+            <div class="item">
+              <div class="ui stackable grid">
+                <div class="four wide column">
+                  <h4 class="content">Vak</h4> 
+                  <div class="content"><%= software.vak %></div>
+                </div>
+                <div class="four wide column">
+                  <h4 class="content">Naam</h4>
+                  <div class="content"><%= software.naam %></div>
+                </div>
+              </div>
+              <% if(!(global.software["Overige"].includes(software.vak))) { %>
+              <div class="ui stackable grid">
+                <div class="four wide column">
+                  <h4 class="content">Instructie</h4>
+                  <div class="content">
+                    <% if(software.functies.instructie) { %>
+                      Ja
+                    <% } else { %>
+                      Nee
+                    <% } %>
+                  </div>
+                </div>
+                <div class="four wide column">
+                  <h4 class="content">Oefenen</h4>
+                  <div class="content">
+                    <% if(software.functies.oefenen) { %>
+                      Ja
+                    <% } else { %>
+                      Nee
+                    <% } %>
+                  </div>
+                </div>
+                <div class="four wide column">
+                  <h4 class="content">Toets</h4>
+                  <div class="content">
+                    <% if(software.functies.toets) { %>
+                      Ja
+                    <% } else { %>
+                      Nee
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+              <div class="ui stackable grid">
+                <% for(var i=0; i < 4; i++) { %>
+                <div class="four wide column">
+                  <h4 class="content">Groep <%= i + 1 %></h4>
+                  <div class="content">
+                    <% if(software["groep"][i]) { %>
+                      Ja
+                    <% } else { %>
+                      Nee
+                    <% } %>
+                  </div>
+                </div>
+                <% } %>
+              </div>
+              <div class="ui stackable grid">
+                <% for(var i=4; i < 8; i++) { %>
+                <div class="four wide column">
+                  <h4 class="content">Groep <%= i + 1 %></h4>
+                  <div class="content">
+                    <% if(software["groep"][i]) { %>
+                      Ja
+                    <% } else { %>
+                      Nee
+                    <% } %>
+                  </div>
+                </div>
+                <% } %>
+              </div>
+              <div class="ui stackable grid">
+                <div class="four wide column">
+                  <h4 class="content">Sluit goed aan op leerdoelen</h4>
+                  <div class="content">
+                    <% if(software.kwaliteit.sluitAanOpLeerdoelen) { %>
+                      Ja
+                    <% } else { %>
+                      Nee
+                    <% } %>
+                  </div>
+                </div>
+                <div class="four wide column">
+                  <h4 class="content">Wordt veelvuldig gebruikt</h4>
+                  <div class="content">
+                    <% if(software.kwaliteit.veelGebruikt) { %>
+                      Ja
+                    <% } else { %>
+                      Nee
+                    <% } %>
+                  </div>
+                </div>
+                <div class="four wide column">
+                  <h4 class="content">Is aantrekkelijk en gebruiksvriendelijk</h4>
+                  <div class="content">
+                    <% if(software.kwaliteit.isGebruiksvriendelijk) { %>
+                      Ja
+                    <% } else { %>
+                      Nee
+                    <% } %>
+                  </div>
+                </div>
+                <div class="four wide column">
+                  <h4 class="content">Resultaten van leerlingen goed zichtbaar</h4>
+                  <div class="content">
+                    <% if(software.kwaliteit.resultatenZichtbaar) { %>
+                      Ja
+                    <% } else { %>
+                      Nee
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+              <div class="ui stackable grid">
+                <div class="four wide column">
+                  <h4 class="content">Lesdoelen passen zich aan</h4>
+                  <div class="content">
+                    <% if(software.kwaliteit.lesdoelenAangepast) { %>
+                      Ja
+                    <% } else { %>
+                      Nee
+                    <% } %>
+                  </div>
+                </div>
+                <div class="four wide column">
+                  <h4 class="content">Voldoende oefentijd voor leerlingen</h4>
+                  <div class="content">
+                    <% if(software.kwaliteit.voldoendeTijdOefenen) { %>
+                      Ja
+                    <% } else { %>
+                      Nee
+                    <% } %>
+                  </div>
+                </div>
+                <div class="four wide column">
+                  <h4 class="content">Leerlingen kunnen thuis oefenen</h4>
+                  <div class="content">
+                    <% if(software.kwaliteit.thuisOefenen) { %>
+                      Ja
+                    <% } else { %>
+                      Nee
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+              <% } else { %>
+              <div class="ui stackable grid">
+                <div class="four wide column">
+                  <h4 class="content">Effectiviteit</h4>
+                  <div class="content"><%= software.effectiviteit %></div>
+                </div>
+              </div>
+              <% } %>
+                <h4 class="content">Toegevoegd door</h4>
+                <div class="content"><%= software.owner.username %> op <%=software.created.toDateString()%> </div>
+                <% if(currentUser && software.owner.id.equals(currentUser._id)) { %>
+                  <a id="edit" 
+                    class="ui primary basic button" 
+                    href="/scholen/<%=school._id%>/software/<%=software._id%>/edit">
+                    Bewerken
+                  </a>
+                  <form id="delete" 
+                    action="/scholen/<%= school._id %>/software/<%=software._id%>?_method=DELETE" 
+                    method="POST">
+                    <button class="ui red basic button">Verwijderen</button>
+                  </form>
+                <% }; %>
+            </div>
+        </div>
+    </div>
+  </div>
+
+<% include ../partials/side-footer %>
+<% include ../partials/footer %>

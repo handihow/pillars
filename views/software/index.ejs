@@ -1,0 +1,65 @@
+<% include ../partials/header %>
+<% include ../partials/side-header %>
+
+  <div class="fourteen wide stretched column">
+    <div class="ui segment">
+      <h2 class="ui header"><i class="student icon"></i></i>Digitale Leermiddelen van <%= school.instellingsnaam %></h2>
+        <div class="ui cards">
+          <!--make a card for each type of software-->
+          <% Object.keys(global.software).forEach(function(type){ %>
+          <div class="card">
+            <div class="content">
+              <div class="header" id="countHeader"><%= type %></div>
+              <div class="description" id="count">
+                  <% var count = 0 %>
+                  <% school.software.forEach(function(software){ %>
+                      <% if(global.software[type].includes(software.vak)) { count += 1 %>
+                      <% } %>
+                  <% }); %>
+                  <%= count %>
+              </div>
+            </div>
+            <div class="ui bottom attached button">
+                <div class="item">
+                    <a href="/scholen/<%=school._id%>/software/new/<%=type %>">
+                        <i class="add icon"></i>
+                        <%=type %> Toevoegen
+                    </a>
+                </div>
+            </div>
+          </div>
+          <% }); %>
+        </div>
+    </div>
+    <div class="ui segment">
+        <div class="ui huge header">Digitale Leermiddelen</div>
+        <table class="ui celled table unstackable">
+            <thead>
+                <tr>
+                    <th>Vak</th>
+                    <th>Naam</th>
+                    <th>Meer info</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                <% school.software.forEach(function(software){ %>
+                    <tr>
+                        <td><%= software.vak %></td>
+                        <td><%= software.naam %></td>
+                        <td>
+                          <a 
+                            class="ui primary basic button" 
+                            href="/scholen/<%=school._id%>/software/<%=software._id%>">
+                            Toon info
+                          </a>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+    </div>
+  </div>
+  
+<% include ../partials/side-footer %>
+<% include ../partials/footer %>
+

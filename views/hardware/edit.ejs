@@ -1,0 +1,76 @@
+<% include ../partials/header %>
+<% include ../partials/side-header %>
+
+  <div class="fourteen wide stretched column">
+    <div class="ui segment">
+
+    <h2 class="ui top attached header"><%= hardware.type %> Bewerken voor <%= school.instellingsnaam %></h2>
+    
+    <form class="ui form" action="/scholen/<%=school._id%>/hardware/<%=hardware._id%>?_method=PUT" method="POST">
+        <div class="two fields">
+          <div class="required field">
+              <label>Naam</label>
+              <input type="text" name="hardware[naam]" value="<%=hardware.naam%>" required=true>
+          </div>
+          <div class="hidden field">
+            <input type="text" name="hardware[type]" value="<%= hardware.type %>" hidden=true>
+          </div>
+        </div>
+        <div class="field">
+            <div class="fields">
+                <div class="four wide field">
+                    <label>Merk</label>
+                    <input type="text" name="hardware[merk]" value="<%=hardware.merk%>">
+                </div>
+                <div class="twelve wide field">
+                    <label>Model</label>
+                    <input type="text" name="hardware[model]" value="<%=hardware.model%>">
+                </div>
+            </div>
+          </div>
+          <div class="field">
+            <div class="fields">
+                <div class="four wide field">
+                    <label>Serial/Tag number</label>
+                    <input type="text" name="hardware[serialTag]" value="<%=hardware.serialTag%>">
+                </div>
+                <div class="six wide field">
+                    <label>Processor</label>
+                    <input type="text" name="hardware[processor]" value="<%=hardware.processor%>">
+                </div>
+                <div class="six wide field required">
+                    <label>Werkgeheugen (GB)</label>
+                    <input type="number" name="hardware[werkgeheugen]" value="<%=hardware.werkgeheugen%>" required=true>
+                </div>
+            </div>
+          </div>
+          <% if(hardware.type === "Multipoint computer") { %>
+              <div class="six wide required field">
+                  <label>Aantal multipoint werkplekken</label>
+                  <input type="number" name="hardware[aantalWerkplekkenMultipoint]" value="<%=hardware.aantalWerkplekkenMultipoint%>" required=true>
+              </div>
+          <% } %>
+          <% if(hardware.type === "Digitaal schoolbord") { %>
+              <div class="inline field">
+                <div class="ui toggle checkbox">
+                  <input type="hidden" value="0" name="hardware[isTouchscreenDigibord]">
+                  <input 
+                    type="checkbox" 
+                    name="hardware[isTouchscreenDigibord]"
+                    <% if(hardware.isTouchscreenDigibord) { %>
+                      checked="checked"
+                    <% } %>
+                  >
+                  <label>Heeft Touchscreen Beeldscherm</label>
+                </div>
+              </div>
+              <div class="four wide field">
+                  <label>Beelddiagonaal in inch</label>
+                  <input type="number" name="hardware[schermgrootteDigibord]" value="<%=hardware.schermgrootteDigibord%>"">
+              </div>
+          <% } %>
+          <button class="ui button" type="submit">Bewaren</button>
+    </form>
+    </div>
+<% include ../partials/side-footer %>
+<% include ../partials/footer %>

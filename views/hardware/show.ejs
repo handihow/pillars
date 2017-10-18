@@ -1,0 +1,85 @@
+<% include ../partials/header %>
+<% include ../partials/side-header %>
+
+  <div class="fourteen wide stretched column">
+    <div class="ui segment">
+      <h2 class="ui header"><i class="desktop icon"></i></i>Hardware van <%= school.instellingsnaam %></h2>
+        <div class="ui attached segment">
+            <div class="item">
+              <div class="ui stackable grid">
+                <div class="four wide column">
+                  <h4 class="content">Naam</h4> 
+                  <div class="content"><%= hardware.naam %></div>
+                </div>
+                <div class="four wide column">
+                  <h4 class="content">Type Hardware</h4>
+                  <div class="content"><%= hardware.type %></div>
+                </div>
+                <div class="four wide column">
+                  <h4 class="content">Merk</h4>
+                  <div class="content"><%= hardware.merk %></div>
+                </div>
+              </div>
+              <div class="ui stackable grid">
+                <div class="four wide column">
+                  <h4 class="content">Model</h4>
+                  <div class="content"><%= hardware.model %></div>
+                </div>
+                <div class="four wide column">
+                  <h4 class="content">Serial / Tag</h4>
+                  <div class="content"><%= hardware.serialTag %></div>
+                </div>
+                <div class="four wide column">
+                  <h4 class="content">Processor</h4>
+                  <div class="content"><%= hardware.processor %></div>
+                </div>
+              </div>
+              <div class="ui stackable grid">
+                <div class="four wide column">
+                  <h4 class="content">Werkgeheugen (GB)</h4>
+                  <div class="content"><%= hardware.werkgeheugen %></div>
+                </div>
+                <% if(hardware.type==="Multipoint computer") { %>
+                <div class="four wide column">
+                  <h4 class="content">Aantal werkplekken</h4>
+                  <div class="content"><%= hardware.aantalWerkplekkenMultipoint %></div>
+                </div>
+                <% } %>
+                <% if(hardware.type==="Digitaal schoolbord") { %>
+                <div class="four wide column">
+                  <h4 class="content">Is Touchscreen</h4>
+                  <div class="content">
+                    <% if(hardware.isTouchscreenDigibord) { %>
+                      Ja
+                    <% } else { %>
+                      Nee
+                    <% } %>
+                  </div>
+                </div>
+                <div class="four wide column">
+                  <h4 class="content">Schermgrootte (inch)</h4>
+                  <div class="content"><%= hardware.schermgrootteDigibord %></div>
+                </div>
+                <% } %>
+              </div>  
+              <h4 class="content">Toegevoegd door</h4>
+              <div class="content"><%= hardware.owner.username %> op <%=hardware.created.toDateString()%> </div>
+              <% if(currentUser && hardware.owner.id.equals(currentUser._id)) { %>
+                <a id="edit" 
+                  class="ui primary basic button" 
+                  href="/scholen/<%=school._id%>/hardware/<%=hardware._id%>/edit">
+                  Bewerken
+                </a>
+                <form id="delete" 
+                  action="/scholen/<%= school._id %>/hardware/<%=hardware._id%>?_method=DELETE" 
+                  method="POST">
+                  <button class="ui red basic button">Verwijderen</button>
+                </form>
+              <% }; %>
+            </div>
+        </div>
+    </div>
+  </div>
+
+<% include ../partials/side-footer %>
+<% include ../partials/footer %>

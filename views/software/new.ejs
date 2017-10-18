@@ -1,0 +1,163 @@
+<% include ../partials/header %>
+<% include ../partials/side-header %>
+
+  <div class="fourteen wide stretched column">
+    <div class="ui segment">
+      <h2 class="ui header"><i class="student icon"></i></i>Digitale Leermiddelen voor <%= vak %> Toevoegen aan <%= school.instellingsnaam %></h2>
+        <% if(vak === "Overige") { %>   
+            <form class="ui form" action="/scholen/<%=school._id%>/software" method="POST">
+                <div class="required field">
+                    <label>Naam</label>  
+                    <input type="text" name="software[naam]" placeholder="Naam digitale leermiddel" required=true>
+                </div>
+                <div class="required grouped fields">
+                    <label for="software[vak]">Selecteer het vak:</label>
+                        <% global.software["Overige"].forEach(function(overigVak){ %>
+                            <div class="field">
+                              <div class="ui radio checkbox">
+                                <input type="radio" name="software[vak]" required=true value="<%=overigVak %>">
+                                <label><%=overigVak %></label>
+                              </div>
+                            </div>
+                        <% }) %>
+                </div>
+                <div class="field">
+                    <div class="required four wide field">
+                        <label>Effectiviteit: 1 = niet effectief / 6 = zeer effectief</label>
+                        <input type="number" min="1" max="6" name="software[effectiviteit]" required=true>
+                    </div>
+                </div>
+                <button class="ui button" type="submit">Bewaren</button>
+            </form>
+        <% } else { %>
+            <form class="ui form" action="/scholen/<%=school._id%>/software" method="POST">
+                <div class="required field">
+                    <label>Naam</label>  
+                    <input type="text" name="software[naam]" placeholder="Naam digitale leermiddel" required=true>
+                </div>
+                <div class="field">
+                      <% if(vak === "ICT Geletterdheid") { %>
+                            <div class ="required grouped fields">
+                              <label for="software[vak]">Selecteer het vak: </label>
+                                <% global.software["ICT Geletterdheid"].forEach(function(ictVak){ %>
+                                    <div class="field">
+                                      <div class="ui radio checkbox">
+                                        <input type="radio" name="software[vak]" required=true value="<%= ictVak %>">
+                                        <label><%= ictVak %></label>
+                                      </div>
+                                    </div>
+                                <% }) %> 
+                            </div>
+                       <% } else { %>
+                            <input type="hidden" name="software[vak]" value="<%= vak %>">
+                       <% } %>
+                </div>
+                <div class="field">
+                    <label>Software functies</label>
+                    <div class="fields">
+                        <div class="three wide field">
+                            <div class="ui toggle checkbox">
+                            <input type="checkbox" name="software[functies][instructie]">
+                            <label>Instructie</label>
+                             </div>
+                        </div>
+                        <div class="three wide field">
+                            <div class="ui toggle checkbox">
+                            <input type="checkbox" name="software[functies][oefenen]">
+                            <label>Oefenen</label>
+                             </div>
+                        </div>
+                        <div class="three wide field">
+                            <div class="ui toggle checkbox">
+                            <input type="checkbox" name="software[functies][toets]">
+                            <label>Toets</label>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Groepen</label>
+                    <div class="fields">
+                        <% for(var i=0; i < 4; i++) { %>
+                            <div class="three wide field">
+                                <div class="ui toggle checkbox">
+                                <input type="hidden" name="software[groep][<%= i %>]" value=false>
+                                <input type="checkbox" name="software[groep][<%= i %>]">
+                                <label>Groep <%= i + 1 %></label>
+                                 </div>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="fields">
+                        <% for(var i=4; i < 8; i++) { %>
+                            <div class="three wide field">
+                                <div class="ui toggle checkbox">
+                                <input type="hidden" name="software[groep][<%= i %>]" value=false>
+                                <input type="checkbox" name="software[groep][<%= i %>]">
+                                <label>Groep <%= i + 1 %></label>
+                                 </div>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Kwaliteitsnormen</label>
+                    <div class="fields">
+                        <div class="three wide field">
+                            <div class="ui toggle checkbox">
+                            <input type="checkbox" name="software[kwaliteit][sluitAanOpLeerdoelen]">
+                            <label>Sluit goed aan op leerdoelen</label>
+                             </div>
+                        </div>
+                        <div class="three wide field">
+                            <div class="ui toggle checkbox">
+                            <input type="checkbox" name="software[kwaliteit][veelGebruikt]">
+                            <label>Wordt veelvuldig gebruikt</label>
+                             </div>
+                        </div>
+                        <div class="three wide field">
+                            <div class="ui toggle checkbox">
+                            <input type="checkbox" name="software[kwaliteit][isGebruiksvriendelijk]">
+                            <label>Is aantrekkelijk en gebruiksvriendelijk</label>
+                             </div>
+                        </div>
+                        <div class="three wide field">
+                            <div class="ui toggle checkbox">
+                            <input type="checkbox" name="software[kwaliteit][resultatenZichtbaar]">
+                            <label>Resultaten van leerlingen goed zichtbaar</label>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="fields">
+                        <div class="three wide field">
+                            <div class="ui toggle checkbox">
+                            <input type="checkbox" name="software[kwaliteit][lesdoelenAangepast]">
+                            <label>Lesdoelen passen zich aan</label>
+                             </div>
+                        </div>
+                        <div class="three wide field">
+                            <div class="ui toggle checkbox">
+                            <input type="checkbox" name="software[kwaliteit][voldoendeTijdOefenen]">
+                            <label>Voldoende oefentijd voor leerlingen</label>
+                             </div>
+                        </div>
+                        <div class="three wide field">
+                            <div class="ui toggle checkbox">
+                            <input type="checkbox" name="software[kwaliteit][thuisOefenen]">
+                            <label>Leerlingen kunnen thuis oefenen</label>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="ui button" type="submit">Bewaren</button>
+            </form>
+        <% } %>
+    </div>
+  </div>
+  
+<% include ../partials/side-footer %>
+<% include ../partials/footer %>

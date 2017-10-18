@@ -1,0 +1,22 @@
+<% include ./partials/main-header %>
+
+<div class="container" id="register">
+    <h2>Wachtwoord Opnieuw Instellen bij Pillars</h2>
+    <form action="/reset/<%=token%>" method="post">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Nieuw wachtwoord</label>
+        <input type="password" name="password" class="form-control" placeholder="Nieuw wachtwoord">
+      </div>
+      <button type="submit" class="btn btn-primary">Instellen</button>
+    </form>
+</div> 
+
+    <ul class="slideshow">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+
+<% include ./partials/main-footer %>

@@ -1,0 +1,29 @@
+.container.main {
+    margin-top: 2em;
+}
+
+.ui.form {
+    margin-top: 25px;
+}
+
+#edit {
+    margin-top: 20px;
+}
+
+#delete {
+    display: inline;
+}
+
+#count {
+    font-size: 3em;
+    text-align: center;
+}
+
+#countHeader {
+    text-align: center;
+}
+
+#flash-message {
+    margin-top: 2em;
+    margin-bottom: 2em;
+}

@@ -1,0 +1,72 @@
+<% include ../partials/header %>
+<% include ../partials/side-header %>
+
+  <div class="fourteen wide stretched column">
+    <div class="ui segment">
+      <h2 class="ui top attached header"><i class="university icon"></i><%= school.instellingsnaam %></h2>
+        <div class="ui attached segment">
+            <div class="item">
+                <div class="ui stackable grid">
+                  <div class="twelve wide column">
+                    <h4 class="content">Adres</h4>
+                    <div class="content"><%= school.straatnaam %> <%= school.huisnummer %></div>
+                    <div class="content"><%= school.postcode %> <%= school.plaatsnaam %></div>
+                  </div>
+                </div>
+                <div class="ui stackable grid">
+                  <div class="six wide column">
+                    <h4 class="content">BRIN nummer</h4>
+                    <div class="content"><%= school.brin %></div>
+                  </div>
+                  <div class="six wide column">
+                    <h4 class="content">Bevoegd gezag nummer</h4>
+                    <div class="content"><%= school.bevoegdGezag %></div>
+                  </div>
+                </div>
+                <div class="ui stackable grid">
+                  <div class="six wide column">
+                    <h4 class="content">Aantal leerlingen</h4>
+                    <div class="content"><%= school.aantalLeerlingen %></div>
+                  </div>
+                  <div class="six wide column">
+                    <h4 class="content">Aantal klaslokalen</h4>
+                    <div class="content"><%= school.aantalKlaslokalen %></div>
+                  </div>
+                </div>
+                <div class="ui stackable grid">
+                  <div class="six wide column">
+                    <h4 class="content">School heeft snel en betrouwbaar bedraad netwerk</h4>
+                    <div class="content">
+                      <% if(school.heeftGoedBedraadNetwerk) { %>
+                        Ja
+                      <% } else { %>
+                        Nee
+                      <% } %>
+                    </div>
+                  </div>
+                  <div class="six wide column">
+                    <h4 class="content">School heeft snel en betrouwbaar draadloos netwerk</h4>
+                    <div class="content">
+                      <% if(school.heeftGoedWirelessNetwerk) { %>
+                        Ja
+                      <% } else { %>
+                        Nee
+                      <% } %>
+                    </div>
+                  </div>
+                </div>
+                <h4 class="content">Toegevoegd door</h4>
+                <div class="content"><%= school.owner.username %> op <%=school.created.toDateString()%> </div>
+                <% if(currentUser && school.owner.id.equals(currentUser._id)) { %>
+                  <a id="edit" class="ui primary basic button" href="/scholen/<%= school._id %>/edit">Bewerken</a>
+                  <form id="delete" action="/scholen/<%= school._id %>?_method=DELETE" method="POST">
+                      <button class="ui red basic button">Verwijderen</button>
+                  </form>
+                <% } %>
+            </div>
+        </div>
+    </div>
+  </div>
+
+<% include ../partials/side-footer %>
+<% include ../partials/footer %>

@@ -1,0 +1,107 @@
+body {
+	background-color: #000;
+}
+
+#landing-header {
+  z-index: 1;
+  position: relative;
+  text-align: center;
+  padding-top: 25vh;
+}
+
+#navbar-to-front {
+	z-index: 1;
+}
+
+#landing-header h1 {
+  color: #fff;
+}
+
+#landing-header h5 {
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+#register {
+	background: midnightblue;
+	z-index: 1;
+	max-width: 400px;
+	padding: 20px;
+	margin-top: 20vh;
+	padding-top: 10vh;
+	border-radius: 25px;
+	color: #fff;
+}
+
+#register h6 {
+  margin-top: 10px;
+}
+
+.slideshow { 
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.slideshow li { 
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-size: cover;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  opacity: 0;
+  z-index: 0;
+  animation: imageAnimation 40s linear infinite; 
+}
+
+.slideshow li:nth-child(1) { 
+  background-image: url(/images/geel.png) 
+}
+.slideshow li:nth-child(2) { 
+  background-image: url(/images/groen.jpg);
+  animation-delay: 8s; 
+}
+.slideshow li:nth-child(3) { 
+  background-image: url(/images/rood.png);
+  animation-delay: 16s; 
+}
+.slideshow li:nth-child(4) { 
+  background-image: url(/images/blauw.png);
+  animation-delay: 24s; 
+}
+.slideshow li:nth-child(5) { 
+  background-image: url(/images/zwart.png);
+  animation-delay: 32s; 
+}
+
+@keyframes imageAnimation { 
+  0% { 
+    opacity: 0; 
+    animation-timing-function: ease-in;
+  }
+  10% {
+    opacity: 1;
+    animation-timing-function: ease-out;
+  }
+  20% {
+    opacity: 1
+  }
+  30% {
+    opacity: 0
+  }
+}
+
+/* Older browser support - .no-cssanimations class added by modernizr */
+.no-cssanimations .slideshow li {
+	opacity: 1;
+}
+

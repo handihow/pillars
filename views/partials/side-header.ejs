@@ -1,0 +1,29 @@
+        <div class="ui grid">
+          <div class="two wide column">
+            <div class="ui vertical labeled icon menu">
+              <a class="item <%if(url===("/scholen/"+school._id)) { %> active <% } %>" href="/scholen/<%= school._id %>"</a>
+                <i class="university icon"></i>
+                Algemene informatie
+              </a>
+              <a class="item <%if(url===("/scholen/"+school._id+"/hardware")) { %> active <% } %>" href="/scholen/<%= school._id %>/hardware"</a>
+                <i class="desktop icon"></i>
+                Hardware
+              </a>
+              <a class="item <%if(url===("/scholen/"+school._id+"/software")) { %> active <% } %>" href="/scholen/<%= school._id %>/software"</a>
+                <i class="student icon"></i>
+                Digitale Leermiddelen
+              </a>
+              <a class="item <%if(url===("/scholen/deskundigheid/"+school._id)) { %> active <% } %>" href="/scholen/deskundigheid/<%= school._id %>"</a>
+                <i class="doctor icon"></i>
+                Deskundigheid
+              </a>
+              <a class="item">
+                <i class="users icon"></i>
+                Organisatie
+              </a>
+              <a class="item">
+                <i class="bar chart icon"></i>
+                Pillars Grafieken
+              </a>
+            </div>
+          </div>  

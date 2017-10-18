@@ -1,0 +1,52 @@
+<% include ../partials/header %>
+<% include ../partials/side-header %>
+
+  <div class="fourteen wide stretched column">
+    <div class="ui segment">
+      <h2 class="ui top attached header"><i class="doctor icon"></i>Deskundigheid van Leerkrachten op <%= school.instellingsnaam %></h2>
+        <div class="ui attached segment">
+            <div class="item">
+                <div class="ui stackable grid">
+                  <div class="six wide column">
+                    <h4 class="content">Beoordeel de gemiddelde deskundigheid van leerkrachten op het gebied van ICT en digitale leermiddelen</h4>
+                    <div class="content"><%= school.deskLeerkrachten %></div>
+                  </div>
+                  <div class="six wide column">
+                    <h4 class="content">Leerkrachten hebben ondersteuning of training nodig op het gebied van digitale leermiddelen</h4>
+                    <div class="content">
+                      <% if(school.deskOndersteuning) { %>
+                        Ja
+                      <% } else { %>
+                        Nee
+                      <% } %>
+                    </div>
+                  </div>
+                </div>
+                <div class="ui stackable grid">
+                  <div class="six wide column">
+                    <h4 class="content">Beoordeel de gemiddelde effectiviteit van digitale leermiddelen op jouw school</h4>
+                    <div class="content"><%= school.deskEffectiviteit %></div>
+                  </div>
+                  <div class="six wide column">
+                    <h4 class="content">Er is overeenstemming over de verdeling van taken op het gebied van ICT</h4>
+                    <div class="content">
+                      <% if(school.deskOvereenstemming) { %>
+                        Ja
+                      <% } else { %>
+                        Nee
+                      <% } %>
+                    </div>
+                  </div>
+                </div>
+                <h4 class="content">Eigenaar record:</h4>
+                <div class="content"><%= school.owner.username %> op <%=school.created.toDateString()%> </div>
+                <% if(currentUser && school.owner.id.equals(currentUser._id)) { %>
+                  <a id="edit" class="ui primary basic button" href="/scholen/deskundigheid/<%= school._id %>/edit">Bewerken</a>
+                <% } %>
+            </div>
+        </div>
+    </div>
+  </div>
+
+<% include ../partials/side-footer %>
+<% include ../partials/footer %>

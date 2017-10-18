@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <title>Pillars</title>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
+        <link rel="stylesheet" type="text/css" href="/stylesheets/app.css">
+        <script src="https://use.fontawesome.com/0ad184d31e.js"></script>
+    </head>
+    <body>
+        <div class="ui inverted menu">
+          <a class="item" href="/">
+            Pillars
+          </a>
+          <a class="item" href="/scholen/">
+            Scholen
+          </a>
+          <a class="item">
+            Profiel
+          </a>
+          <div class="right menu">
+            <a class="ui item" href="#">
+              Je email: <%=currentUser.username%>
+            </a>
+            <a class="ui item" href="/logout">
+              <i class="fa fa-sign-out" aria-hidden="true"></i>
+              Uitloggen
+            </a>
+          </div>
+        </div>
+        
+        <div class="ui container" id="flash-message">
+          <% if(error && error.length > 0) { %>
+            <div class="ui red message">
+              <%= error %>
+            </div>
+          <% } %>
+          <% if (success && success.length > 0) { %>
+              <div class="ui green message">
+              <%= success %>
+            </div>
+          <% } %>
+        </div>
+        
