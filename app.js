@@ -17,7 +17,7 @@ var scholenRoutes = require("./routes/scholen");
 var deskundigheidRoutes = require("./routes/deskundigheid");
 var indexRoutes = require("./routes/index");
 
-mongoose.connect(process.env.DATABASEURL, {useMongoClient: true});
+mongoose.connect(process.env.DATABASEURL, {useMongoClient: true}); //DATABASEURL=mongodb://localhost/scholen_app
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));

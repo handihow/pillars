@@ -6,7 +6,11 @@ var middleware = require("../middleware");
 
 //INDEX ROUTE
 router.get("/", middleware.isLoggedIn, function(req, res){
-    School.find({"owner.username": req.user.username}, function(err, scholen){
+    School.find(
+        {"owner.username": req.user.username}, 
+        null,
+        {sort: {instellingsnaam: 1}},
+        function(err, scholen){
         if(err) {
             req.flash("error", err.message);
         } else {
@@ -42,9 +46,9 @@ router.post("/search", middleware.isLoggedIn, function(req, res){
     var url = "https://api.duo.nl/v0/datasets/01.-hoofdvestigingen-basisonderwijs/search?brin=" + req.body.brin;
     request(url, function (error, response, body) {
       if(!error && response.statusCode == 200){
-          var scholen = JSON.parse(body).results;
-          if(scholen[0]){
-              res.render("scholen/search", {scholen: scholen}); 
+          var school = JSON.parse(body).results[0];
+          if(school){
+              res.render("scholen/search", {school: school}); 
           } else {
               req.flash("error", "Geen school gevonden in DUO database. Controleer het BRIN nummer.");
               res.redirect("back");

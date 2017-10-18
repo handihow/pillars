@@ -1,43 +1,49 @@
 <% include ../partials/header %>
 
+<div class="ui container" id="flash-message">
+    <div class="ui green message">
+        School gevonden in DUO database. Vul het aantal leerlingen en klaslokalen in en bewaar de school.
+    </div>
+</div>
+
 <div class="ui main text container">
     <div class="ui huge header">School uit DUO Database Toevoegen</div>
     
     <form class="ui form" action="/scholen" method="POST">
          <h4 class="ui dividing header">School Invoeren</h4>
          <div class="two fields">
-            <div class="field">
+            <div class="disabled field">
                 <label>BRIN nummer</label>
-                <input type="text" name="school[brin]" value="<%= scholen[0]['BRIN NUMMER'] %>">
+                <input type="text" name="school[brin]" value="<%= school['BRIN NUMMER'] %>">
             </div>
-            <div class="field">
+            <div class="disabled field">
                 <label>Bevoegd gezag nummer</label>
-                <input type="text" name="school[bevoegdGezag]" value="<%= scholen[0]['BEVOEGD GEZAG NUMMER'] %>">
+                <input type="text" name="school[bevoegdGezag]" value="<%= school['BEVOEGD GEZAG NUMMER'] %>">
             </div>
           </div>
-          <div class="field">
+          <div class="disabled field">
             <label>Instellingsnaam</label>
-            <input type="text" name="school[instellingsnaam]" value="<%= scholen[0]['INSTELLINGSNAAM'] %>">
+            <input type="text" name="school[instellingsnaam]" value="<%= school['INSTELLINGSNAAM'] %>">
           </div>
-          <div class="field">
+          <div class="disabled field">
             <label>Adres</label>
                 <div class="fields">
                   <div class="twelve wide field">
-                    <input type="text" name="school[straatnaam]" value="<%= scholen[0]['STRAATNAAM'] %>">
+                    <input type="text" name="school[straatnaam]" value="<%= school['STRAATNAAM'] %>">
                   </div>
                   <div class="four wide field">
-                    <input type="text" name="school[huisnummer]" value="<%= scholen[0]['HUISNUMMER-TOEVOEGING'] %>">
+                    <input type="text" name="school[huisnummer]" value="<%= school['HUISNUMMER-TOEVOEGING'] %>">
                   </div>
                 </div>
           </div>
-          <div class="field">
+          <div class="disabled field">
             <label>Postcode en Plaatsnaam</label>
                 <div class="fields">
                     <div class="four wide field">
-                        <input type="text" name="school[postcode]" value="<%= scholen[0]['POSTCODE'] %>">
+                        <input type="text" name="school[postcode]" value="<%= school['POSTCODE'] %>">
                     </div>
                     <div class="twelve wide field">
-                        <input type="text" name="school[plaatsnaam]" value="<%= scholen[0]['PLAATSNAAM'] %>">
+                        <input type="text" name="school[plaatsnaam]" value="<%= school['PLAATSNAAM'] %>">
                     </div>
                 </div>
           </div>

@@ -9,7 +9,7 @@
           <% global.hardwareTypes.forEach(function(type){ %>
           <div class="card">
             <div class="content">
-              <div class="header" id="countHeader"><%=type.meervoud%></div>
+              <div class="header" id="countHeader"><a href="#<%=type.enkelvoud%>"><%=type.meervoud%></a></div>
               <div class="description" id="count">
                   <% var count = 0 %>
                   <% school.hardware.forEach(function(hardware){ %>
@@ -30,7 +30,11 @@
         </div>
     </div>
     <div class="ui segment">
-        <div class="ui huge header">Hardware</div>
+    <!--make a table for each type of hardware-->
+    <% global.hardwareTypes.forEach(function(type){ %>
+        <% if(school.hardware.map(a => a.type).includes(type.enkelvoud)) { %>
+        <div class="ui huge header"><%=type.meervoud%></div>
+        <a id="<%=type.enkelvoud%>">
         <table class="ui celled table unstackable">
             <thead>
                 <tr>
@@ -40,9 +44,10 @@
                     <th>Meer info</th>
                 </tr>
             </thead>
-            
+        <% } %>
             <tbody>
                 <% school.hardware.forEach(function(hardware){ %>
+                    <% if(type.enkelvoud === hardware.type) { %>
                     <tr>
                         <td><%= hardware.type %></td>
                         <td><%= hardware.naam %></td>
@@ -55,8 +60,11 @@
                           </a>
                         </td>
                     </tr>
+                  <% } %>
                 <% }); %>
             </tbody>
+          </table>
+      <% }); %>
     </div>
   </div>
   

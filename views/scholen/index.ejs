@@ -21,7 +21,7 @@
             <% scholen.forEach(function(school){ %>
                 <tr>
                     <td><%= school.brin %></td>
-                    <td><%= school.instellingsnaam %></td>
+                    <td><a href="/scholen/<%=school._id%>"><%= school.instellingsnaam %></a></td>
                     <td><%= school.plaatsnaam %></td>
                     <td><a class="ui primary basic button" href="/scholen/<%=school._id%>">Toon info</a></td>
                 </tr>
