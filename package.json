@@ -4,9 +4,10 @@
   "description": "namen en adressen van scholen in Nederland",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
-  "author": "Roeland",
+  "author": "Roeland Verbakel",
   "license": "ISC",
   "dependencies": {
     "async": "^2.5.0",
