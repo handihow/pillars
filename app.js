@@ -17,7 +17,9 @@ var scholenRoutes = require("./routes/scholen");
 var deskundigheidRoutes = require("./routes/deskundigheid");
 var indexRoutes = require("./routes/index");
 
-mongoose.connect("mongodb://localhost/scholen_app", {useMongoClient: true});
+//mongoose.connect("mongodb://localhost/scholen_app", {useMongoClient: true});
+mongoose.connect("mongodb://rverbakel:!ose3054@ds123695.mlab.com:23695/pillars", {useMongoClient: true});
+
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
