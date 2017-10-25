@@ -1,11 +1,7 @@
-<% include ../partials/header %>
-<% include ../partials/side-header %>
-
-  <div class="fourteen wide stretched column">
-    <div class="ui segment">
+<% include ../partials/school/header %>
+<% include ../partials/school/side-header %>
 
     <h2 class="ui top attached header"><%= hardware.type %> Bewerken voor <%= school.instellingsnaam %></h2>
-    
     <form class="ui form" action="/scholen/<%=school._id%>/hardware/<%=hardware._id%>?_method=PUT" method="POST">
         <div class="two fields">
           <div class="required field">
@@ -66,11 +62,12 @@
               </div>
               <div class="four wide field">
                   <label>Beelddiagonaal in inch</label>
-                  <input type="number" name="hardware[schermgrootteDigibord]" value="<%=hardware.schermgrootteDigibord%>"">
+                  <input type="number" name="hardware[schermgrootteDigibord]" value="<%=hardware.schermgrootteDigibord%>">
               </div>
           <% } %>
           <button class="ui button" type="submit">Bewaren</button>
     </form>
-    </div>
-<% include ../partials/side-footer %>
-<% include ../partials/footer %>
+
+<% include ../partials/school/side-footer %>
+<% include ../partials/school/jquery_form_validation %>
+<% include ../partials/school/footer %>

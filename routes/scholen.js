@@ -6,17 +6,35 @@ var middleware = require("../middleware");
 
 //INDEX ROUTE
 router.get("/", middleware.isLoggedIn, function(req, res){
-    School.find(
-        {"owner.username": req.user.username}, 
-        null,
-        {sort: {instellingsnaam: 1}},
-        function(err, scholen){
-        if(err) {
-            req.flash("error", err.message);
-        } else {
-            res.render("scholen/index", {scholen: scholen});         
-        }
-    });
+    //if user is school admin then go to school page
+    if(req.user.role==="sadmin") {
+        //find the school
+        School.findOne({"admin.username": req.user.username}, function(err, school) {
+            if(err){
+                req.flash("error", err.message);
+                res.redirect("back"); 
+            } else if(!school) {
+                req.flash("error", "Account is niet actief. Neem contact op met uw schoolbestuur.");
+                res.redirect("back"); 
+            } else {
+                res.redirect("/scholen/" + school._id);
+            }
+        });
+    } else {
+        //else go to the list of schools
+        School.find(
+            {"owner.username": req.user.username}, 
+            null,
+            {sort: {instellingsnaam: 1}},
+            function(err, scholen){
+            if(err || !scholen) {
+                req.flash("error", err.message);
+                res.redirect("back");
+            } else {
+                res.render("scholen/index", {scholen: scholen});         
+            }
+        });
+    }
 });
 
 //NEW ROUTE
@@ -73,7 +91,7 @@ router.get("/:id", middleware.isLoggedIn, function(req, res){
 });
 
 //EDIT ROUTE
-router.get("/:id/edit", middleware.isSchoolOwner, function(req, res){
+router.get("/:id/edit", middleware.isLoggedIn, function(req, res){
     School.findById(req.params.id, function(err, school){
        if(err || !school){
            req.flash("error", "School niet gevonden.");
@@ -85,7 +103,7 @@ router.get("/:id/edit", middleware.isSchoolOwner, function(req, res){
 });
 
 //UPDATE ROUTE
-router.put("/:id", middleware.isSchoolOwner, function(req, res){
+router.put("/:id", middleware.isLoggedIn, function(req, res){
     School.findByIdAndUpdate(req.params.id, req.body.school, function(err, school){
        if(err || !school){
            req.flash("error", "School niet gevonden.");

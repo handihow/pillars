@@ -11,12 +11,14 @@
           <a class="item" href="/">
             Pillars
           </a>
+          <% if(currentUser.role==="badmin") { %>
           <a class="item" href="/scholen/">
             Scholen
           </a>
           <a class="item">
-            Profiel
+            Normering
           </a>
+          <% } %>
           <div class="right menu">
             <a class="ui item" href="#">
               Je email: <%=currentUser.username%>

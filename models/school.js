@@ -11,13 +11,32 @@ var scholenSchema=  mongoose.Schema({
     aantalLeerlingen: Number,
     aantalKlaslokalen: Number,
     created: {type: Date, default: Date.now},
-    owner: {
+    owner: {                                        //user type Schoolbestuur
       id: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "User"
       },
-      username: String
+      username: String,
+      role: String
     },
+    admin: [{                                        //user type School
+      id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User"
+      },
+      username: String,
+      role: String,
+      firstName: String,
+      lastName: String
+    }],
+    medewerker: [{                                  //user type Medewerker
+      id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User"
+      },
+      username: String,
+      role: String
+    }],
     heeftGoedBedraadNetwerk: {type: Boolean, default: false},
     heeftGoedWirelessNetwerk: {type: Boolean, default: false},
     hardware: [

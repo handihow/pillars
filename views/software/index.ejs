@@ -1,15 +1,13 @@
-<% include ../partials/header %>
-<% include ../partials/side-header %>
+<% include ../partials/school/header %>
+<% include ../partials/school/side-header %>
 
-  <div class="fourteen wide stretched column">
-    <div class="ui segment">
       <h2 class="ui header"><i class="student icon"></i></i>Digitale Leermiddelen van <%= school.instellingsnaam %></h2>
         <div class="ui cards">
           <!--make a card for each type of software-->
           <% Object.keys(global.software).forEach(function(type){ %>
           <div class="card">
             <div class="content">
-              <div class="header" id="countHeader"><%= type %></div>
+              <div class="header" id="countHeader"><a href="#<%=type%>"><%= type %></a></div>
               <div class="description" id="count">
                   <% var count = 0 %>
                   <% school.software.forEach(function(software){ %>
@@ -31,35 +29,44 @@
           <% }); %>
         </div>
     </div>
+    <!--make a table for each type of software-->
     <div class="ui segment">
-        <div class="ui huge header">Digitale Leermiddelen</div>
-        <table class="ui celled table unstackable">
-            <thead>
-                <tr>
-                    <th>Vak</th>
-                    <th>Naam</th>
-                    <th>Meer info</th>
-                </tr>
-            </thead>
-            
-            <tbody>
-                <% school.software.forEach(function(software){ %>
+    <!--check for each key in the global.software object (represent vak)-->
+    <% Object.keys(global.software).forEach(function(vak){ %>
+    <!--if the school software vak is included in the array-->
+        <% if(school.software.map(a => a.vak).some(r => global.software[vak].includes(r))) { %>
+            <div class="ui huge header"><%= vak %></div>
+            <a id="<%= vak %>">
+            <table class="ui celled table unstackable">
+                <thead>
                     <tr>
-                        <td><%= software.vak %></td>
-                        <td><%= software.naam %></td>
-                        <td>
-                          <a 
-                            class="ui primary basic button" 
-                            href="/scholen/<%=school._id%>/software/<%=software._id%>">
-                            Toon info
-                          </a>
-                        </td>
+                        <th>Vak</th>
+                        <th>Naam</th>
+                        <th>Meer info</th>
                     </tr>
-                <% }); %>
-            </tbody>
+                </thead>
+                <% } %>
+                <tbody>
+                    <% school.software.forEach(function(software){ %>
+                        <% if(global.software[vak].includes(software.vak)) { %>
+                        <tr>
+                            <td><%= software.vak %></td>
+                            <td><%= software.naam %></td>
+                            <td>
+                              <a 
+                                class="ui primary basic button" 
+                                href="/scholen/<%=school._id%>/software/<%=software._id%>">
+                                Toon info
+                              </a>
+                            </td>
+                        </tr>
+                        <% } %> 
+                    <% }); %>
+                </tbody>
+            </table>
+        <% }); %>
     </div>
   </div>
   
-<% include ../partials/side-footer %>
-<% include ../partials/footer %>
-
+<% include ../partials/school/side-footer %>
+<% include ../partials/school/footer %>

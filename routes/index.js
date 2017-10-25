@@ -3,7 +3,7 @@ var router = express.Router();
 var passport = require("passport");
 var User = require("../models/user");
 var asyncr = require("async");
-var nodemailer = require('nodemailer');
+var gmailNode = require("gmail-node");
 var crypto = require("crypto");
 
 //LANDING PAGE route
@@ -11,25 +11,23 @@ router.get("/", function(req, res){
     res.render("landing");
 });
 
-
 //SHOW REGISTER FORM
 router.get("/register", function(req,res){
    res.render("register"); 
 });
 
-
 //HANDLE SIGN-UP LOGIC
 router.post("/register", function(req,res){
-    var newUser = new User({username: req.body.username});
+    var newUser = new User({username: req.body.username, role: req.body.role});
     User.register(newUser, req.body.password, function(err, user){
-        if(err){
-            req.flash("error", err.message);
-            return res.redirect("/register");
-        }
-        passport.authenticate("local")(req, res, function(){
-            req.flash("success", "Welkom bij Pillars!");
-            res.redirect("/scholen");
-        });
+          if(err){
+              req.flash("error", err.message);
+              return res.redirect("back");
+          }
+          passport.authenticate("local")(req, res, function(){
+              req.flash("success", "Welkom bij Pillars!");
+              res.redirect("/scholen");
+          });
     });
 });
 
@@ -46,6 +44,7 @@ router.post("/login", passport.authenticate("local",
         failureFlash: true
     }), function(req, res){
 });
+
 
 //LOG OUT ROUTE
 router.get("/logout", function(req, res){
@@ -71,11 +70,9 @@ router.post('/forgot', function(req, res, next) {
     function(token, done) {
       User.findOne({ username: req.body.username }, function(err, user) {
         if (err || !user) {
-        //   console.log('error', 'No account with that email address exists.');
         req.flash('error', 'No account with that email address exists.');
           return res.redirect('/forgot');
         }
-        console.log('step 1');
         user.resetPasswordToken = token;
         user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
 
@@ -85,27 +82,17 @@ router.post('/forgot', function(req, res, next) {
       });
     },
     function(token, user, done) {
-      console.log('step 2');
-      
-      var smtpTrans = nodemailer.createTransport({
-         service: 'Gmail', 
-         auth: {
-          user: 'roelandverbakel@gmail.com',
-          pass: 'Ro!!erdam3054'
-        }
-      });
-      var mailOptions = {
+      var emailMessage = {
         to: user.username,
-        from: 'roelandverbakel@gmail.com',
+        from: 'Pillars',
         subject: 'Pillars Wachtwoord Reset',
-        text: 'Je hebt een nieuw wachtwoord aangevraagd bij Pillars.\n\n' +
+        message: 'Je hebt een nieuw wachtwoord aangevraagd bij Pillars.\n\n' +
           'Click aub op de onderstaande link om een nieuw wachtwoord aan te maken:\n\n' +
           'http://' + req.headers.host + '/reset/' + token + '\n\n' +
           'Als je geen nieuw wachtwoord hebt aangevraagd, dan hoef je niets te doen. Je wachtwoord bij Pillars blijft dan hetzelfde.\n'
       };
-      console.log('step 3');
 
-      smtpTrans.sendMail(mailOptions, function(err) {
+      gmailNode.send(emailMessage, function(err) {
           if(err){
               console.log(err);
               req.flash('error', err.message);

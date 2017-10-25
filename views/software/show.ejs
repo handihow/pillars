@@ -1,8 +1,6 @@
-<% include ../partials/header %>
-<% include ../partials/side-header %>
+<% include ../partials/school/header %>
+<% include ../partials/school/side-header %>
 
-  <div class="fourteen wide stretched column">
-    <div class="ui segment">
       <h2 class="ui header"><i class="student icon"></i></i>Digitaal Leermiddel van <%= school.instellingsnaam %></h2>
         <div class="ui attached segment">
             <div class="item">
@@ -161,7 +159,7 @@
               <% } %>
                 <h4 class="content">Toegevoegd door</h4>
                 <div class="content"><%= software.owner.username %> op <%=software.created.toDateString()%> </div>
-                <% if(currentUser && software.owner.id.equals(currentUser._id)) { %>
+                <% if(currentUser && software.owner.id.equals(currentUser._id) || currentUser.role==="badmin") { %>
                   <a id="edit" 
                     class="ui primary basic button" 
                     href="/scholen/<%=school._id%>/software/<%=software._id%>/edit">
@@ -178,5 +176,5 @@
     </div>
   </div>
 
-<% include ../partials/side-footer %>
-<% include ../partials/footer %>
+<% include ../partials/school/side-footer %>
+<% include ../partials/school/footer %>

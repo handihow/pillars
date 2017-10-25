@@ -1,8 +1,6 @@
-<% include ../partials/header %>
-<% include ../partials/side-header %>
+<% include ../partials/school/header %>
+<% include ../partials/school/side-header %>
 
-  <div class="fourteen wide stretched column">
-    <div class="ui segment">
       <h2 class="ui top attached header"><i class="doctor icon"></i>Deskundigheid van Leerkrachten op <%= school.instellingsnaam %></h2>
         <div class="ui attached segment">
             <div class="item">
@@ -40,13 +38,9 @@
                 </div>
                 <h4 class="content">Eigenaar record:</h4>
                 <div class="content"><%= school.owner.username %> op <%=school.created.toDateString()%> </div>
-                <% if(currentUser && school.owner.id.equals(currentUser._id)) { %>
-                  <a id="edit" class="ui primary basic button" href="/scholen/deskundigheid/<%= school._id %>/edit">Bewerken</a>
-                <% } %>
+                <a id="edit" class="ui primary basic button" href="/scholen/deskundigheid/<%= school._id %>/edit">Bewerken</a>
             </div>
         </div>
-    </div>
-  </div>
 
-<% include ../partials/side-footer %>
-<% include ../partials/footer %>
+<% include ../partials/school/side-footer %>
+<% include ../partials/school/footer %>

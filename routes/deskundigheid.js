@@ -16,7 +16,7 @@ router.get("/:id", middleware.isLoggedIn, function(req, res){
 });
 
 //EDIT ROUTE
-router.get("/:id/edit", middleware.isSchoolOwner, function(req, res){
+router.get("/:id/edit", middleware.isLoggedIn, function(req, res){
     School.findById(req.params.id, function(err, school){
        if(err || !school){
            req.flash("error", "School niet gevonden.");
@@ -28,7 +28,7 @@ router.get("/:id/edit", middleware.isSchoolOwner, function(req, res){
 });
 
 //UPDATE ROUTE
-router.put("/:id", middleware.isSchoolOwner, function(req, res){
+router.put("/:id", middleware.isLoggedIn, function(req, res){
     School.findByIdAndUpdate(req.params.id, req.body.school, function(err, school){
        if(err || !school){
            req.flash("error", "School niet gevonden.");

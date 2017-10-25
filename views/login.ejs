@@ -1,16 +1,16 @@
-<% include ./partials/main-header %>
+<% include ./partials/main/header %>
 
 <div class="container" id="register">
     <h2>Inloggen bij Pillars</h2>
-    <form action="/login" method="post">
+    <form action="/login" method="post" id="login" novalidate>
       <div class="form-group">
-        <label for="exampleInputEmail1">Email adres</label>
-        <input type="email" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email adres">
+        <label for="email">Email adres</label>
+        <input type="email" name="username" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email adres" required>
         <small id="emailHelp" class="form-text text-muted">We delen je email met niemand!</small>
       </div>
       <div class="form-group">
-        <label for="exampleInputPassword1">Wachtwoord</label>
-        <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Wachtwoord">
+        <label for="password">Wachtwoord</label>
+        <input type="password" name="password" class="form-control" id="password" placeholder="Wachtwoord" required>
       </div>
       <button type="submit" class="btn btn-primary">Inloggen</button>
     </form>
@@ -30,4 +30,4 @@
       <li></li>
     </ul>
 
-<% include ./partials/main-footer %>
+<% include ./partials/main/footer %>

@@ -1,0 +1,38 @@
+        <div class="ui grid">
+          <div class="four wide column">
+            <div class="ui vertical fluid tabular menu">
+
+              <a class="item <%if(url===("/scholen/"+school._id) || url===("/scholen/"+school._id)+"/edit") { %> active <% } %>" href="/scholen/<%= school._id %>"</a>
+                <i class="university icon"></i>
+                Algemene informatie
+              </a>
+              <a class="item <%if(url.includes("/scholen/"+school._id+"/hardware")) { %> active <% } %>" href="/scholen/<%= school._id %>/hardware"</a>
+                <i class="desktop icon"></i>
+                Hardware
+              </a>
+              <a class="item <%if(url.includes("/scholen/"+school._id+"/software")) { %> active <% } %>" href="/scholen/<%= school._id %>/software"</a>
+                <i class="student icon"></i>
+                Digitale Leermiddelen
+              </a>
+              <a class="item <%if(url.includes("/scholen/deskundigheid/"+school._id)) { %> active <% } %>" href="/scholen/deskundigheid/<%= school._id %>"</a>
+                <i class="doctor icon"></i>
+                Deskundigheid
+              </a>
+              <a class="item">
+                <i class="sitemap icon"></i>
+                Organisatie
+              </a>
+              <% if(currentUser.role ==="badmin") { %>
+              <a class="item <%if(url.includes("/scholen/"+school._id+"/admin")) { %> active <% } %>" href="/scholen/<%= school._id %>/admin"</a>
+                <i class="users icon"></i>
+                School Administrators
+              </a>
+              <% } %>
+              <a class="item">
+                <i class="bar chart icon"></i>
+                Pillars Grafieken
+              </a>
+            </div>
+          </div>  
+          <div class="twelve wide stretched column">
+            <div class="ui segment">

@@ -1,8 +1,6 @@
-<% include ../partials/header %>
-<% include ../partials/side-header %>
+<% include ../partials/school/header %>
+<% include ../partials/school/side-header %>
 
-  <div class="fourteen wide stretched column">
-    <div class="ui segment">
 
     <h2 class="ui top attached header"><%= type %> Toevoegen aan <%= school.instellingsnaam %></h2>
     
@@ -65,5 +63,7 @@
           <button class="ui button" type="submit">Bewaren</button>
     </form>
     </div>
-<% include ../partials/side-footer %>
-<% include ../partials/footer %>
+    
+<% include ../partials/school/side-footer %>
+<% include ../partials/school/jquery_form_validation %>
+<% include ../partials/school/footer %>

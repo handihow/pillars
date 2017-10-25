@@ -1,8 +1,6 @@
-<% include ../partials/header %>
-<% include ../partials/side-header %>
+<% include ../partials/school/header %>
+<% include ../partials/school/side-header %>
 
-  <div class="fourteen wide stretched column">
-    <div class="ui segment">
       <h2 class="ui header"><i class="student icon"></i></i>Digitale Leermiddelen voor <%= software.vak %> Bewerken op <%= school.instellingsnaam %></h2>
         <% if(global.software["Overige"].includes(software.vak)) { %>   
             <form class="ui form" action="/scholen/<%=school._id%>/software/<%=software._id%>?_method=PUT" method="POST">
@@ -250,5 +248,6 @@
     </div>
   </div>
   
-<% include ../partials/side-footer %>
-<% include ../partials/footer %>
+<% include ../partials/school/side-footer %>
+<% include ../partials/school/jquery_form_validation %>
+<% include ../partials/school/footer %>

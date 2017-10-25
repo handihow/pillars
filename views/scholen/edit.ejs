@@ -1,10 +1,7 @@
-<% include ../partials/header %>
-<% include ../partials/side-header %>
+<% include ../partials/school/header %>
+<% include ../partials/school/side-header %>
 
-<div class="fourteen wide stretched column">
-    <div class="ui segment">
-      <h2 class="ui top attached header"><%= school.instellingsnaam %></h2>
-    
+    <h2 class="ui top attached header"><%= school.instellingsnaam %></h2>
     <form class="ui form" action="/scholen/<%=school._id%>?_method=PUT" method="POST">
          <h4 class="ui dividing header">School Bewerken</h4>
          <div class="two fields">
@@ -86,5 +83,6 @@
     </div>
 </div>
 
-<% include ../partials/side-footer %>
-<% include ../partials/footer %>
+<% include ../partials/school/side-footer %>
+<% include ../partials/school/jquery_form_validation %>
+<% include ../partials/school/footer %>
