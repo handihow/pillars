@@ -4,6 +4,7 @@ var School = require("../models/school");
 var User = require("../models/user");
 var middleware = require("../middleware");
 var gmailNode = require("gmail-node");
+var passport = require("passport");
 
 //INDEX - list of admin users of the school
 router.get("/", middleware.isSchoolOwner, function(req, res){
@@ -77,7 +78,6 @@ router.post("/", middleware.isSchoolOwner, function(req, res){
 
 //DESTROY route to delete school administrator from database
 router.delete("/:username", middleware.isSchoolOwner, function(req, res){
-  
   //find the school and remove the user from the school administrators
   School.findById(req.params.id, function(err, school){
       if(err || !school) {
@@ -87,8 +87,17 @@ router.delete("/:username", middleware.isSchoolOwner, function(req, res){
           var userIndexInArray = school.admin.findIndex(x => x.username==req.params.username);
           school.admin.splice(userIndexInArray, 1);
           school.save();
-          req.flash("success", "School Administrator verwijderd");
-          res.redirect("/scholen/" + school._id + "/admin");
+          //find the user and delete him from the database
+          User.findOne({ username: req.params.username }, function(err, user){
+              if(err || !user){
+                  req.flash("error", err);
+                  res.redirect("back");
+              } else {
+                    user.remove();
+                    req.flash("success", "School Administrator verwijderd");
+                    res.redirect("/scholen/" + req.params.id + "/admin");
+              }
+          });
       }
   });
 });

@@ -10,11 +10,8 @@ router.get("/", middleware.isLoggedIn, function(req, res){
     if(req.user.role==="sadmin") {
         //find the school
         School.findOne({"admin.username": req.user.username}, function(err, school) {
-            if(err){
+            if(err || !school){
                 req.flash("error", err.message);
-                res.redirect("back"); 
-            } else if(!school) {
-                req.flash("error", "Account is niet actief. Neem contact op met uw schoolbestuur.");
                 res.redirect("back"); 
             } else {
                 res.redirect("/scholen/" + school._id);
