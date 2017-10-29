@@ -4,11 +4,11 @@
 
     <h2 class="ui top attached header"><%= type %> Toevoegen aan <%= school.instellingsnaam %></h2>
     
-    <form class="ui form" action="/scholen/<%=school._id%>/hardware" method="POST">
+    <form class="ui form" action="/scholen/<%=school._id%>/hardware" method="POST" id="hardwareForm">
         <div class="two fields">
           <div class="required field">
               <label>Naam</label>
-              <input type="text" name="hardware[naam]" placeholder="Hardware naam" required=true>
+              <input type="text" name="hardware[naam]" placeholder="Hardware naam" id="hardware[naam]">
           </div>
           <div class="hidden field">
             <input type="text" name="hardware[type]" value="<%= type %>" hidden=true>
@@ -36,16 +36,23 @@
                     <label>Processor</label>
                     <input type="text" name="hardware[processor]" placeholder="Processor">
                 </div>
-                <div class="six wide field required">
-                    <label>Werkgeheugen (GB)</label>
-                    <input type="number" name="hardware[werkgeheugen]" placeholder="Werkgeheugen" required=true>
-                </div>
+                <% if(type==="Desktop"||type==="Multipoint computer"||type==="Laptop") { %>
+                    <div class="six wide field required">
+                        <label>Werkgeheugen (GB)</label>
+                        <input type="number" name="hardware[werkgeheugen]" placeholder="Werkgeheugen" id="hardware[werkgeheugen]">
+                    </div>
+                <% } else { %>
+                    <div class="six wide field required">
+                        <label>Jaar van ingebruikname</label>
+                        <input type="number" name="hardware[jaarIngebruikname]" placeholder="Jaar ingebruikname" id="hardware[jaarIngebruikname]">
+                    </div>
+                <% } %>
             </div>
           </div>
           <% if(type === "Multipoint computer") { %>
               <div class="six wide required field">
                   <label>Aantal multipoint werkplekken</label>
-                  <input type="number" name="hardware[aantalWerkplekkenMultipoint]" placeholder="Aantal multipoint werkplekken" required=true>
+                  <input type="number" name="hardware[aantalWerkplekkenMultipoint]" placeholder="Aantal multipoint werkplekken" id="hardware[aantalWerkplekkenMultipoint]">
               </div>
           <% } %>
           <% if(type === "Digitaal schoolbord") { %>
@@ -61,6 +68,7 @@
               </div>
           <% } %>
           <button class="ui button" type="submit">Bewaren</button>
+          <div class="ui error message"></div>
     </form>
     </div>
     

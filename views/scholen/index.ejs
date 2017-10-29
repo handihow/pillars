@@ -1,32 +1,35 @@
 <% include ../partials/school/header %>
 
-<div class="ui main text container">
-    <h2 class="ui center aligned icon header">
-      <i class="address book icon"></i>
+<div class="ui container">
+    <h2 class="ui center aligned header">
       <div>Scholen</div>
     </h2>
-    <a class="positive ui button right" href="/scholen/new">School Toevoegen</a>
-    <!--tabel met scholen-->
-    <table class="ui celled table unstackable">
-        <thead>
-            <tr>
-                <th>BRIN</th>
-                <th>Instellingsnaam</th>
-                <th>Plaatsnaam</th>
-                <th>Meer info</th>
-            </tr>
-        </thead>
-        
-        <tbody>
-            <% scholen.forEach(function(school){ %>
-                <tr>
-                    <td><%= school.brin %></td>
-                    <td><a href="/scholen/<%=school._id%>"><%= school.instellingsnaam %></a></td>
-                    <td><%= school.plaatsnaam %></td>
-                    <td><a class="ui primary basic button" href="/scholen/<%=school._id%>">Toon info</a></td>
-                </tr>
-            <% }); %>
-        </tbody>
+    <a class="positive ui button right" href="/scholen/new">Scholen Toevoegen</a>
+    <div class="ui divider"></div>
+    <!--kaarten met scholen-->
+    <div class="ui six doubling cards">
+      <% scholen.forEach(function(school){ %>
+      <div class="card">
+        <div class="content">
+          <div class="header"><a href="/scholen/<%=school._id%>"><%= school.instellingsnaam %></a></div>
+          <div class="description">
+            BRIN: <%= school.brin %>
+          </div>
+          <div class="description">
+            <%= school.plaatsnaam %>
+          </div>
+          <div class="description">
+            Ingevuld: <strong><%= Math.ceil(((school.isIngevuldAlgemeneInformatie === true ? 1 : 0) + (school.isToegevoegdHardware === true ? 1 : 0) + (school.isToegevoegdSoftware === true ? 1 : 0) + (school.isIngevuldDeskundigheid === true ? 1 : 0) + (school.isIngevuldOrganisatie === true ? 1 : 0) + (school.isToegevoegdMedewerker=== true ? 1 : 0)) / 0.06) %> %</strong>
+          </div>
+        </div>
+        <a class="ui bottom attached button" href="/scholen/<%=school._id%>">
+          <i class="show icon"></i>
+          Bekijk 
+        </a>
+      </div>
+      <% }); %>
+    </div>
 </div>
 
+<% include ../partials/school/jquery_form_validation %>
 <% include ../partials/school/footer %>

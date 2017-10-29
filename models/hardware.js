@@ -9,6 +9,7 @@ var hardwareSchema = mongoose.Schema (
         serialTag: String,
         processor: String,
         werkgeheugen: Number,
+        jaarIngebruikname: Number,
         aantalWerkplekkenMultipoint: Number,
         isTouchscreenDigibord: Boolean,
         schermgrootteDigibord: Number,

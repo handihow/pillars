@@ -2,11 +2,11 @@
 <% include ../partials/school/side-header %>
 
     <h2 class="ui top attached header"><%= hardware.type %> Bewerken voor <%= school.instellingsnaam %></h2>
-    <form class="ui form" action="/scholen/<%=school._id%>/hardware/<%=hardware._id%>?_method=PUT" method="POST">
+    <form class="ui form" action="/scholen/<%=school._id%>/hardware/<%=hardware._id%>?_method=PUT" method="POST" id="hardwareForm" novalidate>
         <div class="two fields">
           <div class="required field">
               <label>Naam</label>
-              <input type="text" name="hardware[naam]" value="<%=hardware.naam%>" required=true>
+              <input type="text" name="hardware[naam]" value="<%=hardware.naam%>" id="hardware[naam]">
           </div>
           <div class="hidden field">
             <input type="text" name="hardware[type]" value="<%= hardware.type %>" hidden=true>
@@ -34,16 +34,23 @@
                     <label>Processor</label>
                     <input type="text" name="hardware[processor]" value="<%=hardware.processor%>">
                 </div>
-                <div class="six wide field required">
-                    <label>Werkgeheugen (GB)</label>
-                    <input type="number" name="hardware[werkgeheugen]" value="<%=hardware.werkgeheugen%>" required=true>
-                </div>
+                <% if(hardware.type==="Desktop"||hardware.type==="Multipoint computer"||hardware.type==="Laptop") { %>
+                    <div class="six wide field required">
+                        <label>Werkgeheugen (GB)</label>
+                        <input type="number" name="hardware[werkgeheugen]" value="<%=hardware.werkgeheugen%>" id="hardware[werkgeheugen]">
+                    </div>
+                <% } else { %>
+                    <div class="six wide field required">
+                        <label>Jaar van ingebruikname</label>
+                        <input type="number" name="hardware[jaarIngebruikname]" value="<%=hardware.jaarIngebruikname%>" id="hardware[jaarIngebruikname]">
+                    </div>
+                <% } %>
             </div>
           </div>
           <% if(hardware.type === "Multipoint computer") { %>
               <div class="six wide required field">
                   <label>Aantal multipoint werkplekken</label>
-                  <input type="number" name="hardware[aantalWerkplekkenMultipoint]" value="<%=hardware.aantalWerkplekkenMultipoint%>" required=true>
+                  <input type="number" name="hardware[aantalWerkplekkenMultipoint]" value="<%=hardware.aantalWerkplekkenMultipoint%>" id="hardware[aantalWerkplekkenMultipoint]">
               </div>
           <% } %>
           <% if(hardware.type === "Digitaal schoolbord") { %>
@@ -66,6 +73,7 @@
               </div>
           <% } %>
           <button class="ui button" type="submit">Bewaren</button>
+          <div class="ui error message"></div>
     </form>
 
 <% include ../partials/school/side-footer %>

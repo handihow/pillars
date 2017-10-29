@@ -10,7 +10,7 @@ router.get("/", middleware.isLoggedIn, function(req, res){
           req.flash("error", "School niet gevonden.");
           res.redirect("back");
       } else {
-          res.render("deskundigheid/show", {school: school});            
+          res.render("organisatie/show", {school: school});            
       }
   });
 });
@@ -22,7 +22,7 @@ router.get("/edit", middleware.isLoggedIn, function(req, res){
            req.flash("error", "School niet gevonden.");
            res.redirect("back");
        } else {
-           res.render("deskundigheid/edit", {school: school});
+           res.render("organisatie/edit", {school: school});
        }
    });
 });
@@ -34,10 +34,10 @@ router.put("/", middleware.isLoggedIn, function(req, res){
            req.flash("error", "School niet gevonden.");
            res.redirect("back");
        } else {
-           school.isIngevuldDeskundigheid = true;
+           school.isIngevuldOrganisatie = true;
            school.save();
-           req.flash("success", "Deskundigheid updated");
-           res.redirect("/scholen/" + req.params.id + "/deskundigheid");
+           req.flash("success", "Organisatie updated");
+           res.redirect("/scholen/" + req.params.id + "/organisatie");
        }
     });
 });

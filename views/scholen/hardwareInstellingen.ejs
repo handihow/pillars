@@ -1,0 +1,36 @@
+<% include ../partials/school/header %>
+<% include ../partials/school/side-header %>
+
+    <h2 class="ui top attached header"><i class="desktop icon"></i> Hardware instellingen van <%= school.instellingsnaam %></h2>
+    <h4>Kies welke hardware je wilt bijhouden.</h4>
+    <div class="ui divider"></div>
+    <form class="ui form" action="/scholen/<%=school._id%>/hardware/instellingen?_method=PUT" method="POST">
+        <% var i = 0 %>
+        <% school.instellingenHardwareTypes.forEach(function(type){ %>
+            <input type="hidden" name="school[instellingenHardwareTypes][<%=i%>][enkelvoud]" value="<%=type.enkelvoud%>">
+            <input type="hidden" name="school[instellingenHardwareTypes][<%=i%>][meervoud]" value="<%=type.meervoud%>">
+            <div class="two fields">
+              <div class="field">
+                <div class="ui toggle checkbox">
+                  <input type="hidden" value="0" name="school[instellingenHardwareTypes][<%=i%>][bijhouden]">
+                  <input 
+                    type="checkbox"
+                    name="school[instellingenHardwareTypes][<%=i%>][bijhouden]"
+                    <% if(type.bijhouden) { %> 
+                    checked="checked" <% } %> 
+                    >
+                  <label><%=type.meervoud %></label>
+                </div>
+              </div>
+             </div>
+             <% i++ %>
+          <% }); %>
+          <button class="ui button" type="submit">Bewaren</button>
+        </form>
+    </div>
+</div>
+
+
+<% include ../partials/school/side-footer %>
+<% include ../partials/school/jquery_form_validation %>
+<% include ../partials/school/footer %>

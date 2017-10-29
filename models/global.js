@@ -6,27 +6,53 @@ var global = {};
 global.hardwareTypes = [
         {
             enkelvoud: "Desktop",
-            meervoud: "Desktops"
+            meervoud: "Desktops",
+            bijhouden: true
         },
         {
             enkelvoud: "Multipoint computer",
-            meervoud: "Multipoint computers"
+            meervoud: "Multipoint computers",
+            bijhouden: true
         },
         {
             enkelvoud: "Laptop",
-            meervoud: "Laptops"
+            meervoud: "Laptops",
+            bijhouden: true
         },
         {
             enkelvoud: "Digitaal schoolbord",
-            meervoud: "Digitale schoolborden"
+            meervoud: "Digitale schoolborden",
+            bijhouden: true
         },
         {
             enkelvoud: "Tablet",
-            meervoud: "Tablets"
+            meervoud: "Tablets",
+            bijhouden: true
         },
         {
             enkelvoud: "Chromebook",
-            meervoud: "Chromebooks"
+            meervoud: "Chromebooks",
+            bijhouden: true
+        },
+        {
+            enkelvoud: "Telefoon",
+            meervoud: "Telefoons",
+            bijhouden: false
+        },
+        {
+            enkelvoud: "Kopieermachine",
+            meervoud: "Kopieermachines",
+            bijhouden: false
+        },
+        {
+            enkelvoud: "Printer",
+            meervoud: "Printers",
+            bijhouden: false
+        },
+        {
+            enkelvoud: "Access Point",
+            meervoud: "Access Points",
+            bijhouden: false
         }
 ];
 
@@ -57,5 +83,18 @@ global.software = {
                                 ]
         };
 
+global.softwareFuncties = [
+                                "Instructie", 
+                                "Oefenen", 
+                                "Toets"
+                                ];
+
+global.softwareKwaliteiten = [
+                                "Sluit goed aan op leerdoelen", 
+                                "Is aantrekkelijk en gebruiksvriendelijk", 
+                                "Toont resultaten van leerlingen", 
+                                "Is adaptief", 
+                                "Leerlingen kunnen thuis oefenen"
+                                ];
 
 module.exports = global;

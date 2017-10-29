@@ -17,136 +17,34 @@
               <% if(!(global.software["Overige"].includes(software.vak))) { %>
               <div class="ui stackable grid">
                 <div class="four wide column">
-                  <h4 class="content">Instructie</h4>
-                  <div class="content">
-                    <% if(software.functies.instructie) { %>
-                      Ja
-                    <% } else { %>
-                      Nee
-                    <% } %>
-                  </div>
+                  <h4 class="content">Functies</h4>
+                  <% global.softwareFuncties.forEach(function(functie){ %>
+                    <div class="content">
+                      <% if(software.functie.includes(functie)) { %>
+                        <i class="green checkmark icon"></i> <%=functie%><% } else { %>
+                        <i class="red remove icon"></i> <%=functie%><% } %>
+                    </div>
+                  <% }); %>
                 </div>
                 <div class="four wide column">
-                  <h4 class="content">Oefenen</h4>
-                  <div class="content">
-                    <% if(software.functies.oefenen) { %>
-                      Ja
-                    <% } else { %>
-                      Nee
-                    <% } %>
-                  </div>
+                  <h4 class="content">Groepen</h4>
+                  <% for(i=1; i<=8; i++){ %>
+                    <div class="content">
+                      <% if(software.groep.includes("Groep " + i)) { %>
+                        <i class="green checkmark icon"></i> <%= "Groep " + i %><% } else { %>
+                        <i class="red remove icon"></i> <%= "Groep " + i %><% } %>
+                    </div>
+                  <% }; %>
                 </div>
                 <div class="four wide column">
-                  <h4 class="content">Toets</h4>
-                  <div class="content">
-                    <% if(software.functies.toets) { %>
-                      Ja
-                    <% } else { %>
-                      Nee
-                    <% } %>
-                  </div>
-                </div>
-              </div>
-              <div class="ui stackable grid">
-                <% for(var i=0; i < 4; i++) { %>
-                <div class="four wide column">
-                  <h4 class="content">Groep <%= i + 1 %></h4>
-                  <div class="content">
-                    <% if(software["groep"][i]) { %>
-                      Ja
-                    <% } else { %>
-                      Nee
-                    <% } %>
-                  </div>
-                </div>
-                <% } %>
-              </div>
-              <div class="ui stackable grid">
-                <% for(var i=4; i < 8; i++) { %>
-                <div class="four wide column">
-                  <h4 class="content">Groep <%= i + 1 %></h4>
-                  <div class="content">
-                    <% if(software["groep"][i]) { %>
-                      Ja
-                    <% } else { %>
-                      Nee
-                    <% } %>
-                  </div>
-                </div>
-                <% } %>
-              </div>
-              <div class="ui stackable grid">
-                <div class="four wide column">
-                  <h4 class="content">Sluit goed aan op leerdoelen</h4>
-                  <div class="content">
-                    <% if(software.kwaliteit.sluitAanOpLeerdoelen) { %>
-                      Ja
-                    <% } else { %>
-                      Nee
-                    <% } %>
-                  </div>
-                </div>
-                <div class="four wide column">
-                  <h4 class="content">Wordt veelvuldig gebruikt</h4>
-                  <div class="content">
-                    <% if(software.kwaliteit.veelGebruikt) { %>
-                      Ja
-                    <% } else { %>
-                      Nee
-                    <% } %>
-                  </div>
-                </div>
-                <div class="four wide column">
-                  <h4 class="content">Is aantrekkelijk en gebruiksvriendelijk</h4>
-                  <div class="content">
-                    <% if(software.kwaliteit.isGebruiksvriendelijk) { %>
-                      Ja
-                    <% } else { %>
-                      Nee
-                    <% } %>
-                  </div>
-                </div>
-                <div class="four wide column">
-                  <h4 class="content">Resultaten van leerlingen goed zichtbaar</h4>
-                  <div class="content">
-                    <% if(software.kwaliteit.resultatenZichtbaar) { %>
-                      Ja
-                    <% } else { %>
-                      Nee
-                    <% } %>
-                  </div>
-                </div>
-              </div>
-              <div class="ui stackable grid">
-                <div class="four wide column">
-                  <h4 class="content">Lesdoelen passen zich aan</h4>
-                  <div class="content">
-                    <% if(software.kwaliteit.lesdoelenAangepast) { %>
-                      Ja
-                    <% } else { %>
-                      Nee
-                    <% } %>
-                  </div>
-                </div>
-                <div class="four wide column">
-                  <h4 class="content">Voldoende oefentijd voor leerlingen</h4>
-                  <div class="content">
-                    <% if(software.kwaliteit.voldoendeTijdOefenen) { %>
-                      Ja
-                    <% } else { %>
-                      Nee
-                    <% } %>
-                  </div>
-                </div>
-                <div class="four wide column">
-                  <h4 class="content">Leerlingen kunnen thuis oefenen</h4>
-                  <div class="content">
-                    <% if(software.kwaliteit.thuisOefenen) { %>
-                      Ja
-                    <% } else { %>
-                      Nee
-                    <% } %>
-                  </div>
+                  <h4 class="content">Kwaliteitsnormen</h4>
+                  <% global.softwareKwaliteiten.forEach(function(kwaliteit){ %>
+                    <div class="content">
+                      <% if(software.kwaliteit.includes(kwaliteit)) { %>
+                        <i class="green checkmark icon"></i> <%=kwaliteit%><% } else { %>
+                        <i class="red remove icon"></i> <%=kwaliteit%><% } %>
+                    </div>
+                   <% }); %>
                 </div>
               </div>
               <% } else { %>

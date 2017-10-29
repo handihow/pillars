@@ -14,12 +14,13 @@
     display: inline;
 }
 
-#count {
+.count {
     font-size: 3em;
     text-align: center;
+    margin-top: 15px;
 }
 
-#countHeader {
+.countHeader {
     text-align: center;
 }
 

@@ -3,29 +3,35 @@
             <div class="ui vertical fluid tabular menu">
 
               <a class="item <%if(url===("/scholen/"+school._id) || url===("/scholen/"+school._id)+"/edit") { %> active <% } %>" href="/scholen/<%= school._id %>"</a>
+                <%if(!school.isIngevuldAlgemeneInformatie) { %><i class="red write icon"></i><% } %>
                 <i class="university icon"></i>
                 Algemene informatie
               </a>
               <a class="item <%if(url.includes("/scholen/"+school._id+"/hardware")) { %> active <% } %>" href="/scholen/<%= school._id %>/hardware"</a>
+                <%if(!school.isToegevoegdHardware) { %><i class="red write icon"></i><% } %>
                 <i class="desktop icon"></i>
                 Hardware
               </a>
               <a class="item <%if(url.includes("/scholen/"+school._id+"/software")) { %> active <% } %>" href="/scholen/<%= school._id %>/software"</a>
+                <%if(!school.isToegevoegdSoftware) { %><i class="red write icon"></i><% } %>
                 <i class="student icon"></i>
                 Digitale Leermiddelen
               </a>
-              <a class="item <%if(url.includes("/scholen/deskundigheid/"+school._id)) { %> active <% } %>" href="/scholen/deskundigheid/<%= school._id %>"</a>
+              <a class="item <%if(url.includes("/scholen/"+school._id+"/deskundigheid")) { %> active <% } %>" href="/scholen/<%= school._id %>/deskundigheid"</a>
+                <%if(!school.isIngevuldDeskundigheid) { %><i class="red write icon"></i><% } %>
                 <i class="doctor icon"></i>
                 Deskundigheid
               </a>
-              <a class="item">
+              <a class="item <%if(url.includes("/scholen/"+school._id+"/organisatie")) { %> active <% } %>" href="/scholen/<%= school._id %>/organisatie"</a>
+                <%if(!school.isIngevuldOrganisatie) { %><i class="red write icon"></i><% } %>
                 <i class="sitemap icon"></i>
                 Organisatie
               </a>
-              <% if(currentUser.role ==="badmin") { %>
-              <a class="item <%if(url.includes("/scholen/"+school._id+"/admin")) { %> active <% } %>" href="/scholen/<%= school._id %>/admin"</a>
+              <% if(currentUser.role ==="badmin" || currentUser.role==="sadmin") { %>
+              <a class="item <%if(url.includes("/scholen/"+school._id+"/user")) { %> active <% } %>" href="/scholen/<%= school._id %>/user"</a>
+                <%if(!school.isToegevoegdMedewerker) { %><i class="red write icon"></i><% } %>
                 <i class="users icon"></i>
-                School Administrators
+                Medewerkers
               </a>
               <% } %>
               <a class="item">

@@ -1,46 +1,66 @@
 <% include ../partials/school/header %>
 <% include ../partials/school/side-header %>
 
-      <h2 class="ui top attached header"><i class="doctor icon"></i>Deskundigheid van Leerkrachten op <%= school.instellingsnaam %></h2>
-        <div class="ui attached segment">
-            <div class="item">
-                <div class="ui stackable grid">
-                  <div class="six wide column">
-                    <h4 class="content">Beoordeel de gemiddelde deskundigheid van leerkrachten op het gebied van ICT en digitale leermiddelen</h4>
-                    <div class="content"><%= school.deskLeerkrachten %></div>
-                  </div>
-                  <div class="six wide column">
-                    <h4 class="content">Leerkrachten hebben ondersteuning of training nodig op het gebied van digitale leermiddelen</h4>
-                    <div class="content">
-                      <% if(school.deskOndersteuning) { %>
-                        Ja
-                      <% } else { %>
-                        Nee
-                      <% } %>
-                    </div>
-                  </div>
-                </div>
-                <div class="ui stackable grid">
-                  <div class="six wide column">
-                    <h4 class="content">Beoordeel de gemiddelde effectiviteit van digitale leermiddelen op jouw school</h4>
-                    <div class="content"><%= school.deskEffectiviteit %></div>
-                  </div>
-                  <div class="six wide column">
-                    <h4 class="content">Er is overeenstemming over de verdeling van taken op het gebied van ICT</h4>
-                    <div class="content">
-                      <% if(school.deskOvereenstemming) { %>
-                        Ja
-                      <% } else { %>
-                        Nee
-                      <% } %>
-                    </div>
-                  </div>
-                </div>
-                <h4 class="content">Eigenaar record:</h4>
-                <div class="content"><%= school.owner.username %> op <%=school.created.toDateString()%> </div>
-                <a id="edit" class="ui primary basic button" href="/scholen/deskundigheid/<%= school._id %>/edit">Bewerken</a>
+      <h2 class="ui header"><i class="doctor icon"></i>Deskundigheid van Leerkrachten op <%= school.instellingsnaam %></h2>
+        <div class="ui cards">
+          <div class="card">
+            <div class="content">
+              <div class="header">
+                Gemiddelde Deskundigheid
+              </div>
+              <div class="description">
+                 Beoordeel de gemiddelde deskundigheid van leerkrachten op het gebied van ICT en digitale leermiddelen
+              </div>
+              <div class="description count">
+                 <%= school.deskLeerkrachten %>
+              </div>
             </div>
+            <div class="ui bottom attached button">
+              <a id="edit" href="/scholen/<%= school._id %>/deskundigheid/edit">Bewerken</a>
+            </div>
+          </div>
+          <div class="card">
+            <div class="content">
+              <div class="header">
+                Ondersteuning Nodig
+              </div>
+              <div class="description">
+                 Leerkrachten hebben ondersteuning of training nodig op het gebied van digitale leermiddelen
+              </div>
+              <div class="description count">
+                 <% if(school.deskOndersteuning) { %>
+                    Ja
+                  <% } else { %>
+                    Nee
+                  <% } %>
+              </div>
+            </div>
+            <div class="ui bottom attached button">
+              <a id="edit" href="/scholen/<%= school._id %>/deskundigheid/edit">Bewerken</a>
+            </div>
+          </div>
+          <div class="card">
+            <div class="content">
+              <div class="header">
+                Gemiddelde Effectiviteit
+              </div>
+              <div class="description">
+                 Geef jouw beoordeling van de gemiddelde effectiviteit van digitale leermiddelen op jouw school
+              </div>
+              <div class="description count">
+                 <%= school.deskEffectiviteit %>
+              </div>
+            </div>
+            <div class="ui bottom attached button">
+              <a id="edit" href="/scholen/<%= school._id %>/deskundigheid/edit">Bewerken</a>
+            </div>
+          </div>
         </div>
+        <h4 class="content">Eigenaar record:</h4>
+        <div class="content"><%= school.owner.username %> op <%=school.created.toDateString()%> </div>
+          <a id="edit" class="ui primary basic button" href="/scholen/<%= school._id %>/deskundigheid/edit">Bewerken</a>
+        </div>
+        
 
 <% include ../partials/school/side-footer %>
 <% include ../partials/school/footer %>

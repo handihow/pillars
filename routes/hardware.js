@@ -50,6 +50,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
                //connect new hardware to school in DB
                hardware.save();
                school.hardware.push(hardware);
+               school.isToegevoegdHardware = true;
                school.save();
                //redirect to school hardware show page
                req.flash("success", "Hardware succesvol toegevoegd!");

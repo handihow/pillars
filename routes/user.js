@@ -6,31 +6,31 @@ var middleware = require("../middleware");
 var gmailNode = require("gmail-node");
 var passport = require("passport");
 
-//INDEX - list of admin users of the school
+//INDEX - list of users of the school
 router.get("/", middleware.isSchoolOwner, function(req, res){
-    School.findById(req.params.id).populate("admin").exec(function(err, school){
+    School.findById(req.params.id).populate("users").exec(function(err, school){
         if(err || !school) {
             req.flash("error", "School niet gevonden");
             res.redirect("back");
         } else {
-            res.render("admin/index", {school: school});        
+            res.render("user/index", {school: school});        
         }
     });
 });
 
-//NEW - form to create new school administrator
+//NEW - form to create new school user
 router.get("/new", middleware.isSchoolOwner, function(req, res){
     School.findById(req.params.id, function(err, school){
         if(err || !school) {
             req.flash("error", "School niet gevonden");
             res.redirect("/scholen");
         } else {
-            res.render("admin/new", {school: school});        
+            res.render("user/new", {school: school});        
         }
     });
 });
 
-//CREATE - creates new school administrator in the database and links it to school
+//CREATE - creates new school user in the database and links it to school
 router.post("/", middleware.isSchoolOwner, function(req, res){
     //lookup school by ID
     School.findById(req.params.id, function(err, school){
@@ -38,25 +38,28 @@ router.post("/", middleware.isSchoolOwner, function(req, res){
         req.flash("error", "School niet gevonden");
         res.redirect("back");
     } else {
-        //create new school administrator in DB      
+        //create new school user in DB      
         var newUser = new User({username: req.body.username, role: req.body.role, firstName: req.body.firstName, lastName: req.body.lastName});
         User.register(newUser, req.body.password, function(err, user){
             if(err){
                   req.flash("error", err.message);
                   return res.redirect("back");
             }
-            //add user to school administrators
-            school.admin.push({id: user._id, username: user.username, role: user.role, firstName: user.firstName, lastName: user.lastName});
+            //add user to school users
+            school.users.push({id: user._id, username: user.username, role: user.role, firstName: user.firstName, lastName: user.lastName});
+            school.isToegevoegdMedewerker = true;
             school.save();
             //send email to schoolbestuur administrator
             var emailMessage = {
                 to: req.user.username,
+                cc: user.username,
                 from: 'Pillars',
-                subject: 'Pillars School Administrator Geregistreerd',
-                message: 'Je hebt ' + user.firstName + ' ' + user.lastName + ' als school administrator geregistreerd bij Pillars.\n\n' +
+                subject: 'Pillars School Medewerker Geregistreerd',
+                message: 'Je hebt ' + user.firstName + ' ' + user.lastName + ' als school medewerker geregistreerd bij Pillars.\n\n' +
                   'Gebruikersnaam: ' + user.username + '\n\n' +
                   'Wachtwoord: ' + req.body.password + '\n\n' +
-                  'Je kunt deze inloggegevens naar de school administrator doorsturen. Hij kan hiermee inloggen bij Pillars.\n'
+                  'Je kunt deze inloggegevens naar de medewerker doorsturen.' + '\n\n' +
+                  'Hij/zij kan hiermee inloggen bij Pillars.\n'
               };
         
               gmailNode.send(emailMessage, function(err) {
@@ -66,8 +69,8 @@ router.post("/", middleware.isSchoolOwner, function(req, res){
                       res.redirect("back");
                       
                   } else {
-                      req.flash("success", "Nieuwe school administrator geregistreerd! Je hebt een email ontvangen met login gegevens. Stuur deze door naar de desbetreffende persoon.");
-                      res.redirect("/scholen/" + school._id + "/admin");
+                      req.flash("success", "Nieuwe medewerker geregistreerd! Je hebt een email ontvangen met login gegevens. Stuur deze door naar de desbetreffende persoon.");
+                      res.redirect("/scholen/" + school._id + "/user");
                   }
                 });
 
@@ -76,16 +79,16 @@ router.post("/", middleware.isSchoolOwner, function(req, res){
     });
 });
 
-//DESTROY route to delete school administrator from database
+//DESTROY route to delete school user from database
 router.delete("/:username", middleware.isSchoolOwner, function(req, res){
-  //find the school and remove the user from the school administrators
+  //find the school and remove the user from the school users
   School.findById(req.params.id, function(err, school){
       if(err || !school) {
           req.flash("error", err);
           res.redirect("back");
       } else {
-          var userIndexInArray = school.admin.findIndex(x => x.username==req.params.username);
-          school.admin.splice(userIndexInArray, 1);
+          var userIndexInArray = school.users.findIndex(x => x.username==req.params.username);
+          school.users.splice(userIndexInArray, 1);
           school.save();
           //find the user and delete him from the database
           User.findOne({ username: req.params.username }, function(err, user){
@@ -94,8 +97,8 @@ router.delete("/:username", middleware.isSchoolOwner, function(req, res){
                   res.redirect("back");
               } else {
                     user.remove();
-                    req.flash("success", "School Administrator verwijderd");
-                    res.redirect("/scholen/" + req.params.id + "/admin");
+                    req.flash("success", "Medewerker verwijderd");
+                    res.redirect("/scholen/" + req.params.id + "/user");
               }
           });
       }

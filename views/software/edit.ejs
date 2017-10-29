@@ -1,252 +1,87 @@
 <% include ../partials/school/header %>
 <% include ../partials/school/side-header %>
 
-      <h2 class="ui header"><i class="student icon"></i></i>Digitale Leermiddelen voor <%= software.vak %> Bewerken op <%= school.instellingsnaam %></h2>
-        <% if(global.software["Overige"].includes(software.vak)) { %>   
-            <form class="ui form" action="/scholen/<%=school._id%>/software/<%=software._id%>?_method=PUT" method="POST">
-                <div class="required field">
-                    <label>Naam</label>  
-                    <input type="text" name="software[naam]" value="<%=software.naam%>" required=true>
-                </div>
-                <div class="required grouped fields">
-                    <label for="software[vak]">Selecteer het vak:</label>
-                        <% global.software["Overige"].forEach(function(overigVak){ %>
-                            <div class="field">
-                              <div class="ui radio checkbox">
-                                <input 
-                                    type="radio" name="software[vak]" 
-                                    required=true value="<%=overigVak %>" 
-                                    <% if(overigVak === software.vak) { %> checked <% } %>
-                                >
-                                <label><%=overigVak %></label>
-                              </div>
-                            </div>
-                        <% }) %>
-                </div>
+    <h2 class="ui header">
+          <i class="student icon"></i></i>Digitale Leermiddelen voor <%= software.vak %> Toevoegen aan <%= school.instellingsnaam %>
+    </h2>
+    <form class="ui form" action="/scholen/<%=school._id%>/software/<%=software._id%>?_method=PUT" method="POST" id="digitaleLeermiddelenForm" novalidate>
+        <!--NAAM DIGITALE LEERMIDDEL-->
+        <div class="required field">
+            <label>Naam</label>  
+            <input type="text" name="software[naam]" value="<%=software.naam%>">
+        </div>
+        <!--OVERIGE VAKKEN ONLY-->
+        <% if(global.software["Overige"].includes(software.vak)) { %> 
+        <div class="required grouped fields">
+            <label for="software[vak]">Selecteer het vak:</label>
+            <% global.software["Overige"].forEach(function(overigVak){ %>
                 <div class="field">
-                    <div class="required four wide field">
-                        <label>Effectiviteit: 1 = niet effectief / 6 = zeer effectief</label>
-                        <input type="number" min="1" max="6" name="software[effectiviteit]" value="<%= software.effectiviteit %>" required=true>
-                    </div>
+                  <div class="ui radio checkbox">
+                    <input type="radio" name="software[vak]" <% if(overigVak===software.vak){ %> checked="" <% } %> value="<%=overigVak%>">
+                    <label><%=overigVak %></label>
+                  </div>
                 </div>
-                <button class="ui button" type="submit">Bewaren</button>
-            </form>
+            <% }) %>
+        </div>
+        <div class="field">
+            <div class="required four wide field">
+                <label>Effectiviteit: 1 = niet effectief / 6 = zeer effectief</label>
+                <input type="number" min="1" max="6" name="software[effectiviteit]" value="<%=software.effectiviteit %>">
+            </div>
+        </div>
         <% } else { %>
-            <form class="ui form" action="/scholen/<%=school._id%>/software/<%=software._id%>?_method=PUT" method="POST">
-                <div class="required field">
-                    <label>Naam</label>  
-                    <input type="text" name="software[naam]" value="<%=software.naam%>" required=true>
+        <!--EINDE OVERIGE VAKKEN -->
+        <div class="field">
+          <% if(global.software["ICT Geletterdheid"].includes(software.vak)) { %>
+                <div class ="required grouped fields">
+                  <label for="software[vak]">Selecteer het vak: </label>
+                    <% global.software["ICT Geletterdheid"].forEach(function(ictVak){ %>
+                        <div class="field">
+                          <div class="ui radio checkbox">
+                            <input type="radio" name="software[vak]" <% if(ictVak===software.vak){ %> checked="" <% } %>>
+                            <label><%= ictVak %></label>
+                          </div>
+                        </div>
+                    <% }) %> 
                 </div>
-                <div class="field">
-                      <% if(global.software["ICT Geletterdheid"].includes(software.vak)) { %>
-                            <div class ="required grouped fields">
-                              <label for="software[vak]">Selecteer het vak: </label>
-                                <% global.software["ICT Geletterdheid"].forEach(function(ictVak){ %>
-                                    <div class="field">
-                                      <div class="ui radio checkbox">
-                                        <input 
-                                            type="radio" 
-                                            name="software[vak]" 
-                                            required=true value="<%= ictVak %>"
-                                            <% if(ictVak === software.vak) { %> checked <% } %>
-                                        >
-                                        <label><%= ictVak %></label>
-                                      </div>
-                                    </div>
-                                <% }) %> 
-                            </div>
-                       <% } else { %>
-                            <input type="hidden" name="software[vak]" value="<%= software.vak %>">
-                       <% } %>
-                </div>
-                <div class="field">
-                    <label>Software functies</label>
-                    <div class="fields">
-                        <div class="three wide field">
-                            <div class="ui toggle checkbox">
-                            <input type="hidden" value="0" name="software[functies][instructie]">
-                            <input 
-                                type="checkbox" 
-                                name="software[functies][instructie]"
-                                <% if(software.functies.instructie) { %>
-                                  checked="checked"
-                                <% } %>
-                            >
-                            <label>Instructie</label>
-                             </div>
-                        </div>
-                        <div class="three wide field">
-                            <div class="ui toggle checkbox">
-                            <input type="hidden" value="0" name="software[functies][oefenen]">
-                            <input 
-                                type="checkbox" 
-                                name="software[functies][oefenen]"
-                                <% if(software.functies.oefenen) { %>
-                                  checked="checked"
-                                <% } %>
-                            >
-                            <label>Oefenen</label>
-                             </div>
-                        </div>
-                        <div class="three wide field">
-                            <div class="ui toggle checkbox">
-                            <input type="hidden" value="0" name="software[functies][toets]">
-                            <input 
-                                type="checkbox" 
-                                name="software[functies][toets]"
-                                <% if(software.functies.toets) { %>
-                                  checked="checked"
-                                <% } %>
-                            >
-                            <label>Toets</label>
-                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="field">
-                    <label>Groepen</label>
-                    <div class="fields">
-                        <% for(var i=0; i < 4; i++) { %>
-                            <div class="three wide field">
-                                <div class="ui toggle checkbox">
-                                <input type="hidden" name="software[groep][<%= i %>]" value=false>
-                                <input 
-                                    type="checkbox" 
-                                    name="software[groep][<%= i %>]"
-                                    <% if(software["groep"][i]) { %>
-                                      checked="checked"
-                                    <% } %>
-                                >
-                                <label>Groep <%= i + 1 %></label>
-                                 </div>
-                            </div>
-                        <% } %>
-                    </div>
-                </div>
-                <div class="field">
-                    <div class="fields">
-                        <% for(var i=4; i < 8; i++) { %>
-                            <div class="three wide field">
-                                <div class="ui toggle checkbox">
-                                <input type="hidden" name="software[groep][<%= i %>]" value=false>
-                                <input 
-                                    type="checkbox" 
-                                    name="software[groep][<%= i %>]"
-                                    <% if(software["groep"][i]) { %>
-                                      checked="checked"
-                                    <% } %>
-                                >
-                                <label>Groep <%= i + 1 %></label>
-                                 </div>
-                            </div>
-                        <% } %>
-                    </div>
-                </div>
-                <div class="field">
-                    <label>Kwaliteitsnormen</label>
-                    <div class="fields">
-                        <div class="three wide field">
-                            <div class="ui toggle checkbox">
-                            <input type="hidden" name="software[kwaliteit][sluitAanOpLeerdoelen]" value=false>
-                            <input 
-                                type="checkbox" 
-                                name="software[kwaliteit][sluitAanOpLeerdoelen]"
-                                <% if(software.kwaliteit.sluitAanOpLeerdoelen) { %>
-                                  checked="checked"
-                                <% } %>
-                            >
-                            <label>Sluit goed aan op leerdoelen</label>
-                             </div>
-                        </div>
-                        <div class="three wide field">
-                            <div class="ui toggle checkbox">
-                            <input type="hidden" name="software[kwaliteit][veelGebruikt]" value=false>
-                            <input 
-                                type="checkbox" 
-                                name="software[kwaliteit][veelGebruikt]"
-                                <% if(software.kwaliteit.veelGebruikt) { %>
-                                  checked="checked"
-                                <% } %>
-                            >
-                            <label>Wordt veelvuldig gebruikt</label>
-                             </div>
-                        </div>
-                        <div class="three wide field">
-                            <div class="ui toggle checkbox">
-                            <input type="hidden" name="software[kwaliteit][isGebruiksvriendelijk]" value=false>
-                            <input 
-                                type="checkbox" 
-                                name="software[kwaliteit][isGebruiksvriendelijk]"
-                                <% if(software.kwaliteit.isGebruiksvriendelijk) { %>
-                                  checked="checked"
-                                <% } %>
-                            >
-                            <label>Is aantrekkelijk en gebruiksvriendelijk</label>
-                             </div>
-                        </div>
-                        <div class="three wide field">
-                            <div class="ui toggle checkbox">
-                            <input type="hidden" name="software[kwaliteit][resultatenZichtbaar]" value=false>
-                            <input 
-                                type="checkbox" 
-                                name="software[kwaliteit][resultatenZichtbaar]"
-                                <% if(software.kwaliteit.resultatenZichtbaar) { %>
-                                  checked="checked"
-                                <% } %>
-                            >
-                            <label>Resultaten van leerlingen goed zichtbaar</label>
-                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="field">
-                    <div class="fields">
-                        <div class="three wide field">
-                            <div class="ui toggle checkbox">
-                            <input type="hidden" name="software[kwaliteit][lesdoelenAangepast]" value=false>
-                            <input 
-                                type="checkbox" 
-                                name="software[kwaliteit][lesdoelenAangepast]"
-                                <% if(software.kwaliteit.lesdoelenAangepast) { %>
-                                  checked="checked"
-                                <% } %>
-                            >
-                            <label>Lesdoelen passen zich aan</label>
-                             </div>
-                        </div>
-                        <div class="three wide field">
-                            <div class="ui toggle checkbox">
-                            <input type="hidden" name="software[kwaliteit][voldoendeTijdOefenen]" value=false>
-                            <input 
-                                type="checkbox" 
-                                name="software[kwaliteit][voldoendeTijdOefenen]"
-                                <% if(software.kwaliteit.voldoendeTijdOefenen) { %>
-                                  checked="checked"
-                                <% } %>
-                            >
-                            <label>Voldoende oefentijd voor leerlingen</label>
-                             </div>
-                        </div>
-                        <div class="three wide field">
-                            <div class="ui toggle checkbox">
-                            <input type="hidden" name="software[kwaliteit][thuisOefenen]" value=false>
-                            <input 
-                                type="checkbox" 
-                                name="software[kwaliteit][thuisOefenen]"
-                                <% if(software.kwaliteit.thuisOefenen) { %>
-                                  checked="checked"
-                                <% } %>
-                            >
-                            <label>Leerlingen kunnen thuis oefenen</label>
-                             </div>
-                        </div>
-                    </div>
-                </div>
-                <button class="ui button" type="submit">Bewaren</button>
-            </form>
+           <% } else { %>
+                <input type="hidden" name="software[vak]" value="<%= software.vak %>">
+           <% } %>
+        </div>
+        <div class="field">
+            <label>Software functies</label>
+            <select multiple="" name="software[functie]" class="ui dropdown">
+              <option value="">Selecteer functies</option>
+              <% global.softwareFuncties.forEach(function(functie) { %>
+                  <option value="<%=functie%>" <%if(software.functie.includes(functie)) { %> selected="" <% } %>><%=functie%></option>
+              <% }) %>
+            </select>
+        </div>
+        <div class="field">
+            <label>Groepen</label>
+            <select multiple="" name="software[groep]" class="ui dropdown">
+                <option value="">Selecteer groepen</option>
+                <% for(var i=0; i < 8; i++) { %>
+                    <option value="Groep <%= i + 1 %>" 
+                        <% if(software.groep.includes("Groep " + (i + 1))) { %> selected="" <% } %>>
+                        Groep <%= i+ 1 %>
+                    </option>
+                <% } %>
+            </select>
+        </div>
+        <div class="field">
+            <label>Kwaliteitsnormen</label>
+            <select multiple="" name="software[kwaliteit]" class="ui dropdown">
+                <option value="">Selecteer kwaliteiten</option>
+                <% global.softwareKwaliteiten.forEach(function(kwaliteit) { %>
+                  <option value="<%=kwaliteit%>" <%if(software.kwaliteit.includes(kwaliteit)) { %> selected="" <% } %>><%=kwaliteit%></option>
+                <% }) %>
+            </select>
+        </div>
         <% } %>
-    </div>
-  </div>
+        <button class="ui button" type="submit">Bewaren</button>
+        <div class="ui error message"></div>
+    </form>
   
 <% include ../partials/school/side-footer %>
 <% include ../partials/school/jquery_form_validation %>

@@ -1,5 +1,5 @@
 //load jQuery when document is ready
-jQuery(document).ready(function($) {
+$(document).ready(function() {
 //================================================//
 //FORM VALIDATIONS ON THE GENERAL ROUTE//
 //================================================//
@@ -28,18 +28,4 @@ jQuery(document).ready(function($) {
     //Validation of the login form
     $("#login").validate();
     
-//================================================//
-//FORM VALIDATIONS ON THE ADMIN ROUTE//
-//================================================//
-
-  //Validation of the school admin user registration form
-    $("#adminRegister").validate({
-      rules: {
-        password: "required",
-        password_again: {
-          equalTo: "#password"
-        }
-      }
-    });
-
 });

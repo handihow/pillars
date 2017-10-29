@@ -33,10 +33,17 @@
                 </div>
               </div>
               <div class="ui stackable grid">
-                <div class="four wide column">
-                  <h4 class="content">Werkgeheugen (GB)</h4>
-                  <div class="content"><%= hardware.werkgeheugen %></div>
-                </div>
+                <% if(hardware.type==="Desktop"||hardware.type==="Multipoint computer"||hardware.type==="Laptop") { %>
+                  <div class="four wide column">
+                    <h4 class="content">Werkgeheugen (GB)</h4>
+                    <div class="content"><%= hardware.werkgeheugen %></div>
+                  </div>
+                <% } else { %>
+                  <div class="four wide column">
+                    <h4 class="content">Jaar ingebruikname</h4>
+                    <div class="content"><%= hardware.jaarIngebruikname %></div>
+                  </div>
+                <% } %>
                 <% if(hardware.type==="Multipoint computer") { %>
                 <div class="four wide column">
                   <h4 class="content">Aantal werkplekken</h4>

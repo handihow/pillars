@@ -20,11 +20,23 @@ middlewareObj.isSchoolOwner = function (req, res, next) {
                 req.flash("error", "School niet gevonden");
                 res.redirect("/scholen");
             } else {
+                //check if user is bestuur admin for this school
                 if(school.owner.id.equals(req.user._id)) {
                     next();
                 } else {
-                    req.flash("error", "Je bent niet de schoolbestuur administrator van deze school.");
+                    //check if user is school admin for this school
+                    var isSchoolAdmin = false;
+                    school.users.forEach(function(user){
+                        if(user.id.equals(req.user._id) && req.user.role==="sadmin"){
+                          isSchoolAdmin = true;  
+                        }
+                    });
+                    if(isSchoolAdmin){
+                        next();
+                    } else {
+                    req.flash("error", "Je bent niet de school of schoolbestuur administrator van deze school.");
                     res.redirect("back");
+                    }
                 }
             }
         });

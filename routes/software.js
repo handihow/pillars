@@ -49,6 +49,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
               //connect new software to school in DB
               software.save();
               school.software.push(software);
+              school.isToegevoegdSoftware = true;
               school.save();
               req.flash("Digitaal Leermiddel toegevoegd");
               //redirect to school software show page
