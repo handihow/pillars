@@ -4,10 +4,11 @@ var School = require("../models/school");
 var User = require("../models/user");
 var middleware = require("../middleware");
 var gmailNode = require("gmail-node");
-var passport = require("passport");
+var global = require("../models/global");
+var Test = require("../models/test");
 
 //INDEX - list of users of the school
-router.get("/", middleware.isSchoolOwner, function(req, res){
+router.get("/scholen/:id/user/", middleware.isSchoolOwner, function(req, res){
     School.findById(req.params.id).populate("users").exec(function(err, school){
         if(err || !school) {
             req.flash("error", "School niet gevonden");
@@ -19,7 +20,7 @@ router.get("/", middleware.isSchoolOwner, function(req, res){
 });
 
 //NEW - form to create new school user
-router.get("/new", middleware.isSchoolOwner, function(req, res){
+router.get("/scholen/:id/user/new", middleware.isSchoolOwner, function(req, res){
     School.findById(req.params.id, function(err, school){
         if(err || !school) {
             req.flash("error", "School niet gevonden");
@@ -31,7 +32,7 @@ router.get("/new", middleware.isSchoolOwner, function(req, res){
 });
 
 //CREATE - creates new school user in the database and links it to school
-router.post("/", middleware.isSchoolOwner, function(req, res){
+router.post("/scholen/:id/user/", middleware.isSchoolOwner, function(req, res){
     //lookup school by ID
     School.findById(req.params.id, function(err, school){
     if(err || !school){
@@ -46,7 +47,7 @@ router.post("/", middleware.isSchoolOwner, function(req, res){
                   return res.redirect("back");
             }
             //add user to school users
-            school.users.push({id: user._id, username: user.username, role: user.role, firstName: user.firstName, lastName: user.lastName});
+            school.users.push(user);
             school.isToegevoegdMedewerker = true;
             school.save();
             //send email to schoolbestuur administrator
@@ -79,30 +80,60 @@ router.post("/", middleware.isSchoolOwner, function(req, res){
     });
 });
 
-//DESTROY route to delete school user from database
-router.delete("/:username", middleware.isSchoolOwner, function(req, res){
-  //find the school and remove the user from the school users
-  School.findById(req.params.id, function(err, school){
-      if(err || !school) {
+//SHOW ROUTE - PROFILE PAGE
+router.get("/user/:id", middleware.isLoggedIn, function(req, res){
+  User.findById(req.params.id, function(err, user){
+      if(err || !user){
           req.flash("error", err);
           res.redirect("back");
       } else {
-          var userIndexInArray = school.users.findIndex(x => x.username==req.params.username);
-          school.users.splice(userIndexInArray, 1);
-          school.save();
-          //find the user and delete him from the database
-          User.findOne({ username: req.params.username }, function(err, user){
-              if(err || !user){
-                  req.flash("error", err);
-                  res.redirect("back");
-              } else {
-                    user.remove();
-                    req.flash("success", "Medewerker verwijderd");
-                    res.redirect("/scholen/" + req.params.id + "/user");
-              }
-          });
+            Test.find({"owner": user._id}, function(err, tests){
+                if(err) {
+                    req.flash("error", err);
+                } else {
+                    res.render("user/show", {user: user, global: global, tests: tests});        
+                }
+            });
       }
-  });
+    });
+});
+
+//EDIT ROUTE - EDIT PROFILE PAGE
+router.get("/user/:id/edit", middleware.isUser, function(req,res){
+    User.findById(req.params.id, function(err, user){
+        if(err || !user){
+            req.flash("error", "Geen gebruiker gevonden of onbekende fout");
+            res.redirect("back");
+        } else {
+            res.render("user/edit", {user: user});
+        }
+    });
+});
+
+//UPDATE route to store edited user to database
+router.put("/user/:id", middleware.isUser, function(req, res){
+    User.findByIdAndUpdate(req.params.id, req.body.user, function(err, user){
+        if(err || !user) {
+            req.flash('error', "Geen gebruiker gevonden");
+            res.redirect("/scholen/profiel/user/"+req.params.username);
+        }  else {
+            req.flash("success", "Profiel updated");
+            res.redirect("/user/"+user._id);
+        }
+    });
+});
+
+//DESTROY route to delete user from database
+router.delete("/scholen/:id/user/:user_id", middleware.isSchoolOwner, function(req, res){
+    User.findByIdAndRemove(req.params.user_id, function(err){
+        if(err) {
+            req.flash('error', err.message);
+            res.redirect("/scholen");
+        }  else {
+            req.flash("success", "School medewerker verwijderd");
+            res.redirect("/scholen/" + req.params.id + "/user");
+        }
+    });
 });
 
 module.exports = router;

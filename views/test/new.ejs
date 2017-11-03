@@ -1,0 +1,29 @@
+<% include ../partials/school/header %>
+
+<div class="ui container">
+    <h2 class="ui header"><i class="user icon"></i> <%= onderdeel %> Profiel Aanpassen</h2>
+    <form class="ui form" action="/user/<%=user._id%>/test" method="POST" id="profielTest">
+        <% Object.keys(global.profiel).forEach(function(key){ %>
+            <%if(onderdeel==key){%>  
+              <% Object.keys(global.profiel[key]).forEach(function(subkey){ %>
+                <h4 class="ui dividing header"><%=subkey%></h4>
+                <%global.profiel[key][subkey].forEach(function(question){ %>
+                  <div class="field">
+                    <div class="ui toggle checkbox">
+                      <input type="checkbox">
+                      <label><%=question%></label>
+                    </div>
+                  </div>
+                <% }); %>
+              <% }); %>
+            <input type="hidden" name="test[subject]" value="<%=key%>">  
+            <input type="hidden" name="test[result]" id="testResult">
+            <%}%>
+        <%});%>
+        <button class="ui button" type="submit">Submit</button>
+        <div class="ui error message"></div>
+    </form>
+</div>
+
+<% include ../partials/school/jquery_form_validation %>
+<% include ../partials/school/footer %>

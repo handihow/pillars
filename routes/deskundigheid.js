@@ -2,15 +2,16 @@ var express = require("express");
 var router = express.Router({mergeParams: true});
 var School = require("../models/school");
 var middleware = require("../middleware");
+var global = require("../models/global");
 
 //SHOW ROUTE
 router.get("/", middleware.isLoggedIn, function(req, res){
-  School.findById(req.params.id, function(err, school){
+    School.findById(req.params.id).populate("owner").populate("tests").exec(function(err, school){
       if(err ||!school){
           req.flash("error", "School niet gevonden.");
           res.redirect("back");
       } else {
-          res.render("deskundigheid/show", {school: school});            
+          res.render("deskundigheid/show", {school: school, global:global});            
       }
   });
 });

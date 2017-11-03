@@ -1,0 +1,15 @@
+<% include ../partials/school/header %>
+
+<div class="ui container">
+    <div class="ui huge header">Normering Toevoegen</div>
+    <form class="ui form" action="/normering" method="POST" id="normeringToevoegen" novalidate>
+        <div class="required field">
+            <label>Naam</label>  
+            <input type="text" name="normering[naam]" placeholder="Naam normering, bijvoorbeeld Standaard Normering Schoolbestuur XXX" id="normering[naam]">
+        </div>
+        <button class="ui button" type="submit">Bewaren</button>
+    </form>
+</div>
+
+<% include ../partials/school/jquery_form_validation %>
+<% include ../partials/school/footer %>

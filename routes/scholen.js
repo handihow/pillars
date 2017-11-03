@@ -6,10 +6,13 @@ var middleware = require("../middleware");
 
 //INDEX ROUTE
 router.get("/", middleware.isLoggedIn, function(req, res){
-    //if user is school admin then go to school page
-    if(req.user.role==="sadmin") {
+    //if user is school medewerker, direct to his profile page
+    if(req.user.role==="suser") {
+        return res.redirect("/user/"+req.user._id);
+    //if user is school admin then go to school page    
+    } else if(req.user.role==="sadmin") {
         //find the school
-        School.findOne({"users.username": req.user.username}, function(err, school) {
+        School.findOne({"users": req.user._id}, function(err, school) {
             if(err || !school){
                 req.flash("error", err.message);
                 res.redirect("back"); 
@@ -18,9 +21,9 @@ router.get("/", middleware.isLoggedIn, function(req, res){
             }
         });
     } else {
-        //else go to the list of schools
+        //bestuur admins go to the list of schools
         School.find(
-            {"owner.username": req.user.username}, 
+            {"owner": req.user._id}, 
             null,
             {sort: {instellingsnaam: 1}},
             function(err, scholen){
@@ -78,8 +81,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
               res.render("scholen/new");
           }  else {
               //look up user id and username and add to school
-              school.owner.id = req.user._id;
-              school.owner.username = req.user.username;
+              school.owner = req.user._id;
               school.save();
           }
         }); 
@@ -90,7 +92,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
 
 //SHOW ROUTE
 router.get("/:id", middleware.isLoggedIn, function(req, res){
-   School.findById(req.params.id, function(err, school){
+   School.findById(req.params.id).populate("owner").exec(function(err, school){
        if(err ||!school){
            req.flash("error", "School niet gevonden.");
            res.redirect("back");

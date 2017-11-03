@@ -353,4 +353,38 @@ $(document).ready(function() {
       })  
     ;
     
+//================================================//
+//ACTIVATING THE TAB MENUS//
+//================================================//
+    $('.menu .item')
+      .tab()
+    ;
+    
+//================================================//
+//USER EDIT FORM//
+//================================================//
+  $("#profielForm")
+    .form({
+        fields: {
+          "user[username]": {
+            identifier: "user[username]",
+            rules: [
+                {
+                  type: "email",
+                  prompt: "Vul een geldig email adres in. Let op! Als je het email adres wijzigt, moet je opnieuw inloggen."
+                }
+              ]
+          }
+      }
+    });  
+    
+//================================================//
+//PROFILE TEST FORM//
+//================================================//
+  $("#profielTest").submit(function(){
+    var countChecked = $('#profielTest').find('input[type=checkbox]:checked').length;
+    var countTotal = $('#profielTest').find('input[type=checkbox]').length;
+    $('#testResult').val(countChecked / countTotal);
+  });
+  
 });

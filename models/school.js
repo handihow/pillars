@@ -14,23 +14,15 @@ var scholenSchema=  mongoose.Schema({
     aantalKlaslokalen: Number,
     created: {type: Date, default: Date.now},
     owner: {                                        //user type Schoolbestuur (Bestuur Admin) - badmin 
-      id: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "User"
-      },
-      username: String,
-      role: String
     },
-    users: [{                                        //user type School Administrator & Medewerker (User) - sadmin and suser
-      id: {
+    users: [                                        //user type School Administrator & Medewerker (User) - sadmin and suser
+        {
           type: mongoose.Schema.Types.ObjectId,
           ref: "User"
-      },
-      username: String,
-      role: String,
-      firstName: String,
-      lastName: String
-    }],
+        },
+    ],
     //Hardware
     heeftGoedBedraadNetwerk: {type: Boolean, default: false},
     heeftGoedWirelessNetwerk: {type: Boolean, default: false},
@@ -51,6 +43,12 @@ var scholenSchema=  mongoose.Schema({
     deskLeerkrachten: Number,
     deskOndersteuning: Boolean,
     deskEffectiviteit: Number,
+    tests: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Test"
+        }
+    ],
     //Organisatie
     heeftOrganisatorischeOvereenstemming: Boolean,
     heeftGoedeNetwerkAanpassing: Boolean,

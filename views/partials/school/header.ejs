@@ -16,13 +16,13 @@
           <a class="item" href="/scholen/">
             Scholen
           </a>
-          <a class="item">
+          <a class="item" href="/normering">
             Normering
           </a>
           <% } %>
           <div class="right menu">
-            <a class="ui item" href="#">
-              Je email: <%=currentUser.username%>
+            <a class="ui item" href="/user/<%=currentUser._id%>">
+              Profiel: <%=currentUser.username%>
             </a>
             <a class="ui item" href="/logout">
               <i class="fa fa-sign-out" aria-hidden="true"></i>

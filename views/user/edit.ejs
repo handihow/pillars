@@ -1,0 +1,46 @@
+<% include ../partials/school/header %>
+
+<div class="ui container">
+    <div class="ui huge header">Profiel Aanpassen</div>
+    <div class="ui divider"></div>
+    <form class="ui form" action="/user/<%=user._id%>?_method=PUT" method="POST" id="profielForm" novalidate>
+        <div class="two fields">
+          <div class="field">
+              <label>E-mail adres</label>
+              <input type="text" name="user[username]" value="<%=user.username%>" id="user[username]">
+          </div>
+        </div>
+        <div class="ui warning message">
+          <div class="header">Let op!</div>
+          <ul class="list">
+            <li>Als je het email adres wijzigt, dan zul je worden uitgelogd en moet je opnieuw inloggen.</li>
+          </ul>
+        </div>
+        <div class="two fields">
+          <div class="field">
+              <label>Voornaam</label>
+              <input type="text" name="user[firstName]" value="<%=user.firstName%>" id="user[firstName]">
+          </div>
+          <div class="field">
+              <label>Achternaam</label>
+              <input type="text" name="user[lastName]" value="<%=user.lastName%>" id="user[lastName]">
+          </div>
+        </div>
+        <div class="two fields">
+          <div class="field">
+              <label>Organisatie</label>
+              <input type="text" name="user[org]" value="<%=user.org%>" id="user[org]">
+          </div>
+          <div class="field">
+              <label>Functie</label>
+              <input type="text" name="user[job]" value="<%=user.job%>" id="user[job]">
+          </div>
+        </div>
+    <button class="ui button" type="submit">Bewaren</button>
+    <div class="ui error message"></div>
+    </form>
+    
+</div>
+        
+<% include ../partials/school/jquery_form_validation %>
+<% include ../partials/school/footer %>

@@ -1,0 +1,32 @@
+<% include ../partials/school/header %>
+
+<div class="ui container">
+    <h2 class="ui center aligned header">
+      <div>Normering</div>
+    </h2>
+    <a class="positive ui button right" href="/normering/new">Normering Toevoegen</a>
+    <div class="ui divider"></div>
+    <!--kaarten met normering-->
+    <div class="ui six doubling cards">
+      <% normeringen.forEach(function(normering){ %>
+      <div class="card">
+        <div class="content">
+          <div class="header"><a href="/normering/<%=normering._id%>"><%= normering.naam %></a></div>
+          <div class="description">
+            Datum: <%= normering.created.toDateString() %>
+          </div>
+          <div class="description">
+            Gemaakt door: <%= normering.owner.username %>
+          </div>
+        </div>
+        <a class="ui bottom attached button" href="/normering/<%=normering._id%>">
+          <i class="show icon"></i>
+          Bekijk 
+        </a>
+      </div>
+      <% }); %>
+    </div>
+</div>
+
+<% include ../partials/school/jquery_form_validation %>
+<% include ../partials/school/footer %>

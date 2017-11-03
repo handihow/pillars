@@ -36,6 +36,8 @@ var scholenRoutes = require("./routes/scholen");
 var deskundigheidRoutes = require("./routes/deskundigheid");
 var organisatieRoutes = require("./routes/organisatie");
 var userRoutes = require("./routes/user");
+var testRoutes = require("./routes/test");
+var normeringRoutes = require("./routes/normering");
 var indexRoutes = require("./routes/index");
 
 mongoose.connect(process.env.DATABASEURL, {useMongoClient: true}); //DATABASEURL=mongodb://localhost/scholen_app
@@ -72,9 +74,11 @@ app.use(function(req, res, next){
 app.use("/scholen", scholenRoutes);
 app.use("/scholen/:id/hardware", hardwareRoutes);
 app.use("/scholen/:id/software", softwareRoutes);
-app.use("/scholen/:id/user", userRoutes);
+app.use(userRoutes);
+app.use("/user/:id/test", testRoutes);
 app.use("/scholen/:id/deskundigheid", deskundigheidRoutes);
 app.use("/scholen/:id/organisatie", organisatieRoutes);
+app.use("/normering", normeringRoutes);
 app.use(indexRoutes);
 
 app.listen(process.env.PORT, process.env.IP, function(){

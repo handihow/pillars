@@ -1,0 +1,69 @@
+<% include ../partials/school/header %>
+
+<div class="ui container">
+    <div class="ui huge header">Pillars Profiel Pagina</div>
+    <div class="ui divider"></div>
+    <div class="ui stackable grid">
+      <div class="four wide column">
+        <h4 class="content">Username</h4>
+        <div class="content"><%=user.username%></div>
+      </div>
+      <div class="four wide column">
+        <h4 class="content">Voornaam</h4>
+        <div class="content"><%=user.firstName%></div>
+      </div>
+      <div class="four wide column">
+        <h4 class="content">Achternaam</h4></h4>
+        <div class="content"><%=user.lastName%></div>
+      </div>
+    </div>
+    <div class="ui stackable grid">
+      <div class="four wide column">
+        <h4 class="content">Rol</h4></h4>
+        <div class="content"><%if(user.role==="badmin"){%>Bestuur admin<%} else if(user.role==="sadmin"){%>School admin<%} else {%>School medewerker<%}%></div>
+      </div>
+      <div class="four wide column">
+        <h4 class="content">Organisatie</h4>
+        <div class="content"><%=user.org%></div>
+      </div>
+      <div class="four wide column">
+        <h4 class="content">Functie</h4>
+        <div class="content"><%=user.job%></div>
+      </div>
+    </div>
+    <div class="ui divider"></div>
+    <a class="positive ui button right" href="/user/<%=user._id%>/edit">Gegevens wijzigen</a>
+    <a class="positive ui button right" href="/forgot">Wachtwoord wijzigen</a>
+    <% var i=0%>
+    <div class="ui top attached tabular menu">
+    <% Object.keys(global.profiel).forEach(function(key){ %>
+      <a class="item <%if(i==0){%>active<%}%>" data-tab="<%=i%>"><%=key%></a>
+      <% i++%>
+    <%});%>
+    </div>
+    <% var j=0%>
+    <% Object.keys(global.profiel).forEach(function(key){ %>
+      <div class="ui bottom attached tab segment <%if(j==0){%>active<%}%>" data-tab="<%=j%>">
+          <%tests.forEach(function(test){%>
+            <%if(test.subject==key){%>
+              <div class=content>
+                  Uitkomst: <%=Math.ceil(test.result *100) %> % 
+              </div>
+              <div class=content>
+                  Datum: <%=test.created.toDateString()%>
+              </div>
+              <form
+                  action="/user/<%= user._id %>/test/<%=test._id%>?_method=DELETE" method="POST">
+                  <button class="ui mini red basic button">Verwijderen</button>
+              </form>
+            <%}%>
+          <%})%>
+          <div class="ui divider"></div>
+          <a class="ui primary button" href="/user/<%=user._id%>/test/new/<%=key%>">Test <%=key%></a>
+      </div>
+    <% j++ %>
+    <%});%>
+</div>
+        
+<% include ../partials/school/jquery_form_validation %>
+<% include ../partials/school/footer %>

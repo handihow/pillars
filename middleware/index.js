@@ -1,6 +1,7 @@
 var School = require("../models/school");
 var Hardware = require("../models/hardware");
 var Software = require("../models/software");
+var User = require("../models/user");
 
 var middlewareObj = {};
 
@@ -12,6 +13,25 @@ middlewareObj.isLoggedIn = function (req, res, next){
     res.redirect("/login");
 };
 
+//USER: CHECK IF THE USER IS THE CURRENT USER SO HE CAN EDIT HIS PROFILE
+middlewareObj.isUser = function(req,res,next) {
+    if(req.isAuthenticated()){
+        User.findById(req.params.id, function(err, user){
+             if(err || !user){
+                  req.flash("error", err);
+                  res.redirect("/scholen");
+              } else {
+                  if(user._id.equals(req.user._id)){
+                      next();
+                  } else {
+                    req.flash("error", "Je bent niet geautoriseerd om het profiel aan te passen");
+                    res.redirect("back");
+                  }
+              }
+        });
+    }
+};
+
 //SCHOLEN: CHECK IF THE USER IS THE OWNER SO HE CAN EDIT, UPDATE AND DELETE
 middlewareObj.isSchoolOwner = function (req, res, next) {
     if(req.isAuthenticated()){
@@ -21,13 +41,13 @@ middlewareObj.isSchoolOwner = function (req, res, next) {
                 res.redirect("/scholen");
             } else {
                 //check if user is bestuur admin for this school
-                if(school.owner.id.equals(req.user._id)) {
+                if(school.owner.equals(req.user._id)) {
                     next();
                 } else {
                     //check if user is school admin for this school
                     var isSchoolAdmin = false;
                     school.users.forEach(function(user){
-                        if(user.id.equals(req.user._id) && req.user.role==="sadmin"){
+                        if(user.equals(req.user._id) && req.user.role==="sadmin"){
                           isSchoolAdmin = true;  
                         }
                     });

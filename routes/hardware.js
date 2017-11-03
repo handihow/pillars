@@ -12,6 +12,7 @@ router.get("/", middleware.isLoggedIn, function(req, res){
             req.flash("error", "School niet gevonden");
             res.redirect("back");
         } else {
+            console.log(school);
             res.render("hardware/index", {school: school, global: global});        
         }
     });

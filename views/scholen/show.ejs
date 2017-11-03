@@ -60,7 +60,7 @@
                 <h4 class="content">Toegevoegd door</h4>
                 <div class="content"><%= school.owner.username %> op <%=school.created.toDateString()%> </div>
                 <a id="edit" class="ui primary basic button" href="/scholen/<%= school._id %>/edit">Bewerken</a>
-                <% if(currentUser && school.owner.id.equals(currentUser._id)) { %>
+                <% if(currentUser && school.owner._id.equals(currentUser._id)) { %>
                   <form id="delete" action="/scholen/<%= school._id %>?_method=DELETE" method="POST">
                       <button class="ui red basic button">Verwijderen</button>
                   </form>

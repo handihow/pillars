@@ -55,12 +55,56 @@
               <a id="edit" href="/scholen/<%= school._id %>/deskundigheid/edit">Bewerken</a>
             </div>
           </div>
+          <!--TEST RESULTATEN SCHOOL MEDEWERKERS-->
+          <% Object.keys(global.profiel).forEach(function(onderdeel){ %>
+            <div class="card">
+              <div class="content">
+                <div class="header">
+                  <%=onderdeel%>
+                </div>
+                <div class="description">
+                   Gemiddelde score:
+                </div>
+                <div class="description count">
+                  <% var sum = 0, i = 0, result = 0  %>
+                  <%school.tests.forEach(function(test){ %>
+                     <%if(test.subject === onderdeel) { sum += test.result; i++; result = Math.ceil(sum / i *100) } %>
+                  <% }); %>
+                  <%= result %> %
+                </div>
+              </div>
+              <div class="ui bottom attached button">
+                <a href="/#">Bekijken</a>
+              </div>
+            </div>
+          <% }) %>
+          <!--EINDE TESTRESULTATEN MEDEWERKERS-->
         </div>
         <h4 class="content">Eigenaar record:</h4>
         <div class="content"><%= school.owner.username %> op <%=school.created.toDateString()%> </div>
           <a id="edit" class="ui primary basic button" href="/scholen/<%= school._id %>/deskundigheid/edit">Bewerken</a>
+        <!--MAKE TABLE OF TEST RESULTS-->
+        <div class="ui huge header">Test Resultaten</div>
+        <table class="ui celled table unstackable">
+          <thead>
+              <tr>
+                  <th>Datum</th>
+                  <th>Gebruikersnaam</th>
+                  <th>Onderdeel</th>
+                  <th>Score</th>
+              </tr>
+          </thead>
+          <tbody>
+              <% school.tests.forEach(function(test){ %>
+                  <tr>
+                      <td><%= test.created.toDateString() %></td>
+                      <td><%= test.username %></td>
+                      <td><%= test.subject %></td>
+                      <td><%= Math.ceil(test.result *100) %> %</td>
+                  </tr>
+              <% }); %>
+          </tbody>
         </div>
-        
 
 <% include ../partials/school/side-footer %>
 <% include ../partials/school/footer %>
