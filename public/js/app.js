@@ -387,4 +387,5 @@ $(document).ready(function() {
     $('#testResult').val(countChecked / countTotal);
   });
   
+  
 });

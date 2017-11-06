@@ -127,38 +127,6 @@ router.put("/:id", middleware.isLoggedIn, function(req, res){
     });
 });
 
-//HARDWARE INSTELLINGEN EDIT ROUTE
-router.get("/:id/hardware/instellingen", middleware.isLoggedIn, function(req, res){
-    School.findById(req.params.id, function(err, school){
-       if(err || !school){
-           req.flash("error", "School niet gevonden.");
-           res.redirect("/scholen");
-       } else {
-           res.render("scholen/hardwareInstellingen", {school: school});
-       }
-   });
-});
-
-//UPDATE ROUTE HARDWARE INSTELLINGEN
-router.put("/:id/hardware/instellingen", middleware.isLoggedIn, function(req, res){
-    req.body.school.instellingenHardwareTypes.forEach(function(instelling){
-        if(instelling.bijhouden.includes("on")){
-            instelling.bijhouden = true;
-        } else {
-            instelling.bijhouden = false;
-        }
-    });
-    School.findByIdAndUpdate(req.params.id, req.body.school, function(err, school){
-       if(err || !school){
-           req.flash("error", "School niet gevonden.");
-           res.redirect("/scholen");
-       } else {
-           req.flash("success", "Hardware instellingen gewijzigd");
-           res.redirect("/scholen/" + req.params.id+"/hardware"); 
-       }
-    });
-});
-
 
 //DELETE ROUTE
 router.delete("/:id", middleware.isSchoolOwner, function(req, res){

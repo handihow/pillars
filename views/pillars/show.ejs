@@ -1,0 +1,20 @@
+<% include ../partials/school/header %>
+<% include ../partials/school/side-header %>
+
+      <h2 class="ui header"><i class="bar chart icon"></i>Pillars Grafieken</h2>
+      <h2 class="ui right aligned header">
+        <a href="/scholen/<%=school._id%>/pillars/instellingen">
+        <i class="setting icon"></i>
+        </a>
+      </h2>
+      <h2 style="display:none;" id="scoreComputersPerLeerling"><%=scoreComputersPerLeerling %></h2>
+      <h2 style="display:none;" id="scoreDigibordenPerKlaslokaal"><%=scoreDigibordenPerKlaslokaal %></h2>
+      <h2 style="display:none;" id="scoreNetwerk"><%=scoreNetwerk %></h2>
+      <h2 style="display:none;" id="scorePortableComputersPerLeerling"><%=scorePortableComputersPerLeerling %></h2>
+      <canvas id="hardware"></canvas>
+
+<% include ../partials/school/side-footer %>
+<% include ../partials/school/jquery_form_validation %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script src="/../../js/pillars.js"></script>
+<% include ../partials/school/footer %>

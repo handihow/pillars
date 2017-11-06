@@ -38,6 +38,7 @@ var organisatieRoutes = require("./routes/organisatie");
 var userRoutes = require("./routes/user");
 var testRoutes = require("./routes/test");
 var normeringRoutes = require("./routes/normering");
+var pillarsRoutes = require("./routes/pillars");
 var indexRoutes = require("./routes/index");
 
 mongoose.connect(process.env.DATABASEURL, {useMongoClient: true}); //DATABASEURL=mongodb://localhost/scholen_app
@@ -78,6 +79,7 @@ app.use(userRoutes);
 app.use("/user/:id/test", testRoutes);
 app.use("/scholen/:id/deskundigheid", deskundigheidRoutes);
 app.use("/scholen/:id/organisatie", organisatieRoutes);
+app.use("/scholen/:id/pillars", pillarsRoutes);
 app.use("/normering", normeringRoutes);
 app.use(indexRoutes);
 

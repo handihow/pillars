@@ -68,6 +68,10 @@ var scholenSchema=  mongoose.Schema({
     instellingenSoftware: {type: {}, default: global.software},
     instellingenSoftwareFuncties: {type: [String], default: global.softwareFuncties},
     instellingenSoftwareKwaliteiten: {type: [String], default: global.softwareKwaliteiten},
+    normering: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Normering"
+        },
     //STATUS PROGRESSIE
     isIngevuldAlgemeneInformatie: Boolean,
     isToegevoegdHardware: Boolean,

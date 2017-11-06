@@ -1,0 +1,23 @@
+<% include ../partials/school/header %>
+<% include ../partials/school/side-header %>
+
+    <h2 class="ui top attached header"><i class="bar chart icon"></i> Pillars Instellingen van <%= school.instellingsnaam %></h2>
+    <h4>Kies welke normering je wilt gebruiken voor deze school.</h4>
+    <div class="ui divider"></div>
+    <form class="ui form" action="/scholen/<%=school._id%>/pillars/instellingen?_method=PUT" method="POST" id="pillarsInstellingen">
+        <div class="field">
+      <label>Selecteer Pillars Normering</label>
+      <select class="ui fluid dropdown" name="school[normering]">
+        <% normeringen.forEach(function(normering){%>
+         <option value="<%=normering._id%>" <%if(school.normering){if(school.normering.equals(normering._id)) { %> selected="" <% }} %>><%=normering.naam%></option>
+        <%})%>
+      </select>
+    </div>
+        
+     <button class="ui button" type="submit">Bewaren</button>
+    </form>
+
+
+<% include ../partials/school/side-footer %>
+<% include ../partials/school/jquery_form_validation %>
+<% include ../partials/school/footer %>

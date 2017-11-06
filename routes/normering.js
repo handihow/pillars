@@ -5,7 +5,7 @@ var middleware = require("../middleware");
 
 //INDEX ROUTE
 router.get("/", middleware.isLoggedIn, function(req, res){
-    Normering.find({"owner.username": req.user.username}, function(err, normeringen){
+    Normering.find({owner: req.user._id}).populate("owner").exec(function(err, normeringen){
         if(err) {
             req.flash("error", err.message);
             res.redirect("back");
@@ -29,8 +29,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
               res.render("normering/new");
           }  else {
               //look up user id and username and add to school
-              normering.owner.id = req.user._id;
-              normering.owner.username = req.user.username;
+              normering.owner = req.user._id;
               normering.save();
               req.flash("success", "Normering toegevoegd");
                 res.redirect("/normering");

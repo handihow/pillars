@@ -12,7 +12,6 @@ router.get("/", middleware.isLoggedIn, function(req, res){
             req.flash("error", "School niet gevonden");
             res.redirect("back");
         } else {
-            console.log(school);
             res.render("hardware/index", {school: school, global: global});        
         }
     });
@@ -58,6 +57,38 @@ router.post("/", middleware.isLoggedIn, function(req, res){
                res.redirect("/scholen/"+school._id+"/hardware");
            }
         });
+       }
+    });
+});
+
+//HARDWARE INSTELLINGEN EDIT ROUTE
+router.get("/instellingen", middleware.isSchoolOwner, function(req, res){
+    School.findById(req.params.id, function(err, school){
+       if(err || !school){
+           req.flash("error", "School niet gevonden.");
+           res.redirect("/scholen");
+       } else {
+           res.render("hardware/instellingen", {school: school});
+       }
+   });
+});
+
+//UPDATE ROUTE HARDWARE INSTELLINGEN
+router.put("/instellingen", middleware.isSchoolOwner, function(req, res){
+    req.body.school.instellingenHardwareTypes.forEach(function(instelling){
+        if(instelling.bijhouden.includes("on")){
+            instelling.bijhouden = true;
+        } else {
+            instelling.bijhouden = false;
+        }
+    });
+    School.findByIdAndUpdate(req.params.id, req.body.school, function(err, school){
+       if(err || !school){
+           req.flash("error", "School niet gevonden.");
+           res.redirect("/scholen");
+       } else {
+           req.flash("success", "Hardware instellingen gewijzigd");
+           res.redirect("/scholen/" + req.params.id+"/hardware"); 
        }
     });
 });
@@ -112,6 +143,7 @@ router.put("/:hardware_id", middleware.isHardwareOwner, function(req, res){
        }
    }); 
 });
+
 
 //DESTROY route to delete hardware from database
 router.delete("/:hardware_id", middleware.isHardwareOwner, function(req, res){
