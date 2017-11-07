@@ -69,7 +69,7 @@
               </div>  
               <h4 class="content">Toegevoegd door</h4>
               <div class="content"><%= hardware.owner.username %> op <%=hardware.created.toDateString()%> </div>
-                <% if(currentUser && hardware.owner.id.equals(currentUser._id) || currentUser.role==="badmin") { %>
+                <% if(currentUser && hardware.owner.equals(currentUser._id) || currentUser.role==="badmin") { %>
                 <a id="edit" 
                   class="ui primary basic button" 
                   href="/scholen/<%=school._id%>/hardware/<%=hardware._id%>/edit">

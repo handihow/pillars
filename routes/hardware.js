@@ -4,6 +4,7 @@ var School = require("../models/school");
 var Hardware = require("../models/hardware");
 var global = require("../models/global");
 var middleware = require("../middleware");
+var csv = require("fast-csv");
 
 //INDEX - list of hardware
 router.get("/", middleware.isLoggedIn, function(req, res){
@@ -19,7 +20,7 @@ router.get("/", middleware.isLoggedIn, function(req, res){
 
 //NEW - form to create new hardware
 router.get("/new/:type", middleware.isLoggedIn, function(req, res){
-    School.findById(req.params.id).populate("hardware").exec(function(err, school){
+    School.findById(req.params.id, function(err, school){
         if(err || !school) {
             req.flash("error", "School niet gevonden");
             res.redirect("/scholen");
@@ -27,7 +28,86 @@ router.get("/new/:type", middleware.isLoggedIn, function(req, res){
             res.render("hardware/new", {school: school, type: req.params.type});        
         }
     });
-    
+});
+
+//BULK NEW - form to upload CSV FILE with hardware
+router.get("/bulk", middleware.isLoggedIn, function(req, res){
+    School.findById(req.params.id, function(err, school){
+        if(err || !school) {
+            req.flash("error", "School niet gevonden");
+            res.redirect("/scholen");
+        } else {
+            res.render("hardware/bulkupload", {school: school});        
+        }
+    });
+});
+
+//BULK NEW - accepts file and renders the form to create new hardware in list
+router.post("/bulk", middleware.isLoggedIn, function(req, res){
+    School.findById(req.params.id, function(err, school){
+       if(err || !school){
+           req.flash("error", "School niet gevonden");
+           res.redirect("back");
+       } else {
+            if (!req.files) {
+                req.flash("error", "Geen file geupload");
+                return res.redirect("back");
+            } else {
+                var hardwareFile = req.files.file;
+                var hardware = [];
+                csv
+                 .fromString(hardwareFile.data.toString(), {
+                    headers: true,
+                    ignoreEmpty: true
+                 })
+                 .on("data", function(data){
+                    hardware.push(data);
+                 })
+                 .on("end", function(){
+                    res.render("hardware/bulkupload2", {school: school, hardware: hardware, global: global});
+                 });
+            }
+       }
+    });
+});
+
+//CREATE - creates new hardware in the database and links it to school from the bulk upload
+router.post("/bulk2", middleware.isLoggedIn, function(req, res){
+   //create new hardware in DB for each hardware
+   req.body.hardware.forEach(function(hardware){
+       Hardware.create(hardware, function(err, hardware){
+       if(err){
+           req.flash("error", "Hardware niet gevonden");
+           res.redirect("back");
+       } else {
+           //add owner (id and username) to hardware
+           if(!hardware.type){hardware.type="Desktop"}
+           hardware.owner = req.user._id;
+           //connect new hardware to school in DB
+           hardware.save();
+           School.findById(req.params.id, function(err, school){
+               if(err) {
+                   req.flash("error", "School niet gevonden");
+                   res.redirect("back");
+               } else {
+                   school.hardware.push(hardware);
+                   school.isToegevoegdHardware = true;
+                   school.save();
+               }
+           });
+       }
+    });
+   });
+   School.findById(req.params.id, function(err, school){
+               if(err) {
+                   req.flash("error", "School niet gevonden");
+                   res.redirect("back");
+               } else {
+                   //redirect to school hardware show page
+                   req.flash("success", "Hardware succesvol toegevoegd!");
+                   res.redirect("/scholen/"+school._id+"/hardware");
+               }
+           });
 });
 
 //CREATE - creates new hardware in the database and links it to school
@@ -45,8 +125,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
                res.redirect("back");
            } else {
                //add owner (id and username) to hardware
-               hardware.owner.id = req.user._id;
-               hardware.owner.username = req.user.username;
+               hardware.owner = req.user._id;
                //connect new hardware to school in DB
                hardware.save();
                school.hardware.push(hardware);
@@ -60,6 +139,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
        }
     });
 });
+
 
 //HARDWARE INSTELLINGEN EDIT ROUTE
 router.get("/instellingen", middleware.isSchoolOwner, function(req, res){
@@ -95,12 +175,12 @@ router.put("/instellingen", middleware.isSchoolOwner, function(req, res){
 
 //SHOW individual hardware records
 router.get("/:hardware_id", middleware.isLoggedIn, function(req, res){
-   School.findById(req.params.id, function(err, school){
+   School.findById(req.params.id).populate("hardware").exec(function(err, school){
        if(err || !school){
            req.flash("error", "School niet gevonden");
            res.redirect("back");
        } else {
-           Hardware.findById(req.params.hardware_id, function(err, hardware){
+           Hardware.findById(req.params.hardware_id).populate("owner").exec(function(err, hardware){
                if(err || !hardware){
                    req.flash("error", "Hardware niet gevonden");
                    res.redirect("back");
@@ -124,7 +204,7 @@ router.get("/:hardware_id/edit", middleware.isHardwareOwner, function(req,res){
                    req.flash("error", "Hardware niet gevonden");
                    res.redirect("back");
                } else {
-                   res.render("hardware/edit", {hardware: hardware, school: school});
+                   res.render("hardware/edit", {hardware: hardware, school: school, global: global});
                }
            });
        }

@@ -8,6 +8,7 @@ var passport = require("passport");
 var LocalStrategy = require("passport-local");
 var User = require("./models/user");
 var flash = require("connect-flash");
+var fileUpload = require('express-fileupload');
 
 //INSTALL GMAIL FOR SENDING NOTIFICATION EMAILS
 var gmailNode = require("gmail-node");
@@ -48,9 +49,7 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
 app.use(flash());
-
-//SETUP THE APP WITH SOME DATA
-//seedDB();
+app.use(fileUpload());
 
 //PASSPORT CONFIGURATION
 app.use(require("express-session")({

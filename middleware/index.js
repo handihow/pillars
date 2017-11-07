@@ -78,7 +78,7 @@ middlewareObj.isHardwareOwner = function (req, res, next) {
                 res.redirect("back");
             } else {
             //if the hardware is found, check if the user is the owner of the record
-                if(hardware.owner.id.equals(req.user._id)) {
+                if(hardware.owner.equals(req.user._id)) {
                     next();
                 } else {
                     //if the user is not the owner of record, check if he is owner of the school record
@@ -87,7 +87,7 @@ middlewareObj.isHardwareOwner = function (req, res, next) {
                            req.flash("error", "School niet gevonden");
                            res.redirect("back"); 
                         } else {
-                            if(school.owner.id.equals(req.user._id)) {
+                            if(school.owner.equals(req.user._id)) {
                                 next();
                             } else {
                                 req.flash("error", "Je bent niet de eigenaar van dit record.");

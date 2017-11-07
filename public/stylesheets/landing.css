@@ -3,6 +3,23 @@ body {
 	font: Droid+Sans;
 }
 
+.about {
+  background-color: white ;
+}
+
+.about h1,h2 {
+  padding-top: 30px;
+  padding-bottom: 20px;
+}
+
+.about div {
+  margin-bottom: 20px;
+}
+
+.about li {
+  margin-top: 10px;  
+}
+
 #landing-header {
   z-index: 1;
   position: relative;
@@ -14,11 +31,17 @@ body {
 	z-index: 1;
 }
 
-#landing-header h1 {
+#logo-prices {
+  display: block;
+  margin: auto;
+  width: 15%;
+}
+
+#landing-header {
   color: #fff;
 }
 
-#landing-header h5 {
+#landing-header {
   color: #fff;
   margin-bottom: 20px;
 }

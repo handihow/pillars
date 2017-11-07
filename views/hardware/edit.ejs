@@ -1,6 +1,6 @@
 <% include ../partials/school/header %>
 <% include ../partials/school/side-header %>
-
+    
     <h2 class="ui top attached header"><%= hardware.type %> Bewerken voor <%= school.instellingsnaam %></h2>
     <form class="ui form" action="/scholen/<%=school._id%>/hardware/<%=hardware._id%>?_method=PUT" method="POST" id="hardwareForm" novalidate>
         <div class="two fields">
@@ -8,8 +8,22 @@
               <label>Naam</label>
               <input type="text" name="hardware[naam]" value="<%=hardware.naam%>" id="hardware[naam]">
           </div>
-          <div class="hidden field">
-            <input type="text" name="hardware[type]" value="<%= hardware.type %>" hidden=true>
+          <div class="required field">
+              <label>Type</label>
+              <div class="ui selection dropdown">
+                  <input type="hidden" name="hardware[type]" id="dropdown">
+                  <div class="text">Type Hardware</div>
+                  <i class="dropdown icon"></i>
+                  <div class="menu">
+                      <% global.hardwareTypes.forEach(function(type){%>
+                        <div class="item <%if(type.enkelvoud===hardware.type){%>active<%}%>" 
+                          data-value="<%=type.enkelvoud%>"
+                          <%if(type.enkelvoud===hardware.type){%>selected<%}%>>
+                              <%=type.enkelvoud%>
+                        </div>
+                      <%})%>
+                  </div>
+              </div>
           </div>
         </div>
         <div class="field">

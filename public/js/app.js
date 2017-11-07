@@ -160,7 +160,11 @@ $(document).ready(function() {
 //================================================//
 //FORM VALIDATIONS ON THE HARDWARE ROUTE//
 //================================================//
-
+    //activate the dropdown menus
+    $('.ui.dropdown').dropdown();
+    
+    $('#hardwareBulkForm').validate()
+   
     $("#hardwareForm")
     .form({
         fields: {
@@ -170,6 +174,15 @@ $(document).ready(function() {
                 {
                   type: "empty",
                   prompt: "Vul de naam of identificatie-code in van de hardware."
+                }
+              ]
+          },
+          "hardware[type]": {
+            identifier: "hardware[type]",
+            rules: [
+                {
+                  type: "empty",
+                  prompt: "Vul het hardware type in."
                 }
               ]
           },
@@ -202,6 +215,7 @@ $(document).ready(function() {
           }
         }
     });
+    
 
 //================================================//
 //FORM VALIDATIONS ON THE SOFTWARE ROUTE//
@@ -257,8 +271,7 @@ $(document).ready(function() {
         }
     });
     
-    //activate the dropdown menus
-    $('.ui.dropdown').dropdown();
+    
 
 
 //================================================//

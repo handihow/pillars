@@ -15,12 +15,9 @@ var hardwareSchema = mongoose.Schema (
         schermgrootteDigibord: Number,
         created: {type: Date, default: Date.now},
         owner: {
-            id: {
               type:   mongoose.Schema.Types.ObjectId,
               ref: "User"
-            },
-            username: String
-        }
+            }
     }
 );
 

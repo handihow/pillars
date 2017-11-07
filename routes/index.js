@@ -58,6 +58,16 @@ router.get("/forgot", function(req, res){
    res.render("forgot"); 
 });
 
+//ABOUT PILLARS
+router.get("/about", function(req, res){
+   res.render("about"); 
+});
+
+//PRICES PILLARS
+router.get("/prices", function(req, res){
+   res.render("prices"); 
+});
+
 //REQUEST NEW PASSWORD BY EMAIL WITH POST REQUEST
 router.post('/forgot', function(req, res, next) {
   asyncr.waterfall([

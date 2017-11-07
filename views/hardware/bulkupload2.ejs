@@ -1,0 +1,75 @@
+<% include ../partials/school/header %>
+<% include ../partials/school/side-header %>
+
+
+    <h2 class="ui top attached header">Hardware Lijst Toevoegen aan <%= school.instellingsnaam %></h2>
+    
+    <div class="ui message">
+      <div class="header">
+        BELANGRIJK
+      </div>
+      <p>Controleer of alle velden die je verwacht zijn gevuld.</p> 
+      <p>Als er gegevens missen, controleer dan eerst of de headers in je bestand exact overeenkomen met de instructies van de vorige stap. Herhaal eventueel de vorige stap.</p>
+      <p>Selecteer ook bij IEDERE rij het juiste type hardware. Zonder classificatie wordt dit veld automatisch gevuld met "Desktop".</p>
+    </div>
+    
+    <form class="ui mini form" action="/scholen/<%=school._id%>/hardware/bulk2" method="POST" id="hardwareBulkForm" novalidate>
+        <% var i=0 %>
+        <%hardware.forEach(function(hardware){%>
+            <div class="eight fields">
+                <div class="field">
+                    <label>Naam</label>
+                    <input type="text" name="hardware[<%=i%>][naam]" value="<%if(hardware['Naam']){%><%= hardware['Naam'] %><%}%>" required>
+                </div> 
+                <div class="field">
+                  <label>Type</label>
+                  <div class="ui compact selection dropdown">
+                      <input type="hidden" name="hardware[<%=i%>][type]" required>
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Type Hardware</div>
+                      <div class="menu">
+                          <% global.hardwareTypes.forEach(function(type){%>
+                              <div class="item" 
+                                  data-value="<%=type.enkelvoud%>" 
+                                  <%if(hardware['Type']===type.enkelvoud){%>selected=""<%}%>>
+                                  <%=type.enkelvoud%>
+                              </div>
+                          <%})%>
+                      </div>
+                  </div>
+                </div>
+                <div class="field">
+                    <label>Merk</label>
+                    <input type="text" name="hardware[<%=i%>][merk]" value="<%if(hardware['Merk']){%><%= hardware['Merk'] %><%}%>">
+                </div>
+                <div class="field">
+                    <label>Model</label>
+                    <input type="text" name="hardware[<%=i%>][model]" value="<%if(hardware['Model']){%><%= hardware['Model'] %><%}%>">
+                </div>
+                <div class="field">
+                    <label>Serial/Tag number</label>
+                    <input type="text" name="hardware[<%=i%>][serialTag]" value="<%if(hardware['Serial/Tag number']){%><%= hardware['Serial/Tag number'] %><%}%>">
+                </div>
+                <div class="field">
+                    <label>Processor</label>
+                    <input type="text" name="hardware[<%=i%>][processor]" value="<%if(hardware['Processor']){%><%= hardware['Processor'] %><%}%>">
+                </div>
+                <div class="field">
+                    <label>Werkgeheugen (GB)</label>
+                    <input type="text" name="hardware[<%=i%>][werkgeheugen]" min="1" max="64" value="<%if(hardware['Werkgeheugen (GB)']){%><%= hardware['Werkgeheugen (GB)'] %><%}%>">
+                </div>
+                <div class="field">
+                    <label>Jaar van ingebruikname</label>
+                    <input type="text" name="hardware[<%=i%>][jaarIngebruikname]" min="2000" max="2020" value="<%if(hardware['Jaar van ingebruikname']){%><%= hardware['Jaar van ingebruikname'] %><%}%>">
+                </div>
+             </div>
+             <% i++ %>
+        <%});%>
+        <button class="ui button" type="submit">Bewaren</button>
+        <div class="ui error message"></div>
+    </form>
+    </div>
+    
+<% include ../partials/school/side-footer %>
+<% include ../partials/school/jquery_form_validation %>
+<% include ../partials/school/footer %>
