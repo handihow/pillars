@@ -7,18 +7,20 @@
       <div class="header">
         BELANGRIJK
       </div>
-      <p>Lees aandachtig de onderstaande instructies. Bulk upload werkt alleen als deze instructies nauwlettend worden gevolgd.</p>
+      <p>Lees aandachtig de onderstaande instructies. Bulk upload werkt alleen goed als deze instructies nauwlettend worden gevolgd.</p>
     </div>
     <h4>Instructies</h4>
     <div class="ui bulleted list">
-      <div class="item">Maak een nieuw Excel bestand met de volgende headers: Naam, Type, Merk, Model, Serial/Tag number, Processor, Werkgeheugen (GB), Jaar van ingebruikname</div>
+      <div class="item">Maak een nieuw Excel bestand met de volgende headers: Naam, Merk, Model, Serial/Tag number, Processor, Werkgeheugen (GB), Jaar van ingebruikname</div>
       <div class="item">Deze headers moeten EXACT overeenkomen met de woorden hierboven</div>
       <div class="item">Knip en Plak hierna vanuit jouw Excel bestand met computers de gegevens in de juiste kolom. Het is niet erg als sommige velden leeg zijn.</div>
-      <div class="item">Laat het Type bij voorkeur leeg, en selecteer het type hardware uit de lijst in stap 2 voor iedere hardware. Zo weet je zeker dat de input overeenkomt met het verwachtte type in het systeem.</div>
       <div class="item">Als je klaar bent, bewaar dan het bestand als CSV</div>
       <div class="item">Open het CSV bestand in een text editor. Controleer of de komma is gebruikt als scheidingsteken.</div>
       <div class="item">Als er een ander teken is gebruikt als scheidingsteken, gebruik dan de functie "Vind en Vervang" om dat teken in het bestand te vervangen met komma.</div>
       <div class="item">Zodra je zeker weet dat alle gegevens zijn gescheiden door komma, gebruik dan het onderstaande formulier om de file te uploaden.</div>
+      <div><strong>Stap 2 - na upload CSV bestand:</strong></div>
+      <div class="item">Selecteer het type hardware uit de lijst in stap 2 voor iedere hardware. Zo weet je zeker dat de input overeenkomt met het verwachtte type in het systeem.</div>
+      <div class="item">Vul eventueel ontbrekende gegevens in.</div>
     </div>
     <form class="ui form" action="/scholen/<%=school._id%>/hardware/bulk" method="POST" encType="multipart/form-data">
         <input type="file" name="file" accept="*.csv" /><br/><br/>

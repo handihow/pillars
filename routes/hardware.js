@@ -74,7 +74,7 @@ router.post("/bulk", middleware.isLoggedIn, function(req, res){
 //CREATE - creates new hardware in the database and links it to school from the bulk upload
 router.post("/bulk2", middleware.isLoggedIn, function(req, res){
    //create new hardware in DB for each hardware
-   req.body.hardware.forEach(function(hardware){
+   req.body.hardware.forEach(function(hardware, i, a){
        Hardware.create(hardware, function(err, hardware){
        if(err){
            req.flash("error", "Hardware niet gevonden");
@@ -93,21 +93,16 @@ router.post("/bulk2", middleware.isLoggedIn, function(req, res){
                    school.hardware.push(hardware);
                    school.isToegevoegdHardware = true;
                    school.save();
+                   //on last loop, redirect to school hardware show page
+                   if(i===a.length-1){
+                    req.flash("success", "Hardware succesvol toegevoegd!");
+                    res.redirect("/scholen/"+school._id+"/hardware");
+                   }
                }
            });
        }
     });
    });
-   School.findById(req.params.id, function(err, school){
-               if(err) {
-                   req.flash("error", "School niet gevonden");
-                   res.redirect("back");
-               } else {
-                   //redirect to school hardware show page
-                   req.flash("success", "Hardware succesvol toegevoegd!");
-                   res.redirect("/scholen/"+school._id+"/hardware");
-               }
-           });
 });
 
 //CREATE - creates new hardware in the database and links it to school
