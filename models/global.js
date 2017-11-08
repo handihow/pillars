@@ -138,6 +138,74 @@ global.portableComputersPerSchool = 30;         //school heeft minimaal 30 draag
 
 global.maxScorePortableComputersPerSchool = 1;  //maximale score voor aantal draagbare computers per school
 
+	//NORMEN DIGITALE LEERMIDDELEN
+		//NORM 2.1: 
+
+global.groepenRekenen = ["Groep 1", "Groep 2", "Groep 3", "Groep 4", "Groep 5", "Groep 6", "Groep 7", "Groep 8"];
+
+global.functiesRekenen = ["Instructie", "Oefenen"];
+
+global.maxScoreRekenen = 1;
+
+		//NORM 2.2:
+		
+global.groepenTechnischLezen = ["Groep 3", "Groep 4", "Groep 5", "Groep 6"];
+
+global.functiesTechnischLezen = ["Instructie", "Oefenen", "Toets"];
+
+global.maxScoreTechnischLezen = 1;		
+
+		//NORM 2.3:
+
+global.groepenBegrijpendLezen = ["Groep 5", "Groep 6", "Groep 7", "Groep 8"];
+
+global.functiesBegrijpendLezen = ["Instructie", "Oefenen", "Toets"];
+
+global.maxScoreBegrijpendLezen = 1;	
+
+		//NORM 2.4:
+
+global.groepenSpelling = ["Groep 3", "Groep 4", "Groep 5", "Groep 6", "Groep 7", "Groep 8"];
+
+global.functiesSpelling = ["Instructie", "Oefenen", "Toets"];
+
+global.maxScoreSpelling = 0.5;	
+
+		//NORM 2.5:
+
+global.groepenTaal = ["Groep 4", "Groep 5", "Groep 6", "Groep 7", "Groep 8"];
+
+global.functiesTaal = ["Instructie", "Oefenen", "Toets"];
+
+global.maxScoreTaal = 0.5;	
+
+		//NORM 2.6:
+
+global.groepenToetsenbordvaardigheid = ["Groep 7", "Groep 8"];
+
+global.functiesToetsenbordvaardigheid = ["Instructie", "Oefenen"];
+
+global.maxScoreToetsenbordvaardigheid = 0.33;	
+
+		//NORM 2.7
+		
+global.groepenProgrammeren = ["Groep 4", "Groep 5", "Groep 6", "Groep 7", "Groep 8"];
+
+global.functiesProgrammeren = ["Instructie", "Oefenen"];
+
+global.maxScoreProgrammeren = 0.33;			
+
+		//NORM 2.8
+
+global.groepenMediawijsheid = ["Groep 4", "Groep 5", "Groep 6", "Groep 7", "Groep 8"];
+
+global.functiesMediawijsheid = ["Instructie", "Oefenen"];
+
+global.maxScoreMediawijsheid = 0.33;	
+
+
+//PROFIEL VRAGEN
+
 global.profiel = 
 
 		{ 

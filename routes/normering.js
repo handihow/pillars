@@ -31,8 +31,9 @@ router.post("/", middleware.isLoggedIn, function(req, res){
               //look up user id and username and add to school
               normering.owner = req.user._id;
               normering.save();
+              console.log(normering);
               req.flash("success", "Normering toegevoegd");
-                res.redirect("/normering");
+              res.redirect("/normering");
           }
     }); 
 });
