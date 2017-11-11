@@ -236,6 +236,28 @@ global.maxScoreWerkenSchoolcontext = 0.5;
 		//NORM 3.7 PERSOONLIJKE ONTWIKKELING
 global.maxScorePersoonlijkeOntwikkeling = 0.5;
 
+	//NORMEN ORGANISATIE
+		//NORM 4.1 ORGANISATORISCHE OVEREENSTEMMING
+global.maxScoreOvereenstemming = 1;
+		
+		//NORM 4.2 NETWERKBEHEER
+global.maxScoreNetwerkbeheer = 1;
+
+		//NORM 4.3 ICT INCIDENTMELDER
+global.urenICTIncidentmelder = 100;
+global.extraUrenICTIncidentmelder = 20;
+global.maxScoreICTIncidentmelder = 1;
+		
+		//NORM 4.4 ONDERWIJSKUNDIG ICTER
+global.urenOnderwijskundigICTer = 80;
+global.extraUrenOnderwijskundigICTer = 20;
+global.maxScoreOnderwijskundigICTer = 1;
+
+		//NORM 4.5 ICT INKOPER
+global.urenICTInkoper = 10;
+global.extraUrenICTInkoper = 5;
+global.maxScoreICTInkoper = 1;
+
 //PROFIEL VRAGEN
 
 global.profiel = 

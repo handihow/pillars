@@ -7,6 +7,16 @@
         <i class="setting icon"></i>
         </a>
       </h2>
+      <!--TOTAAL-->
+      <h2 style="display:none;" id="totaalHardware"><%=result.totaal.hardware %></h2>
+      <h2 style="display:none;" id="totaalSoftware"><%=result.totaal.software %></h2>
+      <h2 style="display:none;" id="totaalDeskundigheid"><%=result.totaal.deskundigheid %></h2>
+      <h2 style="display:none;" id="totaalOrganisatie"><%=result.totaal.organisatie %></h2>
+      <div class="ui horizontal divider">
+        Pillars Score
+      </div>
+      <canvas id="totaal"></canvas>
+      <!--HARDWARE-->
       <h2 style="display:none;" id="scoreComputersPerLeerling"><%=result.hardware.computersPerStudent %></h2>
       <h2 style="display:none;" id="scoreDigibordenPerKlaslokaal"><%=result.hardware.digitalBordsPerClassroom %></h2>
       <h2 style="display:none;" id="scoreNetwerk"><%=result.hardware.network %></h2>
@@ -15,6 +25,7 @@
         Hardware
       </div>
       <canvas id="hardware"></canvas>
+      <!--DIGITALE LEERMIDDELEN-->
       <% Object.keys(result.software).forEach(function(vak){%>
           <h2 style="display:none;" id="<%=vak%>"><%=result.software[vak] %></h2>
       <%})%>
@@ -22,7 +33,8 @@
         Digitale Leermiddelen
       </div>
       <canvas id="software"></canvas>
-       <h2 style="display:none;" id="beoordeeldeDeskundigheid"><%=result.deskundigheid.beoordeeldeDeskundigheid %></h2>
+      <!--DESKUNDIGHEID-->
+      <h2 style="display:none;" id="beoordeeldeDeskundigheid"><%=result.deskundigheid.beoordeeldeDeskundigheid %></h2>
       <h2 style="display:none;" id="gemiddeldeEffectiviteit"><%=result.deskundigheid.gemiddeldeEffectiviteit %></h2>
       <h2 style="display:none;" id="ondersteuningNodig"><%=result.deskundigheid.ondersteuningNodig %></h2>
       <h2 style="display:none;" id="ictGeletterheid"><%=result.deskundigheid.ictGeletterheid %></h2>
@@ -33,7 +45,16 @@
         Deskundigheid
       </div>
       <canvas id="deskundigheid"></canvas>
-
+      <!--ORGANISATIE-->
+      <h2 style="display:none;" id="organisatorischeOvereenstemming"><%=result.organisatie.organisatorischeOvereenstemming %></h2>
+      <h2 style="display:none;" id="netwerkbeheer"><%=result.organisatie.netwerkbeheer %></h2>
+      <h2 style="display:none;" id="incidentmelder"><%=result.organisatie.incidentmelder %></h2>
+      <h2 style="display:none;" id="onderwijskundigICTer"><%=result.organisatie.onderwijskundigICTer %></h2>
+      <h2 style="display:none;" id="ictInkoper"><%=result.organisatie.ictInkoper %></h2>
+      <div class="ui horizontal divider">
+        Organisatie
+      </div>
+      <canvas id="organisatie"></canvas>
 
 <% include ../partials/school/side-footer %>
 <% include ../partials/school/jquery_form_validation %>

@@ -95,6 +95,28 @@ var normeringSchema=  mongoose.Schema({
     maxScoreWerkenSchoolcontext: {type: Number, default: global.maxScoreWerkenSchoolcontext},
         //NORM 3.7 PERSOONLIJKE ONTWIKKELING
     maxScorePersoonlijkeOntwikkeling: {type: Number, default: global.maxScorePersoonlijkeOntwikkeling},
+    //ORGANISATIE
+        //NORM 4.1 ORGANISATORISCHE OVEREENSTEMMING
+    maxScoreOvereenstemming: {type: Number, default: global.maxScoreOvereenstemming},
+        //NORM 4.2 NETWERKBEHEER
+    maxScoreNetwerkbeheer: {type: Number, default: global.maxScoreNetwerkbeheer},
+        //NORM 4.3 ICT INCIDENTMELDER
+    "ICT Incidentmelder":   {
+                                normjaartaakuren: {type: Number, default: global.urenICTIncidentmelder},
+                                extraUren: {type: Number, default: global.extraUrenICTIncidentmelder},
+                                maxScore: {type: Number, default: global.maxScoreICTIncidentmelder}
+                            },
+        //NORM 4.4 ONDERWIJSKUNDIG ICTER
+    "Onderwijskundig ICTer":   {
+                                normjaartaakuren: {type: Number, default: global.urenOnderwijskundigICTer},
+                                extraUren: {type: Number, default: global.extraUrenOnderwijskundigICTer},
+                                maxScore: {type: Number, default: global.maxScoreOnderwijskundigICTer}
+                            },
+    "ICT Inkoper":          {
+                                normjaartaakuren: {type: Number, default: global.urenICTInkoper},
+                                extraUren: {type: Number, default: global.extraUrenICTInkoper},
+                                maxScore: {type: Number, default: global.maxScoreICTInkoper}
+                            },
     //ALGEMEEN    
     created: {type: Date, default: Date.now},
     owner: {

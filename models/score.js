@@ -162,9 +162,33 @@ score.averageTestResult = function(school, subject){
     return result;
 };
 
+//checks the score for organisation
+score.organisation = function(school, functie){
+    var result = 0;
+    //bereken het normale aantal uren
+    var aantalUren = school.normering[functie].normjaartaakuren;
+    //bereken het aantal extra uren
+    var extraUren = 0;
+    if(school.aantalLeerlingen>200) {
+        extraUren = school.normering[functie].extraUren * Math.ceil((school.aantalLeerlingen - 200) / 100);
+    }
+    if(school[functie]>=(aantalUren+extraUren)){ 
+        result = school.normering[functie].maxScore;
+    } else {
+        result = school[functie] * school.normering[functie].maxScore / (aantalUren + extraUren);
+    }
+    return result;
+};
+
 score.calculate = function(school) {
     //define the output variable "result" of the function
     var result = {
+        totaal: {
+            hardware:0,
+            software:0,
+            deskundigheid: 0,
+            organisatie: 0
+        },
         hardware: {
             computersPerStudent: 0,
             digitalBordsPerClassroom: 0,
@@ -189,6 +213,13 @@ score.calculate = function(school) {
             pedagogischDidactisch: 0,
             werkenSchooltext: 0,
             persoonlijkeOntwikkeling: 0
+        },
+        organisatie: {
+            organisatorischeOvereenstemming: 0,
+            netwerkbeheer: 0,
+            incidentmelder: 0,
+            onderwijskundigICTer: 0,
+            ictInkoper: 0
         }
     };
     //check computers per student
@@ -204,6 +235,7 @@ score.calculate = function(school) {
     Object.keys(result.software).forEach(function(vak){
         result.software[vak] = score.software(school,vak);
     });
+    //DESKUNDIGHEID
     //check beoordeelde deskundigheid
     result.deskundigheid.beoordeeldeDeskundigheid = score.beoordeeldeDeskundigheid(school);
     //check gemiddelde effectiviteit
@@ -218,8 +250,34 @@ score.calculate = function(school) {
     result.deskundigheid.werkenSchooltext = score.averageTestResult(school, "Werken in de schoolcontext") * school.normering.maxScoreWerkenSchoolcontext;
     //Persoonlijke ontwikkeling
     result.deskundigheid.persoonlijkeOntwikkeling = score.averageTestResult(school, "Persoonlijke Ontwikkeling") * school.normering.maxScorePersoonlijkeOntwikkeling;
-    
-    
+    // ORGANISATIE
+    //check if the organisatie heeft overeenstemming
+    if(school.heeftOrganisatorischeOvereenstemming){
+        result.organisatie.organisatorischeOvereenstemming = school.normering.maxScoreOvereenstemming;
+    }
+    //check if the school has good network control (3 x yes)
+    if(school.heeftGoedeNetwerkAanpassing && school.heeftGoedeNetwerkProbleemOplossing && school.heeftGoedeIncidentMelding){
+        result.organisatie.netwerkbeheer = school.normering.maxScoreNetwerkbeheer;
+    }
+    //ICT incidentmelder
+    result.organisatie.incidentmelder = score.organisation(school, "ICT Incidentmelder");
+    //Onderwijskundig ICT'er
+    result.organisatie.onderwijskundigICTer = score.organisation(school, "Onderwijskundig ICTer");
+    //ICT Inkoper
+    result.organisatie.ictInkoper = score.organisation(school, "ICT Inkoper");
+    //CALCULATE TOTALS
+    Object.keys(result.hardware).forEach(function(score){
+        result.totaal.hardware = result.totaal.hardware + result.hardware[score];
+    });
+    Object.keys(result.software).forEach(function(score){
+        result.totaal.software = result.totaal.software + result.software[score];
+    });
+    Object.keys(result.deskundigheid).forEach(function(score){
+        result.totaal.deskundigheid = result.totaal.deskundigheid + result.deskundigheid[score];
+    });
+    Object.keys(result.organisatie).forEach(function(score){
+        result.totaal.organisatie = result.totaal.organisatie + result.organisatie[score];
+    });
 return result;
 };
 
