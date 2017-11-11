@@ -3,10 +3,16 @@ var router = express.Router({mergeParams: true});
 var School = require("../models/school");
 var Normering = require("../models/normering");
 var middleware = require("../middleware");
+var score = require("../models/score");
 
 //SHOW ROUTE
 router.get("/", middleware.isLoggedIn, function(req, res){
-    School.findById(req.params.id).populate("hardware").populate("normering").exec(function(err, school){
+    School.findById(req.params.id)
+      .populate("hardware")
+      .populate("software")
+      .populate("tests")
+      .populate("normering")
+      .exec(function(err, school){
       if(err ||!school){
           req.flash("error", "School niet gevonden.");
           res.redirect("back");
@@ -15,50 +21,8 @@ router.get("/", middleware.isLoggedIn, function(req, res){
           if(!school.normering){
             return res.redirect("/scholen/"+school.id+"/pillars/instellingen");
           }
-          //check computers per student criteria
-          var countGoodComputers = 0;
-          school.hardware.forEach(function(hardware){
-            if(school.normering.hardwareTypesCountedAsComputer.includes(hardware.type) && 
-              ( hardware.werkgeheugen >= school.normering.minRAM || hardware.jaarIngebruikname >= school.normering.minYear)) {
-                if(hardware.type=="Multipoint computer") {
-                  countGoodComputers = countGoodComputers + hardware.aantalWerkplekkenMultipoint; 
-                } else {
-                  countGoodComputers++;
-                }
-              }
-          });
-          var normComputers = school.aantalLeerlingen * school.normering.computersPerLeerling;
-          var scoreComputersPerLeerling = 0; 
-          if(countGoodComputers >= normComputers) {scoreComputersPerLeerling = school.normering.maxScoreComputersPerLeerling} else {scoreComputersPerLeerling = school.normering.maxScoreComputersPerLeerling * countGoodComputers / normComputers};
-          //end check computers per student
-          //check digitale borden per lokaal
-          var countGoodDigibord = 0;
-          school.hardware.forEach(function(hardware){
-            if(hardware.type==="Digitaal schoolbord" && ((hardware.isTouchscreenDigibord || 0) >= (school.normering.isTouchscreenDigibord || 0))) {
-                countGoodDigibord ++;
-              }
-          });
-          var normDigibord = school.aantalKlaslokalen * school.normering.digibordenPerKlaslokaal;
-          var scoreDigibordenPerKlaslokaal = school.normering.maxScoreDigibordenPerKlaslokaal * countGoodDigibord / normDigibord;
-          //end check digitale borden per lokaal
-          //check network criteria
-          var scoreNetwerk = 0;
-          if(school.heeftGoedBedraadNetwerk && school.heeftGoedWirelessNetwerk){
-            scoreNetwerk = school.normering.maxScoreNetwerk;
-          }
-          //end network criteria
-          //check portable computers per school criteria
-          var countGoodPortableComputers = 0;
-          school.hardware.forEach(function(hardware){
-            if(school.normering.hardwareTypesCountedAsPortableComputer.includes(hardware.type) && 
-              ( hardware.werkgeheugen >= school.normering.minRAM || hardware.jaarIngebruikname >= school.normering.minYear)) {
-                  countGoodPortableComputers++;
-              }
-          });
-          var normPortableComputers = school.normering.portableComputersPerSchool;
-          var scorePortableComputersPerLeerling = school.normering.maxScorePortableComputersPerSchool * countGoodPortableComputers / normPortableComputers;
-          //end portable computers per school criteria
-          res.render("pillars/show", {school: school, scoreComputersPerLeerling: scoreComputersPerLeerling, scoreDigibordenPerKlaslokaal: scoreDigibordenPerKlaslokaal, scoreNetwerk: scoreNetwerk, scorePortableComputersPerLeerling: scorePortableComputersPerLeerling});            
+          var result = score.calculate(school);
+          res.render("pillars/show", {school: school, result: result});            
       }
   });
 });

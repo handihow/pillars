@@ -1,153 +1,25 @@
 <!--SHOW SOFTWARE NORMERING -->
 
-<div class="ui stackable grid">
+<% var vakken = ["Rekenen", "Technisch lezen", "Begrijpend lezen", "Spelling", "Taal", "Toetsenbordvaardigheid", "Programmeren", "Mediawijsheid"]%>
+<% vakken.forEach(function(vak){%>
+  <h3><%=vak%></h3>
+  <div class="ui stackable grid">
     <div class="four wide column">
-      <h4 class="content">Norm 1</h4>
-      <div class="content">Normering voor het vak Rekenen</div>
+      <h5 class="content">Groepen</h5>
+      <div class="content"><%=normering[vak].groepen%></div>
     </div>
     <div class="four wide column">
-      <h4 class="content">Groepen</h4>
-      <div class="content"><%=normering.groepenRekenen%></div>
+      <h5 class="content">Functies</h5>
+      <div class="content"><%=normering[vak].functies%></div>
     </div>
     <div class="four wide column">
-      <h4 class="content">Functies</h4>
-      <div class="content"><%=normering.functiesRekenen%></div>
+      <h5 class="content">Maximale score</h5>
+      <div class="content"><%=normering[vak].maxScore%></div>
     </div>
     <div class="four wide column">
-      <h4 class="content">Max Score</h4>
-      <div class="content"><%=normering.maxScoreRekenen%></div>
-    </div>
-</div>
-<div class="ui divider"></div>
-<div class="ui stackable grid">
-    <div class="four wide column">
-      <h4 class="content">Norm 2</h4>
-      <div class="content">Normering voor het vak Technisch Lezen</div>
-    </div>
-    <div class="four wide column">
-      <h4 class="content">Groepen</h4>
-      <div class="content"><%=normering.groepenTechnischLezen%></div>
-    </div>
-    <div class="four wide column">
-      <h4 class="content">Functies</h4>
-      <div class="content"><%=normering.functiesTechnischLezen%></div>
-    </div>
-    <div class="four wide column">
-      <h4 class="content">Max Score</h4>
-      <div class="content"><%=normering.maxScoreTechnischLezen%></div>
+      <h5 class="content">Kwaliteiten</h5>
+      <div class="content"><%=normering[vak].kwaliteiten%></div>
     </div>
 </div>
 <div class="ui divider"></div>
-<div class="ui stackable grid">
-    <div class="four wide column">
-      <h4 class="content">Norm 3</h4>
-      <div class="content">Normering voor het vak Begrijpend Lezen</div>
-    </div>
-    <div class="four wide column">
-      <h4 class="content">Groepen</h4>
-      <div class="content"><%=normering.groepenBegrijpendLezen%></div>
-    </div>
-    <div class="four wide column">
-      <h4 class="content">Functies</h4>
-      <div class="content"><%=normering.functiesBegrijpendLezen%></div>
-    </div>
-    <div class="four wide column">
-      <h4 class="content">Max Score</h4>
-      <div class="content"><%=normering.maxScoreBegrijpendLezen%></div>
-    </div>
-</div>
-<div class="ui divider"></div>
-<div class="ui stackable grid">
-    <div class="four wide column">
-      <h4 class="content">Norm 4</h4>
-      <div class="content">Normering voor het vak Spelling</div>
-    </div>
-    <div class="four wide column">
-      <h4 class="content">Groepen</h4>
-      <div class="content"><%=normering.groepenSpelling%></div>
-    </div>
-    <div class="four wide column">
-      <h4 class="content">Functies</h4>
-      <div class="content"><%=normering.functiesSpelling%></div>
-    </div>
-    <div class="four wide column">
-      <h4 class="content">Max Score</h4>
-      <div class="content"><%=normering.maxScoreSpelling%></div>
-    </div>
-</div>
-<div class="ui divider"></div>
-<div class="ui stackable grid">
-    <div class="four wide column">
-      <h4 class="content">Norm 5</h4>
-      <div class="content">Normering voor het vak Taal</div>
-    </div>
-    <div class="four wide column">
-      <h4 class="content">Groepen</h4>
-      <div class="content"><%=normering.groepenTaal%></div>
-    </div>
-    <div class="four wide column">
-      <h4 class="content">Functies</h4>
-      <div class="content"><%=normering.functiesTaal%></div>
-    </div>
-    <div class="four wide column">
-      <h4 class="content">Max Score</h4>
-      <div class="content"><%=normering.maxScoreTaal%></div>
-    </div>
-</div>
-<div class="ui divider"></div>
-<div class="ui stackable grid">
-    <div class="four wide column">
-      <h4 class="content">Norm 6</h4>
-      <div class="content">Normering voor het vak Toetsenbordvaardigheid</div>
-    </div>
-    <div class="four wide column">
-      <h4 class="content">Groepen</h4>
-      <div class="content"><%=normering.groepenToetsenbordvaardigheid%></div>
-    </div>
-    <div class="four wide column">
-      <h4 class="content">Functies</h4>
-      <div class="content"><%=normering.functiesToetsenbordvaardigheid%></div>
-    </div>
-    <div class="four wide column">
-      <h4 class="content">Max Score</h4>
-      <div class="content"><%=normering.maxScoreToetsenbordvaardigheid%></div>
-    </div>
-</div>
-<div class="ui divider"></div>
-<div class="ui stackable grid">
-    <div class="four wide column">
-      <h4 class="content">Norm 7</h4>
-      <div class="content">Normering voor het vak Programmeren</div>
-    </div>
-    <div class="four wide column">
-      <h4 class="content">Groepen</h4>
-      <div class="content"><%=normering.groepenProgrammeren%></div>
-    </div>
-    <div class="four wide column">
-      <h4 class="content">Functies</h4>
-      <div class="content"><%=normering.functiesProgrammeren%></div>
-    </div>
-    <div class="four wide column">
-      <h4 class="content">Max Score</h4>
-      <div class="content"><%=normering.maxScoreProgrammeren%></div>
-    </div>
-</div>
-<div class="ui divider"></div>
-<div class="ui stackable grid">
-    <div class="four wide column">
-      <h4 class="content">Norm 8</h4>
-      <div class="content">Normering voor het vak Mediawijsheid</div>
-    </div>
-    <div class="four wide column">
-      <h4 class="content">Groepen</h4>
-      <div class="content"><%=normering.groepenMediawijsheid%></div>
-    </div>
-    <div class="four wide column">
-      <h4 class="content">Functies</h4>
-      <div class="content"><%=normering.functiesMediawijsheid%></div>
-    </div>
-    <div class="four wide column">
-      <h4 class="content">Max Score</h4>
-      <div class="content"><%=normering.maxScoreMediawijsheid%></div>
-    </div>
-</div>
+<%});%>

@@ -1,0 +1,52 @@
+<!--SHOW DESKUNDIGHEID NORMERING -->
+
+<div class="ui stackable grid">
+  <div class="four wide column">
+    <h4 class="content">Beoordeelde deskundigheid</h4>
+    <div class="content"><%=normering.minBeoordeeldeDeskundigheid%></div>
+  </div>
+  <div class="four wide column">
+    <h4 class="content">Max score</h4>
+    <div class="content"><%=normering.maxScoreBeoordeeldeDeskundigheid%></div>
+  </div>
+  <div class="four wide column">
+    <h4 class="content">Gemiddelde effectiviteit</h4>
+    <div class="content"><%=normering.gemEffectiviteitDigitaleLeermiddelen%></div>
+  </div>
+  <div class="four wide column">
+    <h4 class="content">Max score</h4>
+    <div class="content"><%=normering.maxScoreGemEffectiviteitDigitaleLeermiddelen%></div>
+  </div>
+</div>
+<div class="ui divider"></div>
+<div class="ui stackable grid">
+  <div class="four wide column">
+    <h4 class="content">Ondersteuning nodig</h4>
+    <div class="content"><%if(normering.ondersteuningNodig){%>Ja<%} else {%>Nee<%}%></div>
+  </div>
+  <div class="four wide column">
+    <h4 class="content">Max score</h4>
+    <div class="content"><%=normering.maxScoreOndersteuningNodig%></div>
+  </div>
+</div>
+<div class="ui divider"></div>
+<h3>Persoonlijke Tests Maximale Score</h3>
+<div class="ui stackable grid">
+  <div class="four wide column">
+    <h4 class="content">ICT Geletterdheid</h4>
+    <div class="content"><%=normering.maxScoreICTGeletterdheid%></div>
+  </div>
+  <div class="four wide column">
+    <h4 class="content">Pedagogisch Didactisch Handelen</h4>
+    <div class="content"><%=normering.maxScorePedagogischDidactischHandelen%></div>
+  </div>
+  <div class="four wide column">
+    <h4 class="content">Werken in schoolcontext</h4>
+    <div class="content"><%=normering.maxScoreWerkenSchoolcontext%></div>
+  </div>
+  <div class="four wide column">
+    <h4 class="content">Persoonlijke Ontwikkeling</h4>
+    <div class="content"><%=normering.maxScorePersoonlijkeOntwikkeling%></div>
+  </div>
+</div>
+

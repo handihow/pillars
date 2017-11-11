@@ -139,6 +139,8 @@ global.portableComputersPerSchool = 30;         //school heeft minimaal 30 draag
 global.maxScorePortableComputersPerSchool = 1;  //maximale score voor aantal draagbare computers per school
 
 	//NORMEN DIGITALE LEERMIDDELEN
+
+global.kwaliteiten = 0.75;
 		//NORM 2.1: 
 
 global.groepenRekenen = ["Groep 1", "Groep 2", "Groep 3", "Groep 4", "Groep 5", "Groep 6", "Groep 7", "Groep 8"];
@@ -203,6 +205,36 @@ global.functiesMediawijsheid = ["Instructie", "Oefenen"];
 
 global.maxScoreMediawijsheid = 0.33;	
 
+//NORM 3. DESKUNDIGHEID
+		//NORM 3.1 BEOORDEELDE DESKUNDIGHEID
+
+global.minBeoordeeldeDeskundigheid = 5;
+
+global.maxScoreBeoordeeldeDeskundigheid = 1;
+
+		//NORM 3.2 GEMIDDELDE EFFECTIVITEIT DIGITALE LEERMIDDELEN
+
+global.gemEffectiviteitDigitaleLeermiddelen = 5;
+
+global.maxScoreGemEffectiviteitDigitaleLeermiddelen = 0.5;
+
+		//NORM 3.3 ONDERSTEUNING EN/OF TRAINING NODIG
+
+global.ondersteuningNodig = false;
+
+global.maxScoreOndersteuningNodig = 0.5;
+
+		//NORM 3.4 ICT GELETTERDHEID
+global.maxScoreICTGeletterdheid = 0.5;
+
+		//NORM 3.5 PEDAGOGISCH DIDACTISCH HANDELEN
+global.maxScorePedagogischDidactischHandelen = 0.5;
+		
+		//NORM 3.6 WERKEN IN DE SCHOOLCONTEXT
+global.maxScoreWerkenSchoolcontext = 0.5;
+		
+		//NORM 3.7 PERSOONLIJKE ONTWIKKELING
+global.maxScorePersoonlijkeOntwikkeling = 0.5;
 
 //PROFIEL VRAGEN
 

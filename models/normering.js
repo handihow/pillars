@@ -22,37 +22,79 @@ var normeringSchema=  mongoose.Schema({
     maxScorePortableComputersPerSchool: {type: Number, default: global.maxScorePortableComputersPerSchool},
     //NORMEN 2. DIGITALE LEERMIDDELEN
         //NORM 2.1 REKENEN:
-    groepenRekenen: {type: [String], default: global.groepenRekenen},
-    functiesRekenen: {type: [String], default: global.functiesRekenen},
-    maxScoreRekenen: {type: Number, default: global.maxScoreRekenen},
+    "Rekenen":          {
+                            groepen: {type: [String], default: global.groepenRekenen},
+                            functies: {type: [String], default: global.functiesRekenen},
+                            maxScore: {type: Number, default: global.maxScoreRekenen},
+                            kwaliteiten: {type: Number, default: global.kwaliteiten}
+                        },
         //NORM 2.2 TECHNISCH LEZEN:
-    groepenTechnischLezen: {type: [String], default: global.groepenTechnischLezen},
-    functiesTechnischLezen: {type: [String], default: global.functiesTechnischLezen},
-    maxScoreTechnischLezen: {type: Number, default: global.maxScoreTechnischLezen},
+    "Technisch lezen": {
+                            groepen: {type: [String], default: global.groepenTechnischLezen},
+                            functies: {type: [String], default: global.functiesTechnischLezen},
+                            maxScore: {type: Number, default: global.maxScoreTechnischLezen},
+                            kwaliteiten: {type: Number, default: global.kwaliteiten}
+                        },
         //NORM 2.3 BEGRIJPEND LEZEN:
-    groepenBegrijpendLezen: {type: [String], default: global.groepenBegrijpendLezen},
-    functiesBegrijpendLezen: {type: [String], default: global.functiesBegrijpendLezen},
-    maxScoreBegrijpendLezen: {type: Number, default: global.maxScoreBegrijpendLezen},
+    "Begrijpend lezen": {
+                            groepen: {type: [String], default: global.groepenBegrijpendLezen},
+                            functies: {type: [String], default: global.functiesBegrijpendLezen},
+                            maxScore: {type: Number, default: global.maxScoreBegrijpendLezen},
+                            kwaliteiten: {type: Number, default: global.kwaliteiten}
+                        },
         //NORM 2.4 SPELLING:
-    groepenSpelling: {type: [String], default: global.groepenSpelling},
-    functiesSpelling: {type: [String], default: global.functiesSpelling},
-    maxScoreSpelling: {type: Number, default: global.maxScoreSpelling},
+    "Spelling":         {
+                            groepen: {type: [String], default: global.groepenSpelling},
+                            functies: {type: [String], default: global.functiesSpelling},
+                            maxScore: {type: Number, default: global.maxScoreSpelling},
+                            kwaliteiten: {type: Number, default: global.kwaliteiten}
+                        },
         //NORM 2.5 TAAL:
-    groepenTaal: {type: [String], default: global.groepenTaal},
-    functiesTaal: {type: [String], default: global.functiesTaal},
-    maxScoreTaal: {type: Number, default: global.maxScoreTaal},
-        //NORM 2.6 TOETSENBORDVAARDIGHEID
-    groepenToetsenbordvaardigheid: {type: [String], default: global.groepenToetsenbordvaardigheid},
-    functiesToetsenbordvaardigheid: {type: [String], default: global.functiesToetsenbordvaardigheid},
-    maxScoreToetsenbordvaardigheid: {type: Number, default: global.maxScoreToetsenbordvaardigheid},
+    "Taal":             {
+                            groepen: {type: [String], default: global.groepenTaal},
+                            functies: {type: [String], default: global.functiesTaal},
+                            maxScore: {type: Number, default: global.maxScoreTaal},
+                            kwaliteiten: {type: Number, default: global.kwaliteiten}
+                        },
+            //NORM 2.6 TOETSENBORDVAARDIGHEID
+    "Toetsenbordvaardigheid":             {
+                            groepen: {type: [String], default: global.groepenToetsenbordvaardigheid},
+                            functies: {type: [String], default: global.functiesToetsenbordvaardigheid},
+                            maxScore: {type: Number, default: global.maxScoreToetsenbordvaardigheid},
+                            kwaliteiten: {type: Number, default: global.kwaliteiten}
+                        },
         //NORM 2.7 PROGRAMMEREN
-    groepenProgrammeren: {type: [String], default: global.groepenProgrammeren},
-    functiesProgrammeren: {type: [String], default: global.functiesProgrammeren},
-    maxScoreProgrammeren: {type: Number, default: global.maxScoreProgrammeren},
+    "Programmeren":     {
+                            groepen: {type: [String], default: global.groepenProgrammeren},
+                            functies: {type: [String], default: global.functiesProgrammeren},
+                            maxScore: {type: Number, default: global.maxScoreProgrammeren},
+                            kwaliteiten: {type: Number, default: global.kwaliteiten}
+                        },
         //NORM 2.8 MEDIAWIJSHEID
-    groepenMediawijsheid: {type: [String], default: global.groepenMediawijsheid},
-    functiesMediawijsheid: {type: [String], default: global.functiesMediawijsheid},
-    maxScoreMediawijsheid: {type: Number, default: global.maxScoreMediawijsheid},
+    "Mediawijsheid":    {
+                            groepen: {type: [String], default: global.groepenMediawijsheid},
+                            functies: {type: [String], default: global.functiesMediawijsheid},
+                            maxScore: {type: Number, default: global.maxScoreMediawijsheid},
+                            kwaliteiten: {type: Number, default: global.kwaliteiten},
+                        },
+    //NORMEN 3. DESKUNDIGHEID
+        //NORM 3.1 BEOORDEELDE DESKUNDIGHEID
+    minBeoordeeldeDeskundigheid: {type: Number, default: global.minBeoordeeldeDeskundigheid},
+    maxScoreBeoordeeldeDeskundigheid: {type: Number, default: global.maxScoreBeoordeeldeDeskundigheid},
+        //NORM 3.2 GEMIDDELDE EFFECTIVITEIT DIGITALE LEERMIDDELEN
+    gemEffectiviteitDigitaleLeermiddelen: {type: Number, default: global.gemEffectiviteitDigitaleLeermiddelen},
+    maxScoreGemEffectiviteitDigitaleLeermiddelen: {type: Number, default: global.maxScoreGemEffectiviteitDigitaleLeermiddelen},
+        //NORM 3.3 ONDERSTEUNING EN/OF TRAINING NODIG
+    ondersteuningNodig: {type: Boolean, default: global.ondersteuningNodig},
+    maxScoreOndersteuningNodig: {type: Number, default: global.maxScoreOndersteuningNodig},
+        //NORM 3.4 ICT GELETTERDHEID
+    maxScoreICTGeletterdheid: {type: Number, default: global.maxScoreICTGeletterdheid},
+        //NORM 3.5 PEDAGOGISCH DIDACTISCH HANDELEN
+    maxScorePedagogischDidactischHandelen: {type: Number, default: global.maxScorePedagogischDidactischHandelen},
+        //NORM 3.6 WERKEN IN DE SCHOOLCONTEXT
+    maxScoreWerkenSchoolcontext: {type: Number, default: global.maxScoreWerkenSchoolcontext},
+        //NORM 3.7 PERSOONLIJKE ONTWIKKELING
+    maxScorePersoonlijkeOntwikkeling: {type: Number, default: global.maxScorePersoonlijkeOntwikkeling},
     //ALGEMEEN    
     created: {type: Date, default: Date.now},
     owner: {
