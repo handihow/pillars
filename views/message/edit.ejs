@@ -1,0 +1,28 @@
+<% include ../partials/school/header %>
+
+<div class="ui container">
+    <div class="ui huge header">Bericht Bewerken</div>
+    <form class="ui form" action="/message/<%=message._id%>?_method=PUT" method="POST" id="bericht" novalidate>
+        <div class="required field">
+            <label>Titel</label>  
+            <input type="text" name="message[title]" value="<%=message.title%>">
+        </div>
+        <div class="required field">
+            <label>Bericht</label>  
+            <textarea name="message[message]"><%=message.message%></textarea>
+        </div>
+        <button class="ui button" type="submit">Bewaren</button>
+        <div class="ui error message"></div>
+    </form>
+    
+    <div class="ui message">
+      <div class="header">
+        HTML friendly (Tip)
+      </div>
+      <p>Schrijf je bericht in HTML. Zo kun je niet alleen normale tekst in je bericht zetten, maar ook titels (headers), links naar websites en andere handige dingen.</p>
+      <p>Zoek op "Online HTML Editor" in je browser en zo kun je websites vinden die je helpen bij het schrijven van een bericht in HTML.</p>
+    </div>
+</div>
+
+<% include ../partials/school/jquery_form_validation %>
+<% include ../partials/school/footer %>

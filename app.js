@@ -9,6 +9,7 @@ var LocalStrategy = require("passport-local");
 var User = require("./models/user");
 var flash = require("connect-flash");
 var fileUpload = require('express-fileupload');
+var expressSanitizer = require("express-sanitizer");
 
 //INSTALL GMAIL FOR SENDING NOTIFICATION EMAILS
 var gmailNode = require("gmail-node");
@@ -41,6 +42,7 @@ var testRoutes = require("./routes/test");
 var normeringRoutes = require("./routes/normering");
 var pillarsRoutes = require("./routes/pillars");
 var indexRoutes = require("./routes/index");
+var messageRoutes = require("./routes/message");
 
 mongoose.connect(process.env.DATABASEURL, {useMongoClient: true}); //DATABASEURL=mongodb://localhost/scholen_app
 
@@ -50,6 +52,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
 app.use(flash());
 app.use(fileUpload());
+app.use(expressSanitizer());
 
 //PASSPORT CONFIGURATION
 app.use(require("express-session")({
@@ -80,6 +83,7 @@ app.use("/scholen/:id/deskundigheid", deskundigheidRoutes);
 app.use("/scholen/:id/organisatie", organisatieRoutes);
 app.use("/scholen/:id/pillars", pillarsRoutes);
 app.use("/normering", normeringRoutes);
+app.use("/message", messageRoutes);
 app.use(indexRoutes);
 
 app.listen(process.env.PORT, process.env.IP, function(){

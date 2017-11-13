@@ -1,0 +1,35 @@
+<% include ../partials/school/header %>
+
+<div class="ui container">
+    <h2 class="ui center aligned header">
+      <div>Berichten</div>
+    </h2>
+    <a class="positive ui button right" href="/message/new">Bericht Toevoegen</a>
+    <div class="ui divider"></div>
+    <!--kaarten met berichten-->
+    <div class="ui six doubling cards">
+      <% messages.forEach(function(message){ %>
+      <div class="card">
+        <div class="content">
+          <div class="header"><a href="/message/<%=message._id%>"><%= message.title %></a></div>
+          <div class="description">
+            <%=message.message.substring(0,50)%>...
+          </div>
+          <div class="description">
+            Datum: <%= message.created.toDateString() %>
+          </div>
+          <div class="description">
+            Gemaakt door: <%= message.owner.username %>
+          </div>
+        </div>
+        <a class="ui bottom attached button" href="/message/<%=message._id%>">
+          <i class="show icon"></i>
+          Bekijk 
+        </a>
+      </div>
+      <% }); %>
+    </div>
+</div>
+
+<% include ../partials/school/jquery_form_validation %>
+<% include ../partials/school/footer %>

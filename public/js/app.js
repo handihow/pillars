@@ -399,6 +399,249 @@ $(document).ready(function() {
     var countTotal = $('#profielTest').find('input[type=checkbox]').length;
     $('#testResult').val(countChecked / countTotal);
   });
+
+//================================================//
+//VALIDATIONS ON THE MESSAGE FORMS//
+//================================================//
+
+  $("#bericht")
+  .form({
+        fields: {
+          "message[title]": {
+            identifier: "message[title]",
+            rules: [
+                {
+                  type: "empty",
+                  prompt: "Dit veld is verplicht"
+                }
+              ]
+          },
+          "message[message]": {
+            identifier: "message[message]",
+            rules: [
+                {
+                  type: "empty",
+                  prompt: "Dit veld is verplicht"
+                }
+              ]
+          }
+      }
+    });  
+
+//================================================//
+//VALIDATIONS ON THE NORMERING FORM//
+//================================================//
+
+  $.fn.form.settings.rules.greaterThan = function (inputValue, validationValue) {
+    return inputValue > validationValue;
+  };
+  
+  $.fn.form.settings.rules.smallerThan = function (inputValue, validationValue) {
+    return inputValue <= validationValue;
+  };
+
+    $("#normeringForm")
+    .form({
+        fields: {
+          "normering[naam]": {
+            identifier: "normering[naam]",
+            rules: [
+                {
+                  type: "empty",
+                  prompt: "Vul een naam in voor de normering."
+                }
+              ]
+          },
+          "normering[minRAM]": {
+            identifier: "normering[minRAM]",
+            rules: [
+                {
+                  type: "integer[1..64]",
+                  prompt: "Vul het werkgeheugen in (GB). Dit is een geheel getal tussen 1 en 64 (GB)."
+                }
+              ]
+          },
+          "normering[minYear]": {
+            identifier: "normering[minYear]",
+            rules: [
+                {
+                  type: "integer[2000..2030]",
+                  prompt: "Vul het minimale jaar van ingebruikname in. Devices ouder dan dit jaar worden niet meegeteld."
+                }
+              ]
+          },
+          "normering[hardwareTypesCountedAsComputer]": {
+            identifier: "normering[hardwareTypesCountedAsComputer]",
+            rules: [
+                {
+                  type: "minCount[1]",
+                  prompt: "Vul minimaal 1 soort hardware in dat meegeteld wordt als computer."
+                }
+              ]
+          },
+          "normering[computersPerLeerling]": {
+            identifier: "normering[computersPerLeerling]",
+            rules: [
+                {
+                  type: "number",
+                  prompt: "Vul een getal in tussen 0 en 1. Hierbij is 0,2 bijvoorbeeld 1 computer per 5 leerlingen."
+                },
+                {
+                  type: 'greaterThan[0]',
+                  prompt: 'Getal moet groter zijn dan 0.'
+                }
+                ,
+                {
+                  type: 'smallerThan[1]',
+                  prompt: 'Getal moet kleiner of gelijk zijn aan 1.'
+                }
+              ]
+          },
+          "normering[digibordenPerKlaslokaal]": {
+            identifier: "normering[computersPerLeerling]",
+            rules: [
+                {
+                  type: "number",
+                  prompt: "Vul een getal in tussen 0 en 1. Hierbij is 1 bijvoorbeeld 1 digitaal schoolbord per klaslokaal."
+                },
+                {
+                  type: 'greaterThan[0]',
+                  prompt: 'Getal moet groter zijn dan 0.'
+                }
+                ,
+                {
+                  type: 'smallerThan[1]',
+                  prompt: 'Getal moet kleiner of gelijk zijn aan 1.'
+                }
+              ]
+          },
+          "normering[portableComputersPerSchool]": {
+            identifier: "normering[portableComputersPerSchool]",
+            rules: [
+                {
+                  type: "integer",
+                  prompt: "Vul een geheel getal in."
+                }
+              ]
+          },
+          "normering[maxScoreComputersPerLeerling]": {
+            identifier: "normering[maxScoreComputersPerLeerling]",
+            rules: [
+                {
+                  type: "number",
+                  prompt: "Vul een getal in tussen 0 en 5. Zorg ervoor dat maximale scores tezamen 5 zijn."
+                },
+                {
+                  type: 'greaterThan[0]',
+                  prompt: 'Getal moet groter zijn dan 0.'
+                }
+                ,
+                {
+                  type: 'smallerThan[5]',
+                  prompt: 'Getal moet kleiner of gelijk zijn aan 5.'
+                }
+              ]
+          },
+          "normering[maxScoreDigibordenPerKlaslokaal]" : {
+            identifier: "normering[maxScoreDigibordenPerKlaslokaal]",
+            rules: [
+                {
+                  type: "number",
+                  prompt: "Vul een getal in tussen 0 en 5. Zorg ervoor dat maximale scores tezamen 5 zijn."
+                },
+                {
+                  type: 'greaterThan[0]',
+                  prompt: 'Getal moet groter zijn dan 0.'
+                }
+                ,
+                {
+                  type: 'smallerThan[5]',
+                  prompt: 'Getal moet kleiner of gelijk zijn aan 5.'
+                }
+              ]
+          },
+          "normering[maxScoreNetwerk]": {
+            identifier: "normering[maxScoreNetwerk]",
+            rules: [
+                {
+                  type: "number",
+                  prompt: "Vul een getal in tussen 0 en 5. Zorg ervoor dat maximale scores tezamen 5 zijn."
+                },
+                {
+                  type: 'greaterThan[0]',
+                  prompt: 'Getal moet groter zijn dan 0.'
+                }
+                ,
+                {
+                  type: 'smallerThan[5]',
+                  prompt: 'Getal moet kleiner of gelijk zijn aan 5.'
+                }
+              ]
+          },
+          "normering[maxScorePortableComputersPerSchool]": {
+            identifier: "normering[maxScorePortableComputersPerSchool]",
+            rules: [
+                {
+                  type: "number",
+                  prompt: "Vul een getal in tussen 0 en 5. Zorg ervoor dat maximale scores tezamen 5 zijn."
+                },
+                {
+                  type: 'greaterThan[0]',
+                  prompt: 'Getal moet groter zijn dan 0.'
+                }
+                ,
+                {
+                  type: 'smallerThan[5]',
+                  prompt: 'Getal moet kleiner of gelijk zijn aan 5.'
+                }
+              ]
+          },
+      }
+    }); 
+    
+          
+  // INFOMESSAGES
+  
+    $('.hardwareMessage').focus(function(){
+      $("#infoHardware").attr('class', 'ui message')
+    });
+    
+    $('.hardwareMessage').focusout(function(){
+      $("#infoHardware").attr('class', 'ui hidden message')
+    });
+    
+     $('#computersPerLeerling').focus(function(){
+      $("#infoComputersPerLeerling").attr('class', 'ui message')
+    });
+    
+    $('#computersPerLeerling').focusout(function(){
+      $("#infoComputersPerLeerling").attr('class', 'ui hidden message')
+    });
+    
+    $('#digibordenPerKlaslokaal').focus(function(){
+      $("#infoDigiborden").attr('class', 'ui message')
+    });
+    
+    $('#digibordenPerKlaslokaal').focusout(function(){
+      $("#infoDigiborden").attr('class', 'ui hidden message')
+    });
+    
+    $('#portableComputersPerSchool').focus(function(){
+      $("#infoPortableComputers").attr('class', 'ui message')
+    });
+    
+    $('#portableComputersPerSchool').focusout(function(){
+      $("#infoPortableComputers").attr('class', 'ui hidden message')
+    });
+    
+    $('.maxScoreHardware').focus(function(){
+      $("#infoMaxScoreHardware").attr('class', 'ui message')
+    });
+    
+    $('.maxScoreHardware').focusout(function(){
+      $("#infoMaxScoreHardware").attr('class', 'ui hidden message')
+    });
+  
   
   
 });

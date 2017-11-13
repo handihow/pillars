@@ -1,0 +1,115 @@
+
+<!--FORM FIELDS PART 1-->
+<div class="fields">
+    <div class="field">
+      <label>Min RAM (GB)</label>
+      <input type="number" name="normering[minRAM]" value="<%=normering.minRAM%>" class="hardwareMessage">
+    </div>
+    <div class="field">
+      <label>Min Jaar</label>
+      <input type="number" name="normering[minYear]" value="<%=normering.minYear%>" class="hardwareMessage">
+    </div>
+    <div class="field">
+        <label>Hardware meegeteld als computer</label>
+        <select multiple="" name="normering[hardwareTypesCountedAsComputer]" class="ui dropdown" id="normering[hardwareTypesCountedAsComputer]">
+          <option value="">Selecteer hardware</option>
+          <% ["Desktop", "Multipoint computer", "Laptop", "Tablet", "Chromebook"].forEach(function(hardware){%>
+            <option value="<%=hardware%>" <%if(normering.hardwareTypesCountedAsComputer.includes(hardware)) { %> selected="" <% } %>><%=hardware%></option>
+          <%})%>
+        </select>
+    </div>
+    <div class="field">
+      <label>Computers per leerling</label>
+      <input type="number" step="0.05" min="0" max="1" name="normering[computersPerLeerling]" value="<%=normering.computersPerLeerling%>" id="computersPerLeerling">
+    </div>
+</div>
+<!--INFO MESSAGES-->
+  <div class="ui hidden message" id="infoHardware">
+    <div class="header">Informatie</div>
+    <ul class="list">
+      <li>Minimale geheugen is van toepassing op Desktops, Laptops en Multipoint Computers. Computers met te laag geheugen worden niet meegeteld.</li>
+      <li>Alle overige devices worden alleen meegeteld als ze in gebruik zijn genomen na het minimum jaar. Te oude devices tellen niet mee.</li>
+    </ul>
+  </div>
+  <div class="ui hidden message" id="infoComputersPerLeerling">
+    <div class="header">Informatie</div>
+    <ul class="list">
+      <li>Vul hier een getal in tussen 0 en 1.</li>
+      <li>De standaardnorm is hier 0,2 ofwel 1 computer per 5 leerlingen. Wilt u voor iedere leerling een computer? Vul  dan 1 in.</li>
+    </ul>
+  </div>
+<!--FORM FIELDS PART 2-->
+<div class="fields">
+    <div class="field">
+        <div class="ui toggle checkbox">
+            <input type="hidden" value="0" name="normering[isTouchscreen]">
+            <input 
+                type="checkbox" 
+                name="normering[isTouchscreen]"
+                <% if(normering.isTouchscreen) { %>
+                checked="checked"
+                <% } %>
+            >
+            <label>Digiborden moeten touchscreen zijn</label>
+         </div>
+    </div>
+    <div class="field">
+      <label>Digitale borden per klaslokaal</label>
+      <input type="number" step="0.05" min="0" max="1" name="normering[digibordenPerKlaslokaal]" value="<%=normering.digibordenPerKlaslokaal%>" id="digibordenPerKlaslokaal">
+    </div>
+    <div class="field">
+      <label>Hardware meegeteld als draagbare computer</label>
+      <select multiple="" name="normering[hardwareTypesCountedAsPortableComputer]" class="ui dropdown" id="normering[hardwareTypesCountedAsPortableComputer]">
+        <option value="">Selecteer hardware</option>
+        <% ["Laptop", "Tablet", "Chromebook"].forEach(function(hardware){%>
+          <option value="<%=hardware%>" <%if(normering.hardwareTypesCountedAsPortableComputer.includes(hardware)) { %> selected="" <% } %>><%=hardware%></option>
+        <%})%>
+      </select>
+    </div>
+    <div class="field">
+      <label>Draagbare computers per school</label>
+      <input type="number" name="normering[portableComputersPerSchool]" value="<%=normering.portableComputersPerSchool%>" id="portableComputersPerSchool">
+    </div>  
+</div>
+<!--INFO MESSAGES-->
+  <div class="ui hidden message" id="infoDigiborden">
+    <div class="header">Informatie</div>
+    <ul class="list">
+      <li>Vul hier een getal in tussen 0 en 1.</li>
+      <li>De standaardnorm is hier 1 ofwel 1 digitaal schoolbord per klaslokaal. 0,5 zou betekenen dat er 1 digitaal schoolbord per 2 klaslokalen nodig zijn volgens uw normering.</li>
+    </ul>
+  </div>
+  <div class="ui hidden message" id="infoPortableComputers">
+    <div class="header">Informatie</div>
+    <ul class="list">
+      <li>Vul hier een geheel getal in.</li>
+      <li>De standaardnorm is hier 30 draagbare computers zodat een klas op school in 1 keer bedient kan worden van computers (bijvoorbeeld voor een toets).</li>
+    </ul>
+  </div>
+<!--FORM FIELDS PART 3 = MAXIMUM SCORES-->
+<div class="fields">
+    <div class="field">
+      <label>Max score computers per leerling</label>
+      <input type="number" name="normering[maxScoreComputersPerLeerling]" value="<%=normering.maxScoreComputersPerLeerling%>" class="maxScoreHardware">
+    </div>
+    <div class="field">
+      <label>Max score digitale borden per klaslokaal</label>
+      <input type="number" name="normering[maxScoreDigibordenPerKlaslokaal]" value="<%=normering.maxScoreDigibordenPerKlaslokaal%>" class="maxScoreHardware">
+    </div>
+    <div class="field">
+      <label>Max score netwerk</label>
+      <input type="number" name="normering[maxScoreNetwerk]" value="<%=normering.maxScoreNetwerk%>" class="maxScoreHardware">
+    </div>
+    <div class="field">
+      <label>Max score draagbare computers per school</label>
+      <input type="number" name="normering[maxScorePortableComputersPerSchool]" value="<%=normering.maxScorePortableComputersPerSchool%>" class="maxScoreHardware">
+    </div>
+</div>
+<!--INFO MESSAGES-->
+  <div class="ui hidden message" id="infoMaxScoreHardware">
+    <div class="header">Informatie</div>
+    <ul class="list">
+      <li>Vul hier de maximale score per onderdeel in.</li>
+      <li>Zorg ervoor dat de vier scores bij elkaar opgeteld 5 zijn.</li>
+    </ul>
+  </div>

@@ -2,6 +2,8 @@ var School = require("../models/school");
 var Hardware = require("../models/hardware");
 var Software = require("../models/software");
 var User = require("../models/user");
+var Normering = require("../models/normering");
+var Message = require("../models/message");
 
 var middlewareObj = {};
 
@@ -138,6 +140,54 @@ middlewareObj.isSoftwareOwner = function (req, res, next) {
             }
         });
     //if not logged in, redirect to login page
+    } else {
+        req.flash("error", "Inloggen a.u.b.!");
+        res.redirect("/login");  
+    }
+};
+
+middlewareObj.isNormeringOwner = function(req, res, next){
+    //check if user is logged in
+    if(req.isAuthenticated()){
+        //find Normering
+        Normering.findById(req.params.id, function(err, normering){
+            if(err){
+                req.flash("error", "Normering niet gevonden");
+                res.redirect("back"); 
+            } else {
+                //check if user is the owner of the record
+                if(normering.owner.equals(req.user._id)) {
+                    next();
+                } else {
+                    req.flash("error", "Je bent niet de eigenaar van dit record.");
+                    res.redirect("back");
+                }
+            }
+        });
+    } else {
+        req.flash("error", "Inloggen a.u.b.!");
+        res.redirect("/login");  
+    }
+};
+
+middlewareObj.isMessageOwner = function(req, res, next){
+    //check if user is logged in
+    if(req.isAuthenticated()){
+        //find Message
+        Message.findById(req.params.id, function(err, message){
+            if(err ||!message){
+                req.flash("error", "Bericht niet gevonden");
+                res.redirect("back"); 
+            } else {
+                //check if user is the owner of the record
+                if(message.owner.equals(req.user._id)) {
+                    next();
+                } else {
+                    req.flash("error", "Je bent niet de eigenaar van dit record.");
+                    res.redirect("back");
+                }
+            }
+        });
     } else {
         req.flash("error", "Inloggen a.u.b.!");
         res.redirect("/login");  

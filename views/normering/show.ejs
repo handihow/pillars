@@ -10,18 +10,24 @@
     </div>
     <div class="ui bottom attached tab segment active" data-tab="first">
         <!--show hardware normering-->
-        <% include hardware %>
+        <% include show/hardware %>
     </div>
     <div class="ui bottom attached tab segment" data-tab="second">
       <!--show software normering-->
-      <% include software %>
+      <% include show/software %>
     </div>
     <div class="ui bottom attached tab segment" data-tab="third">
-      <% include deskundigheid %>
+      <% include show/deskundigheid %>
     </div>
     <div class="ui bottom attached tab segment" data-tab="fourth">
-      Hier komen de normen voor Organisatie
+      <% include show/organisatie %>
     </div>
+    <% if(currentUser && normering.owner.equals(currentUser._id)) { %>
+    <a id="edit" class="ui primary basic button" href="/normering/<%= normering._id %>/edit">Bewerken</a>
+      <form id="delete" action="/normering/<%= normering._id %>?_method=DELETE" method="POST">
+          <button class="ui red basic button">Verwijderen</button>
+      </form>
+    <% } %>
 </div>
 
 <% include ../partials/school/jquery_form_validation %>

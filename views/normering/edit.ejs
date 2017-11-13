@@ -1,0 +1,44 @@
+<% include ../partials/school/header %>
+
+<div class="ui container">
+    <h2 class="ui center aligned icon header">
+      <i class="handshake icon"></i>
+      <div class="content">
+        Normering <%= normering.naam %> aanpassen
+        <div class="sub header">Pas hier je normering aan. Zorg ervoor dat de maximale score op ieder onderdeel in totaal 5 is!</div>
+      </div>
+    </h2>
+    <form class="ui form" action="/normering/<%=normering._id%>?_method=PUT" method="POST" id="normeringForm" novalidate>
+      <div class="field">
+        <label>Naam</label>
+        <input type="text" name="normering[naam]" value="<%=normering.naam%>" id="normering[naam]">
+      </div>
+      <div class="ui top attached tabular menu">
+        <a class="item active" data-tab="first">Hardware</a>
+        <a class="item" data-tab="second">Digitale Leermiddelen</a>
+        <a class="item" data-tab="third">Deskundigheid</a>
+        <a class="item" data-tab="fourth">Organisatie</a>
+      </div>
+      <div class="ui bottom attached tab segment active" data-tab="first">
+          <!--show hardware normering-->
+          <%  include edit/hardware %>
+      </div>
+      <div class="ui bottom attached tab segment" data-tab="second">
+        <!--show software normering-->
+        DIGITALE LEERMIDDELEN
+      </div>
+      <div class="ui bottom attached tab segment" data-tab="third">
+          DESKUNDIGHEID
+      </div>
+      <div class="ui bottom attached tab segment" data-tab="fourth">
+          ORGANISATIE  
+      </div>
+      
+      <button class="ui button" type="submit">Bewaren</button>
+      <div class="ui error message"></div>
+    </form>  
+</div>
+
+<% include ../partials/school/jquery_form_validation %>
+<% include ../partials/school/footer %>
+

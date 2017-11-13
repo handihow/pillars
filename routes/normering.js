@@ -31,7 +31,6 @@ router.post("/", middleware.isLoggedIn, function(req, res){
               //look up user id and username and add to school
               normering.owner = req.user._id;
               normering.save();
-              console.log(normering);
               req.flash("success", "Normering toegevoegd");
               res.redirect("/normering");
           }
@@ -51,40 +50,41 @@ router.get("/:id", middleware.isLoggedIn, function(req, res){
 });
 
 // //EDIT ROUTE
-// router.get("/:id/edit", middleware.isLoggedIn, function(req, res){
-//     School.findById(req.params.id, function(err, school){
-//       if(err || !school){
-//           req.flash("error", "School niet gevonden.");
-//           res.redirect("/scholen");
-//       } else {
-//           res.render("scholen/edit", {school: school});
-//       }
-//   });
-// });
+router.get("/:id/edit", middleware.isNormeringOwner, function(req, res){
+    Normering.findById(req.params.id, function(err, normering){
+      if(err || !normering){
+          req.flash("error", "Normering niet gevonden.");
+          res.redirect("/normering");
+      } else {
+          res.render("normering/edit", {normering: normering});
+      }
+  });
+});
 
 // //UPDATE ROUTE
-// router.put("/:id", middleware.isLoggedIn, function(req, res){
-//     School.findByIdAndUpdate(req.params.id, req.body.school, function(err, school){
-//       if(err || !school){
-//           req.flash("error", "School niet gevonden.");
-//           res.redirect("/scholen");
-//       } else {
-//           req.flash("success", "School updated");
-//           res.redirect("/scholen/" + req.params.id);
-//       }
-//     });
-// });
+router.put("/:id", middleware.isNormeringOwner, function(req, res){
+    Normering.findByIdAndUpdate(req.params.id, req.body.normering, function(err, normering){
+      if(err || !normering){
+          req.flash("error", "Normering niet gevonden.");
+          res.redirect("/normering");
+      } else {
+          req.flash("success", "Normering updated");
+          res.redirect("/normering/" + req.params.id);
+      }
+    });
+});
 
-// //DELETE ROUTE
-// router.delete("/:id", middleware.isSchoolOwner, function(req, res){
-//   School.findByIdAndRemove(req.params.id, function(err){
-//       if(err){
-//           res.redirect("/scholen");
-//       } else {
-//           req.flash("success", "School verwijderd");
-//           res.redirect("/scholen");  
-//       }
-//   });
-// });
+//DELETE ROUTE
+router.delete("/:id", middleware.isNormeringOwner, function(req, res){
+  Normering.findByIdAndRemove(req.params.id, function(err){
+      if(err){
+          req.flash("error", "Er is iets misgegaan. Probeer normering opnieuw te verwijderen.");
+          res.redirect("/normering");
+      } else {
+          req.flash("success", "Normering verwijderd");
+          res.redirect("/normering");  
+      }
+  });
+});
 
 module.exports = router;

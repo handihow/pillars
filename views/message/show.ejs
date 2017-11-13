@@ -1,0 +1,24 @@
+<% include ../partials/school/header %>
+
+
+<div class="ui main text container segment">
+    <div class="ui huge header"><%= message.title %></div>
+    <div class="ui top attached">
+        <div class="item">
+            <div class="content">
+                <span><%= message.created.toDateString() %></span>
+            </div>
+            <div class="description" id="down">
+                <p><%- message.message %></p>
+            </div>
+            <% if(currentUser && message.owner.equals(currentUser._id)) { %>
+            <a class="ui primary basic button" href="/message/<%= message._id %>/edit">Bewerken</a>
+            <form id="delete" action="/message/<%= message._id %>?_method=DELETE" method="POST">
+                <button class="ui red basic button">Verwijderen</button>
+            </form>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<% include ../partials/school/footer %>
