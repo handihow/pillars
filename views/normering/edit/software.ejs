@@ -1,0 +1,34 @@
+<!--SHOW SOFTWARE NORMERING -->
+
+<% var vakken = ["Rekenen", "Technisch lezen", "Begrijpend lezen", "Spelling", "Taal", "Toetsenbordvaardigheid", "Programmeren", "Mediawijsheid"]%>
+<% vakken.forEach(function(vak){%>
+<h3><%=vak%></h3>
+<div class="fields">
+  <div class="field">
+      <label>Groepen</label>
+      <select multiple="" name="normering[<%=vak%>][groepen]" class="ui dropdown" id="normering[<%=vak%>][groepen]">
+        <option value="">Selecteer groepen</option>
+        <% ["Groep 1", "Groep 2", "Groep 3", "Groep 4", "Groep 5", "Groep 6", "Groep 7", "Groep 8"].forEach(function(groep){%>
+          <option value="<%=groep%>" <%if(normering[vak].groepen.includes(groep)) { %> selected="" <% } %>><%=groep%></option>
+        <%})%>
+      </select>
+  </div>
+  <div class="field">
+      <label>Functies</label>
+      <select multiple="" name="normering[<%=vak%>][functies]" class="ui dropdown" id="normering[<%=vak%>][functies]">
+        <option value="">Selecteer functies</option>
+        <% ["Instructie", "Oefenen", "Toets"].forEach(function(functie){%>
+          <option value="<%=functie%>" <%if(normering[vak].functies.includes(functie)) { %> selected="" <% } %>><%=functie%></option>
+        <%})%>
+      </select>
+  </div>
+  <div class="field">
+      <label>Max score</label>
+      <input type="number" name="normering[<%=vak%>][maxScore]" value="<%=normering[vak].maxScore%>" class="maxScore">
+  </div>
+  <div class="field">
+      <label>Kwaliteiten</label>
+      <input type="number" name="normering[<%=vak%>][kwaliteiten]" value="<%=normering[vak].kwaliteiten%>" class="kwaliteiten">
+  </div>
+</div>
+<%});%>

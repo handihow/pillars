@@ -487,12 +487,14 @@ $(document).ready(function() {
                   prompt: "Vul een getal in tussen 0 en 1. Hierbij is 0,2 bijvoorbeeld 1 computer per 5 leerlingen."
                 },
                 {
-                  type: 'greaterThan[0]',
+                  type: 'greaterThan',
+                  value: 0,
                   prompt: 'Getal moet groter zijn dan 0.'
                 }
                 ,
                 {
-                  type: 'smallerThan[1]',
+                  type: 'smallerThan',
+                  value: 1,
                   prompt: 'Getal moet kleiner of gelijk zijn aan 1.'
                 }
               ]
@@ -505,12 +507,14 @@ $(document).ready(function() {
                   prompt: "Vul een getal in tussen 0 en 1. Hierbij is 1 bijvoorbeeld 1 digitaal schoolbord per klaslokaal."
                 },
                 {
-                  type: 'greaterThan[0]',
+                  type: 'greaterThan',
+                  value: 0,
                   prompt: 'Getal moet groter zijn dan 0.'
                 }
                 ,
                 {
-                  type: 'smallerThan[1]',
+                  type: 'smallerThan',
+                  value: 1,
                   prompt: 'Getal moet kleiner of gelijk zijn aan 1.'
                 }
               ]
@@ -532,12 +536,14 @@ $(document).ready(function() {
                   prompt: "Vul een getal in tussen 0 en 5. Zorg ervoor dat maximale scores tezamen 5 zijn."
                 },
                 {
-                  type: 'greaterThan[0]',
+                  type: 'greaterThan',
+                  value: 0,
                   prompt: 'Getal moet groter zijn dan 0.'
                 }
                 ,
                 {
-                  type: 'smallerThan[5]',
+                  type: 'smallerThan',
+                  value: 5,
                   prompt: 'Getal moet kleiner of gelijk zijn aan 5.'
                 }
               ]
@@ -550,12 +556,14 @@ $(document).ready(function() {
                   prompt: "Vul een getal in tussen 0 en 5. Zorg ervoor dat maximale scores tezamen 5 zijn."
                 },
                 {
-                  type: 'greaterThan[0]',
+                  type: 'greaterThan',
+                  value: 0,
                   prompt: 'Getal moet groter zijn dan 0.'
                 }
                 ,
                 {
-                  type: 'smallerThan[5]',
+                  type: 'smallerThan',
+                  value: 5,
                   prompt: 'Getal moet kleiner of gelijk zijn aan 5.'
                 }
               ]
@@ -568,12 +576,14 @@ $(document).ready(function() {
                   prompt: "Vul een getal in tussen 0 en 5. Zorg ervoor dat maximale scores tezamen 5 zijn."
                 },
                 {
-                  type: 'greaterThan[0]',
+                  type: 'greaterThan',
+                  value: 0,
                   prompt: 'Getal moet groter zijn dan 0.'
                 }
                 ,
                 {
-                  type: 'smallerThan[5]',
+                  type: 'smallerThan',
+                  value: 5,
                   prompt: 'Getal moet kleiner of gelijk zijn aan 5.'
                 }
               ]
@@ -586,12 +596,658 @@ $(document).ready(function() {
                   prompt: "Vul een getal in tussen 0 en 5. Zorg ervoor dat maximale scores tezamen 5 zijn."
                 },
                 {
-                  type: 'greaterThan[0]',
+                  type: 'greaterThan',
+                  value: 0,
                   prompt: 'Getal moet groter zijn dan 0.'
                 }
                 ,
                 {
-                  type: 'smallerThan[5]',
+                  type: 'smallerThan',
+                  value: 5,
+                  prompt: 'Getal moet kleiner of gelijk zijn aan 5.'
+                }
+              ]
+          },
+          "normering[Rekenen][groepen]": {
+            identifier: "normering[Rekenen][groepen]",
+            rules: [
+                {
+                  type: "minCount[1]",
+                  prompt: "Vul minimaal 1 groep in."
+                }
+              ]
+          },
+          "normering[Technisch Lezen][groepen]": {
+            identifier: "normering[Technisch Lezen][groepen]",
+            rules: [
+                {
+                  type: "minCount[1]",
+                  prompt: "Vul minimaal 1 groep in."
+                }
+              ]
+          },
+          "normering[Begrijpend Lezen][groepen]": {
+            identifier: "normering[Begrijpend Lezen][groepen]",
+            rules: [
+                {
+                  type: "minCount[1]",
+                  prompt: "Vul minimaal 1 groep in."
+                }
+              ]
+          },
+          "normering[Spelling][groepen]": {
+            identifier: "normering[Spelling][groepen]",
+            rules: [
+                {
+                  type: "minCount[1]",
+                  prompt: "Vul minimaal 1 groep in."
+                }
+              ]
+          },
+          "normering[Taal][groepen]": {
+            identifier: "normering[Taal][groepen]",
+            rules: [
+                {
+                  type: "minCount[1]",
+                  prompt: "Vul minimaal 1 groep in."
+                }
+              ]
+          },
+          "normering[Toetsenbordvaardigheid][groepen]": {
+            identifier: "normering[Toetsenbordvaardigheid][groepen]",
+            rules: [
+                {
+                  type: "minCount[1]",
+                  prompt: "Vul minimaal 1 groep in."
+                }
+              ]
+          },
+          "normering[Programmeren][groepen]": {
+            identifier: "normering[Programmeren][groepen]",
+            rules: [
+                {
+                  type: "minCount[1]",
+                  prompt: "Vul minimaal 1 groep in."
+                }
+              ]
+          },
+          "normering[Mediawijsheid][groepen]": {
+            identifier: "normering[Mediawijsheid][groepen]",
+            rules: [
+                {
+                  type: "minCount[1]",
+                  prompt: "Vul minimaal 1 groep in."
+                }
+              ]
+          },
+          "normering[Rekenen][functies]": {
+            identifier: "normering[Rekenen][functies]",
+            rules: [
+                {
+                  type: "minCount[1]",
+                  prompt: "Vul minimaal 1 functie in."
+                }
+              ]
+          },
+          "normering[Technisch Lezen][functies]": {
+            identifier: "normering[Technisch Lezen][functies]",
+            rules: [
+                {
+                  type: "minCount[1]",
+                  prompt: "Vul minimaal 1 functie in."
+                }
+              ]
+          },
+          "normering[Begrijpend Lezen][functies]": {
+            identifier: "normering[Begrijpend Lezen][functies]",
+            rules: [
+                {
+                  type: "minCount[1]",
+                  prompt: "Vul minimaal 1 functie in."
+                }
+              ]
+          },
+          "normering[Spelling][functies]": {
+            identifier: "normering[Spelling][functies]",
+            rules: [
+                {
+                  type: "minCount[1]",
+                  prompt: "Vul minimaal 1 functie in."
+                }
+              ]
+          },
+          "normering[Taal][functies]": {
+            identifier: "normering[Taal][functies]",
+            rules: [
+                {
+                  type: "minCount[1]",
+                  prompt: "Vul minimaal 1 functie in."
+                }
+              ]
+          },
+          "normering[Toetsenbordvaardigheid][functies]": {
+            identifier: "normering[Toetsenbordvaardigheid][functies]",
+            rules: [
+                {
+                  type: "minCount[1]",
+                  prompt: "Vul minimaal 1 functie in."
+                }
+              ]
+          },
+          "normering[Programmeren][functies]": {
+            identifier: "normering[Programmeren][functies]",
+            rules: [
+                {
+                  type: "minCount[1]",
+                  prompt: "Vul minimaal 1 functie in."
+                }
+              ]
+          },
+          "normering[Mediawijsheid][functies]": {
+            identifier: "normering[Mediawijsheid][functies]",
+            rules: [
+                {
+                  type: "minCount[1]",
+                  prompt: "Vul minimaal 1 functie in."
+                }
+              ]
+          },
+          "normering[Rekenen][maxScore]": {
+            identifier: "normering[Rekenen][maxScore]",
+            rules: [
+                {
+                  type: "number",
+                  prompt: "Vul een getal in tussen 0 en 5. Zorg ervoor dat maximale scores tezamen 5 zijn."
+                },
+                {
+                  type: 'greaterThan',
+                  value: 0,
+                  prompt: 'Getal moet groter zijn dan 0.'
+                }
+                ,
+                {
+                  type: 'smallerThan',
+                  value: 5,
+                  prompt: 'Getal moet kleiner of gelijk zijn aan 5.'
+                }
+              ]
+          },
+          "normering[Technisch Lezen][maxScore]": {
+            identifier: "normering[Technisch Lezen][maxScore]",
+            rules: [
+                {
+                  type: "number",
+                  prompt: "Vul een getal in tussen 0 en 5. Zorg ervoor dat maximale scores tezamen 5 zijn."
+                },
+                {
+                  type: 'greaterThan',
+                  value: 0,
+                  prompt: 'Getal moet groter zijn dan 0.'
+                }
+                ,
+                {
+                  type: 'smallerThan',
+                  value: 5,
+                  prompt: 'Getal moet kleiner of gelijk zijn aan 5.'
+                }
+              ]
+          },
+          "normering[Begrijpend Lezen][maxScore]": {
+            identifier: "normering[Begrijpend Lezen][maxScore]",
+            rules: [
+                {
+                  type: "number",
+                  prompt: "Vul een getal in tussen 0 en 5. Zorg ervoor dat maximale scores tezamen 5 zijn."
+                },
+                {
+                  type: 'greaterThan',
+                  value: 0,
+                  prompt: 'Getal moet groter zijn dan 0.'
+                }
+                ,
+                {
+                  type: 'smallerThan',
+                  value: 5,
+                  prompt: 'Getal moet kleiner of gelijk zijn aan 5.'
+                }
+              ]
+          },
+          "normering[Spelling][maxScore]": {
+            identifier: "normering[Spelling][maxScore]",
+            rules: [
+                {
+                  type: "number",
+                  prompt: "Vul een getal in tussen 0 en 5. Zorg ervoor dat maximale scores tezamen 5 zijn."
+                },
+                {
+                  type: 'greaterThan',
+                  value: 0,
+                  prompt: 'Getal moet groter zijn dan 0.'
+                }
+                ,
+                {
+                  type: 'smallerThan',
+                  value: 5,
+                  prompt: 'Getal moet kleiner of gelijk zijn aan 5.'
+                }
+              ]
+          },
+          "normering[Taal][maxScore]": {
+            identifier: "normering[Taal][maxScore]",
+            rules: [
+                {
+                  type: "number",
+                  prompt: "Vul een getal in tussen 0 en 5. Zorg ervoor dat maximale scores tezamen 5 zijn."
+                },
+                {
+                  type: 'greaterThan',
+                  value: 0,
+                  prompt: 'Getal moet groter zijn dan 0.'
+                }
+                ,
+                {
+                  type: 'smallerThan',
+                  value: 5,
+                  prompt: 'Getal moet kleiner of gelijk zijn aan 5.'
+                }
+              ]
+          },
+          "normering[Toetsenbordvaardigheid][maxScore]": {
+            identifier: "normering[Toetsenbordvaardigheid][maxScore]",
+            rules: [
+                {
+                  type: "number",
+                  prompt: "Vul een getal in tussen 0 en 5. Zorg ervoor dat maximale scores tezamen 5 zijn."
+                },
+                {
+                  type: 'greaterThan',
+                  value: 0,
+                  prompt: 'Getal moet groter zijn dan 0.'
+                }
+                ,
+                {
+                  type: 'smallerThan',
+                  value: 5,
+                  prompt: 'Getal moet kleiner of gelijk zijn aan 5.'
+                }
+              ]
+          },
+          "normering[Programmeren][maxScore]": {
+            identifier: "normering[Programmeren][maxScore]",
+            rules: [
+                {
+                  type: "number",
+                  prompt: "Vul een getal in tussen 0 en 5. Zorg ervoor dat maximale scores tezamen 5 zijn."
+                },
+                {
+                  type: 'greaterThan',
+                  value: 0,
+                  prompt: 'Getal moet groter zijn dan 0.'
+                }
+                ,
+                {
+                  type: 'smallerThan',
+                  value: 5,
+                  prompt: 'Getal moet kleiner of gelijk zijn aan 5.'
+                }
+              ]
+          },
+          "normering[Mediawijsheid][maxScore]": {
+            identifier: "normering[Mediawijsheid][maxScore]",
+            rules: [
+                {
+                  type: "number",
+                  prompt: "Vul een getal in tussen 0 en 5. Zorg ervoor dat maximale scores tezamen 5 zijn."
+                },
+                {
+                  type: 'greaterThan',
+                  value: 0,
+                  prompt: 'Getal moet groter zijn dan 0.'
+                }
+                ,
+                {
+                  type: 'smallerThan',
+                  value: 5,
+                  prompt: 'Getal moet kleiner of gelijk zijn aan 5.'
+                }
+              ]
+          },
+          "normering[Rekenen][kwaliteiten]": {
+            identifier: "normering[Rekenen][kwaliteiten]",
+            rules: [
+                {
+                  type: "number",
+                  prompt: "Vul een getal in tussen 0 en 1. Dit is het aantal kwaliteitseisen waaraan software moet voldoen."
+                },
+                {
+                  type: 'greaterThan',
+                  value: 0,
+                  prompt: 'Getal moet groter zijn dan 0. Dit is het aantal kwaliteitseisen waaraan software moet voldoen.'
+                }
+                ,
+                {
+                  type: 'smallerThan',
+                  value: 1,
+                  prompt: 'Getal moet kleiner of gelijk zijn aan 1. Dit is het aantal kwaliteitseisen waaraan software moet voldoen.'
+                }
+              ]
+          },
+          "normering[Technisch Lezen][kwaliteiten]": {
+            identifier: "normering[Technisch Lezen][kwaliteiten]",
+            rules: [
+                {
+                  type: "number",
+                  prompt: "Vul een getal in tussen 0 en 1. Dit is het aantal kwaliteitseisen waaraan software moet voldoen."
+                },
+                {
+                  type: 'greaterThan',
+                  value: 0,
+                  prompt: 'Getal moet groter zijn dan 0. Dit is het aantal kwaliteitseisen waaraan software moet voldoen.'
+                }
+                ,
+                {
+                  type: 'smallerThan',
+                  value: 1,
+                  prompt: 'Getal moet kleiner of gelijk zijn aan 1. Dit is het aantal kwaliteitseisen waaraan software moet voldoen.'
+                }
+              ]
+          },
+          "normering[Begrijpend Lezen][kwaliteiten]": {
+            identifier: "normering[Begrijpend Lezen][kwaliteiten]",
+            rules: [
+                {
+                  type: "number",
+                  prompt: "Vul een getal in tussen 0 en 1. Dit is het aantal kwaliteitseisen waaraan software moet voldoen."
+                },
+                {
+                  type: 'greaterThan',
+                  value: 0,
+                  prompt: 'Getal moet groter zijn dan 0. Dit is het aantal kwaliteitseisen waaraan software moet voldoen.'
+                }
+                ,
+                {
+                  type: 'smallerThan',
+                  value: 1,
+                  prompt: 'Getal moet kleiner of gelijk zijn aan 1. Dit is het aantal kwaliteitseisen waaraan software moet voldoen.'
+                }
+              ]
+          },
+          "normering[Spelling][kwaliteiten]": {
+            identifier: "normering[Spelling][kwaliteiten]",
+            rules: [
+                {
+                  type: "number",
+                  prompt: "Vul een getal in tussen 0 en 1. Dit is het aantal kwaliteitseisen waaraan software moet voldoen."
+                },
+                {
+                  type: 'greaterThan',
+                  value: 0,
+                  prompt: 'Getal moet groter zijn dan 0. Dit is het aantal kwaliteitseisen waaraan software moet voldoen.'
+                }
+                ,
+                {
+                  type: 'smallerThan',
+                  value: 1,
+                  prompt: 'Getal moet kleiner of gelijk zijn aan 1. Dit is het aantal kwaliteitseisen waaraan software moet voldoen.'
+                }
+              ]
+          },
+          "normering[Taal][kwaliteiten]": {
+            identifier: "normering[Taal][kwaliteiten]",
+            rules: [
+                {
+                  type: "number",
+                  prompt: "Vul een getal in tussen 0 en 1. Dit is het aantal kwaliteitseisen waaraan software moet voldoen."
+                },
+                {
+                  type: 'greaterThan',
+                  value: 0,
+                  prompt: 'Getal moet groter zijn dan 0. Dit is het aantal kwaliteitseisen waaraan software moet voldoen.'
+                }
+                ,
+                {
+                  type: 'smallerThan',
+                  value: 1,
+                  prompt: 'Getal moet kleiner of gelijk zijn aan 1. Dit is het aantal kwaliteitseisen waaraan software moet voldoen.'
+                }
+              ]
+          },
+          "normering[Toetsenbordvaardigheid][kwaliteiten]": {
+            identifier: "normering[Toetsenbordvaardigheid][kwaliteiten]",
+            rules: [
+                {
+                  type: "number",
+                  prompt: "Vul een getal in tussen 0 en 1. Dit is het aantal kwaliteitseisen waaraan software moet voldoen."
+                },
+                {
+                  type: 'greaterThan',
+                  value: 0,
+                  prompt: 'Getal moet groter zijn dan 0. Dit is het aantal kwaliteitseisen waaraan software moet voldoen.'
+                }
+                ,
+                {
+                  type: 'smallerThan',
+                  value: 1,
+                  prompt: 'Getal moet kleiner of gelijk zijn aan 1. Dit is het aantal kwaliteitseisen waaraan software moet voldoen.'
+                }
+              ]
+          },
+          "normering[Programmeren][kwaliteiten]": {
+            identifier: "normering[Programmeren][kwaliteiten]",
+            rules: [
+                {
+                  type: "number",
+                  prompt: "Vul een getal in tussen 0 en 1. Dit is het aantal kwaliteitseisen waaraan software moet voldoen."
+                },
+                {
+                  type: 'greaterThan',
+                  value: 0,
+                  prompt: 'Getal moet groter zijn dan 0. Dit is het aantal kwaliteitseisen waaraan software moet voldoen.'
+                }
+                ,
+                {
+                  type: 'smallerThan',
+                  value: 1,
+                  prompt: 'Getal moet kleiner of gelijk zijn aan 1. Dit is het aantal kwaliteitseisen waaraan software moet voldoen.'
+                }
+              ]
+          },
+          "normering[Mediawijsheid][kwaliteiten]": {
+            identifier: "normering[Mediawijsheid][kwaliteiten]",
+            rules: [
+                {
+                  type: "number",
+                  prompt: "Vul een getal in tussen 0 en 1. Dit is het aantal kwaliteitseisen waaraan software moet voldoen."
+                },
+                {
+                  type: 'greaterThan',
+                  value: 0,
+                  prompt: 'Getal moet groter zijn dan 0. Dit is het aantal kwaliteitseisen waaraan software moet voldoen.'
+                }
+                ,
+                {
+                  type: 'smallerThan',
+                  value: 1,
+                  prompt: 'Getal moet kleiner of gelijk zijn aan 1. Dit is het aantal kwaliteitseisen waaraan software moet voldoen.'
+                }
+              ]
+          },
+          "normering[minBeoordeeldeDeskundigheid]": {
+            identifier: "normering[minBeoordeeldeDeskundigheid]",
+            rules: [
+                {
+                  type: "number",
+                  prompt: "Vul een getal in tussen 1 en 6. "
+                },
+                {
+                  type: 'greaterThan',
+                  value: 1,
+                  prompt: 'Getal moet groter zijn dan 1.'
+                }
+                ,
+                {
+                  type: 'smallerThan',
+                  value: 6,
+                  prompt: 'Getal moet kleiner of gelijk zijn aan 6.'
+                }
+              ]
+          },
+          "normering[gemEffectiviteitDigitaleLeermiddelen]": {
+            identifier: "normering[gemEffectiviteitDigitaleLeermiddelen]",
+            rules: [
+                {
+                  type: "number",
+                  prompt: "Vul een getal in tussen 1 en 6. "
+                },
+                {
+                  type: 'greaterThan',
+                  value: 1,
+                  prompt: 'Getal moet groter zijn dan 1.'
+                }
+                ,
+                {
+                  type: 'smallerThan',
+                  value: 6,
+                  prompt: 'Getal moet kleiner of gelijk zijn aan 6.'
+                }
+              ]
+          },
+          "normering[maxScoreBeoordeeldeDeskundigheid]": {
+            identifier: "normering[maxScoreBeoordeeldeDeskundigheid]",
+            rules: [
+                {
+                  type: "number",
+                  prompt: "Vul een getal in tussen 0 en 5. Zorg ervoor dat maximale scores tezamen 5 zijn."
+                },
+                {
+                  type: 'greaterThan',
+                  value: 0,
+                  prompt: 'Getal moet groter zijn dan 0.'
+                }
+                ,
+                {
+                  type: 'smallerThan',
+                  value: 5,
+                  prompt: 'Getal moet kleiner of gelijk zijn aan 5.'
+                }
+              ]
+          },
+          "normering[maxScoreGemEffectiviteitDigitaleLeermiddelen]": {
+            identifier: "normering[maxScoreGemEffectiviteitDigitaleLeermiddelen]",
+            rules: [
+                {
+                  type: "number",
+                  prompt: "Vul een getal in tussen 0 en 5. Zorg ervoor dat maximale scores tezamen 5 zijn."
+                },
+                {
+                  type: 'greaterThan',
+                  value: 0,
+                  prompt: 'Getal moet groter zijn dan 0.'
+                }
+                ,
+                {
+                  type: 'smallerThan',
+                  value: 5,
+                  prompt: 'Getal moet kleiner of gelijk zijn aan 5.'
+                }
+              ]
+          },
+          "normering[maxScoreOndersteuningNodig]": {
+            identifier: "normering[maxScoreOndersteuningNodig]",
+            rules: [
+                {
+                  type: "number",
+                  prompt: "Vul een getal in tussen 0 en 5. Zorg ervoor dat maximale scores tezamen 5 zijn."
+                },
+                {
+                  type: 'greaterThan',
+                  value: 0,
+                  prompt: 'Getal moet groter zijn dan 0.'
+                }
+                ,
+                {
+                  type: 'smallerThan',
+                  value: 5,
+                  prompt: 'Getal moet kleiner of gelijk zijn aan 5.'
+                }
+              ]
+          },
+          "normering[maxScoreICTGeletterdheid]": {
+            identifier: "normering[maxScoreICTGeletterdheid]",
+            rules: [
+                {
+                  type: "number",
+                  prompt: "Vul een getal in tussen 0 en 5. Zorg ervoor dat maximale scores tezamen 5 zijn."
+                },
+                {
+                  type: 'greaterThan',
+                  value: 0,
+                  prompt: 'Getal moet groter zijn dan 0.'
+                }
+                ,
+                {
+                  type: 'smallerThan',
+                  value: 5,
+                  prompt: 'Getal moet kleiner of gelijk zijn aan 5.'
+                }
+              ]
+          },
+          "normering[maxScorePedagogischDidactischHandelen]": {
+            identifier: "normering[maxScorePedagogischDidactischHandelen]",
+            rules: [
+                {
+                  type: "number",
+                  prompt: "Vul een getal in tussen 0 en 5. Zorg ervoor dat maximale scores tezamen 5 zijn."
+                },
+                {
+                  type: 'greaterThan',
+                  value: 0,
+                  prompt: 'Getal moet groter zijn dan 0.'
+                }
+                ,
+                {
+                  type: 'smallerThan',
+                  value: 5,
+                  prompt: 'Getal moet kleiner of gelijk zijn aan 5.'
+                }
+              ]
+          },
+          "normering[maxScoreWerkenSchoolcontext]": {
+            identifier: "normering[maxScoreWerkenSchoolcontext]",
+            rules: [
+                {
+                  type: "number",
+                  prompt: "Vul een getal in tussen 0 en 5. Zorg ervoor dat maximale scores tezamen 5 zijn."
+                },
+                {
+                  type: 'greaterThan',
+                  value: 0,
+                  prompt: 'Getal moet groter zijn dan 0.'
+                }
+                ,
+                {
+                  type: 'smallerThan',
+                  value: 5,
+                  prompt: 'Getal moet kleiner of gelijk zijn aan 5.'
+                }
+              ]
+          },
+          "normering[maxScorePersoonlijkeOntwikkeling]": {
+            identifier: "normering[maxScorePersoonlijkeOntwikkeling]",
+            rules: [
+                {
+                  type: "number",
+                  prompt: "Vul een getal in tussen 0 en 5. Zorg ervoor dat maximale scores tezamen 5 zijn."
+                },
+                {
+                  type: 'greaterThan',
+                  value: 0,
+                  prompt: 'Getal moet groter zijn dan 0.'
+                }
+                ,
+                {
+                  type: 'smallerThan',
+                  value: 5,
                   prompt: 'Getal moet kleiner of gelijk zijn aan 5.'
                 }
               ]
