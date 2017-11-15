@@ -25,8 +25,26 @@ router.post("/register", function(req,res){
               return res.redirect("back");
           }
           passport.authenticate("local")(req, res, function(){
-              req.flash("success", "Welkom bij Pillars!");
-              res.redirect("/scholen");
+              var emailMessage = {
+                to: [user.username, 'info@pillars.school', 'info@yildigo.com'],
+                from: 'Pillars',
+                subject: 'Welkom bij Pillars',
+                message: 'Bedankt voor je aanmelding bij Pillars.\n\n' +
+                  'Je bent aangemeld met het email adres:\n\n' +
+                  user.username + '\n\n' +
+                  'Je kunt nu 60 dagen Pillars gratis uitproberen.\n\n' +
+                  'Zodra de periode is verlopen, nemen wij per email contact met je op om te kijken of je Pillars wilt blijven gebruiken.\n'
+              };
+              
+              gmailNode.send(emailMessage, function(err) {
+                    if(err){
+                        req.flash('error', err.message);
+                        res.redirect("/");
+                    } else {
+                        req.flash("success", "Welkom bij Pillars!");
+                        res.redirect("/scholen");
+                    }
+              });
           });
     });
 });
@@ -119,6 +137,10 @@ router.post('/forgot', function(req, res, next) {
     req.flash("error", err.message);
     res.redirect('/');
   });
+});
+
+router.get("/terms", function(req, res){
+  res.render("terms");
 });
 
 //HANDLE THE RESET PASSWORD ROUTE
