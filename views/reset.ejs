@@ -5,11 +5,11 @@
     <form action="/reset/<%=token%>" method="post" id="resetform" novalidate>
       <div class="form-group">
         <label for="new_password">Nieuw Wachtwoord</label>
-        <input type="password" name="password" class="form-control" id="new_password" placeholder="Nieuw Wachtwoord" required>
+        <input type="password" name="password" class="form-control" id="new_password" placeholder="Nieuw Wachtwoord" title="Minimum 8 characters">
       </div>
       <div class="form-group">
         <label for="new_password_again">Controleer Wachtwoord</label>
-        <input name="new_password_again" type="password" class="form-control" id="new_password_again" placeholder="Herhaal Wachtwoord">
+        <input name="new_password_again" type="password" class="form-control" id="new_password_again" placeholder="Herhaal Wachtwoord" title="Vul hetzelfde wachtwoord nogmaals in">
       </div>
       <button type="submit" class="btn btn-primary">Instellen</button>
     </form>

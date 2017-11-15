@@ -7,7 +7,10 @@ $(document).ready(function() {
     //Validation of the password reset form
     $("#resetform").validate({
       rules: {
-        new_password: "required",
+        new_password: {
+          required: true,
+          minlength: 8
+        },
         new_password_again: {
           equalTo: "#new_password"
         }
@@ -18,7 +21,10 @@ $(document).ready(function() {
     $("#registerValidation").validate({
       rules: {
         useremail: "required",
-        password: "required",
+        password: {
+          required: true,
+          minlength: 8
+        },
         password_again: {
           equalTo: "#password"
         }
