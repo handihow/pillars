@@ -1,0 +1,44 @@
+<% include ../partials/school/header %>
+
+<div class="ui container">
+    <h2 class="ui center aligned header">
+      <div>Overzicht Test Resultaten</div>
+    </h2>
+    <p>Dit is een overzicht van alle testresultaten op de aangesloten scholen bij jouw bestuur. Je kunt het overzicht downloaden in CSV format.</p>
+    <div class="ui message">
+      <div class="header">
+        Tip voor openen csv bestand
+      </div>
+      <p>Het csv bestand heeft een komma als scheidingsteken. Heb je problemen met het openen van het bestand?
+      Probeer het bestand dan eens te importeren in een Google sheet. Maak hiervoor een nieuwe Google sheet aan 
+      en kies Bestand-->Importeren. Je kunt dan de komma als scheidingsteken selecteren.</p>
+       <a class="ui primary small button" href="/overview/tests/download">
+      Download csv bestand
+      </a>
+    </div>
+    <!--make table with schools and progress-->
+    <table class="ui celled small table">
+      <thead>
+        <tr>
+          <th>Instellingsnaam</th>
+          <th>Onderdeel</th>
+          <th>Resultaat</th>
+          <th>Gebruiker</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% scholen.forEach(function(school){ %>
+          <% school.tests.forEach(function(test){ %>
+            <tr>
+              <td><%=school.instellingsnaam%></td>
+              <td><%=test.subject%></td>
+              <td><%= Math.ceil(test.result * 100) %> %</td>
+              <td><%=test.username%></td>
+            </tr>
+          <% }) %>
+        <% }) %>
+      </tbody>
+    </table>
+</div>
+
+<% include ../partials/school/footer %>

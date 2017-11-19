@@ -1,0 +1,52 @@
+<% include ../partials/school/header %>
+
+<div class="ui container">
+    <h2 class="ui center aligned header">
+      <div>Overzicht Digitale Leermiddelen</div>
+    </h2>
+    <p>Dit is een overzicht van alle digitale leermiddelen die zijn ingevoerd in Pillars van scholen aangesloten bij jouw bestuur. Je kunt het overzicht downloaden in CSV format.</p>
+    <div class="ui message">
+      <div class="header">
+        Tip voor openen csv bestand
+      </div>
+      <p>Het csv bestand heeft een komma als scheidingsteken. Heb je problemen met het openen van het bestand?
+      Probeer het bestand dan eens te importeren in een Google sheet. Maak hiervoor een nieuwe Google sheet aan 
+      en kies Bestand-->Importeren. Je kunt dan de komma als scheidingsteken selecteren.</p>
+       <a class="ui primary small button" href="/overview/software/download">
+      Download csv bestand
+      </a>
+    </div>
+    <!--make table with schools and progress-->
+    <table class="ui celled small table">
+      <thead>
+        <tr>
+          <th>Instellingsnaam</th>
+          <th>Vak</th>
+          <th>Naam</th>
+          <th>Functies</th>
+          <th>Groepen</th>
+          <th>Kwaliteiten</th>
+          <th>Effectiviteit</th>
+          <th>Bekijk</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% scholen.forEach(function(school){ %>
+          <% school.software.forEach(function(software){ %>
+            <tr>
+              <td><%=school.instellingsnaam%></td>
+              <td><%=software.vak%></td>
+              <td><%=software.naam%></td>
+              <td><%=software.functie%></td>
+              <td><%=software.groep%></td>
+              <td><%=software.kwaliteit%></td>
+              <td><%=software.effectiviteit%></td>
+              <td><a class="ui mini primary basic button" href="/scholen/<%=school._id%>/software/<%=software._id%>">Bekijk</a></td>
+            </tr>
+          <% }) %>
+        <% }) %>
+      </tbody>
+    </table>
+</div>
+
+<% include ../partials/school/footer %>

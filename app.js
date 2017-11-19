@@ -43,6 +43,7 @@ var normeringRoutes = require("./routes/normering");
 var pillarsRoutes = require("./routes/pillars");
 var indexRoutes = require("./routes/index");
 var messageRoutes = require("./routes/message");
+var overviewRoutes = require("./routes/overview");
 
 mongoose.connect(process.env.DATABASEURL, {useMongoClient: true}); //DATABASEURL=mongodb://localhost/scholen_app
 
@@ -84,6 +85,7 @@ app.use("/scholen/:id/organisatie", organisatieRoutes);
 app.use("/scholen/:id/pillars", pillarsRoutes);
 app.use("/normering", normeringRoutes);
 app.use("/message", messageRoutes);
+app.use("/overview", overviewRoutes);
 app.use(indexRoutes);
 
 app.listen(process.env.PORT, process.env.IP, function(){

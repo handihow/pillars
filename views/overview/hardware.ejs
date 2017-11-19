@@ -1,0 +1,56 @@
+<% include ../partials/school/header %>
+
+<div class="ui container">
+    <h2 class="ui center aligned header">
+      <div>Overzicht Hardware</div>
+    </h2>
+    <p>Dit is een overzicht van alle hardware die is ingevoerd in Pillars van scholen aangesloten bij jouw bestuur. Je kunt het overzicht downloaden in CSV format.</p>
+    <div class="ui message">
+      <div class="header">
+        Tip voor openen csv bestand
+      </div>
+      <p>Het csv bestand heeft een komma als scheidingsteken. Heb je problemen met het openen van het bestand?
+      Probeer het bestand dan eens te importeren in een Google sheet. Maak hiervoor een nieuwe Google sheet aan 
+      en kies Bestand-->Importeren. Je kunt dan de komma als scheidingsteken selecteren.</p>
+       <a class="ui primary small button" href="/overview/hardware/download">
+      Download csv bestand
+      </a>
+    </div>
+    <!--make table with schools and progress-->
+    <table class="ui celled small table">
+      <thead>
+        <tr>
+          <th>Instellingsnaam</th>
+          <th>Type</th>
+          <th>Naam</th>
+          <th>Merk</th>
+          <th>Model</th>
+          <th>Serial/Tag</th>
+          <th>Processor</th>
+          <th>Werkgeheugen (GB)</th>
+          <th>Jaar ingebruikname</th>
+          <th>Bekijk</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% scholen.forEach(function(school){ %>
+          <% school.hardware.forEach(function(hardware){ %>
+            <tr>
+              <td><%=school.instellingsnaam%></td>
+              <td><%=hardware.type%></td>
+              <td><%=hardware.naam%></td>
+              <td><%=hardware.merk%></td>
+              <td><%=hardware.model%></td>
+              <td><%=hardware.serialTag%></td>
+              <td><%=hardware.processor%></td>
+              <td><%=hardware.werkgeheugen%></td>
+              <td><%=hardware.jaarIngebruikname%></td>
+              <td><a class="ui mini primary basic button" href="/scholen/<%=school._id%>/hardware/<%=hardware._id%>">Bekijk</a></td>
+            </tr>
+          <% }) %>
+        <% }) %>
+      </tbody>
+    </table>
+</div>
+
+<% include ../partials/school/footer %>

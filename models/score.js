@@ -222,49 +222,59 @@ score.calculate = function(school) {
             ictInkoper: 0
         }
     };
-    //check computers per student
-    result.hardware.computersPerStudent = score.computersPerStudent(school);
-    //check digitale borden per lokaal
-    result.hardware.digitalBordsPerClassroom = score.digitalBordsPerClassroom(school);
-    //check network criteria
-    result.hardware.network = score.network(school);
-    //check portable computers per school criteria
-    result.hardware.portableComputersPerSchool = score.portableComputersPerSchool(school);
-    //end portable computers per school criteria
-    //PILLARS CHECK DIGITALE LEERMIDDELEN (SOFTWARE)
-    Object.keys(result.software).forEach(function(vak){
-        result.software[vak] = score.software(school,vak);
-    });
-    //DESKUNDIGHEID
-    //check beoordeelde deskundigheid
-    result.deskundigheid.beoordeeldeDeskundigheid = score.beoordeeldeDeskundigheid(school);
-    //check gemiddelde effectiviteit
-    result.deskundigheid.gemiddeldeEffectiviteit = score.gemiddeldeEffectiviteit(school);
-    //check ondersteuning nodig
-    result.deskundigheid.ondersteuningNodig = score.ondersteuningNodig(school);
-    //ICT Geletterdheid
-    result.deskundigheid.ictGeletterheid = score.averageTestResult(school, "ICT Geletterdheid") * school.normering.maxScoreICTGeletterdheid;
-    //Pedagogisch Didactisch Handelen
-    result.deskundigheid.pedagogischDidactisch = score.averageTestResult(school, "Pedagogisch Didactisch Handelen") * school.normering.maxScorePedagogischDidactischHandelen;
-    //Werken in de schoolcontext
-    result.deskundigheid.werkenSchooltext = score.averageTestResult(school, "Werken in de schoolcontext") * school.normering.maxScoreWerkenSchoolcontext;
-    //Persoonlijke ontwikkeling
-    result.deskundigheid.persoonlijkeOntwikkeling = score.averageTestResult(school, "Persoonlijke Ontwikkeling") * school.normering.maxScorePersoonlijkeOntwikkeling;
-    // ORGANISATIE
-    //check if the organisatie heeft overeenstemming
-    if(school.heeftOrganisatorischeOvereenstemming){
-        result.organisatie.organisatorischeOvereenstemming = school.normering.maxScoreOvereenstemming;
+    if(school.isToegevoegdHardware && school.isIngevuldAlgemeneInformatie) {
+        //check computers per student
+        result.hardware.computersPerStudent = score.computersPerStudent(school);
+        //check digitale borden per lokaal
+        result.hardware.digitalBordsPerClassroom = score.digitalBordsPerClassroom(school);
+        //check network criteria
+        result.hardware.network = score.network(school);
+        //check portable computers per school criteria
+        result.hardware.portableComputersPerSchool = score.portableComputersPerSchool(school);
+        //end portable computers per school criteria
     }
-    //check if the school has good network control (3 x yes)
-    if(school.heeftGoedeNetwerkAanpassing && school.heeftGoedeNetwerkProbleemOplossing && school.heeftGoedeIncidentMelding){
-        result.organisatie.netwerkbeheer = school.normering.maxScoreNetwerkbeheer;
+    if(school.isToegevoegdSoftware){
+        //PILLARS CHECK DIGITALE LEERMIDDELEN (SOFTWARE)
+        Object.keys(result.software).forEach(function(vak){
+            result.software[vak] = score.software(school,vak);
+        });
     }
-    //ICT incidentmelder
-    result.organisatie.incidentmelder = score.organisation(school, "ICT Incidentmelder");
-    //Onderwijskundig ICT'er
-    result.organisatie.onderwijskundigICTer = score.organisation(school, "Onderwijskundig ICTer");
-    //ICT Inkoper
-    result.organisatie.ictInkoper = score.organisation(school, "ICT Inkoper");
+    if(school.isIngevuldDeskundigheid){
+        //DESKUNDIGHEID
+        //check beoordeelde deskundigheid
+        result.deskundigheid.beoordeeldeDeskundigheid = score.beoordeeldeDeskundigheid(school);
+        //check gemiddelde effectiviteit
+        result.deskundigheid.gemiddeldeEffectiviteit = score.gemiddeldeEffectiviteit(school);
+        //check ondersteuning nodig
+        result.deskundigheid.ondersteuningNodig = score.ondersteuningNodig(school);
+    }
+    if(school.isToegevoegdMedewerker){
+        //ICT Geletterdheid
+        result.deskundigheid.ictGeletterheid = score.averageTestResult(school, "ICT Geletterdheid") * school.normering.maxScoreICTGeletterdheid;
+        //Pedagogisch Didactisch Handelen
+        result.deskundigheid.pedagogischDidactisch = score.averageTestResult(school, "Pedagogisch Didactisch Handelen") * school.normering.maxScorePedagogischDidactischHandelen;
+        //Werken in de schoolcontext
+        result.deskundigheid.werkenSchooltext = score.averageTestResult(school, "Werken in de schoolcontext") * school.normering.maxScoreWerkenSchoolcontext;
+        //Persoonlijke ontwikkeling
+        result.deskundigheid.persoonlijkeOntwikkeling = score.averageTestResult(school, "Persoonlijke Ontwikkeling") * school.normering.maxScorePersoonlijkeOntwikkeling;
+    }
+    if(school.isIngevuldOrganisatie){
+        // ORGANISATIE
+        //check if the organisatie heeft overeenstemming
+        if(school.heeftOrganisatorischeOvereenstemming){
+            result.organisatie.organisatorischeOvereenstemming = school.normering.maxScoreOvereenstemming;
+        }
+        //check if the school has good network control (3 x yes)
+        if(school.heeftGoedeNetwerkAanpassing && school.heeftGoedeNetwerkProbleemOplossing && school.heeftGoedeIncidentMelding){
+            result.organisatie.netwerkbeheer = school.normering.maxScoreNetwerkbeheer;
+        }
+        //ICT incidentmelder
+        result.organisatie.incidentmelder = score.organisation(school, "ICT Incidentmelder");
+        //Onderwijskundig ICT'er
+        result.organisatie.onderwijskundigICTer = score.organisation(school, "Onderwijskundig ICTer");
+        //ICT Inkoper
+        result.organisatie.ictInkoper = score.organisation(school, "ICT Inkoper");
+    }
     //CALCULATE TOTALS
     Object.keys(result.hardware).forEach(function(score){
         result.totaal.hardware = result.totaal.hardware + result.hardware[score];
