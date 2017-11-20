@@ -18,7 +18,7 @@ router.get("/register", function(req,res){
 
 //HANDLE SIGN-UP LOGIC
 router.post("/register", function(req,res){
-    var newUser = new User({username: req.body.username, role: req.body.role});
+    var newUser = new User({username: req.body.username, role: req.body.role, firstName: req.body.firstName, lastName: req.body.lastName, org: req.body.organisatie});
     User.register(newUser, req.body.password, function(err, user){
           if(err){
               req.flash("error", err.message);
@@ -26,10 +26,11 @@ router.post("/register", function(req,res){
           }
           passport.authenticate("local")(req, res, function(){
               var emailMessage = {
-                to: [user.username, 'info@pillars.school', 'info@yildigo.com'],
+                to: [user.username, 'info@pillars.school'],
                 from: 'Pillars',
                 subject: 'Welkom bij Pillars',
-                message: 'Bedankt voor je aanmelding bij Pillars.\n\n' +
+                message: 'Beste ' + user.firstName + ' ' + user.lastName + '\n\n' +
+                  'Bedankt voor je aanmelding bij Pillars.\n\n' +
                   'Je bent aangemeld met het email adres:\n\n' +
                   user.username + '\n\n' +
                   'Je kunt nu 60 dagen Pillars gratis uitproberen.\n\n' +

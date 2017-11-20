@@ -50,6 +50,17 @@ body {
 #register {
 	background: midnightblue;
 	z-index: 1;
+	max-width: 800px;
+	padding: 20px;
+	margin-top: 10vh;
+	padding-top: 5vh;
+	border-radius: 25px;
+	color: #fff;
+}
+
+#loginForm {
+	background: midnightblue;
+	z-index: 1;
 	max-width: 400px;
 	padding: 20px;
 	margin-top: 20vh;
