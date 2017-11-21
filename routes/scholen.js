@@ -39,11 +39,11 @@ router.get("/", middleware.isLoggedIn, function(req, res){
 });
 
 //NEW ROUTE
-router.get("/new", middleware.isLoggedIn, function(req, res){
+router.get("/new", middleware.isAuthenticatedBadmin, function(req, res){
    res.render("scholen/search"); 
 });
 
-router.post("/new", middleware.isLoggedIn, function(req, res){
+router.post("/new", middleware.isAuthenticatedBadmin, function(req, res){
     var zoekcriterium = req.body.zoekcriterium, 
         zoekveld = req.body.zoekveld, 
         url = "https://api.duo.nl/v0/datasets/03.-alle-vestigingen-basisonderwijs/search?";
@@ -74,7 +74,7 @@ router.post("/new", middleware.isLoggedIn, function(req, res){
 });
 
 //CREATE ROUTE
-router.post("/", middleware.isLoggedIn, function(req, res){
+router.post("/", middleware.isAuthenticatedBadmin, function(req, res){
     req.body.school.forEach(function(school){
        School.create(school, function(err, school){
           if(err || !school){

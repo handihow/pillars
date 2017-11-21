@@ -16,12 +16,12 @@
         <h4 class="content">Achternaam</h4></h4>
         <div class="content"><%=user.lastName%></div>
       </div>
-    </div>
-    <div class="ui stackable grid">
       <div class="four wide column">
         <h4 class="content">Rol</h4></h4>
         <div class="content"><%if(user.role==="badmin"){%>Bestuur admin<%} else if(user.role==="sadmin"){%>School admin<%} else {%>School medewerker<%}%></div>
       </div>
+    </div>
+    <div class="ui stackable grid">
       <div class="four wide column">
         <h4 class="content">Organisatie</h4>
         <div class="content"><%=user.org%></div>
@@ -30,10 +30,15 @@
         <h4 class="content">Functie</h4>
         <div class="content"><%=user.job%></div>
       </div>
+      <div class="four wide column">
+        <h4 class="content">Email geverifieerd</h4>
+        <div class="content"><% if (user.emailIsAuthenticated){ %>Ja <%} else {%>Nee <%}%></div>
+      </div>
     </div>
     <div class="ui divider"></div>
     <a class="positive ui button right" href="/user/<%=user._id%>/edit">Gegevens wijzigen</a>
     <a class="positive ui button right" href="/forgot">Wachtwoord wijzigen</a>
+    <a class="positive ui button right" href="/user/<%=user._id%>/verify">Email verifieren</a>
     <% var i=0%>
     <div class="ui top attached tabular menu">
     <% Object.keys(global.profiel).forEach(function(key){ %>

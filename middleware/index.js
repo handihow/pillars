@@ -194,4 +194,29 @@ middlewareObj.isMessageOwner = function(req, res, next){
     }
 };
 
+middlewareObj.isAuthenticatedBadmin = function(req, res, next){
+    //check if user is logged in
+    if(req.isAuthenticated()){
+        //find User
+        User.findById(req.user._id, function(err, user){
+            if(err ||!user){
+                req.flash("error", "Account niet gevonden");
+                res.redirect("back"); 
+            } else {
+                //check if user is badmin and has authenticated email record
+                if(user.role === "badmin" && user.emailIsAuthenticated) {
+                    next();
+                } else {
+                    req.flash("error", "Je hebt niet voldoende rechten of email is niet geverifieerd. Controleer je email op een bericht van Pillars met de link om email te verifieren.");
+                    res.redirect("back");
+                }
+            }
+        });
+    } else {
+        req.flash("error", "Inloggen a.u.b.!");
+        res.redirect("/login");  
+    }
+};
+
+
 module.exports = middlewareObj;

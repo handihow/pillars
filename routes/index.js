@@ -25,26 +25,40 @@ router.post("/register", function(req,res){
               return res.redirect("back");
           }
           passport.authenticate("local")(req, res, function(){
-              var emailMessage = {
-                to: [user.username, 'info@pillars.school'],
-                from: 'Pillars',
-                subject: 'Welkom bij Pillars',
-                message: 'Beste ' + user.firstName + ' ' + user.lastName + '\n\n' +
-                  'Bedankt voor je aanmelding bij Pillars.\n\n' +
-                  'Je bent aangemeld met het email adres:\n\n' +
-                  user.username + '\n\n' +
-                  'Je kunt nu 60 dagen Pillars gratis uitproberen.\n\n' +
-                  'Zodra de periode is verlopen, nemen wij per email contact met je op om te kijken of je Pillars wilt blijven gebruiken.\n'
-              };
-              
-              gmailNode.send(emailMessage, function(err) {
-                    if(err){
-                        req.flash('error', err.message);
-                        res.redirect("/");
-                    } else {
-                        req.flash("success", "Welkom bij Pillars!");
-                        res.redirect("/scholen");
-                    }
+              crypto.randomBytes(20, function(err, buf) {
+                if(err){
+                  req.flash("error", err.message);
+                } else {
+                  var token = buf.toString('hex');
+                  user.emailAuthenticationToken = token;
+                  user.save();
+                  var emailMessage = {
+                    to: [user.username, 'info@pillars.school'],
+                    from: 'Pillars',
+                    subject: 'Welkom bij Pillars',
+                    message: 'Beste ' + user.firstName + ' ' + user.lastName + '\n\n' +
+                      'Bedankt voor je aanmelding bij Pillars.\n\n' +
+                      'Je bent aangemeld met het email adres:\n\n' +
+                      user.username + '\n\n' +
+                      'Je kunt nu 60 dagen Pillars gratis uitproberen.\n\n' +
+                      'Zodra de periode is verlopen, nemen wij per email contact met je op om te kijken of je Pillars wilt blijven gebruiken.\n\n' +
+                      'Voordat je Pillars kunt gebruiken, vragen wij je om het email adres te verifieren.\n\n' +
+                      'Click aub op de onderstaande link om jouw email adres te verifieren:\n\n' +
+                      'https://app.pillars.school/verify/' + token + '\n\n' +
+                      'We wensen je veel plezier met het gebruik van Pillars.\n'
+                  };
+                  
+                  gmailNode.send(emailMessage, function(err) {
+                        if(err){
+                            req.flash('error', err.message);
+                            res.redirect("/");
+                        } else {
+                            req.flash("success", "Welkom bij Pillars!");
+                            res.redirect("/scholen");
+                        }
+                  });
+                }
+                
               });
           });
     });
@@ -117,7 +131,7 @@ router.post('/forgot', function(req, res, next) {
         subject: 'Pillars Wachtwoord Reset',
         message: 'Je hebt een nieuw wachtwoord aangevraagd bij Pillars.\n\n' +
           'Click aub op de onderstaande link om een nieuw wachtwoord aan te maken:\n\n' +
-          'http://' + req.headers.host + '/reset/' + token + '\n\n' +
+          'https://app.pillars.school/reset/' + token + '\n\n' +
           'Als je geen nieuw wachtwoord hebt aangevraagd, dan hoef je niets te doen. Je wachtwoord bij Pillars blijft dan hetzelfde.\n'
       };
 
@@ -152,6 +166,20 @@ router.get('/reset/:token', function(req, res) {
       return res.redirect('/forgot');
     }
     res.render('reset', {token: req.params.token});
+  });
+});
+
+//HANDLE THE EMAIL VERIFICATION ROUTE
+router.get('/verify/:token', function(req, res) {
+  User.findOne({ emailAuthenticationToken: req.params.token }, function(err, user) {
+    if (err || !user) {
+      req.flash('error', 'Email authentication token is niet geldig.');
+      return res.redirect('/register');
+    }
+    user.emailIsAuthenticated = true;
+    user.save();
+    req.flash("success", "Email geverifieerd. Klik op Nu Beginnen! om verder te gaan.");
+    res.redirect("/");
   });
 });
 

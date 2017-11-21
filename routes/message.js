@@ -16,12 +16,12 @@ router.get("/", middleware.isLoggedIn, function(req, res){
 });
 
 //NEW ROUTE
-router.get("/new", middleware.isLoggedIn, function(req, res){
+router.get("/new", middleware.isAuthenticatedBadmin, function(req, res){
   res.render("message/new"); 
 });
 
 //CREATE ROUTE
-router.post("/", middleware.isLoggedIn, function(req, res){
+router.post("/", middleware.isAuthenticatedBadmin, function(req, res){
     req.body.message.body = req.sanitize(req.body.message.body);
     Message.create(req.body.message, function(err, message){
           if(err || !message){

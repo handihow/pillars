@@ -11,6 +11,8 @@ var UserSchema = new mongoose.Schema({
    job: String,
    resetPasswordToken: String,
    resetPasswordExpires: Date,
+   emailAuthenticationToken: String,
+   emailIsAuthenticated: Boolean
 });
 
 UserSchema.plugin(passportLocalMongoose);

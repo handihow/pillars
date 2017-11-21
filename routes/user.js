@@ -6,6 +6,7 @@ var middleware = require("../middleware");
 var gmailNode = require("gmail-node");
 var global = require("../models/global");
 var Test = require("../models/test");
+var crypto = require("crypto");
 
 //INDEX - list of users of the school
 router.get("/scholen/:id/user/", middleware.isSchoolOwner, function(req, res){
@@ -121,6 +122,45 @@ router.put("/user/:id", middleware.isUser, function(req, res){
             res.redirect("/user/"+user._id);
         }
     });
+});
+
+//VERIFY USER EMAIL ACCOUNT
+router.get("/user/:id/verify", middleware.isLoggedIn, function(req, res){
+   User.findById(req.params.id, function(err, user){
+       if(err || !user){
+           req.flash('error', "Geen gebruiker gevonden");
+           res.redirect("/scholen/profiel/user/"+req.params.username);
+       } else {
+           crypto.randomBytes(20, function(err, buf) {
+            if(err){
+              req.flash("error", err.message);
+            } else {
+              var token = buf.toString('hex');
+              user.emailAuthenticationToken = token;
+              user.save();
+              var emailMessage = {
+                to: [user.username, 'info@pillars.school'],
+                from: 'Pillars',
+                subject: 'Email verificatie',
+                message: 'Beste ' + user.firstName + ' ' + user.lastName + '\n\n' +
+                  'Click aub op de onderstaande link om jouw email adres te verifieren:\n\n' +
+                  'https://app.pillars.school/verify/' + token + '\n\n' +
+                  'We wensen je veel plezier met het gebruik van Pillars.\n'
+              };
+              
+              gmailNode.send(emailMessage, function(err) {
+                    if(err){
+                        req.flash('error', err.message);
+                        res.redirect("/");
+                    } else {
+                        req.flash("success", "Email met verificatie link gestuurd!");
+                        res.redirect("back");
+                    }
+              });
+            }
+        });
+       }
+   }); 
 });
 
 //DESTROY route to delete user from database
