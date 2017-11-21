@@ -73,6 +73,7 @@ router.post("/bulk", middleware.isLoggedIn, function(req, res){
 
 //CREATE - creates new hardware in the database and links it to school from the bulk upload
 router.post("/bulk2", middleware.isLoggedIn, function(req, res){
+   
    //create new hardware in DB for each hardware
    req.body.hardware.forEach(function(hardware, i, a){
        Hardware.create(hardware, function(err, hardware){
