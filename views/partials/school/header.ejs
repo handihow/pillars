@@ -9,19 +9,25 @@
     </head>
     <body>
         <div class="ui inverted menu">
-          <a class="item" href="/">
-            Pillars
+          <a class="item" href="https://pillars.school">
+            <img src="/images/logo2.png">
           </a>
           <% if(currentUser.role==="badmin") { %>
-          <a class="item" href="/scholen/">
-            Scholen
-          </a>
-          <a class="item" href="/normering">
-            Normering
-          </a>
-          <a class="item" href="/message">
-            Berichten
-          </a>
+          <div class="ui dropdown item">
+            Bestuur
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <a class="item" href="/scholen/">
+                Scholen
+              </a>
+              <a class="item" href="/normering">
+                Normering
+              </a>
+              <a class="item" href="/message">
+                Berichten
+              </a>
+            </div>
+          </div>
           <div class="ui dropdown item">
             Overzichten
             <i class="dropdown icon"></i>

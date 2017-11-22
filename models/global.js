@@ -53,6 +53,11 @@ global.hardwareTypes = [
             enkelvoud: "Access Point",
             meervoud: "Access Points",
             bijhouden: false
+        },
+        {
+            enkelvoud: "Robotica",
+            meervoud: "Robotica",
+            bijhouden: false
         }
 ];
 
@@ -73,7 +78,8 @@ global.software = {
                                     "Staatsinrichting",
                                     "Seksuele voorlichting",
                                     "Engels",
-                                    "Techniek"
+                                    "Techniek",
+                                    "Website"
                                 ],
         "ICT Geletterdheid": 
                                 [
