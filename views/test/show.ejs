@@ -1,0 +1,31 @@
+<% include ../partials/school/header %>
+
+<div class="ui container">
+    <h2 class="ui header">Test: <%=test.subject%></h2>
+    <a class="ui labeled icon button" href="/user/<%=user%>">
+      <i class="left chevron icon"></i>
+      Back
+    </a>
+    <hr>
+
+    <%=test.created.toDateString()%>
+    <hr>
+    <div class="ui grid">
+      <div class="four wide column"><strong>Gebruiker</strong></div>
+      <div class="four wide column"><%=test.username%></div>
+      <div class="four wide column"><strong>Resultaat</strong></div>
+      <div class="four wide column"><%=test.result * 100%> %</div>
+    <% for ( var i = 0; i < test.questions.length; i++) { %>
+      <div class="one wide column"><%=i+1%>.</div>
+      <div class="thirteen wide column"><%=test.questions[i]%></div>
+      <div class="two wide column"><%if(test.answers[i]){%>Ja<%}else{%>Nee<%}%></div>
+    <% } %>
+    </div>
+    <hr>
+    <a class="ui labeled icon button" href="/user/<%=user%>">
+      <i class="left chevron icon"></i>
+      Back
+    </a>
+</div>
+
+<% include ../partials/school/footer %>

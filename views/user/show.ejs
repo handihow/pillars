@@ -57,7 +57,8 @@
               <div class=content>
                   Datum: <%=test.created.toDateString()%>
               </div>
-              <form
+              <a id="edit" class="ui mini blue basic button" href="/user/<%= user._id %>/test/<%=test._id%>">Bekijk</a>
+              <form id="delete" 
                   action="/user/<%= user._id %>/test/<%=test._id%>?_method=DELETE" method="POST">
                   <button class="ui mini red basic button">Verwijderen</button>
               </form>

@@ -59,24 +59,17 @@ router.post("/", middleware.isUser, function(req, res){
     });
 });
 
-// //SHOW individual hardware records
-// router.get("/:hardware_id", middleware.isLoggedIn, function(req, res){
-//   School.findById(req.params.id, function(err, school){
-//       if(err || !school){
-//           req.flash("error", "School niet gevonden");
-//           res.redirect("back");
-//       } else {
-//           Hardware.findById(req.params.hardware_id, function(err, hardware){
-//               if(err || !hardware){
-//                   req.flash("error", "Hardware niet gevonden");
-//                   res.redirect("back");
-//               } else {
-//                   res.render("hardware/show", {hardware: hardware, school: school});
-//               }
-//           });
-//       }
-//   });
-// });
+//SHOW individual test records
+router.get("/:test_id", middleware.isLoggedIn, function(req, res){
+  Test.findById(req.params.test_id, function(err, test){
+      if(err || !test){
+          req.flash("error", "Test niet gevonden");
+          res.redirect("back");
+      } else {
+          res.render("test/show", {test: test, user: req.params.id});
+      }
+  });
+});
 
 // //EDIT displays a form to edit hardware record
 // router.get("/:hardware_id/edit", middleware.isHardwareOwner, function(req,res){

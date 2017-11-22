@@ -9,7 +9,9 @@ var testSchema = mongoose.Schema (
               type:   mongoose.Schema.Types.ObjectId,
               ref: "User"
             },
-        username: String
+        username: String,
+        questions: [String],
+        answers: [Boolean]
     }
 );
 
