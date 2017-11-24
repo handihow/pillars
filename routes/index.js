@@ -3,8 +3,9 @@ var router = express.Router();
 var passport = require("passport");
 var User = require("../models/user");
 var asyncr = require("async");
-var gmailNode = require("gmail-node");
 var crypto = require("crypto");
+var mailjet = require ('node-mailjet')
+  .connect(process.env.MJ_APIKEY_PUBLIC, process.env.MJ_APIKEY_PRIVATE);
 
 //LANDING PAGE route
 router.get("/", function(req, res){
@@ -32,33 +33,56 @@ router.post("/register", function(req,res){
                   var token = buf.toString('hex');
                   user.emailAuthenticationToken = token;
                   user.save();
-                  var emailMessage = {
-                    to: [user.username, 'info@pillars.school'],
-                    from: 'Pillars',
-                    subject: 'Welkom bij Pillars',
-                    message: 'Beste ' + user.firstName + ' ' + user.lastName + '\n\n' +
-                      'Bedankt voor je aanmelding bij Pillars.\n\n' +
-                      'Je bent aangemeld met het email adres:\n\n' +
-                      user.username + '\n\n' +
-                      'Je kunt nu 60 dagen Pillars gratis uitproberen.\n\n' +
-                      'Zodra de periode is verlopen, nemen wij per email contact met je op om te kijken of je Pillars wilt blijven gebruiken.\n\n' +
-                      'Voordat je Pillars kunt gebruiken, vragen wij je om het email adres te verifieren.\n\n' +
-                      'Click aub op de onderstaande link om jouw email adres te verifieren:\n\n' +
-                      'https://app.pillars.school/verify/' + token + '\n\n' +
-                      'We wensen je veel plezier met het gebruik van Pillars.\n'
-                  };
+                  //create email message
+                  var htmlMessage = 
+                  '<p>Beste ' + user.firstName + ' ' + user.lastName + '</p>' +
+                  '<p>Je bent aangemeld met het email adres: </p>' +
+                  user.username +
+                  '<p>Je kunt nu 60 dagen Pillars gratis uitproberen.</p>' +
+                  '<p>Zodra de periode is verlopen, nemen wij per email contact met je op om te kijken of je Pillars wilt blijven gebruiken.</p>' +
+                  '<h3>Email verificatie</h3>' +
+                  '<p>Voordat je Pillars kunt gebruiken, vragen wij je om het email adres te verifieren.</p>' +
+                  '<p>Click aub op de onderstaande link om jouw email adres te verifieren: </p>' +
+                  'https://app.pillars.school/verify/' + token +
+                  '<p>We wensen je veel plezier met het gebruik van Pillars.</p>'
+                  ;
                   
-                  gmailNode.send(emailMessage, function(err) {
-                        if(err){
-                            req.flash('error', err.message);
-                            res.redirect("/");
-                        } else {
-                            req.flash("success", "Welkom bij Pillars!");
-                            res.redirect("/scholen");
-                        }
-                  });
+                  var request = mailjet
+                      .post("send", {'version': 'v3.1'})
+                      .request({
+                        "Messages":[
+                            {
+                                "From": {
+                                    "Email": "notifications@pillars.school",
+                                    "Name": "Pillars"
+                                },
+                                "To": [
+                                    {
+                                        "Email": user.username,
+                                        "Name": user.firstName + " " + user.lastName
+                                    }
+                                ],
+                                "Cc": [
+                                    {
+                                      "Email": "info@pillars.school",
+                                      "Name": "Pillars admin"
+                                    }
+                                ],
+                                "Subject": "Welkom bij Pillars",
+                                "HTMLPart": htmlMessage,
+                            }
+                        ]
+                      });
+                    request
+                      .then((result) => {
+                        req.flash("success", "Welkom bij Pillars!");
+                        res.redirect("/scholen");
+                      })
+                      .catch((err) => {
+                        req.flash('error', err.message);
+                        res.redirect("/");
+                      });
                 }
-                
               });
           });
     });
@@ -125,28 +149,43 @@ router.post('/forgot', function(req, res, next) {
       });
     },
     function(token, user, done) {
-      var emailMessage = {
-        to: user.username,
-        from: 'Pillars',
-        subject: 'Pillars Wachtwoord Reset',
-        message: 'Je hebt een nieuw wachtwoord aangevraagd bij Pillars.\n\n' +
-          'Click aub op de onderstaande link om een nieuw wachtwoord aan te maken:\n\n' +
-          'https://app.pillars.school/reset/' + token + '\n\n' +
-          'Als je geen nieuw wachtwoord hebt aangevraagd, dan hoef je niets te doen. Je wachtwoord bij Pillars blijft dan hetzelfde.\n'
-      };
-
-      gmailNode.send(emailMessage, function(err) {
-          if(err){
-              console.log(err);
-              req.flash('error', err.message);
-              res.redirect("/forgot");
-              
-          } else {
-              req.flash('success', 'Er is een email gestuurd naar ' + user.username + ' met verdere instructies.');
-              console.log('sent');
-              res.redirect('/forgot');
-          }
-    });
+      
+      var htmlMessage = 
+      '<p>Je hebt een nieuw wachtwoord aangevraagd bij Pillars</p>' +
+      '<p>Click aub op de onderstaande link om een nieuw wachtwoord aan te maken:</p>' +
+      'https://app.pillars.school/reset/' + token +
+      '<p>Als je geen nieuw wachtwoord hebt aangevraagd, dan hoef je niets te doen. Je wachtwoord bij Pillars blijft dan hetzelfde.</p>'
+      ;
+      
+      var request = mailjet
+          .post("send", {'version': 'v3.1'})
+          .request({
+            "Messages":[
+                {
+                    "From": {
+                        "Email": "notifications@pillars.school",
+                        "Name": "Pillars"
+                    },
+                    "To": [
+                        {
+                            "Email": user.username,
+                            "Name": user.firstName + " " + user.lastName
+                        }
+                    ],
+                    "Subject": "Pillars Wachtwoord Reset",
+                    "HTMLPart": htmlMessage,
+                }
+            ]
+          });
+        request
+          .then((result) => {
+            req.flash('success', 'Er is een email gestuurd naar ' + user.username + ' met verdere instructies.');
+            res.redirect('/forgot');
+          })
+          .catch((err) => {
+            req.flash('error', err.message);
+            res.redirect("/forgot");
+          });
 }
   ], function(err) {
     req.flash("error", err.message);
