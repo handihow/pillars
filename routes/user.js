@@ -67,8 +67,8 @@ router.post("/scholen/:id/user/", middleware.isSchoolOwner, function(req, res){
                 'Met Pillars steek je de peilstok in je hardware, software, deskundigheid en jouw ICT organisatie. ' +
                 ' Dit zijn de pilaren waarmee de effectiviteit van jouw ICT middelen zichtbaar worden.</p>' +
                 '<p>We vragen je om in te loggen op de web applicatie. ' +
-                'Deze is te bereiken door de volgende link te volgen en vervolgens “Inloggen” te kiezen in het menu:</p>' +
-                '<a href="https://pillars.school">Pillars website</a>' +
+                'Deze is te bereiken door de volgende link aan te klikken:</p>' +
+                '<a href="https://app.pillars.school/login">Pillars website</a>' +
                 '<h3>Deskundigheid van medewerkers</h3>' +
                 '<p>'+
                     'Een zeer belangrijke pijler van ICT is de deskundigheid van medewerkers op de school. ' +
