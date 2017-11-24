@@ -68,7 +68,7 @@ router.post("/scholen/:id/user/", middleware.isSchoolOwner, function(req, res){
                 ' Dit zijn de pilaren waarmee de effectiviteit van jouw ICT middelen zichtbaar worden.</p>' +
                 '<p>We vragen je om in te loggen op de web applicatie. ' +
                 'Deze is te bereiken door de volgende link aan te klikken:</p>' +
-                '<a href="https://app.pillars.school/login">Pillars website</a>' +
+                '<a href="https://app.pillars.school/login">Inloggen bij Pillars</a>' +
                 '<h3>Deskundigheid van medewerkers</h3>' +
                 '<p>'+
                     'Een zeer belangrijke pijler van ICT is de deskundigheid van medewerkers op de school. ' +
