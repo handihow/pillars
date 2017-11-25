@@ -1,0 +1,38 @@
+<% include ../partials/school/header %>
+
+<div class="ui container">
+    <h2 class="ui center aligned header">
+      <div>Profielvragen</div>
+    </h2>
+    <a class="positive ui button right" href="/profiel/new">Profielvragen Toevoegen</a>
+    <div class="ui divider"></div>
+    <!--kaarten met profielvragen-->
+    <div class="ui six doubling cards">
+      <% profiel.forEach(function(profiel){ %>
+      <div class="card">
+        <div class="content">
+          <div class="header"><a href="profiel/<%=profiel._id%>"><%= profiel.name %></a></div>
+          <div class="description">
+            Actueel: <%if(profiel.isActueel) { %><i class="toggle on icon"></i><% } else { %><i class="toggle off icon"></i><% }%>
+          </div>
+          <div class="description">
+            Datum: <%= profiel.created.toDateString() %>
+          </div>
+          <div class="description">
+            Gemaakt door: <%= profiel.owner.username %>
+          </div>
+        </div>
+        <a class="ui bottom attached button" href="/profiel/<%=profiel._id%>">
+          <i class="show icon"></i>
+          Bekijk 
+        </a>
+        <a class="ui bottom attached button" href="/profiel/<%=profiel._id%>/actual">
+          <i class="hand pointer icon"></i>
+          Maak actueel
+        </a>
+      </div>
+      <% }); %>
+    </div>
+</div>
+
+<% include ../partials/school/footer %>

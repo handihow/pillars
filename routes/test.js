@@ -5,6 +5,8 @@ var User = require("../models/user");
 var Test = require("../models/test");
 var global = require("../models/global");
 var middleware = require("../middleware");
+var Profiel = require("../models/profiel");
+
 
 //INDEX - list of test results is on the user profile!!
 
@@ -15,7 +17,25 @@ router.get("/new/:onderdeel", middleware.isUser, function(req, res){
            req.flash("error", "Gebruiker niet gevonden");
            res.redirect("back");
        } else {
-           res.render("test/new", {user: user, onderdeel: req.params.onderdeel, global: global});        
+           var owner = user.owner;
+           if(user.role==="badmin"){
+               owner = req.user._id;
+           }
+           Profiel.find({"owner": owner}).exec(function(err,profielen){
+               if(err || profielen.length === 0){
+                   res.render("test/new", {user: user, onderdeel: req.params.onderdeel, global: global});   
+               } else {
+                   var profielVragen = global;
+                   profielen.forEach(function(profiel, i){
+                      if(profiel.isActueel){
+                          profielVragen = profiel;
+                      }
+                      if(i === (profielen.length - 1) ) {
+                         res.render("test/new", {user: user, onderdeel: req.params.onderdeel, global: profielVragen});    
+                      }
+                   });     
+               }
+           });
        }
     });
 });

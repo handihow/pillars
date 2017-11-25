@@ -1,0 +1,30 @@
+<% include ../partials/school/header %>
+
+<div class="ui container">
+    <h2 class="ui header">Profielvragen met naam: <%=profiel.name%></h2>
+    <% var i=0%>
+    <div class="ui top attached tabular menu">
+    <% Object.keys(profielVragen).sort().forEach(function(key){ %>
+      <a class="item <%if(i==0){%>active<%}%>" data-tab="<%=i%>"><%=key%></a>
+      <% i++%>
+    <%});%>
+    </div>
+    <% var j=0%>
+    <% Object.keys(profielVragen).sort().forEach(function(key){ %>
+        <div class="ui bottom attached tab segment <%if(j==0){%>active<%}%>" data-tab="<%=j%>">
+          <% Object.keys(profielVragen[key]).sort().forEach(function(subkey){ %>
+              <h4 class="ui dividing header"><%=subkey%></h4>
+                <% profielVragen[key][subkey].forEach(function(question){ %>
+                    <div><%=question%></div>
+                <% }); %>
+          <% }); %>
+        </div>
+        <% j++ %>
+    <%});%>
+    <a id="edit" class="ui primary basic button" href="/profiel/<%= profiel._id %>/edit">Bewerken</a>
+    <form id="delete" action="/profiel/<%= profiel._id %>?_method=DELETE" method="POST">
+        <button class="ui red basic button">Verwijderen</button>
+    </form>
+</div>
+
+<% include ../partials/school/footer %>

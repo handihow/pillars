@@ -11,26 +11,6 @@ var flash = require("connect-flash");
 var fileUpload = require('express-fileupload');
 var expressSanitizer = require("express-sanitizer");
 
-//INSTALL GMAIL FOR SENDING NOTIFICATION EMAILS
-var gmailNode = require("gmail-node");
-var clientSecret = {
-    installed: {
-        client_id: "724380779792-4rncpqe1j354m4lncgcpe47cbk7ctp9f.apps.googleusercontent.com",
-        project_id: "elevated-hall-183908",
-        auth_uri: "https://accounts.google.com/o/oauth2/auth",
-        token_uri: "https://accounts.google.com/o/oauth2/token",
-        auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs",
-        client_secret: "kvZSRLp6It1rR6NlVHzGWwZM",
-        redirect_uris: [
-            "urn:ietf:wg:oauth:2.0:oob",
-            "http://localhost"
-        ]
-    }
-};
-gmailNode.init(clientSecret, './token.json', function(err,data){
-    if(err) { console.log(err)}
-});
-
 //REQUIRING ROUTES
 var hardwareRoutes = require("./routes/hardware");
 var softwareRoutes = require("./routes/software");
@@ -39,6 +19,7 @@ var deskundigheidRoutes = require("./routes/deskundigheid");
 var organisatieRoutes = require("./routes/organisatie");
 var userRoutes = require("./routes/user");
 var testRoutes = require("./routes/test");
+var profielRoutes = require("./routes/profiel");
 var normeringRoutes = require("./routes/normering");
 var pillarsRoutes = require("./routes/pillars");
 var indexRoutes = require("./routes/index");
@@ -86,6 +67,7 @@ app.use("/scholen/:id/pillars", pillarsRoutes);
 app.use("/normering", normeringRoutes);
 app.use("/message", messageRoutes);
 app.use("/overview", overviewRoutes);
+app.use("/profiel", profielRoutes);
 app.use(indexRoutes);
 
 app.listen(process.env.PORT, process.env.IP, function(){

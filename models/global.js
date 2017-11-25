@@ -269,9 +269,9 @@ global.maxScoreICTInkoper = 1;
 global.profiel = 
 
 		{ 
-					"ICT Geletterdheid":
+					"1 - ICT Geletterdheid":
 								{
-									"ICT Basisvaardigheden":
+									"a - ICT Basisvaardigheden":
 													[
 														"Ik heb een beeld bij veel voorkomende termen in relatie tot computer (zoals netwerk, wifi, router, modem, cloud)",
 														"Ik kan gebruik maken van digitale apparaten, software en toepassingen",
@@ -280,7 +280,7 @@ global.profiel =
 														"Ik creëer informatie en gebruik het internet voor de publicatie (website, blog, etc.)"
 													]
 									,
-									"Informievaardigheden":
+									"b - Informievaardigheden":
 													[
 														"Ik kan een zoekvraag formuleren vanuit een informatiebehoefte en relevante zoekterm(en) bepalen bij een zoekvraag",
 														"Ik kan de gevonden informatie beoordelen op bruikbaarheid, betrouwbaarheid en representativiteit en de gevonden informatie analyseren, interpreteren en ordenen",
@@ -289,7 +289,7 @@ global.profiel =
 														"Ik kan het proces van informatieverwerving en verwerking evalueren"
 													]
 									,
-									"Mediawijsheid":
+									"c - Mediawijsheid":
 													[
 														"Ik volg technologische ontwikkelingen op de voet en probeer de nieuwste technologieën uit",
 														"Ik switch trefzeker van de ene naar de andere toepassing en tussen apparaten",
@@ -297,7 +297,7 @@ global.profiel =
 														"Ik weet wanneer welke mediatoepassingen het meest effectief zijn en zet deze op basis daarvan effectief in",
 														"Ik inspireer leerlingen om nieuwe en sociale media te gebruiken om relevante kennis en ervaringen uit te wisselen en elkaars leren te versterken"
 													]				
-									,"Computational Thinking":
+									,"d - Computational Thinking":
 													[
 														"Ik kan informatie weergeven in relevante grafieken, tabellen, woorden en plaatjes",
 														"Ik kan oplossingen automatiseren door middel van algoritmisch denken",
@@ -306,9 +306,9 @@ global.profiel =
 														"Ik kan complexiteit reduceren en algemene concepten overbrengen"
 													]				
 								},		
-					"Pedagogisch Didactisch Handelen":
+					"2 - Pedagogisch Didactisch Handelen":
 								{
-									"Instructie geven": 
+									"a - Instructie geven": 
 													[
 														"Ik kan op eigen initiatief geschikte toepassingen inzetten bij het leerproces",
 														"Ik ben actief op zoek naar nieuwe educatieve toepassingen en zet deze in binnen het onderwijs",
@@ -318,7 +318,7 @@ global.profiel =
 														"Ik ben bekend met video conferencing apps zoals Skype en FaceTime en kan daarmee op afstand instructie geven"
 													]
 									,
-									"Laten leren":
+									"b - Laten leren":
 													[
 														"Ik kan leerlingen laten werken met educatieve programmas",
 														"Ik kan apps downloaden, installeren, beoordelen en verwijderen",
@@ -330,7 +330,7 @@ global.profiel =
 														"Ik ben in staat om met behulp van digitale leermiddelen leerlingen met uiteenlopende zorgbehoeften te ondersteunen"
 													]
 									,
-									"Toetsen":
+									"c - Toetsen":
 													[
 														"Ik kan met behulp van digitale leermiddelen toetsen afnemen en de resultaten analyseren",
 														"Ik ben in staat om zelf digitale toetsen te maken (bijvoorbeeld met behulp van Google formulieren)",
@@ -338,16 +338,16 @@ global.profiel =
 														"Ik kan toetsen op maat aanbieden (adaptieve toets) met behulp van digitale leermiddelen"
 													]							
 								},
-					"Werken in de schoolcontext":
+					"3 - Werken in de schoolcontext":
 								{
-									"Registreren": 
+									"a - Registreren": 
 													[
 														"Ik kan een absentie en cijferregistratie invoeren",
 														"Ik kan dossiers aanleggen van leerlingen en deze gegevens met collegas delen",
 														"Ik kan mijn administratie (bijvoorbeeld het opstellen van handelingsplannen of het schrijven van een rapportage) op afstand invoeren"
 													]
 									,
-									"Volgen en verantwoorden":
+									"b - Volgen en verantwoorden":
 													[
 														"Ik kan een leerlingenrapport maken met behulp van de beschikbare software",
 														"Ik kan een handelings of groepsplan opstellen met behulp van tekstverwerkers of spreadsheets",
@@ -355,15 +355,15 @@ global.profiel =
 														"Ik kan resultaten van leerlingen uit digitale leermiddelen analyseren en interpreteren"
 													]
 									,
-									"Communiceren": [
+									"c - Communiceren": [
 														"Ik kan communiceren met anderen via e-mail of ander communicatieprogramma of app",
 														"Ik gebruik sociale netwerken om het publiek (ouders, betrokken professionals e.d.) te informeren over relevante schoolse zaken",
 														"Ik weet de kwaliteiten en verdiensten van het eigen onderwijs, de leerlingen en de school naar buiten toe te belichten"
 													]
 								},
-					"Persoonlijke Ontwikkeling":
+					"4 - Persoonlijke Ontwikkeling":
 								{
-									"Ontwikkelingen volgen in vakgebied":
+									"a - Ontwikkelingen volgen in vakgebied":
 													[
 														"Ik heb een persoonlijke strategie om via diverse nieuwe mediatoepassingen en sociale netwerken vakinhoudelijke en educatief relevante informatie optimaal tot me te laten komen",
 														"Ik weet deze informatie systematisch te beheren",
@@ -371,7 +371,7 @@ global.profiel =
 														"Ik benut in alle facetten van het eigen professionele functioneren de mogelijkheden die traditionele, nieuwe en sociale media bieden"
 													]
 									,
-									"Delen van ervaring":
+									"b - Delen van ervaring":
 													[
 														"Ik deel mijn eigen ervaringen (bijvoorbeeld via een blog) en inspireer zo collega’s en vakgenoten",
 														"Ik deel deze informatie (wanneer wenselijk) en kiest daarbij voor verschillende doelgroepen (leerlingen, naaste collega’s, vakgenoten, ouders, etc.) telkens het juiste medium",

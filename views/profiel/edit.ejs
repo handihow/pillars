@@ -1,0 +1,41 @@
+<% include ../partials/school/header %>
+
+<div class="ui container">
+    <h2 class="ui header">Profielvragen bewerken met naam: <%=profiel.name%></h2>
+    <form class="ui form" action="/profiel/<%=profiel._id%>?_method=PUT" method="POST" id="profielUpdateForm" novalidate>
+      <% var i=0%>
+      <div class="ui top attached tabular menu">
+      <% Object.keys(profielVragen).sort().forEach(function(key){ %>
+        <a class="item <%if(i==0){%>active<%}%>" data-tab="<%=i%>"><%=key%></a>
+        <% i++%>
+      <%});%>
+      </div>
+      <% var j=0 , k=0%>
+      <% Object.keys(profielVragen).sort().forEach(function(key){ %>
+          <div class="ui bottom attached tab segment <%if(j==0){%>active<%}%>" data-tab="<%=j%>">
+            <% Object.keys(profielVragen[key]).sort().forEach(function(subkey){ %>
+                <h4 class="ui dividing header"><%=subkey%></h4>
+                  <% profielVragen[key][subkey].forEach(function(question){ %>
+                    <div class="changing fields" id="<%=k%>">
+                      <div class="fourteen wide field">
+                        <input type="text" name="profiel[profiel][<%=key%>][<%=subkey%>]" value="<%=question%>" required>
+                      </div>
+                      <div class="one wide field">
+                        <i class="plus icon <%=key%>" id="<%=subkey%>"></i> 
+                      </div>
+                      <div class="one wide field">
+                        <i class="trash icon"></i> 
+                      </div>
+                    </div>
+                    <% k++ %>
+                  <% }); %>
+            <% }); %>
+          </div>
+          <% j++ %>
+      <%});%>
+      <button class="ui button" type="submit">Bewaren</button>
+      <div class="ui error message"></div>
+    </form>  
+</div>
+
+<% include ../partials/school/footer %>

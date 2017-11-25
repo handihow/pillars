@@ -4,6 +4,7 @@ var Software = require("../models/software");
 var User = require("../models/user");
 var Normering = require("../models/normering");
 var Message = require("../models/message");
+var Profiel = require("../models/profiel");
 
 var middlewareObj = {};
 
@@ -218,5 +219,27 @@ middlewareObj.isAuthenticatedBadmin = function(req, res, next){
     }
 };
 
+middlewareObj.isProfielOwner = function(req, res, next){
+  //check if user is logged in
+    if(req.isAuthenticated()){
+        //check if user is owner of Profile Questions
+        Profiel.findById(req.params.id, function(err, profiel){
+           if(err || !profiel) {
+               req.flash("error", "Profielvragen niet gevonden of fout in connectie met database");
+               res.redirect("back"); 
+           } else {
+               if(profiel.owner.equals(req.user._id)){
+                   next();
+               } else {
+                   req.flash("error", "Je bent niet de eigenaar van dit record");
+                   res.redirect("back"); 
+               }
+           } 
+        });
+    } else {
+        req.flash("error", "Inloggen a.u.b.!");
+        res.redirect("/login");  
+    }
+};
 
 module.exports = middlewareObj;

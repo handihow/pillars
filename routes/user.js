@@ -49,6 +49,8 @@ router.post("/scholen/:id/user/", middleware.isSchoolOwner, function(req, res){
                   req.flash("error", err.message);
                   return res.redirect("back");
             }
+            user.owner = school.owner;
+            user.save();
             //add user to school users
             school.users.push(user);
             school.isToegevoegdMedewerker = true;
@@ -136,8 +138,8 @@ router.post("/scholen/:id/user/", middleware.isSchoolOwner, function(req, res){
                     res.redirect("/scholen/" + school._id + "/user");
                   })
                   .catch((err) => {
-                    req.flash("error", err.statusCode);
-                    res.redirect("back");
+                    req.flash("error", "Fout bij verzenden van email. Controleer email adres.");
+                    res.redirect("/scholen/" + school._id + "/user");
                   });
             });
         }

@@ -12,7 +12,11 @@ var UserSchema = new mongoose.Schema({
    resetPasswordToken: String,
    resetPasswordExpires: Date,
    emailAuthenticationToken: String,
-   emailIsAuthenticated: Boolean
+   emailIsAuthenticated: Boolean,
+   owner: {                                        //user type Schoolbestuur (Bestuur Admin) - badmin 
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User"
+    }
 });
 
 UserSchema.plugin(passportLocalMongoose);

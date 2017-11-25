@@ -6,7 +6,7 @@
         <% var i=0 %>
         <% Object.keys(global.profiel).forEach(function(key){ %>
             <%if(onderdeel==key){%>
-              <% Object.keys(global.profiel[key]).forEach(function(subkey){ %>
+              <% Object.keys(global.profiel[key]).sort().forEach(function(subkey){ %>
                 <h4 class="ui dividing header"><%=subkey%></h4>
                 <%global.profiel[key][subkey].forEach(function(question){ %>
                   <div class="inline field">

@@ -1,0 +1,14 @@
+<% include ../partials/school/header %>
+
+<div class="ui container">
+    <div class="ui huge header">Profielvragen Toevoegen</div>
+    <form class="ui form" action="/profiel" method="POST" id="profielToevoegen" novalidate>
+        <div class="required field">
+            <label>Naam</label>  
+            <input type="text" name="profiel[name]" placeholder="Naam profielvragen, bijvoorbeeld Profielvragen Schoolbestuur XXX" id="profiel[name]">
+        </div>
+        <button class="ui button" type="submit">Bewaren</button>
+    </form>
+</div>
+
+<% include ../partials/school/footer %>
