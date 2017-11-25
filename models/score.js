@@ -250,13 +250,13 @@ score.calculate = function(school) {
     }
     if(school.isToegevoegdMedewerker){
         //ICT Geletterdheid
-        result.deskundigheid.ictGeletterheid = score.averageTestResult(school, "ICT Geletterdheid") * school.normering.maxScoreICTGeletterdheid;
+        result.deskundigheid.ictGeletterheid = score.averageTestResult(school, "1 - ICT Geletterdheid") * school.normering.maxScoreICTGeletterdheid;
         //Pedagogisch Didactisch Handelen
-        result.deskundigheid.pedagogischDidactisch = score.averageTestResult(school, "Pedagogisch Didactisch Handelen") * school.normering.maxScorePedagogischDidactischHandelen;
+        result.deskundigheid.pedagogischDidactisch = score.averageTestResult(school, "2 - Pedagogisch Didactisch Handelen") * school.normering.maxScorePedagogischDidactischHandelen;
         //Werken in de schoolcontext
-        result.deskundigheid.werkenSchooltext = score.averageTestResult(school, "Werken in de schoolcontext") * school.normering.maxScoreWerkenSchoolcontext;
+        result.deskundigheid.werkenSchooltext = score.averageTestResult(school, "3 - Werken in de schoolcontext") * school.normering.maxScoreWerkenSchoolcontext;
         //Persoonlijke ontwikkeling
-        result.deskundigheid.persoonlijkeOntwikkeling = score.averageTestResult(school, "Persoonlijke Ontwikkeling") * school.normering.maxScorePersoonlijkeOntwikkeling;
+        result.deskundigheid.persoonlijkeOntwikkeling = score.averageTestResult(school, "4 - Persoonlijke Ontwikkeling") * school.normering.maxScorePersoonlijkeOntwikkeling;
     }
     if(school.isIngevuldOrganisatie){
         // ORGANISATIE
