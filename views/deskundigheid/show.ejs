@@ -92,6 +92,7 @@
                   <th>Gebruikersnaam</th>
                   <th>Onderdeel</th>
                   <th>Score</th>
+                  <th>Bekijk</th>
               </tr>
           </thead>
           <tbody>
@@ -101,6 +102,7 @@
                       <td><%= test.username %></td>
                       <td><%= test.subject %></td>
                       <td><%= Math.ceil(test.result *100) %> %</td>
+                      <td><a class="ui mini primary basic button" href="/user/desk_overview/test/<%=test._id%>">Bekijk</a></td>
                   </tr>
               <% }); %>
           </tbody>

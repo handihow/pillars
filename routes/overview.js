@@ -7,7 +7,7 @@ var global = require("../models/global");
 var score = require("../models/score");
 
 //SHOW ROUTE INVOER OVERVIEW SCHOLEN
-router.get("/scholen", middleware.isLoggedIn, function(req, res){
+router.get("/scholen", middleware.isAuthenticatedBadmin, function(req, res){
     School.find(
             {"owner": req.user._id}, 
             null,
@@ -23,7 +23,7 @@ router.get("/scholen", middleware.isLoggedIn, function(req, res){
 });
 
 //SHOW ROUTE HARDWARE OVERVIEW SCHOLEN
-router.get("/hardware", middleware.isLoggedIn, function(req, res){
+router.get("/hardware", middleware.isAuthenticatedBadmin, function(req, res){
     School.find(
             {"owner": req.user._id}, 
             null,
@@ -40,7 +40,7 @@ router.get("/hardware", middleware.isLoggedIn, function(req, res){
 });
 
 //DOWNLOAD ROUTE HARDWARE OVERVIEW SCHOLEN
-router.get("/hardware/download", middleware.isLoggedIn, function(req, res){
+router.get("/hardware/download", middleware.isAuthenticatedBadmin, function(req, res){
     School.find(
             {"owner": req.user._id}, 
             null,
@@ -79,7 +79,7 @@ router.get("/hardware/download", middleware.isLoggedIn, function(req, res){
 });
 
 //SHOW ROUTE SOFTWARE OVERVIEW SCHOLEN
-router.get("/software", middleware.isLoggedIn, function(req, res){
+router.get("/software", middleware.isAuthenticatedBadmin, function(req, res){
     School.find(
             {"owner": req.user._id}, 
             null,
@@ -96,7 +96,7 @@ router.get("/software", middleware.isLoggedIn, function(req, res){
 });
 
 //DOWNLOAD ROUTE SOFTWARE OVERVIEW SCHOLEN
-router.get("/software/download", middleware.isLoggedIn, function(req, res){
+router.get("/software/download", middleware.isAuthenticatedBadmin, function(req, res){
     School.find(
             {"owner": req.user._id}, 
             null,
@@ -159,7 +159,7 @@ router.get("/software/download", middleware.isLoggedIn, function(req, res){
 });
 
 //SHOW ROUTE TEST RESULTATEN SCHOLEN
-router.get("/tests", middleware.isLoggedIn, function(req, res){
+router.get("/tests", middleware.isAuthenticatedBadmin, function(req, res){
     School.find(
             {"owner": req.user._id}, 
             null,
@@ -175,8 +175,8 @@ router.get("/tests", middleware.isLoggedIn, function(req, res){
           });
 });
 
-//DOWNLOAD ROUTE HARDWARE OVERVIEW SCHOLEN
-router.get("/tests/download", middleware.isLoggedIn, function(req, res){
+//DOWNLOAD ROUTE TEST OVERVIEW SCHOLEN
+router.get("/tests/download", middleware.isAuthenticatedBadmin, function(req, res){
     School.find(
             {"owner": req.user._id}, 
             null,
@@ -211,7 +211,7 @@ router.get("/tests/download", middleware.isLoggedIn, function(req, res){
 });
 
 //SHOW ROUTE TEST RESULTATEN SCHOLEN
-router.get("/pillars", middleware.isLoggedIn, function(req, res){
+router.get("/pillars", middleware.isAuthenticatedBadmin, function(req, res){
     School.find(
             {"owner": req.user._id}, 
             null,
@@ -231,6 +231,43 @@ router.get("/pillars", middleware.isLoggedIn, function(req, res){
                     results.push(result);
                 });
                 res.render("overview/pillars", {scholen: scholen, results: results});         
+            }
+          });
+});
+
+//DOWNLOAD ROUTE TEST RESULTATEN SCHOLEN
+router.get("/pillars/download", middleware.isAuthenticatedBadmin, function(req, res){
+    School.find(
+            {"owner": req.user._id}, 
+            null,
+            {sort: {instellingsnaam: 1}})
+          .populate("hardware")
+          .populate("software")
+          .populate("tests")
+          .populate("normering")
+          .exec(function(err, scholen){
+              if(err || !scholen) {
+                req.flash("error", err.message);
+                res.redirect("back");
+            } else {
+                var results = [];
+                scholen.forEach(function(school){
+                    var result = score.calculate(school);
+                    result.school = school.instellingsnaam;
+                    results.push(result);
+                });
+                var fields = ['school', 'totaal[hardware]', 'totaal[software]','totaal[deskundigheid]', 'totaal[organisatie]'];
+                var fieldNames = ['School', 'Hardware', 'Digitale Leermiddelen', 'Deskundigheid', 'Organisatie'];
+                json2csv({ data: results, fields: fields, fieldNames: fieldNames }, function(err, csv) {
+                    if(err){
+                        req.flash("error", err.message);
+                        res.redirect("back");
+                    } else {
+                        res.setHeader('Pillars-download', 'attachment; filename=pillars.csv');
+                        res.set('Content-Type', 'text/csv');
+                        res.status(200).send(csv);
+                    }
+                });
             }
           });
 });

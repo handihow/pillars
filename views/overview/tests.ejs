@@ -24,6 +24,7 @@
           <th>Onderdeel</th>
           <th>Resultaat</th>
           <th>Gebruiker</th>
+          <th>Bekijk</th>
         </tr>
       </thead>
       <tbody>
@@ -34,6 +35,7 @@
               <td><%=test.subject%></td>
               <td><%= Math.ceil(test.result * 100) %> %</td>
               <td><%=test.username%></td>
+              <td><a class="ui mini primary basic button" href="/user/test_overview/test/<%=test._id%>">Bekijk</a></td>
             </tr>
           <% }) %>
         <% }) %>
