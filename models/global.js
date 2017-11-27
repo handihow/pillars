@@ -231,10 +231,10 @@ global.ondersteuningNodig = false;
 global.maxScoreOndersteuningNodig = 0.5;
 
 		//NORM 3.4 ICT GELETTERDHEID
-global.maxScoreICTGeletterdheid = 0.5;
+global.maxScoreICTGeletterdheid = 1;
 
 		//NORM 3.5 PEDAGOGISCH DIDACTISCH HANDELEN
-global.maxScorePedagogischDidactischHandelen = 0.5;
+global.maxScorePedagogischDidactischHandelen = 1;
 		
 		//NORM 3.6 WERKEN IN DE SCHOOLCONTEXT
 global.maxScoreWerkenSchoolcontext = 0.5;
