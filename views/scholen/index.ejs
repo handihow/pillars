@@ -4,7 +4,9 @@
     <h2 class="ui center aligned header">
       <div>Scholen</div>
     </h2>
-    <a class="positive ui button right" href="/scholen/new">Scholen Toevoegen</a>
+    <% if(currentUser.role==="badmin") { %>
+      <a class="positive ui button right" href="/scholen/new">Scholen Toevoegen</a>
+    <% } %>
     <div class="ui divider"></div>
     <!--kaarten met scholen-->
     <div class="ui six doubling cards">

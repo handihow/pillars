@@ -1,0 +1,30 @@
+<% include ../partials/school/header %>
+<% include ../partials/school/side-header %>
+
+
+      <h2 class="ui header"><i class="comments icon"></i> Evaluaties van <%= school.instellingsnaam %></h2>
+        <h4><a href="/scholen/<%=school._id%>/evaluation/new/"><i class="write square icon"></i> Evaluatie Toevoegen</a></h4>
+        <div class="ui cards">
+          <!--make a card for each evaluation-->
+          <% school.evaluations.forEach(function(evaluation){ %>
+          <div class="card">
+            <div class="content">
+              <div class="header"><%=evaluation.title %></div>
+              <div class="description">
+                    <%- evaluation.report.substring(0,100)%> ...
+              </div>
+              <div class="description">
+                    <%=evaluation.created.toDateString()%>
+              </div>
+            </div>
+            <a class="ui bottom attached button" href="/scholen/<%=school._id%>/evaluation/<%=evaluation._id%>">
+                <i class="show icon"></i>
+                Bekijk 
+            </a>
+          </div>
+          <% }); %>
+        </div>
+
+  
+<% include ../partials/school/side-footer %>
+<% include ../partials/school/footer %>

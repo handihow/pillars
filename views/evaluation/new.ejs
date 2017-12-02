@@ -1,0 +1,25 @@
+<% include ../partials/school/header %>
+<% include ../partials/school/side-header %>
+
+
+    <h2 class="ui header"><i class="comments icon"></i> Evaluatie Toevoegen aan <%= school.instellingsnaam %></h2>
+    
+    <form class="ui form" action="/scholen/<%=school._id%>/evaluation" method="POST">
+      <div class="field">
+            <label>Titel</label>  
+            <input type="text" name="evaluation[title]" placeholder="Titel van jouw evaluatie...">
+      </div>
+      <div class="field">
+            <label>Rapport van gesprek</label>  
+            <textarea name="evaluation[report]" placeholder="Noteer hier het rapport van jullie evaluatiegesprek..."></textarea>
+      </div>
+      <div class="field">
+            <label>Plan van aanpak</label>  
+            <textarea name="evaluation[plan]" placeholder="Noteer hier het actieplan als gevolg van het evaluatiegesprek..."></textarea>
+      </div>
+      <button class="ui button" type="submit">Bewaren</button>
+    </form>
+</div>
+
+<% include ../partials/school/side-footer %>
+<% include ../partials/school/footer %>

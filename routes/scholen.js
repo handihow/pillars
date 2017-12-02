@@ -21,6 +21,20 @@ router.get("/", middleware.isLoggedIn, function(req, res){
                 res.redirect("/scholen/" + school._id);
             }
         });
+    } else if(req.user.role==="buser") {
+        //find all schools from bestuur admin (owner of bestuur user record)
+        School.find(
+            {"owner": req.user.owner}, 
+            null,
+            {sort: {instellingsnaam: 1}},
+            function(err, scholen){
+            if(err || !scholen) {
+                req.flash("error", err.message);
+                res.redirect("back");
+            } else {
+                res.render("scholen/index", {scholen: scholen});         
+            }
+        });
     } else {
         //bestuur admins go to the list of schools
         School.find(

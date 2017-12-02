@@ -78,7 +78,13 @@ var scholenSchema=  mongoose.Schema({
     isToegevoegdSoftware: Boolean,
     isIngevuldDeskundigheid: Boolean,
     isIngevuldOrganisatie: Boolean,
-    isToegevoegdMedewerker: Boolean
+    isToegevoegdMedewerker: Boolean,
+    evaluations: [
+         {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Evaluation"
+         }
+      ]
 });
 
 module.exports = mongoose.model("School", scholenSchema);

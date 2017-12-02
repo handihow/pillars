@@ -16,7 +16,13 @@ var UserSchema = new mongoose.Schema({
    owner: {                                        //user type Schoolbestuur (Bestuur Admin) - badmin 
           type: mongoose.Schema.Types.ObjectId,
           ref: "User"
-    }
+    },
+   evaluations: [
+         {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Evaluation"
+         }
+      ]
 });
 
 UserSchema.plugin(passportLocalMongoose);

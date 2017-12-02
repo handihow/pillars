@@ -1,0 +1,41 @@
+<% include ../partials/school/header %>
+
+<% var generatedPassword = Math.random().toString(36).substr(2, 8) %>
+
+  <div class="ui container">
+    <div class="ui huge header"><i class="users icon"></i> Bestuur Medewerker Toevoegen</div>
+    <form class="ui form" id="adminRegister" action="/buser" method="POST" novalidate>
+      <div class="required field">
+        <label>Naam</label>
+        <div class="two fields">
+          <div class="required field">
+            <input type="text" name="firstName" placeholder="Voornaam" id="firstname">
+          </div>
+          <div class="required field">
+            <input type="text" name="lastName" placeholder="Achternaam" id="lastname">
+          </div>
+        </div>
+      </div>
+      <div class="required field">
+        <label>E-mail</label>
+        <input type="email" name="username" placeholder="E-mail adres" id="email">
+      </div>
+      <input type="hidden" name="role" value="buser">
+      <h4 class="ui dividing header">Wachtwoord</h4>
+      <p>Het systeem genereert automatisch een wachtwoord. Je kunt dit zelf aanpassen door het wachtwoord te vervangen.</p>
+      <div class="two fields">
+          <div class="required field">
+             <label>Wachtwoord</label>
+             <input type="text" name="password" id="password" placeholder="Wachtwoord" value=<%=generatedPassword%> required>
+          </div>
+          <div class="required field">
+             <label>Herhaal wachtwoord</label>
+             <input type="text" name="password_again" id="password_again" placeholder="Herhaal wachtwoord" value=<%=generatedPassword%> required>
+          </div>
+       </div>
+      <button class="ui button" type="submit">Submit</button>
+      <div class="ui error message"></div>
+    </form>
+    </div>
+    
+<% include ../partials/school/footer %>

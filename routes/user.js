@@ -22,6 +22,18 @@ router.get("/scholen/:id/user/", middleware.isSchoolOwner, function(req, res){
     });
 });
 
+//INDEX - list of bestuur users
+router.get("/buser", middleware.isAuthenticatedBadmin, function(req, res){
+    User.find({"owner": req.user._id, "role": "buser"}).exec(function(err, users){
+        if(err) {
+            req.flash("error", err.message);
+            res.redirect("back");
+        } else {
+            res.render("buser/index", {users: users});        
+        }
+    });
+});
+
 //NEW - form to create new school user
 router.get("/scholen/:id/user/new", middleware.isSchoolOwner, function(req, res){
     School.findById(req.params.id, function(err, school){
@@ -32,6 +44,11 @@ router.get("/scholen/:id/user/new", middleware.isSchoolOwner, function(req, res)
             res.render("user/new", {school: school});        
         }
     });
+});
+
+//NEW - form to create new bestuur user
+router.get("/buser/new", middleware.isAuthenticatedBadmin, function(req, res){
+    res.render("buser/new");
 });
 
 //CREATE - creates new school user in the database and links it to school
@@ -146,6 +163,98 @@ router.post("/scholen/:id/user/", middleware.isSchoolOwner, function(req, res){
     });
 });
 
+//CREATE - creates new bestuur user in the database
+router.post("/buser/", middleware.isAuthenticatedBadmin, function(req, res){
+    var newUser = new User({username: req.body.username, role: req.body.role, firstName: req.body.firstName, lastName: req.body.lastName});
+    User.register(newUser, req.body.password, function(err, user){
+        if(err){
+              req.flash("error", err.message);
+              return res.redirect("back");
+        }
+        user.owner = req.user._id;
+        user.save();
+        //send email notification to bestuur user
+        var htmlMessage = 
+            '<h2>Welkom bij Pillars</h2>'+
+            '<p>Jouw bestuur heeft je uitgenodigd om deel te nemen aan Pillars.</p>' +
+            '<p>Je kunt inloggen op de <a href="https://pillars.school">Pillars website</a> met:' + 
+            '<p>Gebruikersnaam: </p>' + 
+            user.username +
+            '<p>Wachtwoord</p>' + 
+            req.body.password +
+            '<p>Pillars helpt jouw school met het complexe vraagstuk rondom ICT en onderwijs. ' +
+            'Jouw school profiteert graag optimaal van ICT middelen die zijn aangeschaft. ' +
+            'Met Pillars steek je de peilstok in je hardware, software, deskundigheid en jouw ICT organisatie. ' +
+            ' Dit zijn de pilaren waarmee de effectiviteit van jouw ICT middelen zichtbaar worden.</p>' +
+            '<p>We vragen je om in te loggen op de web applicatie. ' +
+            'Deze is te bereiken door de volgende link aan te klikken:</p>' +
+            '<a href="https://app.pillars.school/login">Inloggen bij Pillars</a>' +
+            '<h3>Deskundigheid van medewerkers</h3>' +
+            '<p>'+
+                'Een zeer belangrijke pijler van ICT is de deskundigheid van medewerkers op de school. ' +
+                'Pillars brengt dit in kaart door medewerkers korte zelfbeoordelingen te laten uitvoeren op vier deelgebieden:' +
+            '</p>' +
+            '<ul>' +
+                '<li>ICT geletterdheid</li>' +
+                '<li>Pedagogisch Didactisch Handelen</li>' +
+                '<li>Werken in de schoolcontext</li>' +
+                '<li>Persoonlijke ontwikkeling</li>' +
+            '</ul>' +
+            '<p>' +
+                'Je hebt een inlog gekregen als Bestuur Medewerker. ' +
+                'Zodra je inlogt, kom je op een overzicht van scholen binnen jouw bestuur. ' +
+                'Je kunt naar je profielpagina gaan aan de rechterkant van het menu om jouw ICT deskundigheid te testen.' +
+            '</p>' +
+            '<p>' +
+                'Op deze profielpagina kun je alle 4 zelfbeoordelingen doen. ' +
+                'De beoordelingen bestaan uit ongeveer 20 ja/nee vragen en je kunt iedere beoordeling in ongeveer 15 minuten voltooien. ' +
+                'Probeer jezelf zo eerlijk mogelijk te beoordelen.' +
+            '</p>' +
+            '<p>Wil je meer weten over Pillars in het algemeen, ga dan naar:' +
+            '</p>' +
+            '<a href="http://pillars.school/introductie-pillars/">YouTube introductiefilmje</a>' +
+            '<p></p>' +
+            '<a href="https://pillars.school/informatie-over-pillars/">Informatie op website</a>' +
+            '<p>We wensen je veel succes met het gebruik van Pillars.</p>'
+            ; 
+        var request = mailjet
+              .post("send", {'version': 'v3.1'})
+              .request({
+                "Messages":[
+                    {
+                        "From": {
+                            "Email": "notifications@pillars.school",
+                            "Name": "Pillars"
+                        },
+                        "To": [
+                            {
+                                "Email": user.username,
+                                "Name": user.firstName + " " + user.lastName
+                            }
+                        ],
+                        "Cc": [
+                            {
+                                "Email": req.user.username,
+                                "Name": "Bestuur administrator"
+                            }
+                        ],
+                        "Subject": "Welkom bij Pillars",
+                        "HTMLPart": htmlMessage,
+                    }
+                ]
+              });
+            request
+              .then((result) => {
+                req.flash("success", "Nieuwe medewerker geregistreerd! Er is een email verstuurd met inlog gegevens en verdere instructies.");
+                res.redirect("/buser");
+              })
+              .catch((err) => {
+                req.flash("error", "Fout bij verzenden van email. Controleer email adres.");
+                res.redirect("/buser");
+              });
+    });
+});
+
 //SHOW ROUTE - PROFILE PAGE
 router.get("/user/:id", middleware.isLoggedIn, function(req, res){
   User.findById(req.params.id, function(err, user){
@@ -257,6 +366,19 @@ router.delete("/scholen/:id/user/:user_id", middleware.isSchoolOwner, function(r
         }  else {
             req.flash("success", "School medewerker verwijderd");
             res.redirect("/scholen/" + req.params.id + "/user");
+        }
+    });
+});
+
+//DESTROY route to delete bestuur user from database
+router.delete("/buser/:id", middleware.isAuthenticatedBadmin, function(req, res){
+    User.findByIdAndRemove(req.params.id, function(err){
+        if(err) {
+            req.flash('error', err.message);
+            res.redirect("/buser");
+        }  else {
+            req.flash("success", "Bestuur medewerker verwijderd");
+            res.redirect("/buser");
         }
     });
 });

@@ -25,6 +25,7 @@ var pillarsRoutes = require("./routes/pillars");
 var indexRoutes = require("./routes/index");
 var messageRoutes = require("./routes/message");
 var overviewRoutes = require("./routes/overview");
+var evaluationRoutes = require("./routes/evaluation");
 
 mongoose.connect(process.env.DATABASEURL, {useMongoClient: true}); //DATABASEURL=mongodb://localhost/scholen_app
 
@@ -68,6 +69,7 @@ app.use("/normering", normeringRoutes);
 app.use("/message", messageRoutes);
 app.use("/overview", overviewRoutes);
 app.use("/profiel", profielRoutes);
+app.use("/scholen/:id/evaluation", evaluationRoutes);
 app.use(indexRoutes);
 
 app.listen(process.env.PORT, process.env.IP, function(){
