@@ -4,10 +4,10 @@
 
     <h2 class="ui header"><i class="comments icon"></i> Evaluatie van <%= school.instellingsnaam %> Bewerken</h2>
     
-    <form class="ui form" action="/scholen/<%=school._id%>/evaluation/<%=evaluation._id%>?_method=PUT" method="POST">
+    <form class="ui form" action="/scholen/<%=school._id%>/evaluation/<%=evaluation._id%>?_method=PUT" method="POST" id="evaluationForm" novalidate>
       <div class="field">
             <label>Titel</label>  
-            <input type="text" name="evaluation[title]" value="<%=evaluation.title%>">
+            <input type="text" name="evaluation[title]" value="<%=evaluation.title%>" required="" title="Dit veld is verplicht">
       </div>
       <div class="field">
             <label>Rapport van gesprek</label>  

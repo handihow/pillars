@@ -30,7 +30,7 @@ router.get("/new", middleware.isSchoolOwner, function(req, res){
 
 //CREATE NEW SCHOOL EVALUATION ROUTE
 router.post("/", middleware.isSchoolOwner, function(req, res){
-    req.body.evaluation.body = req.sanitize(req.body.message.body);
+    req.body.evaluation.body = req.sanitize(req.body.evaluation.body);
     Evaluation.create(req.body.evaluation, function(err, evaluation){
           if(err || !evaluation){
               req.flash("error", err.message);
@@ -82,6 +82,7 @@ router.get("/:eval_id/edit", middleware.isSchoolOwner, function(req, res){
 
 //UPDATE ROUTE
 router.put("/:eval_id", middleware.isSchoolOwner, function(req, res){
+    req.body.evaluation.body = req.sanitize(req.body.evaluation.body);
     Evaluation.findByIdAndUpdate(req.params.eval_id, req.body.evaluation, function(err, evaluation){
       if(err || !evaluation){
           req.flash("error", "Evaluatie niet gevonden.");
