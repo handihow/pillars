@@ -11,14 +11,14 @@
           <div class="required field">
               <label>Type</label>
               <div class="ui selection dropdown">
-                  <input type="hidden" name="hardware[type]" id="dropdown">
-                  <div class="text">Type Hardware</div>
+                  <input type="hidden" name="hardware[type]" id="dropdown" value="<%=hardware.type%>">
+                  <div class="text"><%=hardware.type%></div>
                   <i class="dropdown icon"></i>
                   <div class="menu">
                       <% global.hardwareTypes.forEach(function(type){%>
-                        <div class="item <%if(type.enkelvoud===hardware.type){%>active<%}%>" 
-                          data-value="<%=type.enkelvoud%>"
-                          <%if(type.enkelvoud===hardware.type){%>selected<%}%>>
+                        <div class="item <%if(type.enkelvoud===hardware.type){%>active<%}%>"
+                            data-value="<%=type.enkelvoud%>"
+                          <% if(type.enkelvoud===hardware.type){ %> selected="" <% } %> >
                               <%=type.enkelvoud%>
                         </div>
                       <%})%>

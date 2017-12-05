@@ -2,7 +2,6 @@ var express = require("express");
 var router = express.Router();
 var request = require("request");
 var School = require("../models/school");
-var Message = require("../models/message");
 var middleware = require("../middleware");
 
 //INDEX ROUTE
@@ -112,14 +111,7 @@ router.get("/:id", middleware.isLoggedIn, function(req, res){
            req.flash("error", "School niet gevonden.");
            res.redirect("back");
        } else {
-           Message.find({owner: school.owner}, function(err, messages){
-                if(err) {
-                    req.flash("error", "Berichten niet gevonden.");
-                    res.redirect("back");
-                } else {
-                    res.render("scholen/show", {school: school, messages: messages}); 
-                }
-           });
+           res.render("scholen/show", {school: school}); 
        }
    });
 });

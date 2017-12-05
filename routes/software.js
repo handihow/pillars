@@ -18,7 +18,7 @@ router.get("/", middleware.isLoggedIn, function(req, res){
 });
 
 //NEW - form to create new hardware
-router.get("/new/:vak", middleware.isLoggedIn, function(req, res){
+router.get("/new/:vak", middleware.isSchoolOwner, function(req, res){
     School.findById(req.params.id).populate("software").exec(function(err, school){
         if(err) {
             req.flash("error", "School niet gevonden.");
@@ -30,7 +30,7 @@ router.get("/new/:vak", middleware.isLoggedIn, function(req, res){
 });
 
 //CREATE - creates new software in the database and links it to school
-router.post("/", middleware.isLoggedIn, function(req, res){
+router.post("/", middleware.isSchoolOwner, function(req, res){
     //lookup school by ID
     School.findById(req.params.id, function(err, school){
       if(err || !school){
@@ -61,7 +61,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
 });
 
 //SHOW individual software records
-router.get("/:software_id", middleware.isLoggedIn, function(req, res){
+router.get("/:software_id", middleware.isSchoolOwner, function(req, res){
   School.findById(req.params.id, function(err, school){
       if(err || !school){
           req.flash("error", "School niet gevonden");
@@ -80,7 +80,7 @@ router.get("/:software_id", middleware.isLoggedIn, function(req, res){
 });
 
 //EDIT displays a form to edit software record
-router.get("/:software_id/edit", middleware.isSoftwareOwner, function(req,res){
+router.get("/:software_id/edit", middleware.isSchoolOwner, function(req,res){
   School.findById(req.params.id, function(err, school){
       if(err || !school){
           req.flash("error", "School niet gevonden");
@@ -99,7 +99,7 @@ router.get("/:software_id/edit", middleware.isSoftwareOwner, function(req,res){
 });
 
 //UPDATE route to store edited software to database
-router.put("/:software_id", middleware.isSoftwareOwner, function(req, res){
+router.put("/:software_id", middleware.isSchoolOwner, function(req, res){
   Software.findByIdAndUpdate(req.params.software_id, req.body.software, function(err, software){
       if(err || !software){
           req.flash("error", "Software niet gevonden");
@@ -112,7 +112,7 @@ router.put("/:software_id", middleware.isSoftwareOwner, function(req, res){
 });
 
 //DESTROY route to delete software from database
-router.delete("/:software_id", middleware.isSoftwareOwner, function(req, res){
+router.delete("/:software_id", middleware.isSchoolOwner, function(req, res){
   Software.findByIdAndRemove(req.params.software_id, function(err){
       if(err){
           req.flash("error", err.message);

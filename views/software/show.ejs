@@ -57,7 +57,6 @@
               <% } %>
                 <h4 class="content">Toegevoegd door</h4>
                 <div class="content"><%= software.owner.username %> op <%=software.created.toDateString()%> </div>
-                <% if(currentUser && software.owner.id.equals(currentUser._id) || currentUser.role==="badmin") { %>
                   <a id="edit" 
                     class="ui primary basic button" 
                     href="/scholen/<%=school._id%>/software/<%=software._id%>/edit">
@@ -68,7 +67,6 @@
                     method="POST">
                     <button class="ui red basic button">Verwijderen</button>
                   </form>
-                <% }; %>
             </div>
         </div>
     </div>

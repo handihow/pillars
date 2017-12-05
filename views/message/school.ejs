@@ -1,0 +1,25 @@
+<% include ../partials/school/header %>
+<% include ../partials/school/side-header %>
+
+<!--MESSAGES-->
+        <h2 class="ui top attached header"><i class="info circle icon"></i> Informatie / Berichten van het Bestuur</h2>
+        <div class="ui attached segment">
+          <% messages.forEach(function(message){%>
+            <div class="ui feed">
+              <div class="event">
+                <div class="label">
+                  <i class="pencil icon"></i>
+                </div>
+                <div class="content">
+                  <div class="summary">
+                    Het bestuur heeft informatie / bericht met titel <a href="/message/<%=message._id%>"><%=message.title%></a> geplaatst.
+                    <div class="date"><%=message.created.toDateString()%></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <%})%>
+        </div>
+        
+<% include ../partials/school/side-footer %>
+<% include ../partials/school/footer %>

@@ -19,7 +19,7 @@ router.get("/", middleware.isLoggedIn, function(req, res){
 });
 
 //NEW - form to create new hardware
-router.get("/new/:type", middleware.isLoggedIn, function(req, res){
+router.get("/new/:type", middleware.isSchoolOwner, function(req, res){
     School.findById(req.params.id, function(err, school){
         if(err || !school) {
             req.flash("error", "School niet gevonden");
@@ -31,7 +31,7 @@ router.get("/new/:type", middleware.isLoggedIn, function(req, res){
 });
 
 //BULK NEW - form to upload CSV FILE with hardware
-router.get("/bulk", middleware.isLoggedIn, function(req, res){
+router.get("/bulk", middleware.isSchoolOwner, function(req, res){
     School.findById(req.params.id, function(err, school){
         if(err || !school) {
             req.flash("error", "School niet gevonden");
@@ -43,7 +43,7 @@ router.get("/bulk", middleware.isLoggedIn, function(req, res){
 });
 
 //BULK NEW - accepts file and renders the form to create new hardware in list
-router.post("/bulk", middleware.isLoggedIn, function(req, res){
+router.post("/bulk", middleware.isSchoolOwner, function(req, res){
     School.findById(req.params.id, function(err, school){
        if(err || !school){
            req.flash("error", "School niet gevonden");
@@ -72,7 +72,7 @@ router.post("/bulk", middleware.isLoggedIn, function(req, res){
 });
 
 //CREATE - creates new hardware in the database and links it to school from the bulk upload
-router.post("/bulk2", middleware.isLoggedIn, function(req, res){
+router.post("/bulk2", middleware.isSchoolOwner, function(req, res){
    
    //create new hardware in DB for each hardware
    req.body.hardware.forEach(function(hardware, i, a){
@@ -107,7 +107,7 @@ router.post("/bulk2", middleware.isLoggedIn, function(req, res){
 });
 
 //CREATE - creates new hardware in the database and links it to school
-router.post("/", middleware.isLoggedIn, function(req, res){
+router.post("/", middleware.isSchoolOwner, function(req, res){
     //lookup school by ID
     School.findById(req.params.id, function(err, school){
        if(err || !school){
@@ -170,7 +170,7 @@ router.put("/instellingen", middleware.isSchoolOwner, function(req, res){
 });
 
 //SHOW individual hardware records
-router.get("/:hardware_id", middleware.isLoggedIn, function(req, res){
+router.get("/:hardware_id", middleware.isSchoolOwner, function(req, res){
    School.findById(req.params.id).populate("hardware").exec(function(err, school){
        if(err || !school){
            req.flash("error", "School niet gevonden");
@@ -189,7 +189,7 @@ router.get("/:hardware_id", middleware.isLoggedIn, function(req, res){
 });
 
 //EDIT displays a form to edit hardware record
-router.get("/:hardware_id/edit", middleware.isHardwareOwner, function(req,res){
+router.get("/:hardware_id/edit", middleware.isSchoolOwner, function(req,res){
    School.findById(req.params.id, function(err, school){
        if(err || !school){
            req.flash("error", "School niet gevonden");
@@ -208,7 +208,7 @@ router.get("/:hardware_id/edit", middleware.isHardwareOwner, function(req,res){
 });
 
 //UPDATE route to store edited hardware to database
-router.put("/:hardware_id", middleware.isHardwareOwner, function(req, res){
+router.put("/:hardware_id", middleware.isSchoolOwner, function(req, res){
    Hardware.findByIdAndUpdate(req.params.hardware_id, req.body.hardware, function(err, hardware){
        if(err || !hardware){
            req.flash("error", "Hardware niet gevonden");
@@ -222,7 +222,7 @@ router.put("/:hardware_id", middleware.isHardwareOwner, function(req, res){
 
 
 //DESTROY route to delete hardware from database
-router.delete("/:hardware_id", middleware.isHardwareOwner, function(req, res){
+router.delete("/:hardware_id", middleware.isSchoolOwner, function(req, res){
    Hardware.findByIdAndRemove(req.params.hardware_id, function(err){
        if(err){
            req.flash("error", "Hardware niet gevonden");

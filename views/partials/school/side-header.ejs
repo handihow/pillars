@@ -42,6 +42,10 @@
                 <i class="comments icon"></i>
                 Evaluaties
               </a>
+              <a class="item <%if(url.includes("/scholen/"+school._id+"/messages")) { %> active <% } %>" href="/scholen/<%= school._id %>/messages">
+                <i class="info circle icon"></i>
+                Informatie
+              </a>
             </div>
           </div>  
           <div class="twelve wide stretched column">
