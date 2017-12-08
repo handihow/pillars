@@ -46,6 +46,8 @@ middlewareObj.isSchoolOwner = function (req, res, next) {
                 //check if user is bestuur admin for this school
                 if(school.owner.equals(req.user._id)) {
                     next();
+                } else if (req.user.role==="buser" && req.user.owner.equals(school.owner)) {
+                    next();
                 } else {
                     //check if user is school admin for this school
                     var isSchoolAdmin = false;
