@@ -38,13 +38,14 @@ router.post("/register", function(req,res){
                   '<p>Beste ' + user.firstName + ' ' + user.lastName + '</p>' +
                   '<p>Je bent aangemeld met het email adres: </p>' +
                   user.username +
-                  '<p>Je kunt nu 60 dagen Pillars gratis uitproberen.</p>' +
-                  '<p>Zodra de periode is verlopen, nemen wij per email contact met je op om te kijken of je Pillars wilt blijven gebruiken.</p>' +
-                  '<h3>Email verificatie</h3>' +
-                  '<p>Voordat je Pillars kunt gebruiken, vragen wij je om het email adres te verifieren.</p>' +
-                  '<p>Click aub op de onderstaande link om jouw email adres te verifieren: </p>' +
+                  '<h3>Activeer jouw account</h3>' +
                   'https://app.pillars.school/verify/' + token +
-                  '<p>We wensen je veel plezier met het gebruik van Pillars.</p>'
+                  '<p>Voordat je Pillars kunt gebruiken, vragen wij je om het email adres te verifieren. Klik op de link om jouw email adres te verifieren. </p>' +
+                  '<p>Daarna kun je 60 dagen Pillars gratis uitproberen.</p>' +
+                  '<p>Zodra de periode is verlopen, nemen wij per email contact met je op om te kijken of je Pillars wilt blijven gebruiken.</p>' +
+                  '<p>We wensen je veel plezier met het gebruik van Pillars.</p>' +
+                  '<p>Met vriendelijke groeten, </p>' +
+                  '<p>Pillars</p>'
                   ;
                   
                   var request = mailjet
