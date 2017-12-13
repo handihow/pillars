@@ -5,6 +5,16 @@
       <div>Berichten</div>
     </h2>
     <a class="positive ui button right" href="/message/new">Bericht Toevoegen</a>
+    <div class="ui segment">
+      <h4 class="ui right aligned header">
+        <i class="youtube icon"></i>
+        <div class="content">
+          <a href="https://youtu.be/VxXs9TzB_Ok" target="_blank">Informatie toevoegen door middel van berichten</a>
+          <div class="sub header">YouTube Instructie Video</div>
+        </div>
+      </h4>
+    </div>
+    <!--divider and then all messages-->
     <div class="ui divider"></div>
     <!--kaarten met berichten-->
     <div class="ui six doubling cards">
@@ -13,7 +23,7 @@
         <div class="content">
           <div class="header"><a href="/message/<%=message._id%>"><%= message.title %></a></div>
           <div class="description">
-            <%- message.message.substring(0,50)%>...
+            <%= message.message.substring(0,50)%>...
           </div>
           <div class="description">
             Datum: <%= message.created.toDateString() %>
