@@ -7,7 +7,13 @@
         <link rel="stylesheet" type="text/css" href="/stylesheets/app.css">
         <script src="https://use.fontawesome.com/0ad184d31e.js"></script>
         <script src="/../../../js/tinymce/tinymce.min.js"></script>
-        <script>tinymce.init({ selector:'textarea' , menubar: false });</script>
+        <script>
+        tinymce.init({ selector: 'textarea',  // change this value according to your HTML
+                        branding: false,
+                        menubar: false,
+                        plugins: "link",
+                        toolbar: "undo redo | styleselect | bold italic | link"});
+        </script>
     </head>
     <body>
         <div class="ui inverted menu">
