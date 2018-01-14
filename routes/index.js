@@ -4,8 +4,8 @@ var passport = require("passport");
 var User = require("../models/user");
 var asyncr = require("async");
 var crypto = require("crypto");
-var mailjet = require ('node-mailjet')
-  .connect(process.env.MJ_APIKEY_PUBLIC, process.env.MJ_APIKEY_PRIVATE);
+var ejs = require("ejs");
+var email = require("../settings/email");
 
 //LANDING PAGE route
 router.get("/", function(req, res){
@@ -34,47 +34,15 @@ router.post("/register", function(req,res){
                   user.emailAuthenticationToken = token;
                   user.save();
                   //create email message
-                  var htmlMessage = 
-                  '<p>Beste ' + user.firstName + ' ' + user.lastName + '</p>' +
-                  '<p>Je bent aangemeld met het email adres: </p>' +
-                  user.username +
-                  '<h3>Activeer jouw account</h3>' +
-                  'https://app.pillars.school/verify/' + token +
-                  '<p>Voordat je Pillars kunt gebruiken, vragen wij je om het email adres te verifieren. Klik op de link om jouw email adres te verifieren. </p>' +
-                  '<p>Daarna kun je 60 dagen Pillars gratis uitproberen.</p>' +
-                  '<p>Zodra de periode is verlopen, nemen wij per email contact met je op om te kijken of je Pillars wilt blijven gebruiken.</p>' +
-                  '<p>We wensen je veel plezier met het gebruik van Pillars.</p>' +
-                  '<p>Met vriendelijke groeten, </p>' +
-                  '<p>Pillars</p>'
-                  ;
-                  
-                  var request = mailjet
-                      .post("send", {'version': 'v3.1'})
-                      .request({
-                        "Messages":[
-                            {
-                                "From": {
-                                    "Email": "notifications@pillars.school",
-                                    "Name": "Pillars"
-                                },
-                                "To": [
-                                    {
-                                        "Email": user.username,
-                                        "Name": user.firstName + " " + user.lastName
-                                    }
-                                ],
-                                "Cc": [
-                                    {
-                                      "Email": "info@pillars.school",
-                                      "Name": "Pillars admin"
-                                    }
-                                ],
-                                "Subject": "Welkom bij Pillars",
-                                "HTMLPart": htmlMessage,
-                            }
-                        ]
-                      });
-                    request
+                  var template = "./emails/welkom.ejs";
+                  ejs.renderFile(template, user, function(err, html){
+                    if(err){
+                          req.flash("error", err.message);
+                          return res.redirect("/register");
+                      }
+                    //send the email
+                      var request = email.cc(user.username, user.firstName + " " + user.lastName, "Welkom bij Pillars", html);
+                      request
                       .then((result) => {
                         req.flash("success", "Welkom bij Pillars!");
                         res.redirect("/scholen");
@@ -83,6 +51,7 @@ router.post("/register", function(req,res){
                         req.flash('error', err.message);
                         res.redirect("/");
                       });
+                  });
                 }
               });
           });
@@ -138,7 +107,7 @@ router.post('/forgot', function(req, res, next) {
     function(token, done) {
       User.findOne({ username: req.body.username }, function(err, user) {
         if (err || !user) {
-        req.flash('error', 'No account with that email address exists.');
+        req.flash('error', 'Geen account met dat email adres gevonden.');
           return res.redirect('/forgot');
         }
         user.resetPasswordToken = token;
@@ -150,34 +119,14 @@ router.post('/forgot', function(req, res, next) {
       });
     },
     function(token, user, done) {
-      
-      var htmlMessage = 
-      '<p>Je hebt een nieuw wachtwoord aangevraagd bij Pillars</p>' +
-      '<p>Click aub op de onderstaande link om een nieuw wachtwoord aan te maken:</p>' +
-      'https://app.pillars.school/reset/' + token +
-      '<p>Als je geen nieuw wachtwoord hebt aangevraagd, dan hoef je niets te doen. Je wachtwoord bij Pillars blijft dan hetzelfde.</p>'
-      ;
-      
-      var request = mailjet
-          .post("send", {'version': 'v3.1'})
-          .request({
-            "Messages":[
-                {
-                    "From": {
-                        "Email": "notifications@pillars.school",
-                        "Name": "Pillars"
-                    },
-                    "To": [
-                        {
-                            "Email": user.username,
-                            "Name": user.firstName + " " + user.lastName
-                        }
-                    ],
-                    "Subject": "Pillars Wachtwoord Reset",
-                    "HTMLPart": htmlMessage,
-                }
-            ]
-          });
+      var template = "./emails/forgot.ejs";
+      ejs.renderFile(template, user, function(err, html){
+        if(err){
+              req.flash("error", err.message);
+              return res.redirect("/forgot");
+          }
+        //send the email
+        var request = email.nocc(user.username, user.firstName + " " + user.lastName, "Pillars Wachtwoord Reset", html);
         request
           .then((result) => {
             req.flash('success', 'Er is een email gestuurd naar ' + user.username + ' met verdere instructies.');
@@ -187,6 +136,7 @@ router.post('/forgot', function(req, res, next) {
             req.flash('error', err.message);
             res.redirect("/forgot");
           });
+      });
 }
   ], function(err) {
     req.flash("error", err.message);

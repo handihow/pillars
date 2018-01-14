@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <title>Pillars</title> 
+    <head>
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
+      <style>
+          #grey { 
+              background-color: LightGrey;
+          }
+      </style>   
+    </head>
+    <body>
+
+        <div class="ui segment" id="grey">
+            <img class="ui centered tiny image" src="https://pillars.school/wp-content/uploads/2017/06/cropped-pillars-logo2.png">
+            <div class="ui segment">
+                <h3 class="ui header">
+                    Nieuw Wachtwoord, <%=firstName%> <%=lastName%>?
+                </h3>
+                <p>Je hebt een nieuw wachtwoord aangevraagd bij Pillars.</p>
+                <p>Klik op de knop om een nieuw wachtwoord aan te vragen. <strong>Deze link is slechts 1 uur geldig.</strong></p>
+                <a class="fluid ui green button" href="https://app.pillars.school/reset/<%=resetPasswordToken%>">Klik hier om een nieuw wachtwoord te maken</a>
+                <h3>Was jij het niet?</h3>
+                <p>Als je geen nieuw wachtwoord hebt aangevraagd, dan hoef je niets te doen. Je wachtwoord bij Pillars blijft dan hetzelfde.</p>
+                <p>Je kunt altijd een email sturen naar info@pillars.school als je je zorgen maakt over jouw account!</p>
+                <p>Met vriendelijke groeten, </p>
+                <p><strong>Team Pillars</strong></p>
+            </div>
+        </div>
+    </body>
+</html>       
