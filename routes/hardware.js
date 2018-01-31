@@ -136,6 +136,33 @@ router.post("/", middleware.isSchoolOwner, function(req, res){
     });
 });
 
+//COPY - makes a copy of hardware in the database
+router.post("/:hardware_id/copy", middleware.isSchoolOwner, function(req, res){
+   Hardware.create(req.body.hardware, function(err, hardware){
+       if(err){
+           req.flash("error", "Hardware niet gevonden");
+           res.redirect("back");
+       } else {
+            //add owner (id and username) to hardware
+           hardware.owner = req.user._id;
+           hardware.save();
+           School.findById(req.params.id, function(err, school){
+               if(err){
+                   req.flash("error", "School niet gevonden");
+                   res.redirect("back");
+               }
+               
+               school.hardware.push(hardware);
+               school.save();
+               //redirect to school hardware show page
+               req.flash("success", "Hardware succesvol toegevoegd!");
+               res.redirect("/scholen/"+school._id+"/hardware");    
+           });
+       }
+    });
+});
+
+
 
 //HARDWARE INSTELLINGEN EDIT ROUTE
 router.get("/instellingen", middleware.isSchoolOwner, function(req, res){

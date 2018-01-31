@@ -65,6 +65,19 @@
                           href="/scholen/<%=school._id%>/hardware/<%=hardware._id%>">
                           Toon info
                         </a>
+                        <form action="/scholen/<%=school._id%>/hardware/<%=hardware._id%>/copy" method="post" id="delete">
+                          <input type="hidden" name="hardware[naam]" value="<%=hardware.naam%>">
+                          <input type="hidden" name="hardware[type]" value="<%=hardware.type%>">
+                          <input type="hidden" name="hardware[merk]" value="<%=hardware.merk%>">
+                          <input type="hidden" name="hardware[model]" value="<%=hardware.model%>">
+                          <input type="hidden" name="hardware[serialTag]" value="<%=hardware.serialTag%>">
+                          <input type="hidden" name="hardware[processor]" value="<%=hardware.processor%>">
+                          <input type="hidden" name="hardware[werkgeheugen]" value="<%=hardware.werkgeheugen%>">
+                          <input type="hidden" name="hardware[jaarIngebruikname]" value="<%=hardware.jaarIngebruikname%>">
+                          <input type="hidden" name="hardware[isTouchscreenDigibord]" value="<%=hardware.isTouchscreenDigibord%>">
+                          <input type="hidden" name="hardware[schermgrootteDigibord]" value="<%=hardware.schermgrootteDigibord%>">
+                          <button class="ui primary basic button" type="submit">Kopieer</button>
+                        </form>
                       </td>
                   </tr>
                 <% } %>
