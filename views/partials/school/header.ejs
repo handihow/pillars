@@ -25,7 +25,7 @@
                 Scholen
             </a>
           <% } %>
-          <% if(currentUser.role==="badmin") { %>
+          <% if(currentUser.role==="badmin" || currentUser.role ==="padmin") { %>
           <div class="ui dropdown item">
             Bestuur
             <i class="dropdown icon"></i>
@@ -59,6 +59,11 @@
             </div>            
           </div>
           <% } %>
+          <% if(currentUser.role ==="padmin") { %>
+          <a class="item" href="/admin">
+                Admin
+            </a>
+        <% } %>
           <div class="right menu">
             <a class="ui item" href="/user/<%=currentUser._id%>">
               Profiel: <%=currentUser.username%>

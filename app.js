@@ -27,6 +27,7 @@ var messageRoutes = require("./routes/message");
 var overviewRoutes = require("./routes/overview");
 var evaluationRoutes = require("./routes/evaluation");
 var user_evalRoutes = require("./routes/user_eval");
+var adminRoutes = require("./routes/admin");
 
 mongoose.connect(process.env.DATABASEURL, {useMongoClient: true}); //DATABASEURL=mongodb://localhost/scholen_app
 
@@ -72,6 +73,7 @@ app.use("/overview", overviewRoutes);
 app.use("/profiel", profielRoutes);
 app.use("/scholen/:id/evaluation", evaluationRoutes);
 app.use("/user/:id/evaluation", user_evalRoutes);
+app.use("/admin", adminRoutes);
 app.use(indexRoutes);
 
 app.listen(process.env.PORT, process.env.IP, function(){

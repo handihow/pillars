@@ -4,7 +4,7 @@
     <h2 class="ui center aligned header">
       <div>Scholen</div>
     </h2>
-    <% if(currentUser.role==="badmin") { %>
+    <% if(currentUser.role==="badmin" || currentUser.role ==="padmin") { %>
       <a class="positive ui button right" href="/scholen/new">Scholen Toevoegen</a>
     <% } %>
     <div class="ui segment">

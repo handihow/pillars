@@ -48,6 +48,8 @@ middlewareObj.isSchoolOwner = function (req, res, next) {
                     next();
                 } else if (req.user.role==="buser" && req.user.owner.equals(school.owner)) {
                     next();
+                } else if (req.user.role==="padmin") {
+                    next();
                 } else {
                     //check if user is school admin for this school
                     var isSchoolAdmin = false;
@@ -209,6 +211,8 @@ middlewareObj.isAuthenticatedBadmin = function(req, res, next){
                 //check if user is badmin and has authenticated email record
                 if(user.role === "badmin" && user.emailIsAuthenticated) {
                     next();
+                } else if (user.role==="padmin") {
+                    next();
                 } else {
                     req.flash("error", "Je hebt niet voldoende rechten of email is niet geverifieerd. Controleer je email op een bericht van Pillars met de link om email te verifieren. Als je geen email hebt ontvangen, ga dan naar je profielpagina, en druk daar op de knop Email verifieren. Er wordt dan een nieuwe email verzonden.");
                     res.redirect("back");
@@ -237,6 +241,30 @@ middlewareObj.isProfielOwner = function(req, res, next){
                    res.redirect("back"); 
                }
            } 
+        });
+    } else {
+        req.flash("error", "Inloggen a.u.b.!");
+        res.redirect("/login");  
+    }
+};
+
+middlewareObj.isPadmin = function(req, res, next) {
+    //check if user is logged in
+    if(req.isAuthenticated()){
+        //find User
+        User.findById(req.user._id, function(err, user){
+            if(err ||!user){
+                req.flash("error", "Account niet gevonden");
+                res.redirect("back"); 
+            } else {
+                //check if user is padmin and has authenticated email record
+                if(user.role === "padmin") {
+                    next();
+                } else {
+                    req.flash("error", "Je hebt niet voldoende rechten om deze pagina te bekijken.");
+                    res.redirect("back");
+                }
+            }
         });
     } else {
         req.flash("error", "Inloggen a.u.b.!");

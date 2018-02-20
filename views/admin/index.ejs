@@ -1,0 +1,34 @@
+<% include ../partials/school/header %>
+
+<div class="ui container">
+  
+  <h2 class="ui center aligned header">
+      <div>Pillars Admin</div>
+  </h2>
+  
+  <div class="ui divider"></div>
+    <div class="ui cards">
+      <!--make a card for each buser-->
+      <% schools.forEach(function(school){ %>
+      <div class="card">
+        <div class="content">
+          <div class="header"><%=school.instellingsnaam %></div>
+          <div class="description">
+                <%=school.owner.firstName%> <%=school.owner.lastName%>
+          </div>
+          <div class="description">
+                <%= school.owner.username %>
+          </div>
+        </div>
+        
+          <a class="ui bottom attached button" href="/scholen/<%=school._id%>">
+              <i class="show icon"></i>
+              Bekijk 
+          </a>
+    
+      </div>
+      <% }); %>
+    </div>
+</div>
+  
+<% include ../partials/school/footer %>
