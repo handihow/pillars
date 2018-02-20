@@ -17,7 +17,14 @@
                 <%=school.owner.firstName%> <%=school.owner.lastName%>
           </div>
           <div class="description">
-                <%= school.owner.username %>
+                <strong><%= school.owner.username %></strong>
+          </div>
+          <div class="description">
+                <p>Algemeen: <%= school.isIngevuldAlgemeneInformatie %></p>
+                <p>Hardware: <%= school.isToegevoegdHardware %></p>
+                <p>Software: <%= school.isToegevoegdSoftware %></p>
+                <p>Deskundigheid: <%= school.isIngevuldDeskundigheid %></p>
+                <p>Organisatie: <%= school.isIngevuldOrganisatie %></p>
           </div>
         </div>
         
