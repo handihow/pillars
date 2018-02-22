@@ -60,9 +60,16 @@
           </div>
           <% } %>
           <% if(currentUser.role ==="padmin") { %>
-          <a class="item" href="/admin">
-                Admin
-            </a>
+          <div class="ui dropdown item">
+            Admin
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <a class="item" href="/admin">Lijst scholen</a>
+              <a class="item" href="/admin/badmin">Bestuur administrator lijst</a>
+            </div>            
+          </div>
+          
+          
         <% } %>
           <div class="right menu">
             <a class="ui item" href="/user/<%=currentUser._id%>">
