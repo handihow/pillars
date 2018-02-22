@@ -6,36 +6,34 @@
       <div>Pillars Admin</div>
   </h2>
   
-  <div class="ui divider"></div>
-    <div class="ui cards">
-      <!--make a card for each buser-->
-      <% schools.forEach(function(school){ %>
-      <div class="card">
-        <div class="content">
-          <div class="header"><%=school.instellingsnaam %></div>
-          <div class="description">
-                <%=school.owner.firstName%> <%=school.owner.lastName%>
-          </div>
-          <div class="description">
-                <strong><%= school.owner.username %></strong>
-          </div>
-          <div class="description">
-                <p>Algemeen: <%= school.isIngevuldAlgemeneInformatie %></p>
-                <p>Hardware: <%= school.isToegevoegdHardware %></p>
-                <p>Software: <%= school.isToegevoegdSoftware %></p>
-                <p>Deskundigheid: <%= school.isIngevuldDeskundigheid %></p>
-                <p>Organisatie: <%= school.isIngevuldOrganisatie %></p>
-          </div>
-        </div>
-        
-          <a class="ui bottom attached button" href="/scholen/<%=school._id%>">
-              <i class="show icon"></i>
-              Bekijk 
-          </a>
-    
-      </div>
-      <% }); %>
-    </div>
+   <table class="ui celled small table">
+      <thead>
+        <tr>
+          <th>Instellingsnaam</th>
+          <th>Eigenaar record</th>
+          <th>Email</th>
+          <th>Algemene info</th>
+          <th>Hardware</th>
+          <th>Digitale Leermiddelen</th>
+          <th>Deskundigheid</th>
+          <th>Organisatie</th>
+          <th>Medewerkers</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% schools.forEach(function(school){ %>
+            <tr>
+              <td><a href="/scholen/<%=school._id%>"><%=school.instellingsnaam%></a></td>
+              <td><%=school.owner.firstName%> <%=school.owner.lastName%></td>
+              <td class="right aligned" ><%= school.owner.username %></td>
+              <td class="center aligned"><% if(school.isIngevuldAlgemeneInformatie){ %> <i class="large green checkmark icon"></i> <% } %> </td>
+              <td class="center aligned"><% if(school.isToegevoegdHardware){ %> <i class="large green checkmark icon"></i> <% } %> </td>
+              <td class="center aligned"><% if(school.isToegevoegdSoftware){ %> <i class="large green checkmark icon"></i> <% } %> </td>
+              <td class="center aligned"><% if(school.isIngevuldDeskundigheid){ %> <i class="large green checkmark icon"></i> <% } %> </td>
+              <td class="center aligned"><% if(school.isIngevuldOrganisatie){ %> <i class="large green checkmark icon"></i> <% } %> </td>
+              <td class="center aligned"><% if(school.isToegevoegdMedewerker){ %> <i class="large green checkmark icon"></i> <% } %> </td>
+            </tr>
+        <% }) %>
+      </tbody>
+    </table>
 </div>
-  
-<% include ../partials/school/footer %>
