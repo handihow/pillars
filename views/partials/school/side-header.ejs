@@ -27,7 +27,7 @@
                 <i class="sitemap icon"></i>
                 Organisatie
               </a>
-              <% if(currentUser.role ==="badmin" || currentUser.role==="sadmin" || currentUser.role=== "buser") { %>
+              <% if(currentUser.role ==="badmin" || currentUser.role==="sadmin" || currentUser.role=== "buser" || currentUser.role==="padmin") { %>
               <a class="item <%if(url.includes("/scholen/"+school._id+"/user")) { %> active <% } %>" href="/scholen/<%= school._id %>/user"</a>
                 <%if(!school.isToegevoegdMedewerker) { %><i class="red write icon"></i><% } %>
                 <i class="users icon"></i>
