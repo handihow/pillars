@@ -85,6 +85,6 @@ var scholenSchema=  mongoose.Schema({
           ref: "Evaluation"
          }
       ]
-});
+}, { usePushEach: true });
 
 module.exports = mongoose.model("School", scholenSchema);

@@ -11,7 +11,7 @@ var profielSchema = mongoose.Schema (
               ref: "User"
             },
         isActueel: Boolean
-    }
+    }, { usePushEach: true }
 );
 
 module.exports = mongoose.model("Profiel", profielSchema);

@@ -3,9 +3,10 @@ var router = express.Router({mergeParams: true});
 var School = require("../models/school");
 var middleware = require("../middleware");
 var global = require("../models/global");
+var json2csv = require("json2csv");
 
 //SHOW ROUTE
-router.get("/", middleware.isLoggedIn, function(req, res){
+router.get("/", middleware.isSchoolOwner, function(req, res){
     School.findById(req.params.id).populate("owner").populate("tests").exec(function(err, school){
       if(err ||!school){
           req.flash("error", "School niet gevonden.");
@@ -17,7 +18,7 @@ router.get("/", middleware.isLoggedIn, function(req, res){
 });
 
 //EDIT ROUTE
-router.get("/edit", middleware.isLoggedIn, function(req, res){
+router.get("/edit", middleware.isSchoolOwner, function(req, res){
     School.findById(req.params.id, function(err, school){
        if(err || !school){
            req.flash("error", "School niet gevonden.");
@@ -29,7 +30,7 @@ router.get("/edit", middleware.isLoggedIn, function(req, res){
 });
 
 //UPDATE ROUTE
-router.put("/", middleware.isLoggedIn, function(req, res){
+router.put("/", middleware.isSchoolOwner, function(req, res){
     School.findByIdAndUpdate(req.params.id, req.body.school, function(err, school){
        if(err || !school){
            req.flash("error", "School niet gevonden.");
@@ -41,6 +42,36 @@ router.put("/", middleware.isLoggedIn, function(req, res){
            res.redirect("/scholen/" + req.params.id + "/deskundigheid");
        }
     });
+});
+
+//DOWNLOAD ROUTE TEST OVERVIEW SCHOLEN
+router.get("/download", middleware.isSchoolOwner, function(req, res){
+    School.findById(req.params.id)
+          .populate("tests")
+          .exec(function(err, school){
+              if(err || !school) {
+                req.flash("error", err.message);
+                res.redirect("back");
+            } else {
+                var testList = [];
+                school.tests.forEach(function(test){
+                    test.school = school.instellingsnaam;
+                    testList.push(test);
+                });
+                var fields = ['school', 'subject', 'result','username'];
+                var fieldNames = ['School', 'Onderdeel', 'Resultaat', 'Gebruiker'];
+                json2csv({ data: testList, fields: fields, fieldNames: fieldNames }, function(err, csv) {
+                    if(err){
+                        req.flash("error", err.message);
+                        res.redirect("back");
+                    } else {
+                        res.setHeader('Test-download', 'attachment; filename=tests.csv');
+                        res.set('Content-Type', 'text/csv');
+                        res.status(200).send(csv);
+                    }
+                });
+            }
+          });
 });
 
 module.exports = router;

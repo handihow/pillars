@@ -16,7 +16,7 @@ var softwareSchema = mongoose.Schema (
             },
             username: String
         }
-    }
+    }, { usePushEach: true }
 );
 
 module.exports = mongoose.model("Software", softwareSchema);

@@ -29,7 +29,7 @@ var evaluationRoutes = require("./routes/evaluation");
 var user_evalRoutes = require("./routes/user_eval");
 var adminRoutes = require("./routes/admin");
 
-mongoose.connect(process.env.DATABASEURL, {useMongoClient: true}); //DATABASEURL=mongodb://localhost/scholen_app
+mongoose.connect(process.env.DATABASEURL); //DATABASEURL=mongodb://localhost/scholen_app
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
@@ -76,6 +76,6 @@ app.use("/user/:id/evaluation", user_evalRoutes);
 app.use("/admin", adminRoutes);
 app.use(indexRoutes);
 
-app.listen(process.env.PORT, process.env.IP, function(){
+app.listen(process.env.PORT || 8080, process.env.IP, function(){
    console.log("The Scholen Server has started!"); 
 });

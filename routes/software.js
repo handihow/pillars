@@ -4,6 +4,7 @@ var School = require("../models/school");
 var Software = require("../models/software");
 var global = require("../models/global");
 var middleware = require("../middleware");
+var json2csv = require("json2csv");
 
 //INDEX - list of software
 router.get("/", middleware.isLoggedIn, function(req, res){
@@ -58,6 +59,64 @@ router.post("/", middleware.isSchoolOwner, function(req, res){
         });
       }
     });
+});
+
+//DOWNLOAD ROUTE SOFTWARE OVERVIEW SCHOLEN
+router.get("/download", middleware.isSchoolOwner, function(req, res){
+    School.findById(req.params.id)
+          .populate("software")
+          .exec(function(err, school){
+              if(err || !school) {
+                req.flash("error", err.message);
+                res.redirect("back");
+            } else {
+                var softwareList = [];
+                school.software.forEach(function(software){
+                    var newSoftware = {};
+                    newSoftware.school = school.instellingsnaam;
+                    newSoftware.vak = software.vak;
+                    newSoftware.naam = software.naam;
+                    software.functie.forEach(function(functie){
+                        newSoftware[functie] = "Ja";
+                    });
+                    software.groep.forEach(function(groep){
+                        newSoftware[groep] = "Ja"; 
+                    });
+                    software.kwaliteit.forEach(function(kwaliteit){
+                        newSoftware[kwaliteit] = "Ja";
+                    });
+                    newSoftware.effectiviteit = software.effectiviteit;
+                    softwareList.push(newSoftware);
+                });
+                var fields = ['school', 'vak', 'naam'];
+                var fieldNames = ['School', 'Vak', 'Naam'];
+                global.softwareFuncties.forEach(function(functie){
+                   fields.push(functie);
+                   fieldNames.push(functie);
+                });
+                for (var i=1; i<=8; i++) {
+                    var groep = "Groep " + i;
+                    fields.push(groep);
+                    fieldNames.push(groep);
+                }
+                global.softwareKwaliteiten.forEach(function(kwaliteit){
+                   fields.push(kwaliteit);
+                   fieldNames.push(kwaliteit);
+                });
+                fields.push('effectiviteit');
+                fieldNames.push('Effectiviteit');
+                json2csv({ data: softwareList, fields: fields, fieldNames: fieldNames }, function(err, csv) {
+                    if(err){
+                        req.flash("error", err.message);
+                        res.redirect("back");
+                    } else {
+                        res.setHeader('Software-download', 'attachment; filename=software.csv');
+                        res.set('Content-Type', 'text/csv');
+                        res.status(200).send(csv);
+                    }
+                });
+            }
+          });
 });
 
 //SHOW individual software records

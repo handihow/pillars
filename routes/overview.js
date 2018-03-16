@@ -227,6 +227,10 @@ router.get("/pillars", middleware.isAuthenticatedBadmin, function(req, res){
             } else {
                 var results = [];
                 scholen.forEach(function(school){
+                    if(!school.normering){
+                        req.flash("error", "Je moet voor alle scholen normeringen vastleggen voor je dit overzicht kunt bekijken.")
+                        return res.redirect("back");
+                    }
                     var result = score.calculate(school);
                     results.push(result);
                 });

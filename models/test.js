@@ -12,7 +12,7 @@ var testSchema = mongoose.Schema (
         username: String,
         questions: [String],
         answers: [Boolean]
-    }
+    }, { usePushEach: true }
 );
 
 module.exports = mongoose.model("Test", testSchema);

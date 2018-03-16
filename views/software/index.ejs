@@ -2,6 +2,9 @@
 <% include ../partials/school/side-header %>
 
       <h2 class="ui header"><i class="student icon"></i></i>Digitale Leermiddelen van <%= school.instellingsnaam %></h2>
+      <a class="primary ui button right" href="/scholen/<%=school._id%>/software/download">Download Digitale Leermiddelen CSV</a>
+      <br>
+      <br>
         <div class="ui cards">
           <!--make a card for each type of software-->
           <% Object.keys(global.software).forEach(function(type){ %>

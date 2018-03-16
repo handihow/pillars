@@ -123,6 +123,6 @@ var normeringSchema=  mongoose.Schema({
           type: mongoose.Schema.Types.ObjectId,
           ref: "User"
       }
-});
+} , { usePushEach: true });
 
 module.exports = mongoose.model("Normering", normeringSchema);

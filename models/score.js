@@ -78,6 +78,7 @@ score.software = function(school, vak){
     var groupedSoftware = new Set();
     //first, combine all the software from the course
     school.software.forEach(function(software, i){
+
         //check if the software is for this course and quality is sufficient
         if(software.vak === vak && software.kwaliteit.length >= school.normering[vak].kwaliteiten) {    
                 //if so, add to the group of software (values are unique because of the use of SET)

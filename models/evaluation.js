@@ -18,6 +18,6 @@ var evaluationSchema=  mongoose.Schema({
           type: mongoose.Schema.Types.ObjectId,
           ref: "School"
       },  
-});
+}, { usePushEach: true });
 
 module.exports = mongoose.model("Evaluation", evaluationSchema);

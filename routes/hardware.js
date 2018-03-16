@@ -5,6 +5,7 @@ var Hardware = require("../models/hardware");
 var global = require("../models/global");
 var middleware = require("../middleware");
 var csv = require("fast-csv");
+var json2csv = require("json2csv");
 
 //INDEX - list of hardware
 router.get("/", middleware.isLoggedIn, function(req, res){
@@ -126,7 +127,12 @@ router.post("/", middleware.isSchoolOwner, function(req, res){
                hardware.save();
                school.hardware.push(hardware);
                school.isToegevoegdHardware = true;
-               school.save();
+               school.save(function(err, school){
+                if(err){
+                  console.log(err);
+                }
+                console.log(school);
+               });
                //redirect to school hardware show page
                req.flash("success", "Hardware succesvol toegevoegd!");
                res.redirect("/scholen/"+school._id+"/hardware");
@@ -194,6 +200,40 @@ router.put("/instellingen", middleware.isSchoolOwner, function(req, res){
            res.redirect("/scholen/" + req.params.id+"/hardware"); 
        }
     });
+});
+
+//DOWNLOAD ROUTE HARDWARE OVERVIEW SCHOLEN
+router.get("/download", middleware.isAuthenticatedBadmin, function(req, res){
+    School.findById(req.params.id)
+          .populate("hardware")
+          .exec(function(err, school){
+              if(err || !school) {
+                req.flash("error", err.message);
+                res.redirect("back");
+            } else {
+                var hardwareList = [];
+                school.hardware.forEach(function(hardware){
+                    hardware.school = school.instellingsnaam;
+                    hardwareList.push(hardware);
+                });
+                var fields = ['school', 'type', 'naam', 'merk', 'model', 'serialTag', 
+                                'processor', 'werkgeheugen', 'jaarIngebruikname','aantalWerkplekkenMultipoint',
+                                'isTouchscreenDigibord', 'schermgrootteDigibord'];
+                var fieldNames = ['School', 'Type', 'Naam', 'Merk', 'Model', 'Serial/Tag', 
+                                'Processor', 'Werkgeheugen (GB)', 'Jaar ingebruikname', 'Aantal werkplekken (Multipoint)',
+                                'is Touchscreen', 'Schermgrootte'];
+                json2csv({ data: hardwareList, fields: fields, fieldNames: fieldNames }, function(err, csv) {
+                    if(err){
+                        req.flash("error", err.message);
+                        res.redirect("back");
+                    } else {
+                        res.setHeader('Hardware-download', 'attachment; filename=hardware.csv');
+                        res.set('Content-Type', 'text/csv');
+                        res.status(200).send(csv);
+                    }
+                });
+            }
+          });
 });
 
 //SHOW individual hardware records

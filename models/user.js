@@ -22,8 +22,11 @@ var UserSchema = new mongoose.Schema({
           type: mongoose.Schema.Types.ObjectId,
           ref: "Evaluation"
          }
-      ]
-});
+      ],
+   geboorteDatum: Date,
+   geslacht: String,
+   bouw: String
+}, { usePushEach: true });
 
 UserSchema.plugin(passportLocalMongoose);
 

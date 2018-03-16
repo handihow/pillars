@@ -9,6 +9,6 @@ var messageSchema=  mongoose.Schema({
           type: mongoose.Schema.Types.ObjectId,
           ref: "User"
       }
-});
+}, { usePushEach: true });
 
 module.exports = mongoose.model("Message", messageSchema);

@@ -38,6 +38,20 @@
         <h4 class="content">Email geverifieerd</h4>
         <div class="content"><% if (user.emailIsAuthenticated){ %>Ja <%} else {%>Nee <%}%></div>
       </div>
+      <div class="four wide column">
+        <h4 class="content">Leeftijd</h4>
+        <div class="content"><%= user.geboorteDatum? ~~((Date.now() - user.geboorteDatum) / (31557600000)) : null %></div>
+      </div>
+    </div>
+    <div class="ui stackable grid">
+      <div class="four wide column">
+        <h4 class="content">Geslacht</h4>
+        <div class="content"><%=user.geslacht%></div>
+      </div>
+      <div class="four wide column">
+        <h4 class="content">Indeling</h4>
+        <div class="content"><%=user.bouw%></div>
+      </div>
     </div>
     <div class="ui divider"></div>
     <a class="positive ui button right" href="/user/<%=user._id%>/edit">Gegevens wijzigen</a>

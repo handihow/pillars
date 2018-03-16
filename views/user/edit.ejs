@@ -36,6 +36,59 @@
               <input type="text" name="user[job]" value="<%=user.job%>" id="user[job]">
           </div>
         </div>
+        <div class="two fields">
+          <div class="field">
+              <label>Geboortedatum</label>
+              <input type="date" name="user[geboorteDatum]" value="<%=user.geboorteDatum.toISOString().slice(0,10)%>">
+          </div>
+          <div class="field">
+              <label>Geslacht</label>
+              <div class="ui selection dropdown">
+                  <input type="hidden" name="user[geslacht]" id="dropdown" value="<%=user.geslacht%>">
+                  <div class="text"><%=user.geslacht%></div>
+                  <i class="dropdown icon"></i>
+                  <div class="menu">
+                        <div class="item <%if(user.geslacht==="M"){%>active<%}%>"
+                            data-value="M"
+                          <% if(user.geslacht==="M"){ %> selected="" <% } %> >
+                              Man
+                        </div>
+                        <div class="item <%if(user.geslacht==="V"){%>active<%}%>"
+                            data-value="V"
+                          <% if(user.geslacht==="V"){ %> selected="" <% } %> >
+                              Vrouw
+                        </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+        <div class="two fields">
+          <div class="field">
+              <label>Indeling</label>
+              <div class="ui selection dropdown">
+                  <input type="hidden" name="user[bouw]" id="dropdown" value="<%=user.bouw%>">
+                  <div class="text"><%=user.bouw%></div>
+                  <i class="dropdown icon"></i>
+                  <div class="menu">
+                        <div class="item <%if(user.bouw==="Onderbouw"){%>active<%}%>"
+                            data-value="Onderbouw"
+                          <% if(user.bouw==="Onderbouw"){ %> selected="" <% } %> >
+                              Onderbouw
+                        </div>
+                        <div class="item <%if(user.bouw==="Middenbouw"){%>active<%}%>"
+                            data-value="Middenbouw"
+                          <% if(user.bouw==="Middenbouw"){ %> selected="" <% } %> >
+                              Middenbouw
+                        </div>
+                        <div class="item <%if(user.bouw==="Bovenbouw"){%>active<%}%>"
+                            data-value="Bovenbouw"
+                          <% if(user.bouw==="Bovenbouw"){ %> selected="" <% } %> >
+                              Bovenbouw
+                        </div>
+                  </div>
+              </div>
+          </div>
+        </div>
     <button class="ui button" type="submit">Bewaren</button>
     <div class="ui error message"></div>
     </form>
