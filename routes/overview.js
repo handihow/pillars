@@ -226,15 +226,20 @@ router.get("/pillars", middleware.isAuthenticatedBadmin, function(req, res){
                 res.redirect("back");
             } else {
                 var results = [];
+                var err = false;
                 scholen.forEach(function(school){
-                    if(!school.normering){
-                        req.flash("error", "Je moet voor alle scholen normeringen vastleggen voor je dit overzicht kunt bekijken.")
-                        return res.redirect("back");
+                    if(school.normering == undefined){
+                        err = true;
                     }
                     var result = score.calculate(school);
                     results.push(result);
                 });
-                res.render("overview/pillars", {scholen: scholen, results: results});         
+                if(err){
+                    req.flash("error", "Je moet voor alle scholen normeringen vastleggen voor je dit overzicht kunt bekijken.")
+                    res.redirect("/scholen");
+                } else {
+                    res.render("overview/pillars", {scholen: scholen, results: results});  
+                }      
             }
           });
 });
