@@ -223,6 +223,9 @@ score.calculate = function(school) {
             ictInkoper: 0
         }
     };
+    if(typeof(school.normering)==undefined || !school.normering){
+        return result;
+    }
     if(school.isToegevoegdHardware && school.isIngevuldAlgemeneInformatie) {
         //check computers per student
         result.hardware.computersPerStudent = score.computersPerStudent(school);
