@@ -26,6 +26,7 @@
           <th>Deskundigheid</th>
           <th>Organisatie</th>
           <th>Bekijk</th>
+          <th>Rapport</th>
         </tr>
       </thead>
       <tbody>
@@ -37,6 +38,8 @@
               <td><%=results[i].totaal.deskundigheid.toFixed(2)%></td>
               <td><%=results[i].totaal.organisatie.toFixed(2)%></td>
               <td><a class="ui mini primary basic button" href="/scholen/<%=school._id%>/pillars">Bekijk</a></td>
+              <td><a class="ui mini positive basic button" href="<%=results[i].link%>" 
+                    <%if(results[i].link!=="#"){%>target="_blank"<%}%>>Rapport</a></td>
             </tr>
         <% }) %>
       </tbody>

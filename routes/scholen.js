@@ -144,12 +144,18 @@ router.put("/:id", middleware.isLoggedIn, function(req, res){
 
 //DELETE ROUTE
 router.delete("/:id", middleware.isSchoolOwner, function(req, res){
-   School.findByIdAndRemove(req.params.id, function(err){
+   School.findById(req.params.id, function(err, school){
        if(err){
            res.redirect("/scholen");
        } else {
-           req.flash("success", "School verwijderd");
-           res.redirect("/scholen");  
+           school.remove(function(err){
+              if(err){
+                res.redirect("/scholen");
+              } else {
+                req.flash("success", "School verwijderd");
+                res.redirect("/scholen"); 
+              }
+           });
        }
    });
 });
