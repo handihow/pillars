@@ -24,7 +24,7 @@ $(document).ready(function() {
             organisatieBorderColors.push('rgba(0, 0, 0, 1)');
         })
         var myChart = new Chart(ctx, {
-          type: 'bar',
+          type: 'horizontalBar',
           data: {
             labels: results.map(o => o.school),
             datasets: [{
