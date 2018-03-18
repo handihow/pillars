@@ -39,7 +39,9 @@
         <div class="two fields">
           <div class="field">
               <label>Geboortedatum</label>
-              <input type="date" name="user[geboorteDatum]" value="<%=user.geboorteDatum? user.geboorteDatum.toISOString().slice(0,10) : null %>">
+              <input type="date" name="user[geboorteDatum]" 
+                id="geboorteDatum"
+                value="<%=user.geboorteDatum? user.geboorteDatum.toISOString().slice(0,10) : null %>">
           </div>
           <div class="field">
               <label>Geslacht</label>
