@@ -187,6 +187,7 @@ score.organisation = function(school, functie){
 score.calculate = function(school) {
     //define the output variable "result" of the function
     var result = {
+        school: school.instellingsnaam,
         totaal: {
             hardware:0,
             software:0,

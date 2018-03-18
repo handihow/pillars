@@ -235,6 +235,32 @@ router.get("/pillars", middleware.isAuthenticatedBadmin, function(req, res){
           });
 });
 
+//SHOW ROUTE TEST RESULTATEN SCHOLEN
+router.get("/pillars/api", middleware.isAuthenticatedBadmin, function(req, res){
+    School.find(
+            {"owner": req.user._id}, 
+            null,
+            {sort: {instellingsnaam: 1}})
+          .populate("hardware")
+          .populate("software")
+          .populate("tests")
+          .populate("normering")
+          .exec(function(err, scholen){
+              if(err || !scholen) {
+                req.flash("error", err.message);
+                res.redirect("back");
+            } else {
+                var results = [];
+                scholen.forEach(function(school){
+                    var result = score.calculate(school);
+                    results.push(result);
+                });
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify(results));
+            }
+          });
+});
+
 //DOWNLOAD ROUTE TEST RESULTATEN SCHOLEN
 router.get("/pillars/download", middleware.isAuthenticatedBadmin, function(req, res){
     School.find(

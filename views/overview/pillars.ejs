@@ -4,6 +4,7 @@
     <h2 class="ui center aligned header">
       <div>Overzicht Pillars Resultaten</div>
     </h2>
+    <canvas id="grafiek"></canvas>
     <p>Dit is een overzicht van alle Pillars resultaten van scholen aangesloten bij jouw bestuur. Je kunt deze gegevens downloaden als csv bestand.</p>
     <div class="ui message">
       <div class="header">
@@ -11,7 +12,9 @@
       </div>
       <p>Het csv bestand heeft een komma als scheidingsteken. Heb je problemen met het openen van het bestand?
       Probeer het bestand dan eens te importeren in een Google sheet. Maak hiervoor een nieuwe Google sheet aan 
-      en kies Bestand-->Importeren. Je kunt dan de komma als scheidingsteken selecteren.</p>
+      en kies Bestand-->Importeren. Je kunt dan de komma als scheidingsteken selecteren. </p>
+      <p>Gebruik je Safari? Dan wordt het csv bestand in je browser getoond. Je kunt dan daarna de pagina alsnog
+      bewaren als csv. Als dit niet lukt, gebruik dan een andere browser, bijvoorbeeld Chrome.</p>
        <a class="ui primary small button" href="/overview/pillars/download">
       Download csv bestand
       </a>
@@ -46,4 +49,15 @@
     </table>
 </div>
 
-<% include ../partials/school/footer %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+<script src="/../../js/app.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/components/form.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/components/dropdown.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/components/transition.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/components/tab.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script src="/../../js/pillars-overview.js"></script>
+
+</body>
+</html>
