@@ -54,10 +54,11 @@
       </div>
     </div>
     <div class="ui divider"></div>
-    <a class="positive ui button right" href="/user/<%=user._id%>/edit">Gegevens wijzigen</a>
-    <a class="positive ui button right" href="/forgot">Wachtwoord wijzigen</a>
-    <a class="positive ui button right" href="/user/<%=user._id%>/verify">Email verifieren</a>
-    <a class="positive ui button right" href="/user/<%=user._id%>/evaluation">Evaluaties</a>
+    <a class="ui yellow button right" href="/user/<%=user._id%>/edit">Gegevens wijzigen</a>
+    <a class="ui blue button right" href="/forgot">Wachtwoord wijzigen</a>
+    <a class="ui red button right" href="/user/<%=user._id%>/verify">Email verifieren</a>
+    <a class="ui black button right" href="/user/<%=user._id%>/evaluation">Evaluaties</a>
+    <a class="ui green button right" href="/user/<%=user._id%>/ready">Klaar met invullen!</a>
     <% var i=0%>
     <div class="ui top attached tabular menu">
     <% Object.keys(global.profiel).forEach(function(key){ %>
@@ -84,7 +85,7 @@
             <%}%>
           <%})%>
           <div class="ui divider"></div>
-          <a class="ui primary button" href="/user/<%=user._id%>/test/new/<%=key%>">Test <%=key%></a>
+          <a class="ui primary basic button" href="/user/<%=user._id%>/test/new/<%=key%>">Test <%=key%></a>
       </div>
     <% j++ %>
     <%});%>

@@ -1,0 +1,41 @@
+<% include ../partials/school/header %>
+<div class="ui container">
+    <div class="ui huge header">Klaar met Invullen</div>
+    <div class="ui divider"></div>
+    <div class="ui segment">
+        <h4 class="ui header inline">
+          Je bent klaar met invullen. Wat nu?
+        </h4>
+        <p>Nu je klaar bent met invullen van de vragenlijsten is het tijd om te bekijken op welke vlakken je jezelf kunt verbeteren.<p>
+        <p>Bekijk eerst je resultaten. Daarna kun je verder met zelfstudie of het indienen van een hulpverzoek.</p>
+        <p>Als laatste verzoeken wij je om periodiek een evaluatiegesprek te voeren met je leidinggevende. 
+        Dit evaluatiegesprek kan worden vastgelegd op jouw profielpagina.</p>
+        <a class="ui yellow button right" href="https://pillars.school/zelfhulp" target="_blank">Zelfstudie</a>
+	    <a class="ui red button right" href="#">Hulpverzoek</a>
+	    <a class="ui blue button right" href="/user/<%=user._id%>/evaluation">Evaluaties</a>
+    </div>
+    <div class="ui grid">
+    	<div class="twelve wide column"><canvas id="grafiek"></canvas></div>
+    	<div class="four wide column">
+    		<h5>Je kunt maximaal op ieder onderdeel 100% scoren.</h5>
+    		<p>Heb je op een onderdeel minder dan 50% gescoord? 
+    		Dan raden wij je sterk aan om een plan van aanpak te maken om dit op termijn te verbeteren.</p>
+    		<p>Heb je tussen de 50-75% gescoord? We raden je dan aan om je op dit vlak verder te ontwikkelen.</p>
+    		<p>Heb je boven de 75% gescoord? Prima! 
+    		Focus je eerst op de mindere onderdelen voordat je je op dit onderdeel verder op probeert te ontwikkelen.</p>
+    	</div>
+    </div>
+    
+</div>
+        
+<% include ../partials/school/footer %>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+<script src="/../../js/app.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/components/form.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/components/dropdown.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/components/transition.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/components/tab.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script src="/../../js/test-results-overview.js"></script>

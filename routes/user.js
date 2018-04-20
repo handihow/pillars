@@ -160,6 +160,37 @@ router.get("/user/:id", middleware.isLoggedIn, function(req, res){
     });
 });
 
+//SHOW ROUTE - READY WITH FILLING QUESTIONS PAGE
+router.get("/user/:id/ready", middleware.isLoggedIn, function(req, res){
+  User.findById(req.params.id, function(err, user){
+      if(err || !user){
+          req.flash("error", err);
+          res.redirect("back");
+      } else {
+            Test.find({"owner": user._id}, function(err, tests){
+                if(err) {
+                    req.flash("error", err);
+                } else {
+                    res.render("user/ready", {user: user, global: global, tests: tests});        
+                }
+            });
+      }
+    });
+});
+
+//API ROUTE TO SHOW TEST RESULTS OF A CERTAIN USER
+router.get("/user/:id/api/tests", middleware.isLoggedIn, function(req, res){
+  Test.find({"owner": req.params.id}, function(err, tests){
+      if(err) {
+          req.flash("error", err);
+      } else {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(tests));        
+      }
+  });
+});
+
+
 //EDIT ROUTE - EDIT PROFILE PAGE
 router.get("/user/:id/edit", middleware.isUser, function(req,res){
     User.findById(req.params.id, function(err, user){

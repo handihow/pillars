@@ -1,6 +1,22 @@
 
+function goBack() { window.history.back(); }
+
 //load jQuery when document is ready
 $(document).ready(function() {
+
+  $(document).ready(function() {
+    
+    $("#delete").click(function(){
+      $('.warning').removeClass("hidden");
+      $('#delete').addClass("disabled");
+    });
+    
+    $("#cancel").click(function(){
+      $('.warning').addClass("hidden");
+      $('#delete').removeClass("disabled");
+    });
+    
+  })
 
 //================================================//
 //FORM VALIDATIONS ON THE SCHOLEN ROUTE//

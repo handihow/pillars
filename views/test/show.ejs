@@ -2,17 +2,8 @@
 
 <div class="ui container">
     <h2 class="ui header">Test: <%=test.subject%></h2>
-    <% if (user==="test_overview") { %>
-      <a class="ui labeled icon button" href="/overview/tests">
-    <% } else if (user==="desk_overview") { %>
-      <a class="ui labeled icon button" href="#">
-    <% } else { %>
-      <a class="ui labeled icon button" href="/user/<%=user%>">
-    <% } %>
-      <i class="left chevron icon"></i>
-      Terug
-    </a>
-    
+    <button class="ui labeled icon button" onclick="goBack()"><i class="left chevron icon"></i>Terug</button>
+
     <hr>
 
     <%=test.created.toDateString()%>

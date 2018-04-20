@@ -1,0 +1,84 @@
+<% include ../partials/school/header %>
+
+<div class="ui container">
+    <form class="ui form" action="/scholen/handmatig" method="POST" id="schoolEdit">
+         <h4 class="ui dividing header">School Handmatig Invoeren</h4>
+         <div class="three fields">
+            <div class="field">
+                <label>BRIN nummer</label>
+                <input type="text" name="school[brin]" placeholder="BRIN nummer van de school" id="school[brin]">
+            </div>
+            <div class="field">
+                <label>Vestigingsnummer</label>
+                <input type="text" name="school[vestigingsnummer]"  placeholder="Vestigingsnummer van de school" id="school[vestigingsnummer]">
+            </div>
+            <div class="field">
+                <label>Bevoegd gezag nummer</label>
+                <input type="text" name="school[bevoegdGezag]"  placeholder="Bevoegd Gezag (schoolbestuur)" id="school[bevoegdGezag]">
+            </div>
+          </div>
+          <div class="field">
+            <label>Instellingsnaam</label>
+            <input type="text" name="school[instellingsnaam]"  placeholder="Naam van de school" id="school[instellingsnaam]">
+          </div>
+          <div class="field">
+            <label>Adres</label>
+                <div class="fields">
+                  <div class="twelve wide field">
+                    <input type="text" name="school[straatnaam]"  placeholder="Straatnaam">
+                  </div>
+                  <div class="four wide field">
+                    <input type="text" name="school[huisnummer]"  placeholder="Huisnummer">
+                  </div>
+                </div>
+          </div>
+          <div class="field">
+            <label>Postcode en Plaatsnaam</label>
+                <div class="fields">
+                    <div class="four wide field">
+                        <input type="text" name="school[postcode]"  placeholder="Postcode">
+                    </div>
+                    <div class="twelve wide field">
+                        <input type="text" name="school[plaatsnaam]"  placeholder="Plaatsnaam" id="school[plaatsnaam]">
+                    </div>
+                </div>
+          </div>
+          <div class="two fields">
+            <div class="field">
+                <label>Aantal leerlingen</label>
+                <input type="number" name="school[aantalLeerlingen]"  placeholder="Aantal leerlingen" id="school[aantalLeerlingen]">
+            </div>
+            <div class="field">
+                <label>Aantal klaslokalen</label>
+                <input type="number" name="school[aantalKlaslokalen]"  placeholder="Aantal klaslokalen" id="school[aantalKlaslokalen]">
+            </div>
+          </div>
+          <div class="two fields">
+            <div class="field">
+                <input type="hidden" value="0" name="school[heeftGoedBedraadNetwerk]">
+                <div class="ui toggle checkbox">
+                    <input 
+                        type="checkbox" 
+                        name="school[heeftGoedBedraadNetwerk]"
+                    >
+                    <label>Bedraad Netwerk Werkt Snel en Betrouwbaar</label>
+                 </div>
+            </div>
+            <div class="field">
+                <div class="ui toggle checkbox">
+                    <input type="hidden" value="0" name="school[heeftGoedWirelessNetwerk]">
+                    <input 
+                        type="checkbox" 
+                        name="school[heeftGoedWirelessNetwerk]"
+                    >
+                    <label>Wireless Netwerk Werkt Snel en Betrouwbaar</label>
+                 </div>
+            </div>
+          </div>
+          <input type="hidden" value="1" name="school[isIngevuldAlgemeneInformatie]">
+          <button class="ui button" type="submit">Bewaren</button>
+          <div class="ui error message"></div>
+        </form>
+    </div>
+
+<% include ../partials/school/footer %>

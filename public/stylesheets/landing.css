@@ -27,6 +27,10 @@ body {
   padding-top: 25vh;
 }
 
+#vergeten {
+  margin-top: 20px;
+}
+
 #navbar-to-front {
 	z-index: 1;
 }

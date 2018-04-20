@@ -18,9 +18,10 @@
               </div>
             </div>
             <div class="ui bottom attached button">
+              <a class="ui yellow button" href="/user/<%=user._id%>">Bekijken</a>
               <form id="delete" 
                   action="/scholen/<%= school._id %>/user/<%=user._id%>?_method=DELETE" method="POST">
-                  <button class="ui red basic button">Verwijderen</button>
+                  <button class="ui red button">Verwijderen</button>
               </form>
             </div>
           </div>

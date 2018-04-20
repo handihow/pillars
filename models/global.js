@@ -58,6 +58,21 @@ global.hardwareTypes = [
             enkelvoud: "Robotica",
             meervoud: "Robotica",
             bijhouden: false
+        },
+        {
+            enkelvoud: "Beamer",
+            meervoud: "Beamers",
+            bijhouden: false
+        },
+        {
+            enkelvoud: "Monitor",
+            meervoud: "Monitoren",
+            bijhouden: false
+        },
+        {
+            enkelvoud: "Switch",
+            meervoud: "Switches",
+            bijhouden: false
         }
 ];
 
@@ -273,37 +288,51 @@ global.profiel =
 								{
 									"a - ICT Basisvaardigheden":
 													[
-														"Ik heb een beeld bij veel voorkomende termen in relatie tot computer (zoals netwerk, wifi, router, modem, cloud)",
-														"Ik kan gebruik maken van digitale apparaten, software en toepassingen",
+														"Ik weet welke ICT voorzieningen (hard- en software) er bij ons op school beschikbaar zijn",
+														"Ik gebruik de ICT voorzieningen met gemak",
+														"Ik ben in staat om meerdere types (mobiele) devices in te zetten (denk aan: smartphone, tablet, chromebook e.d.)",
+														"Ik kan mij zonder veel moeite een nieuw device eigen maken en gebruiken voor educatieve toepassingen",
+														"Ik sla mijn mappen en bestanden steeds vaker op in de cloud (Google Drive, OneDrive, Dropbox) en snap hoe ik daarmee documenten kan beheren en delen",
+														"Ik maak snelkoppelingen naar veelgebruikte mappen of internetpagina's op mijn desktop",
 														"Ik kan met verschillende bestandstypen en omgaan met bestanden (opslaan/terugvinden, kopiëren/verwijderen, verzenden/ontvangen, delen) op verschillende opslagmedia",
-														"Ik creeer en publiceer een presentatie of eigen content (bijvoorbeeld een videomontage op YouTube) en plaats dit via het meest geschikte medium voor het bepaalde doel",
-														"Ik creëer informatie en gebruik het internet voor de publicatie (website, blog, etc.)"
+														"Ik creëer informatie en gebruik het internet voor de publicatie (website, blog, etc.)",
+														"Ik ben op de hoogte van de mogelijkheden van YouTube, kan filmpjes toevoegen of een afspeellijst samenstellen",
+														"Ik maak zelf wel eens filmpjes om mijn boodschap goed over te brengen"
 													]
 									,
 									"b - Informievaardigheden":
 													[
-														"Ik kan een zoekvraag formuleren vanuit een informatiebehoefte en relevante zoekterm(en) bepalen bij een zoekvraag",
-														"Ik kan de gevonden informatie beoordelen op bruikbaarheid, betrouwbaarheid en representativiteit en de gevonden informatie analyseren, interpreteren en ordenen",
-														"Ik kan de zoekvraag en het antwoord hierop op een passende wijze verwerken en presenteren",
-														"Ik kan het gevonden resultaat als antwoord op de informatiebehoefte evalueren",
-														"Ik kan het proces van informatieverwerving en verwerking evalueren"
+														"Informatie die ik vind op internet kan ik makkelijk integreren in presentaties of opdrachten, zonder dat ik daar veel werk aan heb (bijvoorbeeld knippen en plakken, of integreren van filmpjes in een presentatie)",
+														"Als mijn zoekopdrachten onvoldoende resultaat opleveren, probeer ik mijn zoektermen aan te passen om toch de informatie te vinden die ik zoek",
+														"Ik controleer over het algemeen de juistheid en actualiteit van de websites of andere plekken waar ik mijn informatie vandaan haal",
+														"Ik gebruik een internetbrowser met favorieten zodat ik snel op mijn meest gebruikte pagina's terecht kan",
+														"Ik kan goed uit de voeten met zoekvelden, filters en sorteerfuncties",
+														"Als ik (leer)materiaal maak met informatie die ik op internet vind, vermeld ik altijd de bron en ik weet welke regels hiervoor gelden",
+														"Ik weet hoe ik de betrouwbaarheid van educatieve software en websites kan controleren"
 													]
 									,
 									"c - Mediawijsheid":
 													[
-														"Ik volg technologische ontwikkelingen op de voet en probeer de nieuwste technologieën uit",
-														"Ik switch trefzeker van de ene naar de andere toepassing en tussen apparaten",
+														"Ik weet hoe ik filmpjes of afbeeldingen kan bewerken (bijvoorbeeld inkorten of tekst toevoegen) en doe dat soms ook om de les er beter van te maken",
+														"Ik lees jaarlijks meer dan 3 artikelen over het gebruik van ICT in het onderwijs",
+														"Ik gebruik dagelijks ICT toepassingen in mijn onderwijs",
 														"Ik waak over de nettiquette binnen sociale netwerken",
-														"Ik weet wanneer welke mediatoepassingen het meest effectief zijn en zet deze op basis daarvan effectief in",
-														"Ik inspireer leerlingen om nieuwe en sociale media te gebruiken om relevante kennis en ervaringen uit te wisselen en elkaars leren te versterken"
+														"Ik probeer regelmatig nieuwe ICT toepassingen uit in mijn lessen",
+														"Ik kan een overzicht geven van gebruikte sociale netwerken zoals Facebook, LinkedIn e.d.",
+														"Ik snap goed welke risico's internet en sociale media met zich meebrengen en wat dit voor invloed heeft op de dynamiek in de klas",
+														"Ik verbeter me in de mediavaardigheden die ik zelf nodig heb om in deze digitale samenleving goed te functioneren",
+														"Ik probeer de risico's van sociale media te bespreken in mijn klas, door dit bijvoorbeeld te verwerken in een reflectie van een opdracht",
+														"Ik leer mijn klas 21e eeuwse vaardigheden zoals kritisch denken, oplossend vermogen en digitale vaardigheden door deze in te passen in de standaard methoden",
+														"Ik heb met mijn klas regelmatig gesprekken over wat er gebeurd op sociale media zoals WhatsApp, Instagram en SnapChat (bijvoorbeeld roddelen of pesten) en hoe ze daarmee om (kunnen) gaan"
 													]				
 									,"d - Computational Thinking":
 													[
 														"Ik kan informatie weergeven in relevante grafieken, tabellen, woorden en plaatjes",
-														"Ik kan oplossingen automatiseren door middel van algoritmisch denken",
-														"Ik kan een computerprogramma schrijven in code",
-														"Ik kan repetitieve taken laten uitvoeren door computers",
-														"Ik kan complexiteit reduceren en algemene concepten overbrengen"
+														"Ik snap eenvoudige programeerprincipes en kan deze toepassen op websites zoals Scratch of Microbit",
+														"Ik kan een computerprogramma schrijven in een omgeving voor kinderen (Microbit / Scratch) of zelfs in een programeertaal zoals Python of C#",
+														"Ik kan repetitieve taken laten uitvoeren door computers, bijvoorbeeld het laten uitrekenen van cellen in Excel of het automatisch vullen van brieven in Word",
+														"Ik kan een probleem oplossen door het te automatiseren met behulp van bestaande programma's of websites, bijvoorbeeld met behulp van If This Then That",
+														"Ik kan de Voice Assistent van mijn telefoon gebruiken om sneller taken uit te voeren op mijn telefoon"
 													]				
 								},		
 					"2 - Pedagogisch Didactisch Handelen":
@@ -312,9 +341,9 @@ global.profiel =
 													[
 														"Ik kan op eigen initiatief geschikte toepassingen inzetten bij het leerproces",
 														"Ik ben actief op zoek naar nieuwe educatieve toepassingen en zet deze in binnen het onderwijs",
-														"Ik creëer met deze toepassingen hoogwaardige content om de onderwijspraktijk te verrijken",
-														"Ik innoveer het onderwijs door gebruik te maken van innovatieve toepassingen en applicaties",
-														"Ik gebruik het digitale schoolbord effectief bij de instructie",
+														"Ik gebruik wel eens tools als Kahoot!, Padlet, Mentimeter en Quizlet om mijn lessen te verrijken",
+														"Ik kan een connectie tot stand brengen tussen (leerling-) devices en het digitale bord t.b.v. een interactieve manier van lesgeven",
+														"Ik kan het aanwezige digibord functioneel en interactief inzetten in mijn lessen",
 														"Ik ben bekend met video conferencing apps zoals Skype en FaceTime en kan daarmee op afstand instructie geven"
 													]
 									,
@@ -322,11 +351,11 @@ global.profiel =
 													[
 														"Ik kan leerlingen laten werken met educatieve programmas",
 														"Ik kan apps downloaden, installeren, beoordelen en verwijderen",
-														"Ik weet wanneer welke toepassingen het meest geschikt zijn om didactisch in te zetten",
-														"Ik weet diverse zelf geproduceerde multimedia content effectief in te zetten om leerlingen te inspireren en het leren te bevorderen",
-														"Ik creëer met behulp van multimedia- tools rijke en krachtige digitale leeromgevingen voor de eigen leerlingen",
-														"Ik ben op de hoogte van recente onderzoeksresultaten over nut en beperkingen van de inzet van traditionele, nieuwe en sociale media binnen educatieve contexten",
-														"Ik zet op basis van deze inzichten diverse media bewust en systematisch in om het eigen onderwijs te verrijken en leerlingen optimaal te laten leren",
+														"Ik gebruik een online omgeving en/of elo die voor het onderwijs op onze school aanwezig is",
+														"Ik weet hoe ik de online omgeving en/of elo vanaf verschillende devices kan benaderen",
+														"Voor de op onderwijs gerichte online en/of elo omgeving weet ik hoe leerlingen toegevoegd of verwijderd moeten worden",
+														"Als we op school een nieuwe digitale methode krijgen kan ik deze snel in mijn lessen gebruiken",
+														"Ik zet op basis van onderzoek media bewust en systematisch in om het eigen onderwijs te verrijken en leerlingen optimaal te laten leren",
 														"Ik ben in staat om met behulp van digitale leermiddelen leerlingen met uiteenlopende zorgbehoeften te ondersteunen"
 													]
 									,
@@ -365,19 +394,18 @@ global.profiel =
 								{
 									"a - Ontwikkelingen volgen in vakgebied":
 													[
-														"Ik heb een persoonlijke strategie om via diverse nieuwe mediatoepassingen en sociale netwerken vakinhoudelijke en educatief relevante informatie optimaal tot me te laten komen",
-														"Ik weet deze informatie systematisch te beheren",
-														"Ik volg de ontwikkelingen op het gebied van de inzet van (nieuwe en sociale) media in het onderwijs actief. Ik laat me inspireren door innovatieve best practices van collega’s in binnen- en buitenland",
-														"Ik benut in alle facetten van het eigen professionele functioneren de mogelijkheden die traditionele, nieuwe en sociale media bieden"
+														"Ik kan sociale netwerken professioneel gebruiken. Denk aan een WhatsApp-groep met collega's",
+														"Ik kan een beschrijving geven van minimaal 3 onderwijs gerelateerde thema's per jaar die ik online volg (bijvoorbeeld via een interessegroep op LinkedIn of via nieuwsbrieven)",
+														"Ik ben door middel van discussie, toevoegingen, e.d. bij minimaal 1 online thema over onderwijs online betrokken",
+														"Ik ben van minimaal 1 online thema over onderwijs de moderator (= beheerder van het forum of onderwerp)"
 													]
 									,
 									"b - Delen van ervaring":
 													[
 														"Ik deel mijn eigen ervaringen (bijvoorbeeld via een blog) en inspireer zo collega’s en vakgenoten",
-														"Ik deel deze informatie (wanneer wenselijk) en kiest daarbij voor verschillende doelgroepen (leerlingen, naaste collega’s, vakgenoten, ouders, etc.) telkens het juiste medium",
-														"Ik inspireer anderen over de mogelijkheden van sociale netwerken voor kennisdeling en co- creatie en benut deze optimaal",
-														"Ik stimuleer de interactie tussen leerlingen en/of collega’s en vakgenoten",
-														"Ik deel expertise met vakgenoten en collega’s om ook hun mediastrategie te optimaliseren"
+														"Ik deel wel eens digitale content die ik zelf heb gemaakt voor in mijn lessen met collega's (bv op wikiwijs)",
+														"Ik plaats wel een foto's of video's van de school, om ouders te informeren over het onderwijs in mijn klas",
+														"Ik stimuleer de interactie tussen leerlingen en/of collega’s en vakgenoten"
 													]
 								}
 		};

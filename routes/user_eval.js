@@ -5,7 +5,7 @@ var User = require("../models/user");
 var middleware = require("../middleware");
 
 //INDEX USER EVALUATION ROUTE
-router.get("/", middleware.isUser, function(req, res){
+router.get("/", middleware.isLoggedIn, function(req, res){
   User.findById(req.params.id).populate("evaluations").exec(function(err, user){
     if(err || !user){
       req.flash("error", err.message);
@@ -17,7 +17,7 @@ router.get("/", middleware.isUser, function(req, res){
 });
 
 //NEW USER EVALUATION ROUTE 
-router.get("/new", middleware.isUser, function(req, res){
+router.get("/new", middleware.isLoggedIn, function(req, res){
   User.findById(req.params.id, function(err, user){
     if(err || !user){
       req.flash("error", err.message);
@@ -29,7 +29,7 @@ router.get("/new", middleware.isUser, function(req, res){
 });
 
 //CREATE NEW USER EVALUATION ROUTE
-router.post("/", middleware.isUser, function(req, res){
+router.post("/", middleware.isLoggedIn, function(req, res){
     req.body.evaluation.body = req.sanitize(req.body.evaluation.body);
     Evaluation.create(req.body.evaluation, function(err, evaluation){
           if(err || !evaluation){
@@ -57,7 +57,7 @@ router.post("/", middleware.isUser, function(req, res){
 });
     
 //SHOW ROUTE
-router.get("/:eval_id", middleware.isUser, function(req, res){
+router.get("/:eval_id", middleware.isLoggedIn, function(req, res){
   Evaluation.findById(req.params.eval_id).populate("user").exec(function(err, evaluation){
       if(err ||!evaluation){
           req.flash("error", "Evaluatie niet gevonden.");
@@ -69,7 +69,7 @@ router.get("/:eval_id", middleware.isUser, function(req, res){
 });
 
 //EDIT ROUTE
-router.get("/:eval_id/edit", middleware.isUser, function(req, res){
+router.get("/:eval_id/edit", middleware.isLoggedIn, function(req, res){
     Evaluation.findById(req.params.eval_id).populate("user").exec(function(err, evaluation){
       if(err || !evaluation){
           req.flash("error", "Evaluatie niet gevonden.");
@@ -81,7 +81,7 @@ router.get("/:eval_id/edit", middleware.isUser, function(req, res){
 });
 
 //UPDATE ROUTE
-router.put("/:eval_id", middleware.isUser, function(req, res){
+router.put("/:eval_id", middleware.isLoggedIn, function(req, res){
     req.body.evaluation.body = req.sanitize(req.body.evaluation.body);
     Evaluation.findByIdAndUpdate(req.params.eval_id, req.body.evaluation, function(err, evaluation){
       if(err || !evaluation){
@@ -95,7 +95,7 @@ router.put("/:eval_id", middleware.isUser, function(req, res){
 });
 
 //DELETE ROUTE
-router.delete("/:eval_id", middleware.isUser, function(req, res){
+router.delete("/:eval_id", middleware.isLoggedIn, function(req, res){
   Evaluation.findByIdAndRemove(req.params.eval_id, function(err){
       if(err){
           req.flash("error", "Er is iets misgegaan. Probeer evaluatie opnieuw te verwijderen.");

@@ -5,7 +5,8 @@
       <div>Scholen</div>
     </h2>
     <% if(currentUser.role==="badmin" || currentUser.role ==="padmin") { %>
-      <a class="positive ui button right" href="/scholen/new">Scholen Toevoegen</a>
+      <a class="ui yellow button right" href="/scholen/new">Scholen Automatisch Toevoegen</a>
+      <a class="ui blue button right" href="/scholen/handmatig">School Handmatig Invoeren</a>
     <% } %>
     <div class="ui segment">
         <h4 class="ui right aligned header inline">

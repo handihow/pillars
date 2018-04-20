@@ -56,6 +56,11 @@ router.get("/new", middleware.isAuthenticatedBadmin, function(req, res){
    res.render("scholen/search"); 
 });
 
+//NEW HANDMATIG ROUTE
+router.get("/handmatig", middleware.isAuthenticatedBadmin, function(req, res){
+   res.render("scholen/handmatig"); 
+});
+
 router.post("/new", middleware.isAuthenticatedBadmin, function(req, res){
     var zoekcriterium = req.body.zoekcriterium, 
         zoekveld = req.body.zoekveld, 
@@ -99,6 +104,22 @@ router.post("/", middleware.isAuthenticatedBadmin, function(req, res){
               school.save();
           }
         }); 
+    });
+    req.flash("success", "School toegevoegd");
+    res.redirect("/scholen");
+});
+
+//CREATE ROUTE HANDMATIG
+router.post("/handmatig", middleware.isAuthenticatedBadmin, function(req, res){
+    School.create(req.body.school, function(err, school){
+      if(err || !school){
+          req.flash("error", err.message);
+          res.render("scholen/handmatig");
+      }  else {
+          //look up user id and username and add to school
+          school.owner = req.user._id;
+          school.save();
+      }
     });
     req.flash("success", "School toegevoegd");
     res.redirect("/scholen");
