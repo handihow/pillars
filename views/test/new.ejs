@@ -9,23 +9,62 @@
               <% Object.keys(global.profiel[key]).sort().forEach(function(subkey){ %>
                 <h4 class="ui dividing header"><%=subkey%></h4>
                 <%global.profiel[key][subkey].forEach(function(question){ %>
-                  <div class="inline field">
-                    <div class="ui toggle checkbox">
-                      <input type="hidden" value="0" name="test[answers][<%=i%>]">
-                      <input 
-                        type="checkbox" 
-                        name="test[answers][<%=i%>]"
-                        value="1"
-                      >
+                  <div class="ui form">
+                    <div class="grouped fields">
                       <label><%=question%></label>
+                      <%if(isMultipleChoice){%>
+                      <div class="field">
+                        <div class="ui radio checkbox">
+                          <input type="radio" name="test[answers][<%=i%>]" value=1>
+                          <label>Helemaal mee eens</label>
+                        </div>
+                      </div>
+                      <div class="field">
+                        <div class="ui radio checkbox">
+                          <input type="radio" name="test[answers][<%=i%>]" value=0.75>
+                          <label>Meer eens</label>
+                        </div>
+                      </div>
+                      <div class="field">
+                        <div class="ui radio checkbox">
+                          <input type="radio" name="test[answers][<%=i%>]" value=0.5 checked>
+                          <label>Eens</label>
+                        </div>
+                      </div>
+                      <div class="field">
+                        <div class="ui radio checkbox">
+                          <input type="radio" name="test[answers][<%=i%>]" value=0.25>
+                          <label>Meer oneens</label>
+                        </div>
+                      </div>
+                      <div class="field">
+                        <div class="ui radio checkbox">
+                          <input type="radio" name="test[answers][<%=i%>]" value=0>
+                          <label>Helemaal mee oneens</label>
+                        </div>
+                      </div>
+                      <%} else {%>
+                      <div class="field">
+                        <div class="ui radio checkbox">
+                          <input type="radio" name="test[answers][<%=i%>]" value=1>
+                          <label>Ja</label>
+                        </div>
+                      </div>
+                      <div class="field">
+                        <div class="ui radio checkbox">
+                          <input type="radio" name="test[answers][<%=i%>]" value=0 checked>
+                          <label>Nee</label>
+                        </div>
+                      </div>
+                      <%}%>
                     </div>
                   </div>
                   <input type="hidden" name="test[questions][<%=i%>]" value="<%=question%>">
                   <% i++ %>
                 <% }); %>
               <% }); %>
-            <input type="hidden" name="test[subject]" value="<%=key%>">  
-            <input type="hidden" name="test[result]" id="testResult">
+            <input type="hidden" name="test[subject]" value="<%=key%>">
+            <input type="hidden" name="test[isMultipleChoice]" value="<%=isMultipleChoice%>">   
             <%}%>
         <%});%>
         <button class="ui button" type="submit">Bewaar</button>

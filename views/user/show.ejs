@@ -52,6 +52,10 @@
         <h4 class="content">Bouw</h4>
         <div class="content"><%=user.bouw%></div>
       </div>
+      <div class="eight wide column">
+        <h4 class="content">Ik geef mijn leidinggevende en ICT'er inzage in mijn testresultaten en profiel</h4>
+        <div class="content"><% if(user.publicProfile) {%>Ja <%} else {%> Nee <%}%></div>
+      </div>
     </div>
     <div class="ui divider"></div>
     <a class="ui yellow button right" href="/user/<%=user._id%>/edit">Gegevens wijzigen</a>
@@ -61,13 +65,13 @@
     <a class="ui green button right" href="/user/<%=user._id%>/ready">Klaar met invullen!</a>
     <% var i=0%>
     <div class="ui top attached tabular menu">
-    <% Object.keys(global.profiel).forEach(function(key){ %>
+    <% Object.keys(profiel.profiel).sort().forEach(function(key){ %>
       <a class="item <%if(i==0){%>active<%}%>" data-tab="<%=i%>"><%=key%></a>
       <% i++%>
     <%});%>
     </div>
     <% var j=0%>
-    <% Object.keys(global.profiel).forEach(function(key){ %>
+    <% Object.keys(profiel.profiel).sort().forEach(function(key){ %>
       <div class="ui bottom attached tab segment <%if(j==0){%>active<%}%>" data-tab="<%=j%>">
           <%tests.forEach(function(test){%>
             <%if(test.subject==key){%>

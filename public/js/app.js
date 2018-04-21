@@ -425,15 +425,6 @@ $(document).ready(function() {
 $("#evaluationForm").validate();    
 
 //================================================//
-//PROFILE TEST FORM//
-//================================================//
-  $("#profielTest").submit(function(){
-    var countChecked = $('#profielTest').find('input[type=checkbox]:checked').length;
-    var countTotal = $('#profielTest').find('input[type=checkbox]').length;
-    $('#testResult').val(countChecked / countTotal);
-  });
-
-//================================================//
 //VALIDATIONS ON THE MESSAGE FORMS//
 //================================================//
 

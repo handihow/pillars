@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router({mergeParams: true});
 var School = require("../models/school");
 var User = require("../models/user");
+var Profiel = require("../models/profiel");
 var middleware = require("../middleware");
 var global = require("../models/global");
 var Test = require("../models/test");
@@ -86,7 +87,7 @@ router.post("/scholen/:id/user/", middleware.isSchoolOwner, function(req, res){
                           return res.redirect("back");
                       }
                     //send the email
-                      var request = email.cc(user.username, user.firstName + " " + user.lastName, "Welkom bij Pillars", html);
+                      var request = email.nocc(user.username, user.firstName + " " + user.lastName, "Welkom bij Pillars", html);
                       request
                       .then((result) => {
                         req.flash("success", "Nieuwe medewerker geregistreerd! Er is een email verstuurd met inlog gegevens en verdere instructies.");
@@ -128,7 +129,7 @@ router.post("/buser/", middleware.isAuthenticatedBadmin, function(req, res){
                   return res.redirect("back");
               }
             //send the email
-            var request = email.cc(user.username, user.firstName + " " + user.lastName, "Welkom bij Pillars", html);
+            var request = email.nocc(user.username, user.firstName + " " + user.lastName, "Welkom bij Pillars", html);
             request
               .then((result) => {
                 req.flash("success", "Nieuwe medewerker geregistreerd! Er is een email verstuurd met inlog gegevens en verdere instructies.");
@@ -153,7 +154,17 @@ router.get("/user/:id", middleware.isLoggedIn, function(req, res){
                 if(err) {
                     req.flash("error", err);
                 } else {
-                    res.render("user/show", {user: user, global: global, tests: tests});        
+                  var profielOwner = user.owner ? user.owner : user._id;
+                  Profiel.findOne({"owner": profielOwner, "isActueel": true}, function(err, profiel){
+                    if(err){
+                      req.flash("error", err);
+                      res.redirect("back");
+                    } else if (!profiel){
+                      res.render("user/show", {user: user, profiel: global.profiel, tests: tests}); 
+                    } else {
+                      res.render("user/show", {user: user, profiel: profiel, tests: tests}); 
+                    }
+                  })        
                 }
             });
       }

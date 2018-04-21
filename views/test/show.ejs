@@ -16,7 +16,21 @@
     <% for ( var i = 0; i < test.questions.length; i++) { %>
       <div class="one wide column"><%=i+1%>.</div>
       <div class="thirteen wide column"><%=test.questions[i]%></div>
-      <div class="two wide column"><%if(test.answers[i]){%>Ja<%}else{%>Nee<%}%></div>
+      <%if(test.isMultipleChoice){%>
+        <div class="two wide column"> <%if(test.answers[i]==1){%>
+                                          Helemaal mee eens
+                                      <%} else if(test.answers[i]==0.75) {%>
+                                          Meer eens
+                                      <%} else if(test.answers[i]==0.5) {%>
+                                          Eens
+                                      <%} else if(test.answers[i]==0.25) {%>
+                                          Oneens
+                                      <%}else{%>
+                                          Nee
+                                      <%}%></div>
+      <%} else {%>
+        <div class="two wide column"><%if(test.answers[i]){%>Ja<%}else{%>Nee<%}%></div>
+      <%}%>
     <% } %>
     </div>
     <hr>

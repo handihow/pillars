@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router({mergeParams: true});
 var School = require("../models/school");
 var middleware = require("../middleware");
+var Profiel = require("../models/profiel");
 var global = require("../models/global");
 var json2csv = require("json2csv");
 
@@ -12,7 +13,16 @@ router.get("/", middleware.isSchoolOwner, function(req, res){
           req.flash("error", "School niet gevonden.");
           res.redirect("back");
       } else {
-          res.render("deskundigheid/show", {school: school, global:global});            
+        Profiel.findOne({"owner": school.owner, "isActueel": true}, function(err, profiel){
+          if(err){
+            req.flash("error", err);
+            res.redirect("back");
+          } else if (!profiel){
+            res.render("deskundigheid/show", {school: school, global:global}); 
+          } else {
+            res.render("deskundigheid/show", {school: school, global:profiel}); 
+          }
+        })         
       }
   });
 });

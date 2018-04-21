@@ -220,7 +220,10 @@ score.calculate = function(school) {
             ictGeletterdheid: 0,
             pedagogischDidactisch: 0,
             werkenSchooltext: 0,
-            persoonlijkeOntwikkeling: 0
+            persoonlijkeOntwikkeling: 0,
+            instrumenteleVaardigheden: 0,
+            informatieVaardigheden: 0,
+            mediaVaardigheid: 0
         },
         organisatie: {
             organisatorischeOvereenstemming: 0,
@@ -272,6 +275,12 @@ score.calculate = function(school) {
         result.deskundigheid.werkenSchooltext = score.averageTestResult(school, "3 - Werken in de schoolcontext") * school.normering.maxScoreWerkenSchoolcontext;
         //Persoonlijke ontwikkeling
         result.deskundigheid.persoonlijkeOntwikkeling = score.averageTestResult(school, "4 - Persoonlijke Ontwikkeling") * school.normering.maxScorePersoonlijkeOntwikkeling;
+        //instrumentele vaardigheden
+        result.deskundigheid.instrumenteleVaardigheden = score.averageTestResult(school, "1 - Instrumentele vaardigheden") * school.normering.maxScoreInstrumenteleVaardigheden;
+        //informatieVaardigheden
+        result.deskundigheid.informatieVaardigheden = score.averageTestResult(school, "2 - Informatievaardigheden") * school.normering.maxScoreInformatieVaardigheden;
+        //mediavaardigheid
+        result.deskundigheid.mediaVaardigheid = score.averageTestResult(school, "3 - Mediavaardigheden") * school.normering.maxScoreMediavaardigheden;
     }
     if(school.isIngevuldOrganisatie){
         // ORGANISATIE

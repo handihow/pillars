@@ -10,7 +10,8 @@ var profielSchema = mongoose.Schema (
               type:   mongoose.Schema.Types.ObjectId,
               ref: "User"
             },
-        isActueel: Boolean
+        isActueel: Boolean,
+        isMultipleChoice: Boolean
     }, { usePushEach: true }
 );
 

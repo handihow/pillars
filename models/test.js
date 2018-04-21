@@ -11,7 +11,8 @@ var testSchema = mongoose.Schema (
             },
         username: String,
         questions: [String],
-        answers: [Boolean]
+        answers: [Number],
+        isMultipleChoice: Boolean
     }, { usePushEach: true }
 );
 

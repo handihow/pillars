@@ -13,6 +13,7 @@ var UserSchema = new mongoose.Schema({
    resetPasswordExpires: Date,
    emailAuthenticationToken: String,
    emailIsAuthenticated: Boolean,
+   publicProfile: Boolean,
    owner: {                                        //user type Schoolbestuur (Bestuur Admin) - badmin 
           type: mongoose.Schema.Types.ObjectId,
           ref: "User"

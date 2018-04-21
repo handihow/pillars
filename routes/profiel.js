@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router({mergeParams: true});
 var Profiel = require("../models/profiel");
 var middleware = require("../middleware");
+var global = require("../models/global");
 
 //INDEX ROUTE
 router.get("/", middleware.isLoggedIn, function(req, res){
@@ -30,6 +31,26 @@ router.post("/", middleware.isAuthenticatedBadmin, function(req, res){
        } else {
            //add the user to profiel
            profiel.owner = req.user._id;
+           profiel.save();
+           req.flash("success", "Profiel vragen updated");
+           res.redirect("/profiel");
+           }
+    });   
+});
+
+//CREATE - creates new profile questions in the database with versnellingsvraag Questions
+router.post("/versnellingsvraag", middleware.isAuthenticatedBadmin, function(req, res){
+    Profiel.create(req.body.profiel, function(err, profiel){
+       if(err){
+           req.flash("error", err.message);
+           res.redirect("back");
+       } else {
+           //add the user to profiel
+           profiel.owner = req.user._id;
+           profiel.set({
+              profiel: global.versnellingsvraagProfiel,
+              isMultipleChoice: true
+           })
            profiel.save();
            req.flash("success", "Profiel vragen updated");
            res.redirect("/profiel");

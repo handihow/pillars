@@ -95,6 +95,12 @@ var normeringSchema=  mongoose.Schema({
     maxScoreWerkenSchoolcontext: {type: Number, default: global.maxScoreWerkenSchoolcontext},
         //NORM 3.7 PERSOONLIJKE ONTWIKKELING
     maxScorePersoonlijkeOntwikkeling: {type: Number, default: global.maxScorePersoonlijkeOntwikkeling},
+        //NORM 3.8 INSTRUMENTELE VAARDIGHEDEN
+    maxScoreInstrumenteleVaardigheden: {type: Number, default: 0},
+        //NORM 3.9 INFORMATIE VAARDIGHEDEN
+    maxScoreInformatieVaardigheden: {type: Number, default: 0},
+        //NORM 3.10 MEDIAVAARDIGHEDEN
+    maxScoreMediavaardigheden: {type: Number, default: 0},
     //ORGANISATIE
         //NORM 4.1 ORGANISATORISCHE OVEREENSTEMMING
     maxScoreOvereenstemming: {type: Number, default: global.maxScoreOvereenstemming},
