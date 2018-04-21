@@ -160,7 +160,7 @@ router.get("/user/:id", middleware.isLoggedIn, function(req, res){
                       req.flash("error", err);
                       res.redirect("back");
                     } else if (!profiel){
-                      res.render("user/show", {user: user, profiel: global.profiel, tests: tests}); 
+                      res.render("user/show", {user: user, profiel: global, tests: tests}); 
                     } else {
                       res.render("user/show", {user: user, profiel: profiel, tests: tests}); 
                     }
