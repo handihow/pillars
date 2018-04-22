@@ -3,10 +3,11 @@ $(document).ready(function() {
 	var params=location.pathname.split("/");
 
 	$.get( "/user/"+ params[2] + "/api/tests", function( results ) {
-		console.log(results);
 		var ctx = $('#grafiek');
+    results.sort(function(a, b){return a.created-b.created});
 		backgroundColors = [];
 		borderColors = [];
+        var labels = [];
         results.forEach(function(result, index){
         	if(index%4 == 0){
         		backgroundColors.push('rgba(227,6,19, 0.7)');
@@ -21,11 +22,13 @@ $(document).ready(function() {
         		backgroundColors.push('rgba(0, 0, 0, 0.7)');
             	borderColors.push('rgba(0, 0, 0, 1)');
         	}
+          var date = new Date(result.created).toLocaleString();
+          labels.push(result.subject + " " + date);
         })
         var myChart = new Chart(ctx, {
           type: 'horizontalBar',
           data: {
-            labels: results.map(o => o.subject),
+            labels: labels,
             datasets: [{
                 label: 'Test Resultaten',
                 data: results.map(o => o.result * 100),
