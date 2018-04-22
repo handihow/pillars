@@ -50,7 +50,7 @@ router.get("/message/:id", middleware.isLoggedIn, function(req, res){
 
 //PROTECT THE DEMO ACCOUNT
 router.use(function(req, res, next){
-  if(req.user.username==="demo@pillars.school"){
+  if(req.user && req.user.username==="demo@pillars.school"){
     req.flash("error", "Je kunt geen records aanmaken of wijzigen met het demo account.");
     return res.redirect("back");
   }
