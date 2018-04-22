@@ -4,7 +4,7 @@ $(document).ready(function() {
 
 	$.get( "/user/"+ params[2] + "/api/tests", function( results ) {
 		var ctx = $('#grafiek');
-    results.sort(function(a, b){return a.created-b.created});
+    results.sort(function(a, b){return b.created - a.created});
 		backgroundColors = [];
 		borderColors = [];
         var labels = [];
