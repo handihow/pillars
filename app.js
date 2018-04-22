@@ -59,21 +59,21 @@ app.use(function(req, res, next){
 });
 
 //USE ROUTES
-app.use("/scholen", scholenRoutes);
 app.use("/scholen/:id/hardware", hardwareRoutes);
 app.use("/scholen/:id/software", softwareRoutes);
-app.use(userRoutes);
-app.use("/user/:id/test", testRoutes);
+app.use("/scholen/:id/evaluation", evaluationRoutes);
 app.use("/scholen/:id/deskundigheid", deskundigheidRoutes);
 app.use("/scholen/:id/organisatie", organisatieRoutes);
 app.use("/scholen/:id/pillars", pillarsRoutes);
+app.use("/user/:id/evaluation", user_evalRoutes);
+app.use("/user/:id/test", testRoutes);
+app.use("/scholen", scholenRoutes);
 app.use("/normering", normeringRoutes);
-app.use(messageRoutes);
 app.use("/overview", overviewRoutes);
 app.use("/profiel", profielRoutes);
-app.use("/scholen/:id/evaluation", evaluationRoutes);
-app.use("/user/:id/evaluation", user_evalRoutes);
 app.use("/admin", adminRoutes);
+app.use(userRoutes);
+app.use(messageRoutes);
 app.use(indexRoutes);
 
 app.listen(process.env.PORT || 8080, process.env.IP, function(){
