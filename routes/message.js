@@ -36,6 +36,28 @@ router.get("/scholen/:id/messages", middleware.isSchoolOwner, function(req, res)
     
 });
 
+//SHOW ROUTE
+router.get("/message/:id", middleware.isLoggedIn, function(req, res){
+  Message.findById(req.params.id, function(err, message){
+      if(err ||!message){
+          req.flash("error", "Bericht niet gevonden.");
+          res.redirect("back");
+      } else {
+          res.render("message/show", {message: message});            
+      }
+  });
+});
+
+//PROTECT THE DEMO ACCOUNT
+router.use(function(req, res, next){
+  if(req.user.username==="demo@pillars.school"){
+    req.flash("error", "Je kunt geen records aanmaken of wijzigen met het demo account.");
+    return res.redirect("back");
+  }
+  next();
+})
+
+
 //NEW ROUTE
 router.get("/message/new", middleware.isAuthenticatedBadmin, function(req, res){
   res.render("message/new"); 
@@ -59,17 +81,6 @@ router.post("/message", middleware.isAuthenticatedBadmin, function(req, res){
     }); 
 });
     
-//SHOW ROUTE
-router.get("/message/:id", middleware.isLoggedIn, function(req, res){
-  Message.findById(req.params.id, function(err, message){
-      if(err ||!message){
-          req.flash("error", "Bericht niet gevonden.");
-          res.redirect("back");
-      } else {
-          res.render("message/show", {message: message});            
-      }
-  });
-});
 
 // //EDIT ROUTE
 router.get("/message/:id/edit", middleware.isMessageOwner, function(req, res){

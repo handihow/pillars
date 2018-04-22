@@ -18,6 +18,34 @@ router.get("/", middleware.isLoggedIn, function(req, res){
     });
 });
 
+//SHOW individual software records
+router.get("/:software_id", middleware.isSchoolOwner, function(req, res){
+  School.findById(req.params.id, function(err, school){
+      if(err || !school){
+          req.flash("error", "School niet gevonden");
+          res.redirect("back");
+      } else {
+          Software.findById(req.params.software_id, function(err, software) {
+              if(err || !software){
+                  req.flash("error", "Software niet gevonden");
+                  res.redirect("back");
+              } else {
+                  res.render("software/show", {software: software, school: school, global: global});
+              }
+          });
+      }
+  });
+});
+
+//PROTECT THE DEMO ACCOUNT
+router.use(function(req, res, next){
+  if(req.user.username==="demo@pillars.school"){
+    req.flash("error", "Je kunt geen records aanmaken of wijzigen met het demo account.");
+    return res.redirect("back");
+  }
+  next();
+})
+
 //NEW - form to create new hardware
 router.get("/new/:vak", middleware.isSchoolOwner, function(req, res){
     School.findById(req.params.id).populate("software").exec(function(err, school){
@@ -117,25 +145,6 @@ router.get("/download", middleware.isSchoolOwner, function(req, res){
                 });
             }
           });
-});
-
-//SHOW individual software records
-router.get("/:software_id", middleware.isSchoolOwner, function(req, res){
-  School.findById(req.params.id, function(err, school){
-      if(err || !school){
-          req.flash("error", "School niet gevonden");
-          res.redirect("back");
-      } else {
-          Software.findById(req.params.software_id, function(err, software) {
-              if(err || !software){
-                  req.flash("error", "Software niet gevonden");
-                  res.redirect("back");
-              } else {
-                  res.render("software/show", {software: software, school: school, global: global});
-              }
-          });
-      }
-  });
 });
 
 //EDIT displays a form to edit software record

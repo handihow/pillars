@@ -11,6 +11,28 @@ var Profiel = require("../models/profiel");
 
 //INDEX - list of test results is on the user profile!!
 
+
+//SHOW individual test records
+router.get("/:test_id", middleware.isLoggedIn, function(req, res){
+  Test.findById(req.params.test_id, function(err, test){
+      if(err || !test){
+          req.flash("error", "Test niet gevonden");
+          res.redirect("back");
+      } else {
+          res.render("test/show", {test: test, user: req.params.id});
+      }
+  });
+});
+
+//PROTECT THE DEMO ACCOUNT
+router.use(function(req, res, next){
+  if(req.user.username==="demo@pillars.school"){
+    req.flash("error", "Je kunt geen records aanmaken of wijzigen met het demo account.");
+    return res.redirect("back");
+  }
+  next();
+})
+
 //NEW - form to create new test
 router.get("/new/:onderdeel", middleware.isUser, function(req, res){
     User.findById(req.params.id, function(err, user){
@@ -90,17 +112,6 @@ router.post("/", middleware.isUser, function(req, res){
     });
 });
 
-//SHOW individual test records
-router.get("/:test_id", middleware.isLoggedIn, function(req, res){
-  Test.findById(req.params.test_id, function(err, test){
-      if(err || !test){
-          req.flash("error", "Test niet gevonden");
-          res.redirect("back");
-      } else {
-          res.render("test/show", {test: test, user: req.params.id});
-      }
-  });
-});
 
 
 // //EDIT displays a form to edit hardware record

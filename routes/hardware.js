@@ -19,6 +19,35 @@ router.get("/", middleware.isLoggedIn, function(req, res){
     });
 });
 
+//SHOW individual hardware records
+router.get("/:hardware_id", middleware.isSchoolOwner, function(req, res){
+   School.findById(req.params.id).populate("hardware").exec(function(err, school){
+       if(err || !school){
+           req.flash("error", "School niet gevonden");
+           res.redirect("back");
+       } else {
+           Hardware.findById(req.params.hardware_id).populate("owner").exec(function(err, hardware){
+               if(err || !hardware){
+                   req.flash("error", "Hardware niet gevonden");
+                   res.redirect("back");
+               } else {
+                   res.render("hardware/show", {hardware: hardware, school: school});
+               }
+           });
+       }
+   });
+});
+
+//PROTECT THE DEMO ACCOUNT
+router.use(function(req, res, next){
+  if(req.user.username==="demo@pillars.school"){
+    req.flash("error", "Je kunt geen records aanmaken of wijzigen met het demo account.");
+    return res.redirect("back");
+  }
+  next();
+})
+
+
 //NEW - form to create new hardware
 router.get("/new/:type", middleware.isSchoolOwner, function(req, res){
     School.findById(req.params.id, function(err, school){
@@ -236,24 +265,6 @@ router.get("/download", middleware.isAuthenticatedBadmin, function(req, res){
           });
 });
 
-//SHOW individual hardware records
-router.get("/:hardware_id", middleware.isSchoolOwner, function(req, res){
-   School.findById(req.params.id).populate("hardware").exec(function(err, school){
-       if(err || !school){
-           req.flash("error", "School niet gevonden");
-           res.redirect("back");
-       } else {
-           Hardware.findById(req.params.hardware_id).populate("owner").exec(function(err, hardware){
-               if(err || !hardware){
-                   req.flash("error", "Hardware niet gevonden");
-                   res.redirect("back");
-               } else {
-                   res.render("hardware/show", {hardware: hardware, school: school});
-               }
-           });
-       }
-   });
-});
 
 //EDIT displays a form to edit hardware record
 router.get("/:hardware_id/edit", middleware.isSchoolOwner, function(req,res){

@@ -35,6 +35,74 @@ router.get("/buser", middleware.isAuthenticatedBadmin, function(req, res){
     });
 });
 
+//SHOW ROUTE - PROFILE PAGE
+router.get("/user/:id", middleware.isLoggedIn, function(req, res){
+  User.findById(req.params.id, function(err, user){
+      if(err || !user){
+          req.flash("error", err);
+          res.redirect("back");
+      } else {
+            Test.find({"owner": user._id}, function(err, tests){
+                if(err) {
+                    req.flash("error", err);
+                } else {
+                  var profielOwner = user.owner ? user.owner : user._id;
+                  Profiel.findOne({"owner": profielOwner, "isActueel": true}, function(err, profiel){
+                    if(err){
+                      req.flash("error", err);
+                      res.redirect("back");
+                    } else if (!profiel){
+                      res.render("user/show", {user: user, profiel: global, tests: tests}); 
+                    } else {
+                      res.render("user/show", {user: user, profiel: profiel, tests: tests}); 
+                    }
+                  })        
+                }
+            });
+      }
+    });
+});
+
+//SHOW ROUTE - READY WITH FILLING QUESTIONS PAGE
+router.get("/user/:id/ready", middleware.isLoggedIn, function(req, res){
+  User.findById(req.params.id, function(err, user){
+      if(err || !user){
+          req.flash("error", err);
+          res.redirect("back");
+      } else {
+            Test.find({"owner": user._id}, function(err, tests){
+                if(err) {
+                    req.flash("error", err);
+                } else {
+                    res.render("user/ready", {user: user, global: global, tests: tests});        
+                }
+            });
+      }
+    });
+});
+
+//API ROUTE TO SHOW TEST RESULTS OF A CERTAIN USER
+router.get("/user/:id/api/tests", middleware.isLoggedIn, function(req, res){
+  Test.find({"owner": req.params.id}, function(err, tests){
+      if(err) {
+          req.flash("error", err);
+      } else {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(tests));        
+      }
+  });
+});
+
+
+//PROTECT THE DEMO ACCOUNT
+router.use(function(req, res, next){
+  if(req.user.username==="demo@pillars.school"){
+    req.flash("error", "Je kunt geen records aanmaken of wijzigen met het demo account.");
+    return res.redirect("back");
+  }
+  next();
+})
+
 //NEW - form to create new school user
 router.get("/scholen/:id/user/new", middleware.isSchoolOwner, function(req, res){
     School.findById(req.params.id, function(err, school){
@@ -142,65 +210,6 @@ router.post("/buser/", middleware.isAuthenticatedBadmin, function(req, res){
         });
     });
 });
-
-//SHOW ROUTE - PROFILE PAGE
-router.get("/user/:id", middleware.isLoggedIn, function(req, res){
-  User.findById(req.params.id, function(err, user){
-      if(err || !user){
-          req.flash("error", err);
-          res.redirect("back");
-      } else {
-            Test.find({"owner": user._id}, function(err, tests){
-                if(err) {
-                    req.flash("error", err);
-                } else {
-                  var profielOwner = user.owner ? user.owner : user._id;
-                  Profiel.findOne({"owner": profielOwner, "isActueel": true}, function(err, profiel){
-                    if(err){
-                      req.flash("error", err);
-                      res.redirect("back");
-                    } else if (!profiel){
-                      res.render("user/show", {user: user, profiel: global, tests: tests}); 
-                    } else {
-                      res.render("user/show", {user: user, profiel: profiel, tests: tests}); 
-                    }
-                  })        
-                }
-            });
-      }
-    });
-});
-
-//SHOW ROUTE - READY WITH FILLING QUESTIONS PAGE
-router.get("/user/:id/ready", middleware.isLoggedIn, function(req, res){
-  User.findById(req.params.id, function(err, user){
-      if(err || !user){
-          req.flash("error", err);
-          res.redirect("back");
-      } else {
-            Test.find({"owner": user._id}, function(err, tests){
-                if(err) {
-                    req.flash("error", err);
-                } else {
-                    res.render("user/ready", {user: user, global: global, tests: tests});        
-                }
-            });
-      }
-    });
-});
-
-//API ROUTE TO SHOW TEST RESULTS OF A CERTAIN USER
-router.get("/user/:id/api/tests", middleware.isLoggedIn, function(req, res){
-  Test.find({"owner": req.params.id}, function(err, tests){
-      if(err) {
-          req.flash("error", err);
-      } else {
-        res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify(tests));        
-      }
-  });
-});
-
 
 //EDIT ROUTE - EDIT PROFILE PAGE
 router.get("/user/:id/edit", middleware.isUser, function(req,res){

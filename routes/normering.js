@@ -15,6 +15,29 @@ router.get("/", middleware.isLoggedIn, function(req, res){
     });
 });
 
+//SHOW ROUTE
+router.get("/:id", middleware.isLoggedIn, function(req, res){
+  Normering.findById(req.params.id, function(err, normering){
+      if(err ||!normering){
+          req.flash("error", "Normering niet gevonden.");
+          res.redirect("back");
+      } else {
+          res.render("normering/show", {normering: normering});            
+      }
+  });
+});
+
+
+//PROTECT THE DEMO ACCOUNT
+router.use(function(req, res, next){
+  if(req.user.username==="demo@pillars.school"){
+    req.flash("error", "Je kunt geen records aanmaken of wijzigen met het demo account.");
+    return res.redirect("back");
+  }
+  next();
+})
+
+
 //NEW ROUTE
 router.get("/new", middleware.isAuthenticatedBadmin, function(req, res){
   res.render("normering/new"); 
@@ -37,17 +60,6 @@ router.post("/", middleware.isAuthenticatedBadmin, function(req, res){
     }); 
 });
     
-//SHOW ROUTE
-router.get("/:id", middleware.isLoggedIn, function(req, res){
-  Normering.findById(req.params.id, function(err, normering){
-      if(err ||!normering){
-          req.flash("error", "Normering niet gevonden.");
-          res.redirect("back");
-      } else {
-          res.render("normering/show", {normering: normering});            
-      }
-  });
-});
 
 // //EDIT ROUTE
 router.get("/:id/edit", middleware.isNormeringOwner, function(req, res){

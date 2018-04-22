@@ -16,6 +16,27 @@ router.get("/", middleware.isLoggedIn, function(req, res){
     });
 });
 
+//SHOW individual profile question records
+router.get("/:id", middleware.isAuthenticatedBadmin, function(req, res){
+  Profiel.findById(req.params.id, function(err, profiel){
+      if(err || !profiel){
+          req.flash("error", "Profielvragen niet gevonden");
+          res.redirect("back");
+      } else {
+          res.render("profiel/show", {profielVragen: profiel.profiel, profiel: profiel});
+      }
+  });
+});
+
+//PROTECT THE DEMO ACCOUNT
+router.use(function(req, res, next){
+  if(req.user.username==="demo@pillars.school"){
+    req.flash("error", "Je kunt geen records aanmaken of wijzigen met het demo account.");
+    return res.redirect("back");
+  }
+  next();
+})
+
 
 //NEW - form to create new profile questions
 router.get("/new", middleware.isAuthenticatedBadmin, function(req, res){
@@ -58,17 +79,6 @@ router.post("/versnellingsvraag", middleware.isAuthenticatedBadmin, function(req
     });   
 });
 
-//SHOW individual profile question records
-router.get("/:id", middleware.isAuthenticatedBadmin, function(req, res){
-  Profiel.findById(req.params.id, function(err, profiel){
-      if(err || !profiel){
-          req.flash("error", "Profielvragen niet gevonden");
-          res.redirect("back");
-      } else {
-          res.render("profiel/show", {profielVragen: profiel.profiel, profiel: profiel});
-      }
-  });
-});
 
 //EDIT displays a form to edit profile question record
 router.get("/:id/edit", middleware.isProfielOwner, function(req,res){

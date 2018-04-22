@@ -51,6 +51,27 @@ router.get("/", middleware.isLoggedIn, function(req, res){
     }
 });
 
+//SHOW ROUTE
+router.get("/:id", middleware.isLoggedIn, function(req, res){
+   School.findById(req.params.id).populate("owner").exec(function(err, school){
+       if(err ||!school){
+           req.flash("error", "School niet gevonden.");
+           res.redirect("back");
+       } else {
+           res.render("scholen/show", {school: school}); 
+       }
+   });
+});
+
+//PROTECT THE DEMO ACCOUNT
+router.use(function(req, res, next){
+  if(req.user.username==="demo@pillars.school"){
+    req.flash("error", "Je kunt geen records aanmaken of wijzigen met het demo account.");
+    return res.redirect("back");
+  }
+  next();
+})
+
 //NEW ROUTE
 router.get("/new", middleware.isAuthenticatedBadmin, function(req, res){
    res.render("scholen/search"); 
@@ -125,17 +146,6 @@ router.post("/handmatig", middleware.isAuthenticatedBadmin, function(req, res){
     res.redirect("/scholen");
 });
 
-//SHOW ROUTE
-router.get("/:id", middleware.isLoggedIn, function(req, res){
-   School.findById(req.params.id).populate("owner").exec(function(err, school){
-       if(err ||!school){
-           req.flash("error", "School niet gevonden.");
-           res.redirect("back");
-       } else {
-           res.render("scholen/show", {school: school}); 
-       }
-   });
-});
 
 //EDIT ROUTE
 router.get("/:id/edit", middleware.isLoggedIn, function(req, res){

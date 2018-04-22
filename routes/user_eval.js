@@ -16,6 +16,27 @@ router.get("/", middleware.isLoggedIn, function(req, res){
   });
 });
 
+//SHOW ROUTE
+router.get("/:eval_id", middleware.isLoggedIn, function(req, res){
+  Evaluation.findById(req.params.eval_id).populate("user").exec(function(err, evaluation){
+      if(err ||!evaluation){
+          req.flash("error", "Evaluatie niet gevonden.");
+          res.redirect("back");
+      } else {
+          res.render("user_eval/show", {evaluation: evaluation, user: evaluation.user});            
+      }
+  });
+});
+
+//PROTECT THE DEMO ACCOUNT
+router.use(function(req, res, next){
+  if(req.user.username==="demo@pillars.school"){
+    req.flash("error", "Je kunt geen records aanmaken of wijzigen met het demo account.");
+    return res.redirect("back");
+  }
+  next();
+})
+
 //NEW USER EVALUATION ROUTE 
 router.get("/new", middleware.isLoggedIn, function(req, res){
   User.findById(req.params.id, function(err, user){
@@ -55,18 +76,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
           }
     }); 
 });
-    
-//SHOW ROUTE
-router.get("/:eval_id", middleware.isLoggedIn, function(req, res){
-  Evaluation.findById(req.params.eval_id).populate("user").exec(function(err, evaluation){
-      if(err ||!evaluation){
-          req.flash("error", "Evaluatie niet gevonden.");
-          res.redirect("back");
-      } else {
-          res.render("user_eval/show", {evaluation: evaluation, user: evaluation.user});            
-      }
-  });
-});
+
 
 //EDIT ROUTE
 router.get("/:eval_id/edit", middleware.isLoggedIn, function(req, res){

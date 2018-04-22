@@ -28,7 +28,7 @@ router.get("/", middleware.isSchoolOwner, function(req, res){
 });
 
 router.use(function(req, res, next){
-  if(req.username==="demo@pillars.school"){
+  if(req.user.username==="demo@pillars.school"){
     req.flash("error", "Je kunt geen records aanmaken of wijzigen met het demo account.");
     return res.redirect("back");
   }

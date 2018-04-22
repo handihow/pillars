@@ -16,6 +16,27 @@ router.get("/", middleware.isSchoolOwner, function(req, res){
   });
 });
 
+//SHOW ROUTE
+router.get("/:eval_id", middleware.isSchoolOwner, function(req, res){
+  Evaluation.findById(req.params.eval_id).populate("school").exec(function(err, evaluation){
+      if(err ||!evaluation){
+          req.flash("error", "Evaluatie niet gevonden.");
+          res.redirect("back");
+      } else {
+          res.render("evaluation/show", {evaluation: evaluation, school: evaluation.school});            
+      }
+  });
+});
+
+router.use(function(req, res, next){
+  if(req.user.username==="demo@pillars.school"){
+    req.flash("error", "Je kunt geen records aanmaken of wijzigen met het demo account.");
+    return res.redirect("back");
+  }
+  next();
+})
+
+
 //NEW SCHOOL EVALUATION ROUTE 
 router.get("/new", middleware.isSchoolOwner, function(req, res){
   School.findById(req.params.id, function(err, school){
@@ -54,18 +75,6 @@ router.post("/", middleware.isSchoolOwner, function(req, res){
               });
           }
     }); 
-});
-    
-//SHOW ROUTE
-router.get("/:eval_id", middleware.isSchoolOwner, function(req, res){
-  Evaluation.findById(req.params.eval_id).populate("school").exec(function(err, evaluation){
-      if(err ||!evaluation){
-          req.flash("error", "Evaluatie niet gevonden.");
-          res.redirect("back");
-      } else {
-          res.render("evaluation/show", {evaluation: evaluation, school: evaluation.school});            
-      }
-  });
 });
 
 //EDIT ROUTE
