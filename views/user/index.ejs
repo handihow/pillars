@@ -19,10 +19,16 @@
             </div>
             <div class="ui bottom attached button">
               <% if (user.publicProfile) { %><a class="ui yellow button" href="/user/<%=user._id%>">Bekijken</a><%}%>
-              <form id="delete" 
+              <button class="ui red basic button" id="delete">Verwijderen</button>
+              <div class="ui hidden warning message">
+                <div class="header">Waarschuwing</div>
+                <p>Weet je zeker dat je deze gebruiker wilt verwijderen? Dit kan niet worden hersteld.</p>
+                <button class="ui positive button" id="cancel">Cancel</button>
+                <form id="delete" 
                   action="/scholen/<%= school._id %>/user/<%=user._id%>?_method=DELETE" method="POST">
                   <button class="ui red button">Verwijderen</button>
               </form>
+              </div>
             </div>
           </div>
           <% }); %>

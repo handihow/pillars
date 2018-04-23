@@ -2,6 +2,11 @@
 
 <div class="ui container">
     <div class="ui huge header">Pillars Profiel Pagina</div>
+    <% if(user.role==="sadmin") { %>
+      <a class="ui blue basic button" href="/scholen/">
+          Terug naar mijn school
+      </a>
+    <% } %>
     <div class="ui divider"></div>
     <div class="ui stackable grid">
       <div class="four wide column">
