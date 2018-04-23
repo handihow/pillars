@@ -19,6 +19,19 @@ router.get("/", middleware.isLoggedIn, function(req, res){
     });
 });
 
+//HARDWARE INSTELLINGEN EDIT ROUTE
+router.get("/instellingen", middleware.isSchoolOwner, function(req, res){
+    School.findById(req.params.id, function(err, school){
+       if(err || !school){
+           req.flash("error", "School niet gevonden.");
+           res.redirect("/scholen");
+       } else {
+           res.render("hardware/instellingen", {school: school});
+       }
+   });
+});
+
+
 //SHOW individual hardware records
 router.get("/:hardware_id", middleware.isSchoolOwner, function(req, res){
    School.findById(req.params.id).populate("hardware").exec(function(err, school){
@@ -197,19 +210,6 @@ router.post("/:hardware_id/copy", middleware.isSchoolOwner, function(req, res){
     });
 });
 
-
-
-//HARDWARE INSTELLINGEN EDIT ROUTE
-router.get("/instellingen", middleware.isSchoolOwner, function(req, res){
-    School.findById(req.params.id, function(err, school){
-       if(err || !school){
-           req.flash("error", "School niet gevonden.");
-           res.redirect("/scholen");
-       } else {
-           res.render("hardware/instellingen", {school: school});
-       }
-   });
-});
 
 //UPDATE ROUTE HARDWARE INSTELLINGEN
 router.put("/instellingen", middleware.isSchoolOwner, function(req, res){
