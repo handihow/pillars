@@ -16,6 +16,18 @@ router.get("/", middleware.isSchoolOwner, function(req, res){
   });
 });
 
+//NEW SCHOOL EVALUATION ROUTE 
+router.get("/new", middleware.isSchoolOwner, function(req, res){
+  School.findById(req.params.id, function(err, school){
+    if(err || !school){
+      req.flash("error", err.message);
+      res.redirect("back");
+    } else {
+      res.render("evaluation/new", {school: school});
+    }
+  });
+});
+
 //SHOW ROUTE
 router.get("/:eval_id", middleware.isSchoolOwner, function(req, res){
   Evaluation.findById(req.params.eval_id).populate("school").exec(function(err, evaluation){
@@ -36,19 +48,6 @@ router.use(function(req, res, next){
   }
   next();
 })
-
-
-//NEW SCHOOL EVALUATION ROUTE 
-router.get("/new", middleware.isSchoolOwner, function(req, res){
-  School.findById(req.params.id, function(err, school){
-    if(err || !school){
-      req.flash("error", err.message);
-      res.redirect("back");
-    } else {
-      res.render("evaluation/new", {school: school});
-    }
-  });
-});
 
 //CREATE NEW SCHOOL EVALUATION ROUTE
 router.post("/", middleware.isSchoolOwner, function(req, res){

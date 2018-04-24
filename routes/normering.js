@@ -15,6 +15,11 @@ router.get("/", middleware.isLoggedIn, function(req, res){
     });
 });
 
+//NEW ROUTE
+router.get("/new", middleware.isAuthenticatedBadmin, function(req, res){
+  res.render("normering/new"); 
+});
+
 //SHOW ROUTE
 router.get("/:id", middleware.isLoggedIn, function(req, res){
   Normering.findById(req.params.id, function(err, normering){
@@ -37,12 +42,6 @@ router.use(function(req, res, next){
   next();
 });
 
-
-//NEW ROUTE
-router.get("/new", middleware.isAuthenticatedBadmin, function(req, res){
-  res.render("normering/new"); 
-});
-
 //CREATE ROUTE
 router.post("/", middleware.isAuthenticatedBadmin, function(req, res){
     Normering.create(req.body.normering, function(err, normering){
@@ -60,7 +59,6 @@ router.post("/", middleware.isAuthenticatedBadmin, function(req, res){
     }); 
 });
     
-
 // //EDIT ROUTE
 router.get("/:id/edit", middleware.isNormeringOwner, function(req, res){
     Normering.findById(req.params.id, function(err, normering){
