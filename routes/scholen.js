@@ -51,6 +51,12 @@ router.get("/", middleware.isLoggedIn, function(req, res){
     }
 });
 
+//NEW ROUTE
+router.get("/new", middleware.isAuthenticatedBadmin, function(req, res){
+   res.render("scholen/search"); 
+});
+
+
 //SHOW ROUTE
 router.get("/:id", middleware.isLoggedIn, function(req, res){
    School.findById(req.params.id).populate("owner").exec(function(err, school){
@@ -70,11 +76,6 @@ router.use(function(req, res, next){
     return res.redirect("back");
   }
   next();
-});
-
-//NEW ROUTE
-router.get("/new", middleware.isAuthenticatedBadmin, function(req, res){
-   res.render("scholen/search"); 
 });
 
 //NEW HANDMATIG ROUTE

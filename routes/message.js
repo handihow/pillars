@@ -36,6 +36,12 @@ router.get("/scholen/:id/messages", middleware.isSchoolOwner, function(req, res)
     
 });
 
+//NEW ROUTE
+router.get("/message/new", middleware.isAuthenticatedBadmin, function(req, res){
+  res.render("message/new"); 
+});
+
+
 //SHOW ROUTE
 router.get("/message/:id", middleware.isLoggedIn, function(req, res){
   Message.findById(req.params.id, function(err, message){
@@ -56,12 +62,6 @@ router.use(function(req, res, next){
   }
   next();
 })
-
-
-//NEW ROUTE
-router.get("/message/new", middleware.isAuthenticatedBadmin, function(req, res){
-  res.render("message/new"); 
-});
 
 //CREATE ROUTE
 router.post("/message", middleware.isAuthenticatedBadmin, function(req, res){

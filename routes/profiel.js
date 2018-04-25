@@ -16,6 +16,12 @@ router.get("/", middleware.isLoggedIn, function(req, res){
     });
 });
 
+//NEW - form to create new profile questions
+router.get("/new", middleware.isAuthenticatedBadmin, function(req, res){
+    res.render("profiel/new");        
+});
+
+
 //SHOW individual profile question records
 router.get("/:id", middleware.isAuthenticatedBadmin, function(req, res){
   Profiel.findById(req.params.id, function(err, profiel){
@@ -37,11 +43,6 @@ router.use(function(req, res, next){
   next();
 });
 
-
-//NEW - form to create new profile questions
-router.get("/new", middleware.isAuthenticatedBadmin, function(req, res){
-    res.render("profiel/new");        
-});
 
 //CREATE - creates new profile questions in the database
 router.post("/", middleware.isAuthenticatedBadmin, function(req, res){
