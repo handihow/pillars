@@ -56,6 +56,10 @@ router.get("/new", middleware.isAuthenticatedBadmin, function(req, res){
    res.render("scholen/search"); 
 });
 
+//NEW HANDMATIG ROUTE
+router.get("/handmatig", middleware.isAuthenticatedBadmin, function(req, res){
+   res.render("scholen/handmatig"); 
+});
 
 //SHOW ROUTE
 router.get("/:id", middleware.isLoggedIn, function(req, res){
@@ -76,11 +80,6 @@ router.use(function(req, res, next){
     return res.redirect("back");
   }
   next();
-});
-
-//NEW HANDMATIG ROUTE
-router.get("/handmatig", middleware.isAuthenticatedBadmin, function(req, res){
-   res.render("scholen/handmatig"); 
 });
 
 router.post("/new", middleware.isAuthenticatedBadmin, function(req, res){
