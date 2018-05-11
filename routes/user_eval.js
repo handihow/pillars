@@ -16,6 +16,18 @@ router.get("/", middleware.isLoggedIn, function(req, res){
   });
 });
 
+//NEW USER EVALUATION ROUTE 
+router.get("/new", middleware.isLoggedIn, function(req, res){
+  User.findById(req.params.id, function(err, user){
+    if(err || !user){
+      req.flash("error", err.message);
+      res.redirect("back");
+    } else {
+      res.render("user_eval/new", {user: user});
+    }
+  });
+});
+
 //SHOW ROUTE
 router.get("/:eval_id", middleware.isLoggedIn, function(req, res){
   Evaluation.findById(req.params.eval_id).populate("user").exec(function(err, evaluation){
@@ -35,18 +47,6 @@ router.use(function(req, res, next){
     return res.redirect("back");
   }
   next();
-});
-
-//NEW USER EVALUATION ROUTE 
-router.get("/new", middleware.isLoggedIn, function(req, res){
-  User.findById(req.params.id, function(err, user){
-    if(err || !user){
-      req.flash("error", err.message);
-      res.redirect("back");
-    } else {
-      res.render("user_eval/new", {user: user});
-    }
-  });
 });
 
 //CREATE NEW USER EVALUATION ROUTE

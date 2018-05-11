@@ -1,7 +1,7 @@
 <% include ../partials/school/header %>
 
 <div class="ui container">
-    <h2 class="ui header"><i class="user icon"></i> <%= onderdeel %> Profiel Aanpassen</h2>
+    <h2 class="ui header"><i class="user icon"></i> <%= onderdeel %></h2>
     <form class="ui form" action="/user/<%=user._id%>/test" method="POST" id="profielTest">
         <% var i=0 %>
         <% Object.keys(global.profiel).forEach(function(key){ %>
