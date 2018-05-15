@@ -31,6 +31,31 @@ router.get("/instellingen", middleware.isSchoolOwner, function(req, res){
    });
 });
 
+//NEW - form to create new hardware
+router.get("/new/:type", middleware.isSchoolOwner, function(req, res){
+    School.findById(req.params.id, function(err, school){
+        if(err || !school) {
+            req.flash("error", "School niet gevonden");
+            res.redirect("/scholen");
+        } else {
+            res.render("hardware/new", {school: school, type: req.params.type});        
+        }
+    });
+});
+
+//BULK NEW - form to upload CSV FILE with hardware
+router.get("/bulk", middleware.isSchoolOwner, function(req, res){
+    School.findById(req.params.id, function(err, school){
+        if(err || !school) {
+            req.flash("error", "School niet gevonden");
+            res.redirect("/scholen");
+        } else {
+            res.render("hardware/bulkupload", {school: school});        
+        }
+    });
+});
+
+
 
 //SHOW individual hardware records
 router.get("/:hardware_id", middleware.isSchoolOwner, function(req, res){
@@ -60,30 +85,6 @@ router.use(function(req, res, next){
   next();
 })
 
-
-//NEW - form to create new hardware
-router.get("/new/:type", middleware.isSchoolOwner, function(req, res){
-    School.findById(req.params.id, function(err, school){
-        if(err || !school) {
-            req.flash("error", "School niet gevonden");
-            res.redirect("/scholen");
-        } else {
-            res.render("hardware/new", {school: school, type: req.params.type});        
-        }
-    });
-});
-
-//BULK NEW - form to upload CSV FILE with hardware
-router.get("/bulk", middleware.isSchoolOwner, function(req, res){
-    School.findById(req.params.id, function(err, school){
-        if(err || !school) {
-            req.flash("error", "School niet gevonden");
-            res.redirect("/scholen");
-        } else {
-            res.render("hardware/bulkupload", {school: school});        
-        }
-    });
-});
 
 //BULK NEW - accepts file and renders the form to create new hardware in list
 router.post("/bulk", middleware.isSchoolOwner, function(req, res){
