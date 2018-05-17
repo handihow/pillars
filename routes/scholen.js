@@ -73,6 +73,25 @@ router.get("/:id", middleware.isLoggedIn, function(req, res){
    });
 });
 
+//INDEX ROUTE FOR SCHOOL
+router.get("/:id/messages", middleware.isSchoolOwner, function(req, res){
+  School.findById(req.params.id, function(err, school){
+    if(err || !school){
+      req.flash("error", err.message);
+      res.redirect("back");
+    } else {
+      Message.find({owner: school.owner}).exec(function(err, messages){
+        if(err){
+          req.flash("error", err.message);
+          res.redirect("back");
+        } else {
+          res.render("message/school", {school: school, messages: messages});
+        }
+      });
+    }
+  });
+});
+
 //PROTECT THE DEMO ACCOUNT
 router.use(function(req, res, next){
   if(req.user && req.user.username==="demo@pillars.school"){

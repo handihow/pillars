@@ -5,7 +5,7 @@ var School = require("../models/school");
 var middleware = require("../middleware");
 
 //INDEX ROUTE FOR BESTUUR
-router.get("/message", middleware.isLoggedIn, function(req, res){
+router.get("/", middleware.isLoggedIn, function(req, res){
     Message.find({owner: req.user._id}).populate("owner").exec(function(err, messages){
         if(err) {
             req.flash("error", err.message);
@@ -16,40 +16,32 @@ router.get("/message", middleware.isLoggedIn, function(req, res){
     });
 });
 
-//INDEX ROUTE FOR SCHOOL
-router.get("/scholen/:id/messages", middleware.isSchoolOwner, function(req, res){
-  School.findById(req.params.id, function(err, school){
-    if(err || !school){
-      req.flash("error", err.message);
-      res.redirect("back");
-    } else {
-      Message.find({owner: school.owner}).exec(function(err, messages){
-        if(err){
-          req.flash("error", err.message);
-          res.redirect("back");
-        } else {
-          res.render("message/school", {school: school, messages: messages});
-        }
-      });
-    }
-  });
-    
-});
-
 //NEW ROUTE
-router.get("/message/new", middleware.isAuthenticatedBadmin, function(req, res){
+router.get("/new", middleware.isAuthenticatedBadmin, function(req, res){
   res.render("message/new"); 
 });
 
 
 //SHOW ROUTE
-router.get("/message/:id", middleware.isLoggedIn, function(req, res){
+router.get("/:id", middleware.isLoggedIn, function(req, res){
   Message.findById(req.params.id, function(err, message){
       if(err ||!message){
           req.flash("error", "Bericht niet gevonden.");
           res.redirect("back");
       } else {
           res.render("message/show", {message: message});            
+      }
+  });
+});
+
+// //EDIT ROUTE
+router.get("/:id/edit", middleware.isMessageOwner, function(req, res){
+    Message.findById(req.params.id, function(err, message){
+      if(err || !message){
+          req.flash("error", "Bericht niet gevonden.");
+          res.redirect("/message");
+      } else {
+          res.render("message/edit", {message: message});
       }
   });
 });
@@ -64,7 +56,7 @@ router.use(function(req, res, next){
 })
 
 //CREATE ROUTE
-router.post("/message", middleware.isAuthenticatedBadmin, function(req, res){
+router.post("/", middleware.isAuthenticatedBadmin, function(req, res){
     req.body.message.body = req.sanitize(req.body.message.body);
     Message.create(req.body.message, function(err, message){
           if(err || !message){
@@ -82,20 +74,8 @@ router.post("/message", middleware.isAuthenticatedBadmin, function(req, res){
 });
     
 
-// //EDIT ROUTE
-router.get("/message/:id/edit", middleware.isMessageOwner, function(req, res){
-    Message.findById(req.params.id, function(err, message){
-      if(err || !message){
-          req.flash("error", "Bericht niet gevonden.");
-          res.redirect("/message");
-      } else {
-          res.render("message/edit", {message: message});
-      }
-  });
-});
-
 // //UPDATE ROUTE
-router.put("/message/:id", middleware.isMessageOwner, function(req, res){
+router.put("/:id", middleware.isMessageOwner, function(req, res){
     req.body.message.body = req.sanitize(req.body.message.body);
     Message.findByIdAndUpdate(req.params.id, req.body.message, function(err, message){
       if(err || !message){
@@ -109,7 +89,7 @@ router.put("/message/:id", middleware.isMessageOwner, function(req, res){
 });
 
 //DELETE ROUTE
-router.delete("/message/:id", middleware.isMessageOwner, function(req, res){
+router.delete("/:id", middleware.isMessageOwner, function(req, res){
   Message.findByIdAndRemove(req.params.id, function(err){
       if(err){
           req.flash("error", "Er is iets misgegaan. Probeer bericht opnieuw te verwijderen.");

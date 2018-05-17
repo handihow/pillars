@@ -72,9 +72,9 @@ app.use("/normering", normeringRoutes);
 app.use("/overview", overviewRoutes);
 app.use("/profiel", profielRoutes);
 app.use("/admin", adminRoutes);
-app.use(userRoutes);
-app.use(messageRoutes);
+app.use("/message", messageRoutes);
 app.use(indexRoutes);
+app.use(userRoutes);
 
 app.listen(process.env.PORT || 8080, process.env.IP, function(){
    console.log("The Scholen Server has started!"); 
