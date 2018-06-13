@@ -49,16 +49,15 @@
                     <input type="text" name="hardware[processor]" value="<%=hardware.processor%>">
                 </div>
                 <% if(hardware.type==="Desktop"||hardware.type==="Multipoint computer"||hardware.type==="Laptop") { %>
-                    <div class="six wide field required">
+                    <div class="four wide field required">
                         <label>Werkgeheugen (GB)</label>
                         <input type="number" name="hardware[werkgeheugen]" value="<%=hardware.werkgeheugen%>" id="hardware[werkgeheugen]">
                     </div>
-                <% } else { %>
-                    <div class="six wide field required">
-                        <label>Jaar van ingebruikname</label>
-                        <input type="number" name="hardware[jaarIngebruikname]" value="<%=hardware.jaarIngebruikname%>" id="hardware[jaarIngebruikname]">
-                    </div>
                 <% } %>
+                <div class="four wide field required">
+                    <label>Jaar van ingebruikname</label>
+                    <input type="number" name="hardware[jaarIngebruikname]" value="<%=hardware.jaarIngebruikname%>" id="hardware[jaarIngebruikname]">
+                </div>
             </div>
           </div>
           <% if(hardware.type === "Multipoint computer") { %>

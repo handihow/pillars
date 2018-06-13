@@ -1,0 +1,62 @@
+<% include ../partials/school/header %>
+
+<div class="ui container">
+  
+  <h2 class="ui center aligned header">
+      <div><%= user.firstName %> <%= user.lastName %> updaten</div>
+  </h2>
+  
+  <h3>Gebruikersniveaus</h3>
+  <p>School user = school medewerker = suser</p>
+  <p>School admin = school administrator = sadmin</p>
+  <p>Bestuur user = bestuur medewerker = buser</p>
+  <h3>Gebruikersniveaus die niet aanpasbaar zijn op deze pagina</h3>
+  <p>Bestuur admin = bestuur administrator = badmin</p>
+  <p>Pillars admin = pillars adminitrator = padmin</p>
+
+  <h3>School</h3>
+  <p>Laat school leeg als je deze niet wilt aanpassen!</p>
+
+  <form class="ui form" action="/admin/update-user" method="POST">
+    <input type="hidden" value="<%=user._id%>" name="userId">
+    <div class="two fields">
+      <div class="field">
+          <label>Rol</label>
+          <div class="ui selection dropdown">
+              <input type="hidden" name="role" value="<%=user.role%>">
+              <div class="text"><%=user.role%></div>
+              <i class="dropdown icon"></i>
+              <div class="menu">
+                  <% ["sadmin", "suser", "buser"].forEach(function(type){%>
+                    <div class="item <%if(type===user.role){%>active<%}%>"
+                        data-value="<%=type%>"
+                      <% if(type===user.role){ %> selected="" <% } %> >
+                          <%=type%>
+                    </div>
+                  <%})%>
+              </div>
+          </div>
+      </div>
+      <div class="field">
+          <label>School</label>
+          <div class="ui selection dropdown">
+              <input type="hidden" name="school">
+              <div class="text"><%=user.org%></div>
+              <i class="dropdown icon"></i>
+              <div class="menu">
+                  <% schools.forEach(function(school){%>
+                    <div class="item"
+                        data-value="<%=school._id%>">
+                          <%=school.brin%> <%=school.instellingsnaam%> <%=school.plaatsnaam%>
+                    </div>
+                  <%})%>
+              </div>
+          </div>
+      </div>
+    </div>
+    <button class="ui button" type="submit">Bewaren</button>
+  </form>
+
+</div>
+
+<% include ../partials/school/footer %>

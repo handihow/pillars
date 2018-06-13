@@ -7,7 +7,7 @@ score.computersPerStudent = function(school){
       school.hardware.forEach(function(hardware){
         if(school.normering.hardwareTypesCountedAsComputer.includes(hardware.type) && 
           ( hardware.werkgeheugen >= school.normering.minRAM || hardware.jaarIngebruikname >= school.normering.minYear)) {
-            if(hardware.type=="Multipoint computer") {
+            if(hardware.type=="Multipoint computer" && hardware.aantalWerkplekkenMultipoint) {
               countGoodComputers = countGoodComputers + hardware.aantalWerkplekkenMultipoint; 
             } else {
               countGoodComputers++;

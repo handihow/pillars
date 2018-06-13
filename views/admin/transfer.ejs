@@ -1,0 +1,20 @@
+<% include ../partials/school/header %>
+
+<div class="ui container">
+  
+  <h2 class="ui center aligned header">
+      <div>Pillars Admin - gebruikers bewerken</div>
+  </h2>
+  
+  <form class="ui form" action="/admin/find-user" method="POST">
+    <div class="required field">
+          <label>Username (email adres)</label>
+          <input type="text" name="username"  placeholder="Email adres" required>
+    </div>
+    <button class="ui button" type="submit">Zoeken</button>
+  </form>
+
+</div>
+
+<% include ../partials/school/footer %>
+
