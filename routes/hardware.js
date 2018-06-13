@@ -22,6 +22,9 @@ router.get("/", middleware.isLoggedIn, function(req, res){
           } else if(!school.normering.hardwareTypesCountedAsComputer.includes(hardware.type) && hardware.jaarIngebruikname < school.normering.minYear) {
             hardware.isVerouderd = true;
             hardware.waarschuwing = "Apparaat is te oud";
+          } else if(hardware.type==="Multipoint computer" && !hardware.aantalWerkplekkenMultipoint){
+            hardware.isVerouderd = true;
+            hardware.waarschuwing = "Aantal werkplekken multipoint is niet gedefinieerd";
           }
         }
       })
