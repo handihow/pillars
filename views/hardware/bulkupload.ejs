@@ -14,17 +14,26 @@
       <div class="item">Maak een nieuwe Google Sheet of Excel bestand met de volgende headers: Naam, Merk, Model, Serial/Tag number, Processor, Werkgeheugen (GB), Jaar van ingebruikname</div>
       <div class="item">Deze headers moeten EXACT overeenkomen met de woorden hierboven</div>
       <div class="item">Knip en Plak hierna vanuit jouw bestand met computers de gegevens in de juiste kolom. Het is niet erg als sommige velden leeg zijn.</div>
-      <div class="item">Heb je meer dan 100 computers? Knip het bestand dan op. Je kunt niet meer dan 100 computers in 1 upload doen.</div>
       <div class="item">Als je klaar bent, bewaar dan het bestand als CSV.</div>
-      <div class="item">Open het CSV bestand in een text editor. Controleer of de komma is gebruikt als scheidingsteken. Tip! Google Sheets gebruikt standaard een komma als scheidingsteken bij csv export.</div>
-      <div class="item">Als er een ander teken is gebruikt als scheidingsteken, gebruik dan de functie "Vind en Vervang" om dat teken in het bestand te vervangen met komma.</div>
-      <div class="item">Zodra je zeker weet dat alle gegevens zijn gescheiden door komma, gebruik dan het onderstaande formulier om de file te uploaden.</div>
-      <div><strong>Stap 2 - na upload CSV bestand:</strong></div>
-      <div class="item">Selecteer het type hardware uit de lijst in stap 2 voor iedere hardware. Zo weet je zeker dat de input overeenkomt met het verwachtte type in het systeem.</div>
-      <div class="item">Vul eventueel ontbrekende gegevens in.</div>
+      <div class="item">Selecteer hieronder het juiste scheidingsteken. Dit kan ";" zijn (bijvoorbeeld vanuit Excel-Nederlands) of "," (bijvoorbeeld vanuit Google Sheets)</div>
+      <div class="item">Kies het csv bestand en klik dan op bewaren</div>
     </div>
     <form class="ui form" action="/scholen/<%=school._id%>/hardware/bulk" method="POST" encType="multipart/form-data">
-        <input type="file" name="file" accept="*.csv" /><br/><br/>
+        <div class="fields">
+          <div class="two wide required field">
+              <label>Scheidingsteken</label>
+              <div class="ui selection dropdown">
+                  <input type="hidden" name="separation" id="dropdown" value=",">
+                  <div class="text">Selecteer scheidingsteken</div>
+                  <i class="dropdown icon"></i>
+                  <div class="menu">
+                      <div class="item" data-value=",">,</div>
+                      <div class="item" data-value=";">;</div>
+                  </div>
+                </div>
+            </div>
+          </div>
+          <input type="file" name="file" accept="*.csv" required/><br/><br/>
         <button class="ui button" type="submit">Bewaren</button>
         <div class="ui error message"></div>
     </form>

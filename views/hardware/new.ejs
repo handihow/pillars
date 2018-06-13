@@ -2,75 +2,84 @@
 <% include ../partials/school/side-header %>
 
 
-    <h2 class="ui top attached header"><%= type %> Toevoegen aan <%= school.instellingsnaam %></h2>
-    
-    <form class="ui form" action="/scholen/<%=school._id%>/hardware" method="POST" id="hardwareForm">
-        <div class="two fields">
-          <div class="required field">
-              <label>Naam</label>
-              <input type="text" name="hardware[naam]" placeholder="Hardware naam" id="hardware[naam]">
-          </div>
-          <div class="hidden field">
-            <input type="text" name="hardware[type]" value="<%= type %>" hidden=true>
-          </div>
-        </div>
-        <div class="field">
-            <div class="fields">
-                <div class="four wide field">
-                    <label>Merk</label>
-                    <input type="text" name="hardware[merk]" placeholder="Merk">
-                </div>
-                <div class="twelve wide field">
-                    <label>Model</label>
-                    <input type="text" name="hardware[model]" placeholder="Model">
-                </div>
-            </div>
-          </div>
-          <div class="field">
-            <div class="fields">
-                <div class="four wide field">
-                    <label>Serial/Tag number</label>
-                    <input type="text" name="hardware[serialTag]" placeholder="Serial/Tag nummer">
-                </div>
-                <div class="six wide field">
-                    <label>Processor</label>
-                    <input type="text" name="hardware[processor]" placeholder="Processor">
-                </div>
-                <% if(type==="Desktop"||type==="Multipoint computer"||type==="Laptop") { %>
-                    <div class="six wide field required">
-                        <label>Werkgeheugen (GB)</label>
-                        <input type="number" name="hardware[werkgeheugen]" placeholder="Werkgeheugen" id="hardware[werkgeheugen]">
-                    </div>
-                <% } else { %>
-                    <div class="six wide field required">
-                        <label>Jaar van ingebruikname</label>
-                        <input type="number" name="hardware[jaarIngebruikname]" placeholder="Jaar ingebruikname" id="hardware[jaarIngebruikname]">
-                    </div>
-                <% } %>
-            </div>
-          </div>
-          <% if(type === "Multipoint computer") { %>
-              <div class="six wide required field">
-                  <label>Aantal multipoint werkplekken</label>
-                  <input type="number" name="hardware[aantalWerkplekkenMultipoint]" placeholder="Aantal multipoint werkplekken" id="hardware[aantalWerkplekkenMultipoint]">
-              </div>
-          <% } %>
-          <% if(type === "Digitaal schoolbord") { %>
-              <div class="inline field">
-                <div class="ui toggle checkbox">
-                  <input type="checkbox" tabindex="0" name="hardware[isTouchscreenDigibord]">
-                  <label>Heeft Touchscreen Beeldscherm</label>
-                </div>
-              </div>
-              <div class="six wide field">
-                  <label>Beelddiagonaal in inch</label>
-                  <input type="number" name="hardware[schermgrootteDigibord]" placeholder="Schermgrootte (inch)">
-              </div>
-          <% } %>
-          <button class="ui button" type="submit">Bewaren</button>
-          <div class="ui error message"></div>
-    </form>
+<h2 class="ui top attached header"><%= type %> Toevoegen aan <%= school.instellingsnaam %></h2>
+
+<form class="ui form" action="/scholen/<%=school._id%>/hardware" method="POST" id="hardwareForm">
+  <div class="two fields">
+    <div class="required field">
+      <label>Naam</label>
+      <input type="text" name="hardware[naam]" placeholder="Hardware naam" id="hardware[naam]">
     </div>
-    
+    <div class="hidden field">
+      <input type="text" name="hardware[type]" value="<%= type %>" hidden=true>
+    </div>
+  </div>
+  <div class="field">
+    <div class="fields">
+      <div class="four wide field">
+        <label>Merk</label>
+        <input type="text" name="hardware[merk]" placeholder="Merk">
+      </div>
+      <div class="twelve wide field">
+        <label>Model</label>
+        <input type="text" name="hardware[model]" placeholder="Model">
+      </div>
+    </div>
+  </div>
+  <div class="field">
+    <div class="fields">
+      <div class="four wide field">
+        <label>Serial/Tag number</label>
+        <input type="text" name="hardware[serialTag]" placeholder="Serial/Tag nummer">
+      </div>
+      <div class="four wide field">
+        <label>Processor</label>
+        <input type="text" name="hardware[processor]" placeholder="Processor">
+      </div>
+      <% if(type==="Desktop"||type==="Multipoint computer"||type==="Laptop") { %>
+      <div class="four wide field required">
+        <label>Werkgeheugen (GB)</label>
+        <input type="number" name="hardware[werkgeheugen]" placeholder="Werkgeheugen" id="hardware[werkgeheugen]">
+      </div>
+      <% } %>
+      <div class="four wide field required">
+        <label>Jaar van ingebruikname</label>
+        <input type="number" name="hardware[jaarIngebruikname]" placeholder="Jaar ingebruikname" id="hardware[jaarIngebruikname]">
+      </div>
+    </div>
+  </div>
+  <% if(type === "Multipoint computer") { %>
+  <div class="six wide required field">
+    <label>Aantal multipoint werkplekken</label>
+    <input type="number" name="hardware[aantalWerkplekkenMultipoint]" placeholder="Aantal multipoint werkplekken" id="hardware[aantalWerkplekkenMultipoint]">
+  </div>
+  <% } %>
+  <% if(type === "Digitaal schoolbord") { %>
+  <div class="inline field">
+    <div class="ui toggle checkbox">
+      <input type="checkbox" tabindex="0" name="hardware[isTouchscreenDigibord]">
+      <label>Heeft Touchscreen Beeldscherm</label>
+    </div>
+  </div>
+  <div class="six wide field">
+    <label>Beelddiagonaal in inch</label>
+    <input type="number" name="hardware[schermgrootteDigibord]" placeholder="Schermgrootte (inch)">
+  </div>
+  <% } %>
+  <div class="two fields">
+    <div class="field">
+      <label>Leverancier</label>
+      <input type="text" name="hardware[leverancier]" placeholder="Leverancier" id="hardware[leverancier]">
+    </div>
+    <div class="field">
+      <label>Garantievorm</label>
+      <input type="text" name="hardware[garantievorm]" placeholder="Garantievorm" id="hardware[garantievorm]">
+    </div>
+  </div>
+  <button class="ui button" type="submit">Bewaren</button>
+  <div class="ui error message"></div>
+</form>
+</div>
+
 <% include ../partials/school/side-footer %>
 <% include ../partials/school/footer %>

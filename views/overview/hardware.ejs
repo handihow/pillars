@@ -29,13 +29,14 @@
           <th>Processor</th>
           <th>Werkgeheugen (GB)</th>
           <th>Jaar ingebruikname</th>
+          <th>Waarschuwing</th>
           <th>Bekijk</th>
         </tr>
       </thead>
       <tbody>
         <% scholen.forEach(function(school){ %>
           <% school.hardware.forEach(function(hardware){ %>
-            <tr>
+            <tr <% if(hardware.isVerouderd) { %> class="negative" <% } %> >
               <td><%=school.instellingsnaam%></td>
               <td><%=hardware.type%></td>
               <td><%=hardware.naam%></td>
@@ -45,6 +46,7 @@
               <td><%=hardware.processor%></td>
               <td><%=hardware.werkgeheugen%></td>
               <td><%=hardware.jaarIngebruikname%></td>
+              <td><%=hardware.waarschuwing %></td>
               <td><a class="ui mini primary basic button" href="/scholen/<%=school._id%>/hardware/<%=hardware._id%>">Bekijk</a></td>
             </tr>
           <% }) %>

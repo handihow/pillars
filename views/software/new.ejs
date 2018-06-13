@@ -1,84 +1,94 @@
 <% include ../partials/school/header %>
 <% include ../partials/school/side-header %>
 
-    <h2 class="ui header">
-          <i class="student icon"></i></i>Digitale Leermiddelen voor <%= vak %> Toevoegen aan <%= school.instellingsnaam %>
-    </h2>
-    <form class="ui form" action="/scholen/<%=school._id%>/software" method="POST" id="digitaleLeermiddelenForm" novalidate>
-        <!--NAAM DIGITALE LEERMIDDEL-->
-        <div class="required field">
-            <label>Naam</label>  
-            <input type="text" name="software[naam]" placeholder="Naam digitale leermiddel">
-        </div>
-        <!--OVERIGE VAKKEN ONLY-->
-        <% if(vak === "Overige") { %> 
-        <div class="required grouped fields">
-            <label for="software[vak]">Selecteer het vak:</label>
-            <% global.software["Overige"].forEach(function(overigVak){ %>
-                <div class="field">
-                  <div class="ui radio checkbox">
-                    <input type="radio" name="software[vak]" value="<%=overigVak %>">
-                    <label><%=overigVak %></label>
-                  </div>
-                </div>
-            <% }) %>
-        </div>
+<h2 class="ui header">
+  <i class="student icon"></i></i>Digitale Leermiddelen voor <%= vak %> Toevoegen aan <%= school.instellingsnaam %>
+</h2>
+<form class="ui form" action="/scholen/<%=school._id%>/software" method="POST" id="digitaleLeermiddelenForm" novalidate>
+    <!--NAAM DIGITALE LEERMIDDEL-->
+    <div class="required field">
+        <label>Naam</label>  
+        <input type="text" name="software[naam]" placeholder="Naam digitale leermiddel">
+    </div>
+    <!--OVERIGE VAKKEN ONLY-->
+    <% if(vak === "Overige") { %> 
+    <div class="required grouped fields">
+        <label for="software[vak]">Selecteer het vak:</label>
+        <% global.software["Overige"].forEach(function(overigVak){ %>
         <div class="field">
-            <div class="required four wide field">
-                <label>Effectiviteit: 1 = niet effectief / 6 = zeer effectief</label>
-                <input type="number" min="1" max="6" name="software[effectiviteit]">
-            </div>
+          <div class="ui radio checkbox">
+            <input type="radio" name="software[vak]" value="<%=overigVak %>">
+            <label><%=overigVak %></label>
         </div>
-        <% } else { %>
-        <!--EINDE OVERIGE VAKKEN -->
-        <div class="field">
-          <% if(vak === "ICT Geletterdheid") { %>
-                <div class ="required grouped fields">
-                  <label for="software[vak]">Selecteer het vak: </label>
-                    <% global.software["ICT Geletterdheid"].forEach(function(ictVak){ %>
-                        <div class="field">
-                          <div class="ui radio checkbox">
-                            <input type="radio" name="software[vak]" required=true value="<%= ictVak %>">
-                            <label><%= ictVak %></label>
-                          </div>
-                        </div>
-                    <% }) %> 
-                </div>
-           <% } else { %>
-                <input type="hidden" name="software[vak]" value="<%= vak %>">
-           <% } %>
+    </div>
+    <% }) %>
+</div>
+<div class="field">
+    <div class="required four wide field">
+        <label>Effectiviteit: 1 = niet effectief / 6 = zeer effectief</label>
+        <input type="number" min="1" max="6" name="software[effectiviteit]">
+    </div>
+</div>
+<% } else { %>
+<!--EINDE OVERIGE VAKKEN -->
+<div class="field">
+  <% if(vak === "ICT Geletterdheid") { %>
+  <div class ="required grouped fields">
+      <label for="software[vak]">Selecteer het vak: </label>
+      <% global.software["ICT Geletterdheid"].forEach(function(ictVak){ %>
+      <div class="field">
+          <div class="ui radio checkbox">
+            <input type="radio" name="software[vak]" required=true value="<%= ictVak %>">
+            <label><%= ictVak %></label>
         </div>
-        <div class="field">
-            <label>Software functies</label>
-            <select multiple="" name="software[functie]" class="ui dropdown">
-              <option value="">Selecteer functies</option>
-              <% global.softwareFuncties.forEach(function(functie) { %>
-                  <option value="<%=functie%>"><%=functie%></option>
-              <% }) %>
-            </select>
-        </div>
-        <div class="field">
-            <label>Groepen</label>
-            <select multiple="" name="software[groep]" class="ui dropdown">
-                <option value="">Selecteer groepen</option>
-                <% for(var i=0; i < 8; i++) { %>
-                <option value="Groep <%= i + 1 %>">Groep <%= i+ 1 %></option>
-                <% } %>
-            </select>
-        </div>
-        <div class="field">
-            <label>Kwaliteitsnormen</label>
-            <select multiple="" name="software[kwaliteit]" class="ui dropdown">
-                <option value="">Selecteer kwaliteiten</option>
-                <% global.softwareKwaliteiten.forEach(function(kwaliteit) { %>
-                  <option value="<%=kwaliteit%>"><%=kwaliteit%></option>
-                <% }) %>
-            </select>
-        </div>
+    </div>
+    <% }) %> 
+</div>
+<% } else { %>
+<input type="hidden" name="software[vak]" value="<%= vak %>">
+<% } %>
+</div>
+<div class="field">
+    <label>Software functies</label>
+    <select multiple="" name="software[functie]" class="ui dropdown">
+      <option value="">Selecteer functies</option>
+      <% global.softwareFuncties.forEach(function(functie) { %>
+      <option value="<%=functie%>"><%=functie%></option>
+      <% }) %>
+  </select>
+</div>
+<div class="field">
+    <label>Groepen</label>
+    <select multiple="" name="software[groep]" class="ui dropdown">
+        <option value="">Selecteer groepen</option>
+        <% for(var i=0; i < 8; i++) { %>
+        <option value="Groep <%= i + 1 %>">Groep <%= i+ 1 %></option>
         <% } %>
-        <button class="ui button" type="submit">Bewaren</button>
-        <div class="ui error message"></div>
-    </form>
+    </select>
+</div>
+<div class="field">
+    <label>Kwaliteitsnormen</label>
+    <select multiple="" name="software[kwaliteit]" class="ui dropdown">
+        <option value="">Selecteer kwaliteiten</option>
+        <% global.softwareKwaliteiten.forEach(function(kwaliteit) { %>
+        <option value="<%=kwaliteit%>"><%=kwaliteit%></option>
+        <% }) %>
+    </select>
+</div>
+<% } %>
+<div class="two fields">
+    <div class="field">
+        <label>Leverancier</label>  
+        <input type="text" name="software[leverancier]" placeholder="Leverancier digitale leermiddel">
+    </div>
+    <div class="field">
+        <label>Aantal licenties</label>  
+        <input type="number" name="software[licenties]" placeholder="Aantal licenties">
+    </div>
+</div>
+<button class="ui button" type="submit">Bewaren</button>
+<div class="ui error message"></div>
+</form>
 
 <% include ../partials/school/side-footer %>
 <% include ../partials/school/footer %>

@@ -1,76 +1,86 @@
 <% include ../partials/school/header %>
 <% include ../partials/school/side-header %>
 
-      <h2 class="ui header"><i class="student icon"></i></i>Digitaal Leermiddel van <%= school.instellingsnaam %></h2>
-        <div class="ui attached segment">
-            <div class="item">
-              <div class="ui stackable grid">
-                <div class="four wide column">
-                  <h4 class="content">Vak</h4> 
-                  <div class="content"><%= software.vak %></div>
-                </div>
-                <div class="four wide column">
-                  <h4 class="content">Naam</h4>
-                  <div class="content"><%= software.naam %></div>
-                </div>
-              </div>
-              <% if(!(global.software["Overige"].includes(software.vak))) { %>
-              <div class="ui stackable grid">
-                <div class="four wide column">
-                  <h4 class="content">Functies</h4>
-                  <% global.softwareFuncties.forEach(function(functie){ %>
-                    <div class="content">
-                      <% if(software.functie.includes(functie)) { %>
-                        <i class="green checkmark icon"></i> <%=functie%><% } else { %>
-                        <i class="red remove icon"></i> <%=functie%><% } %>
-                    </div>
-                  <% }); %>
-                </div>
-                <div class="four wide column">
-                  <h4 class="content">Groepen</h4>
-                  <% for(i=1; i<=8; i++){ %>
-                    <div class="content">
-                      <% if(software.groep.includes("Groep " + i)) { %>
-                        <i class="green checkmark icon"></i> <%= "Groep " + i %><% } else { %>
-                        <i class="red remove icon"></i> <%= "Groep " + i %><% } %>
-                    </div>
-                  <% }; %>
-                </div>
-                <div class="four wide column">
-                  <h4 class="content">Kwaliteitsnormen</h4>
-                  <% global.softwareKwaliteiten.forEach(function(kwaliteit){ %>
-                    <div class="content">
-                      <% if(software.kwaliteit.includes(kwaliteit)) { %>
-                        <i class="green checkmark icon"></i> <%=kwaliteit%><% } else { %>
-                        <i class="red remove icon"></i> <%=kwaliteit%><% } %>
-                    </div>
-                   <% }); %>
-                </div>
-              </div>
-              <% } else { %>
-              <div class="ui stackable grid">
-                <div class="four wide column">
-                  <h4 class="content">Effectiviteit</h4>
-                  <div class="content"><%= software.effectiviteit %></div>
-                </div>
-              </div>
-              <% } %>
-                <h4 class="content">Toegevoegd door</h4>
-                <div class="content"><%= software.owner.username %> op <%=software.created.toDateString()%> </div>
-                  <a id="edit" 
-                    class="ui primary basic button" 
-                    href="/scholen/<%=school._id%>/software/<%=software._id%>/edit">
-                    Bewerken
-                  </a>
-                  <form id="delete" 
-                    action="/scholen/<%= school._id %>/software/<%=software._id%>?_method=DELETE" 
-                    method="POST">
-                    <button class="ui red basic button">Verwijderen</button>
-                  </form>
-            </div>
-        </div>
+<h2 class="ui header"><i class="student icon"></i></i>Digitaal Leermiddel van <%= school.instellingsnaam %></h2>
+<div class="ui attached segment">
+  <div class="item">
+    <div class="ui stackable grid">
+      <div class="four wide column">
+        <h4 class="content">Vak</h4> 
+        <div class="content"><%= software.vak %></div>
+      </div>
+      <div class="four wide column">
+        <h4 class="content">Naam</h4>
+        <div class="content"><%= software.naam %></div>
+      </div>
     </div>
-  </div>
+    <% if(!(global.software["Overige"].includes(software.vak))) { %>
+    <div class="ui stackable grid">
+      <div class="four wide column">
+        <h4 class="content">Functies</h4>
+        <% global.softwareFuncties.forEach(function(functie){ %>
+        <div class="content">
+          <% if(software.functie.includes(functie)) { %>
+          <i class="green checkmark icon"></i> <%=functie%><% } else { %>
+          <i class="red remove icon"></i> <%=functie%><% } %>
+        </div>
+        <% }); %>
+      </div>
+      <div class="four wide column">
+        <h4 class="content">Groepen</h4>
+        <% for(i=1; i<=8; i++){ %>
+        <div class="content">
+          <% if(software.groep.includes("Groep " + i)) { %>
+          <i class="green checkmark icon"></i> <%= "Groep " + i %><% } else { %>
+          <i class="red remove icon"></i> <%= "Groep " + i %><% } %>
+        </div>
+        <% }; %>
+      </div>
+      <div class="four wide column">
+        <h4 class="content">Kwaliteitsnormen</h4>
+        <% global.softwareKwaliteiten.forEach(function(kwaliteit){ %>
+        <div class="content">
+          <% if(software.kwaliteit.includes(kwaliteit)) { %>
+          <i class="green checkmark icon"></i> <%=kwaliteit%><% } else { %>
+          <i class="red remove icon"></i> <%=kwaliteit%><% } %>
+        </div>
+        <% }); %>
+      </div>
+    </div>
+    <% } else { %>
+    <div class="ui stackable grid">
+      <div class="four wide column">
+        <h4 class="content">Effectiviteit</h4>
+        <div class="content"><%= software.effectiviteit %></div>
+      </div>
+    </div>
+    <% } %>
+    <div class="ui stackable grid">
+      <div class="four wide column">
+        <h4 class="content">Leverancier</h4>
+        <div class="content"><%= software.leverancier %></div>
+      </div>
+      <div class="four wide column">
+        <h4 class="content">Aantal licenties</h4>
+        <div class="content"><%= software.licenties %></div>
+      </div>
+    </div>
+    <h4 class="content">Toegevoegd door</h4>
+    <div class="content"><%= software.owner.username %> op <%=software.created.toDateString()%> </div>
+    <a id="edit" 
+    class="ui primary basic button" 
+    href="/scholen/<%=school._id%>/software/<%=software._id%>/edit">
+    Bewerken
+  </a>
+  <form id="delete" 
+  action="/scholen/<%= school._id %>/software/<%=software._id%>?_method=DELETE" 
+  method="POST">
+  <button class="ui red basic button">Verwijderen</button>
+</form>
+</div>
+</div>
+</div>
+</div>
 
 <% include ../partials/school/side-footer %>
 <% include ../partials/school/footer %>

@@ -36,3 +36,7 @@
 #profiel-menu{
     background-color: #009FE3;
 }
+
+.button-inline {
+    display: inline;
+}

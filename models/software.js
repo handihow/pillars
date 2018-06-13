@@ -8,6 +8,8 @@ var softwareSchema = mongoose.Schema (
         groep: [ String ],
         kwaliteit: [ String ],
         effectiviteit: Number,
+        licenties: Number,
+        leverancier: String,
         created: {type: Date, default: Date.now},
         owner: {
             id: {

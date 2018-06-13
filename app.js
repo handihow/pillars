@@ -33,7 +33,8 @@ mongoose.connect(process.env.DATABASEURL); //DATABASEURL=mongodb://localhost/sch
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true, parameterLimit: 1000000}));
 app.use(methodOverride("_method"));
 app.use(flash());
 app.use(fileUpload());

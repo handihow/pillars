@@ -13,6 +13,10 @@ var hardwareSchema = mongoose.Schema (
         aantalWerkplekkenMultipoint: Number,
         isTouchscreenDigibord: Boolean,
         schermgrootteDigibord: Number,
+        leverancier: String,
+        garantievorm: String,
+        isVerouderd: Boolean,
+        waarschuwing: String,
         created: {type: Date, default: Date.now},
         owner: {
               type:   mongoose.Schema.Types.ObjectId,

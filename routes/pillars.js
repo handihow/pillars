@@ -39,7 +39,9 @@ router.use(function(req, res, next){
 
 //EDIT PILLARS INSTELLINGEN ROUTE
 router.get("/instellingen", middleware.isSchoolOwner, function(req, res){
-    School.findById(req.params.id, function(err, school){
+    School.findById(req.params.id)
+      .populate("normering")
+      .exec(function(err, school){
       if(err || !school){
           req.flash("error", "School niet gevonden.");
           res.redirect("back");

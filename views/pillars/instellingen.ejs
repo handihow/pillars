@@ -2,6 +2,11 @@
 <% include ../partials/school/side-header %>
 
     <h2 class="ui top attached header"><i class="bar chart icon"></i> Pillars Instellingen van <%= school.instellingsnaam %></h2>
+    <% if(school.normering) { %>
+      <h4>Bekijk de huidig ingestelde Pillars normering</h4>
+      <a class="ui primary button" href="/normering/<%=school.normering._id%>">Bekijk normering</a>
+      <div class="ui divider"></div>
+    <% } %>
     <h4>Kies welke normering je wilt gebruiken voor deze school.</h4>
     <div class="ui divider"></div>
     <form class="ui form" action="/scholen/<%=school._id%>/pillars/instellingen?_method=PUT" method="POST" id="pillarsInstellingen">
