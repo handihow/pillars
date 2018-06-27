@@ -30,7 +30,13 @@ router.get("/badmin", middleware.isPadmin, function(req,res){
 
 //update user (transfer school or edit role)
 router.get("/transfer", middleware.isPadmin, function(req,res){
-  res.render("admin/transfer");
+  School.find({"owner": req.user}, function(err, schools){
+      if(err){
+        req.flash("error", err.message);
+        return res.redirect("back");
+      }
+      res.render("admin/transfer", {schools: schools});
+    });
 })
 
 //find user in the database
@@ -50,13 +56,24 @@ router.post("/find-user", middleware.isPadmin, function(req,res){
       req.flash("error", "Gebruiker is bestuur administrator or pillars administrator. Deze kun je niet aanpassen via dit formulier.");
       return res.redirect("back");
     }
-    School.find({"owner": user.owner}, function(err, schools){
-      if(err){
-        req.flash("error", err.message);
+    School.findById(req.body.school).populate("users").exec(function(err, school){
+      if(err || ! school){
+        req.flash("error", "Probleem bij het vinden van de gegevens van de school");
         return res.redirect("back");
       }
-      res.render("admin/update-user", {user: user, schools: schools});
-    });
+      let schoolUsernames = school.users.map(u => u.username);
+      if(!schoolUsernames.includes(user.username)){
+        req.flash("error", "Deze gebruiker is niet gevonden in deze school. Probeer het opnieuw.");
+        return res.redirect("back");
+      }
+      School.find({"owner": user.owner}, function(err, schools){
+        if(err){
+          req.flash("error", err.message);
+          return res.redirect("back");
+        }
+        res.render("admin/update-user", {user: user, school: school, schools: schools});
+      });
+    })
   })
 })
 
@@ -68,10 +85,31 @@ router.post("/update-user", middleware.isPadmin, function(req, res){
     }
     user.role = req.body.role;
     if(req.body.school){
-      
+      School.findById(req.body.previousSchool, function(err, school){
+        if(err || !school){
+          req.flash("error", "Probleem bij het vinden van de gegevens van de school");
+          return res.redirect("back");
+        }
+        school.users.pull(user);
+        school.save();
+        School.findById(req.body.school, function(err, school){
+          if(err || !school){
+            req.flash("error", "Probleem bij het vinden van de gegevens van de school");
+            return res.redirect("back");
+          }
+          school.users.push(user);
+          school.save();
+          user.save();
+          req.flash("success", "Gegevens van de gebruiker zijn gewijzigd.");
+          res.redirect("transfer");
+        })
+      })
+    } else {
+      user.save();
+      req.flash("success", "Gegevens van de gebruiker zijn gewijzigd.");
+      res.redirect("transfer");
     }
-    
-  })
-})
+  });
+});
 
 module.exports = router;

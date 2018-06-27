@@ -3,19 +3,33 @@
 <div class="ui container">
   
   <h2 class="ui center aligned header">
-      <div><%= user.firstName %> <%= user.lastName %> updaten</div>
+      <div>Gebruiker updaten</div>
   </h2>
+  <h5>Gegevens huidige gebruiker</h5>
+  <p>Naam: <%= user.firstName %> <%= user.lastName %></p>
+  <p>Rol: <%= user.role%></p>
+  <p>School: <%= school.brin %> - <%= school.instellingsnaam %> - <%= school.plaatsnaam %></p>
   
-  <h3>Gebruikersniveaus</h3>
-  <p>School user = school medewerker = suser</p>
-  <p>School admin = school administrator = sadmin</p>
-  <p>Bestuur user = bestuur medewerker = buser</p>
-  <h3>Gebruikersniveaus die niet aanpasbaar zijn op deze pagina</h3>
-  <p>Bestuur admin = bestuur administrator = badmin</p>
-  <p>Pillars admin = pillars adminitrator = padmin</p>
+  <div class="ui divider"></div>
 
-  <h3>School</h3>
-  <p>Laat school leeg als je deze niet wilt aanpassen!</p>
+  <div class="ui grid">
+    <div class="six wide column">
+      <h3>Gebruikersniveaus</h3>
+      <p>School user = school medewerker = suser</p>
+      <p>School admin = school administrator = sadmin</p>
+      <p>Bestuur user = bestuur medewerker = buser</p>
+    </div>
+    <div class="six wide column">
+      <h3>Gebruikersniveaus die niet aanpasbaar zijn op deze pagina</h3>
+      <p>Bestuur admin = bestuur administrator = badmin</p>
+      <p>Pillars admin = pillars adminitrator = padmin</p>
+    </div>
+    <div class="four wide column">
+      <h3>School</h3>
+      <p>Laat school leeg als je deze niet wilt aanpassen!</p>  
+    </div>
+  </div>
+  
 
   <form class="ui form" action="/admin/update-user" method="POST">
     <input type="hidden" value="<%=user._id%>" name="userId">
@@ -53,6 +67,7 @@
               </div>
           </div>
       </div>
+      <input type="hidden" name="previousSchool" value="<%=school._id%>">
     </div>
     <button class="ui button" type="submit">Bewaren</button>
   </form>

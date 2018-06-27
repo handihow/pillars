@@ -11,6 +11,22 @@
           <label>Username (email adres)</label>
           <input type="text" name="username"  placeholder="Email adres" required>
     </div>
+    <div class="required field">
+          <label>School gebruiker</label>
+          <div class="ui selection dropdown">
+              <input type="hidden" name="school">
+              <div class="text">Selecteer de school</div>
+              <i class="dropdown icon"></i>
+              <div class="menu">
+                  <% schools.forEach(function(school){%>
+                    <div class="item"
+                        data-value="<%=school._id%>">
+                          <%=school.brin%> <%=school.instellingsnaam%> <%=school.plaatsnaam%>
+                    </div>
+                  <%})%>
+              </div>
+          </div>
+      </div>
     <button class="ui button" type="submit">Zoeken</button>
   </form>
 
