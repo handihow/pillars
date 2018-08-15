@@ -23,6 +23,10 @@ var scholenSchema=  mongoose.Schema({
           type: mongoose.Schema.Types.ObjectId,
           ref: "User"
     },
+    organisation: {                                 
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Organisation"
+    },
     users: [                                        //user type School Administrator & Medewerker (User) - sadmin and suser
         {
           type: mongoose.Schema.Types.ObjectId,

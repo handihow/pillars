@@ -3,6 +3,7 @@ var router = express.Router({mergeParams: true});
 var Profiel = require("../models/profiel");
 var middleware = require("../middleware");
 var global = require("../models/global");
+var User = require("../models/user");
 
 //INDEX ROUTE
 router.get("/", middleware.isLoggedIn, function(req, res){
@@ -46,18 +47,25 @@ router.use(function(req, res, next){
 
 //CREATE - creates new profile questions in the database
 router.post("/", middleware.isAuthenticatedBadmin, function(req, res){
-    Profiel.create(req.body.profiel, function(err, profiel){
-       if(err){
-           req.flash("error", err.message);
-           res.redirect("back");
-       } else {
-           //add the user to profiel
-           profiel.owner = req.user._id;
-           profiel.save();
-           req.flash("success", "Profiel vragen updated");
-           res.redirect("/profiel");
-           }
-    });   
+    User.findById(req.user._id, function(err, user){
+      if(err || !user){
+        req.flash("error", "Probleem bij vinden van gebruikersgegevens.")
+        res.redirect("back");
+      }
+      Profiel.create(req.body.profiel, function(err, profiel){
+         if(err){
+             req.flash("error", err.message);
+             res.redirect("back");
+         } else {
+             //add the user to profiel
+             profiel.owner = req.user._id;
+             profiel.organisation = req.user.organisation;
+             profiel.save();
+             req.flash("success", "Profiel vragen updated");
+             res.redirect("/profiel");
+         }
+      });   
+    });
 });
 
 //CREATE - creates new profile questions in the database with versnellingsvraag Questions

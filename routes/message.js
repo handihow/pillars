@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var Message = require("../models/message");
 var School = require("../models/school");
+var User = require("../models/user");
 var middleware = require("../middleware");
 
 //INDEX ROUTE FOR BESTUUR
@@ -57,20 +58,27 @@ router.use(function(req, res, next){
 
 //CREATE ROUTE
 router.post("/", middleware.isAuthenticatedBadmin, function(req, res){
-    req.body.message.body = req.sanitize(req.body.message.body);
-    Message.create(req.body.message, function(err, message){
-          if(err || !message){
-              req.flash("error", err.message);
-              res.locals.error = req.flash("error");
-              res.render("message/new");
-          }  else {
+    User.findById(req.user._id, function(err, user){
+      if(err || !user){
+        req.flash("error", "Probleem bij vinden van gebruikersgegevens.")
+        res.redirect("back");
+      }
+      req.body.message.body = req.sanitize(req.body.message.body);
+      Message.create(req.body.message, function(err, message){
+            if(err || !message){
+                req.flash("error", err.message);
+                res.locals.error = req.flash("error");
+                res.render("message/new");
+            }  else {
               //look up user id and username and add to message
               message.owner = req.user._id;
+              message.organisation = user.organisation;
               message.save();
               req.flash("success", "Bericht toegevoegd");
-              res.redirect("/message");
-          }
-    }); 
+              res.redirect("/message"); 
+            }
+      }); 
+    });
 });
     
 

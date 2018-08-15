@@ -136,6 +136,7 @@ router.post("/scholen/:id/user/", middleware.isSchoolOwner, function(req, res){
                       return res.redirect("back");
                 }
                 user.owner = school.owner;
+                user.organisation = school.organisation;
                 user.save();
                 //add user to school users
                 school.users.push(user);
@@ -175,40 +176,47 @@ router.post("/scholen/:id/user/", middleware.isSchoolOwner, function(req, res){
 
 //CREATE - creates new bestuur user in the database
 router.post("/buser/", middleware.isAuthenticatedBadmin, function(req, res){
-    var newUser = new User({username: req.body.username, role: req.body.role, firstName: req.body.firstName, lastName: req.body.lastName});
-    User.register(newUser, req.body.password, function(err, user){
-        if(err){
-              req.flash("error", err.message);
-              return res.redirect("back");
-        }
-        user.owner = req.user._id;
-        user.save();
-        //send email notification to bestuur user
-        var template = "./emails/welkom-bestuur-medewerker.ejs";
-        var data = {
-            firstName: user.firstName,
-            lastName: user.lastName,
-            username: user.username,
-            password: req.body.password
-        };
-        ejs.renderFile(template, data, function(err, html){
-            if(err){
-                  req.flash("error", err.message);
-                  return res.redirect("back");
-              }
-            //send the email
-            var request = email.nocc(user.username, user.firstName + " " + user.lastName, "Welkom bij Pillars", html);
-            request
-              .then((result) => {
-                req.flash("success", "Nieuwe medewerker geregistreerd! Er is een email verstuurd met inlog gegevens en verdere instructies.");
-                res.redirect("/buser");
-              })
-              .catch((err) => {
-                req.flash("error", "Fout bij verzenden van email. Controleer email adres.");
-                res.redirect("/buser");
-              });
-        });
-    });
+    User.findById(req.user._id, function(err, badmin){
+      if(err || !badmin){
+        req.flash("error", "Badmin niet gevonden");
+        return res.redirect("back");
+      }
+      var newUser = new User({username: req.body.username, role: req.body.role, firstName: req.body.firstName, lastName: req.body.lastName});
+      User.register(newUser, req.body.password, function(err, user){
+          if(err){
+                req.flash("error", err.message);
+                return res.redirect("back");
+          }
+          user.owner = req.user._id;
+          user.organisation = badmin.organisation;
+          user.save();          
+          //send email notification to bestuur user
+          var template = "./emails/welkom-bestuur-medewerker.ejs";
+          var data = {
+              firstName: user.firstName,
+              lastName: user.lastName,
+              username: user.username,
+              password: req.body.password
+          };
+          ejs.renderFile(template, data, function(err, html){
+              if(err){
+                    req.flash("error", err.message);
+                    return res.redirect("back");
+                }
+              //send the email
+              var request = email.nocc(user.username, user.firstName + " " + user.lastName, "Welkom bij Pillars", html);
+              request
+                .then((result) => {
+                  req.flash("success", "Nieuwe medewerker geregistreerd! Er is een email verstuurd met inlog gegevens en verdere instructies.");
+                  res.redirect("/buser");
+                })
+                .catch((err) => {
+                  req.flash("error", "Fout bij verzenden van email. Controleer email adres.");
+                  res.redirect("/buser");
+                });
+          });
+      });
+    })
 });
 
 //EDIT ROUTE - EDIT PROFILE PAGE

@@ -128,6 +128,10 @@ var normeringSchema=  mongoose.Schema({
     owner: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "User"
+      },
+    organisation: {                                 
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Organisation"
       }
 } , { usePushEach: true });
 

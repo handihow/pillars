@@ -18,6 +18,10 @@ var UserSchema = new mongoose.Schema({
           type: mongoose.Schema.Types.ObjectId,
           ref: "User"
     },
+   organisation: {                                 
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Organisation"
+    },
    evaluations: [
          {
           type: mongoose.Schema.Types.ObjectId,

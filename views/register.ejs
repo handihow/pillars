@@ -25,10 +25,23 @@
             <small id="emailHelp" class="form-text text-muted">We delen je email met niemand!</small>
           </div>
         </div>
+      </div>
+      <div class="row">
         <div class="col">
           <div class="form-group">
-            <label for="org">Organisatie</label>
-            <input type="text" name="organisatie" class="form-control" id="org" placeholder="Organisatie" title="Vul de naam van jouw organisatie in." required>
+            <label for="organisatie">Organisatie</label>
+            <select class="form-control" id="organisatie" name="organisation">
+              <option>Selecteer organisatie</option>
+              <% for (i = 0; i < organisations.length; i++) {  %>
+              <option value="<%=organisations[i]._id%>"><%=organisations[i].name%> - <%=organisations[i].city%></option>
+              <% } %>
+            </select>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="activationCode">Activatie Code</label>
+            <input type="text" name="activationCode" class="form-control" id="activationCode" placeholder="Activatie Code" title="Vul de activatie code in" required>
           </div>
         </div>
       </div>

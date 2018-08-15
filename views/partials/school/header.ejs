@@ -65,6 +65,7 @@
             <i class="dropdown icon"></i>
             <div class="menu">
               <a class="item" href="/admin">Lijst scholen</a>
+              <a class="item" href="/organisations">Lijst organisaties</a>
               <a class="item" href="/admin/badmin">Bestuur administrator lijst</a>
               <a class="item" href="/admin/transfer">Gebruiker updaten</a>
             </div>            
@@ -74,11 +75,11 @@
         <% } %>
           <div class="right menu">
             <a class="ui item" id="profiel-menu" href="/user/<%=currentUser._id%>">
-              Profiel: <%=currentUser.username%>
+              <i class="user circle icon"></i> <div class="hide-mobile"><%=currentUser.username%></div>
             </a>
             <a class="ui item" href="/logout">
               <i class="fa fa-sign-out" aria-hidden="true"></i>
-              Uitloggen
+              <div class="hide-mobile">Uitloggen</div>
             </a>
           </div>
         </div>

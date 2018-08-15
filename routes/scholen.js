@@ -4,6 +4,7 @@ var request = require("request");
 var School = require("../models/school");
 var Message = require("../models/message");
 var middleware = require("../middleware");
+var User = require("../models/user");
 
 //INDEX ROUTE
 router.get("/", middleware.isLoggedIn, function(req, res){
@@ -105,7 +106,7 @@ router.use(function(req, res, next){
 router.post("/new", middleware.isAuthenticatedBadmin, function(req, res){
     var zoekcriterium = req.body.zoekcriterium, 
         zoekveld = req.body.zoekveld, 
-        url = "https://api.duo.nl/v0/datasets/03.-alle-vestigingen-basisonderwijs/search?";
+        url = "https://api.duo.nl/v0/datasets/03-alle-vestigingen-bo/search?";
     if(zoekcriterium==0){
         url = url+"brin="+zoekveld;
     } else if(zoekcriterium==1){
@@ -134,36 +135,50 @@ router.post("/new", middleware.isAuthenticatedBadmin, function(req, res){
 
 //CREATE ROUTE
 router.post("/", middleware.isAuthenticatedBadmin, function(req, res){
-    req.body.school.forEach(function(school){
-       School.create(school, function(err, school){
-          if(err || !school){
-              req.flash("error", err.message);
-              res.render("scholen/new");
-          }  else {
-              //look up user id and username and add to school
-              school.owner = req.user._id;
-              school.save();
-          }
-        }); 
+    User.findById(req.user._id, function(err, user){
+      if(err || !user){
+        req.flash("error", "Fout bij ophalen gebruikersgegevens");
+        return req.redirect("back");
+      }
+      req.body.school.forEach(function(school){
+         School.create(school, function(err, school){
+            if(err || !school){
+                req.flash("error", err.message);
+                res.render("scholen/new");
+            }  else {
+                //look up user id and username and add to school
+                school.owner = req.user._id;
+                school.organisation = user.organisation;
+                school.save();
+            }
+          }); 
+      });
+      req.flash("success", "School toegevoegd");
+      res.redirect("/scholen");
     });
-    req.flash("success", "School toegevoegd");
-    res.redirect("/scholen");
 });
 
 //CREATE ROUTE HANDMATIG
 router.post("/handmatig", middleware.isAuthenticatedBadmin, function(req, res){
-    School.create(req.body.school, function(err, school){
-      if(err || !school){
-          req.flash("error", err.message);
-          res.render("scholen/handmatig");
-      }  else {
-          //look up user id and username and add to school
-          school.owner = req.user._id;
-          school.save();
+    User.findById(req.user._id, function(err, user){
+      if(err || !user){
+        req.flash("error", "Fout bij ophalen gebruikersgegevens");
+        return req.redirect("back");
       }
+      School.create(req.body.school, function(err, school){
+        if(err || !school){
+            req.flash("error", err.message);
+            res.render("scholen/handmatig");
+        }  else {
+            //look up user id and username and add to school
+            school.owner = req.user._id;
+            school.organisation = user.organisation;
+            school.save();
+        }
+      });
+      req.flash("success", "School toegevoegd");
+      res.redirect("/scholen");
     });
-    req.flash("success", "School toegevoegd");
-    res.redirect("/scholen");
 });
 
 

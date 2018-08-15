@@ -3,6 +3,7 @@ var router = express.Router({mergeParams: true});
 var School = require("../models/school");
 var middleware = require("../middleware");
 var User = require("../models/user");
+var Organisation = require("../models/organisation");
 
 //show route
 router.get("/", middleware.isPadmin, function(req, res){

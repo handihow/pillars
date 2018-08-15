@@ -1,0 +1,43 @@
+<% include ../partials/school/header %>
+
+<div class="ui container">
+  
+  <h2 class="ui center aligned header">
+      <div>Organisaties</div>
+  </h2>
+  <a class="ui blue button right" href="/organisations/new">Organisatie Toevoegen</a>
+  <div class="ui divider"></div>
+   
+   <table class="ui celled small table">
+      <thead>
+        <tr>
+          <th>Naam</th>
+          <th>Adres</th>
+          <th>Postcode</th>
+          <th>Plaatsnaam</th>
+          <th>Land</th>
+          <th>Activatiecode</th>
+          <th>Geactiveerd</th>
+          <th>Verwijderen</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% organisations.forEach(function(organisation){ %>
+            <tr>
+              <td><a href="/organisations/<%=organisation._id%>/edit"><%=organisation.name%></a></td>
+              <td><%=organisation.address%></td>
+              <td><%=organisation.postalCode%></td>
+              <td><%=organisation.city%></td>
+              <td><%=organisation.country%></td>
+              <td><%=organisation.activationCode%></td>
+              <td><%if(organisation.activated){%>Ja<%}else{%>Nee<%}%></td>
+              <td><form id="delete" action="/organisations/<%= organisation._id %>?_method=DELETE" method="POST">
+                      <button class="ui mini red basic button">Verwijderen</button>
+                  </form></td>
+            </tr>
+        <% }); %>
+      </tbody>
+    </table>
+</div>
+
+<% include ../partials/school/footer %>

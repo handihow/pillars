@@ -6,6 +6,7 @@ var asyncr = require("async");
 var crypto = require("crypto");
 var ejs = require("ejs");
 var email = require("../settings/email");
+var Organisation = require("../models/organisation");
 
 //LANDING PAGE route
 router.get("/", function(req, res){
@@ -14,47 +15,74 @@ router.get("/", function(req, res){
 
 //SHOW REGISTER FORM
 router.get("/register", function(req,res){
-   res.render("register"); 
+  Organisation.find({}, function(err, organisations){
+    if(err || !organisations){
+      req.flash("error", err.message);
+      return res.redirect("/register")
+    }
+    res.render("register", {organisations: organisations});
+  });
 });
 
 //HANDLE SIGN-UP LOGIC
 router.post("/register", function(req,res){
-    var newUser = new User({username: req.body.username, role: req.body.role, firstName: req.body.firstName, lastName: req.body.lastName, org: req.body.organisatie});
-    User.register(newUser, req.body.password, function(err, user){
-          if(err){
-              req.flash("error", err.message);
-              return res.redirect("back");
-          }
-          passport.authenticate("local")(req, res, function(){
-              crypto.randomBytes(20, function(err, buf) {
-                if(err){
+    Organisation.findById(req.body.organisation, function(err, organisation){
+      if(err){
+        req.flash("error", err.message);
+        res.redirect("/register");
+      } else if(!organisation){
+        req.flash("error", "Organisatie niet gevonden");
+        res.redirect("/register");
+      } else if(organisation.activated){
+        req.flash("error", "Activatie code is al gebruikt of niet correct");
+        res.redirect("/register");
+      } else if(organisation.activationCode !== req.body.activationCode){
+        req.flash("error", "Activatie code is niet correct");
+        res.redirect("/register");
+      } else {
+        //first, set the organisation to activated
+        organisation.activated = true;
+        organisation.save();
+        var newUser = new User({username: req.body.username, role: req.body.role, firstName: req.body.firstName, lastName: req.body.lastName});
+        User.register(newUser, req.body.password, function(err, user){
+              if(err){
                   req.flash("error", err.message);
-                } else {
-                  var token = buf.toString('hex');
-                  user.emailAuthenticationToken = token;
-                  user.save();
-                  //create email message
-                  var template = "./emails/welkom.ejs";
-                  ejs.renderFile(template, user, function(err, html){
+                  return res.redirect("back");
+              }
+              user.organisation = req.body.organisation;
+              user.save();
+              passport.authenticate("local")(req, res, function(){
+                  crypto.randomBytes(20, function(err, buf) {
                     if(err){
-                          req.flash("error", err.message);
-                          return res.redirect("/register");
-                      }
-                    //send the email
-                      var request = email.cc(user.username, user.firstName + " " + user.lastName, "Welkom bij Pillars", html);
-                      request
-                      .then((result) => {
-                        req.flash("success", "Welkom bij Pillars!");
-                        res.redirect("/scholen");
-                      })
-                      .catch((err) => {
-                        req.flash('error', err.message);
-                        res.redirect("/");
+                      req.flash("error", err.message);
+                    } else {
+                      var token = buf.toString('hex');
+                      user.emailAuthenticationToken = token;
+                      user.save();
+                      //create email message
+                      var template = "./emails/welkom.ejs";
+                      ejs.renderFile(template, user, function(err, html){
+                        if(err){
+                              req.flash("error", err.message);
+                              return res.redirect("/register");
+                          }
+                        //send the email
+                          var request = email.cc(user.username, user.firstName + " " + user.lastName, "Welkom bij Pillars", html);
+                          request
+                          .then((result) => {
+                            req.flash("success", "Welkom bij Pillars!");
+                            res.redirect("/scholen");
+                          })
+                          .catch((err) => {
+                            req.flash('error', err.message);
+                            res.redirect("/");
+                          });
                       });
+                    }
                   });
-                }
               });
           });
+      }
     });
 });
 

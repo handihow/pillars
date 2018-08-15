@@ -1,0 +1,39 @@
+<% include ../partials/school/header %>
+<% var generatedCode = Math.random().toString(36).substr(2, 8) %>
+
+<div class="ui container">
+    <form class="ui form" action="/organisations/<%=organisation._id%>?_method=PUT" method="POST" id="organisationEdit">
+         <h4 class="ui dividing header">Organisatie Bewerken</h4>
+          <div class="required field">
+            <label>Naam van de organisatie</label>
+            <input type="text" name="organisation[name]"  value="<%=organisation.name%>" id="organisation[name]">
+          </div>
+          <div class="field">
+            <label>Adres</label>
+            <input type="text" name="organisation[address]"  value="<%=organisation.address%>" id="organisation[address]">
+          </div>
+          <div class="field">
+            <label>Postcode en Plaatsnaam</label>
+                <div class="fields">
+                    <div class="four wide field">
+                        <input type="text" name="organisation[postalCode]"  value="<%=organisation.postalCode%>">
+                    </div>
+                    <div class="twelve wide field">
+                        <input type="text" name="organisation[city]"  value="<%=organisation.city%>" id="organisation[city]">
+                    </div>
+                </div>
+          </div>
+          <div class="field">
+            <label>Land</label>
+            <input type="text" name="organisation[country]"  value="Nederland">
+          </div>
+          <div class="required field">
+             <label>Activatiecode</label>
+             <input type="text" name="organisation[activationCode]" id="organisation[activationCode]" value="<%=organisation.activationCode%>">
+          </div>
+          <button class="ui button" type="submit">Bewaren</button>
+          <div class="ui error message"></div>
+        </form>
+    </div>
+
+<% include ../partials/school/footer %>

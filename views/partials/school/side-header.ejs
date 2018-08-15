@@ -5,7 +5,8 @@
               <a class="item <%if(url===("/scholen/"+school._id) || url===("/scholen/"+school._id)+"/edit") { %> active <% } %>" href="/scholen/<%= school._id %>"</a>
                 <%if(!school.isIngevuldAlgemeneInformatie) { %><i class="red write icon"></i><% } %>
                 <i class="university icon"></i>
-                Algemene informatie
+                <span class="show-mobile">Algemeen</span>
+                <span class="hide-mobile">Algemene informatie</span>
               </a>
               <a class="item <%if(url.includes("/scholen/"+school._id+"/hardware")) { %> active <% } %>" href="/scholen/<%= school._id %>/hardware"</a>
                 <%if(!school.isToegevoegdHardware) { %><i class="red write icon"></i><% } %>
@@ -15,7 +16,8 @@
               <a class="item <%if(url.includes("/scholen/"+school._id+"/software")) { %> active <% } %>" href="/scholen/<%= school._id %>/software"</a>
                 <%if(!school.isToegevoegdSoftware) { %><i class="red write icon"></i><% } %>
                 <i class="student icon"></i>
-                Digitale Leermiddelen
+                <span class="show-mobile">Software</span>
+                <span class="hide-mobile">Digitale Leermiddelen</span>
               </a>
               <a class="item <%if(url.includes("/scholen/"+school._id+"/deskundigheid")) { %> active <% } %>" href="/scholen/<%= school._id %>/deskundigheid"</a>
                 <%if(!school.isIngevuldDeskundigheid) { %><i class="red write icon"></i><% } %>
@@ -36,7 +38,8 @@
               <% } %>
               <a class="item <%if(url.includes("/scholen/"+school._id+"/pillars")) { %> active <% } %>" href="/scholen/<%= school._id %>/pillars">
                 <i class="bar chart icon"></i>
-                Pillars Grafieken
+                <span class="show-mobile">Grafieken</span>
+                <span class="hide-mobile">Pillars Grafieken</span>
               </a>
               <a class="item <%if(url.includes("/scholen/"+school._id+"/evaluation")) { %> active <% } %>" href="/scholen/<%= school._id %>/evaluation">
                 <i class="comments icon"></i>
