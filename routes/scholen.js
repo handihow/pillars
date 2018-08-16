@@ -22,24 +22,10 @@ router.get("/", middleware.isLoggedIn, function(req, res){
                 res.redirect("/scholen/" + school._id);
             }
         });
-    } else if(req.user.role==="buser") {
-        //find all schools from bestuur admin (owner of bestuur user record)
-        School.find(
-            {"owner": req.user.owner}, 
-            null,
-            {sort: {instellingsnaam: 1}},
-            function(err, scholen){
-            if(err || !scholen) {
-                req.flash("error", err.message);
-                res.redirect("back");
-            } else {
-                res.render("scholen/index", {scholen: scholen});         
-            }
-        });
     } else {
-        //bestuur admins go to the list of schools
+        //bestuur admins & users and pillars admins go to the list of schools
         School.find(
-            {"owner": req.user._id}, 
+            {"organisation": req.user.organisation}, 
             null,
             {sort: {instellingsnaam: 1}},
             function(err, scholen){
@@ -82,7 +68,7 @@ router.get("/:id/messages", middleware.isSchoolOwner, function(req, res){
       req.flash("error", err.message);
       res.redirect("back");
     } else {
-      Message.find({owner: school.owner}).exec(function(err, messages){
+      Message.find({organisation: school.organisation}).exec(function(err, messages){
         if(err){
           req.flash("error", err.message);
           res.redirect("back");

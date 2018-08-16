@@ -20,7 +20,21 @@
         <label>E-mail</label>
         <input type="email" name="username" placeholder="E-mail adres" id="email">
       </div>
-      <input type="hidden" name="role" value="buser">
+      <div class="inline fields">
+        <label for="role">Selecteer het toegangsniveau:</label>
+          <div class="field">
+            <div class="ui radio checkbox">
+              <input type="radio" name="role" value="badmin">
+              <label>Bestuur administrator</label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui radio checkbox">
+              <input type="radio" name="role" value="buser" checked="">
+              <label>Bestuur Medewerker (zonder speciale rechten)</label>
+            </div>
+          </div>
+      </div>
       <h4 class="ui dividing header">Wachtwoord</h4>
       <p>Het systeem genereert automatisch een wachtwoord. Je kunt dit zelf aanpassen door het wachtwoord te vervangen.</p>
       <div class="two fields">

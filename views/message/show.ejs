@@ -11,7 +11,7 @@
             <div class="description" id="down">
                 <p><%- message.message %></p>
             </div>
-            <% if(currentUser && message.owner.equals(currentUser._id)) { %>
+            <% if(currentUser.role === 'badmin' && message.organisation.equals(currentUser.organisation)) { %>
             <a class="ui primary basic button" href="/message/<%= message._id %>/edit">Bewerken</a>
             <form id="delete" action="/message/<%= message._id %>?_method=DELETE" method="POST">
                 <button class="ui red basic button">Verwijderen</button>

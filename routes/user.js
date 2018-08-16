@@ -25,7 +25,7 @@ router.get("/scholen/:id/user/", middleware.isSchoolOwner, function(req, res){
 
 //INDEX - list of bestuur users
 router.get("/buser", middleware.isAuthenticatedBadmin, function(req, res){
-    User.find({"owner": req.user._id, "role": "buser"}).exec(function(err, users){
+    User.find({"organisation": req.user.organisation}).exec(function(err, users){
         if(err) {
             req.flash("error", err.message);
             res.redirect("back");

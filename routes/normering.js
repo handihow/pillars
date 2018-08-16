@@ -6,7 +6,7 @@ var User = require("../models/user");
 
 //INDEX ROUTE
 router.get("/", middleware.isLoggedIn, function(req, res){
-    Normering.find({owner: req.user._id}).populate("owner").exec(function(err, normeringen){
+    Normering.find({organisation: req.user.organisation}).populate("owner").exec(function(err, normeringen){
         if(err) {
             req.flash("error", err.message);
             res.redirect("back");
@@ -68,7 +68,7 @@ router.post("/", middleware.isAuthenticatedBadmin, function(req, res){
 });
     
 // //EDIT ROUTE
-router.get("/:id/edit", middleware.isNormeringOwner, function(req, res){
+router.get("/:id/edit", middleware.isAuthenticatedBadmin, function(req, res){
     Normering.findById(req.params.id, function(err, normering){
       if(err || !normering){
           req.flash("error", "Normering niet gevonden.");
@@ -80,7 +80,7 @@ router.get("/:id/edit", middleware.isNormeringOwner, function(req, res){
 });
 
 // //UPDATE ROUTE
-router.put("/:id", middleware.isNormeringOwner, function(req, res){
+router.put("/:id", middleware.isAuthenticatedBadmin, function(req, res){
     Normering.findByIdAndUpdate(req.params.id, req.body.normering, function(err, normering){
       if(err || !normering){
           req.flash("error", "Normering niet gevonden.");
@@ -93,7 +93,7 @@ router.put("/:id", middleware.isNormeringOwner, function(req, res){
 });
 
 //DELETE ROUTE
-router.delete("/:id", middleware.isNormeringOwner, function(req, res){
+router.delete("/:id", middleware.isAuthenticatedBadmin, function(req, res){
   Normering.findByIdAndRemove(req.params.id, function(err){
       if(err){
           req.flash("error", "Er is iets misgegaan. Probeer normering opnieuw te verwijderen.");

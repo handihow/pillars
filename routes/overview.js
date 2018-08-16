@@ -9,7 +9,7 @@ var score = require("../models/score");
 //SHOW ROUTE INVOER OVERVIEW SCHOLEN
 router.get("/scholen", middleware.isAuthenticatedBadmin, function(req, res){
     School.find(
-        {"owner": req.user._id}, 
+        {"organisation": req.user.organisation}, 
         null,
         {sort: {instellingsnaam: 1}},
         function(err, scholen){
@@ -25,7 +25,7 @@ router.get("/scholen", middleware.isAuthenticatedBadmin, function(req, res){
 //SHOW ROUTE HARDWARE OVERVIEW SCHOLEN
 router.get("/hardware", middleware.isAuthenticatedBadmin, function(req, res){
     School.find(
-        {"owner": req.user._id}, 
+        {"organisation": req.user.organisation}, 
         null,
         {sort: {instellingsnaam: 1}})
     .populate("hardware")
@@ -56,7 +56,7 @@ router.get("/hardware", middleware.isAuthenticatedBadmin, function(req, res){
 //DOWNLOAD ROUTE HARDWARE OVERVIEW SCHOLEN
 router.get("/hardware/download", middleware.isAuthenticatedBadmin, function(req, res){
     School.find(
-        {"owner": req.user._id}, 
+        {"organisation": req.user.organisation}, 
         null,
         {sort: {instellingsnaam: 1}})
     .populate("hardware")
@@ -95,7 +95,7 @@ router.get("/hardware/download", middleware.isAuthenticatedBadmin, function(req,
 //SHOW ROUTE SOFTWARE OVERVIEW SCHOLEN
 router.get("/software", middleware.isAuthenticatedBadmin, function(req, res){
     School.find(
-        {"owner": req.user._id}, 
+        {"organisation": req.user.organisation}, 
         null,
         {sort: {instellingsnaam: 1}})
     .populate("software")
@@ -112,7 +112,7 @@ router.get("/software", middleware.isAuthenticatedBadmin, function(req, res){
 //DOWNLOAD ROUTE SOFTWARE OVERVIEW SCHOLEN
 router.get("/software/download", middleware.isAuthenticatedBadmin, function(req, res){
     School.find(
-        {"owner": req.user._id}, 
+        {"organisation": req.user.organisation}, 
         null,
         {sort: {instellingsnaam: 1}})
     .populate("software")
@@ -175,7 +175,7 @@ router.get("/software/download", middleware.isAuthenticatedBadmin, function(req,
 //SHOW ROUTE TEST RESULTATEN SCHOLEN
 router.get("/tests", middleware.isAuthenticatedBadmin, function(req, res){
     School.find(
-        {"owner": req.user._id}, 
+        {"organisation": req.user.organisation}, 
         null,
         {sort: {instellingsnaam: 1}})
     .populate("tests")
@@ -192,7 +192,7 @@ router.get("/tests", middleware.isAuthenticatedBadmin, function(req, res){
 //DOWNLOAD ROUTE TEST OVERVIEW SCHOLEN
 router.get("/tests/download", middleware.isAuthenticatedBadmin, function(req, res){
     School.find(
-        {"owner": req.user._id}, 
+        {"organisation": req.user.organisation}, 
         null,
         {sort: {instellingsnaam: 1}})
     .populate("tests")
@@ -227,7 +227,7 @@ router.get("/tests/download", middleware.isAuthenticatedBadmin, function(req, re
 //SHOW ROUTE TEST RESULTATEN SCHOLEN
 router.get("/pillars", middleware.isAuthenticatedBadmin, function(req, res){
     School.find(
-        {"owner": req.user._id}, 
+        {"organisation": req.user.organisation}, 
         null,
         {sort: {instellingsnaam: 1}})
     .populate("hardware")
@@ -252,7 +252,7 @@ router.get("/pillars", middleware.isAuthenticatedBadmin, function(req, res){
 //SHOW ROUTE TEST RESULTATEN SCHOLEN
 router.get("/pillars/api", middleware.isAuthenticatedBadmin, function(req, res){
     School.find(
-        {"owner": req.user._id}, 
+        {"organisation": req.user.organisation}, 
         null,
         {sort: {instellingsnaam: 1}})
     .populate("hardware")
@@ -278,7 +278,7 @@ router.get("/pillars/api", middleware.isAuthenticatedBadmin, function(req, res){
 //DOWNLOAD ROUTE TEST RESULTATEN SCHOLEN
 router.get("/pillars/download", middleware.isAuthenticatedBadmin, function(req, res){
     School.find(
-        {"owner": req.user._id}, 
+        {"organisation": req.user.organisation}, 
         null,
         {sort: {instellingsnaam: 1}})
     .populate("hardware")

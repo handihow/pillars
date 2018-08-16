@@ -7,7 +7,7 @@ var User = require("../models/user");
 
 //INDEX ROUTE
 router.get("/", middleware.isLoggedIn, function(req, res){
-    Profiel.find({owner: req.user._id}).populate("owner").exec(function(err, profiel){
+    Profiel.find({organisation: req.user.organisation}).populate("owner").exec(function(err, profiel){
         if(err) {
             req.flash("error", err.message);
             res.redirect("back");
@@ -70,27 +70,34 @@ router.post("/", middleware.isAuthenticatedBadmin, function(req, res){
 
 //CREATE - creates new profile questions in the database with versnellingsvraag Questions
 router.post("/versnellingsvraag", middleware.isAuthenticatedBadmin, function(req, res){
-    Profiel.create(req.body.profiel, function(err, profiel){
-       if(err){
-           req.flash("error", err.message);
-           res.redirect("back");
-       } else {
-           //add the user to profiel
-           profiel.owner = req.user._id;
-           profiel.set({
-              profiel: global.versnellingsvraagProfiel,
-              isMultipleChoice: true
-           })
-           profiel.save();
-           req.flash("success", "Profiel vragen updated");
-           res.redirect("/profiel");
-           }
-    });   
+    User.findById(req.user._id, function(err, user){
+      if(err || !user){
+        req.flash("error", "Probleem bij vinden van gebruikersgegevens.")
+        res.redirect("back");
+      }
+      Profiel.create(req.body.profiel, function(err, profiel){
+         if(err){
+             req.flash("error", err.message);
+             res.redirect("back");
+         } else {
+             //add the user to profiel
+             profiel.owner = req.user._id;
+             profiel.set({
+                profiel: global.versnellingsvraagProfiel,
+                isMultipleChoice: true
+             });
+             profiel.organisation = req.user.organisation;
+             profiel.save();
+             req.flash("success", "Profiel vragen updated");
+             res.redirect("/profiel");
+             }
+      }); 
+    });  
 });
 
 
 //EDIT displays a form to edit profile question record
-router.get("/:id/edit", middleware.isProfielOwner, function(req,res){
+router.get("/:id/edit", middleware.isAuthenticatedBadmin, function(req,res){
   Profiel.findById(req.params.id, function(err, profiel){
       if(err || !profiel){
           req.flash("error", "Profielvragen niet gevonden");
@@ -102,7 +109,7 @@ router.get("/:id/edit", middleware.isProfielOwner, function(req,res){
 });
 
 //UPDATE route to store edited profile questions to database
-router.put("/:id", middleware.isProfielOwner, function(req, res){
+router.put("/:id", middleware.isAuthenticatedBadmin, function(req, res){
   Profiel.findByIdAndUpdate(req.params.id, req.body.profiel, function(err, profiel){
       if(err || !profiel){
           req.flash("error", "Profielvragen niet gevonden");
@@ -115,7 +122,7 @@ router.put("/:id", middleware.isProfielOwner, function(req, res){
 });
 
 //MAKE THE PROFILE QUESTIONS THE ACTUAL QUESTIONS ON THE PROFILE PAGE OF EMPLOYEES
-router.get("/:id/actual", middleware.isProfielOwner, function(req, res){
+router.get("/:id/actual", middleware.isAuthenticatedBadmin, function(req, res){
    Profiel.find({"owner": req.user._id}).exec(function(err, profielen){
       if(err || !profielen) {
           req.flash("error", "Profielvragen niet gevonden");
@@ -138,7 +145,7 @@ router.get("/:id/actual", middleware.isProfielOwner, function(req, res){
 });
 
 //DESTROY route to delete tests from database
-router.delete("/:id", middleware.isProfielOwner, function(req, res){
+router.delete("/:id", middleware.isAuthenticatedBadmin, function(req, res){
   Profiel.findByIdAndRemove(req.params.id, function(err){
       if(err){
           req.flash("error", "Profielvragen niet gevonden");

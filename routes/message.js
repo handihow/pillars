@@ -7,7 +7,7 @@ var middleware = require("../middleware");
 
 //INDEX ROUTE FOR BESTUUR
 router.get("/", middleware.isLoggedIn, function(req, res){
-    Message.find({owner: req.user._id}).populate("owner").exec(function(err, messages){
+    Message.find({organisation: req.user.organisation}).populate("owner").exec(function(err, messages){
         if(err) {
             req.flash("error", err.message);
             res.redirect("back");
@@ -36,7 +36,7 @@ router.get("/:id", middleware.isLoggedIn, function(req, res){
 });
 
 // //EDIT ROUTE
-router.get("/:id/edit", middleware.isMessageOwner, function(req, res){
+router.get("/:id/edit", middleware.isAuthenticatedBadmin, function(req, res){
     Message.findById(req.params.id, function(err, message){
       if(err || !message){
           req.flash("error", "Bericht niet gevonden.");
@@ -83,7 +83,7 @@ router.post("/", middleware.isAuthenticatedBadmin, function(req, res){
     
 
 // //UPDATE ROUTE
-router.put("/:id", middleware.isMessageOwner, function(req, res){
+router.put("/:id", middleware.isAuthenticatedBadmin, function(req, res){
     req.body.message.body = req.sanitize(req.body.message.body);
     Message.findByIdAndUpdate(req.params.id, req.body.message, function(err, message){
       if(err || !message){
@@ -97,7 +97,7 @@ router.put("/:id", middleware.isMessageOwner, function(req, res){
 });
 
 //DELETE ROUTE
-router.delete("/:id", middleware.isMessageOwner, function(req, res){
+router.delete("/:id", middleware.isAuthenticatedBadmin, function(req, res){
   Message.findByIdAndRemove(req.params.id, function(err){
       if(err){
           req.flash("error", "Er is iets misgegaan. Probeer bericht opnieuw te verwijderen.");

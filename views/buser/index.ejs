@@ -17,7 +17,7 @@
                 <%=user.username%>
           </div>
           <div class="description">
-                Bestuur User
+                <%if(user.role==="badmin"){%>Bestuur Admin<%}else{%>Bestuur User<%}%>
           </div>
         </div>
         <div class="ui bottom attached button">
