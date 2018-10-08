@@ -44,9 +44,9 @@ middlewareObj.isSchoolOwner = function (req, res, next) {
                 res.redirect("/scholen");
             } else {
                 //check if user is bestuur admin for this school
-                if(school.owner.equals(req.user._id)) {
+                if(req.user.role==="badmin" && school.organisation.equals(req.user.organisation)) {
                     next();
-                } else if (req.user.role==="buser" && req.user.owner.equals(school.owner)) {
+                } else if (req.user.role==="buser" && school.organisation.equals(req.user.organisation)) {
                     next();
                 } else if (req.user.role==="padmin") {
                     next();
