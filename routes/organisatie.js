@@ -5,7 +5,7 @@ var middleware = require("../middleware");
 
 //SHOW ROUTE
 router.get("/", middleware.isLoggedIn, function(req, res){
-  School.findById(req.params.id).populate("owner").exec(function(err, school){
+  School.findById(req.params.id).exec(function(err, school){
       if(err ||!school){
           req.flash("error", "School niet gevonden.");
           res.redirect("back");

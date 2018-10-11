@@ -83,9 +83,7 @@
           <% }) %>
           <!--EINDE TESTRESULTATEN MEDEWERKERS-->
         </div>
-        <h4 class="content">Eigenaar record:</h4>
-        <div class="content"><%= school.owner.username %> op <%=school.created.toDateString()%> </div>
-          <a id="edit" class="ui primary basic button" href="/scholen/<%= school._id %>/deskundigheid/edit">Bewerken</a>
+        <a id="edit" class="ui primary basic button" href="/scholen/<%= school._id %>/deskundigheid/edit">Bewerken</a>
         <!--MAKE TABLE OF TEST RESULTS-->
         <div class="ui huge header">Test Resultaten</div>
         <table class="ui celled table unstackable" id="testResults">

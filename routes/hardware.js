@@ -78,7 +78,7 @@ router.get("/:hardware_id", middleware.isSchoolOwner, function(req, res){
      req.flash("error", "School niet gevonden");
      res.redirect("back");
    } else {
-     Hardware.findById(req.params.hardware_id).populate("owner").exec(function(err, hardware){
+     Hardware.findById(req.params.hardware_id).exec(function(err, hardware){
        if(err || !hardware){
          req.flash("error", "Hardware niet gevonden");
          res.redirect("back");

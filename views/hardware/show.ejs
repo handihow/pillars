@@ -76,8 +76,8 @@
         <div class="content"><%= hardware.garantievorm %></div>
       </div>
     </div>
-    <h4 class="content">Toegevoegd door</h4>
-    <div class="content"><%= hardware.owner.username %> op <%=hardware.created.toDateString()%> </div>
+    <h4 class="content">Toegevoegd op</h4>
+    <div class="content"><%=hardware.created.toDateString()%> </div>
     <a id="edit" 
     class="ui primary basic button" 
     href="/scholen/<%=school._id%>/hardware/<%=hardware._id%>/edit">

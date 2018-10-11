@@ -8,7 +8,7 @@ var json2csv = require("json2csv");
 
 //SHOW ROUTE
 router.get("/", middleware.isSchoolOwner, function(req, res){
-    School.findById(req.params.id).populate("owner").populate("tests").exec(function(err, school){
+    School.findById(req.params.id).populate("tests").exec(function(err, school){
       if(err ||!school){
           req.flash("error", "School niet gevonden.");
           res.redirect("back");
