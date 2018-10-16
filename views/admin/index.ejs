@@ -25,10 +25,8 @@
         <% schools.forEach(function(school){ %>
             <tr>
               <td><a href="/scholen/<%=school._id%>"><%=school.instellingsnaam%></a></td>
-              <td>
-                <%=school.owner.firstName ? school.owner.firstName : "gebruiker verwijderd"%> 
-                <%=school.owner.lastName ? school.owner.lastName : "gebruiker verwijderd" %></td>
-              <td class="right aligned" ><%= school.owner.username ? school.owner.username : "gebruiker verwijderd" %></td>
+              <td> <%if(school.owner){%> <%=school.owner.firstName%> <%=school.owner.lastName %> <%}%></td>
+              <td class="right aligned" ><%if(school.owner){%> <%= school.owner.username %> <%}%></td>
               <td class="center aligned"><% if(school.isIngevuldAlgemeneInformatie){ %> <i class="large green checkmark icon"></i> <% } %> </td>
               <td class="center aligned"><% if(school.isToegevoegdHardware){ %> <i class="large green checkmark icon"></i> <% } %> </td>
               <td class="center aligned"><% if(school.isToegevoegdSoftware){ %> <i class="large green checkmark icon"></i> <% } %> </td>
