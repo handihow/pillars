@@ -46,7 +46,7 @@ router.get("/instellingen", middleware.isSchoolOwner, function(req, res){
           req.flash("error", "School niet gevonden.");
           res.redirect("back");
       } else {
-          Normering.find({owner: school.owner}, function(err, normeringen){
+          Normering.find({organisation: school.organisation}, function(err, normeringen){
             if(err ||!normeringen){
               req.flash("error", "Geen normering gevonden. Vraag het bestuur om normering toe te voegen aan Pillars.");
               res.redirect("back");
