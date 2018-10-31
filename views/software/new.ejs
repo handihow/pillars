@@ -12,16 +12,18 @@
     </div>
     <!--OVERIGE VAKKEN ONLY-->
     <% if(vak === "Overige") { %> 
-    <div class="required grouped fields">
+    <div class="required field">
         <label for="software[vak]">Selecteer het vak:</label>
-        <% global.software["Overige"].forEach(function(overigVak){ %>
+        
         <div class="field">
-          <div class="ui radio checkbox">
-            <input type="radio" name="software[vak]" value="<%=overigVak %>">
-            <label><%=overigVak %></label>
-        </div>
+          <select class="ui fluid dropdown" name="software[vak]">
+            <option value="">Vak</option>
+            <% global.software["Overige"].forEach(function(overigVak){ %>
+              <option value="<%=overigVak %>"><%=overigVak %></option>
+            <% }) %>
+        </select>
     </div>
-    <% }) %>
+    
 </div>
 <div class="field">
     <div class="required four wide field">

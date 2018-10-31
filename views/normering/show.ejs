@@ -22,12 +22,10 @@
     <div class="ui bottom attached tab segment" data-tab="fourth">
       <% include show/organisatie %>
     </div>
-    <% if(currentUser && normering.owner.equals(currentUser._id)) { %>
     <a id="edit" class="ui primary basic button" href="/normering/<%= normering._id %>/edit">Bewerken</a>
       <form id="delete" action="/normering/<%= normering._id %>?_method=DELETE" method="POST">
           <button class="ui red basic button">Verwijderen</button>
       </form>
-    <% } %>
 </div>
 
 <% include ../partials/school/footer %>

@@ -5,7 +5,7 @@
     <form class="ui mini form" action="/scholen" method="POST" id="scholenToevoegen" novalidate>
         <% var i=0 %>
         <% scholen.forEach(function(school){ %>
-             <div class="eight fields">
+             <div class="eight changing fields" id=<%=i%>>
                 <div class="field">
                     <label>BRIN nummer</label>
                     <input type="text" name="school[<%=i%>][brin]" value="<%= school['BRIN NUMMER'] %>" required>
@@ -37,6 +37,9 @@
                 <div class="field">
                     <label>Plaatsnaam</label>
                     <input type="text" name="school[<%=i%>][plaatsnaam]" value="<%= school['PLAATSNAAM'] %>" required>
+                </div>
+                <div class="one wide field">
+                    <i class="trash icon"></i> 
                 </div>
              </div>
              <% i++ %>

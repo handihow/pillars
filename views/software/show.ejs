@@ -65,8 +65,8 @@
         <div class="content"><%= software.licenties %></div>
       </div>
     </div>
-    <h4 class="content">Toegevoegd door</h4>
-    <div class="content"><%= software.owner.username %> op <%=software.created.toDateString()%> </div>
+    <h4 class="content">Toegevoegd op</h4>
+    <div class="content"><%=software.created.toDateString()%> </div>
     <a id="edit" 
     class="ui primary basic button" 
     href="/scholen/<%=school._id%>/software/<%=software._id%>/edit">

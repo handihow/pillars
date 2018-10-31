@@ -85,16 +85,28 @@ global.software = {
         "Overige": 
                                 [
                                     "Aardrijkskunde",
-                                    "Natuur",
+                                    "Biologie",
+									"Duits",
+									"Economie",
+									"Engels",
+                                    "Frans",
                                     "Geschiedenis",
-                                    "Verkeer",
-                                    "Muziek",
                                     "Godsdienst of Levensbeschouwing",
-                                    "Staatsinrichting",
+                                    "Grieks",
+                                    "Latijn",
+                                    "Lichamelijke opvoeding",
+                                    "Maatschappijleer",
+                                    "Muziek",
+                                    "Natuur",
+                                    "Natuurkunde",
+                                    "Scheikunde",
                                     "Seksuele voorlichting",
-                                    "Engels",
+                                    "Staatsinrichting",
+                                    "Spaans",
                                     "Techniek",
-                                    "Website"
+                                    "Verkeer",
+   	                                "Website",                               
+                                    "Wiskunde"       
                                 ],
         "ICT Geletterdheid": 
                                 [

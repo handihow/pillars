@@ -9,21 +9,20 @@
     <form class="ui form" id="zoekScholen" action="/scholen/new" method="POST">
         <div class="two fields">
             <div class="field">
-              <label>Waar wil je op zoeken?</label>
+              <label>Type school?</label>
               <div class="ui selection dropdown">
                   <input type="hidden" name="zoekcriterium" id="zoekcriterium">
                   <i class="dropdown icon"></i>
-                  <div class="default text">Zoekcriterium</div>
+                  <div class="default text">Selecteer PO of VO</div>
                   <div class="menu">
-                      <div class="item" data-value="0">BRIN</div>
-                      <div class="item" data-value="1">Vestigingsnummer</div>
-                      <div class="item" data-value="2">Bevoegd Gezag nummer</div>
+                      <div class="item" data-value="0">Primair Onderwijs</div>
+                      <div class="item" data-value="1">Voortgezet Onderwijs</div>
                   </div>
               </div>
              </div>
             <div class="field">
                 <label>Zoekveld</label>
-                <input type="text" name="zoekveld" placeholder="Voer het nummer in..." id="zoekveld">
+                <input type="text" name="zoekveld" placeholder="Zoek op naam, plaatsnaam, BRIN nummer, vestigingsnummer, bestuursnummer etc" id="zoekveld">
             </div>
         </div>
         <button class="ui primary button" type="submit">Zoeken</button>

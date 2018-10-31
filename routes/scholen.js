@@ -90,22 +90,23 @@ router.use(function(req, res, next){
 });
 
 router.post("/new", middleware.isAuthenticatedBadmin, function(req, res){
-    var zoekcriterium = req.body.zoekcriterium, 
-        zoekveld = req.body.zoekveld, 
-        url = "https://api.duo.nl/v0/datasets/03-alle-vestigingen-bo/search?";
+    let zoekcriterium = req.body.zoekcriterium; 
+    let zoekveld = req.body.zoekveld; 
+    var url;
     if(zoekcriterium==0){
-        url = url+"brin="+zoekveld;
-    } else if(zoekcriterium==1){
-        url = url+"vestigingsnummer="+zoekveld;
+      url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=584b8e26-4130-418b-bf2d-f8475f488a82&q=" +
+                zoekveld;
     } else {
-        url = url+"bevoegd_gezag="+zoekveld;
+      url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=747f18de-4f46-4689-a1bd-d4292ecbf418&q=" +
+                zoekveld;
     }
     request(url, function (error, response, body) {
       if(!error && response.statusCode == 200){
-        var scholen = JSON.parse(body).results;
+        var scholen = JSON.parse(body).result.records;
         if(scholen[0]){
             req.flash("success", "Gegevens gevonden in de DUO database. Controleer de gegevens en bewaar.");
             res.locals.success = req.flash("success");
+            console.log(scholen);
             res.render("scholen/new", {scholen: scholen});
         } else {
             req.flash("error", "Geen school gevonden in DUO database. Voer de school handmatig in of controleer gegevens en probeer opnieuw");
