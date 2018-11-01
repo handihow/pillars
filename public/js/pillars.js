@@ -199,4 +199,55 @@ $(document).ready(function() {
             }
         }
     });
+
+    var ctx6 = $("#softwareSS");
+    
+    var myChart6 = new Chart(ctx6, {
+        type: 'bar',
+        data: {
+            labels: ["Aardrijkskunde", "Biologie", "Duits", "Economie", "Engels", "Frans", "Geschiedenis",  
+      "Natuurkunde", "Nederlands", "Scheikunde", "Wiskunde"],
+            datasets: [{
+                label: 'Digitale Leermiddelen',
+                data: [$("#Aardrijkskunde").text(), $("#Biologie").text(), $("#Duits").text(), $("#Economie").text(), $("#Engels").text(), $("#Frans").text(), $("#Geschiedenis").text(), $("#Natuurkunde").text(), $("#Nederlands").text(), $("#Scheikunde").text(), $("#Wiskunde").text()],
+                backgroundColor: [
+                    'rgba(0, 159, 227, 0.7)',
+                    'rgba(34, 34, 188, 0.7)',
+                    'rgba(36, 83, 189, 0.7)',
+                    'rgba(20, 105, 192, 0.7)',
+                    'rgba(107, 178, 250, 0.7)',
+                    'rgba(63, 158, 218, 0.7)',
+                    'rgba(131, 208, 245, 0.7)',
+                    'rgba(174, 216, 234, 0.7)',
+                    'rgba(0, 159, 227, 0.7)',
+                    'rgba(34, 34, 188, 0.7)',
+                    'rgba(36, 83, 189, 0.7)',
+                   
+                ],
+                borderColor: [
+                    'rgba(0, 159, 227, 1)',
+                    'rgba(34, 34, 188, 1)',
+                    'rgba(36, 83, 189, 1)',
+                    'rgba(20, 105, 192, 1)',
+                    'rgba(107, 178, 250, 1)',
+                    'rgba(63, 158, 218, 1)',
+                    'rgba(131, 208, 245, 1)',
+                    'rgba(174, 216, 234, 0.7)',
+                    'rgba(0, 159, 227, 1)',
+                    'rgba(34, 34, 188, 1)',
+                    'rgba(36, 83, 189, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });
 });

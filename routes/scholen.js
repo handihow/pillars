@@ -5,6 +5,7 @@ var School = require("../models/school");
 var Message = require("../models/message");
 var middleware = require("../middleware");
 var User = require("../models/user");
+var global = require("../models/global");
 
 //INDEX ROUTE
 router.get("/", middleware.isLoggedIn, function(req, res){
@@ -93,12 +94,14 @@ router.post("/new", middleware.isAuthenticatedBadmin, function(req, res){
     let zoekcriterium = req.body.zoekcriterium; 
     let zoekveld = req.body.zoekveld; 
     var url;
+    var secondarySchool = false;
     if(zoekcriterium==0){
       url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=584b8e26-4130-418b-bf2d-f8475f488a82&q=" +
                 zoekveld;
     } else {
       url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=747f18de-4f46-4689-a1bd-d4292ecbf418&q=" +
                 zoekveld;
+      secondarySchool = true;
     }
     request(url, function (error, response, body) {
       if(!error && response.statusCode == 200){
@@ -106,8 +109,7 @@ router.post("/new", middleware.isAuthenticatedBadmin, function(req, res){
         if(scholen[0]){
             req.flash("success", "Gegevens gevonden in de DUO database. Controleer de gegevens en bewaar.");
             res.locals.success = req.flash("success");
-            console.log(scholen);
-            res.render("scholen/new", {scholen: scholen});
+            res.render("scholen/new", {scholen: scholen, secondarySchool: secondarySchool});
         } else {
             req.flash("error", "Geen school gevonden in DUO database. Voer de school handmatig in of controleer gegevens en probeer opnieuw");
             res.locals.error = req.flash("error");
@@ -136,6 +138,9 @@ router.post("/", middleware.isAuthenticatedBadmin, function(req, res){
                 //look up user id and username and add to school
                 school.owner = req.user._id;
                 school.organisation = user.organisation;
+                if(school.isSecondarySchool){
+                  school.instellingenSoftware = global.subjectsSecondary;
+                }
                 school.save();
             }
           }); 
@@ -160,6 +165,9 @@ router.post("/handmatig", middleware.isAuthenticatedBadmin, function(req, res){
             //look up user id and username and add to school
             school.owner = req.user._id;
             school.organisation = user.organisation;
+            if(school.isSecondarySchool){
+              school.instellingenSoftware = global.subjectsSecondary;
+            }
             school.save();
         }
       });

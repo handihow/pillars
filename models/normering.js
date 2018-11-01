@@ -77,6 +77,73 @@ var normeringSchema=  mongoose.Schema({
                             maxScore: {type: Number, default: global.maxScoreMediawijsheid},
                             kwaliteiten: {type: Number, default: global.kwaliteiten},
                         },
+    //for secondary education:
+    "Aardrijkskunde":   {
+                            groepen: {type: [String], default: global.groepenAardrijkskunde},
+                            functies: {type: [String], default: global.functiesAardrijkskunde},
+                            maxScore: {type: Number, default: global.maxScoreAardrijkskunde},
+                            kwaliteiten: {type: Number, default: global.kwaliteiten},
+                        },
+    "Biologie":         {
+                            groepen: {type: [String], default: global.groepenBiologie},
+                            functies: {type: [String], default: global.functiesBiologie},
+                            maxScore: {type: Number, default: global.maxScoreBiologie},
+                            kwaliteiten: {type: Number, default: global.kwaliteiten},
+                        },
+    "Duits":            {
+                            groepen: {type: [String], default: global.groepenDuits},
+                            functies: {type: [String], default: global.functiesDuits},
+                            maxScore: {type: Number, default: global.maxScoreDuits},
+                            kwaliteiten: {type: Number, default: global.kwaliteiten},
+                        },
+    "Economie":         {
+                            groepen: {type: [String], default: global.groepenEconomie},
+                            functies: {type: [String], default: global.functiesEconomie},
+                            maxScore: {type: Number, default: global.maxScoreEconomie},
+                            kwaliteiten: {type: Number, default: global.kwaliteiten},
+                        },
+    "Engels":           {
+                            groepen: {type: [String], default: global.groepenEngels},
+                            functies: {type: [String], default: global.functiesEngels},
+                            maxScore: {type: Number, default: global.maxScoreEngels},
+                            kwaliteiten: {type: Number, default: global.kwaliteiten},
+                        },
+    "Frans":           {
+                            groepen: {type: [String], default: global.groepenFrans},
+                            functies: {type: [String], default: global.functiesFrans},
+                            maxScore: {type: Number, default: global.maxScoreFrans},
+                            kwaliteiten: {type: Number, default: global.kwaliteiten},
+                        },
+    "Geschiedenis":     {
+                            groepen: {type: [String], default: global.groepenGeschiedenis},
+                            functies: {type: [String], default: global.functiesGeschiedenis},
+                            maxScore: {type: Number, default: global.maxScoreGeschiedenis},
+                            kwaliteiten: {type: Number, default: global.kwaliteiten},
+                        },
+    "Natuurkunde":      {
+                            groepen: {type: [String], default: global.groepenNatuurkunde},
+                            functies: {type: [String], default: global.functiesNatuurkunde},
+                            maxScore: {type: Number, default: global.maxScoreNatuurkunde},
+                            kwaliteiten: {type: Number, default: global.kwaliteiten},
+                        },
+    "Nederlands":       {
+                            groepen: {type: [String], default: global.groepenNederlands},
+                            functies: {type: [String], default: global.functiesNederlands},
+                            maxScore: {type: Number, default: global.maxScoreNederlands},
+                            kwaliteiten: {type: Number, default: global.kwaliteiten},
+                        },
+    "Scheikunde":       {
+                            groepen: {type: [String], default: global.groepenScheikunde},
+                            functies: {type: [String], default: global.functiesScheikunde},
+                            maxScore: {type: Number, default: global.maxScoreScheikunde},
+                            kwaliteiten: {type: Number, default: global.kwaliteiten},
+                        },
+    "Wiskunde":         {
+                            groepen: {type: [String], default: global.groepenWiskunde},
+                            functies: {type: [String], default: global.functiesWiskunde},
+                            maxScore: {type: Number, default: global.maxScoreWiskunde},
+                            kwaliteiten: {type: Number, default: global.kwaliteiten},
+                        },
     //NORMEN 3. DESKUNDIGHEID
         //NORM 3.1 BEOORDEELDE DESKUNDIGHEID
     minBeoordeeldeDeskundigheid: {type: Number, default: global.minBeoordeeldeDeskundigheid},
@@ -132,7 +199,8 @@ var normeringSchema=  mongoose.Schema({
     organisation: {                                 
           type: mongoose.Schema.Types.ObjectId,
           ref: "Organisation"
-      }
+      },
+    isSecondarySchool: Boolean
 } , { usePushEach: true });
 
 module.exports = mongoose.model("Normering", normeringSchema);

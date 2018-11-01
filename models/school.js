@@ -75,7 +75,7 @@ var scholenSchema=  mongoose.Schema({
     isBekendICTInkoper: Boolean,
     //INSTELLINGEN
     instellingenHardwareTypes: {type: [{}], default: global.hardwareTypes},
-    instellingenSoftware: {type: {}, default: global.software},
+    instellingenSoftware: {type: {}, default: global.subjectsPrimary},
     instellingenSoftwareFuncties: {type: [String], default: global.softwareFuncties},
     instellingenSoftwareKwaliteiten: {type: [String], default: global.softwareKwaliteiten},
     normering: {
@@ -94,7 +94,8 @@ var scholenSchema=  mongoose.Schema({
           type: mongoose.Schema.Types.ObjectId,
           ref: "Evaluation"
          }
-      ]
+      ],
+    isSecondarySchool: Boolean
 }, { usePushEach: true });
 
 scholenSchema.post("remove", function(school){

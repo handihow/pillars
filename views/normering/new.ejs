@@ -7,6 +7,16 @@
             <label>Naam</label>  
             <input type="text" name="normering[naam]" placeholder="Naam normering, bijvoorbeeld Standaard Normering Schoolbestuur XXX" id="normering[naam]">
         </div>
+        <div class="field">
+	          <div class="ui toggle checkbox">
+	              <input type="hidden" value="0" name="normering[isSecondarySchool]">
+	              <input 
+	                  type="checkbox" 
+	                  name="normering[isSecondarySchool]"
+	              >
+	              <label>Voortgezet onderwijs</label>
+	           </div>
+	    </div>
         <button class="ui button" type="submit">Bewaren</button>
     </form>
 </div>

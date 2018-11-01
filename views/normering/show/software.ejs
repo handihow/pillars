@@ -1,11 +1,15 @@
 <!--SHOW SOFTWARE NORMERING -->
 
-<% var vakken = ["Rekenen", "Technisch lezen", "Begrijpend lezen", "Spelling", "Taal", "Toetsenbordvaardigheid", "Programmeren", "Mediawijsheid"]%>
+<% var vakken = normering.isSecondarySchool ? 
+    ["Aardrijkskunde", "Biologie", "Duits", "Economie", "Engels", "Frans", "Geschiedenis",  
+      "Natuurkunde", "Nederlands", "Scheikunde", "Wiskunde"]
+    : ["Rekenen", "Technisch lezen", "Begrijpend lezen", "Spelling", "Taal", "Toetsenbordvaardigheid", 
+      "Programmeren", "Mediawijsheid"]%>
 <% vakken.forEach(function(vak){%>
   <h3><%=vak%></h3>
   <div class="ui stackable grid">
     <div class="four wide column">
-      <h5 class="content">Groepen</h5>
+      <h5 class="content"><%if(normering.isSecondarySchool) { %>Klassen<%} else { %>Groepen <% } %></h5>
       <div class="content"><%=normering[vak].groepen%></div>
     </div>
     <div class="four wide column">

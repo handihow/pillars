@@ -32,7 +32,11 @@
       <div class="ui horizontal divider">
         Digitale Leermiddelen
       </div>
-      <canvas id="software"></canvas>
+      <% if(school.isSecondarySchool) { %>
+        <canvas id="softwareSS"></canvas>
+      <%} else { %>
+        <canvas id="software"></canvas>
+      <% } %>
       <!--DESKUNDIGHEID-->
       <h2 style="display:none;" id="beoordeeldeDeskundigheid"><%=result.deskundigheid.beoordeeldeDeskundigheid %></h2>
       <h2 style="display:none;" id="gemiddeldeEffectiviteit"><%=result.deskundigheid.gemiddeldeEffectiviteit %></h2>

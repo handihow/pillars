@@ -57,8 +57,22 @@
                     </div>
                   </div>
                 </div>
-                <h4 class="content">Toegevoegd op</h4>
-                <div class="content"><%=school.created.toDateString()%> </div>
+                <div class="ui stackable grid">
+                  <div class="six wide column">
+                    <h4 class="content">Toegevoegd op</h4>
+                    <div class="content"><%=school.created.toDateString()%> </div>
+                  </div>
+                  <div class="six wide column">
+                    <h4 class="content">Soort onderwijs</h4>
+                    <div class="content">
+                      <% if(school.isSecondarySchool) { %>
+                        Voortgezet onderwijs
+                      <% } else { %>
+                        Primair onderwijs
+                      <% } %>
+                    </div>
+                  </div>
+                </div>
                 <a id="edit" class="ui primary basic button" href="/scholen/<%= school._id %>/edit">Bewerken</a>
                 <% if((currentUser.role==="padmin" || currentUser.role==="badmin")  && school.organisation.equals(currentUser.organisation)) { %>
                   <!-- <form id="delete" action="/scholen/<%= school._id %>?_method=DELETE" method="POST">

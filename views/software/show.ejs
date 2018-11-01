@@ -14,11 +14,11 @@
         <div class="content"><%= software.naam %></div>
       </div>
     </div>
-    <% if(!(global.software["Overige"].includes(software.vak))) { %>
+    <% if(!(school.instellingenSoftware["Overige"].includes(software.vak))) { %>
     <div class="ui stackable grid">
       <div class="four wide column">
         <h4 class="content">Functies</h4>
-        <% global.softwareFuncties.forEach(function(functie){ %>
+        <% school.instellingenSoftwareFuncties.forEach(function(functie){ %>
         <div class="content">
           <% if(software.functie.includes(functie)) { %>
           <i class="green checkmark icon"></i> <%=functie%><% } else { %>
@@ -27,18 +27,29 @@
         <% }); %>
       </div>
       <div class="four wide column">
-        <h4 class="content">Groepen</h4>
-        <% for(i=1; i<=8; i++){ %>
-        <div class="content">
-          <% if(software.groep.includes("Groep " + i)) { %>
-          <i class="green checkmark icon"></i> <%= "Groep " + i %><% } else { %>
-          <i class="red remove icon"></i> <%= "Groep " + i %><% } %>
-        </div>
-        <% }; %>
+        <% if(school.isSecondarySchool){ %>
+          <h4 class="content">Klassen</h4>
+          <% for(i=1; i<=6; i++){ %>
+          <div class="content">
+            <% if(software.groep.includes("Klas " + i)) { %>
+            <i class="green checkmark icon"></i> <%= "Klas " + i %><% } else { %>
+            <i class="red remove icon"></i> <%= "Klas " + i %><% } %>
+          </div>
+          <% }; %>
+        <%} else { %>
+          <h4 class="content">Groepen</h4>
+          <% for(i=1; i<=8; i++){ %>
+          <div class="content">
+            <% if(software.groep.includes("Groep " + i)) { %>
+            <i class="green checkmark icon"></i> <%= "Groep " + i %><% } else { %>
+            <i class="red remove icon"></i> <%= "Groep " + i %><% } %>
+          </div>
+          <% }; %>
+        <% } %>
       </div>
       <div class="four wide column">
         <h4 class="content">Kwaliteitsnormen</h4>
-        <% global.softwareKwaliteiten.forEach(function(kwaliteit){ %>
+        <% school.instellingenSoftwareKwaliteiten.forEach(function(kwaliteit){ %>
         <div class="content">
           <% if(software.kwaliteit.includes(kwaliteit)) { %>
           <i class="green checkmark icon"></i> <%=kwaliteit%><% } else { %>

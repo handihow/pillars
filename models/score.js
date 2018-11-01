@@ -211,7 +211,18 @@ score.calculate = function(school) {
             "Taal": 0,
             "Toetsenbordvaardigheid": 0,
             "Programmeren": 0,
-            "Mediawijsheid": 0
+            "Mediawijsheid": 0,
+            "Aardrijkskunde": 0,
+            "Biologie": 0,
+            "Duits": 0,
+            "Economie": 0,
+            "Engels": 0,
+            "Frans": 0, 
+            "Geschiedenis": 0,  
+            "Natuurkunde": 0, 
+            "Nederlands": 0, 
+            "Scheikunde": 0,
+            "Wiskunde": 0
         },
         deskundigheid: {
             beoordeeldeDeskundigheid: 0,

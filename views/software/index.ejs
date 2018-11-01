@@ -7,14 +7,14 @@
       <br>
         <div class="ui cards">
           <!--make a card for each type of software-->
-          <% Object.keys(global.software).forEach(function(type){ %>
+          <% Object.keys(school.instellingenSoftware).sort().forEach(function(type){ %>
           <div class="card">
             <div class="content">
               <div class="header countHeader"><a href="#<%=type%>"><%= type %></a></div>
               <div class="description count">
                   <% var count = 0 %>
                   <% school.software.forEach(function(software){ %>
-                      <% if(global.software[type].includes(software.vak)) { count += 1 %>
+                      <% if(school.instellingenSoftware[type].includes(software.vak)) { count += 1 %>
                       <% } %>
                   <% }); %>
                   <%= count %>
@@ -34,10 +34,10 @@
     </div>
     <!--make a table for each type of software-->
     <div class="ui segment">
-    <!--check for each key in the global.software object (represent vak)-->
-    <% Object.keys(global.software).forEach(function(vak){ %>
+    <!--check for each key in the school software subjects object (represent vak)-->
+    <% Object.keys(school.instellingenSoftware).sort().forEach(function(vak){ %>
     <!--if the school software vak is included in the array-->
-        <% if(school.software.map(a => a.vak).some(r => global.software[vak].includes(r))) { %>
+        <% if(school.software.map(a => a.vak).some(r => school.instellingenSoftware[vak].includes(r))) { %>
             <div class="ui huge header"><%= vak %></div>
             <a id="<%= vak %>">
             <table class="ui celled table unstackable">
@@ -51,7 +51,7 @@
                 <% } %>
                 <tbody>
                     <% school.software.forEach(function(software){ %>
-                        <% if(global.software[vak].includes(software.vak)) { %>
+                        <% if(school.instellingenSoftware[vak].includes(software.vak)) { %>
                         <tr>
                             <td><%= software.vak %></td>
                             <td><%= software.naam %></td>

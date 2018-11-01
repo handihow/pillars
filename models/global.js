@@ -76,7 +76,7 @@ global.hardwareTypes = [
         }
 ];
 
-global.software = {
+global.subjectsPrimary = {
         "Rekenen":              ["Rekenen"],
         "Technisch lezen":      ["Technisch lezen"],
         "Begrijpend lezen":     ["Begrijpend lezen"],
@@ -85,28 +85,53 @@ global.software = {
         "Overige": 
                                 [
                                     "Aardrijkskunde",
-                                    "Biologie",
-									"Duits",
-									"Economie",
 									"Engels",
-                                    "Frans",
                                     "Geschiedenis",
+                                    "Godsdienst of Levensbeschouwing",
+                                    "Lichamelijke opvoeding",
+                                    "Maatschappijleer",
+                                    "Muziek",
+                                    "Seksuele voorlichting",
+                                    "Staatsinrichting",
+                                    "Techniek",
+                                    "Verkeer",
+   	                                "Website"                               
+                                ],
+        "ICT Geletterdheid": 
+                                [
+                                    "Toetsenbordvaardigheid",
+                                    "Programmeren",
+                                    "Mediawijsheid"
+                                ]
+        };
+
+global.subjectsSecondary = {
+        "Wiskunde":             ["Wiskunde"],
+        "Nederlands":           ["Nederlands"],
+        "Engels":               ["Engels"],
+        "Aardrijkskunde":       ["Aardrijkskunde"],
+        "Geschiedenis":         ["Geschiedenis"],
+        "Biologie":             ["Biologie"],
+        "Natuurkunde":          ["Natuurkunde"],
+        "Scheikunde":           ["Scheikunde"],
+        "Frans":                ["Frans"],
+        "Duits":                ["Duits"],
+        "Economie":             ["Economie"],
+        "Overige": 
+                                [   
+                                    "Beeldende vorming",
                                     "Godsdienst of Levensbeschouwing",
                                     "Grieks",
                                     "Latijn",
                                     "Lichamelijke opvoeding",
                                     "Maatschappijleer",
                                     "Muziek",
-                                    "Natuur",
-                                    "Natuurkunde",
-                                    "Scheikunde",
                                     "Seksuele voorlichting",
                                     "Staatsinrichting",
                                     "Spaans",
                                     "Techniek",
                                     "Verkeer",
-   	                                "Website",                               
-                                    "Wiskunde"       
+                                    "Website",                               
                                 ],
         "ICT Geletterdheid": 
                                 [
@@ -236,7 +261,75 @@ global.groepenMediawijsheid = ["Groep 4", "Groep 5", "Groep 6", "Groep 7", "Groe
 
 global.functiesMediawijsheid = ["Instructie", "Oefenen"];
 
-global.maxScoreMediawijsheid = 0.33;	
+global.maxScoreMediawijsheid = 0.33;
+
+// secondary education
+
+global.groepenAardrijkskunde = ["Klas 1", "Klas 2", "Klas 3", "Klas 4"];
+
+global.functiesAardrijkskunde = ["Instructie", "Oefenen"];
+
+global.maxScoreAardrijkskunde = 0.25;
+
+global.groepenBiologie = ["Klas 1", "Klas 2", "Klas 3", "Klas 4"];
+
+global.functiesBiologie = ["Instructie", "Oefenen"];
+
+global.maxScoreBiologie = 0.25;	
+
+global.groepenDuits = ["Klas 2", "Klas 3", "Klas 4"];
+
+global.functiesDuits = ["Instructie", "Oefenen"];
+
+global.maxScoreDuits = 0.25; 
+
+global.groepenEconomie = ["Klas 2", "Klas 3", "Klas 4"];
+
+global.functiesEconomie = ["Instructie", "Oefenen"];
+
+global.maxScoreEconomie = 0.25; 
+
+global.groepenEngels = ["Klas 1", "Klas 2", "Klas 3", "Klas 4"];
+
+global.functiesEngels = ["Instructie", "Oefenen"];
+
+global.maxScoreEngels = 1; 
+
+global.groepenFrans = ["Klas 2", "Klas 3", "Klas 4"];
+
+global.functiesFrans = ["Instructie", "Oefenen"];
+
+global.maxScoreFrans = 0.25; 
+
+global.groepenGeschiedenis = ["Klas 1", "Klas 2", "Klas 3", "Klas 4"];
+
+global.functiesGeschiedenis = ["Instructie", "Oefenen"];
+
+global.maxScoreGeschiedenis = 0.25; 
+
+global.groepenNatuurkunde = ["Klas 2", "Klas 3", "Klas 4"];
+
+global.functiesNatuurkunde = ["Instructie", "Oefenen"];
+
+global.maxScoreNatuurkunde = 0.25; 
+
+global.groepenNederlands = ["Klas 1", "Klas 2", "Klas 3", "Klas 4"];
+
+global.functiesNederlands = ["Instructie", "Oefenen"];
+
+global.maxScoreNederlands = 1;
+
+global.groepenScheikunde = ["Klas 2", "Klas 3", "Klas 4"];
+
+global.functiesScheikunde = ["Instructie", "Oefenen"];
+
+global.maxScoreScheikunde = 0.25;  
+
+global.groepenWiskunde = ["Klas 1", "Klas 2", "Klas 3", "Klas 4"];
+
+global.functiesWiskunde = ["Instructie", "Oefenen"];
+
+global.maxScoreWiskunde = 1; 
 
 //NORM 3. DESKUNDIGHEID
 		//NORM 3.1 BEOORDEELDE DESKUNDIGHEID

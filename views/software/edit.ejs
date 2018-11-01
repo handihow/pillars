@@ -11,10 +11,10 @@
         <input type="text" name="software[naam]" value="<%=software.naam%>">
     </div>
     <!--OVERIGE VAKKEN ONLY-->
-    <% if(global.software["Overige"].includes(software.vak)) { %> 
+    <% if(school.instellingenSoftware["Overige"].includes(software.vak)) { %> 
     <div class="required grouped fields">
         <label for="software[vak]">Selecteer het vak:</label>
-        <% global.software["Overige"].forEach(function(overigVak){ %>
+        <% school.instellingenSoftware["Overige"].forEach(function(overigVak){ %>
         <div class="field">
           <div class="ui radio checkbox">
             <input type="radio" name="software[vak]" <% if(overigVak===software.vak){ %> checked="" <% } %> value="<%=overigVak%>">
@@ -32,10 +32,10 @@
 <% } else { %>
 <!--EINDE OVERIGE VAKKEN -->
 <div class="field">
-  <% if(global.software["ICT Geletterdheid"].includes(software.vak)) { %>
+  <% if(school.instellingenSoftware["ICT Geletterdheid"].includes(software.vak)) { %>
   <div class ="required grouped fields">
       <label for="software[vak]">Selecteer het vak: </label>
-      <% global.software["ICT Geletterdheid"].forEach(function(ictVak){ %>
+      <% school.instellingenSoftware["ICT Geletterdheid"].forEach(function(ictVak){ %>
       <div class="field">
           <div class="ui radio checkbox">
             <input type="radio" name="software[vak]" <% if(ictVak===software.vak){ %> checked="" <% } %>>
@@ -52,28 +52,43 @@
     <label>Software functies</label>
     <select multiple="" name="software[functie]" class="ui dropdown">
       <option value="">Selecteer functies</option>
-      <% global.softwareFuncties.forEach(function(functie) { %>
+      <% school.instellingenSoftwareFuncties.forEach(function(functie) { %>
       <option value="<%=functie%>" <%if(software.functie.includes(functie)) { %> selected="" <% } %>><%=functie%></option>
       <% }) %>
   </select>
 </div>
-<div class="field">
-    <label>Groepen</label>
-    <select multiple="" name="software[groep]" class="ui dropdown">
-        <option value="">Selecteer groepen</option>
-        <% for(var i=0; i < 8; i++) { %>
-        <option value="Groep <%= i + 1 %>" 
-            <% if(software.groep.includes("Groep " + (i + 1))) { %> selected="" <% } %>>
-            Groep <%= i+ 1 %>
-        </option>
-        <% } %>
-    </select>
-</div>
+<% if(school.isSecondarySchool){ %>
+    <div class="field">
+        <label>Klassen</label>
+        <select multiple="" name="software[groep]" class="ui dropdown">
+            <option value="">Selecteer klassen</option>
+            <% for(var i=0; i < 6; i++) { %>
+            <option value="Klas <%= i + 1 %>" 
+                <% if(software.groep.includes("Klas " + (i + 1))) { %> selected="" <% } %>>
+                Klas <%= i+ 1 %>
+            </option>
+            <% } %>
+        </select>
+    </div>
+<% } else { %>
+    <div class="field">
+        <label>Groepen</label>
+        <select multiple="" name="software[groep]" class="ui dropdown">
+            <option value="">Selecteer groepen</option>
+            <% for(var i=0; i < 8; i++) { %>
+            <option value="Groep <%= i + 1 %>" 
+                <% if(software.groep.includes("Groep " + (i + 1))) { %> selected="" <% } %>>
+                Groep <%= i+ 1 %>
+            </option>
+            <% } %>
+        </select>
+    </div>
+<% } %>
 <div class="field">
     <label>Kwaliteitsnormen</label>
     <select multiple="" name="software[kwaliteit]" class="ui dropdown">
         <option value="">Selecteer kwaliteiten</option>
-        <% global.softwareKwaliteiten.forEach(function(kwaliteit) { %>
+        <% school.instellingenSoftwareKwaliteiten.forEach(function(kwaliteit) { %>
         <option value="<%=kwaliteit%>" <%if(software.kwaliteit.includes(kwaliteit)) { %> selected="" <% } %>><%=kwaliteit%></option>
         <% }) %>
     </select>
