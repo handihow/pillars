@@ -1,0 +1,46 @@
+<h4 class="ui dividing header">1. Verwerkingsverantwoordelijke</h4>
+  <div class="two fields">
+    <div class="required field">
+      <label>Naam verwerkingsverantwoordelijke</label>
+      <input type="text" name="processingActivity[controllerName]" value="<%=processingActivity.controllerName%>"  id="processingActivity[controllerName]">
+    </div>
+    
+  </div>
+  <div class="field">
+    <label>Adres</label>
+        <div class="fields">
+          <div class="twelve wide field">
+            <input type="text" name="processingActivity[controllerOrganisationAddress]"  
+                    value="<%=processingActivity.controllerOrganisationAddress%>">
+          </div>
+          <div class="four wide field">
+            <input type="text" name="processingActivity[controllerOrganisationAddressNumber]"  
+                    value="<%=processingActivity.controllerOrganisationAddressNumber%>">
+          </div>
+        </div>
+  </div>
+  <div class="field">
+    <label>Postcode en Plaatsnaam</label>
+        <div class="fields">
+            <div class="four wide field">
+                <input type="text" name="processingActivity[controllerOrganisationPostalCode]"  
+                        value="<%=processingActivity.controllerOrganisationPostalCode %>">
+            </div>
+            <div class="twelve wide field">
+                <input type="text" name="processingActivity[controllerOrganisationCity]"  value="<%=processingActivity.controllerOrganisationCity%>">
+            </div>
+        </div>
+  </div>
+  <div class="field">
+    <label>Gegevens organisatie</label>
+        <div class="fields">
+            <div class="four wide field">
+                <input type="text" name="processingActivity[controllerOrganisationChamberOfCommerceNumber]"  
+                      value="<%=processingActivity.controllerOrganisationChamberOfCommerceNumber%>">
+            </div>
+            <div class="twelve wide field">
+                <input type="text" name="processingActivity[controllerOrganisationLegalForm]" 
+                    value="<%=processingActivity.controllerOrganisationLegalForm%>">
+            </div>
+        </div>
+  </div>

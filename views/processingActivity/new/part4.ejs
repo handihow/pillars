@@ -1,0 +1,52 @@
+ <!-- PART 4 OF THE FORM -->
+  <h4 class="ui dividing header">4. Verwerkingsactiviteit</h4>
+  <div class="two fields">
+    <div class="six wide required field">
+      <label>Naam verwerkingsactiviteit</label>
+      <input type="text" name="processingActivity[processingActivityName]" placeholder="Naam verwerkingsactiviteit" id="processingActivity[processingActivityName]">
+    </div>
+    <div class="ten wide field">
+      <label>Doeleinde van de verwerking</label>
+      <input type="text" name="processingActivity[processingActivityGoal]" placeholder="Doeleinde van de verwerking is...">
+    </div>
+  </div>
+  <div class="field">
+    <label>Categorien van persoonsgegevens</label>
+      <select multiple="" name="processingActivity[personalDataCategories]" class="ui dropdown">
+        <option value="">Selecteer categorieen</option>
+        <% categoriesOfData.forEach(function(category) { %>
+        <option value="<%=category%>"><%=category%></option>
+        <% }) %>
+    </select>
+  </div>
+  <div class="field">
+    <label>Wettelijke basis voor verwerking</label>
+      <select multiple="" name="processingActivity[legalJustificationForProcessing]" class="ui dropdown">
+        <option value="">Selecteer wettelijke basis</option>
+        <% legalJustification.forEach(function(justification) { %>
+        <option value="<%=justification%>"><%=justification%></option>
+        <% }) %>
+    </select>
+  </div>
+  <div class="two fields">
+    <div class="field">
+        <input type="hidden" value="0" name="processingActivity[involvesProfiling]">
+        <div class="ui toggle checkbox">
+            <input 
+                type="checkbox" 
+                name="processingActivity[involvesProfiling]"
+            >
+            <label>Gegevensverzameling d.m.v. profiling?</label>
+         </div>
+    </div>
+    <div class="field">
+        <div class="ui toggle checkbox">
+            <input type="hidden" value="0" name="processingActivity[involvesSensitiveData]">
+            <input 
+                type="checkbox" 
+                name="processingActivity[involvesSensitiveData]"
+            >
+            <label>Betreft gevoelige gegevens? (art 9 en 10)</label>
+         </div>
+    </div>
+  </div>

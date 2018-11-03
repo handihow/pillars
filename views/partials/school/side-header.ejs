@@ -49,6 +49,10 @@
                 <i class="info circle icon"></i>
                 Informatie
               </a>
+              <a class="item <%if(url.includes("/scholen/"+school._id+"/processingActivity")) { %> active <% } %>" href="/scholen/<%= school._id %>/processingActivity">
+                <i class="id card outline icon"></i>
+                Verwerkingsactiviteiten
+              </a>
             </div>
           </div>  
           <div class="twelve wide stretched column">

@@ -1,0 +1,58 @@
+<% include ../partials/school/header %>
+<%if(schoolLevel){%>
+  <% include ../partials/school/side-header %>
+
+  <h2 class="ui top attached header">Verwerkingsovereenkomst Toevoegen aan <%= school.instellingsnaam %></h2>
+  <form class="ui small form" action="/scholen/<%=school._id%>/processingActivity" method="POST" id="processingActivityForm">
+<%} else { %>
+  <div class="ui container">
+    <h2 class="ui top attached header">Verwerkingsovereenkomst Toevoegen</h2>
+    <form class="ui small form" action="/processingActivity" method="POST" id="processingActivityForm">
+<% } %>
+  <div class="ui top attached tabular menu">
+    <a class="item active" data-tab="first">1. VVW.</a>
+    <a class="item" data-tab="second">2. G.VVW.</a>
+    <a class="item" data-tab="third">3. F.G.</a>
+    <a class="item" data-tab="fourth">4. V.A.</a>
+    <a class="item" data-tab="fifth">5. C.B.</a>
+    <a class="item" data-tab="sixth">6. T.O.M.</a>
+    <a class="item" data-tab="seventh">7. R.v.B.</a>
+    <a class="item" data-tab="eighth">8. B.T.</a>
+    <a class="item" data-tab="nineth">9. G.B.</a>
+  </div>
+  <div class="ui bottom attached tab segment active" data-tab="first">
+      <% include new/part1 %>
+  </div>
+  <div class="ui bottom attached tab segment" data-tab="second">
+      <% include new/part2 %>
+  </div>
+  <div class="ui bottom attached tab segment" data-tab="third">
+      <% include new/part3 %>
+  </div>
+  <div class="ui bottom attached tab segment" data-tab="fourth">
+       <% include new/part4 %>
+  </div>
+  <div class="ui bottom attached tab segment" data-tab="fifth">
+       <% include new/part5 %>
+  </div>
+  <div class="ui bottom attached tab segment" data-tab="sixth">
+       <% include new/part6 %>
+  </div>
+  <div class="ui bottom attached tab segment" data-tab="seventh">
+       <% include new/part7 %>
+  </div>
+  <div class="ui bottom attached tab segment" data-tab="eighth">
+       <% include new/part8 %>
+  </div>
+  <div class="ui bottom attached tab segment" data-tab="nineth">
+       <% include new/part9 %>
+  </div>
+  <button class="ui button" type="submit">Bewaren</button>
+  <div class="ui error message"></div>
+</form>
+<%if(schoolLevel){%>
+  <% include ../partials/school/side-footer %>
+<%} else {%>
+  </div>
+<% } %>
+<% include ../partials/school/footer %>

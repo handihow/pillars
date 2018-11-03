@@ -599,6 +599,54 @@ global.versnellingsvraagProfiel = {
 		]
 	}
 
+    
 }
+
+global.categoriesOfData = [
+        "A. Identificatiegegevens",
+        "B. Financiële bijzonderheden",
+        "C. Persoonlijke kenmerken",
+        "D. Fysieke gegevens",
+        "E. Leefgewoonten",
+        "F. Psychische gegevens",
+        "G. Samenstelling van het gezin",
+        "H. Vrijetijdsbesteding en interesses",
+        "I. Lidmaatschappen",
+        "J. Gerechtelijke gegevens",
+        "K. Consumptiegewoonten",
+        "L. Woningkenmerken",
+        "M. Gezondheidsgegevens",
+        "N. Opleiding en training",
+        "O. Beroep en betrekking",
+        "P. Burger Service Nummer / Identificatienummer",
+        "Q. Raciale of etnische gegevens",
+        "R. Gegevens over sexuele voorkeur",
+        "S. Politieke opvattingen",
+        "T. Lidmaatschap van een vakbond",
+        "U. Filosofische of religieuze overtuigingen",
+        "V. Beeldopnamen",
+        "W. Geluidsopnamen",
+        "X. Genetische gegevens",
+        "Y. Biometrische gegevens",
+        "Z. Locatiegegevens"
+    ];
+
+global.legalJustification = [
+    "Toestemming",
+    "Contractuele overeenkomst",
+    "Wettelijke verplichting",
+    "Vitaal belang",
+    "Taak van algemeen belang",
+    "Gerechtvaardigd belang"
+];
+
+global.securityMeasures = [
+    "Encryptie",
+    "Pseudonimisering",
+    "Verwerkersovereenkomst",
+    "Fysieke toegangscontrole",
+    "Incident- en datalekmanagement",
+    "Anders"
+]
 
 module.exports = global;

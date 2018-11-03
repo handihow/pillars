@@ -1,0 +1,71 @@
+<% include ../partials/school/header %>
+<%if(schoolLevel){%>
+  <% include ../partials/school/side-header %>
+<%} else { %>
+ <div class="ui container">
+<%}%>
+
+<h2 class="ui header"><i class="id card outline icon"></i><%=processingActivity.processingActivityName%></h2>
+<div class="ui top attached tabular menu">
+    <a class="item active" data-tab="first">1. VVW.</a>
+    <a class="item" data-tab="second">2. G.VVW.</a>
+    <a class="item" data-tab="third">3. F.G.</a>
+    <a class="item" data-tab="fourth">4. V.A.</a>
+    <a class="item" data-tab="fifth">5. C.B.</a>
+    <a class="item" data-tab="sixth">6. T.O.M.</a>
+    <a class="item" data-tab="seventh">7. R.v.B.</a>
+    <a class="item" data-tab="eighth">8. B.T.</a>
+    <a class="item" data-tab="nineth">9. G.B.</a>
+  </div>
+  <div class="ui bottom attached tab segment active" data-tab="first">
+      <% include show/part1 %>
+  </div>
+  <div class="ui bottom attached tab segment" data-tab="second">
+      <% include show/part2 %>
+  </div>
+  <div class="ui bottom attached tab segment" data-tab="third">
+      <% include show/part3 %>
+  </div>
+  <div class="ui bottom attached tab segment" data-tab="fourth">
+       <% include show/part4 %>
+  </div>
+  <div class="ui bottom attached tab segment" data-tab="fifth">
+       <% include show/part5 %>
+  </div>
+  <div class="ui bottom attached tab segment" data-tab="sixth">
+       <% include show/part6 %>
+  </div>
+  <div class="ui bottom attached tab segment" data-tab="seventh">
+       <% include show/part7 %>
+  </div>
+  <div class="ui bottom attached tab segment" data-tab="eighth">
+       <% include show/part8 %>
+  </div>
+  <div class="ui bottom attached tab segment" data-tab="nineth">
+       <% include show/part9 %>
+  </div>
+
+<%if(schoolLevel && !processingActivity.isValidForAllOrganisation){%>
+    <a id="edit" 
+    class="ui primary basic button" 
+    href="/scholen/<%=school._id%>/processingActivity/<%=processingActivity._id%>/edit">
+    Bewerken
+    </a>
+    <form id="delete" 
+    action="/scholen/<%= school._id %>/processingActivity/<%=processingActivity._id%>?_method=DELETE" 
+    method="POST">
+    <button class="ui red basic button">Verwijderen</button>
+  <% include ../partials/school/side-footer %>
+<%} else if(!schoolLevel) {%>
+    <a id="edit" 
+    class="ui primary basic button" 
+    href="/processingActivity/<%=processingActivity._id%>/edit">
+    Bewerken
+    </a>
+    <form id="delete" 
+    action="/processingActivity/<%=processingActivity._id%>?_method=DELETE" 
+    method="POST">
+    <button class="ui red basic button">Verwijderen</button>
+    </div>
+<% } %>
+<% include ../partials/school/footer %>

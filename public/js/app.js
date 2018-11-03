@@ -1404,6 +1404,31 @@ $("#evaluationForm").validate();
       '</div>').insertAfter('#' + id);
   });
   
-  
-  
+
+  //================================================//
+//FORM VALIDATIONS ON THE ACTIVITY REGISTRY  //
+//================================================//
+
+$("#processingActivityForm").form({
+        fields:{ 
+          "processingActivity[processingActivityName]": {
+            identifier: "processingActivity[processingActivityName]",
+            rules: [
+                {
+                  type: "empty",
+                  prompt: "Naam voor de verwerking is verplicht"
+                }
+              ]
+          },
+          "processingActivity[controllerName]": {
+            identifier: "processingActivity[controllerName]",
+            rules: [
+                {
+                  type: "empty",
+                  prompt: "Naam van de verwerkingsverantwoordelijke is verplicht"
+                }
+              ]
+          }
+        }
+      });
 });

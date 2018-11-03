@@ -1,0 +1,57 @@
+<% include ../partials/school/header %>
+<%if(schoolLevel){%>
+  <% include ../partials/school/side-header %>
+<%}%>
+
+<div class="ui container">
+    <h2 class="ui center aligned header">
+      <div>Register van Verwerkingsactiviteiten</div>
+    </h2>
+    <%if(schoolLevel){%>
+      <a class="positive ui button right" href="/scholen/<%=school._id%>/processingActivity/new/">Verwerkingsactiviteit Toevoegen</a>
+    <%} else {%>
+      <a class="positive ui button right" href="/processingActivity/new/">Verwerkingsactiviteit Toevoegen</a>
+    <% } %>
+    <!--divider and then all cards for processing activities-->
+    <div class="ui divider"></div>
+    <!--kaarten met verwerkingsactiviteiten-->
+    <div class="ui six doubling cards">
+      <% processingActivities.forEach(function(processingActivity){ %>
+      <div class="card">
+        <div class="content">
+          <div class="header"><%if(schoolLevel){%>
+                                <a href="/scholen/<%=school._id%>/processingActivity/<%=processingActivity._id%>">
+                              <%} else {%>
+                                <a href="/processingActivity/<%=processingActivity._id%>">
+                              <% } %>
+                        <%= processingActivity.processingActivityName %></a></div>
+          <div class="description">
+            Geldig voor hele bestuur: <%if(processingActivity.isValidForAllOrganisation) { %><i class="toggle on icon"></i><% } else { %><i class="toggle off icon"></i><% }%>
+          </div>
+          <%if(!schoolLevel && processingActivity.school){%>
+            <div class="description">
+              Geldig voor school: <%=processingActivity.school.instellingsnaam%>
+            </div>
+          <%}%> 
+          <div class="description">
+            Datum: <%= processingActivity.created.toDateString() %>
+          </div>
+        </div>
+        <a class="ui bottom attached button" 
+            <%if(schoolLevel){%>
+              href="/scholen/<%=school._id%>/processingActivity/<%=processingActivity._id%>">
+            <%} else {%>
+              href="/processingActivity/<%=processingActivity._id%>">
+            <% } %>
+          <i class="show icon"></i>
+          Bekijk 
+        </a>
+      </div>
+      <% }); %>
+    </div>
+</div>
+
+<%if(schoolLevel){%>
+  <% include ../partials/school/side-footer %>
+<%}%>
+<% include ../partials/school/footer %>

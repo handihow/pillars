@@ -1,0 +1,14 @@
+<h4 class="ui dividing header">6. Technische en organisatorische maatregelen</h4>
+<div class="field">
+	<label>Technische en organisatorische maatregelen ter beveiliging van de gegevens</label>
+	  <select multiple="" name="processingActivity[securityMeasures]" class="ui dropdown">
+	    <option value="">Selecteer maatregelen</option>
+	    <% securityMeasures.forEach(function(measure) { %>
+	    <option value="<%=measure%>"><%=measure%></option>
+	    <% }) %>
+	</select>
+</div>
+<div class="field">
+  <label>Indien anders, commentaar</label>
+  <input type="text" name="processingActivity[otherMeasuresExplanation]" placeholder="Commentaar indien anders">
+</div>

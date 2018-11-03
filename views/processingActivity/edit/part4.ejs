@@ -1,0 +1,63 @@
+ <!-- PART 4 OF THE FORM -->
+  <h4 class="ui dividing header">4. Verwerkingsactiviteit</h4>
+  <div class="two fields">
+    <div class="six wide required field">
+      <label>Naam verwerkingsactiviteit</label>
+      <input type="text" name="processingActivity[processingActivityName]" 
+            value="<%=processingActivity.processingActivityName%>" id="processingActivity[processingActivityName]">
+    </div>
+    <div class="ten wide field">
+      <label>Doeleinde van de verwerking</label>
+      <input type="text" name="processingActivity[processingActivityGoal]" 
+            value="<%=processingActivity.processingActivityGoal%>">
+    </div>
+  </div>
+  <div class="field">
+    <label>Categorien van persoonsgegevens</label>
+      <select multiple="" name="processingActivity[personalDataCategories]" class="ui dropdown">
+        <option value="">Selecteer categorieen</option>
+        <% categoriesOfData.forEach(function(category) { %>
+        <option value="<%=category%>" <%if(processingActivity.personalDataCategories.includes(category)) { %> selected="" <% } %>>
+          <%=category%></option>
+        <% }) %>
+    </select>
+  </div>
+  <div class="field">
+    <label>Wettelijke basis voor verwerking</label>
+      <select multiple="" name="processingActivity[legalJustificationForProcessing]" class="ui dropdown">
+        <option value="">Selecteer wettelijke basis</option>
+        <% legalJustification.forEach(function(justification) { %>
+        <option value="<%=justification%>" 
+          <%if(processingActivity.legalJustificationForProcessing.includes(justification)) { %> selected="" <% } %>>
+            <%=justification%></option>
+        <% }) %>
+    </select>
+  </div>
+  <div class="two fields">
+    <div class="field">
+        <input type="hidden" value="0" name="processingActivity[involvesProfiling]">
+        <div class="ui toggle checkbox">
+            <input 
+                type="checkbox" 
+                name="processingActivity[involvesProfiling]"
+                <% if(processingActivity.involvesProfiling) { %>
+                        checked="checked"
+                        <% } %>
+            >
+            <label>Gegevensverzameling d.m.v. profiling?</label>
+         </div>
+    </div>
+    <div class="field">
+        <div class="ui toggle checkbox">
+            <input type="hidden" value="0" name="processingActivity[involvesSensitiveData]">
+            <input 
+                type="checkbox" 
+                name="processingActivity[involvesSensitiveData]"
+                <% if(processingActivity.involvesSensitiveData) { %>
+                        checked="checked"
+                        <% } %>
+            >
+            <label>Betreft gevoelige gegevens? (art 9 en 10)</label>
+         </div>
+    </div>
+  </div>

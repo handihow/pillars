@@ -1,0 +1,15 @@
+<h4 class="ui dividing header">9. Gegevensbronnen</h4>
+<div class="ui stackable grid">
+  <div class="sixteen wide column">
+    <h4 class="content">Gegevensbronnen</h4> 
+    <div class="content">
+    	<%if(processingActivity.attachment && processingActivity.hasMultipleAttachments){%>
+            <a href="<%=processingActivity.attachment + '/archive/zip/' + processingActivity.processingActivityName + '.zip'%>">Download Bijlagen</a>
+        <%} else if(processingActivity.attachment) {%>
+            <a href="<%=processingActivity.attachment%>">Download Bijlage</a>
+        <% } else { %>
+        	Geen bestanden
+        <% } %>
+    </div>
+  </div>
+</div>

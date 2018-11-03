@@ -1,0 +1,27 @@
+<h4 class="ui dividing header">4. Verwerkingsactiviteit</h4>
+<div class="ui stackable grid">
+  <div class="sixteen wide column">
+    <h4 class="content">Naam Verwerkingsactiviteit</h4> 
+    <div class="content"><%= processingActivity.processingActivityName %></div>
+  </div>
+  <div class="sixteen wide column">
+    <h4 class="content">Doeleinde van de verwerking</h4>
+    <div class="content"><%= processingActivity.processingActivityGoal %></div>
+  </div>
+  <div class="eight wide column">
+    <h4 class="content">Categorien van persoonsgegevens</h4>
+    <div class="content"><%= processingActivity.personalDataCategories %></div>
+  </div>
+  <div class="eight wide column">
+    <h4 class="content">Wettelijke basis voor verwerking (grondslag)</h4>
+    <div class="content"><%= processingActivity.legalJustificationForProcessing %></div>
+  </div>
+  <div class="eight wide column">
+    <h4 class="content">Gegevensverzameling d.m.v. profiling?</h4>
+    <div class="content"><%if(processingActivity.involvesProfiling){ %>Ja<%} else {%>Nee<%}%></div>
+  </div>
+  <div class="eight wide column">
+    <h4 class="content">Betreft gevoelige gegevens? (art 9 en 10)</h4>
+    <div class="content"><%if(processingActivity.involvesSensitiveData){ %>Ja<%} else {%>Nee<%}%></div>
+  </div>
+</div>
