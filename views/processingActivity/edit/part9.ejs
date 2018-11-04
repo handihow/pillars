@@ -1,4 +1,15 @@
 <h4 class="ui dividing header">9. Gegevensbronnen</h4>
+<div class="ui info message">
+    De bron of bronnen waar de gegevens zich bevinden, bijv. het salarissysteem of het leerlingvolgsysteem (vul de naam in), maar ook bijv. Office 365 en dergelijke zijn mogelijke bronnen. Je kunt hier ook bestanden uploaden (bijvoorbeeld het contract of verwerkingsovereenkomst), of de link plaatsen naar een bestand of map op de gedeelde omgeving binnen het bestuur.
+</div>
+<div class="field">
+  <label>Gegevensbron</label>
+  <input type="text" name="processingActivity[dataSource]" value="<%=processingActivity.datasource%>">
+</div>
+<div class="field">
+  <label>Link naar bestand of map op gedeelde omgeving</label>
+  <input type="text" name="processingActivity[internalLink]" value="<%=processingActivity.internalLink%>">
+</div>
 <input 	type="hidden" 
 		role="uploadcare-uploader" 
 		name="processingActivity[attachment]"

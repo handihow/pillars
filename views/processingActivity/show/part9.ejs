@@ -1,7 +1,19 @@
 <h4 class="ui dividing header">9. Gegevensbronnen</h4>
 <div class="ui stackable grid">
   <div class="sixteen wide column">
-    <h4 class="content">Gegevensbronnen</h4> 
+    <h4 class="content">Gegevensbron(nen)</h4> 
+    <div class="content"><%= processingActivity.dataSource %></div>
+  </div>
+  <div class="sixteen wide column">
+    <h4 class="content">Link naar intern bestand of map</h4>
+    <%if(processingActivity.internalLink){%>
+        <a href="<%=processingActivity.internalLink%>" target="_blank">Link naar bestand of map</a>
+    <%} else { %>
+        Geen link
+    <% } %>
+  </div>
+  <div class="sixteen wide column">
+    <h4 class="content">Toegevoegde bestanden</h4> 
     <div class="content">
     	<%if(processingActivity.attachment && processingActivity.hasMultipleAttachments){%>
             <a href="<%=processingActivity.attachment + '/archive/zip/' + processingActivity.processingActivityName + '.zip'%>">Download Bijlagen</a>

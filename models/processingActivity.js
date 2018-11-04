@@ -45,6 +45,8 @@ var ProcessingActivitySchema = new mongoose.Schema({
    dataRetention: String,
    dataRetentionComments: String,
    //part 9 of form:
+   dataSource: String,
+   internalLink: String,
    attachment: String,
    hasMultipleAttachments: Boolean,
    //other

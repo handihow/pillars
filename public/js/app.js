@@ -1428,6 +1428,16 @@ $("#processingActivityForm").form({
                   prompt: "Naam van de verwerkingsverantwoordelijke is verplicht"
                 }
               ]
+          },
+          "processingActivity[internalLink]" : {
+            identifier: "processingActivity[internalLink]",
+            optional: true,
+            rules: [
+              {
+                type: "url",
+                prompt: "Geef een geldige url in"
+              }
+            ]
           }
         }
       });

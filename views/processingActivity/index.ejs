@@ -9,8 +9,14 @@
     </h2>
     <%if(schoolLevel){%>
       <a class="positive ui button right" href="/scholen/<%=school._id%>/processingActivity/new/">Verwerkingsactiviteit Toevoegen</a>
+      <div class="ui left pointing label">
+        Deze verwerkingsactiviteit wordt zichtbaar voor (alleen) uw school en het bestuur
+      </div>
     <%} else {%>
       <a class="positive ui button right" href="/processingActivity/new/">Verwerkingsactiviteit Toevoegen</a>
+      <div class="ui left pointing label">
+        Deze verwerkingsactiviteit wordt zichtbaar voor alle scholen binnen het bestuur
+      </div>
     <% } %>
     <!--divider and then all cards for processing activities-->
     <div class="ui divider"></div>

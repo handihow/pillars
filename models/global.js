@@ -405,7 +405,7 @@ global.profiel =
 														"Ik maak zelf wel eens filmpjes om mijn boodschap goed over te brengen"
 													]
 									,
-									"b - Informievaardigheden":
+									"b - Informatievaardigheden":
 													[
 														"Informatie die ik vind op internet kan ik makkelijk integreren in presentaties of opdrachten, zonder dat ik daar veel werk aan heb (bijvoorbeeld knippen en plakken, of integreren van filmpjes in een presentatie)",
 														"Als mijn zoekopdrachten onvoldoende resultaat opleveren, probeer ik mijn zoektermen aan te passen om toch de informatie te vinden die ik zoek",

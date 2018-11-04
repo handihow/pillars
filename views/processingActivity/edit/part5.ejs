@@ -3,13 +3,22 @@
 <div class="field">
   <label>Categorien van betrokkenen</label>
   <input type="text" name="processingActivity[concernedPersonCategories]" value="<%=processingActivity.concernedPersonCategories%>">
+  <div class="ui small pointing label">
+  	Bijvoorbeeld werknemers, leden, leerlingen, ouders, toeleveranciers
+  </div>
 </div>
 <div class="field">
   <label>Verwerkers</label>
   <input type="text" name="processingActivity[processors]" value="<%=processingActivity.processors%>">
+  <div class="ui small pointing label">
+  	Een verwerker is een persoon of organisatie aan wie de verantwoordelijke de verwerking van persoonsgegevens heeft uitbesteed. Dit kan intern zijn, bijv. de administratie, maar ook extern. Ook als er alleen sprake is van opslag van persoonsgegevens in de cloud is er al sprake van een verwerker (denk bijv.aan de hosting provider).
+  </div>
 </div>
 <div class="field">
   <label>Ontvangers andere dan de verwerker</label>
   <input type="text" name="processingActivity[recipientsOtherThanProcessors]" 
   			value="<%=processingActivity.recipientsOtherThanProcessors%>">
+  <div class="ui small pointing label">
+  	Degene aan wie de persoonsgegevens worden verstrekt (of toegang hebben tot die gegevens). Bijvoorbeeld een leidinggevende, of een extern orgaan als de belastingdienst.
+  </div>
 </div>

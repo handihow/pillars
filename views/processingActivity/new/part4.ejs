@@ -1,5 +1,8 @@
  <!-- PART 4 OF THE FORM -->
   <h4 class="ui dividing header">4. Verwerkingsactiviteit</h4>
+  <div class="ui info message">
+   Hier dient de verwerking van persoonsgegevens omschreven te worden. Dat kan door de naam van de verwerking te vermelden zoals deze binnen de organisatie(s) van de verantwoordelijke(n) bekend is, bijvoorbeeld ‘personeelsadministratie’ of ‘klachtenregistratie’.
+  </div>
   <div class="two fields">
     <div class="six wide required field">
       <label>Naam verwerkingsactiviteit</label>
@@ -8,6 +11,9 @@
     <div class="ten wide field">
       <label>Doeleinde van de verwerking</label>
       <input type="text" name="processingActivity[processingActivityGoal]" placeholder="Doeleinde van de verwerking is...">
+      <div class="ui small pointing label">
+        Een precieze en duidelijke omschrijving van het doel (of de samenhangende doeleinden) van de verwerking is van belang, omdat aan de hand van het doel van de verwerking de hoeveelheid, de soort, de kwaliteit en de bewaartermijn van de gegevens worden getoetst.
+      </div>
     </div>
   </div>
   <div class="field">
@@ -17,7 +23,7 @@
         <% categoriesOfData.forEach(function(category) { %>
         <option value="<%=category%>"><%=category%></option>
         <% }) %>
-    </select>
+      </select>
   </div>
   <div class="field">
     <label>Wettelijke basis voor verwerking</label>
@@ -38,6 +44,9 @@
             >
             <label>Gegevensverzameling d.m.v. profiling?</label>
          </div>
+         <div class="ui small pointing label">
+            Elke vorm van geautomatiseerde verwerking van persoonsgegevens waarbij aan de hand van persoonsgegevens bepaalde persoonlijke aspecten van een natuurlijke persoon worden geëvalueerd, met name met de bedoeling zijn beroepsprestaties, economische situatie, gezondheid, persoonlijke voorkeuren, interesses, betrouwbaarheid, gedrag, locatie of verplaatsingen te analyseren of te voorspellen.
+         </div>
     </div>
     <div class="field">
         <div class="ui toggle checkbox">
@@ -47,6 +56,9 @@
                 name="processingActivity[involvesSensitiveData]"
             >
             <label>Betreft gevoelige gegevens? (art 9 en 10)</label>
+            <div class="ui small pointing label">
+              Gevoelige persoonsgegevens, die door de wetgever extra zijn beschermd, te weten Ras, godsdienst, gezondheid, politieke overtuiging, seksuele geaardheid, lidmaatschap vakbond, strafrechtelijk verleden.
+            </div>
          </div>
     </div>
   </div>
