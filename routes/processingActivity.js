@@ -81,8 +81,9 @@ router.post("/", middleware.isSchoolOwner, function(req, res){
   School.findById(req.params.id, function(err, school){
       if(err || !school){
         req.flash("error", "Probleem bij vinden van schoolgegevens.")
-        res.redirect("back");
+        return res.redirect("back");
       }
+      req.body.processingActivity.body = req.sanitize(req.body.processingActivity.body);
       ProcessingActivity.create(req.body.processingActivity, function(err, processingActivity){
             if(err || !processingActivity){
                 req.flash("error", err.message);
@@ -133,15 +134,16 @@ router.get("/:pid/edit", middleware.isSchoolOwner, function(req, res){
 
 // //UPDATE ROUTE
 router.put("/:pid", middleware.isSchoolOwner, function(req, res){
-    ProcessingActivity.findByIdAndUpdate(req.params.pid, req.body.processingActivity, function(err, processingActivity){
-      if(err || !processingActivity){
-          req.flash("error", "Verwerkingsactiviteit niet gevonden.");
-          res.redirect("/scholen/"+req.params.id+"/processingActivity");
-      } else {
-          req.flash("success", "Verwerkingsactiviteit updated");
-          res.redirect("/scholen/"+req.params.id+"/processingActivity/" + req.params.pid);
-      }
-    });
+  req.body.processingActivity.body = req.sanitize(req.body.processingActivity.body);
+  ProcessingActivity.findByIdAndUpdate(req.params.pid, req.body.processingActivity, function(err, processingActivity){
+    if(err || !processingActivity){
+        req.flash("error", "Verwerkingsactiviteit niet gevonden.");
+        res.redirect("/scholen/"+req.params.id+"/processingActivity");
+    } else {
+        req.flash("success", "Verwerkingsactiviteit updated");
+        res.redirect("/scholen/"+req.params.id+"/processingActivity/" + req.params.pid);
+    }
+  });
 });
 
 //DELETE ROUTE

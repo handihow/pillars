@@ -50,6 +50,7 @@ router.use(function(req, res, next){
 
 //CREATE ROUTE
 router.post("/", middleware.isAuthenticatedBadmin, function(req, res){
+  req.body.processingActivity.body = req.sanitize(req.body.processingActivity.body);
   ProcessingActivity.create(req.body.processingActivity, function(err, processingActivity){
             if(err || !processingActivity){
                 req.flash("error", err.message);
@@ -89,15 +90,16 @@ router.get("/:pid/edit", middleware.isAuthenticatedBadmin, function(req, res){
 
 // //UPDATE ROUTE
 router.put("/:pid", middleware.isAuthenticatedBadmin, function(req, res){
-    ProcessingActivity.findByIdAndUpdate(req.params.pid, req.body.processingActivity, function(err, processingActivity){
-      if(err || !processingActivity){
-          req.flash("error", "Verwerkingsactiviteit niet gevonden.");
-          res.redirect("/processingActivity");
-      } else {
-          req.flash("success", "Verwerkingsactiviteit updated");
-          res.redirect("/processingActivity/" + req.params.pid);
-      }
-    });
+  req.body.processingActivity.body = req.sanitize(req.body.processingActivity.body);
+  ProcessingActivity.findByIdAndUpdate(req.params.pid, req.body.processingActivity, function(err, processingActivity){
+    if(err || !processingActivity){
+        req.flash("error", "Verwerkingsactiviteit niet gevonden.");
+        res.redirect("/processingActivity");
+    } else {
+        req.flash("success", "Verwerkingsactiviteit updated");
+        res.redirect("/processingActivity/" + req.params.pid);
+    }
+  });
 });
 
 //DELETE ROUTE
