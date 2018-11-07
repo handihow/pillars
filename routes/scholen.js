@@ -91,29 +91,30 @@ router.use(function(req, res, next){
 });
 
 router.post("/new", middleware.isAuthenticatedBadmin, function(req, res){
-    let zoekcriterium = req.body.zoekcriterium; 
+    let zoekcriterium = parseInt(req.body.zoekcriterium); 
     let zoekveld = req.body.zoekveld; 
     var url;
-    var secondarySchool = false;
+    var secondarySchool = Boolean(zoekcriterium);
     if(zoekcriterium==0){
+      console.log("PO schools");
       url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=584b8e26-4130-418b-bf2d-f8475f488a82&q=" +
                 zoekveld;
     } else {
+      console.log("VO schools");
       url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=747f18de-4f46-4689-a1bd-d4292ecbf418&q=" +
                 zoekveld;
-      secondarySchool = true;
     }
     request(url, function (error, response, body) {
       if(!error && response.statusCode == 200){
         var scholen = JSON.parse(body).result.records;
-        if(scholen[0]){
+        if(scholen.length>0){
             req.flash("success", "Gegevens gevonden in de DUO database. Controleer de gegevens en bewaar.");
             res.locals.success = req.flash("success");
             res.render("scholen/new", {scholen: scholen, secondarySchool: secondarySchool});
         } else {
-            req.flash("error", "Geen school gevonden in DUO database. Voer de school handmatig in of controleer gegevens en probeer opnieuw");
+            req.flash("error", "Geen school gevonden in DUO database.");
             res.locals.error = req.flash("error");
-            res.render("scholen/new", {scholen: [{}]});
+            res.render("scholen/handmatig"); 
         }
       } else {
           req.flash("error", "Er is iets misgegaan met het verzoek om gegevens van DUO. Probeer opnieuw.");
