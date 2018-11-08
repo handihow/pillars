@@ -1,4 +1,4 @@
-<h4 class="ui dividing header">9. Gegevensbronnen</h4>
+<h4 class="ui dividing header">9. Gegevensbronnen en brondocumenten</h4>
 <div class="ui info message">
     De bron of bronnen waar de gegevens zich bevinden, bijv. het salarissysteem of het leerlingvolgsysteem (vul de naam in), maar ook bijv. Office 365 en dergelijke zijn mogelijke bronnen. Je kunt hier ook bestanden uploaden (bijvoorbeeld het contract of verwerkingsovereenkomst), of de link plaatsen naar een bestand of map op de gedeelde omgeving binnen het bestuur.
 </div>
@@ -9,6 +9,13 @@
 <div class="field">
   <label>Link naar bestand of map op gedeelde omgeving</label>
   <input type="text" name="processingActivity[internalLink]" value="<%=processingActivity.internalLink%>">
+</div>
+<div class="field">
+  <label>Brondocumenten</label>
+  <textarea type="text" name="processingActivity[sourceDocument]" placeholder="Brondocumenten"><%=processingActivity.sourceDocument%></textarea>
+  <div class="ui small pointing label">
+    De brondocumenten zijn die documenten, die als basis gebruikt worden voor het vastleggen van persoonsgegevens van leerlingen. Voorbeelden zijn een (digitaal) aanmeldingsformulier, kopie of inzage id/paspoort of DigID, overdrachtsformulier. Voeg eventueel links naar bestanden toe.
+  </div>
 </div>
 <h4 class="ui dividing header">Hier kunt u bestanden uploaden</h4>
 <input 	type="hidden" 

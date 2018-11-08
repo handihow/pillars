@@ -38,9 +38,7 @@ router.get("/new", middleware.isSchoolOwner, function(req, res){
           res.redirect("back");
       } else {
         res.render("processingActivity/new", {  school: school, 
-                                                categoriesOfData: global.categoriesOfData, 
-                                                legalJustification: global.legalJustification,
-                                                securityMeasures: global.securityMeasures, 
+                                                data: global,
                                                 schoolLevel: true}); 
       }
   });
@@ -89,9 +87,7 @@ router.post("/", middleware.isSchoolOwner, function(req, res){
                 req.flash("error", err.message);
                 res.locals.error = req.flash("error");
                 res.render("processingActivity/new", {  school: school, 
-                                                        categoriesOfData: global.categoriesOfData, 
-                                                        legalJustification: global.legalJustification,
-                                                        securityMeasures: global.securityMeasures, 
+                                                        data: global,
                                                         schoolLevel: true});
             }  else {
                 if(processingActivity.attachment.includes('~')){
@@ -122,9 +118,7 @@ router.get("/:pid/edit", middleware.isSchoolOwner, function(req, res){
               console.log(processingActivity.attachment);
               res.render("processingActivity/edit", {   processingActivity: processingActivity, 
                                                         school: school, 
-                                                        categoriesOfData: global.categoriesOfData, 
-                                                        legalJustification: global.legalJustification,
-                                                        securityMeasures: global.securityMeasures, 
+                                                        data: global,
                                                         schoolLevel: true});
           }
       });

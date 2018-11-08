@@ -19,9 +19,7 @@ router.get("/", middleware.isLoggedIn, function(req, res){
 
 //NEW ROUTE
 router.get("/new", middleware.isAuthenticatedBadmin, function(req, res){
-  res.render("processingActivity/new", {  categoriesOfData: global.categoriesOfData, 
-                                          legalJustification: global.legalJustification,
-                                          securityMeasures: global.securityMeasures, 
+  res.render("processingActivity/new", {  data: global,
                                           schoolLevel: false});
 });
 
@@ -55,9 +53,7 @@ router.post("/", middleware.isAuthenticatedBadmin, function(req, res){
             if(err || !processingActivity){
                 req.flash("error", err.message);
                 res.locals.error = req.flash("error");
-                res.render("processingActivity/new", {  categoriesOfData: global.categoriesOfData, 
-                                                        legalJustification: global.legalJustification,
-                                                        securityMeasures: global.securityMeasures, 
+                res.render("processingActivity/new", {  data: global,
                                                         schoolLevel: false});
             }  else {
                 if(processingActivity.attachment.includes('~')){
@@ -80,9 +76,7 @@ router.get("/:pid/edit", middleware.isAuthenticatedBadmin, function(req, res){
               res.redirect("/scholen/"+req.params.id+"/processingActivity");
           } else {
               res.render("processingActivity/edit", {   processingActivity: processingActivity, 
-                                                        categoriesOfData: global.categoriesOfData, 
-                                                        legalJustification: global.legalJustification,
-                                                        securityMeasures: global.securityMeasures, 
+                                                        data: global,
                                                         schoolLevel: false});
           }
       });

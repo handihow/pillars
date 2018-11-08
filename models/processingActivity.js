@@ -26,11 +26,13 @@ var ProcessingActivitySchema = new mongoose.Schema({
    //part 4 of form
    processingActivityName: String,
    processingActivityGoal: String,
+   processingActivityGoalCategories: [String],              
    personalDataCategories: [String],
    legalJustificationForProcessing: [String],
    involvesProfiling: Boolean,
    involvesSensitiveData: Boolean,
    //part 5 of form
+   concernedPersonCategoryList: [String],
    concernedPersonCategories: String,
    processors: String,
    recipientsOtherThanProcessors: String,
@@ -42,13 +44,19 @@ var ProcessingActivitySchema = new mongoose.Schema({
    methodOfInformingConcernedIndirectInformation: String,
    methodOfExercisingRightsOfConcerned: String,
    //part 8 of form
+   dataRetentionCategories: [String],                         
    dataRetention: String,
    dataRetentionComments: String,
    //part 9 of form:
    dataSource: String,
+   sourceDocument: String,                                     
    internalLink: String,
    attachment: String,
    hasMultipleAttachments: Boolean,
+   //part 10 of form:
+   riskClassificationAvailability: String,
+   riskClassificationIntegrity: String,
+   riskClassificationConfidentiality: String,
    //other
    created: {type: Date, default: Date.now},
    school: {                                 

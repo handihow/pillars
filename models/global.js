@@ -649,4 +649,53 @@ global.securityMeasures = [
     "Anders"
 ]
 
+global.categoriesOfGoals = [
+    "Organiseren of het geven van onderwijs (onderwijsovereenkomst) - Wettelijk en overeenkomst",
+    "Berekenen, vastleggen en innen van ‘gelden’ - Overeenkomst, gerechtvaardigd belang",
+    "Verantwoorden aan DUO, onderwijsinspectie en accountant - Wettelijke verplichting en overeenkomst",
+    "Verstrekken van (digitale) leermiddelen - Overeenkomst, gerechtvaardigd belang", 
+    "Begeleiding leerlingen (pedagogisch dossier) en studieadvies - Wettelijk en overeenkomst",
+    "Onderzoek - Overeenkomst, gerechtvaardigd belang",
+    "Uitvoering of toepassing van een andere wet of taak van algemeen belang - Wettelijk, overeenkomst, publieke taak"
+];
+
+global.dataRetentionCategories = [
+    "Gegevens over in- en uitschrijving - 5 jaar",
+    "Gegevens over verzuim en afwezigheid - minimaal 5 jaar",
+    "Gegevens die nodig zijn om de bekostiging te berekenen - minimaal 7 jaar",
+    "Gegevens leerling na overstap naar speciaal onderwijs - 3 jaar",
+    "Camera en videobeelden - maximaal 4 weken, dan wel na afhandeling van geconstateerde incidenten",
+    "Het onderwijskundig dossier - maximaal 2 jaar",
+    "Gezondheidsgegevens die nodig zijn voor speciale begeleiding of voorzieningen - maximaal 2 jaar",
+    "Adresgegevens - maximaal 2 jaar",
+    "Werk centraal examen + cijferlijst - minimaal 6 maanden",
+    "Schoolexamens - maximaal 2 jaar"
+];
+
+global.categoriesOfConcerned = [
+    "Leerlingen po of vo (waaronder ook gegevens van ouders en voogd vallen)",
+    "Medewerkers in loondienst",
+    "Medewerkers niet in loondienst (ook externe begeleiders)",
+    "Relaties (alumni, belangstellenden, sollicitanten)",
+    "Anders nl."
+];
+
+global.riskClassificationsAvailability = [
+    "Niveau 1: Laag (Beschikbaarheid is onbelangrijk)",
+    "Niveau 2: Midden (Beschikbaarheid is belangrijk)",
+    "Niveau 3: Hoog (Beschikbaarheid is noodzakelijk)"
+];
+
+global.riskClassificationsIntegrity = [
+    "Niveau 1: Laag (Integriteit is onbelangrijk)",
+    "Niveau 2: Midden (Integriteit is beschermd)",
+    "Niveau 3: Hoog (Integriteit is noodzakelijk)"
+];
+
+global.riskClassificationsConfidentiality = [
+    "Niveau 1: Laag (Informatie is voor intern gebruik)",
+    "Niveau 2: Midden (Informatie is vertrouwelijk)",
+    "Niveau 3: Hoog (Informatie is geheim)"
+];
+
 module.exports = global;

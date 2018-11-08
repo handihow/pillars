@@ -1,11 +1,17 @@
 <!-- PART 5 OF THE FORM -->
 <h4 class="ui dividing header">5. Categoriën van betrokkenen, verwerkers en andere ontvangers</h4>
 <div class="field">
-  <label>Categorien van betrokkenen</label>
+  <label>Categorien betrokkenen</label>
+    <select multiple="" name="processingActivity[concernedPersonCategoryList]" class="ui dropdown">
+      <option value="">Selecteer categorieen</option>
+      <% data.categoriesOfConcerned.forEach(function(category) { %>
+      <option value="<%=category%>" <%if(processingActivity.concernedPersonCategoryList.includes(category)) { %> selected="" <% } %>><%=category%></option>
+      <% }) %>
+    </select>
+</div>
+<div class="field">
+  <label>Categorien van betrokkenen, indien anders</label>
   <input type="text" name="processingActivity[concernedPersonCategories]" value="<%=processingActivity.concernedPersonCategories%>">
-  <div class="ui small pointing label">
-  	Bijvoorbeeld werknemers, leden, leerlingen, ouders, toeleveranciers
-  </div>
 </div>
 <div class="field">
   <label>Verwerkers</label>

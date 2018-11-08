@@ -7,6 +7,15 @@
   <textarea type="text" name="processingActivity[dataRetention]"><%=processingActivity.dataRetention%></textarea>
 </div>
 <div class="field">
+	<label>Keuzelijst bewaartermijnen</label>
+  <select multiple="" name="processingActivity[dataRetentionCategories]" class="ui dropdown">
+    <option value="">Selecteer categorieen</option>
+    <% data.dataRetentionCategories.forEach(function(category) { %>
+    <option value="<%=category%>" <%if(processingActivity.dataRetentionCategories.includes(category)) { %> selected="" <% } %>><%=category%></option>
+    <% }) %>
+  </select>
+</div>
+<div class="field">
   <label>Commentaar bewaartermijnen</label>
   <input type="text" name="processingActivity[dataRetentionComments]" value="<%=processingActivity.dataRetentionComments%>">
 </div>

@@ -1,0 +1,72 @@
+<!-- PART 10 OF THE FORM -->
+<h4 class="ui dividing header">10. BIV Classificatie</h4>
+<div class="ui info message">
+ De kwaliteitsaspecten die worden toegepast op informatiebeveiliging zijn Beschikbaarheid, Integriteit, en Vertrouwelijkheid. Alle aspecten kunnen worden geclassificeerd in laag, midden en hoog.
+</div>
+<!-- modals with more information -->
+<div class="ui modal availability">
+  <div class="header">Beschikbaarheid</div>
+  <div class="image content">
+    <img class="image" src="/images/classificatie_beschikbaarheid.png">
+  </div>
+</div>
+<div class="ui modal integrity">
+  <div class="header">Integriteit</div>
+  <div class="image content">
+    <img class="image" src="/images/classificatie_integriteit.png">
+  </div>
+</div>
+<div class="ui modal confidentiality">
+  <div class="header">Vertrouwelijkheid</div>
+  <div class="image content">
+    <img class="image" src="/images/classificatie_vertrouwelijkheid.png">
+  </div>
+</div>
+<div class="two fields">
+  <div class="field">
+      <label>Classificatie Beschikbaarheid</label>
+      <select name="processingActivity[riskClassificationAvailability]" class="ui dropdown">
+        <option value="">Selecteer niveau</option>
+        <% data.riskClassificationsAvailability.forEach(function(level) { %>
+        <option value="<%=level%>"><%=level%></option>
+        <% }) %>
+      </select>
+  </div>
+  <div class="field">
+    <button type="button" class="ui icon button" id="availability">
+      <i class="info icon"></i>
+    </button>
+  </div>
+</div>
+<div class="two fields">
+  <div class="field">
+      <label>Classificatie Integriteit</label>
+      <select name="processingActivity[riskClassificationIntegrity]" class="ui dropdown">
+        <option value="">Selecteer niveau</option>
+        <% data.riskClassificationsIntegrity.forEach(function(level) { %>
+        <option value="<%=level%>"><%=level%></option>
+        <% }) %>
+      </select>
+  </div>
+  <div class="field">
+    <button type="button" class="ui icon button" id="integrity">
+      <i class="info icon"></i>
+    </button>
+  </div>
+</div>
+<div class="two fields">
+  <div class="field">
+      <label>Classificatie Vertrouwelijkheid</label>
+      <select name="processingActivity[riskClassificationConfidentiality]" class="ui dropdown">
+        <option value="">Selecteer niveau</option>
+        <% data.riskClassificationsConfidentiality.forEach(function(level) { %>
+        <option value="<%=level%>"><%=level%></option>
+        <% }) %>
+      </select>
+  </div>
+  <div class="field">
+    <button type="button" class="ui icon button" id="confidentiality">
+      <i class="info icon"></i>
+    </button>
+  </div>
+</div>

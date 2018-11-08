@@ -15,7 +15,17 @@ $(document).ready(function() {
     $('#delete').removeClass("disabled");
   });
 
-  
+  $("#availability").click(function(){
+    { $('.ui.modal.availability').modal('show');}
+  })
+
+  $("#integrity").click(function(){
+    { $('.ui.modal.integrity').modal('show');}
+  })
+
+  $("#confidentiality").click(function(){
+    { $('.ui.modal.confidentiality').modal('show');}
+  })
 
 //================================================//
 //FORM VALIDATIONS ON THE ORGANISATION ROUTE //

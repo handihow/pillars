@@ -17,10 +17,19 @@
     </div>
   </div>
   <div class="field">
+    <label>Categorien van doeleinden en grondslagen</label>
+      <select multiple="" name="processingActivity[processingActivityGoalCategories]" class="ui dropdown">
+        <option value="">Selecteer categorieen</option>
+        <% data.categoriesOfGoals.forEach(function(category) { %>
+        <option value="<%=category%>"><%=category%></option>
+        <% }) %>
+      </select>
+  </div>
+  <div class="field">
     <label>Categorien van persoonsgegevens</label>
       <select multiple="" name="processingActivity[personalDataCategories]" class="ui dropdown">
         <option value="">Selecteer categorieen</option>
-        <% categoriesOfData.forEach(function(category) { %>
+        <% data.categoriesOfData.forEach(function(category) { %>
         <option value="<%=category%>"><%=category%></option>
         <% }) %>
       </select>
@@ -29,7 +38,7 @@
     <label>Wettelijke basis voor verwerking</label>
       <select multiple="" name="processingActivity[legalJustificationForProcessing]" class="ui dropdown">
         <option value="">Selecteer wettelijke basis</option>
-        <% legalJustification.forEach(function(justification) { %>
+        <% data.legalJustification.forEach(function(justification) { %>
         <option value="<%=justification%>"><%=justification%></option>
         <% }) %>
     </select>
