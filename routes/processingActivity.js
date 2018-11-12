@@ -16,7 +16,7 @@ router.get("/", middleware.isLoggedIn, function(req, res){
         ProcessingActivity.find({$or: 
                                       [
                                         {school: req.params.id}, 
-                                        {$and: [{organisation: req.user.organisation}, {isValidForAllOrganisation: true}]}
+                                        {$and: [{organisation: school.organisation}, {isValidForAllOrganisation: true}]}
                                       ]})
                           .exec(function(err, processingActivities){
             if(err) {
