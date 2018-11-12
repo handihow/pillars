@@ -34,6 +34,17 @@ var UserSchema = new mongoose.Schema({
    bouw: String
 }, { usePushEach: true });
 
+UserSchema.pre('save', function(next) {
+  var username =this.username;
+  if(username.indexOf(' ') == -1){
+    next();  
+  } else {
+    var err = new Error('ERROR: Spatie(s) aanwezig in het email adres.');
+    next(err);
+  }
+  
+});
+
 UserSchema.post('remove', function(user){
    Test.find({"owner": user._id}, function(err, tests){
       tests.forEach(function(test){
