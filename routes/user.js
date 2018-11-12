@@ -286,11 +286,12 @@ router.get("/user/:id/verify", middleware.isLoggedIn, function(req, res){
 
 //DESTROY route to delete user from database
 router.delete("/scholen/:id/user/:user_id", middleware.isSchoolOwner, function(req, res){
-    User.findByIdAndRemove(req.params.user_id, function(err){
+    User.findByIdAndRemove(req.params.user_id, function(err, user){
         if(err) {
             req.flash('error', err.message);
             res.redirect("/scholen");
         }  else {
+            user.remove();
             req.flash("success", "School medewerker verwijderd");
             res.redirect("/scholen/" + req.params.id + "/user");
         }
