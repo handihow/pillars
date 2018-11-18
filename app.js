@@ -75,7 +75,7 @@ passport.use(new GoogleStrategy({
             return done(err, user);
           }
       	} else {
-      		return done('Geen account met dit email adres gevonden op Pillars. Neem contact op met de Pillars admin van jouw organisatie of school.');
+      		return done(null, false, {message: 'Geen account met dit email adres gevonden op Pillars. Neem contact op met de Pillars admin van jouw organisatie of school.'});
       	}
     });
   }
@@ -109,11 +109,11 @@ passport.use(new AzureAdOAuth2Strategy({
               return done(err, user);
             }
 	      	} else {
-	      		return done('Geen account met dit email adres gevonden op Pillars. Neem contact op met de Pillars admin van jouw organisatie of school.');
+	      		return done(null, false, {message: 'Geen account met dit email adres gevonden op Pillars. Neem contact op met de Pillars admin van jouw organisatie of school.'});
 	      	}
 	    });
     } catch (ex) {
-        return done("Unable to parse oauth2 token from WAAD.");
+        return done(null, false, {message: "Unable to parse oauth2 token from WAAD."});
     }
   }
 ));
