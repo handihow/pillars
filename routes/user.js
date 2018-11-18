@@ -117,9 +117,26 @@ router.get("/scholen/:id/user/new", middleware.isSchoolOwner, function(req, res)
     });
 });
 
+//NEW - form to create new social login school user
+router.get("/scholen/:id/user/newSocial", middleware.isSchoolOwner, function(req, res){
+    School.findById(req.params.id, function(err, school){
+        if(err || !school) {
+            req.flash("error", "School niet gevonden");
+            res.redirect("/scholen");
+        } else {
+            res.render("user/newSocial", {school: school});        
+        }
+    });
+});
+
 //NEW - form to create new bestuur user
 router.get("/buser/new", middleware.isAuthenticatedBadmin, function(req, res){
     res.render("buser/new");
+});
+
+//NEW - form to create new social login bestuur user
+router.get("/buser/newSocial", middleware.isAuthenticatedBadmin, function(req, res){
+    res.render("buser/newSocial");
 });
 
 //CREATE - creates new school user in the database and links it to school

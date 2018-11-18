@@ -2,6 +2,9 @@
 
 <div class="container" id="loginForm">
     <h2>Inloggen bij Pillars</h2>
+    <a role="button" class="btn btn-outline-light btn-lg btn-block" href="/auth/azureadoauth2"><i class="fab fa-windows"></i> Login met Office365</a>
+    <a role="button" class="btn btn-outline-light btn-lg btn-block" href="/auth/google"><i class="fab fa-google"></i> Login met Google</a>
+    <br>
     <form action="/login" method="post" id="login" novalidate>
       <div class="form-group">
         <label for="email">Email adres</label>
@@ -13,8 +16,10 @@
         <input type="password" name="password" class="form-control" id="password" placeholder="Wachtwoord" required>
       </div>
       <button type="submit" class="btn btn-primary">Inloggen</button>
+
       <div class="ui error message"></div>
     </form>
+
     <h6 id="vergeten">Wachtwoord vergeten? <a href="/forgot">Vraag hier een nieuw wachtwoord aan!</a></h6>
     <h6>Nog geen account? <a href="https://pillars.school/registratie/" target=_blank>Meld je aan voor Pillars!</a></h6>
     

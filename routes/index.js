@@ -100,6 +100,29 @@ router.post("/login", passport.authenticate("local",
     }), function(req, res){
 });
 
+//auth with google
+router.get("/auth/google", passport.authenticate('google', {
+  scope: ['email']
+}));
+
+//callback route for google to redirect to
+router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }),
+  (req, res) => {
+    // Successful authentication, redirect home
+    res.redirect('/scholen');
+});
+
+//auth with office365
+router.get('/auth/azureadoauth2',
+  passport.authenticate('azure_ad_oauth2'));
+
+//callback route for office365 to redirect to
+router.get('/auth/azureadoauth2/callback', 
+  passport.authenticate('azure_ad_oauth2', { failureRedirect: '/login' }),
+  function (req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/scholen');
+  });
 
 //LOG OUT ROUTE
 router.get("/logout", function(req, res){

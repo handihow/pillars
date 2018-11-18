@@ -20,7 +20,12 @@
                 <p>De directie van jouw school heeft je uitgenodigd om deel te nemen aan Pillars.</p>
                 <p>Je kunt inloggen op de <a href="https://pillars.school">Pillars website</a> met:</p>
                 <p>Gebruikersnaam: <strong><%=username%></strong></p>
-                <p>Wachtwoord: <strong><%=password%></strong></p>
+                <%if(firstName){%>
+                    <p>Wachtwoord: <strong><%=password%></strong></p>
+                <%} else {%>
+                    <p>Jouw admin heeft een account voor je gemaakt met het school account.</p>
+                    <p>Gebruik de knoppen voor Office365 of Google for Education om in te loggen.</p>
+                <% } %>
                 <a class="fluid ui green button" href="https://app.pillars.school/login">Klik Hier Om Nu In Te Loggen!</a>
                 <h3>Wat is Pillars?</h3>
                 <p>Pillars helpt jouw school met het complexe vraagstuk rondom ICT en onderwijs.

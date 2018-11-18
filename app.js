@@ -6,6 +6,8 @@ var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
 var passport = require("passport");
 var LocalStrategy = require("passport-local");
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
+var AzureAdOAuth2Strategy = require('passport-azure-ad-oauth2').Strategy;
 var User = require("./models/user");
 var flash = require("connect-flash");
 var fileUpload = require('express-fileupload');
@@ -54,6 +56,67 @@ app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: "/auth/google/callback"
+  },
+  function(accessToken, refreshToken, profile, done) {
+  	User.findOne({username: { $regex: "^" + profile.emails[0].value + "$", $options: "i"}}, function (err, user) {
+      	if(user){
+          //update the user profile if the profile contains name information
+          if(profile.name && profile.name.givenName && profile.name.familyName){
+            user.firstName = profile.name.givenName;
+            user.lastName = profile.name.familyName;
+            user.save(function(err,user){
+              return done(err, user);
+            });
+          } else {
+            return done(err, user);
+          }
+      	} else {
+      		return done('Geen account met dit email adres gevonden op Pillars. Neem contact op met de Pillars admin van jouw organisatie of school.');
+      	}
+    });
+  }
+));
+passport.use(new AzureAdOAuth2Strategy({
+    clientID: process.env.AZURE_CLIENT_ID,
+    clientSecret: process.env.AZURE_CLIENT_SECRET,
+    callbackURL: "/auth/azureadoauth2/callback"
+  },
+  function(accessToken, refresh_token, params, profile, done) {
+  	var profile = {};
+    try {
+        var tokenBase64 = accessToken.split('.')[1];
+        var tokenBinary = new Buffer(tokenBase64, 'base64');
+        var tokenAscii = tokenBinary.toString('ascii');
+        var tokenObj = JSON.parse(tokenAscii);             
+        profile.id = tokenObj.upn;
+        profile.email = tokenObj.upn; //upn is the email on AD
+        profile.givenName = tokenObj.given_name;
+        profile.familyName = tokenObj.family_name;
+        User.findOne({username: { $regex: "^" + profile.email + "$", $options: "i"}}, function (err, user) {
+	      	if(user){
+            //update the profile if this contains name information
+            if(profile.givenName && profile.familyName){
+              user.firstName = profile.givenName;
+              user.lastName = profile.familyName;
+              user.save(function(err,user){
+                return done(err, user);
+              });
+            } else {
+              return done(err, user);
+            }
+	      	} else {
+	      		return done('Geen account met dit email adres gevonden op Pillars. Neem contact op met de Pillars admin van jouw organisatie of school.');
+	      	}
+	    });
+    } catch (ex) {
+        return done("Unable to parse oauth2 token from WAAD.");
+    }
+  }
+));
 app.use(function(req, res, next){
    res.locals.currentUser = req.user;
    res.locals.error = req.flash("error");

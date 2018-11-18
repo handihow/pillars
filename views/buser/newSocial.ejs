@@ -1,0 +1,36 @@
+<% include ../partials/school/header %>
+
+<% var generatedPassword = Math.random().toString(36).substr(2, 8) %>
+
+  <div class="ui container">
+    <div class="ui huge header"><i class="users icon"></i> Bestuur Medewerker Toevoegen</div>
+    <br>
+    <div>Gebruik dit formulier als jullie Office365 of Google for Education gebruiken. Gebruikers kunnen dan inloggen via de knoppen voor Office365 of Google.</div>
+    <form class="ui form" id="adminRegister" action="/buser" method="POST" novalidate>
+      <div class="required field">
+        <label>E-mail</label>
+        <input type="email" name="username" placeholder="E-mail adres" id="email">
+      </div>
+      <div class="inline fields">
+        <label for="role">Selecteer het toegangsniveau:</label>
+          <div class="field">
+            <div class="ui radio checkbox">
+              <input type="radio" name="role" value="badmin">
+              <label>Bestuur administrator</label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui radio checkbox">
+              <input type="radio" name="role" value="buser" checked="">
+              <label>Bestuur Medewerker (zonder speciale rechten)</label>
+            </div>
+          </div>
+      </div>
+      <input type="hidden" name="password" id="password" placeholder="Wachtwoord" value=<%=generatedPassword%> required>
+      <input type="hidden" name="password_again" id="password_again" placeholder="Herhaal wachtwoord" value=<%=generatedPassword%> required>
+      <button class="ui button" type="submit">Submit</button>
+      <div class="ui error message"></div>
+    </form>
+    </div>
+    
+<% include ../partials/school/footer %>
