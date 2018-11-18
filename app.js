@@ -59,7 +59,7 @@ passport.deserializeUser(User.deserializeUser());
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "/auth/google/callback"
+    callbackURL: process.env.GOOGLE_CALLBACK_URL
   },
   function(accessToken, refreshToken, profile, done) {
   	User.findOne({username: { $regex: "^" + profile.emails[0].value + "$", $options: "i"}}, function (err, user) {
@@ -83,7 +83,7 @@ passport.use(new GoogleStrategy({
 passport.use(new AzureAdOAuth2Strategy({
     clientID: process.env.AZURE_CLIENT_ID,
     clientSecret: process.env.AZURE_CLIENT_SECRET,
-    callbackURL: "/auth/azureadoauth2/callback"
+    callbackURL: process.env.AZURE_CALLBACK_URL
   },
   function(accessToken, refresh_token, params, profile, done) {
   	var profile = {};
