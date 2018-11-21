@@ -31,7 +31,9 @@ score.digitalBordsPerClassroom = function(school){
     var result = {goedeDigitaleSchoolborden: 0, digitalBordsPerClassroom: 0};
     var countGoodDigibord = 0;
     school.hardware.forEach(function(hardware){
-        if(hardware.type==="Digitaal schoolbord" && ((hardware.isTouchscreenDigibord || 0) >= (school.normering.isTouchscreenDigibord || 0))) {
+        if(hardware.type==="Digitaal schoolbord" 
+                && ((hardware.isTouchscreenDigibord || 0) >= (school.normering.isTouchscreenDigibord || 0))
+                && hardware.jaarIngebruikname >= school.normering.minYear) {
             countGoodDigibord ++;
           }
     });

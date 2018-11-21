@@ -242,11 +242,9 @@ router.post("/scholen/:id/userBulk2/", middleware.isSchoolOwner, function(req, r
             res.redirect("back");
         } else {
             asyncForEach(req.body.usernames, async function(username, i){
-              console.log(username);
-              console.log(i);
               //create new school user in DB
               var hasError = await registerUser(username, school, null, null, null);
-              if(hasError.hasError){
+              if(hasError){
                 req.flash("error", hasError.errorMessage);
                 return res.redirect("/scholen/" + school._id + "/user");
               }
@@ -270,10 +268,9 @@ function registerUser(username, school, role, password, firstName, lastName){
       var newUser = new User({username: username, role: role ? role : 'suser', firstName: firstName ? firstName : null, lastName: lastName ? lastName : null});
       var generatedPassword = Math.random().toString(36).substr(2, 8);
       User.register(newUser, password ? password : generatedPassword, function(err, user){
-        console.log(user);
         if(err){
-          console.log(err.message);
-          return resolve({hasError: true, errorMessage: "Probleem bij account: " + username + ". Foutmelding: " + err.message});
+          
+          return resolve(true);
         }
         user.owner = school.owner;
         user.organisation = school.organisation;
@@ -282,7 +279,7 @@ function registerUser(username, school, role, password, firstName, lastName){
         school.users.push(user);
         school.isToegevoegdMedewerker = true;
         school.save(function(_){
-          resolve({hasError: false, errorMessage: null});
+          resolve(false);
         });
       });  
   });
