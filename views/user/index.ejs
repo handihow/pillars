@@ -3,8 +3,20 @@
 
 
       <h2 class="ui header"><i class="users icon"></i></i>Medewerkers van <%= school.instellingsnaam %></h2>
-        <a href="/scholen/<%=school._id%>/user/new/" class="positive ui button right"><i class="add user icon"></i> Medewerker Toevoegen met Email/Wachtwoord</a>
-        <a href="/scholen/<%=school._id%>/user/newSocial/" class="positive ui button right"><i class="add user icon"></i> Medewerker Toevoegen met Schoolaccount</a>
+        <div class="ui pointing dropdown link item">
+          <i class="add icon"></i>
+          <span class="text">Nieuw</span>
+          <i class="dropdown icon"></i>
+          <div class="menu">
+            <a class="item" href="/scholen/<%=school._id%>/user/new/"><i class="add user icon"></i> Medewerker Toevoegen met Email/Wachtwoord</a>
+            <a class="item" href="/scholen/<%=school._id%>/user/newSocial/"><i class="add user icon"></i> Medewerker Toevoegen met Schoolaccount (Google / Office365)</a>
+            <div class="divider"></div>
+            <div class="header">Bulk import medewerkers</div>
+            <a class="item" href="/scholen/<%=school._id%>/user/newBulk/"><i class="th list icon"></i> Lijst met email adressen invoeren (Google / Office365)</a>
+          </div>
+        </div>
+        <!-- <a href="/scholen/<%=school._id%>/user/new/" class="positive ui button right"><i class="add user icon"></i> Medewerker Toevoegen met Email/Wachtwoord</a>
+        <a href="/scholen/<%=school._id%>/user/newSocial/" class="positive ui button right"><i class="add user icon"></i> Medewerker Toevoegen met Schoolaccount</a> -->
         <div class="ui divider"></div>
         <div class="ui cards">
           <!--make a card for each user-->

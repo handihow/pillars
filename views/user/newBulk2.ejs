@@ -1,0 +1,35 @@
+<% include ../partials/school/header %>
+<% include ../partials/school/side-header %>
+
+    <h2 class="ui top attached header"><i class="users icon"></i> Medewerkers Toevoegen aan <%= school.instellingsnaam %></h2>
+    <br>
+    <div>Gebruik dit formulier alleen als jullie Office365 of Google for Education gebruiken. Gebruikers kunnen dan inloggen via de knoppen voor Office365 of Google.</div>
+    <br>
+    <div>Vul email adressen in, gescheiden door een komma. Al deze medewerkers krijgen geen speciale rechten.</div> 
+    <br>
+    <div>Gebruik deze manier niet om administrators te maken in Pillars!</div>
+    <h4>Controleer de email adressen die zijn gevonden in uw input</h4>
+    <div class="container">
+        <form action="/scholen/<%=school._id%>/userBulk2" method="POST" novalidate>
+            <ul>
+                <%newUsersClean.forEach(function(emailClean, i){%>
+                    <li><%=emailClean%></li>
+                    <input type="hidden" name="usernames[<%=i%>]" value="<%=emailClean%>">
+                <%})%>
+            </ul>
+        <% if(newUsersUnclean.length>0){ %>
+        <p>Ongeldige email adressen (worden niet geimporteerd):</p>
+        <ul>
+            <%newUsersUnclean.forEach(function(emailUnclean){%>
+                <li><%=emailUnclean%></li>
+            <%})%>
+        </ul>
+        <% } %>
+        <button type="button" class="ui button" onclick="goBack()">Terug</button>
+        <button class="ui primary button" type="submit">Doorgaan</button>
+        </form>
+    </div>
+
+    
+<% include ../partials/school/side-footer %>
+<% include ../partials/school/footer %>

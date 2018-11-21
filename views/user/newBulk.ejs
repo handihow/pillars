@@ -1,0 +1,24 @@
+<% include ../partials/school/header %>
+<% include ../partials/school/side-header %>
+
+    <h2 class="ui top attached header"><i class="users icon"></i> Medewerkers Toevoegen aan <%= school.instellingsnaam %></h2>
+    <br>
+    <div>Gebruik dit formulier alleen als jullie Office365 of Google for Education gebruiken. Gebruikers kunnen dan inloggen via de knoppen voor Office365 of Google.</div>
+    <br>
+    <div>Vul email adressen in, gescheiden door een komma. Al deze medewerkers krijgen geen speciale rechten.</div> 
+    <h4>LET OP:</h4>
+    <p>Gebruik deze manier dus niet om administrators te maken in Pillars!</p>
+    <p>Het systeem stuurt geen automatische emails naar nieuwe gebruikers bij deze manier van accounts aanmaken. U bent zelf verantwoordelijk voor het informeren van de nieuwe medewerkers over hun nieuwe account bij Pillars.</p>
+    <div class="container">
+        <form class="ui form" id="adminRegister" action="/scholen/<%=school._id%>/userBulk" method="POST" novalidate>
+          <div class="required field">
+            <label>E-mail adressen, gescheiden door komma</label>
+            <textarea name="usernames" placeholder="E-mail adressen"></textarea>
+          </div>
+              
+          <button class="ui button" type="submit">Doorgaan</button>
+        </form>
+    </div>
+    
+<% include ../partials/school/side-footer %>
+<% include ../partials/school/footer %>

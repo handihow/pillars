@@ -129,6 +129,18 @@ router.get("/scholen/:id/user/newSocial", middleware.isSchoolOwner, function(req
     });
 });
 
+//NEW - form to create bulk new school user
+router.get("/scholen/:id/user/newBulk", middleware.isSchoolOwner, function(req, res){
+    School.findById(req.params.id, function(err, school){
+        if(err || !school) {
+            req.flash("error", "School niet gevonden");
+            res.redirect("/scholen");
+        } else {
+            res.render("user/newBulk", {school: school});        
+        }
+    });
+});
+
 //NEW - form to create new bestuur user
 router.get("/buser/new", middleware.isAuthenticatedBadmin, function(req, res){
     res.render("buser/new");
@@ -192,6 +204,89 @@ router.post("/scholen/:id/user/", middleware.isSchoolOwner, function(req, res){
         }
     });
 });
+
+//CREATE - STEP 1 creates new bulk school user in the database and links it to school
+router.post("/scholen/:id/userBulk/", middleware.isSchoolOwner, function(req, res){
+    req.body.usernames = req.sanitize(req.body.usernames);
+    //lookup school by ID
+    School.findById(req.params.id, function(err, school){
+        if(err || !school){
+            req.flash("error", "School niet gevonden");
+            res.redirect("back");
+        } else {          
+          var newUsers = req.body.usernames.replace(/<\/?[^>]+(>|$)/g, "").split(/[ ,]+/);
+          function validateEmail(email) {
+              var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+              return re.test(String(email).toLowerCase());
+          }
+          var newUsersClean = [];
+          var newUsersUnclean = [];
+          newUsers.forEach(function(email){
+            if(validateEmail(email)){
+              newUsersClean.push(email);
+            } else {
+              newUsersUnclean.push(email);
+            }
+          })
+          res.render('user/newBulk2', {school: school, newUsers: newUsers, newUsersClean: newUsersClean, newUsersUnclean: newUsersUnclean})
+        }
+    });
+});
+
+//CREATE - STEP 2 creates new school user in the database and links it to school
+router.post("/scholen/:id/userBulk2/", middleware.isSchoolOwner, function(req, res){
+    //lookup school by ID
+    School.findById(req.params.id, function(err, school){
+        if(err || !school){
+            req.flash("error", "School niet gevonden");
+            res.redirect("back");
+        } else {
+            asyncForEach(req.body.usernames, async function(username, i){
+              console.log(username);
+              console.log(i);
+              //create new school user in DB
+              var hasError = await registerUser(username, school, null, null, null);
+              if(hasError.hasError){
+                req.flash("error", hasError.errorMessage);
+                return res.redirect("/scholen/" + school._id + "/user");
+              }
+              if(i==req.body.usernames.length-1){
+                req.flash("success", "Nieuwe medewerkers geregistreerd! Er is geen email verstuurd naar deze medewerkers.");
+                res.redirect("/scholen/" + school._id + "/user");
+              }
+            })
+        }
+    });
+});
+
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+}
+
+function registerUser(username, school, role, password, firstName, lastName){
+  return new Promise(resolve => {
+      var newUser = new User({username: username, role: role ? role : 'suser', firstName: firstName ? firstName : null, lastName: lastName ? lastName : null});
+      var generatedPassword = Math.random().toString(36).substr(2, 8);
+      User.register(newUser, password ? password : generatedPassword, function(err, user){
+        console.log(user);
+        if(err){
+          console.log(err.message);
+          return resolve({hasError: true, errorMessage: "Probleem bij account: " + username + ". Foutmelding: " + err.message});
+        }
+        user.owner = school.owner;
+        user.organisation = school.organisation;
+        user.save();
+        //add user to school users
+        school.users.push(user);
+        school.isToegevoegdMedewerker = true;
+        school.save(function(_){
+          resolve({hasError: false, errorMessage: null});
+        });
+      });  
+  });
+}
 
 //CREATE - creates new bestuur user in the database
 router.post("/buser/", middleware.isAuthenticatedBadmin, function(req, res){
