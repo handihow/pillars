@@ -34,6 +34,15 @@ $(document).ready(function() {
                         beginAtZero:true
                     }
                 }]
+            },
+            plugins: {
+                datalabels: {
+                    anchor: 'end',
+                    align: 'top',
+                    formatter: function(value, context){
+                        return Math.round(value/5 * 1000)/10 + "%"
+                    }
+                }
             }
         }
     });
@@ -63,6 +72,11 @@ $(document).ready(function() {
             }]
         },
         options: {
+            plugins: {
+                datalabels: {
+                    display: false
+                }
+            },
             scales: {
                 yAxes: [{
                     ticks: {
@@ -106,6 +120,11 @@ $(document).ready(function() {
             }]
         },
         options: {
+            plugins: {
+                datalabels: {
+                    display: false
+                }
+            },
             scales: {
                 yAxes: [{
                     ticks: {
@@ -153,6 +172,11 @@ $(document).ready(function() {
             }]
         },
         options: {
+            plugins: {
+                datalabels: {
+                    display: false
+                }
+            },
             scales: {
                 yAxes: [{
                     ticks: {
@@ -190,6 +214,11 @@ $(document).ready(function() {
             }]
         },
         options: {
+            plugins: {
+                datalabels: {
+                    display: false
+                }
+            },
             scales: {
                 yAxes: [{
                     ticks: {
@@ -241,6 +270,11 @@ $(document).ready(function() {
             }]
         },
         options: {
+            plugins: {
+                datalabels: {
+                    display: false
+                }
+            },
             scales: {
                 yAxes: [{
                     ticks: {
