@@ -11,7 +11,7 @@
             <div class="content">
               <div class="header"><%=evaluation.title %></div>
               <div class="description">
-                    <%= evaluation.report ? evaluation.report.replace(/<\/?[^>]+(>|$)/g, "") : null %> ...
+                    <%= evaluation.report ? evaluation.report.replace(/<\/?[^>]+(>|$)/g, "").substring(0,100) : null%> ...
               </div>
               <div class="description">
                     <%=evaluation.created.toDateString()%>
