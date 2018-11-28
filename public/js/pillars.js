@@ -37,8 +37,10 @@ $(document).ready(function() {
             },
             plugins: {
                 datalabels: {
-                    anchor: 'end',
-                    align: 'top',
+                    anchor: 'center',
+                    align: 'center',
+                    color:'black',
+                    backgroundColor: 'rgba(255,255,255,0.5)',
                     formatter: function(value, context){
                         return Math.round(value/5 * 1000)/10 + "%"
                     }
