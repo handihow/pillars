@@ -123,7 +123,7 @@ score.software = function(school, subject){
     });
     //check if the software has all ratings
     var count3 = 0;
-    school.standard.software[subject.key].ratings.forEach(function(rating,i,arr){
+    config.software.ratings.forEach(function(rating,i,arr){
         if(groupedSoftware.has(rating)){
             count3++;
         }
