@@ -85,7 +85,7 @@ score.software = function(school, subject){
     //first, combine all the software from the course
     school.software.forEach(function(software){
         //check if the software is for this course and quality is sufficient
-        if(software.subject === subject.subject && (software.ratings.length / config.software.ratings.length) >= school.standard.software[subject.key].minRating) {    
+        if(software.subject === subject.subject) {    
                 //if so, add to the group of software (values are unique because of the use of SET)
                 software.gradeLevels.forEach(function(gradeLevel){
                     groupedSoftware.add(gradeLevel);
@@ -93,10 +93,14 @@ score.software = function(school, subject){
                 software.functionalities.forEach(function(functionality){
                     groupedSoftware.add(functionality);
                 });
+                software.ratings.forEach(function(rating){
+                    groupedSoftware.add(rating);
+                })
         }
     });
     var groupCriterium = false;
     var functionCriterium = false;
+    var ratingCriterium = false;
     // check if the software has all required groups 
     var count = 0;
     school.standard.software[subject.key].gradeLevels.forEach(function(gradeLevel,i,arr){
@@ -117,8 +121,18 @@ score.software = function(school, subject){
             functionCriterium = true;
         }
     });
+    //check if the software has all ratings
+    var count3 = 0;
+    school.standard.software[subject.key].ratings.forEach(function(rating,i,arr){
+        if(groupedSoftware.has(rating)){
+            count3++;
+        }
+        if((count3 / arr.length) >= school.standard.software[subject.key].minRating) {
+            ratingCriterium = true;
+        }
+    });
     //if both criteria are met, give the maximum points
-    if(groupCriterium && functionCriterium) {
+    if(groupCriterium && functionCriterium && ratingCriterium) {
         result = Number(school.standard.software[subject.key].maxScore);
     }
     return result;
@@ -145,7 +159,7 @@ score.softwareRating = function(school){
 //checks criterium ondersteuning nodig
 score.support = function(school){
     var result = 0;
-    if(school.competence.support){
+    if(!school.competence.support){
         result = Number(school.standard.competence.support.maxScore);
     }
     return result;
