@@ -9,6 +9,7 @@
 		"GOOGLE_CLIENT_SECRET":"At_m18wIHiKueczei5IpplSU",
 		"MJ_APIKEY_PRIVATE":"0014ebf4ddca93183f2bc1e265bbc7d4",
 		"MJ_APIKEY_PUBLIC":"e922b808328162fee427709fa215e8e4",
-		"SESSION_SECRET":"CJ is the cutest dog of the universe"
+		"SESSION_SECRET":"CJ is the cutest dog of the universe",
+		"NODE_ENV":"development"
 	}
 }
