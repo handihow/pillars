@@ -1,11 +1,11 @@
 {
-  "name": "scholen",
-  "version": "1.0.0",
+  "name": "Pillars",
+  "version": "2.0.0",
   "description": "Optimale ICT Resultaten. Zorg voor balans tussen hardware, digitale leermiddelen, deskundigheid en organisatie.",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "if [$NODE_ENV == 'production']; then node app.js; else nodemon app.js; fi"
+    "start": "node app.js"
   },
   "author": "Roeland Verbakel",
   "license": "ISC",
