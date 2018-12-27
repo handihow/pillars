@@ -18,6 +18,7 @@ var scholenSchema=  mongoose.Schema({
     postalCode: String,
     city: {type: String, required: true},
     logo: String,
+    uploadedLogo: String,
     countStudents: Number,
     countClassrooms: Number,
     network: {

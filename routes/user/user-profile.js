@@ -24,9 +24,9 @@ router.get("/", middleware.isLoggedIn, function(req, res){
               req.flash("error", err);
               res.redirect("back");
             } else if (!questionnaire){
-              res.render("user/show", {user: user, questionnaire: config.competence.questionnaire.standard, tests: tests}); 
+              res.render("user/show", {user: user, hasQuestionnaire: false, tests: tests}); 
             } else {
-              res.render("user/show", {user: user, questionnaire: questionnaire, tests: tests}); 
+              res.render("user/show", {user: user, hasQuestionnaire: true, questionnaire: questionnaire, tests: tests}); 
             }
           })        
         }

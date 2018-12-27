@@ -3,7 +3,7 @@
 $(document).ready(function() {
     
     var result = $('#result').attr('data-value')?JSON.parse($('#result').attr('data-value')):null;
-    
+
     if(result){
     Chart.defaults.global.legend.display = false;
     

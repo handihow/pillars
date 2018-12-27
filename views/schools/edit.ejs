@@ -55,9 +55,16 @@
                 <label>Aantal klaslokalen</label>
                 <input type="number" name="school[countClassrooms]" value="<%=school.countClassrooms%>" id="school[countClassrooms]">
             </div>
-            <div class="eight wide field">
-                <label>Logo</label>
+            <div class="six wide field">
+                <label>Logo (publieke url)</label>
                 <input type="text" name="school[logo]" value="<%=school.logo%>" id="school[logo]">
+            </div>
+            <div class="two wide field">
+              <label>Upload logo</label>
+              <input  type="hidden" 
+                    role="uploadcare-uploader" 
+                    name="school[uploadedLogo]"
+                    data-multiple="false"/>
             </div>
           </div>
           <div class="two fields">

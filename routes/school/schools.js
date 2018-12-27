@@ -157,6 +157,7 @@ router.get("/:id/edit", middleware.isNotDemoAccount, middleware.isLoggedIn, func
      req.flash("error", "School niet gevonden.");
      res.redirect("/schools");
    } else {
+     res.locals.scripts.header.uploadcare = true;
      res.render("schools/edit", {school: school});
    }
  });
@@ -169,6 +170,7 @@ router.put("/:id", middleware.isNotDemoAccount, middleware.isLoggedIn, function(
      req.flash("error", err.message);
      res.redirect("/schools");
    } else {
+     res.locals.scripts.header.uploadcare = false;
      req.flash("success", "School updated");
      res.redirect("/schools/" + req.params.id);
    }

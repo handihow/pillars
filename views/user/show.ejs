@@ -70,6 +70,7 @@
     <!-- <a class="ui red button right" href="/user/<%=user._id%>/verify">Email verifieren</a> -->
     <a class="ui black button right" href="/user/<%=user._id%>/evaluation">Evaluaties</a>
     <a class="ui green button right" href="/user/<%=user._id%>/ready">Klaar met invullen!</a>
+    <%if(hasQuestionnaire){%>
     <% var i=0%>
     <div class="ui top attached tabular menu">
       <% Object.keys(questionnaire.questionnaire).sort().forEach(function(key){ %>
@@ -100,6 +101,9 @@
   </div>
   <% j++ %>
   <%});%>
+  <%} else {%>
+  <h3>Bestuur heeft nog geen vragenlijsten ingesteld. Neem aub contact op met het bestuur.</h3>
+  <% } %>
 </div>
 
 <% include ../partials/footer %>

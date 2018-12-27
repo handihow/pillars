@@ -5,7 +5,9 @@
 
 <h2 class="ui header"><i class="university icon"></i><%= school.name %></h2>
 <div class="ui divider"></div>
-<%if(school.logo){%><img class="right floated small ui image" src="<%=school.logo%>"><%}%>
+<%if(school.logo || school.uploadedLogo){%><img 
+        class="right floated small ui image" 
+        src="<%=school.uploadedLogo ? school.uploadedLogo : school.logo %>"><%}%>
 <div class="item">
   <div class="ui stackable grid">
     <div class="eight wide column">
