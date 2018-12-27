@@ -130,7 +130,7 @@ score.competenceRating = function(school){
     if(school.competence.teachers>=Number(school.standard.competence.competenceRating.standard)){
         result = Number(school.standard.competence.competenceRating.maxScore);
     }
-    return result;
+    return Number(result) ? Number(result) : 0;
 };
 
 //checks competence criterium gemiddelde effectiviteit
@@ -178,10 +178,10 @@ score.organisation = function(school, role){
     if(school.countStudents>200) {
         additionalHours = Number(school.standard.management[role.key].additionalHours) * Math.ceil((school.countStudents - 200) / 100);
     }
-    if(role.hoursPerYear>=(standardHours+additionalHours)){ 
+    if(Number(role.hoursPerYear)>=(standardHours+additionalHours)){ 
         result = Number(school.standard.management[role.key].maxScore);
     } else {
-        result = role.hoursPerYear * Number(school.standard.management[role.key].maxScore) / (standardHours + additionalHours);
+        result = Number(role.hoursPerYear) * Number(school.standard.management[role.key].maxScore) / (standardHours + additionalHours);
     }
     return result;
 };

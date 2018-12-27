@@ -227,7 +227,12 @@ $(document).ready(function() {
                         result.standard.competence.instrumentalSkills.maxScore, 
                         result.standard.competence.informationSkills.maxScore, 
                         result.standard.competence.mediaSkills.maxScore];
-                        return Math.round(value/standard[context.dataIndex] * 1000)/10 + "%"
+                        var calculatedScore = Math.round(value/standard[context.dataIndex] * 1000)/10;
+                        if(calculatedScore){
+                            return calculatedScore + "%"
+                        } else {
+                            return "0 %"
+                        }
                     }
                 }
             },
@@ -285,7 +290,12 @@ $(document).ready(function() {
                         result.standard.management.ictEducationalContentManager.maxScore, 
                         result.standard.management.ictPurchaser.maxScore,
                         result.standard.management.systemAdministrator.maxScore];
-                        return Math.round(value/standard[context.dataIndex] * 1000)/10 + "%"
+                        var calculatedScore = Math.round(value/standard[context.dataIndex] * 1000)/10;
+                        if(calculatedScore){
+                            return calculatedScore + "%"
+                        } else {
+                            return "0 %"
+                        }
                     }
                 }
             },
