@@ -49,7 +49,7 @@ router.post("/", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, 
             }  else {
                 //look up user organisation add to standardization
                 standard.organisation = user.organisation;
-                if(standard.isSecondary){
+                if(standard.isSecondarySchool){
                   standard.software = config.software.standards.secondary
                 }
                 standard.save();
