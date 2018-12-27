@@ -1,8 +1,10 @@
-<% include ../partials/school/header %>
-<% include ../partials/school/side-header %>
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<% include ../partials/school-header %>
 
 
-    <h2 class="ui top attached header">Hardware Lijst Toevoegen aan <%= school.instellingsnaam %></h2>
+    <h2 class="ui top attached header">Hardware Lijst Toevoegen aan <%= school.name %></h2>
     
     <div class="ui message">
       <div class="header">
@@ -14,13 +16,13 @@
       <p>Na import van de gegevens, zul je nog een aantal gegevens moeten invullen van "bijzondere" hardware. Het aantal werkplekken bij multipoint computer en touchscreen bij digitaal schoolbord bijvoorbeeld.</p>
     </div>
     
-    <form class="ui mini form" action="/scholen/<%=school._id%>/hardware/bulk2" method="POST" id="hardwareBulkForm" novalidate>
+    <form class="ui mini form" action="/schools/<%=school._id%>/hardware/bulk2" method="POST" id="hardwareBulkForm" novalidate>
         <% var i=0 %>
         <%hardware.forEach(function(hardware){%>
             <div class="eight fields">
                 <div class="field">
                     <label>Naam</label>
-                    <input type="text" name="hardware[<%=i%>][naam]" value="<%if(hardware['Naam']){%><%= hardware['Naam'] %><%}%>" required>
+                    <input type="text" name="hardware[<%=i%>][name]" value="<%if(hardware['Naam']){%><%= hardware['Naam'] %><%}%>" required>
                 </div> 
                 <div class="field">
                   <label>Type</label>
@@ -29,11 +31,11 @@
                       <i class="dropdown icon"></i>
                       <div class="default text">Type Hardware</div>
                       <div class="menu">
-                          <% global.hardwareTypes.forEach(function(type){%>
+                          <% config.types.forEach(function(type){%>
                               <div class="item" 
-                                  data-value="<%=type.enkelvoud%>" 
-                                  <%if(hardware['Type']===type.enkelvoud){%>selected=""<%}%>>
-                                  <%=type.enkelvoud%>
+                                  data-value="<%=type.singular%>" 
+                                  <%if(hardware['Type']===type.singular){%>selected=""<%}%>>
+                                  <%=type.singular%>
                               </div>
                           <%})%>
                       </div>
@@ -41,7 +43,7 @@
                 </div>
                 <div class="field">
                     <label>Merk</label>
-                    <input type="text" name="hardware[<%=i%>][merk]" value="<%if(hardware['Merk']){%><%= hardware['Merk'] %><%}%>">
+                    <input type="text" name="hardware[<%=i%>][brand]" value="<%if(hardware['Merk']){%><%= hardware['Merk'] %><%}%>">
                 </div>
                 <div class="field">
                     <label>Model</label>
@@ -57,11 +59,11 @@
                 </div>
                 <div class="field">
                     <label>Werkgeheugen (GB)</label>
-                    <input type="text" name="hardware[<%=i%>][werkgeheugen]" min="1" max="64" value="<%if(hardware['Werkgeheugen (GB)']){%><%= hardware['Werkgeheugen (GB)'] %><%}%>">
+                    <input type="text" name="hardware[<%=i%>][memory]" min="1" max="64" value="<%if(hardware['Werkgeheugen (GB)']){%><%= hardware['Werkgeheugen (GB)'] %><%}%>">
                 </div>
                 <div class="field">
                     <label>Jaar van ingebruikname</label>
-                    <input type="text" name="hardware[<%=i%>][jaarIngebruikname]" min="2000" max="2020" value="<%if(hardware['Jaar van ingebruikname']){%><%= hardware['Jaar van ingebruikname'] %><%}%>">
+                    <input type="text" name="hardware[<%=i%>][deploymentYear]" min="2000" max="2020" value="<%if(hardware['Jaar van ingebruikname']){%><%= hardware['Jaar van ingebruikname'] %><%}%>">
                 </div>
              </div>
              <% i++ %>
@@ -71,5 +73,5 @@
     </form>
     </div>
     
-<% include ../partials/school/side-footer %>
-<% include ../partials/school/footer %>
+<% include ../partials/school-footer %>
+<% include ../partials/footer %>

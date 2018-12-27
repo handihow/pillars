@@ -1,9 +1,11 @@
-<% include ../partials/school/header %>
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
 
 <div class="ui container">
     <div class="ui huge header">Profiel Aanpassen</div>
     <div class="ui divider"></div>
-    <form class="ui form" action="/user/<%=user._id%>?_method=PUT" method="POST" id="profielForm" novalidate>
+    <form class="ui form" action="/user/<%=user._id%>?_method=PUT" method="POST" id="profileForm" novalidate>
         <div class="two fields">
           <div class="field">
               <label>E-mail adres</label>
@@ -39,25 +41,25 @@
         <div class="two fields">
           <div class="field">
               <label>Geboortedatum</label>
-              <input type="date" name="user[geboorteDatum]" 
-                id="geboorteDatum"
-                value="<%=user.geboorteDatum? user.geboorteDatum.toISOString().slice(0,10) : null %>">
+              <input type="date" name="user[dateOfBirth]" 
+                id="user[dateOfBirth]"
+                value="<%=user.dateOfBirth? user.dateOfBirth.toISOString().slice(0,10) : null %>">
           </div>
           <div class="field">
               <label>Geslacht</label>
               <div class="ui selection dropdown">
-                  <input type="hidden" name="user[geslacht]" id="dropdown" value="<%=user.geslacht%>">
-                  <div class="text"><%=user.geslacht%></div>
+                  <input type="hidden" name="user[gender]" id="dropdown" value="<%=user.gender%>">
+                  <div class="text"><%=user.gender%></div>
                   <i class="dropdown icon"></i>
                   <div class="menu">
-                        <div class="item <%if(user.geslacht==="M"){%>active<%}%>"
+                        <div class="item <%if(user.gender==="M"){%>active<%}%>"
                             data-value="M"
-                          <% if(user.geslacht==="M"){ %> selected="" <% } %> >
+                          <% if(user.gender==="M"){ %> selected="" <% } %> >
                               Man
                         </div>
-                        <div class="item <%if(user.geslacht==="V"){%>active<%}%>"
+                        <div class="item <%if(user.gender==="V"){%>active<%}%>"
                             data-value="V"
-                          <% if(user.geslacht==="V"){ %> selected="" <% } %> >
+                          <% if(user.gender==="V"){ %> selected="" <% } %> >
                               Vrouw
                         </div>
                   </div>
@@ -68,36 +70,50 @@
           <div class="field">
               <label>Bouw</label>
               <div class="ui selection dropdown">
-                  <input type="hidden" name="user[bouw]" id="dropdown" value="<%=user.bouw%>">
-                  <div class="text"><%=user.bouw%></div>
+                  <input type="hidden" name="user[gradeLevelGroup]" id="dropdown" value="<%=user.gradeLevelGroup%>">
+                  <div class="text"><%=user.gradeLevelGroup%></div>
                   <i class="dropdown icon"></i>
                   <div class="menu">
-                        <div class="item <%if(user.bouw==="Onderbouw"){%>active<%}%>"
+                        <div class="item <%if(user.gradeLevelGroup==="Onderbouw"){%>active<%}%>"
                             data-value="Onderbouw"
-                          <% if(user.bouw==="Onderbouw"){ %> selected="" <% } %> >
+                          <% if(user.gradeLevelGroup==="Onderbouw"){ %> selected="" <% } %> >
                               Onderbouw
                         </div>
-                        <div class="item <%if(user.bouw==="Middenbouw"){%>active<%}%>"
+                        <div class="item <%if(user.gradeLevelGroup==="Middenbouw"){%>active<%}%>"
                             data-value="Middenbouw"
-                          <% if(user.bouw==="Middenbouw"){ %> selected="" <% } %> >
+                          <% if(user.gradeLevelGroup==="Middenbouw"){ %> selected="" <% } %> >
                               Middenbouw
                         </div>
-                        <div class="item <%if(user.bouw==="Bovenbouw"){%>active<%}%>"
+                        <div class="item <%if(user.gradeLevelGroup==="Bovenbouw"){%>active<%}%>"
                             data-value="Bovenbouw"
-                          <% if(user.bouw==="Bovenbouw"){ %> selected="" <% } %> >
+                          <% if(user.gradeLevelGroup==="Bovenbouw"){ %> selected="" <% } %> >
                               Bovenbouw
                         </div>
                   </div>
               </div>
           </div>
-          <div class="ui toggle checkbox">
-            <input type="hidden" value="0" name="user[publicProfile]">
-            <input 
-              type="checkbox" 
-              name="user[publicProfile]"
-              value="1"
-            >
+          <div class="inline fields">
             <label>Ik geef mijn leidinggevende en ICT'er inzage in mijn testresultaten en profiel</label>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input 
+                      type="radio" 
+                      name="user[publicProfile]" 
+                      value="0" 
+                      <% if(!user.publicProfile) { %>checked="checked"<% } %>>
+                <label>Nee</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input 
+                      type="radio" 
+                      name="user[publicProfile]" 
+                      value="1"
+                      <% if(user.publicProfile) { %>checked="checked"<% } %>>
+                <label>Ja</label>
+              </div>
+            </div>
           </div>
         </div>
     <button class="ui button" type="submit">Bewaren</button>
@@ -106,4 +122,4 @@
     
 </div>
         
-<% include ../partials/school/footer %>
+<% include ../partials/footer %>

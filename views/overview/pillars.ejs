@@ -1,4 +1,6 @@
-<% include ../partials/school/header %>
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
 
 <div class="ui container">
     <h2 class="ui center aligned header">
@@ -33,14 +35,14 @@
         </tr>
       </thead>
       <tbody>
-        <% scholen.forEach(function(school, i){ %>
+        <% schools.forEach(function(school, i){ %>
             <tr>
-              <td><%=school.instellingsnaam%></td>
-              <td><%=results[i].totaal.hardware.toFixed(2)%></td>
-              <td><%=results[i].totaal.software.toFixed(2)%></td>
-              <td><%=results[i].totaal.deskundigheid.toFixed(2)%></td>
-              <td><%=results[i].totaal.organisatie.toFixed(2)%></td>
-              <td><a class="ui mini primary basic button" href="/scholen/<%=school._id%>/pillars">Bekijk</a></td>
+              <td><%=school.name%></td>
+              <td><%=results[i].total.hardware.toFixed(2)%></td>
+              <td><%=results[i].total.software.toFixed(2)%></td>
+              <td><%=results[i].total.competence.toFixed(2)%></td>
+              <td><%=results[i].total.management.toFixed(2)%></td>
+              <td><a class="ui mini primary basic button" href="/schools/<%=school._id%>/pillars">Bekijk</a></td>
               <td><a class="ui mini positive basic button" href="<%=results[i].link%>" 
                     <%if(results[i].link!=="#"){%>target="_blank"<%}%>>Rapport</a></td>
             </tr>
@@ -49,15 +51,4 @@
     </table>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
-<script src="/../../js/app.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/components/form.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/components/dropdown.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/components/transition.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/components/tab.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-<script src="/../../js/pillars-overview.js"></script>
-
-</body>
-</html>
+<% include ../partials/footer %>

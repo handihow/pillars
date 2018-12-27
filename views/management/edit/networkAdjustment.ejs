@@ -1,0 +1,23 @@
+<div class="inline fields">
+  <label>Functioneert het netwerk goed (bekabeld en ook dekkend draadloos)?</label>
+  <div class="field">
+    <div class="ui radio checkbox">
+      <input 
+            type="radio" 
+            name="school[management][networkAdjustment]" 
+            value="0" 
+            <% if(!school.management.networkAdjustment) { %>checked="checked"<% } %>>
+      <label>Nee</label>
+    </div>
+  </div>
+  <div class="field">
+    <div class="ui radio checkbox">
+      <input 
+            type="radio" 
+            name="school[management][networkAdjustment]" 
+            value="1"
+            <% if(school.management.networkAdjustment) { %>checked="checked"<% } %>>
+      <label>Ja</label>
+    </div>
+  </div>
+</div>

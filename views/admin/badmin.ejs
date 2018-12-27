@@ -1,4 +1,6 @@
-<% include ../partials/school/header %>
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
 
 <div class="ui container">
   
@@ -22,7 +24,7 @@
               <td><%= user.username %></td>
               <td><%= user.firstName %></td>
               <td><%= user.lastName %></td>
-              <td><%= user.org %></td>
+              <td><%= user.organisation.name %></td>
               <td><%= user.job %></td>
             </tr>
         <% }) %>
@@ -30,5 +32,4 @@
     </table>
 </div>
 
-<% include ../partials/school/footer %>
-
+<% include ../partials/footer %>

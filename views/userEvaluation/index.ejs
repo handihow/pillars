@@ -1,0 +1,30 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+
+<div class="ui container">
+  <h2 class="ui header"><i class="comments icon"></i> Evaluatie gesprekken van <%= user.username %></h2>
+  <h4><a href="/user/<%=user._id%>/evaluation/new/"><i class="write square icon"></i> Evaluatie Toevoegen</a></h4>
+  <div class="ui cards">
+    <!--make a card for each evaluation-->
+    <% user.evaluations.forEach(function(evaluation){ %>
+    <div class="card">
+      <div class="content">
+        <div class="header"><%=evaluation.title %></div>
+        <div class="description">
+          <%- evaluation.report.substring(0,100)%> ...
+        </div>
+        <div class="description">
+          <%=evaluation.created.toJSON().slice(0,10).split('-').reverse().join('/')%>
+        </div>
+      </div>
+      <a class="ui bottom attached button" href="/user/<%=user._id%>/evaluation/<%=evaluation._id%>">
+        <i class="show icon"></i>
+        Bekijk 
+      </a>
+    </div>
+    <% }); %>
+  </div>
+</div>
+
+<% include ../partials/footer %>

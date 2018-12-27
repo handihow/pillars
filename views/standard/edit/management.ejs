@@ -1,0 +1,35 @@
+
+<!--FORM FIELDS PART 1-->
+<div class="fields">
+    <div class="field">
+      <label>Max score Overeenstemming</label>
+      <input type="number" name="standard[management][agreement][maxScore]" value="<%=standard.management.agreement.maxScore%>">
+    </div>
+    <div class="field">
+      <label>Max score Netwerkbeheerder</label>
+      <input type="number" name="standard[management][network][maxScore]" value="<%=standard.management.network.maxScore%>">
+    </div>
+</div>
+
+<!--FORM FIELDS PART II-->
+
+<%roles.forEach(function(role){%>
+  <h3><%=role.role%></h3>
+  <div class="fields">
+    <div class="field">
+      <label>Normjaartaakuren</label>
+      <input type="number" name="standard[management][<%=role.key%>][hoursPerYear]" 
+      value="<%=standard.management[role.key] ? standard.management[role.key].hoursPerYear : 0 %>">
+    </div>
+    <div class="field">
+      <label>Extra uren</label>
+      <input type="number" name="standard[management][<%=role.key%>][additionalHoursPerYear]" 
+      value="<%=standard.management[role.key] ? standard.management[role.key].additionalHoursPerYear : 0 %>">
+    </div>
+    <div class="field">
+      <label>Max Score</label>
+      <input type="number" name="standard[management][<%=role.key%>][maxScore]" 
+      value="<%=standard.management[role.key] ? standard.management[role.key].maxScore : 0 %>">
+    </div>
+  </div>
+<%})%>

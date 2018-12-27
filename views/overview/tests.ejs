@@ -1,4 +1,6 @@
-<% include ../partials/school/header %>
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
 
 <div class="ui container">
     <h2 class="ui center aligned header">
@@ -28,10 +30,10 @@
         </tr>
       </thead>
       <tbody>
-        <% scholen.forEach(function(school){ %>
+        <% schools.forEach(function(school){ %>
           <% school.tests.forEach(function(test){ %>
             <tr>
-              <td><%=school.instellingsnaam%></td>
+              <td><%=school.name%></td>
               <td><%=test.subject%></td>
               <td><%= Math.ceil(test.result * 100) %> %</td>
               <td><%=test.username%></td>
@@ -43,4 +45,4 @@
     </table>
 </div>
 
-<% include ../partials/school/footer %>
+<% include ../partials/footer %>

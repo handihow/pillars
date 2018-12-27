@@ -1,4 +1,6 @@
-<% include ../partials/school/header %>
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
 
 <div class="ui container">
   
@@ -11,36 +13,33 @@
         <tr>
           <th>Instellingsnaam</th>
           <th>Eigenaar record</th>
-          <th>Email</th>
+          <th>Plaatsnaam</th>
+          <th>Leerlingen</th>
           <th>Algemene info</th>
           <th>Hardware</th>
           <th>Digitale Leermiddelen</th>
           <th>Deskundigheid</th>
           <th>Organisatie</th>
           <th>Medewerkers</th>
-          <th>Verwijderen</th>
         </tr>
       </thead>
       <tbody>
         <% schools.forEach(function(school){ %>
             <tr>
-              <td><a href="/scholen/<%=school._id%>"><%=school.instellingsnaam%></a></td>
+              <td><%=school.name%></td>
               <td> <%if(school.owner){%> <%=school.owner.firstName%> <%=school.owner.lastName %> <%}%></td>
-              <td class="right aligned" ><%if(school.owner){%> <%= school.owner.username %> <%}%></td>
-              <td class="center aligned"><% if(school.isIngevuldAlgemeneInformatie){ %> <i class="large green checkmark icon"></i> <% } %> </td>
-              <td class="center aligned"><% if(school.isToegevoegdHardware){ %> <i class="large green checkmark icon"></i> <% } %> </td>
-              <td class="center aligned"><% if(school.isToegevoegdSoftware){ %> <i class="large green checkmark icon"></i> <% } %> </td>
-              <td class="center aligned"><% if(school.isIngevuldDeskundigheid){ %> <i class="large green checkmark icon"></i> <% } %> </td>
-              <td class="center aligned"><% if(school.isIngevuldOrganisatie){ %> <i class="large green checkmark icon"></i> <% } %> </td>
-              <td class="center aligned"><% if(school.isToegevoegdMedewerker){ %> <i class="large green checkmark icon"></i> <% } %> </td>
-              <td><form id="delete" action="/scholen/<%= school._id %>?_method=DELETE" method="POST">
-                      <button class="ui mini red basic button">Verwijderen</button>
-                  </form></td>
+              <td><%=school.city%></td>
+              <td class="right aligned <% if(school.countStudents){ %> positive <% } else { %> negative <% } %>" ><%=school.countStudents%></td>
+              <td class="center aligned"><% if(school.countStudents){ %> <i class="large green checkmark icon"></i> <% } %> </td>
+              <td class="center aligned"><% if(school.hardware && school.hardware.length>0){ %> <i class="large green checkmark icon"></i> <% } %> </td>
+              <td class="center aligned"><% if(school.software && school.software.length>0){ %> <i class="large green checkmark icon"></i> <% } %> </td>
+              <td class="center aligned"><% if(school.competence){ %> <i class="large green checkmark icon"></i> <% } %> </td>
+              <td class="center aligned"><% if(school.management.roles[0].hoursPerYear>0){ %> <i class="large green checkmark icon"></i> <% } %> </td>
+              <td class="center aligned"><% if(school.users && school.users.length>0){ %> <i class="large green checkmark icon"></i> <% } %> </td>
             </tr>
         <% }) %>
       </tbody>
     </table>
 </div>
 
-
-<% include ../partials/school/footer %>
+<% include ../partials/footer %>

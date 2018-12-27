@@ -1,0 +1,32 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+
+<div class="ui container">
+    <div class="ui huge header">Pillars Standaard ICT Vragenlijst Toevoegen</div>
+    <p>Deze vragenlijsten zijn opgesteld door Pillars.school. Ze testen op de deskundigheid van leraren op 4 deelgebieden.
+    Deze deelgebieden zijn ICT Geletterdheid, Pedagogisch Didactisch Handelen, Werken in de Schoolcontext en Persoonlijke Ontwikkeling.</p>
+    <p>Deze vragenlijsten zijn op basis van ja/nee antwoorden. Score wordt berekend op basis van 1 - 0.</p>
+    <form class="ui form" action="/questionnaire" method="POST" id="addQuestionnaireForm" novalidate>
+        <div class="required field">
+            <label>Naam</label>  
+            <input type="text" name="questionnaire[name]" placeholder="Naam profielvragen, bijvoorbeeld Profielvragen Schoolbestuur XXX" id="questionnaire[name]">
+        </div>
+        <button class="ui button" type="submit">Bewaren</button>
+    </form>
+    <hr>
+    <div class="ui huge header">Alpha Scholengroep / PO Raad / Kennisnet ICT Vragenlijst Toevoegen</div>
+    <p>Deze vragenlijsten zijn ontwikkeld in een versnellingsvraag door de Alpha Scholengroep samen met de PO Raad en Kennisnet. Leerkrachten worden getest op 3 onderdelen, namelijk Instrumentele vaardigheden, informatievaardigheden en mediavaardigheden.</p>
+    <p>Je kunt ook voor deze variant kiezen. Je kunt echter niet beide vragenlijsten (Pillars en versnellingsvraag) door elkaar gebruiken, want er is veel overlap tussen beide vragenlijsten.</p>
+    <p>Als je liever met de vragenlijsten van Alpha Scholengroep werkt, maak dan de vragen aan en vergeet niet om in de normering punten toe te kennen aan de drie onderdelen Instrumentele vaardigheden, informatievaardigheden en mediavaardigheden op het onderdeel "Deskundigheid". Anders worden de uitslagen niet meegerekend in de totale score voor deskundigheid.</p>
+    <p>Deze vragenlijsten zijn op basis van mogelijke antwoorden: helemaal mee eens - meer eens - eens - meer oneens - helemaal mee oneens. Score wordt berekend op basis van 1 - 0,75 - 0,50 - 0,25 - 0.</p>
+    <form class="ui form" action="/questionnaire/alternative" method="POST" id="addQuestionnaireForm" novalidate>
+        <div class="required field">
+            <label>Naam</label>  
+            <input type="text" name="questionnaire[name]" placeholder="Naam profielvragen, bijvoorbeeld Profielvragen Schoolbestuur XXX" id="questionnaire[name]">
+        </div>
+        <button class="ui button" type="submit">Bewaren</button>
+    </form>
+</div>
+
+<% include ../partials/footer %>

@@ -1,0 +1,17 @@
+<div class="required grouped fields">
+        <label for="software[subject]">Selecteer het vak:</label>
+        <% school.settings.software.subjects[config.subjects.noncore].forEach(function(nonCoreSubject){ %>
+        <div class="field">
+          <div class="ui radio checkbox">
+            <input type="radio" name="software[subject]" <% if(nonCoreSubject===software.subject){ %> checked="" <% } %> value="<%=nonCoreSubject%>">
+            <label><%=nonCoreSubject %></label>
+        </div>
+    </div>
+    <% }) %>
+</div>
+<div class="field">
+    <div class="required four wide field">
+        <label>Effectiviteit: 1 = niet effectief / 6 = zeer effectief</label>
+        <input type="number" min="1" max="6" name="software[effectiveness]" value="<%=software.effectiveness %>">
+    </div>
+</div>

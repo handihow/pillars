@@ -1,0 +1,24 @@
+<!--SHOW SOFTWARE NORMERING -->
+
+<% Object.keys(standard.software).forEach(function(subject){%>
+  <h3><%=standard.software[subject].subject%></h3>
+  <div class="ui stackable grid">
+    <div class="four wide column">
+      <h5 class="content"><%if(standard.isSecondarySchool) { %>Klassen<%} else { %>Groepen <% } %></h5>
+      <div class="content"><%=standard.software[subject].gradeLevels%></div>
+    </div>
+    <div class="four wide column">
+      <h5 class="content">Functies</h5>
+      <div class="content"><%=standard.software[subject].functionalities%></div>
+    </div>
+    <div class="four wide column">
+      <h5 class="content">Maximale score</h5>
+      <div class="content"><%=standard.software[subject].maxScore%></div>
+    </div>
+    <div class="four wide column">
+      <h5 class="content">Kwaliteiten</h5>
+      <div class="content"><%=standard.software[subject].minRating *100%> %</div>
+    </div>
+</div>
+<div class="ui divider"></div>
+<%});%>

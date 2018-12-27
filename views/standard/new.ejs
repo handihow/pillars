@@ -1,0 +1,26 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+
+<div class="ui container">
+    <div class="ui huge header">Normering Toevoegen</div>
+    <form class="ui form" action="/standard" method="POST" id="addStandard" novalidate>
+        <div class="required field">
+            <label>Naam</label>  
+            <input type="text" name="standard[name]" placeholder="Naam normering, bijvoorbeeld Standaard Normering Schoolbestuur XXX">
+        </div>
+        <div class="field">
+	          <div class="ui toggle checkbox">
+	              <input 
+	                  type="checkbox" 
+	                  name="standard[isSecondarySchool]"
+	              >
+	              <label>Voortgezet onderwijs</label>
+	           </div>
+	    </div>
+        <button class="ui button" type="submit">Bewaren</button>
+        <div class="ui error message"></div>
+    </form>
+</div>
+
+<% include ../partials/footer %>

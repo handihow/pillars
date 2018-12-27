@@ -1,0 +1,48 @@
+<!--SHOW SOFTWARE NORMERING -->
+
+<% Object.keys(standard.software).forEach(function(subject){%>
+<h3><%=standard.software[subject].subject%></h3>
+<div class="fields">
+  <% if(standard.isSecondarySchool) {%>
+    <div class="field">
+        <label>Klassen</label>
+        <select multiple="" name="standard[software][<%=subject%>][gradeLevels]" class="ui dropdown" 
+        id="standard[software][<%=subject%>][gradeLevels]" required>
+          <option value="">Selecteer klassen</option>
+          <% ["Klas 1", "Klas 2", "Klas 3", "Klas 4", "Klas 5", "Klas 6"].forEach(function(gradeLevel){%>
+            <option value="<%=gradeLevel%>" <%if(standard.software[subject].gradeLevels.includes(gradeLevel)) { %> selected="" <% } %>><%=gradeLevel%></option>
+          <%})%>
+        </select>
+    </div>
+  <% } else { %>
+    <div class="field">
+        <label>Groepen</label>
+        <select multiple="" name="standard[software][<%=subject%>][gradeLevels]" class="ui dropdown" 
+        id="standard[software][<%=subject%>][gradeLevels]" required>
+          <option value="">Selecteer groepen</option>
+          <% ["Groep 1", "Groep 2", "Groep 3", "Groep 4", "Groep 5", "Groep 6", "Groep 7", "Groep 8"].forEach(function(gradeLevel){%>
+            <option value="<%=gradeLevel%>" <%if(standard.software[subject].gradeLevels.includes(gradeLevel)) { %> selected="" <% } %>><%=gradeLevel%></option>
+          <%})%>
+        </select>
+    </div>
+  <% } %>
+  <div class="field">
+      <label>Functies</label>
+      <select multiple="" name="standard[software][<%=subject%>][functionalities]" class="ui dropdown" 
+      id="standard[software][<%=subject%>][functionalities]" required>
+        <option value="">Selecteer functies</option>
+        <% ["Instructie", "Oefenen", "Toets"].forEach(function(functionality){%>
+          <option value="<%=functionality%>" <%if(standard.software[subject].functionalities.includes(functionality)) { %> selected="" <% } %>><%=functionality%></option>
+        <%})%>
+      </select>
+  </div>
+  <div class="field">
+      <label>Max score</label>
+      <input type="number" name="standard[software][<%=subject%>][maxScore]" value="<%=standard.software[subject].maxScore%>" class="maxScore" required>
+  </div>
+  <div class="field">
+      <label>Kwaliteiten</label>
+      <input type="number" name="standard[software][<%=subject%>][minRating]" value="<%=standard.software[subject].minRating%>" class="ratings" required>
+  </div>
+</div>
+<%});%>

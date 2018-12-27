@@ -1,0 +1,55 @@
+<div class="ui vertical fluid tabular menu">
+
+  <a class="item <%if(url===("/schools/"+school._id) || url===("/schools/"+school._id)+"/edit") { %> active <% } %>" href="/schools/<%= school._id %>"</a>
+    <%if(!school.countStudents) { %><i class="red write icon"></i><% } %>
+    <i class="university icon"></i>
+    <span class="show-mobile">Algemeen</span>
+    <span class="hide-mobile">Algemene informatie</span>
+  </a>
+  <a class="item <%if(url.includes("/schools/"+school._id+"/hardware")) { %> active <% } %>" href="/schools/<%= school._id %>/hardware"</a>
+    <%if(!school.hardware || school.hardware.length==0) { %><i class="red write icon"></i><% } %>
+    <i class="desktop icon"></i>
+    Hardware
+  </a>
+  <a class="item <%if(url.includes("/schools/"+school._id+"/software")) { %> active <% } %>" href="/schools/<%= school._id %>/software"</a>
+    <%if(!school.software || school.software.length==0) { %><i class="red write icon"></i><% } %>
+    <i class="student icon"></i>
+    <span class="show-mobile">Software</span>
+    <span class="hide-mobile">Digitale Leermiddelen</span>
+  </a>
+  <a class="item <%if(url.includes("/schools/"+school._id+"/competence")) { %> active <% } %>" href="/schools/<%= school._id %>/competence"</a>
+    <%if(!school.tests || !school.competence) { %><i class="red write icon"></i><% } %>
+    <i class="doctor icon"></i>
+    Deskundigheid
+  </a>
+  <a class="item <%if(url.includes("/schools/"+school._id+"/management")) { %> active <% } %>" href="/schools/<%= school._id %>/management"</a>
+    <%if(school.management.roles[0].hoursPerYear===0) { %><i class="red write icon"></i><% } %>
+    <i class="sitemap icon"></i>
+    Organisatie
+  </a>
+  <% if(currentUser.role ==="badmin" || currentUser.role==="sadmin" || currentUser.role=== "buser" || currentUser.role==="padmin") { %>
+  <a class="item <%if(url.includes("/schools/"+school._id+"/user")) { %> active <% } %>" href="/schools/<%= school._id %>/user"</a>
+    <%if(!school.users || school.users.length==0) { %><i class="red write icon"></i><% } %>
+    <i class="users icon"></i>
+    Medewerkers
+  </a>
+  <% } %>
+  <a class="item <%if(url.includes("/schools/"+school._id+"/pillars")) { %> active <% } %>" href="/schools/<%= school._id %>/pillars">
+    <i class="bar chart icon"></i>
+    <span class="show-mobile">Grafieken</span>
+    <span class="hide-mobile">Pillars Grafieken</span>
+  </a>
+  <a class="item <%if(url.includes("/schools/"+school._id+"/evaluation")) { %> active <% } %>" href="/schools/<%= school._id %>/evaluation">
+    <i class="comments icon"></i>
+    Evaluaties
+  </a>
+  <a class="item <%if(url.includes("/schools/"+school._id+"/information")) { %> active <% } %>" 
+      href="/schools/<%= school._id %>/information">
+    <i class="info circle icon"></i>
+    Informatie
+  </a>
+  <a class="item <%if(url.includes("/schools/"+school._id+"/processingActivity")) { %> active <% } %>" href="/schools/<%= school._id %>/processingActivity">
+    <i class="id card outline icon"></i>
+    Verwerkingsactiviteiten
+  </a>
+</div>

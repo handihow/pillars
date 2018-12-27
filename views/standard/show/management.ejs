@@ -1,0 +1,43 @@
+<!--SHOW ORGANISATIE NORMERING -->
+
+<div class="ui stackable grid">
+  <div class="four wide column">
+    <h4 class="content">Overeenstemming</h4>
+    <div class="content">Het criterium voor overeenstemming binnen het team is niet aanpasbaar.</div>
+  </div>
+  <div class="four wide column">
+    <h4 class="content">Max score</h4>
+    <div class="content"><%=standard.management.agreement.maxScore%></div>
+  </div>
+  <div class="four wide column">
+    <h4 class="content">Netwerkbeheer</h4>
+    <div class="content">Netwerkbeheerder dient op alle vlakken goed te presteren. Is niet aanpasbaar.</div>
+  </div>
+  <div class="four wide column">
+    <h4 class="content">Max score</h4>
+    <div class="content"><%=standard.management.network.maxScore%></div>
+  </div>
+</div>
+<%roles.forEach(function(role){%>
+  <div class="ui divider"></div>
+  <div class="ui stackable grid">
+    <div class="four wide column">
+      <h4 class="content"><%=role.role%></h4>
+      <div class="content">Standaard uren voor scholen tot 200 leerlingen. Extra uren zijn per 100 leerlingen boven de 200 leerlingen.</div>
+    </div>
+    <div class="four wide column">
+      <h4 class="content">Normjaartaakuren</h4>
+      <div class="content"><%=standard.management[role.key] ? standard.management[role.key].hoursPerYear : 0%></div>
+    </div>
+    <div class="four wide column">
+      <h4 class="content">Extra uren</h4>
+      <div class="content"><%=standard.management[role.key] ? standard.management[role.key].additionalHoursPerYear : 0%></div>
+    </div>
+    <div class="four wide column">
+      <h4 class="content">Max score</h4>
+      <div class="content"><%=standard.management[role.key] ? standard.management[role.key].maxScore : 0%></div>
+    </div>
+  </div>
+<%})%>
+
+

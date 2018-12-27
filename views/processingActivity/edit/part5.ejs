@@ -4,7 +4,7 @@
   <label>Categorien betrokkenen</label>
     <select multiple="" name="processingActivity[concernedPersonCategoryList]" class="ui dropdown">
       <option value="">Selecteer categorieen</option>
-      <% data.categoriesOfConcerned.forEach(function(category) { %>
+      <% config.categoriesOfConcerned.forEach(function(category) { %>
       <option value="<%=category%>" <%if(processingActivity.concernedPersonCategoryList.includes(category)) { %> selected="" <% } %>><%=category%></option>
       <% }) %>
     </select>

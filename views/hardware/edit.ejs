@@ -1,12 +1,15 @@
-<% include ../partials/school/header %>
-<% include ../partials/school/side-header %>
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<% include ../partials/school-header %>
     
-    <h2 class="ui top attached header"><%= hardware.type %> Bewerken voor <%= school.instellingsnaam %></h2>
-    <form class="ui form" action="/scholen/<%=school._id%>/hardware/<%=hardware._id%>?_method=PUT" method="POST" id="hardwareForm" novalidate>
+    <h2 class="ui header"><%= hardware.type %> Bewerken voor <%= school.name %></h2>
+    <div class="ui divider"></div>
+    <form class="ui form" action="/schools/<%=school._id%>/hardware/<%=hardware._id%>?_method=PUT" method="POST" id="hardwareForm" novalidate>
         <div class="two fields">
           <div class="required field">
               <label>Naam</label>
-              <input type="text" name="hardware[naam]" value="<%=hardware.naam%>" id="hardware[naam]">
+              <input type="text" name="hardware[name]" value="<%=hardware.name%>" id="hardware[name]">
           </div>
           <div class="required field">
               <label>Type</label>
@@ -15,11 +18,11 @@
                   <div class="text"><%=hardware.type%></div>
                   <i class="dropdown icon"></i>
                   <div class="menu">
-                      <% global.hardwareTypes.forEach(function(type){%>
-                        <div class="item <%if(type.enkelvoud===hardware.type){%>active<%}%>"
-                            data-value="<%=type.enkelvoud%>"
-                          <% if(type.enkelvoud===hardware.type){ %> selected="" <% } %> >
-                              <%=type.enkelvoud%>
+                      <% config.types.forEach(function(type){%>
+                        <div class="item <%if(type.singular===hardware.type){%>active<%}%>"
+                            data-value="<%=type.singular%>"
+                          <% if(type.singular===hardware.type){ %> selected="" <% } %> >
+                              <%=type.singular%>
                         </div>
                       <%})%>
                   </div>
@@ -30,7 +33,7 @@
             <div class="fields">
                 <div class="four wide field">
                     <label>Merk</label>
-                    <input type="text" name="hardware[merk]" value="<%=hardware.merk%>">
+                    <input type="text" name="hardware[brand]" value="<%=hardware.brand%>">
                 </div>
                 <div class="twelve wide field">
                     <label>Model</label>
@@ -51,19 +54,19 @@
                 <% if(hardware.type==="Desktop"||hardware.type==="Multipoint computer"||hardware.type==="Laptop") { %>
                     <div class="four wide field required">
                         <label>Werkgeheugen (GB)</label>
-                        <input type="number" name="hardware[werkgeheugen]" value="<%=hardware.werkgeheugen%>" id="hardware[werkgeheugen]">
+                        <input type="number" name="hardware[memory]" value="<%=hardware.memory%>" id="hardware[memory]">
                     </div>
                 <% } %>
                 <div class="four wide field required">
                     <label>Jaar van ingebruikname</label>
-                    <input type="number" name="hardware[jaarIngebruikname]" value="<%=hardware.jaarIngebruikname%>" id="hardware[jaarIngebruikname]">
+                    <input type="number" name="hardware[deploymentYear]" value="<%=hardware.deploymentYear%>" id="hardware[deploymentYear]">
                 </div>
             </div>
           </div>
           <% if(hardware.type === "Multipoint computer") { %>
               <div class="six wide required field">
                   <label>Aantal multipoint werkplekken</label>
-                  <input type="number" name="hardware[aantalWerkplekkenMultipoint]" value="<%=hardware.aantalWerkplekkenMultipoint%>" id="hardware[aantalWerkplekkenMultipoint]">
+                  <input type="number" name="hardware[numberWorkPlacesMultipoint]" value="<%=hardware.numberWorkPlacesMultipoint%>" id="hardware[numberWorkPlacesMultipoint]">
               </div>
           <% } %>
           <% if(hardware.type === "Digitaal schoolbord") { %>
@@ -82,22 +85,22 @@
               </div>
               <div class="four wide field">
                   <label>Beelddiagonaal in inch</label>
-                  <input type="number" name="hardware[schermgrootteDigibord]" value="<%=hardware.schermgrootteDigibord%>">
+                  <input type="number" name="hardware[screensizeDigibord]" value="<%=hardware.screensizeDigibord%>">
               </div>
           <% } %>
           <div class="two fields">
             <div class="field">
               <label>Leverancier</label>
-              <input type="text" name="hardware[leverancier]" value="<%=hardware.leverancier%>">
+              <input type="text" name="hardware[supplier]" value="<%=hardware.supplier%>">
             </div>
             <div class="field">
               <label>Garantievorm</label>
-              <input type="text" name="hardware[garantievorm]" value="<%=hardware.garantievorm%>">
+              <input type="text" name="hardware[warranty]" value="<%=hardware.warranty%>">
             </div>
           </div>
           <button class="ui button" type="submit">Bewaren</button>
           <div class="ui error message"></div>
     </form>
 
-<% include ../partials/school/side-footer %>
-<% include ../partials/school/footer %>
+<% include ../partials/school-footer %>
+<% include ../partials/footer %>

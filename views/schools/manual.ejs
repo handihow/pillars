@@ -1,0 +1,91 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+
+<div class="ui container">
+    <form class="ui form" action="/schools/manual" method="POST" id="schoolEdit">
+         <h4 class="ui dividing header">School Handmatig Invoeren</h4>
+         <div class="three fields">
+            <div class="field">
+                <label>BRIN nummer</label>
+                <input type="text" name="school[schoolIdNumber]" placeholder="BRIN nummer van de school" id="school[schoolIdNumber]">
+            </div>
+            <div class="field">
+                <label>Vestigingsnummer</label>
+                <input type="text" name="school[schoolLocationIdNumber]"  placeholder="Vestigingsnummer van de school" id="school[schoolLocationIdNumber]">
+            </div>
+            <div class="field">
+                <label>Bevoegd gezag nummer</label>
+                <input type="text" name="school[organisationIdNumber]"  placeholder="Bevoegd Gezag (schoolbestuur)" id="school[organisationIdNumber]">
+            </div>
+          </div>
+          <div class="field">
+            <label>Instellingsnaam</label>
+            <input type="text" name="school[name]"  placeholder="Naam van de school" id="school[name]">
+          </div>
+          <div class="field">
+              <div class="ui toggle checkbox">
+                  <input type="hidden" value="0" name="school[isSecondarySchool]">
+                  <input 
+                      type="checkbox" 
+                      name="school[isSecondarySchool]"
+                  >
+                  <label>Voortgezet onderwijs</label>
+               </div>
+          </div>
+          <div class="field">
+            <label>Adres</label>
+                <div class="fields">
+                  <div class="twelve wide field">
+                    <input type="text" name="school[streetName]"  placeholder="Straatnaam">
+                  </div>
+                  <div class="four wide field">
+                    <input type="text" name="school[houseNumber]"  placeholder="Huisnummer">
+                  </div>
+                </div>
+          </div>
+          <div class="field">
+            <label>Postcode en Plaatsnaam</label>
+                <div class="fields">
+                    <div class="four wide field">
+                        <input type="text" name="school[postalCode]"  placeholder="Postcode">
+                    </div>
+                    <div class="twelve wide field">
+                        <input type="text" name="school[city]"  placeholder="Plaatsnaam" id="school[city]">
+                    </div>
+                </div>
+          </div>
+          <div class="two fields">
+            <div class="field">
+                <label>Aantal leerlingen</label>
+                <input type="number" name="school[countStudents]"  placeholder="Aantal leerlingen" id="school[countStudents]">
+            </div>
+            <div class="field">
+                <label>Aantal klaslokalen</label>
+                <input type="number" name="school[countClassrooms]"  placeholder="Aantal klaslokalen" id="school[countClassrooms]">
+            </div>
+          </div>
+          <div class="two fields">
+            <div class="field">
+                <div class="ui toggle checkbox">
+                    <input 
+                        type="checkbox" 
+                        name="school[network][wired]">
+                    <label>Bedraad Netwerk Werkt Snel en Betrouwbaar</label>
+                 </div>
+            </div>
+            <div class="field">
+                <div class="ui toggle checkbox">
+                    <input 
+                        type="checkbox" 
+                        name="school[network][wireless]">
+                    <label>Wireless Netwerk Werkt Snel en Betrouwbaar</label>
+                 </div>
+            </div>
+          </div>
+          <button class="ui button" type="submit">Bewaren</button>
+          <div class="ui error message"></div>
+        </form>
+    </div>
+
+<% include ../partials/footer %>

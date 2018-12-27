@@ -1,8 +1,10 @@
-<% include ../partials/school/header %>
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
 
 <div class="ui container">
     <div class="ui huge header">Bericht Toevoegen</div>
-    <form class="ui form" action="/message" method="POST" id="bericht" novalidate>
+    <form class="ui form" action="/message" method="POST" id="messageForm" novalidate>
         <div class="required field">
             <label>Titel</label>  
             <input type="text" name="message[title]" placeholder="Titel van jouw bericht..." id="message[title]">
@@ -16,5 +18,4 @@
     </form>
 </div>
 
-<% include ../partials/school/footer %>
-
+<% include ../partials/footer %>

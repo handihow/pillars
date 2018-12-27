@@ -1,0 +1,54 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+
+<div class="ui container">
+    <div class="ui huge header">Scholen uit DUO Database Toevoegen</div>
+    <form class="ui mini form" action="/schools" method="POST" id="scholenToevoegen" novalidate>
+        <% var i=0 %>
+        <% schools.forEach(function(school){ %>
+             <div class="eight changing fields" id=<%=i%>>
+                <div class="field">
+                    <label>BRIN nummer</label>
+                    <input type="text" name="school[<%=i%>][schoolIdNumber]" value="<%= school['BRIN NUMMER'] %>" required>
+                </div> 
+                <div class="field">
+                    <label>Vestigingsnummer</label>
+                    <input type="text" name="school[<%=i%>][schoolLocationIdNumber]" value="<%= school['VESTIGINGSNUMMER'] %>" required>
+                </div> 
+                <div class="field">
+                    <label>Bevoegd gezag</label>
+                    <input type="text" name="school[<%=i%>][organisationIdNumber]" value="<%= school['BEVOEGD GEZAG NUMMER'] %>" required>
+                </div>
+                <div class="field">
+                    <label>Instellingsnaam</label>
+                    <input type="text" name="school[<%=i%>][name]" value="<%= school['VESTIGINGSNAAM'] %>" required>
+                </div>
+                <div class="field">
+                    <label>Straatnaam</label>
+                    <input type="text" name="school[<%=i%>][streetName]" value="<%= school['STRAATNAAM'] %>">
+                </div>
+                <div class="field">
+                    <label>Huisnummer</label>
+                    <input type="text" name="school[<%=i%>][houseNumber]" value="<%= school['HUISNUMMER-TOEVOEGING'] %>">
+                </div>
+                <div class="field">
+                    <label>Postcode</label>
+                    <input type="text" name="school[<%=i%>][postalCode]" value="<%= school['POSTCODE'] %>">
+                </div>
+                <div class="field">
+                    <label>Plaatsnaam</label>
+                    <input type="text" name="school[<%=i%>][city]" value="<%= school['PLAATSNAAM'] %>" required>
+                </div>
+                <div class="one wide field">
+                    <i class="trash icon"></i> 
+                </div>
+                <input type="hidden" name="school[<%=i%>][isSecondarySchool]" value=<%=secondarySchool%>>
+             </div>
+             <% i++ %>
+          <% }); %>
+          <button class="ui button" type="submit">Bewaren</button>
+    </form>
+</div>
+
+<% include ../partials/footer %>

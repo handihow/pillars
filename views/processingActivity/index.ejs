@@ -1,6 +1,8 @@
-<% include ../partials/school/header %>
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
 <%if(schoolLevel){%>
-  <% include ../partials/school/side-header %>
+  <% include ../partials/school-header %>
 <%}%>
 
 <div class="ui container">
@@ -8,7 +10,7 @@
       <div>Register van Verwerkingsactiviteiten</div>
     </h2>
     <%if(schoolLevel){%>
-      <a class="positive ui button right" href="/scholen/<%=school._id%>/processingActivity/new/">Verwerkingsactiviteit Toevoegen</a>
+      <a class="positive ui button right" href="/schools/<%=school._id%>/processingActivity/new/">Verwerkingsactiviteit Toevoegen</a>
       <div class="ui left pointing label">
         Deze verwerkingsactiviteit wordt zichtbaar voor (alleen) uw school en het bestuur
       </div>
@@ -26,7 +28,7 @@
       <div class="card">
         <div class="content">
           <div class="header"><%if(schoolLevel){%>
-                                <a href="/scholen/<%=school._id%>/processingActivity/<%=processingActivity._id%>">
+                                <a href="/schools/<%=school._id%>/processingActivity/<%=processingActivity._id%>">
                               <%} else {%>
                                 <a href="/processingActivity/<%=processingActivity._id%>">
                               <% } %>
@@ -36,16 +38,16 @@
           </div>
           <%if(!schoolLevel && processingActivity.school){%>
             <div class="description">
-              Geldig voor school: <%=processingActivity.school.instellingsnaam%>
+              Geldig voor school: <%=processingActivity.school.name%>
             </div>
           <%}%> 
           <div class="description">
-            Datum: <%= processingActivity.created.toDateString() %>
+            Datum: <%= processingActivity.created.toJSON().slice(0,10).split('-').reverse().join('/') %>
           </div>
         </div>
         <a class="ui bottom attached button" 
             <%if(schoolLevel){%>
-              href="/scholen/<%=school._id%>/processingActivity/<%=processingActivity._id%>">
+              href="/schools/<%=school._id%>/processingActivity/<%=processingActivity._id%>">
             <%} else {%>
               href="/processingActivity/<%=processingActivity._id%>">
             <% } %>
@@ -58,6 +60,6 @@
 </div>
 
 <%if(schoolLevel){%>
-  <% include ../partials/school/side-footer %>
+  <% include ../partials/school-footer %>
 <%}%>
-<% include ../partials/school/footer %>
+<% include ../partials/footer %>

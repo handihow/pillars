@@ -1,13 +1,15 @@
-<% include ../partials/school/header %>
-<% include ../partials/school/side-header %>
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<% include ../partials/school-header %>
 
-<h2 class="ui header"><i class="desktop icon"></i></i>Hardware van <%= school.instellingsnaam %></h2>
-<div class="ui attached segment">
+<h2 class="ui header"><i class="desktop icon"></i></i>Hardware van <%= school.name %></h2>
+<div class="ui divider"></div>
   <div class="item">
     <div class="ui stackable grid">
       <div class="four wide column">
         <h4 class="content">Naam</h4> 
-        <div class="content"><%= hardware.naam %></div>
+        <div class="content"><%= hardware.name %></div>
       </div>
       <div class="four wide column">
         <h4 class="content">Type Hardware</h4>
@@ -15,10 +17,8 @@
       </div>
       <div class="four wide column">
         <h4 class="content">Merk</h4>
-        <div class="content"><%= hardware.merk %></div>
+        <div class="content"><%= hardware.brand %></div>
       </div>
-    </div>
-    <div class="ui stackable grid">
       <div class="four wide column">
         <h4 class="content">Model</h4>
         <div class="content"><%= hardware.model %></div>
@@ -31,22 +31,20 @@
         <h4 class="content">Processor</h4>
         <div class="content"><%= hardware.processor %></div>
       </div>
-    </div>
-    <div class="ui stackable grid">
       <% if(hardware.type==="Desktop"||hardware.type==="Multipoint computer"||hardware.type==="Laptop") { %>
       <div class="four wide column">
         <h4 class="content">Werkgeheugen (GB)</h4>
-        <div class="content"><%= hardware.werkgeheugen %></div>
+        <div class="content"><%= hardware.memory %></div>
       </div>
       <% } %>
       <div class="four wide column">
         <h4 class="content">Jaar ingebruikname</h4>
-        <div class="content"><%= hardware.jaarIngebruikname %></div>
+        <div class="content"><%= hardware.deploymentYear %></div>
       </div>
       <% if(hardware.type==="Multipoint computer") { %>
       <div class="four wide column">
         <h4 class="content">Aantal werkplekken</h4>
-        <div class="content"><%= hardware.aantalWerkplekkenMultipoint %></div>
+        <div class="content"><%= hardware.numberWorkPlacesMultipoint %></div>
       </div>
       <% } %>
       <% if(hardware.type==="Digitaal schoolbord") { %>
@@ -62,36 +60,33 @@
       </div>
       <div class="four wide column">
         <h4 class="content">Schermgrootte (inch)</h4>
-        <div class="content"><%= hardware.schermgrootteDigibord %></div>
+        <div class="content"><%= hardware.screensizeDigibord %></div>
       </div>
       <% } %>
-    </div>
-    <div class="ui stackable grid">
       <div class="four wide column">
         <h4 class="content">Leverancier</h4>
-        <div class="content"><%= hardware.leverancier %></div>
+        <div class="content"><%= hardware.supplier %></div>
       </div>
       <div class="four wide column">
         <h4 class="content">Garantievorm</h4>
-        <div class="content"><%= hardware.garantievorm %></div>
+        <div class="content"><%= hardware.warranty %></div>
       </div>
     </div>
     <h4 class="content">Toegevoegd op</h4>
-    <div class="content"><%=hardware.created.toDateString()%> </div>
+    <div class="content"><%=hardware.created.toJSON().slice(0,10).split('-').reverse().join('/')%> </div>
     <a id="edit" 
     class="ui primary basic button" 
-    href="/scholen/<%=school._id%>/hardware/<%=hardware._id%>/edit">
+    href="/schools/<%=school._id%>/hardware/<%=hardware._id%>/edit">
     Bewerken
   </a>
   <form id="delete" 
-  action="/scholen/<%= school._id %>/hardware/<%=hardware._id%>?_method=DELETE" 
+  action="/schools/<%= school._id %>/hardware/<%=hardware._id%>?_method=DELETE" 
   method="POST">
   <button class="ui red basic button">Verwijderen</button>
 </form>
 </div>
 </div>
 </div>
-</div>
 
-<% include ../partials/school/side-footer %>
-<% include ../partials/school/footer %>
+<% include ../partials/school-footer %>
+<% include ../partials/footer %>

@@ -1,0 +1,116 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<% include ../partials/school-header %>
+
+      <h2 class="ui header"><i class="doctor icon"></i>Deskundigheid van Leerkrachten op <%= school.name %></h2>
+      <a class="primary ui button right" href="/schools/<%=school._id%>/competence/download">Download Test Resultaten CSV</a>
+      <br>
+      <br>
+        <div class="ui cards">
+          <div class="card">
+            <div class="content">
+              <div class="header">
+                Gemiddelde Deskundigheid
+              </div>
+              <div class="description">
+                 Beoordeel de gemiddelde deskundigheid van leerkrachten op het gebied van ICT en digitale leermiddelen
+              </div>
+              <div class="description count">
+                 <%= school.competence && school.competence.teachers %>
+              </div>
+            </div>
+            <div class="ui bottom attached button">
+              <a id="edit" href="/schools/<%= school._id %>/competence/edit">Bewerken</a>
+            </div>
+          </div>
+          <div class="card">
+            <div class="content">
+              <div class="header">
+                Ondersteuning Nodig
+              </div>
+              <div class="description">
+                 Leerkrachten hebben ondersteuning of training nodig op het gebied van digitale leermiddelen
+              </div>
+              <div class="description count">
+                 <% if(school.competence && school.competence.support) { %>
+                    Ja
+                  <% } else { %>
+                    Nee
+                  <% } %>
+              </div>
+            </div>
+            <div class="ui bottom attached button">
+              <a id="edit" href="/schools/<%= school._id %>/competence/edit">Bewerken</a>
+            </div>
+          </div>
+          <div class="card">
+            <div class="content">
+              <div class="header">
+                Gemiddelde Effectiviteit
+              </div>
+              <div class="description">
+                 Geef jouw beoordeling van de gemiddelde effectiviteit van digitale leermiddelen op jouw school
+              </div>
+              <div class="description count">
+                 <%= school.competence ? school.competence.effectiveness : "-" %>
+              </div>
+            </div>
+            <div class="ui bottom attached button">
+              <a id="edit" href="/schools/<%= school._id %>/competence/edit">Bewerken</a>
+            </div>
+          </div>
+          <!--TEST RESULTATEN SCHOOL MEDEWERKERS-->
+          <% Object.keys(questionnaire).sort().forEach(function(subject){ %>
+            <div class="card">
+              <div class="content">
+                <div class="header">
+                  <%=subject%>
+                </div>
+                <div class="description">
+                   Gemiddelde score:
+                </div>
+                <div class="description count">
+                  <% var sum = 0, i = 0, result = 0  %>
+                  <%school.tests.forEach(function(test){ %>
+                     <%if(test.subject === subject) { sum += test.result; i++; result = Math.ceil(sum / i *100) } %>
+                  <% }); %>
+                  <%= result %> %
+                </div>
+              </div>
+              <div class="ui bottom attached button">
+                <a href="#testResults">Bekijken</a>
+              </div>
+            </div>
+          <% }) %>
+          <!--EINDE TESTRESULTATEN MEDEWERKERS-->
+        </div>
+        <a id="edit" class="ui primary basic button" href="/schools/<%= school._id %>/competence/edit">Bewerken</a>
+        <!--MAKE TABLE OF TEST RESULTS-->
+        <div class="ui huge header">Test Resultaten</div>
+        <table class="ui celled table unstackable" id="testResults">
+          <thead>
+              <tr>
+                  <th>Datum</th>
+                  <th>Gebruikersnaam</th>
+                  <th>Onderdeel</th>
+                  <th>Score</th>
+                  <th>Bekijk</th>
+              </tr>
+          </thead>
+          <tbody>
+              <% school.tests.forEach(function(test){ %>
+                  <tr>
+                      <td><%= test.created.toJSON().slice(0,10).split('-').reverse().join('/') %></td>
+                      <td><%= test.username %></td>
+                      <td><%= test.subject %></td>
+                      <td><%= Math.ceil(test.result *100) %> %</td>
+                      <td><a class="ui mini primary basic button" href="/user/desk_overview/test/<%=test._id%>">Bekijk</a></td>
+                  </tr>
+              <% }); %>
+          </tbody>
+        </div>
+
+
+<% include ../partials/school-footer %>
+<% include ../partials/footer %>

@@ -1,19 +1,22 @@
-<% include ./partials/main/header %>
+<% include ./partials/header %>
 
-<div class="container" id="register">
-    <h2>Wachtwoord Opnieuw Instellen bij Pillars</h2>
-    <form action="/reset/<%=token%>" method="post" id="resetform" novalidate>
-      <div class="form-group">
-        <label for="new_password">Nieuw Wachtwoord</label>
-        <input type="password" name="password" class="form-control" id="new_password" placeholder="Nieuw Wachtwoord" title="Minimum 8 characters">
-      </div>
-      <div class="form-group">
-        <label for="new_password_again">Controleer Wachtwoord</label>
-        <input name="new_password_again" type="password" class="form-control" id="new_password_again" placeholder="Herhaal Wachtwoord" title="Vul hetzelfde wachtwoord nogmaals in">
-      </div>
-      <button type="submit" class="btn btn-primary">Instellen</button>
-    </form>
-</div> 
+<div class="home-container">
+  <div class="home-box">
+      <div class="ui large inverted header">Wachtwoord Opnieuw Instellen bij Pillars</div>
+      <form action="/reset/<%=token%>" method="post" class="ui inverted form" id="reset">
+        <div class="field">
+          <label>Nieuw Wachtwoord</label>
+          <input type="password" name="password" placeholder="Nieuw Wachtwoord">
+        </div>
+        <div class="field">
+          <label>Controleer Wachtwoord</label>
+          <input name="password_again" type="password" placeholder="Herhaal Wachtwoord">
+        </div>
+        <button type="submit" class="ui primary button">Aanvragen</button>
+        <div class="ui error message"></div>
+      </form>
+  </div> 
+</div>
 
     <ul class="slideshow">
       <li></li>
@@ -23,4 +26,4 @@
       <li></li>
     </ul>
 
-<% include ./partials/main/footer %>
+<% include ./partials/footer %>

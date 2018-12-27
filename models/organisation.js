@@ -2,10 +2,10 @@ var mongoose = require("mongoose");
 var passportLocalMongoose = require("passport-local-mongoose");
 
 var OrganisationSchema = new mongoose.Schema({
-   name: String,
+   name: {type: String, required: true},
    address: String,
    postalCode: String,
-   city: String,
+   city: {type: String, required: true},
    country: String,
    activationCode: String,
    activated: {type: Boolean, default: false},

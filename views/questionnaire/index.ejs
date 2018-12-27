@@ -1,0 +1,47 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+
+<div class="ui container">
+    <h2 class="ui center aligned header">
+      <div>Profielvragen</div>
+    </h2>
+    <a class="positive ui button right" href="/questionnaire/new">Profielvragen Toevoegen</a>
+    <div class="ui segment">
+      <h4 class="ui right aligned header">
+        <i class="youtube icon"></i>
+        <div class="content">
+          <a href="https://youtu.be/Mu4Fsa2NTlQ" target="_blank">Vragenlijsten Aanpassen en Beheren</a>
+          <div class="sub header">YouTube Instructie Video</div>
+        </div>
+      </h4>
+    </div>
+    <!--divider and then all cards for question lists-->
+    <div class="ui divider"></div>
+    <!--kaarten met questionnairevragen-->
+    <div class="ui six doubling cards">
+      <% questionnaire.forEach(function(questionnaire){ %>
+      <div class="card">
+        <div class="content">
+          <div class="header"><a href="questionnaire/<%=questionnaire._id%>"><%= questionnaire.name %></a></div>
+          <div class="description">
+            Actueel: <%if(questionnaire.isActual) { %><i class="toggle on icon"></i><% } else { %><i class="toggle off icon"></i><% }%>
+          </div>
+          <div class="description">
+            Datum: <%= questionnaire.created.toJSON().slice(0,10).split('-').reverse().join('/') %>
+          </div>
+        </div>
+        <a class="ui bottom attached button" href="/questionnaire/<%=questionnaire._id%>">
+          <i class="show icon"></i>
+          Bekijk 
+        </a>
+        <a class="ui bottom attached button" href="/questionnaire/<%=questionnaire._id%>/actual">
+          <i class="hand pointer icon"></i>
+          Maak actueel
+        </a>
+      </div>
+      <% }); %>
+    </div>
+</div>
+
+<% include ../partials/footer %>

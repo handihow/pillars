@@ -1,0 +1,23 @@
+<div class="inline fields">
+  <label>Is er een gedeelde visie op ICT en Onderwijs op deze school?</label>
+  <div class="field">
+    <div class="ui radio checkbox">
+      <input 
+            type="radio" 
+            name="school[management][agreement]" 
+            value="0" 
+            <% if(!school.management.agreement) { %>checked="checked"<% } %>>
+      <label>Nee</label>
+    </div>
+  </div>
+  <div class="field">
+    <div class="ui radio checkbox">
+      <input 
+            type="radio" 
+            name="school[management][agreement]" 
+            value="1"
+            <% if(school.management.agreement) { %>checked="checked"<% } %>>
+      <label>Ja</label>
+    </div>
+  </div>
+</div>

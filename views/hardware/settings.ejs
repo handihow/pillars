@@ -1,0 +1,36 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<% include ../partials/school-header %>
+
+    <h2 class="ui header"><i class="desktop icon"></i> Hardware instellingen van <%= school.name %></h2>
+    <h4>Kies welke hardware je wilt bijhouden</h4>
+    <div class="ui divider"></div>
+    <form class="ui form" action="/schools/<%=school._id%>/hardware/settings?_method=PUT" method="POST">
+        <% var i = 0 %>
+        <% school.settings.hardware.forEach(function(type){ %>
+            <input type="hidden" name="school[settings][hardware][<%=i%>][singular]" value="<%=type.singular%>">
+            <input type="hidden" name="school[settings][hardware][<%=i%>][plural]" value="<%=type.plural%>">
+            <div class="two fields">
+              <div class="field">
+                <div class="ui toggle checkbox">
+                  <input type="hidden" value="0" name="school[settings][hardware][<%=i%>][track]">
+                  <input 
+                    type="checkbox"
+                    name="school[settings][hardware][<%=i%>][track]"
+                    <% if(type.track) { %> 
+                    checked="checked" <% } %> 
+                    >
+                  <label><%=type.plural %></label>
+                </div>
+              </div>
+             </div>
+             <% i++ %>
+          <% }); %>
+          <button class="ui button" type="submit">Bewaren</button>
+        </form>
+    </div>
+</div>
+
+<% include ../partials/school-footer %>
+<% include ../partials/footer %>

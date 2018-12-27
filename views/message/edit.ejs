@@ -1,8 +1,10 @@
-<% include ../partials/school/header %>
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
 
 <div class="ui container">
     <div class="ui huge header">Bericht Bewerken</div>
-    <form class="ui form" action="/message/<%=message._id%>?_method=PUT" method="POST" id="bericht" novalidate>
+    <form class="ui form" action="/message/<%=message._id%>?_method=PUT" method="POST" id="messageForm" novalidate>
         <div class="required field">
             <label>Titel</label>  
             <input type="text" name="message[title]" value="<%=message.title%>">
@@ -16,6 +18,5 @@
     </form>
 </div>
 
-<% include ../partials/school/footer %>
-
+<% include ../partials/footer %>
 

@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
 
 var messageSchema=  mongoose.Schema({
-    title: String,
+    title: {type: String, required: true},
     message: String,
     //ALGEMEEN
     created: {type: Date, default: Date.now},

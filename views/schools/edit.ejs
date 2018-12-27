@@ -1,0 +1,118 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<% include ../partials/school-header %>
+
+    <h2 class="ui header"><%= school.name %></h2>
+    <div class="ui divider"></div>
+    <form class="ui form" action="/schools/<%=school._id%>?_method=PUT" method="POST" id="schoolEdit">
+         <div class="three fields">
+            <div class="field">
+                <label>BRIN nummer</label>
+                <input type="text" name="school[schoolIdNumber]" value="<%=school.schoolIdNumber%>" id="school[schoolIdNumber]">
+            </div>
+            <div class="field">
+                <label>Vestigingsnummer</label>
+                <input type="text" name="school[schoolLocationIdNumber]" value="<%=school.schoolLocationIdNumber%>" id="school[schoolLocationIdNumber]">
+            </div>
+            <div class="field">
+                <label>Bevoegd gezag nummer</label>
+                <input type="text" name="school[organisationIdNumber]" value="<%=school.organisationIdNumber%>" id="school[organisationIdNumber]">
+            </div>
+          </div>
+          <div class="field">
+            <label>Instellingsnaam</label>
+            <input type="text" name="school[name]" value="<%=school.name%>" id="school[name]">
+          </div>
+          <div class="field">
+            <label>Adres</label>
+                <div class="fields">
+                  <div class="twelve wide field">
+                    <input type="text" name="school[streetName]" value="<%=school.streetName%>">
+                  </div>
+                  <div class="four wide field">
+                    <input type="text" name="school[houseNumber]" value="<%=school.houseNumber%>">
+                  </div>
+                </div>
+          </div>
+          <div class="field">
+            <label>Postcode en Plaatsnaam</label>
+                <div class="fields">
+                    <div class="four wide field">
+                        <input type="text" name="school[postalCode]" value="<%=school.postalCode%>">
+                    </div>
+                    <div class="twelve wide field">
+                        <input type="text" name="school[city]" value="<%=school.city%>" id="school[city]">
+                    </div>
+                </div>
+          </div>
+          <div class="fields">
+            <div class="four wide field">
+                <label>Aantal leerlingen</label>
+                <input type="number" name="school[countStudents]" value="<%=school.countStudents%>" id="school[countStudents]">
+            </div>
+            <div class="four wide field">
+                <label>Aantal klaslokalen</label>
+                <input type="number" name="school[countClassrooms]" value="<%=school.countClassrooms%>" id="school[countClassrooms]">
+            </div>
+            <div class="eight wide field">
+                <label>Logo</label>
+                <input type="text" name="school[logo]" value="<%=school.logo%>" id="school[logo]">
+            </div>
+          </div>
+          <div class="two fields">
+            <div class="inline fields">
+              <label>Bedraad Netwerk Werkt Snel en Betrouwbaar</label>
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input 
+                        type="radio" 
+                        name="school[network][wired]" 
+                        value="0" 
+                        <% if(!school.network.wired) { %>checked="checked"<% } %>>
+                  <label>Nee</label>
+                </div>
+              </div>
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input 
+                        type="radio" 
+                        name="school[network][wired]" 
+                        value="1"
+                        <% if(school.network.wired) { %>checked="checked"<% } %>>
+                  <label>Ja</label>
+                </div>
+              </div>
+            </div>
+            <div class="inline fields">
+              <label>Wireless Netwerk Werkt Snel en Betrouwbaar</label>
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input 
+                        type="radio" 
+                        name="school[network][wireless]" 
+                        value="0" 
+                        <% if(!school.network.wireless) { %>checked="checked"<% } %>>
+                  <label>Nee</label>
+                </div>
+              </div>
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input 
+                        type="radio" 
+                        name="school[network][wireless]" 
+                        value="1"
+                        <% if(school.network.wireless) { %>checked="checked"<% } %>>
+                  <label>Ja</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="ui button" type="submit">Bewaren</button>
+          <div class="ui error message"></div>
+        </form>
+    </div>
+</div>
+
+<% include ../partials/school-footer %>
+<% include ../partials/footer %>

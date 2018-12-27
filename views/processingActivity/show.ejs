@@ -1,6 +1,8 @@
-<% include ../partials/school/header %>
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
 <%if(schoolLevel){%>
-  <% include ../partials/school/side-header %>
+  <% include ../partials/school-header %>
 <%} else { %>
  <div class="ui container">
 <%}%>
@@ -52,14 +54,14 @@
 <%if(schoolLevel && !processingActivity.isValidForAllOrganisation){%>
     <a id="edit" 
     class="ui primary basic button" 
-    href="/scholen/<%=school._id%>/processingActivity/<%=processingActivity._id%>/edit">
+    href="/schools/<%=school._id%>/processingActivity/<%=processingActivity._id%>/edit">
     Bewerken
     </a>
     <form id="delete" 
-    action="/scholen/<%= school._id %>/processingActivity/<%=processingActivity._id%>?_method=DELETE" 
+    action="/schools/<%= school._id %>/processingActivity/<%=processingActivity._id%>?_method=DELETE" 
     method="POST">
     <button class="ui red basic button">Verwijderen</button>
-  <% include ../partials/school/side-footer %>
+  <% include ../partials/school-footer %>
 <%} else if(!schoolLevel) {%>
     <a id="edit" 
     class="ui primary basic button" 
@@ -72,4 +74,4 @@
     <button class="ui red basic button">Verwijderen</button>
     </div>
 <% } %>
-<% include ../partials/school/footer %>
+<% include ../partials/footer %>

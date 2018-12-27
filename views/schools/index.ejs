@@ -1,0 +1,46 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+
+<div class="ui container">
+    <h2 class="ui center aligned header">
+      <div>Scholen</div>
+    </h2>
+    <% if(currentUser.role==="badmin" || currentUser.role ==="padmin") { %>
+      <a class="ui yellow button right" href="/schools/new">Scholen Automatisch Toevoegen</a>
+      <a class="ui blue button right" href="/schools/manual">School Handmatig Invoeren</a>
+    <% } %>
+    <div class="ui segment">
+        <h4 class="ui right aligned header inline">
+          <i class="youtube icon"></i>
+          <div class="content">
+            <a href="https://youtu.be/6hk04QVjH2A" target="_blank">Scholen Toevoegen en Beheren</a>
+            <div class="sub header">YouTube Instructie Video</div>
+          </div>
+        </h4>
+    </div>
+    <!--divider and then all cards for schools-->
+    <div class="ui divider"></div>
+    <!--cards with schools-->
+    <div class="ui four doubling cards">
+      <% schools.forEach(function(school){ %>
+      <a class="ui card" href="/schools/<%=school._id%>">
+
+        <div class="content">
+          <%if(school.logo){%><img class="right floated mini ui image" src="<%=school.logo%>"><%}%>
+          <div class="header"><%= school.name %></div>
+          
+          <div class="description">
+            <p>BRIN: <%= school.schoolIdNumber %></p>
+            <p><%= school.city %></p>
+          </div>
+        </div>
+        <div class="ui bottom attached progress" data-percent="<%= Math.ceil(((school.countStudents ? 1 : 0) + ((school.hardware && school.hardware.length>0) ? 1 : 0) + ((school.software && school.software.length>0) ? 1 : 0) + (school.competence ? 1 : 0) + (school.management.roles[0].hoursPerYear>0 ? 1 : 0) + ((school.users && school.users.length>0) ? 1 : 0)) / 0.06) %>">
+          <div class="bar"></div>
+        </div>
+      </a>
+      <% }); %>
+    </div>
+</div>
+
+<% include ../partials/footer %>

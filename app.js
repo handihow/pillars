@@ -12,30 +12,45 @@ var User = require("./models/user");
 var flash = require("connect-flash");
 var fileUpload = require('express-fileupload');
 var expressSanitizer = require("express-sanitizer");
+var config = require("./config/config");
 
 //REQUIRING ROUTES
-var hardwareRoutes = require("./routes/hardware");
-var softwareRoutes = require("./routes/software");
-var scholenRoutes = require("./routes/scholen");
-var organisationRoutes = require("./routes/organisations");
-var deskundigheidRoutes = require("./routes/deskundigheid");
-var organisatieRoutes = require("./routes/organisatie");
-var userRoutes = require("./routes/user");
-var testRoutes = require("./routes/test");
-var profielRoutes = require("./routes/profiel");
-var normeringRoutes = require("./routes/normering");
-var processingActivityRoutes = require("./routes/processingActivity");
-var processingActivityOrganisationRoutes = require("./routes/processingActivityOrganisation");
-var pillarsRoutes = require("./routes/pillars");
+// //ROUTES RELATED TO SCHOOLS
+var schoolRoutes = require("./routes/school/schools");
+var hardwareRoutes = require("./routes/school/hardware");
+var softwareRoutes = require("./routes/school/software");
+var competenceRoutes = require("./routes/school/competence");
+var managementRoutes = require("./routes/school/management");
+var pillarsRoutes = require("./routes/school/pillars");
+var evaluationRoutes = require("./routes/school/evaluation");
+var informationRoutes = require("./routes/school/information");
+var processingActivityRoutes = require("./routes/school/processingActivity");
+//ROUTES RELATED TO USERS
+var orgUserRoutes = require("./routes/user/org-user");
+var schoolUserRoutes = require("./routes/user/school-user");
+var userProfileRoutes = require("./routes/user/user-profile");
+var userTestRoutes = require("./routes/user/user-test");
+var userEvalRoutes = require("./routes/user/user-eval");
+//ROUTES RELATED TO ORGANISATION
+var standardRoutes = require("./routes/organisation/standard");
+var processingActivityOrganisationRoutes = require("./routes/organisation/processingActivityOrganisation");
+var messageRoutes = require("./routes/organisation/message");
+var questionnaireRoutes = require("./routes/organisation/questionnaire");
+var overviewRoutes = require("./routes/organisation/overview");
+//ROUTES RELATED TO PILLARS ADMINISTRATION
+var organisationRoutes = require("./routes/admin/organisations");
+var adminRoutes = require("./routes/admin/admin");
+//ROUTE TO HOME PAGE
+var verifyEmailRoutes = require("./routes/user/verify-email");
+var loginRoutes = require("./routes/user/login");
+var registerRoutes = require("./routes/user/register");
+var retrievePasswordRoutes = require("./routes/user/retrieve-password");
 var indexRoutes = require("./routes/index");
-var messageRoutes = require("./routes/message");
-var overviewRoutes = require("./routes/overview");
-var evaluationRoutes = require("./routes/evaluation");
-var user_evalRoutes = require("./routes/user_eval");
-var adminRoutes = require("./routes/admin");
 
-mongoose.connect(process.env.DATABASEURL); //DATABASEURL=mongodb://localhost/scholen_app
+//DATABASE CONNECTION
+mongoose.connect(process.env.DATABASEURL);
 
+//APP CONFIG
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.json({limit: '50mb'}));
@@ -47,7 +62,7 @@ app.use(expressSanitizer());
 
 //PASSPORT CONFIGURATION
 app.use(require("express-session")({
-    secret: "CJ is the cutest dog of the universe",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false
 }));
@@ -56,6 +71,7 @@ app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+//PASSPORT GOOGLE CONFIGURATION
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -80,6 +96,7 @@ passport.use(new GoogleStrategy({
     });
   }
 ));
+//PASSPORT OFFICE 365 CONFIGURATION
 passport.use(new AzureAdOAuth2Strategy({
     clientID: process.env.AZURE_CLIENT_ID,
     clientSecret: process.env.AZURE_CLIENT_SECRET,
@@ -117,8 +134,11 @@ passport.use(new AzureAdOAuth2Strategy({
     }
   }
 ));
+
+//DECLARE GLOBAL VARIABLES
 app.use(function(req, res, next){
-   res.locals.currentUser = req.user;
+   res.locals.currentUser = req.user || null;
+   res.locals.scripts = config.scripts;
    res.locals.error = req.flash("error");
    res.locals.success = req.flash("success");
    res.locals.url = req.url;
@@ -126,26 +146,39 @@ app.use(function(req, res, next){
 });
 
 //USE ROUTES
-app.use("/scholen/:id/hardware", hardwareRoutes);
-app.use("/scholen/:id/software", softwareRoutes);
-app.use("/scholen/:id/evaluation", evaluationRoutes);
-app.use("/scholen/:id/deskundigheid", deskundigheidRoutes);
-app.use("/scholen/:id/organisatie", organisatieRoutes);
-app.use("/scholen/:id/pillars", pillarsRoutes);
-app.use("/scholen/:id/processingActivity", processingActivityRoutes);
-app.use("/user/:id/evaluation", user_evalRoutes);
-app.use("/user/:id/test", testRoutes);
-app.use("/scholen", scholenRoutes);
-app.use("/organisations", organisationRoutes);
-app.use("/normering", normeringRoutes);
+//ROUTES RELATED TO SCHOOLS
+app.use("/schools", schoolRoutes);
+app.use("/schools/:id/hardware", hardwareRoutes);
+app.use("/schools/:id/software", softwareRoutes);
+app.use("/schools/:id/competence", competenceRoutes);
+app.use("/schools/:id/management", managementRoutes);
+app.use("/schools/:id/pillars", pillarsRoutes);
+app.use("/schools/:id/evaluation", evaluationRoutes);
+app.use("/schools/:id/information", informationRoutes);
+app.use("/schools/:id/processingActivity", processingActivityRoutes);
+//ROUTES RELATED TO USERS
+app.use("/schools/:id/user", schoolUserRoutes);
+app.use("/user/:id/test", userTestRoutes);
+app.use("/user/:id/evaluation", userEvalRoutes);
+app.use("/user/:id", userProfileRoutes);
+app.use("/org-user", orgUserRoutes);
+//ROUTES RELATED TO ORGANISATION
+app.use("/standard", standardRoutes);
 app.use("/processingActivity", processingActivityOrganisationRoutes);
 app.use("/overview", overviewRoutes);
-app.use("/profiel", profielRoutes);
-app.use("/admin", adminRoutes);
+app.use("/questionnaire", questionnaireRoutes);
 app.use("/message", messageRoutes);
+//ROUTES RELATED TO PILLARS ADMIN
+app.use("/organisations", organisationRoutes);
+app.use("/admin", adminRoutes);
+//HOME PAGES
+app.use("/verify", verifyEmailRoutes);
+app.use("/", loginRoutes);
+app.use("/", registerRoutes);
+app.use("/", retrievePasswordRoutes);
 app.use(indexRoutes);
-app.use(userRoutes);
 
+//LISTEN ON PORT
 app.listen(process.env.PORT || 8080, process.env.IP, function(){
    console.log("The Scholen Server has started!"); 
 });

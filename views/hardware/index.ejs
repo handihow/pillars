@@ -1,35 +1,37 @@
-<% include ../partials/school/header %>
-<% include ../partials/school/side-header %>
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<% include ../partials/school-header %>
 
 
-<h2 class="ui header"><i class="desktop icon"></i></i>Hardware van <%= school.instellingsnaam %></h2>
-<a class="positive ui button right" href="/scholen/<%=school._id%>/hardware/bulk">Importeer Hardware CSV</a>
-<a class="primary ui button right" href="/scholen/<%=school._id%>/hardware/download">Download Hardware CSV</a>
+<h2 class="ui header"><i class="desktop icon"></i></i>Hardware van <%= school.name %></h2>
+<a class="positive ui button right" href="/schools/<%=school._id%>/hardware/bulk">Importeer Hardware CSV</a>
+<a class="primary ui button right" href="/schools/<%=school._id%>/hardware/download">Download Hardware CSV</a>
 <h2 class="ui right aligned header">
-  <a href="/scholen/<%=school._id%>/hardware/instellingen">
+  <a href="/schools/<%=school._id%>/hardware/settings">
     <i class="setting icon"></i>
   </a>
 </h2>
 <div class="ui cards">
   <!--make a card for each type of hardware-->
-  <% school.instellingenHardwareTypes.forEach(function(type){ %>
-  <% if (type.bijhouden) { %>
+  <% school.settings.hardware.forEach(function(type){ %>
+  <% if (type.track) { %>
   <div class="card">
     <div class="content">
-      <div class="header" id="countHeader"><a href="#<%=type.enkelvoud%>"><%=type.meervoud%></a></div>
+      <div class="header" id="countHeader"><a href="#<%=type.singular%>"><%=type.plural%></a></div>
       <div class="description count">
         <% var count = 0 %>
         <% school.hardware.forEach(function(hardware){ %>
-        <% if(!isNaN(hardware.aantalWerkplekkenMultipoint) && hardware.type === type.enkelvoud) { count += hardware.aantalWerkplekkenMultipoint %>
-        <% } else if(hardware.type === type.enkelvoud) { count += 1} %>
+        <% if(!isNaN(hardware.numberWorkPlacesMultipoint) && hardware.type === type.singular) { count += hardware.numberWorkPlacesMultipoint %>
+        <% } else if(hardware.type === type.singular) { count += 1} %>
         <% }); %>
         <%= count %>
       </div>
     </div>
     <div class="ui bottom attached button">
-      <a href="/scholen/<%=school._id%>/hardware/new/<%=type.enkelvoud%>">
+      <a href="/schools/<%=school._id%>/hardware/new/<%=type.singular%>">
         <i class="add icon"></i>
-        <%=type.enkelvoud%>
+        <%=type.singular%>
       </a>
     </div>
   </div>
@@ -39,10 +41,10 @@
 </div>
 <div class="ui segment">
   <!--make a table for each type of hardware-->
-  <% global.hardwareTypes.forEach(function(type){ %>
-  <% if(school.hardware.map(a => a.type).includes(type.enkelvoud)) { %>
-  <div class="ui huge header"><%=type.meervoud%></div>
-  <a id="<%=type.enkelvoud%>">
+  <% config.types.forEach(function(type){ %>
+  <% if(school.hardware.map(a => a.type).includes(type.singular)) { %>
+  <div class="ui huge header"><%=type.plural%></div>
+  <a id="<%=type.singular%>">
     <table class="ui celled table unstackable">
       <thead>
         <tr>
@@ -55,31 +57,29 @@
       <% } %>
       <tbody>
         <% school.hardware.forEach(function(hardware){ %>
-        <% if(type.enkelvoud === hardware.type) { %>
-        <tr <% if(hardware.isVerouderd) { %> class="negative" <% } %> >
+        <% if(type.singular === hardware.type) { %>
+        <tr <% if(hardware.isDepreciated) { %> class="negative" <% } %> >
           <td><%= hardware.type %></td>
-          <td><%= hardware.naam %></td>
-          <td><%= hardware.merk %></td>
+          <td><%= hardware.name %></td>
+          <td><%= hardware.brand %></td>
           <td>
             <a 
             class="ui mini primary basic button" 
-            href="/scholen/<%=school._id%>/hardware/<%=hardware._id%>">
+            href="/schools/<%=school._id%>/hardware/<%=hardware._id%>">
             Toon info
           </a>
-          <form action="/scholen/<%=school._id%>/hardware/<%=hardware._id%>/copy" method="post" class="button-inline">
-            <input type="hidden" name="hardware[naam]" value="<%=hardware.naam%>">
+          <form action="/schools/<%=school._id%>/hardware/<%=hardware._id%>/copy" method="post" class="button-inline">
+            <input type="hidden" name="hardware[name]" value="<%=hardware.name%>">
             <input type="hidden" name="hardware[type]" value="<%=hardware.type%>">
-            <input type="hidden" name="hardware[merk]" value="<%=hardware.merk%>">
+            <input type="hidden" name="hardware[brand]" value="<%=hardware.brand%>">
             <input type="hidden" name="hardware[model]" value="<%=hardware.model%>">
             <input type="hidden" name="hardware[serialTag]" value="<%=hardware.serialTag%>">
             <input type="hidden" name="hardware[processor]" value="<%=hardware.processor%>">
-            <input type="hidden" name="hardware[werkgeheugen]" value="<%=hardware.werkgeheugen%>">
-            <input type="hidden" name="hardware[jaarIngebruikname]" value="<%=hardware.jaarIngebruikname%>">
-            <input type="hidden" name="hardware[isTouchscreenDigibord]" value="<%=hardware.isTouchscreenDigibord%>">
-            <input type="hidden" name="hardware[schermgrootteDigibord]" value="<%=hardware.schermgrootteDigibord%>">
+            <input type="hidden" name="hardware[memory]" value="<%=hardware.memory%>">
+            <input type="hidden" name="hardware[deploymentYear]" value="<%=hardware.deploymentYear%>">
             <button class="ui mini secondary basic button" type="submit">Kopieer</button>
           </form>
-          <% if(hardware.isVerouderd) { %> <i class="attention icon"></i> <%=hardware.waarschuwing %> <% } %>
+          <% if(hardware.isDepreciated) { %> <i class="attention icon"></i> <%=hardware.warning %> <% } %>
         </td>
       </tr>
       <% } %>
@@ -89,6 +89,6 @@
   <% }); %>
 </div>
 
-<% include ../partials/school/side-footer %>
-<% include ../partials/school/footer %>
+<% include ../partials/school-footer %>
+<% include ../partials/footer %>
 

@@ -1,10 +1,12 @@
-<% include ../partials/school/header %>
-<% include ../partials/school/side-header %>
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<% include ../partials/school-header %>
 
 
-    <h2 class="ui header"><i class="comments icon"></i> Evaluatie van <%= school.instellingsnaam %> Bewerken</h2>
+    <h2 class="ui header"><i class="comments icon"></i> Evaluatie van <%= school.name %> Bewerken</h2>
     
-    <form class="ui form" action="/scholen/<%=school._id%>/evaluation/<%=evaluation._id%>?_method=PUT" method="POST" id="evaluationForm" novalidate>
+    <form class="ui form" action="/schools/<%=school._id%>/evaluation/<%=evaluation._id%>?_method=PUT" method="POST" id="evaluationForm" novalidate>
       <div class="field">
             <label>Titel</label>  
             <input type="text" name="evaluation[title]" value="<%=evaluation.title%>" required="" title="Dit veld is verplicht">
@@ -21,5 +23,5 @@
     </form>
 </div>
     
-<% include ../partials/school/side-footer %>
-<% include ../partials/school/footer %>
+<% include ../partials/school-footer %>
+<% include ../partials/footer %>

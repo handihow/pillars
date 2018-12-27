@@ -8,7 +8,7 @@ var testSchema = mongoose.Schema (
         owner: {
               type:   mongoose.Schema.Types.ObjectId,
               ref: "User"
-            },
+        },
         username: String,
         questions: [String],
         answers: [Number],

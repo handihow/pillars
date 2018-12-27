@@ -1,0 +1,23 @@
+<div class="inline fields">
+  <label>Worden netwerkincidenten naar tevredenheid opgelost?</label>
+  <div class="field">
+    <div class="ui radio checkbox">
+      <input 
+            type="radio" 
+            name="school[management][incidentReporting]" 
+            value="0" 
+            <% if(!school.management.incidentReporting) { %>checked="checked"<% } %>>
+      <label>Nee</label>
+    </div>
+  </div>
+  <div class="field">
+    <div class="ui radio checkbox">
+      <input 
+            type="radio" 
+            name="school[management][incidentReporting]" 
+            value="1"
+            <% if(school.management.incidentReporting) { %>checked="checked"<% } %>>
+      <label>Ja</label>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,6 @@
-<% include ../partials/school/header %>
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
 
 <div class="ui container">
     <h2 class="ui center aligned header">
@@ -31,17 +33,17 @@
         </tr>
       </thead>
       <tbody>
-        <% scholen.forEach(function(school){ %>
+        <% schools.forEach(function(school){ %>
           <% school.software.forEach(function(software){ %>
             <tr>
-              <td><%=school.instellingsnaam%></td>
-              <td><%=software.vak%></td>
-              <td><%=software.naam%></td>
-              <td><%=software.functie%></td>
-              <td><%=software.groep%></td>
-              <td><%=software.kwaliteit%></td>
-              <td><%=software.effectiviteit%></td>
-              <td><a class="ui mini primary basic button" href="/scholen/<%=school._id%>/software/<%=software._id%>">Bekijk</a></td>
+              <td><%=school.name%></td>
+              <td><%=software.subject%></td>
+              <td><%=software.name%></td>
+              <td><%=software.functionalities%></td>
+              <td><%=software.gradeLevels%></td>
+              <td><%=software.ratings%></td>
+              <td><%=software.effectiveness%></td>
+              <td><a class="ui mini primary basic button" href="/schools/<%=school._id%>/software/<%=software._id%>">Bekijk</a></td>
             </tr>
           <% }) %>
         <% }) %>
@@ -49,4 +51,4 @@
     </table>
 </div>
 
-<% include ../partials/school/footer %>
+<% include ../partials/footer %>

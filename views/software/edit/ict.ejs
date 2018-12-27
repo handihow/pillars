@@ -1,0 +1,14 @@
+<div class="field">
+  <div class ="required grouped fields">
+      <label for="software[subject]">Selecteer het subject: </label>
+      <% school.settings.software.subjects["ICT Geletterdheid"].forEach(function(ictSubject){ %>
+      <div class="field">
+          <div class="ui radio checkbox">
+            <input type="radio" name="software[subject]"
+              value="<%= ictSubject %>" <% if(ictSubject===software.subject){ %> checked="" <% } %>>
+            <label><%= ictSubject %></label>
+        </div>
+    </div>
+    <% }) %> 
+  </div>
+</div>

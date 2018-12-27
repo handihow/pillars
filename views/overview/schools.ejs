@@ -1,0 +1,44 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+
+<div class="ui container">
+    <h2 class="ui center aligned header">
+      <div>Progressie Invoer Scholen</div>
+    </h2>
+    <p>Controleer de progressie van invoer voor scholen binnen jouw bestuur. Groene indicatie betekent slechts dat er een begin gemaakt is met de invoer.
+    Bijvoorbeeld, een groene indicatie wordt al gegeven als slechts 1 computer is ingegeven bij de sectie Hardware.</p>
+    <!--make table with schools and progress-->
+    <table class="ui celled small table">
+      <thead>
+        <tr>
+          <th>Instellingsnaam</th>
+          <th>Plaatsnaam</th>
+          <th>Leerlingen</th>
+          <th>Algemene info</th>
+          <th>Hardware</th>
+          <th>Digitale Leermiddelen</th>
+          <th>Deskundigheid</th>
+          <th>Organisatie</th>
+          <th>Medewerkers</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% schools.forEach(function(school){ %>
+            <tr>
+              <td><%=school.name%></td>
+              <td><%=school.city%></td>
+              <td class="right aligned <% if(school.countStudents){ %> positive <% } else { %> negative <% } %>" ><%=school.countStudents%></td>
+              <td class="center aligned"><% if(school.countStudents){ %> <i class="large green checkmark icon"></i> <% } %> </td>
+              <td class="center aligned"><% if(school.hardware && school.hardware.length>0){ %> <i class="large green checkmark icon"></i> <% } %> </td>
+              <td class="center aligned"><% if(school.software && school.software.length>0){ %> <i class="large green checkmark icon"></i> <% } %> </td>
+              <td class="center aligned"><% if(school.competence){ %> <i class="large green checkmark icon"></i> <% } %> </td>
+              <td class="center aligned"><% if(school.management.roles[0].hoursPerYear>0){ %> <i class="large green checkmark icon"></i> <% } %> </td>
+              <td class="center aligned"><% if(school.users && school.users.length>0){ %> <i class="large green checkmark icon"></i> <% } %> </td>
+            </tr>
+        <% }) %>
+      </tbody>
+    </table>
+</div>
+
+<% include ../partials/footer %>

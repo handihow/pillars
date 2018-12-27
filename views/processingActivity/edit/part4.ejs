@@ -22,7 +22,7 @@
     <label>Categorien van doeleinden en grondslagen</label>
       <select multiple="" name="processingActivity[processingActivityGoalCategories]" class="ui dropdown">
         <option value="">Selecteer categorieen</option>
-        <% data.categoriesOfGoals.forEach(function(category) { %>
+        <% config.categoriesOfGoals.forEach(function(category) { %>
         <option value="<%=category%>" <%if(processingActivity.processingActivityGoalCategories.includes(category)) { %> selected="" <% } %>><%=category%></option>
         <% }) %>
       </select>
@@ -31,7 +31,7 @@
     <label>Categorien van persoonsgegevens</label>
       <select multiple="" name="processingActivity[personalDataCategories]" class="ui dropdown">
         <option value="">Selecteer categorieen</option>
-        <% data.categoriesOfData.forEach(function(category) { %>
+        <% config.categoriesOfData.forEach(function(category) { %>
         <option value="<%=category%>" <%if(processingActivity.personalDataCategories.includes(category)) { %> selected="" <% } %>>
           <%=category%></option>
         <% }) %>
@@ -41,7 +41,7 @@
     <label>Wettelijke basis voor verwerking</label>
       <select multiple="" name="processingActivity[legalJustificationForProcessing]" class="ui dropdown">
         <option value="">Selecteer wettelijke basis</option>
-        <% data.legalJustification.forEach(function(justification) { %>
+        <% config.legalJustification.forEach(function(justification) { %>
         <option value="<%=justification%>" 
           <%if(processingActivity.legalJustificationForProcessing.includes(justification)) { %> selected="" <% } %>>
             <%=justification%></option>

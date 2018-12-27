@@ -1,8 +1,10 @@
-<% include ../partials/school/header %>
-<% include ../partials/school/side-header %>
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<% include ../partials/school-header %>
 
 
-    <h2 class="ui top attached header">Hardware Lijst Toevoegen aan <%= school.instellingsnaam %></h2>
+    <h2 class="ui header">Hardware Lijst Toevoegen aan <%= school.name %></h2>
     <div class="ui message">
       <div class="header">
         BELANGRIJK
@@ -18,7 +20,7 @@
       <div class="item">Selecteer hieronder het scheidingsteken dat wordt gebruikt in het bestand dat je wilt uploaden. Dit kan ";" zijn (bijvoorbeeld vanuit Excel-Nederlands) of "," (bijvoorbeeld vanuit Google Sheets)</div>
       <div class="item">Kies het csv bestand en klik dan op bewaren</div>
     </div>
-    <form class="ui form" action="/scholen/<%=school._id%>/hardware/bulk" method="POST" encType="multipart/form-data">
+    <form class="ui form" action="/schools/<%=school._id%>/hardware/bulk" method="POST" encType="multipart/form-data">
         <div class="fields">
           <div class="two wide required field">
               <label>Scheidingsteken</label>
@@ -39,5 +41,5 @@
     </form>
     </div>
     
-<% include ../partials/school/side-footer %>
-<% include ../partials/school/footer %>
+<% include ../partials/school-footer %>
+<% include ../partials/footer %>

@@ -1,4 +1,6 @@
-<% include ../partials/school/header %>
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
 
 <div class="ui container">
   
@@ -8,7 +10,7 @@
   <h5>Gegevens huidige gebruiker</h5>
   <p>Naam: <%= user.firstName %> <%= user.lastName %></p>
   <p>Rol: <%= user.role%></p>
-  <p>School: <%= school.brin %> - <%= school.instellingsnaam %> - <%= school.plaatsnaam %></p>
+  <p>School: <%= school.schoolIdNumber %> - <%= school.name %> - <%= school.city %></p>
   
   <div class="ui divider"></div>
 
@@ -61,7 +63,7 @@
                   <% schools.forEach(function(school){%>
                     <div class="item"
                         data-value="<%=school._id%>">
-                          <%=school.brin%> <%=school.instellingsnaam%> <%=school.plaatsnaam%>
+                          <%=school.schoolIdNumber%> <%=school.name%> <%=school.city%>
                     </div>
                   <%})%>
               </div>
@@ -74,4 +76,4 @@
 
 </div>
 
-<% include ../partials/school/footer %>
+<% include ../partials/footer %>

@@ -1,0 +1,19 @@
+<div class="required field">
+  <label for="software[subject]">Selecteer het vak:</label>
+  
+  <div class="field">
+    <select class="ui fluid dropdown" name="software[subject]">
+      <option value="">Vak</option>
+      <% school.settings.software.subjects[config.subjects.noncore].sort().forEach(function(otherSubject){ %>
+      <option value="<%=otherSubject %>"><%=otherSubject %></option>
+      <% }) %>
+    </select>
+  </div>
+  
+</div>
+<div class="field">
+  <div class="required four wide field">
+    <label>Effectiviteit: 1 = niet effectief / 6 = zeer effectief</label>
+    <input type="number" min="1" max="6" name="software[effectiveness]">
+  </div>
+</div>

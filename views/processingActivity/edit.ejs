@@ -1,9 +1,11 @@
-<% include ../partials/school/header %>
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
 <%if(schoolLevel){%>
-  <% include ../partials/school/side-header %>
+  <% include ../partials/school-header %>
 
-  <h2 class="ui top attached header">Verwerkingsovereenkomst Toevoegen aan <%= school.instellingsnaam %></h2>
-  <form class="ui small form" action="/scholen/<%=school._id%>/processingActivity/<%=processingActivity._id%>?_method=PUT" method="POST" id="processingActivityForm">
+  <h2 class="ui top attached header">Verwerkingsovereenkomst Toevoegen aan <%= school.name %></h2>
+  <form class="ui small form" action="/schools/<%=school._id%>/processingActivity/<%=processingActivity._id%>?_method=PUT" method="POST" id="processingActivityForm">
 <%} else { %>
   <div class="ui container">
     <h2 class="ui top attached header">Verwerkingsovereenkomst Toevoegen</h2>
@@ -55,6 +57,6 @@
   <div class="ui error message"></div>
 </form>
 <%if(schoolLevel){%>
-  <% include ../partials/school/side-footer %>
+  <% include ../partials/school-footer %>
 <%}%>
-<% include ../partials/school/footer %>
+<% include ../partials/footer %>

@@ -1,0 +1,72 @@
+<div class="ui inverted menu">
+  <a class="item" href="https://pillars.school">
+    <img src="/img/logo.png">
+  </a>
+  <% if(currentUser && currentUser.role==="buser") { %>
+    <a class="item" href="/schools/">
+        Scholen
+    </a>
+  <% } %>
+  <% if(currentUser && (currentUser.role==="badmin" || currentUser.role ==="padmin")) { %>
+  <div class="ui dropdown item">
+    Bestuur
+    <i class="dropdown icon"></i>
+    <div class="menu">
+      <a class="item" href="/schools/">
+        Scholen
+      </a>
+      <a class="item" href="/standard">
+        Normering
+      </a>
+      <a class="item" href="/questionnaire">
+        Profielvragen
+      </a>
+      <a class="item" href="/message">
+        Berichten
+      </a>
+      <a class="item" href="/org-user">
+        Bestuur Medewerkers
+      </a>
+      <a class="item" href="/processingActivity">
+        Verwerkingsactiviteiten
+      </a>
+    </div>
+  </div>
+  <div class="ui dropdown item">
+    Overzichten
+    <i class="dropdown icon"></i>
+    <div class="menu">
+      <a class="item" href="/overview/schools">Invoer Gegevens</a>
+      <a class="item" href="/overview/hardware">Hardware</a>
+      <a class="item" href="/overview/software">Digitale Leermiddelen</a>
+      <a class="item" href="/overview/tests">Test Resultaten</a>
+      <a class="item" href="/overview/pillars">Pillars Resultaten</a>
+    </div>            
+  </div>
+  <% } %>
+  <% if(currentUser && currentUser.role ==="padmin") { %>
+  <div class="ui dropdown item">
+    Admin
+    <i class="dropdown icon"></i>
+    <div class="menu">
+      <a class="item" href="/admin">Lijst scholen</a>
+      <a class="item" href="/organisations">Lijst organisaties</a>
+      <a class="item" href="/admin/badmin">Bestuur administrator lijst</a>
+      <a class="item" href="/admin/transfer">Gebruiker updaten</a>
+    </div>            
+  </div>
+  
+  
+  <% } %>
+  <% if(currentUser) { %>
+  <div class="right menu">
+    <a class="ui item" id="profiel-menu" href="/user/<%=currentUser._id%>">
+      <i class="user circle icon"></i> <div class="hide-mobile"><%=currentUser.username%></div>
+    </a>
+    <a class="ui item" href="/logout">
+      <i class="fa fa-sign-out" aria-hidden="true"></i>
+      <div class="hide-mobile">Uitloggen</div>
+    </a>
+  </div>
+  <% } %>
+</div>

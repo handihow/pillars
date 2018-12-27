@@ -1,0 +1,52 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<% include ../partials/school-header %>
+
+<h2 class="ui header"><i class="doctor icon"></i>Deskundigheid van Leerkrachten van <%= school.name %></h2>
+<div class="ui divider"></div>
+<form class="ui form" action="/schools/<%=school._id%>/competence?_method=PUT" method="POST" id="competenceForm" novalidate>
+ <h4 class="ui dividing header">Deskundigheid van Leerkrachten Bewerken</h4>
+ <div class="two fields">
+  <div class="field">
+    <label>Beoordeel de gemiddelde deskundigheid van leerkrachten</label>
+    <input type="number" min=1 max=6 name="school[competence][teachers]" value="<%=school.competence.teachers%>">
+  </div>
+  <div class="field">
+    <label>Beoordeel de gemiddelde effectiviteit van digitale leermiddelen op jouw school</label>
+    <input type="number" min=1 max=6 name="school[competence][effectiveness]" value="<%=school.competence.effectiveness%>">
+  </div>
+</div>
+<div class="two fields">
+  <div class="inline fields">
+    <label>Leerkrachten hebben ondersteuning of training nodig op het gebied van digitale leermiddelen</label>
+    <div class="field">
+      <div class="ui radio checkbox">
+        <input 
+              type="radio" 
+              name="school[competence][support]" 
+              value="0" 
+              <% if(!school.competence.support) { %>checked="checked"<% } %>>
+        <label>Nee</label>
+      </div>
+    </div>
+    <div class="field">
+      <div class="ui radio checkbox">
+        <input 
+              type="radio" 
+              name="school[competence][support]" 
+              value="1"
+              <% if(school.competence.support) { %>checked="checked"<% } %>>
+        <label>Ja</label>
+      </div>
+    </div>
+  </div>
+</div>
+<button class="ui button" type="submit">Bewaren</button>
+<div class="ui error message"></div>
+</form>
+</div>
+</div>
+
+<% include ../partials/school-footer %>
+<% include ../partials/footer %>

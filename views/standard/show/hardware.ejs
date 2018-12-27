@@ -1,0 +1,85 @@
+<!--SHOW HARDWARE STANDARD -->
+
+<div class="ui stackable grid">
+  <div class="four wide column">
+    <h4 class="content">Norm 1</h4>
+    <div class="content">Computers Per Leerling</div>
+  </div>
+  <div class="four wide column">
+    <h4 class="content">Computers per Leerling</h4>
+    <div class="content"><%=standard.hardware.computersPerStudent.standard * 100 %> %</div>
+  </div>
+  <div class="four wide column">
+    <h4 class="content">Meegeteld als computer</h4>
+    <div class="content"><%=standard.hardware.computersPerStudent.isComputer%></div>
+  </div>
+  <div class="four wide column">
+    <h4 class="content">Maximale ouderdom (jaren)</h4>
+    <div class="content"><%=standard.hardware.computersPerStudent.maxYear%></div>
+  </div>
+  <div class="four wide column">
+    <h4 class="content">Minimum geheugen (GB)</h4>
+    <div class="content"><%=standard.hardware.computersPerStudent.minRAM%></div>
+  </div>
+  <div class="four wide column">
+    <h4 class="content">Max Score Computers Per Leerling</h4></h4>
+    <div class="content"><%=standard.hardware.computersPerStudent.maxScore%></div>
+  </div>
+</div>
+<div class="ui divider"></div>
+<div class="ui stackable grid">
+  <div class="four wide column">
+    <h4 class="content">Norm 2</h4>
+    <div class="content">Digitale Borden per Klaslokaal</div>
+  </div>
+  <div class="four wide column">
+    <h4 class="content">Digitaal Bord Touchscreen</h4>
+    <div class="content"><%if(standard.hardware.digitalSchoolbordsPerClassroom.isTouchscreen){%>Ja<%} else {%>Nee<%}%></div>
+  </div>
+  <div class="four wide column">
+    <h4 class="content">Digitale Borden Per Lokaal</h4>
+    <div class="content"><%=standard.hardware.digitalSchoolbordsPerClassroom.standard * 100%> %</div>
+  </div>
+  <div class="four wide column">
+    <h4 class="content">Max Score Digitale Borden</h4>
+    <div class="content"><%=standard.hardware.digitalSchoolbordsPerClassroom.maxScore %></div>
+  </div>
+</div>
+<div class="ui divider"></div>
+<div class="ui stackable grid">
+  <div class="four wide column">
+    <h4 class="content">Norm 3</h4>
+    <div class="content">Snel en Betrouwbaar Internet</div>
+  </div>
+  <div class="eight wide column">
+    <h4 class="content">Netwerk moet snel en betrouwbaar zijn (bekabeld en wireless)</h4>
+    <div class="content">Dit criterium is niet aanpasbaar</div>
+  </div>
+  <div class="four wide column">
+    <h4 class="content">Max Score Netwerk</h4>
+    <div class="content"><%=standard.hardware.network.maxScore%></div>
+  </div>
+</div>
+<div class="ui divider"></div>
+<div class="ui stackable grid">
+  <div class="four wide column">
+    <h4 class="content">Norm 4</h4>
+    <div class="content">Draagbare Computers per School</div>
+  </div>
+  <div class="four wide column">
+    <h4 class="content">Meegeteld als draagbare computer</h4>
+    <div class="content"><%=standard.hardware.laptopsPerSchool.isLaptop%></div>
+  </div>
+  <div class="four wide column">
+    <h4 class="content">Draagbare computers per school</h4>
+    <div class="content"><%=standard.hardware.laptopsPerSchool.standard%></div>
+  </div>
+  <div class="four wide column">
+    <h4 class="content">Maximale ouderdom (jaren)</h4>
+    <div class="content"><%=standard.hardware.laptopsPerSchool.maxYear%></div>
+  </div>
+  <div class="four wide column">
+    <h4 class="content">Max Score Draagbare Computers</h4>
+    <div class="content"><%= standard.hardware.laptopsPerSchool.maxScore %></div>
+  </div>
+</div>

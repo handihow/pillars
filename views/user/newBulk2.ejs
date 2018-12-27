@@ -1,7 +1,10 @@
-<% include ../partials/school/header %>
-<% include ../partials/school/side-header %>
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<% include ../partials/school-header %>
 
-    <h2 class="ui top attached header"><i class="users icon"></i> Medewerkers Toevoegen aan <%= school.instellingsnaam %></h2>
+    <h2 class="ui header"><i class="users icon"></i> Medewerkers Toevoegen aan <%= school.name %></h2>
+    <div class="ui divider"></div>
     <br>
     <div>Gebruik dit formulier alleen als jullie Office365 of Google for Education gebruiken. Gebruikers kunnen dan inloggen via de knoppen voor Office365 of Google.</div>
     <br>
@@ -10,7 +13,7 @@
     <div>Gebruik deze manier niet om administrators te maken in Pillars!</div>
     <h4>Controleer de email adressen die zijn gevonden in uw input</h4>
     <div class="container">
-        <form action="/scholen/<%=school._id%>/userBulk2" method="POST" novalidate>
+        <form action="/schools/<%=school._id%>/user/userBulk2" method="POST" novalidate>
             <ul>
                 <%newUsersClean.forEach(function(emailClean, i){%>
                     <li><%=emailClean%></li>
@@ -30,6 +33,6 @@
         </form>
     </div>
 
-    
-<% include ../partials/school/side-footer %>
-<% include ../partials/school/footer %>
+
+<% include ../partials/school-footer %>
+<% include ../partials/footer %>

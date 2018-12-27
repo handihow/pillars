@@ -1,0 +1,71 @@
+
+<!--FORM FIELDS PART 1-->
+<div class="fields">
+    <div class="field">
+      <label>Minimum beoordeelde deskundigheid</label>
+      <input type="number" name="standard[competence][competenceRating][standard]" 
+      value="<%=standard.competence.competenceRating.standard%>">
+    </div>
+    <div class="field">
+      <label>Minimum gemiddelde effectiviteit</label>
+      <input type="number" name="standard[competence][softwareRating][standard]" 
+      value="<%=standard.competence.softwareRating.standard%>">
+    </div>
+</div>
+
+<!--FORM FIELDS PART 2 = MAXIMUM SCORES-->
+<div class="fields">
+    <div class="field">
+      <label>Max score beoordeelde deskundigheid</label>
+      <input type="number" name="standard[competence][competenceRating][maxScore]" 
+      value="<%=standard.competence.competenceRating.maxScore%>">
+    </div>
+    <div class="field">
+      <label>Max score gemiddelde effectiviteit</label>
+      <input type="number" name="standard[competence][softwareRating][maxScore]" 
+      value="<%=standard.competence.softwareRating.maxScore%>">
+    </div>
+    <div class="field">
+      <label>Max score ondersteuning nodig</label>
+      <input type="number" name="standard[competence][support][maxScore]" value="<%=standard.competence.support.maxScore%>">
+    </div>
+</div>
+<div class="fields">
+    <div class="field">
+      <label>Max score ICT Geletterdheid</label>
+      <input type="number" name="standard[competence][ictSkills][maxScore]" 
+      value="<%=standard.competence.ictSkills.maxScore%>">
+    </div>
+    <div class="field">
+      <label>Max score Ped Didactisch handelen</label>
+      <input type="number" name="standard[competence][pedagogicalDidacticalSkills][maxScore]" 
+      value="<%=standard.competence.pedagogicalDidacticalSkills.maxScore%>">
+    </div>
+    <div class="field">
+      <label>Max score Werken schoolcontext</label>
+      <input type="number" name="standard[competence][workInSchoolContext][maxScore]" 
+      value="<%=standard.competence.workInSchoolContext.maxScore%>">
+    </div>
+    <div class="field">
+      <label>Max score Pers Ontwikkeling</label>
+      <input type="number" name="standard[competence][personalDevelopment][maxScore]" 
+      value="<%=standard.competence.personalDevelopment.maxScore%>">
+    </div>
+</div>
+<div class="fields">
+    <div class="field">
+      <label>Max score Instrumentele vaardigheden</label>
+      <input type="number" name="standard[competence][instrumentalSkills][maxScore]" 
+      value="<%=standard.competence.instrumentalSkills.maxScore%>">
+    </div>
+    <div class="field">
+      <label>Max score Informatievaardigheden</label>
+      <input type="number" name="standard[competence][informationSkills][maxScore]" 
+      value="<%=standard.competence.informationSkills.maxScore%>">
+    </div>
+    <div class="field">
+      <label>Max score Mediavaardigheden</label>
+      <input type="number" name="standard[competence][mediaSkills][maxScore]" 
+      value="<%=standard.competence.mediaSkills.maxScore%>">
+    </div>
+</div>

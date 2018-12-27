@@ -1,12 +1,14 @@
-<% include ../partials/school/header %>
-<% include ../partials/school/side-header %>
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<% include ../partials/school-header %>
 <% var generatedPassword = Math.random().toString(36).substr(2, 8) %>
 
-    <h2 class="ui top attached header"><i class="users icon"></i> Medewerker Toevoegen aan <%= school.instellingsnaam %></h2>
-    <br>
+    <h2 class="ui header"><i class="users icon"></i> Medewerker Toevoegen aan <%= school.name %></h2>
+    <div class="ui divider"></div>
     <div>Gebruik dit formulier als jullie Office365 of Google for Education gebruiken. Gebruikers kunnen dan inloggen via de knoppen voor Office365 of Google.</div>
     <div class="container">
-        <form class="ui form" id="adminRegister" action="/scholen/<%=school._id%>/user" method="POST" novalidate>
+        <form class="ui form" id="adminRegister" action="/schools/<%=school._id%>/user" method="POST" novalidate>
           <div class="required field">
             <label>E-mail</label>
             <input type="email" name="username" placeholder="E-mail adres" id="email">
@@ -34,5 +36,5 @@
         </form>
     </div>
     
-<% include ../partials/school/side-footer %>
-<% include ../partials/school/footer %>
+<% include ../partials/school-footer %>
+<% include ../partials/footer %>

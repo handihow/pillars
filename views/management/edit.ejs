@@ -1,0 +1,73 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<% include ../partials/school-header %>
+
+    <h2 class="ui header"><i class="sitemap icon"></i>Organisatie van Leerkrachten van <%= school.name %></h2>
+    <div class="ui divider"></div>
+    <form class="ui form" action="/schools/<%=school._id%>/management?_method=PUT" method="POST" id="managementForm" novalidate>
+          <!--VISION-->
+          <h4 class="ui dividing header">Visie</h4>
+          <% include ./edit/agreement %>
+          <h4 class="ui dividing header">Netwerkbeheer</h4>
+          <!--NETWORK-->
+          <% include ./edit/networkAdjustment %>
+          <% include ./edit/networkProblemSolving %>
+          <% include ./edit/incidentReporting %>
+          <!--ROLES-->
+          <%school.management.roles.forEach(function(role, index){%>
+            <h4 class="ui dividing header"><%=role.role%></h4>
+            <input type="hidden" name="school[management][roles][<%=index%>][key]" value="<%=role.key%>">
+            <input type="hidden" name="school[management][roles][<%=index%>][role]" value="<%=role.role%>">
+            <div class="two fields">
+              <div class="field">
+                  <label>Wie is de <%=role.role%>?</label>
+                  <input 
+                        type="text" 
+                        name="school[management][roles][<%=index%>][name]" 
+                        value="<%=school.management.roles[index].name%>"
+                        data-rule-required="true" data-msg-required="Naam van de <%=role.role%> is verplicht">
+              </div>
+              <div class="field">
+                  <label>Hoeveel normjaartaakuren heeft de <%=role.role%>?</label>
+                  <input 
+                        type="number" 
+                        name="school[management][roles][<%=index%>][hoursPerYear]"  
+                        value="<%=school.management.roles[index].hoursPerYear%>"
+                        data-rule-required="true"
+                        data-msg-required="Aantal normjaartaakuren van de <%=role.role%> is verplicht">
+              </div>
+            </div>
+            <div class="inline fields">
+              <label>Is binnen het team bekend wie de <%=role.role%> is?</label>
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input 
+                        type="radio" 
+                        name="school[management][roles][<%=index%>][isKnownByTeamMembers]" 
+                        value="0" 
+                        <% if(school.management.roles[index].isKnownByTeamMembers === "0") { %>checked="checked"<% } %>>
+                  <label>Nee</label>
+                </div>
+              </div>
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input 
+                        type="radio" 
+                        name="school[management][roles][<%=index%>][isKnownByTeamMembers]" 
+                        value="1"
+                        <% if(school.management.roles[index].isKnownByTeamMembers === "1") { %>checked="checked"<% } %>>
+                  <label>Ja</label>
+                </div>
+              </div>
+            </div>
+          <%})%>
+
+          <button class="ui button" type="submit">Bewaren</button>
+          <div class="ui error message"></div>
+        </form>
+    </div>
+</div>
+
+<% include ../partials/school-footer %>
+<% include ../partials/footer %>

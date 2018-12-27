@@ -1,4 +1,6 @@
-<% include ../partials/school/header %>
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
 
 <div class="ui container">
     <h2 class="ui center aligned header">
@@ -34,20 +36,20 @@
         </tr>
       </thead>
       <tbody>
-        <% scholen.forEach(function(school){ %>
+        <% schools.forEach(function(school){ %>
           <% school.hardware.forEach(function(hardware){ %>
-            <tr <% if(hardware.isVerouderd) { %> class="negative" <% } %> >
-              <td><%=school.instellingsnaam%></td>
+            <tr <% if(hardware.isDepreciated) { %> class="negative" <% } %> >
+              <td><%=school.name%></td>
               <td><%=hardware.type%></td>
-              <td><%=hardware.naam%></td>
-              <td><%=hardware.merk%></td>
+              <td><%=hardware.name%></td>
+              <td><%=hardware.brand%></td>
               <td><%=hardware.model%></td>
               <td><%=hardware.serialTag%></td>
               <td><%=hardware.processor%></td>
-              <td><%=hardware.werkgeheugen%></td>
-              <td><%=hardware.jaarIngebruikname%></td>
-              <td><%=hardware.waarschuwing %></td>
-              <td><a class="ui mini primary basic button" href="/scholen/<%=school._id%>/hardware/<%=hardware._id%>">Bekijk</a></td>
+              <td><%=hardware.memory%></td>
+              <td><%=hardware.deploymentYear%></td>
+              <td><%=hardware.warning %></td>
+              <td><a class="ui mini primary basic button" href="/schools/<%=school._id%>/hardware/<%=hardware._id%>">Bekijk</a></td>
             </tr>
           <% }) %>
         <% }) %>
@@ -55,4 +57,4 @@
     </table>
 </div>
 
-<% include ../partials/school/footer %>
+<% include ../partials/footer %>

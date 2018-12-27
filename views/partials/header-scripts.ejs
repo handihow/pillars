@@ -1,0 +1,19 @@
+<% if(scripts.header.tinymce){%>
+  <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=d4xdezp2zrecxro0s9vxbmnaah075az3ag0kutbsoj6c46m4"></script>
+  <script>
+  tinymce.init({ selector: 'textarea',  // change this value according to your HTML
+                  branding: false,
+                  menubar: false,
+                  plugins: "link",
+                  toolbar: "undo redo | styleselect | bold italic | link"});
+  </script>
+<% } %>
+<% if(scripts.header.uploadcare){%>
+  <script>
+    UPLOADCARE_LOCALE = "nl";
+    UPLOADCARE_TABS = "file url gdrive dropbox skydrive";
+    UPLOADCARE_PUBLIC_KEY = "227ff57b2c55d3da13e3";
+    UPLOADCARE_CLEARABLE = true;
+  </script>
+  <script charset="utf-8" src="//ucarecdn.com/libs/widget/3.6.1/uploadcare.full.min.js"></script>
+<% } %>

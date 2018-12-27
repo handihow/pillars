@@ -24,7 +24,7 @@ var ProcessingActivitySchema = new mongoose.Schema({
    dataProtectionOfficerEmail: String,
    dataProtectionOfficerTelephone: String,
    //part 4 of form
-   processingActivityName: String,
+   processingActivityName: {type: String, required: true},
    processingActivityGoal: String,
    processingActivityGoalCategories: [String],              
    personalDataCategories: [String],

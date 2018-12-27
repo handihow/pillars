@@ -1,100 +1,78 @@
 var mongoose = require("mongoose");
-var global = require("../models/global");
+var config = require("../config/config");
 
 var User = require("./user");
 var Hardware = require("./hardware");
 var Software = require("./software");
 var Test = require("./test");
 var Evaluation = require("./evaluation");
+var Setting = require("./setting");
 
 var scholenSchema=  mongoose.Schema({
-    brin: String,
-    vestigingsnummer: String,
-    instellingsnaam: String,
-    straatnaam: String,
-    huisnummer: String,
-    postcode: String,
-    plaatsnaam: String,
-    bevoegdGezag: String,
-    aantalLeerlingen: Number,
-    aantalKlaslokalen: Number,
+    schoolIdNumber: {type: String, required: true},
+    schoolLocationIdNumber: String,
+    organisationIdNumber: String,
+    name: {type: String, required: true},
+    streetName: String,
+    houseNumber: String,
+    postalCode: String,
+    city: {type: String, required: true},
+    logo: String,
+    countStudents: Number,
+    countClassrooms: Number,
+    network: {
+        wired: {type: Boolean, default: false},
+        wireless: {type: Boolean, default: false}
+    },
+    competence: {
+        teachers: Number,
+        support: {type: Boolean, default: false},
+        effectiveness: Number
+    },
+    management: {
+        agreement: {type: Boolean, default: false},
+        networkAdjustment: {type: Boolean, default: false},
+        networkProblemSolving: {type: Boolean, default: false},
+        incidentReporting: {type: Boolean, default: false},
+        roles: {type: [{}], default: config.management.roles}
+    },
     created: {type: Date, default: Date.now},
-    owner: {                                        //user type Schoolbestuur (Bestuur Admin) - badmin 
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User"
+    organisation: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Organisation"
     },
-    organisation: {                                 
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Organisation"
+    users: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    }],
+    hardware: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Hardware"
+    }],
+    software: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Software"
+    }],
+    tests: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Test"
+    }],
+    settings: {
+        hardware: {type: [{}], default: config.hardware.types},
+        software: {
+            subjects: {type: {}, default: config.software.subjects.primary.schoolConfig()},
+            functionalities: {type: [String], default: config.software.functionality},
+            ratings: {type: [String], default: config.software.ratings},    
+        }
     },
-    users: [                                        //user type School Administrator & Medewerker (User) - sadmin and suser
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User"
-        },
-    ],
-    //Hardware
-    heeftGoedBedraadNetwerk: {type: Boolean, default: false},
-    heeftGoedWirelessNetwerk: {type: Boolean, default: false},
-    hardware: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Hardware"
-        }
-    ],
-    //Software
-    software: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Software"
-        }
-    ],
-    //Deskundigheid
-    deskLeerkrachten: Number,
-    deskOndersteuning: Boolean,
-    deskEffectiviteit: Number,
-    tests: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Test"
-        }
-    ],
-    //Organisatie
-    heeftOrganisatorischeOvereenstemming: Boolean,
-    heeftGoedeNetwerkAanpassing: Boolean,
-    heeftGoedeNetwerkProbleemOplossing: Boolean,
-    heeftGoedeIncidentMelding: Boolean,
-    orgICTIncidentMelder: String,
-    'ICT Incidentmelder': {type: Number, default: 0},
-    isBekendICTIncidentmelder: Boolean,
-    orgOnderwijskundigICTer: String,
-    'Onderwijskundig ICTer': {type: Number, default: 0},
-    isBekendOnderwijskundigICTer: Boolean,
-    orgICTInkoper: String,
-    'ICT Inkoper': {type: Number, default: 0},
-    isBekendICTInkoper: Boolean,
-    //INSTELLINGEN
-    instellingenHardwareTypes: {type: [{}], default: global.hardwareTypes},
-    instellingenSoftware: {type: {}, default: global.subjectsPrimary},
-    instellingenSoftwareFuncties: {type: [String], default: global.softwareFuncties},
-    instellingenSoftwareKwaliteiten: {type: [String], default: global.softwareKwaliteiten},
-    normering: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Normering"
-        },
-    //STATUS PROGRESSIE
-    isIngevuldAlgemeneInformatie: Boolean,
-    isToegevoegdHardware: Boolean,
-    isToegevoegdSoftware: Boolean,
-    isIngevuldDeskundigheid: Boolean,
-    isIngevuldOrganisatie: Boolean,
-    isToegevoegdMedewerker: Boolean,
-    evaluations: [
-         {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Evaluation"
-         }
-      ],
+    standard: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Standard"
+    },
+    evaluations: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Evaluation"
+    }],
     isSecondarySchool: Boolean
 }, { usePushEach: true });
 

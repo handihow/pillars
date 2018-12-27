@@ -1,0 +1,125 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<% include ../partials/school-header %>
+
+      <h2 class="ui header"><i class="sitemap icon"></i>Organisatie op <%= school.name %></h2>
+      <div class="ui divider"></div>
+        <!--Overeenstemming binnen school tav ICT beleid-->
+        <div class="ui cards">
+          <div class="card">
+            <div class="content">
+              <div class="header">
+                Overeenstemming
+              </div>
+              <div class="description">
+                 Is er een gedeelde visie op ICT en Onderwijs op deze school?
+              </div>
+              <div class="description count">
+                 <% if(school.management.agreement) { %>
+                    Ja
+                  <% } else { %>
+                    Nee
+                  <% } %>
+              </div>
+            </div>
+            <div class="ui bottom attached button">
+              <a id="edit" href="/schools/<%= school._id %>/management/edit">Bewerken</a>
+            </div>
+          </div>
+          <!--Netwerk - functioneren van netwerk-->
+          <div class="card">
+            <div class="content">
+              <div class="header">
+                Netwerk
+              </div>
+              <div class="description">
+                 Functioneert het netwerk goed (bekabeld en ook dekkend draadloos)?
+              </div>
+              <div class="description count">
+                 <% if(school.management.networkAdjustment) { %>
+                    Ja
+                  <% } else { %>
+                    Nee
+                  <% } %>
+              </div>
+            </div>
+            <div class="ui bottom attached button">
+              <a id="edit" href="/schools/<%= school._id %>/management/edit">Bewerken</a>
+            </div>
+          </div>
+          <!--Netwerk - Probleemoplossing-->
+          <div class="card">
+            <div class="content">
+              <div class="header">
+                Probleemoplossing
+              </div>
+              <div class="description">
+                 Worden aanpassing aan het netwerk naar tevredenheid gerealiseerd?
+              </div>
+              <div class="description count">
+                 <% if(school.management.networkProblemSolving) { %>
+                    Ja
+                  <% } else { %>
+                    Nee
+                  <% } %>
+              </div>
+            </div>
+            <div class="ui bottom attached button">
+              <a id="edit" href="/schools/<%= school._id %>/management/edit">Bewerken</a>
+            </div>
+          </div>
+          <!--Netwerk - Incidentmelding-->
+          <div class="card">
+            <div class="content">
+              <div class="header">
+                Incidentmelding
+              </div>
+              <div class="description">
+                 Worden netwerkincidenten naar tevredenheid opgelost?
+              </div>
+              <div class="description count">
+                 <% if(school.management.incidentReporting) { %>
+                    Ja
+                  <% } else { %>
+                    Nee
+                  <% } %>
+              </div>
+            </div>
+            <div class="ui bottom attached button">
+              <a id="edit" href="/schools/<%= school._id %>/management/edit">Bewerken</a>
+            </div>
+          </div>
+          <!--ICT ROLES-->
+          <%school.management.roles.forEach(function(role){%>
+            <div class="card">
+              <div class="content">
+                <div class="header">
+                  <%=role.role%>
+                </div>
+                <div class="description">
+                   <%= role.name %> is
+                   <% if(role.isKnowByTeamMembers || role.isKnownByTeamMembers==="1") { %>
+                       bekend 
+                    <% } else { %>
+                       niet bekend
+                    <% } %>
+                    binnen het team als <%=role.role%>
+                </div>
+                <div class="description count">
+                   <%=role.hoursPerYear%>
+                </div>
+              </div>
+              <div class="ui bottom attached button">
+                <a id="edit" href="/schools/<%= school._id %>/management/edit">Bewerken</a>
+              </div>
+            </div>
+          <%})%>
+        </div>
+        
+        <a id="edit" class="ui primary basic button" href="/schools/<%= school._id %>/management/edit">Bewerken</a>
+        </div>
+        
+
+<% include ../partials/school-footer %>
+<% include ../partials/footer %>

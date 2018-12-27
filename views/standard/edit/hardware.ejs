@@ -1,0 +1,155 @@
+
+<!--FORM FIELDS PART 1-->
+<div class="fields">
+  <div class="field">
+    <label>Min RAM (GB)</label>
+    <input type="number" 
+    name="standard[hardware][computersPerStudent][minRAM]" 
+    value="<%=standard.hardware.computersPerStudent.minRAM%>" 
+    class="hardwareMessage">
+  </div>
+  <div class="field">
+    <label>Max Ouderdom Computers</label>
+    <input type="number" 
+    name="standard[hardware][computersPerStudent][maxYear]" 
+    value="<%=standard.hardware.computersPerStudent.maxYear%>" 
+    class="hardwareMessage">
+  </div>
+  <div class="field">
+    <label>Hardware meegeteld als computer</label>
+    <select multiple="" 
+    name="standard[hardware][computersPerStudent][isComputer]" 
+    class="ui dropdown" 
+    id="standard[hardware][computersPerStudent][isComputer]">
+    <option value="">Selecteer hardware</option>
+    <% allHardwareTypes.forEach(function(hardware){%>
+    <option value="<%=hardware%>" <%if(standard.hardware.computersPerStudent.isComputer.includes(hardware)) { %> selected="" <% } %>><%=hardware%></option>
+    <%})%>
+  </select>
+</div>
+<div class="field">
+  <label>Computers per leerling</label>
+  <input type="number" step="0.05" min="0" max="1" 
+  name="standard[hardware][computersPerStudent][standard]" 
+  value="<%=standard.hardware.computersPerStudent.standard%>"
+  id="computersPerStudent">
+</div>
+</div>
+<!--INFO MESSAGES-->
+<div class="ui hidden message" id="infoHardware">
+  <div class="header">Informatie</div>
+  <ul class="list">
+    <li>Minimale geheugen is van toepassing op Desktops, Laptops en Multipoint Computers. Computers met te laag geheugen worden niet meegeteld.</li>
+    <li>Alle overige devices worden alleen meegeteld als ze in gebruik zijn genomen na het minimum jaar. Te oude devices tellen niet mee.</li>
+  </ul>
+</div>
+<div class="ui hidden message" id="infoComputersPerStudent">
+  <div class="header">Informatie</div>
+  <ul class="list">
+    <li>Vul hier een getal in tussen 0 en 1.</li>
+    <li>De standaardnorm is hier 0,2 ofwel 1 computer per 5 leerlingen. Wilt u voor iedere leerling een computer? Vul  dan 1 in.</li>
+  </ul>
+</div>
+<!--FORM FIELDS PART 2-->
+<div class="fields">
+  <div class="inline fields">
+    <label>Digiborden moeten touchscreen zijn</label>
+    <div class="field">
+      <div class="ui radio checkbox">
+        <input 
+              type="radio" 
+              name="standard[hardware][digitalSchoolbordsPerClassroom][isTouchscreen]" 
+              value="0" 
+              <% if(!standard.hardware.digitalSchoolbordsPerClassroom.isTouchscreen) { %>checked="checked"<% } %>>
+        <label>Nee</label>
+      </div>
+    </div>
+    <div class="field">
+      <div class="ui radio checkbox">
+        <input 
+              type="radio" 
+              name="standard[hardware][digitalSchoolbordsPerClassroom][isTouchscreen]" 
+              value="1"
+              <% if(standard.hardware.digitalSchoolbordsPerClassroom.isTouchscreen) { %>checked="checked"<% } %>>
+        <label>Ja</label>
+      </div>
+    </div>
+  </div>
+  <div class="field">
+    <label>Digitale borden per klaslokaal</label>
+    <input type="number" step="0.05" min="0" max="1" 
+        name="standard[hardware][digitalSchoolbordsPerClassroom][standard]" 
+        value="<%=standard.hardware.digitalSchoolbordsPerClassroom.standard%>" 
+        id="digitalBordsPerClassroom">
+  </div>
+  <div class="field">
+    <label>Hardware meegeteld als draagbare computer</label>
+    <select multiple="" 
+          name="standard[hardware][laptopsPerSchool][isLaptop]" 
+          class="ui dropdown" 
+          id="standard[hardware][laptopsPerSchool][isLaptop]">
+      <option value="">Selecteer hardware</option>
+      <% allHardwareTypes.forEach(function(hardware){%>
+      <option value="<%=hardware%>" <%if(standard.hardware.laptopsPerSchool.isLaptop.includes(hardware)) { %> selected="" <% } %>><%=hardware%></option>
+      <%})%>
+    </select>
+  </div>
+  <div class="field">
+    <label>Draagbare computers per school</label>
+    <input type="number" name="standard[hardware][laptopsPerSchool][standard]" 
+              value="<%=standard.hardware.laptopsPerSchool.standard%>" id="portableComputersPerSchool">
+  </div>
+  <div class="field">
+    <label>Max Ouderdom Laptops</label>
+    <input type="number" 
+    name="standard[hardware][laptopsPerSchool][maxYear]" 
+    value="<%=standard.hardware.laptopsPerSchool.maxYear%>" 
+    class="hardwareMessage">
+  </div>  
+</div>
+<!--INFO MESSAGES-->
+<div class="ui hidden message" id="infoDigitalBords">
+  <div class="header">Informatie</div>
+  <ul class="list">
+    <li>Vul hier een getal in tussen 0 en 1.</li>
+    <li>De standaardnorm is hier 1 ofwel 1 digitaal schoolbord per klaslokaal. 0,5 zou betekenen dat er 1 digitaal schoolbord per 2 klaslokalen nodig zijn volgens uw normering.</li>
+  </ul>
+</div>
+<div class="ui hidden message" id="infoPortableComputers">
+  <div class="header">Informatie</div>
+  <ul class="list">
+    <li>Vul hier een geheel getal in.</li>
+    <li>De standaardnorm is hier 30 draagbare computers zodat een klas op school in 1 keer bedient kan worden van computers (bijvoorbeeld voor een toets).</li>
+  </ul>
+</div>
+<!--FORM FIELDS PART 3 = MAXIMUM SCORES-->
+<div class="fields">
+  <div class="field">
+    <label>Max score computers per leerling</label>
+    <input type="number" name="standard[hardware][computersPerStudent][maxScore]" 
+          value="<%=standard.hardware.computersPerStudent.maxScore%>" class="maxScoreHardware">
+  </div>
+  <div class="field">
+    <label>Max score digitale borden per klaslokaal</label>
+    <input type="number" name="standard[hardware][digitalSchoolbordsPerClassroom][maxScore]" 
+    value="<%=standard.hardware.digitalSchoolbordsPerClassroom.maxScore%>" class="maxScoreHardware">
+  </div>
+  <div class="field">
+    <label>Max score netwerk</label>
+    <input type="number" name="standard[hardware][network][maxScore]" 
+      value="<%=standard.hardware.network.maxScore%>" class="maxScoreHardware">
+  </div>
+  <div class="field">
+    <label>Max score draagbare computers per school</label>
+    <input type="number" name="standard[hardware][laptopsPerSchool][maxScore]" 
+    value="<%=standard.hardware.laptopsPerSchool.maxScore%>" class="maxScoreHardware">
+  </div>
+</div>
+<!--INFO MESSAGES-->
+<div class="ui hidden message" id="infoMaxScoreHardware">
+  <div class="header">Informatie</div>
+  <ul class="list">
+    <li>Vul hier de maximale score per onderdeel in.</li>
+    <li>Zorg ervoor dat de vier scores bij elkaar opgeteld 5 zijn.</li>
+  </ul>
+</div>

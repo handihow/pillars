@@ -1,14 +1,17 @@
-<% include ../partials/school/header %>
-<% include ../partials/school/side-header %>
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<% include ../partials/school-header %>
 
 
-<h2 class="ui top attached header"><%= type %> Toevoegen aan <%= school.instellingsnaam %></h2>
+<h2 class="ui header"><%= type %> Toevoegen aan <%= school.name %></h2>
+<div class="ui divider"></div>
 
-<form class="ui form" action="/scholen/<%=school._id%>/hardware" method="POST" id="hardwareForm">
+<form class="ui form" action="/schools/<%=school._id%>/hardware" method="POST" id="hardwareForm">
   <div class="two fields">
     <div class="required field">
       <label>Naam</label>
-      <input type="text" name="hardware[naam]" placeholder="Hardware naam" id="hardware[naam]">
+      <input type="text" name="hardware[name]" placeholder="Hardware name" id="hardware[name]">
     </div>
     <div class="hidden field">
       <input type="text" name="hardware[type]" value="<%= type %>" hidden=true>
@@ -18,7 +21,7 @@
     <div class="fields">
       <div class="four wide field">
         <label>Merk</label>
-        <input type="text" name="hardware[merk]" placeholder="Merk">
+        <input type="text" name="hardware[brand]" placeholder="Merk">
       </div>
       <div class="twelve wide field">
         <label>Model</label>
@@ -39,19 +42,19 @@
       <% if(type==="Desktop"||type==="Multipoint computer"||type==="Laptop") { %>
       <div class="four wide field required">
         <label>Werkgeheugen (GB)</label>
-        <input type="number" name="hardware[werkgeheugen]" placeholder="Werkgeheugen" id="hardware[werkgeheugen]">
+        <input type="number" name="hardware[memory]" placeholder="Werkgeheugen" id="hardware[memory]">
       </div>
       <% } %>
       <div class="four wide field required">
         <label>Jaar van ingebruikname</label>
-        <input type="number" name="hardware[jaarIngebruikname]" placeholder="Jaar ingebruikname" id="hardware[jaarIngebruikname]">
+        <input type="number" name="hardware[deploymentYear]" placeholder="Jaar ingebruikname" id="hardware[deploymentYear]">
       </div>
     </div>
   </div>
   <% if(type === "Multipoint computer") { %>
   <div class="six wide required field">
     <label>Aantal multipoint werkplekken</label>
-    <input type="number" name="hardware[aantalWerkplekkenMultipoint]" placeholder="Aantal multipoint werkplekken" id="hardware[aantalWerkplekkenMultipoint]">
+    <input type="number" name="hardware[numberWorkPlacesMultipoint]" placeholder="Aantal multipoint werkplekken" id="hardware[numberWorkPlacesMultipoint]">
   </div>
   <% } %>
   <% if(type === "Digitaal schoolbord") { %>
@@ -63,17 +66,17 @@
   </div>
   <div class="six wide field">
     <label>Beelddiagonaal in inch</label>
-    <input type="number" name="hardware[schermgrootteDigibord]" placeholder="Schermgrootte (inch)">
+    <input type="number" name="hardware[screensizeDigibord]" placeholder="Schermgrootte (inch)">
   </div>
   <% } %>
   <div class="two fields">
     <div class="field">
       <label>Leverancier</label>
-      <input type="text" name="hardware[leverancier]" placeholder="Leverancier" id="hardware[leverancier]">
+      <input type="text" name="hardware[supplier]" placeholder="Leverancier" id="hardware[supplier]">
     </div>
     <div class="field">
       <label>Garantievorm</label>
-      <input type="text" name="hardware[garantievorm]" placeholder="Garantievorm" id="hardware[garantievorm]">
+      <input type="text" name="hardware[warranty]" placeholder="Garantievorm" id="hardware[warranty]">
     </div>
   </div>
   <button class="ui button" type="submit">Bewaren</button>
@@ -81,5 +84,5 @@
 </form>
 </div>
 
-<% include ../partials/school/side-footer %>
-<% include ../partials/school/footer %>
+<% include ../partials/school-footer %>
+<% include ../partials/footer %>

@@ -10,7 +10,7 @@
 	<label>Keuzelijst bewaartermijnen</label>
   <select multiple="" name="processingActivity[dataRetentionCategories]" class="ui dropdown">
     <option value="">Selecteer categorieen</option>
-    <% data.dataRetentionCategories.forEach(function(category) { %>
+    <% config.dataRetentionCategories.forEach(function(category) { %>
     <option value="<%=category%>" <%if(processingActivity.dataRetentionCategories.includes(category)) { %> selected="" <% } %>><%=category%></option>
     <% }) %>
   </select>

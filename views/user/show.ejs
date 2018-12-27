@@ -1,39 +1,41 @@
-<% include ../partials/school/header %>
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
 
 <div class="ui container">
-    <div class="ui huge header">Pillars Profiel Pagina</div>
-    <% if(user.role==="sadmin") { %>
-      <a class="ui blue basic button" href="/scholen/">
-          Terug naar mijn school
-      </a>
-    <% } %>
-    <div class="ui divider"></div>
-    <div class="ui stackable grid">
-      <div class="four wide column">
-        <h4 class="content">Username</h4>
-        <div class="content"><%=user.username%></div>
-      </div>
-      <div class="four wide column">
-        <h4 class="content">Voornaam</h4>
-        <div class="content"><%=user.firstName%></div>
-      </div>
-      <div class="four wide column">
-        <h4 class="content">Achternaam</h4></h4>
-        <div class="content"><%=user.lastName%></div>
-      </div>
-      <div class="four wide column">
-        <h4 class="content">Rol</h4></h4>
-        <div class="content"><%if(user.role==="badmin"){%>Bestuur admin
-            <%} else if(user.role==="buser"){%>Bestuur medewerker
-            <%} else if(user.role==="sadmin"){%>School admin
-            <%} else if(user.role==="padmin"){%>Pillars admin
-            <%} else {%>School medewerker<%}%></div>
+  <div class="ui huge header">Pillars Profiel Pagina</div>
+  <% if(user.role==="sadmin") { %>
+  <a class="ui blue basic button" href="/scholen/">
+    Terug naar mijn school
+  </a>
+  <% } %>
+  <div class="ui divider"></div>
+  <div class="ui stackable grid">
+    <div class="four wide column">
+      <h4 class="content">Username</h4>
+      <div class="content"><%=user.username%></div>
+    </div>
+    <div class="four wide column">
+      <h4 class="content">Voornaam</h4>
+      <div class="content"><%=user.firstName%></div>
+    </div>
+    <div class="four wide column">
+      <h4 class="content">Achternaam</h4></h4>
+      <div class="content"><%=user.lastName%></div>
+    </div>
+    <div class="four wide column">
+      <h4 class="content">Rol</h4></h4>
+      <div class="content"><%if(user.role==="badmin"){%>Bestuur admin
+        <%} else if(user.role==="buser"){%>Bestuur medewerker
+        <%} else if(user.role==="sadmin"){%>School admin
+        <%} else if(user.role==="padmin"){%>Pillars admin
+        <%} else {%>School medewerker<%}%></div>
       </div>
     </div>
     <div class="ui stackable grid">
       <div class="four wide column">
         <h4 class="content">Organisatie</h4>
-        <div class="content"><%=user.org%></div>
+        <div class="content"><%=user.organisation.name%></div>
       </div>
       <div class="four wide column">
         <h4 class="content">Functie</h4>
@@ -45,17 +47,17 @@
       </div>
       <div class="four wide column">
         <h4 class="content">Leeftijd</h4>
-        <div class="content"><%= user.geboorteDatum? ~~((Date.now() - user.geboorteDatum) / (31557600000)) : null %></div>
+        <div class="content"><%= user.dateOfBirth? ~~((Date.now() - user.dateOfBirth) / (31557600000)) : null %></div>
       </div>
     </div>
     <div class="ui stackable grid">
       <div class="four wide column">
         <h4 class="content">Geslacht</h4>
-        <div class="content"><%=user.geslacht%></div>
+        <div class="content"><%=user.gender%></div>
       </div>
       <div class="four wide column">
         <h4 class="content">Bouw</h4>
-        <div class="content"><%=user.bouw%></div>
+        <div class="content"><%=user.gradeLevelGroup%></div>
       </div>
       <div class="eight wide column">
         <h4 class="content">Ik geef mijn leidinggevende en ICT'er inzage in mijn testresultaten en profiel</h4>
@@ -65,39 +67,39 @@
     <div class="ui divider"></div>
     <a class="ui yellow button right" href="/user/<%=user._id%>/edit">Gegevens wijzigen</a>
     <a class="ui blue button right" href="/forgot">Wachtwoord wijzigen</a>
-    <a class="ui red button right" href="/user/<%=user._id%>/verify">Email verifieren</a>
+    <!-- <a class="ui red button right" href="/user/<%=user._id%>/verify">Email verifieren</a> -->
     <a class="ui black button right" href="/user/<%=user._id%>/evaluation">Evaluaties</a>
     <a class="ui green button right" href="/user/<%=user._id%>/ready">Klaar met invullen!</a>
     <% var i=0%>
     <div class="ui top attached tabular menu">
-    <% Object.keys(profiel.profiel).sort().forEach(function(key){ %>
+      <% Object.keys(questionnaire.questionnaire).sort().forEach(function(key){ %>
       <a class="item <%if(i==0){%>active<%}%>" data-tab="<%=i%>"><%=key%></a>
       <% i++%>
-    <%});%>
+      <%});%>
     </div>
     <% var j=0%>
-    <% Object.keys(profiel.profiel).sort().forEach(function(key){ %>
-      <div class="ui bottom attached tab segment <%if(j==0){%>active<%}%>" data-tab="<%=j%>">
-          <%tests.forEach(function(test){%>
-            <%if(test.subject==key){%>
-              <div class=content>
-                  Uitkomst: <%=Math.ceil(test.result *100) %> % 
-              </div>
-              <div class=content>
-                  Datum: <%=test.created.toDateString()%>
-              </div>
-              <a id="edit" class="ui mini blue basic button" href="/user/<%= user._id %>/test/<%=test._id%>">Bekijk</a>
-              <form id="delete" 
-                  action="/user/<%= user._id %>/test/<%=test._id%>?_method=DELETE" method="POST">
-                  <button class="ui mini red basic button">Verwijderen</button>
-              </form>
-            <%}%>
-          <%})%>
-          <div class="ui divider"></div>
-          <a class="ui primary basic button" href="/user/<%=user._id%>/test/new/<%=key%>">Test <%=key%></a>
+    <% Object.keys(questionnaire.questionnaire).sort().forEach(function(key){ %>
+    <div class="ui bottom attached tab segment <%if(j==0){%>active<%}%>" data-tab="<%=j%>">
+      <%tests.forEach(function(test){%>
+      <%if(test.subject==key){%>
+      <div class=content>
+        Uitkomst: <%=Math.ceil(test.result *100) %> % 
       </div>
-    <% j++ %>
-    <%});%>
+      <div class=content>
+        Datum: <%=test.created.toJSON().slice(0,10).split('-').reverse().join('/')%>
+      </div>
+      <a id="edit" class="ui mini blue basic button" href="/user/<%= user._id %>/test/<%=test._id%>">Bekijk</a>
+      <form id="delete" 
+      action="/user/<%= user._id %>/test/<%=test._id%>?_method=DELETE" method="POST">
+      <button class="ui mini red basic button">Verwijderen</button>
+    </form>
+    <%}%>
+    <%})%>
+    <div class="ui divider"></div>
+    <a class="ui primary basic button" href="/user/<%=user._id%>/test/new/<%=key%>">Test <%=key%></a>
+  </div>
+  <% j++ %>
+  <%});%>
 </div>
-        
-<% include ../partials/school/footer %>
+
+<% include ../partials/footer %>

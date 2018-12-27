@@ -1,0 +1,23 @@
+<div class="inline fields">
+  <label>Worden aanpassing aan het netwerk naar tevredenheid gerealiseerd?</label>
+  <div class="field">
+    <div class="ui radio checkbox">
+      <input 
+            type="radio" 
+            name="school[management][networkProblemSolving]" 
+            value="0" 
+            <% if(!school.management.networkProblemSolving) { %>checked="checked"<% } %>>
+      <label>Nee</label>
+    </div>
+  </div>
+  <div class="field">
+    <div class="ui radio checkbox">
+      <input 
+            type="radio" 
+            name="school[management][networkProblemSolving]" 
+            value="1"
+            <% if(school.management.networkProblemSolving) { %>checked="checked"<% } %>>
+      <label>Ja</label>
+    </div>
+  </div>
+</div>

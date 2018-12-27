@@ -1,108 +1,82 @@
-<% include ../partials/school/header %>
-<% include ../partials/school/side-header %>
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<% include ../partials/school-header %>
 
 <h2 class="ui header">
-  <i class="student icon"></i></i>Digitale Leermiddelen voor <%= vak %> Toevoegen aan <%= school.instellingsnaam %>
+  <i class="student icon"></i></i>Digitale Leermiddelen voor <%= subject %> Toevoegen aan <%= school.name %>
 </h2>
-<form class="ui form" action="/scholen/<%=school._id%>/software" method="POST" id="digitaleLeermiddelenForm" novalidate>
-    <!--NAAM DIGITALE LEERMIDDEL-->
-    <div class="required field">
-        <label>Naam</label>  
-        <input type="text" name="software[naam]" placeholder="Naam digitale leermiddel">
-    </div>
-    <!--OVERIGE VAKKEN ONLY-->
-    <% if(vak === "Overige") { %> 
-    <div class="required field">
-        <label for="software[vak]">Selecteer het vak:</label>
-        
-        <div class="field">
-          <select class="ui fluid dropdown" name="software[vak]">
-            <option value="">Vak</option>
-            <% school.instellingenSoftware["Overige"].sort().forEach(function(overigVak){ %>
-              <option value="<%=overigVak %>"><%=overigVak %></option>
-            <% }) %>
-        </select>
-    </div>
-    
-</div>
-<div class="field">
-    <div class="required four wide field">
-        <label>Effectiviteit: 1 = niet effectief / 6 = zeer effectief</label>
-        <input type="number" min="1" max="6" name="software[effectiviteit]">
-    </div>
-</div>
-<% } else { %>
-<!--EINDE OVERIGE VAKKEN -->
-<div class="field">
-  <% if(vak === "ICT Geletterdheid") { %>
-  <div class ="required grouped fields">
-      <label for="software[vak]">Selecteer het vak: </label>
-      <% school.instellingenSoftware["ICT Geletterdheid"].forEach(function(ictVak){ %>
-      <div class="field">
-          <div class="ui radio checkbox">
-            <input type="radio" name="software[vak]" required=true value="<%= ictVak %>">
-            <label><%= ictVak %></label>
-        </div>
-    </div>
-    <% }) %> 
-</div>
-<% } else { %>
-<input type="hidden" name="software[vak]" value="<%= vak %>">
-<% } %>
-</div>
-<div class="field">
-    <label>Software functies</label>
-    <select multiple="" name="software[functie]" class="ui dropdown">
-      <option value="">Selecteer functies</option>
-      <% school.instellingenSoftwareFuncties.forEach(function(functie) { %>
-      <option value="<%=functie%>"><%=functie%></option>
-      <% }) %>
-  </select>
-</div>
-<% if(school.isSecondarySchool){ %>
-  <div class="field">
-      <label>Klassen</label>
-      <select multiple="" name="software[groep]" class="ui dropdown">
-          <option value="">Selecteer klassen</option>
-          <% for(var i=0; i < 6; i++) { %>
-          <option value="Klas <%= i + 1 %>">Klas <%= i+ 1 %></option>
-          <% } %>
-      </select>
+<div class="ui divider"></div>
+<form class="ui form" action="/schools/<%=school._id%>/software" method="POST" id="softwareForm" novalidate>
+  <!--NAAM DIGITALE LEERMIDDEL-->
+  <div class="required field">
+    <label>Naam</label>  
+    <input type="text" name="software[name]" placeholder="Naam digitale leermiddel">
   </div>
-<% } else { %>
-  <div class="field">
-      <label>Groepen</label>
-      <select multiple="" name="software[groep]" class="ui dropdown">
-          <option value="">Selecteer groepen</option>
-          <% for(var i=0; i < 8; i++) { %>
-          <option value="Groep <%= i + 1 %>">Groep <%= i+ 1 %></option>
-          <% } %>
-      </select>
-  </div>
-<% } %>
-<div class="field">
-    <label>Kwaliteitsnormen</label>
-    <select multiple="" name="software[kwaliteit]" class="ui dropdown">
-        <option value="">Selecteer kwaliteiten</option>
-        <% school.instellingenSoftwareKwaliteiten.forEach(function(kwaliteit) { %>
-        <option value="<%=kwaliteit%>"><%=kwaliteit%></option>
+  <!--NON-CORE SUBJECTS-->
+  <% if(subject === config.subjects.noncore) { %> 
+    <% include ./new/noncore %>
+  <% } else { %>
+  <!--CORE SUBJECTS -->
+    <!-- INPUT FOR THE CORE SUBJECT -->
+    <% if(subject === config.subjects.ict) { %>
+      <% include ./new/ict %>
+    <% } else { %>
+      <input type="hidden" name="software[subject]" value="<%= subject %>">
+    <% } %>
+    <div class="field">
+      <label>Software functies</label>
+      <select multiple="" name="software[functionalities]" class="ui dropdown">
+        <option value="">Selecteer functies</option>
+        <% school.settings.software.functionalities.forEach(function(functionality) { %>
+        <option value="<%=functionality%>"><%=functionality%></option>
         <% }) %>
-    </select>
-</div>
-<% } %>
-<div class="two fields">
+      </select>
+    </div>
+    <% if(school.isSecondarySchool){ %>
     <div class="field">
-        <label>Leverancier</label>  
-        <input type="text" name="software[leverancier]" placeholder="Leverancier digitale leermiddel">
+      <label>Klassen</label>
+      <select multiple="" name="software[gradeLevels]" class="ui dropdown">
+        <option value="">Selecteer klassen</option>
+        <% for(var i=0; i < 6; i++) { %>
+        <option value="Klas <%= i + 1 %>">Klas <%= i+ 1 %></option>
+        <% } %>
+      </select>
+    </div>
+    <% } else { %>
+    <div class="field">
+      <label>Groepen</label>
+      <select multiple="" name="software[gradeLevels]" class="ui dropdown">
+        <option value="">Selecteer groepen</option>
+        <% for(var i=0; i < 8; i++) { %>
+        <option value="Groep <%= i + 1 %>">Groep <%= i+ 1 %></option>
+        <% } %>
+      </select>
+    </div>
+    <% } %>
+    <div class="field">
+      <label>Kwaliteitsnormen</label>
+      <select multiple="" name="software[ratings]" class="ui dropdown">
+        <option value="">Selecteer kwaliteitsnormen</option>
+        <% school.settings.software.ratings.forEach(function(rating) { %>
+        <option value="<%=rating%>"><%=rating%></option>
+        <% }) %>
+      </select>
+    </div>
+  <% } %>
+  <div class="two fields">
+    <div class="field">
+      <label>Leverancier</label>  
+      <input type="text" name="software[supplier]" placeholder="Leverancier digitale leermiddel">
     </div>
     <div class="field">
-        <label>Aantal licenties</label>  
-        <input type="number" name="software[licenties]" placeholder="Aantal licenties">
+      <label>Aantal licenties</label>  
+      <input type="number" name="software[licences]" placeholder="Aantal licenties">
     </div>
-</div>
-<button class="ui button" type="submit">Bewaren</button>
-<div class="ui error message"></div>
+  </div>
+  <button class="ui button" type="submit">Bewaren</button>
+  <div class="ui error message"></div>
 </form>
 
-<% include ../partials/school/side-footer %>
-<% include ../partials/school/footer %>
+<% include ../partials/school-footer %>
+<% include ../partials/footer %>
