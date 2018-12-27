@@ -26,7 +26,7 @@
       <tbody>
         <% schools.forEach(function(school){ %>
             <tr>
-              <td><a href="/scholen/<%=school._id%>"><%=school.name%></a></td>
+              <td><a href="/schools/<%=school._id%>"><%=school.name%></a></td>
               <td> <%if(school.owner){%> <%=school.owner.firstName%> <%=school.owner.lastName %> <%}%></td>
               <td><%=school.city%></td>
               <td class="right aligned <% if(school.countStudents){ %> positive <% } else { %> negative <% } %>" ><%=school.countStudents%></td>
