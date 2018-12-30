@@ -103,7 +103,7 @@ scholenSchema.post("remove", function(school){
         });
     });
     this.tests.forEach(function(test){
-        Test.findByIdAndRemove(test, function(test){
+        Test.findByIdAndRemove(test, function(err){
             if(err){
                 console.log(err);
             }

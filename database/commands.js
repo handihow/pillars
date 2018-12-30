@@ -105,13 +105,6 @@ db.schools.find({ 'name': { $exists: true } }).snapshot().forEach(function(item)
     db.schools.update({_id: item._id}, item);
 });
 
-// db.schools.find({ 'name': { $exists: true } }).snapshot().forEach(function(item){
-//     let keys = ['incidentReporter','ictEducationalContentManager', 'ictPurchaser', 'systemAdministrator'];
-//     item.management.roles.forEach(function(role, index){
-//         role.key = keys[index];
-//     })
-//     db.schools.update({_id: item._id}, item);
-// });
 
 db.softwares.updateMany({}, { $rename: { 
     'vak': 'subject',
@@ -257,8 +250,5 @@ db.users.updateMany({}, { $rename: {
     'geboorteDatum': 'dateOfBirth',
     'geslacht': 'gender',
     'bouw': 'gradeLevelGroup'}});
-
-
-
 
 

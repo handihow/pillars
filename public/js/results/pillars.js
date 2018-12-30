@@ -46,7 +46,7 @@ $(document).ready(function() {
                     color:'black',
                     backgroundColor: 'rgba(255,255,255,0.5)',
                     formatter: function(value, context){
-                        return Math.round(value/5 * 1000)/10 + "%"
+                        return (Math.round(value/5 * 1000)/10 + "%")
                     }
                 }
             }
@@ -91,7 +91,7 @@ $(document).ready(function() {
                             result.standard.hardware.digitalSchoolbordsPerClassroom.maxScore,
                             result.standard.hardware.network.maxScore,
                             result.standard.hardware.laptopsPerSchool.maxScore];
-                        return Math.round(value/standard[context.dataIndex] * 1000)/10 + "%"
+                        return (Math.round(value/standard[context.dataIndex] * 1000)/10 + "%")
                     }
                 }
             },
@@ -155,7 +155,7 @@ $(document).ready(function() {
                         result.standard.software.keyboardSkills.maxScore,
                         result.standard.software.programming.maxScore, 
                         result.standard.software.mediaLiteracy.maxScore];
-                        return Math.round(value/standard[context.dataIndex] * 1000)/10 + "%"
+                        return (Math.round(value/standard[context.dataIndex] * 1000)/10 + "%")
                     }
                 }
             },
@@ -229,7 +229,7 @@ $(document).ready(function() {
                         result.standard.competence.mediaSkills.maxScore];
                         var calculatedScore = Math.round(value/standard[context.dataIndex] * 1000)/10;
                         if(calculatedScore){
-                            return calculatedScore + "%"
+                            return (calculatedScore + "%")
                         } else {
                             return "0 %"
                         }
@@ -292,7 +292,7 @@ $(document).ready(function() {
                         result.standard.management.systemAdministrator.maxScore];
                         var calculatedScore = Math.round(value/standard[context.dataIndex] * 1000)/10;
                         if(calculatedScore){
-                            return calculatedScore + "%"
+                            return (calculatedScore + "%")
                         } else {
                             return "0 %"
                         }

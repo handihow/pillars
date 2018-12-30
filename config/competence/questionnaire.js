@@ -212,4 +212,35 @@ questionnaire.alternative = {
 	}
 }
 
+questionnaire.topics = [
+	{
+		key: "ictSkills",
+		topic: "1 - ICT Geletterdheid"
+	},
+	{
+		key: "pedagogicalDidacticalSkills",
+		topic: "2 - Pedagogisch Didactisch Handelen"
+	},
+	{
+		key: "workInSchoolContext",
+		topic: "3 - Werken in de schoolcontext"
+	},
+	{
+		key: "personalDevelopment",
+		topic: "4 - Persoonlijke Ontwikkeling"
+	},
+	{
+		key: "instrumentalSkills",
+		topic: "1 - Instrumentele vaardigheden"
+	},
+	{
+		key: "informationSkills",
+		topic: "2 - Informatievaardigheden"
+	},
+	{
+		key: "mediaSkills",
+		topic: "3 - Mediavaardigheden"
+	},
+]
+
 module.exports = questionnaire;

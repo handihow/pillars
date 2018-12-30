@@ -1,204 +1,9 @@
 var score = {};
 var config = require('./config');
-
-//checks computers per student criteria
-score.computersPerStudent = function(school){
-      var result = {goodComputers: 0, computersPerStudent: 0};
-      var countGoodComputers = 0;
-      school.hardware.forEach(function(hardware){
-        if(school.standard.hardware.computersPerStudent.isComputer.includes(hardware.type) && 
-          ( hardware.memory >= school.standard.hardware.computersPerStudent.minRAM || 
-                hardware.deploymentYear >= (new Date()).getFullYear() - school.standard.hardware.computersPerStudent.maxYear)) {
-            if(hardware.type=="Multipoint computer" && hardware.numberWorkPlacesMultipoint) {
-              countGoodComputers = countGoodComputers + hardware.numberWorkPlacesMultipoint; 
-            } else {
-              countGoodComputers++;
-            }
-          }
-      });
-      result.goodComputers = countGoodComputers;
-      var normComputers = school.countStudents * Number(school.standard.hardware.computersPerStudent.standard);
-      if(countGoodComputers >= normComputers) {
-          result.computersPerStudent = Number(school.standard.hardware.computersPerStudent.maxScore);
-      } else {
-          result.computersPerStudent = Number(school.standard.hardware.computersPerStudent.maxScore) * countGoodComputers / normComputers;
-          
-      }
-      return result;
-};
-
-//checks digitale schoolborden per lokaal criteria
-score.digitalSchoolbordsPerClassroom = function(school){
-    var result = {goodDigitalSchoolbords: 0, digitalSchoolbordsPerClassroom: 0};
-    var countGoodDigibord = 0;
-    school.hardware.forEach(function(hardware){
-        if(hardware.type==="Digitaal schoolbord" 
-                && ((hardware.isTouchscreenDigibord || 0) >= (school.standard.hardware.digitalSchoolbordsPerClassroom.isTouchscreen || 0))
-                && hardware.deploymentYear >= (new Date()).getFullYear() - school.standard.hardware.computersPerStudent.maxYear) {
-            countGoodDigibord ++;
-          }
-    });
-    result.goodDigitalSchoolbords = countGoodDigibord;
-    var normDigibord = school.countClassrooms * Number(school.standard.hardware.digitalSchoolbordsPerClassroom.standard);
-    if(countGoodDigibord > normDigibord){
-          result.digitalSchoolbordsPerClassroom = Number(school.standard.hardware.digitalSchoolbordsPerClassroom.maxScore);
-    } else {
-          result.digitalSchoolbordsPerClassroom = Number(school.standard.hardware.digitalSchoolbordsPerClassroom.maxScore) * countGoodDigibord / normDigibord;          
-    }
-    return result;
-};
-
-//checks the network criterium
-score.network = function(school){
-    var result = 0;
-    if(school.network.wired && school.network.wireless){
-        result = Number(school.standard.hardware.network.maxScore);
-    }
-    return result;
-};
-
-//checks portable computers per school criterium
-score.portableComputersPerSchool = function(school){
-    var result = {goodLaptops: 0, portableComputersPerSchool: 0};
-    var countGoodPortableComputers = 0;
-    school.hardware.forEach(function(hardware){
-        if(school.standard.hardware.laptopsPerSchool.isLaptop.includes(hardware.type) && 
-          ( hardware.memory >= school.standard.hardware.computersPerStudent.minRAM || 
-                hardware.deploymentYear >= (new Date()).getFullYear() - school.standard.hardware.laptopsPerSchool.maxYear)) {
-              countGoodPortableComputers++;
-          }
-    });
-    result.goodLaptops = countGoodPortableComputers;
-    var normPortableComputers = Number(school.standard.hardware.laptopsPerSchool.standard);
-    if(countGoodPortableComputers >= normPortableComputers){
-        result.portableComputersPerSchool = Number(school.standard.hardware.laptopsPerSchool.maxScore);
-    } else {
-        result.portableComputersPerSchool = Number(school.standard.hardware.laptopsPerSchool.maxScore) * countGoodPortableComputers / normPortableComputers;
-    }
-    return result;
-};
-
-//checks software criteria
-score.software = function(school, subject){
-    var result = 0;
-    var groupedSoftware = new Set();
-    //first, combine all the software from the course
-    school.software.forEach(function(software){
-        //check if the software is for this course and quality is sufficient
-        if(software.subject === subject.subject) {    
-                //if so, add to the group of software (values are unique because of the use of SET)
-                software.gradeLevels.forEach(function(gradeLevel){
-                    groupedSoftware.add(gradeLevel);
-                });
-                software.functionalities.forEach(function(functionality){
-                    groupedSoftware.add(functionality);
-                });
-                software.ratings.forEach(function(rating){
-                    groupedSoftware.add(rating);
-                })
-        }
-    });
-    var groupCriterium = false;
-    var functionCriterium = false;
-    var ratingCriterium = false;
-    // check if the software has all required groups 
-    var count = 0;
-    school.standard.software[subject.key].gradeLevels.forEach(function(gradeLevel,i,arr){
-        if(groupedSoftware.has(gradeLevel)){
-            count++;
-        }
-        if(count === arr.length) {
-            groupCriterium = true;
-        }
-    });
-    //check if the software has all functions
-    var count2 = 0;
-    school.standard.software[subject.key].functionalities.forEach(function(functionality,i,arr){
-        if(groupedSoftware.has(functionality)){
-            count2++;
-        }
-        if(count2 === arr.length) {
-            functionCriterium = true;
-        }
-    });
-    //check if the software has all ratings
-    var count3 = 0;
-    config.software.ratings.forEach(function(rating,i,arr){
-        if(groupedSoftware.has(rating)){
-            count3++;
-        }
-        if((count3 / arr.length) >= school.standard.software[subject.key].minRating) {
-            ratingCriterium = true;
-        }
-    });
-    //if both criteria are met, give the maximum points
-    if(groupCriterium && functionCriterium && ratingCriterium) {
-        result = Number(school.standard.software[subject.key].maxScore);
-    }
-    return result;
-};
-
-//checks competence criterium beoordeelde competence
-score.competenceRating = function(school){
-    var result = 0;
-    if(school.competence.teachers>=Number(school.standard.competence.competenceRating.standard)){
-        result = Number(school.standard.competence.competenceRating.maxScore);
-    }
-    return Number(result) ? Number(result) : 0;
-};
-
-//checks competence criterium gemiddelde effectiviteit
-score.softwareRating = function(school){
-    var result = 0;
-    if(school.competence.effectiveness>=Number(school.standard.competence.softwareRating.standard)){
-        result = Number(school.standard.competence.softwareRating.maxScore);
-    }
-    return result;
-};
-
-//checks criterium ondersteuning nodig
-score.support = function(school){
-    var result = 0;
-    if(!school.competence.support){
-        result = Number(school.standard.competence.support.maxScore);
-    }
-    return result;
-};
-
-//checks the resulting average score from tests
-score.averageTestResult = function(school, subject){
-    var total = 0;
-    var count = 0;
-    var result = 0;
-    school.tests.forEach(function(test){
-        if(test.subject === subject){
-            total = total + test.result;
-            count ++;
-        }
-    });
-    if(count > 0){
-        result = total / count;
-    }
-    return result;
-};
-
-//checks the score for organisation
-score.organisation = function(school, role){
-    var result = 0;
-    //calculate the standard hours first
-    var standardHours = Number(school.standard.management[role.key].hoursPerYear);
-    //bereken het aantal extra uren
-    var additionalHours = 0;
-    if(school.countStudents>200) {
-        additionalHours = Number(school.standard.management[role.key].additionalHours) * Math.ceil((school.countStudents - 200) / 100);
-    }
-    if(Number(role.hoursPerYear)>=(standardHours+additionalHours)){ 
-        result = Number(school.standard.management[role.key].maxScore);
-    } else {
-        result = Number(role.hoursPerYear) * Number(school.standard.management[role.key].maxScore) / (standardHours + additionalHours);
-    }
-    return result;
-};
+var hardwareScore = require('./hardware/score');
+var softwareScore = require('./software/score');
+var competenceScore = require('./competence/score');
+var managementScore = require('./management/score');
 
 score.calculate = function(school) {
     //define the output variable "result" of the function
@@ -261,91 +66,130 @@ score.calculate = function(school) {
             systemAdministrator: 0
         },
         link: "#",
-        standard: school.standard
+        standard: school.standard,
+        errors: []
     };
     if(typeof(school.standard)==undefined || !school.standard){
+        result.errors.push("Geen normering gevonden bij deze school. Pillars score is niet berekend.");
         return result;
     }
     if(school.countStudents && school.hardware && school.hardware.length>0) {
         //check computers per student
-        result.hardware.computersPerStudent = score.computersPerStudent(school).computersPerStudent;
-        result.hardware.goodComputers = score.computersPerStudent(school).goodComputers;
+        let computersPerStudent = hardwareScore.computersPerStudent(school);
+        result.hardware.computersPerStudent = computersPerStudent.computersPerStudent;
+        result.hardware.goodComputers = computersPerStudent.goodComputers;
+        if(computersPerStudent.error){
+            result.errors.push(computersPerStudent.error);
+        }
         //check digitale borden per lokaal
-        result.hardware.goodDigitalSchoolbords = score.digitalSchoolbordsPerClassroom(school).goodDigitalSchoolbords;
-        result.hardware.digitalSchoolbordsPerClassroom = score.digitalSchoolbordsPerClassroom(school).digitalSchoolbordsPerClassroom;
+        let digitalSchoolbordsPerClassroom = hardwareScore.digitalSchoolbordsPerClassroom(school);
+        result.hardware.goodDigitalSchoolbords = digitalSchoolbordsPerClassroom.goodDigitalSchoolbords;
+        result.hardware.digitalSchoolbordsPerClassroom = digitalSchoolbordsPerClassroom.digitalSchoolbordsPerClassroom;
+        if(digitalSchoolbordsPerClassroom.error){
+            result.errors.push(digitalSchoolbordsPerClassroom.error);
+        }
         //check network criteria
-        result.hardware.network = score.network(school);
+        result.hardware.network = hardwareScore.network(school);
         //check portable computers per school criteria
-        result.hardware.goodLaptops = score.portableComputersPerSchool(school).goodLaptops;
-        result.hardware.portableComputersPerSchool = score.portableComputersPerSchool(school).portableComputersPerSchool;
+        let portableComputersPerSchool = hardwareScore.portableComputersPerSchool(school);
+        result.hardware.goodLaptops = portableComputersPerSchool.goodLaptops;
+        result.hardware.portableComputersPerSchool = portableComputersPerSchool.portableComputersPerSchool;
+        if(portableComputersPerSchool.error){
+            result.errors.push(portableComputersPerSchool.error);
+        }
         //end portable computers per school criteria
+    } else {
+        result.errors.push("Algemene gegevens niet compleet of geen hardware ingevoerd. Hardware score is niet berekend.")
     }
     if(school.software && school.software.length>0){
         //PILLARS CHECK SOFTWARE
         var evaluatedSubjects = school.isSecondarySchool ? config.software.subjects.secondary : config.software.subjects.primary;
         evaluatedSubjects.forEach(function(subject){
             if(subject.isCore){
-                result.software[subject.key] = score.software(school,subject);     
+                let resultingScore = softwareScore.software(school,subject);
+                result.software[subject.key] = resultingScore.result;
+                if(resultingScore.error){
+                    result.errors.push(resultingScore.error);
+                }     
             }
         });
+    } else {
+        result.errors.push("Geen digitale leermiddelen ingevoerd. Digitale leermiddelen score is niet berekend.")
     }
-    if(school.tests && school.competence){
+    if(school.tests && school.tests.length>0){
         //DESKUNDIGHEID
-        //check beoordeelde competence
-        result.competence.competenceRating = score.competenceRating(school);
-        //check gemiddelde effectiviteit
-        result.competence.softwareRating = score.softwareRating(school);
-        //check ondersteuning nodig
-        result.competence.support = score.support(school);
+        //check rated competence
+        let newCompetenceRating = competenceScore.competenceRating(school);
+        result.competence.competenceRating = newCompetenceRating.result;
+        if(newCompetenceRating.error){
+            result.errors.push(newCompetenceRating.error)
+        }
+        //check effectiveness of software
+        let newSoftwareRating = competenceScore.softwareRating(school)
+        result.competence.softwareRating = newSoftwareRating.result;
+        if(newSoftwareRating.error){
+            result.errors.push(newSoftwareRating.error)
+        }
+        //check support needed
+        let newSupportRating = competenceScore.support(school);
+        result.competence.support = newSupportRating.result;
+        if(newSupportRating.error){
+            result.errors.push(newSupportRating.error);
+        }
+        //check the test results
+        config.competence.questionnaire.topics.forEach(function(topic){
+            let newTestResult = competenceScore.averageTestResult(school, topic)
+            result.competence[topic.key] = newTestResult.result;
+            if(newTestResult.error){
+                result.errors.push(newTestResult.error);
+            }
+        })
+    } else {
+        result.errors.push("Geen tests ingevoerd. Score voor deskundigheid is niet berekend.")
     }
-    if(school.users && school.users.length>0){
-        //ICT Geletterdheid
-        result.competence.ictSkills = score.averageTestResult(school, "1 - ICT Geletterdheid") * school.standard.competence.ictSkills.maxScore;
-        //Pedagogisch Didactisch Handelen
-        result.competence.pedagogicalDidacticalSkills = score.averageTestResult(school, "2 - Pedagogisch Didactisch Handelen") * school.standard.competence.pedagogicalDidacticalSkills.maxScore;
-        //Werken in de schoolcontext
-        result.competence.workInSchoolContext = score.averageTestResult(school, "3 - Werken in de schoolcontext") * school.standard.competence.workInSchoolContext.maxScore;
-        //Persoonlijke ontwikkeling
-        result.competence.personalDevelopment = score.averageTestResult(school, "4 - Persoonlijke Ontwikkeling") * school.standard.competence.personalDevelopment.maxScore;
-        //instrumentele vaardigheden
-        result.competence.instrumentalSkills = score.averageTestResult(school, "1 - Instrumentele vaardigheden") * school.standard.competence.instrumentalSkills.maxScore;
-        //informationSkills
-        result.competence.informationSkills = score.averageTestResult(school, "2 - Informatievaardigheden") * school.standard.competence.informationSkills.maxScore;
-        //mediavaardigheid
-        result.competence.mediaSkills = score.averageTestResult(school, "3 - Mediavaardigheden") * school.standard.competence.mediaSkills.maxScore;
-    }
-    if(school.management.roles[0].hoursPerYear>0){
+    if(school.management.roles[0].hours>0){
         // ORGANISATIE
         //check if the management has reached agreement
         if(school.management.agreement){
-            result.management.agreement = school.standard.management.agreement.maxScore;
+            result.management.agreement = school.standard.management.agreement.maxScore ?
+                                                Number(school.standard.management.agreement.maxScore) :
+                                                    Number(config.management.standards.agreement.maxScore);
         }
         //check if the school has good network control (3 x yes)
         if(school.management.networkAdjustment && school.management.networkProblemSolving && school.management.incidentReporting){
-            result.management.network = school.standard.management.network.maxScore;
+            result.management.network = school.standard.management.network.maxScore ? 
+                                            Number(school.standard.management.network.maxScore) :
+                                                Number(config.management.standards.network.maxScore);
         }
         school.management.roles.forEach(function(role){
-            if(role.hoursPerYear){
-                result.management[role.key] = score.organisation(school, role)    
+            let newRoleResult = managementScore.organisation(school, role)
+            result.management[role.key] = newRoleResult.result;
+            if(newRoleResult.error){
+                result.errors.push(newRoleResult.error);
             } 
         })
+    } else {
+        result.errors.push("Gegevens van organisatie zijn niet compleet. Score organisatie is niet berekend.")
     }
     //CALCULATE TOTALS
     result.total.hardware = 
-                                result.hardware.computersPerStudent +
-                                result.hardware.digitalSchoolbordsPerClassroom +
-                                result.hardware.network +
-                                result.hardware.portableComputersPerSchool;
+    result.hardware.computersPerStudent +
+    result.hardware.digitalSchoolbordsPerClassroom +
+    result.hardware.network +
+    result.hardware.portableComputersPerSchool;
 
     Object.keys(result.software).forEach(function(score){
         result.total.software += Number(result.software[score]);
     });
     Object.keys(result.competence).forEach(function(score){
+        console.log(score);
+        console.log(result.competence[score]);
         result.total.competence += Number(result.competence[score]);
     });
     Object.keys(result.management).forEach(function(score){
         result.total.management += Number(result.management[score]);
     });
+    console.log(result.total.competence);
     //round the main results
     result.total.hardware = Math.round(result.total.hardware*10)/10;
     result.total.software = Math.round(result.total.software*10)/10;
@@ -353,7 +197,7 @@ score.calculate = function(school) {
     result.total.management = Math.round(result.total.management*10)/10;
     //generate a link for Google forms to enable report generation
     result.link = score.generateLink(school, result);
-return result;
+    return result;
 };
 
 score.generateLink = function (school, result){

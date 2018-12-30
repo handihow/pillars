@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router({mergeParams: true});
 var School = require("../../models/school");
 var middleware = require("../../middleware");
+var config = require('../../config/config');
 
 //SHOW ROUTE
 router.get("/", middleware.isLoggedIn, function(req, res){
@@ -14,7 +15,6 @@ router.get("/", middleware.isLoggedIn, function(req, res){
       }
   });
 });
-
 
 //EDIT ROUTE
 router.get("/edit", middleware.isNotDemoAccount, middleware.isLoggedIn, function(req, res){

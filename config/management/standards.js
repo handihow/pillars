@@ -14,10 +14,10 @@ standards.network = {
 //STANDARDS FOR EACH ROLE IN THE ICT MANAGEMENT ORGANISATION		
 roles.forEach(function(role){
 	standards[role.key] = {
-		maxScore: role.maxPoints,
-		hoursPerYear: role.standard,
-		additionalHoursPerYear: role.extra
+		maxScore: role.maxScore,
+		hoursPerYear: role.hoursPerYear,
+		additionalHoursPerYear: role.additionalHoursPerYear
 	}
-})
+});
 
 module.exports = standards;

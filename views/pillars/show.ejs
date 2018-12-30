@@ -9,6 +9,15 @@
         <i class="setting icon"></i>
         </a>
       </h2>
+      <% if(result.errors && result.errors.length > 0) { %>
+        <div class="ui red message">
+          <ul>
+          <%result.errors.forEach(function(errorMessage){%>
+            <li><%=errorMessage%></li>
+          <%})%>
+          </ul>
+        </div>
+      <% } %>
       <!-- RESULT VARIABLE -->   
       <div id="result" data-value="<%=JSON.stringify(result)%>"></div>   
       <!-- TOTAL SCORE -->

@@ -3,41 +3,41 @@ var roles = [
 		key: 'incidentReporter',
 		role: "ICT Incidentmelder",
 		name: "-",
-		hoursPerYear: 0,
+		hours: 0,
 		isKnownByTeamMembers: "0",
-		standard: 100,
-		extra: 20,
-		maxPoints: 1
+		hoursPerYear: 100,
+		additionalHoursPerYear: 20,
+		maxScore: 1
 	},
 	{	
 		key: 'ictEducationalContentManager',
 		role: "Onderwijskundig ICT'er",
 		name: "-",
-		hoursPerYear: 0,
+		hours: 0,
 		isKnownByTeamMembers: "0",
-		standard: 80,
-		extra: 20,
-		maxPoints: 1
+		hoursPerYear: 80,
+		additionalHoursPerYear: 20,
+		maxScore: 1
 	},
 	{
 		key: 'ictPurchaser',
 		role: "ICT Inkoper",
 		name: "-",
-		hoursPerYear: 0,
+		hours: 0,
 		isKnownByTeamMembers: "0",
-		standard: 10,
-		extra: 5,
-		maxPoints: 1
+		hoursPerYear: 10,
+		additionalHoursPerYear: 5,
+		maxScore: 1
 	},
 	{
 		key:'systemAdministrator',
 		role: "Systeembeheerder",
 		name: "-",
-		hoursPerYear: 0,
+		hours: 0,
 		isKnownByTeamMembers: "0",
-		standard: 0,
-		extra: 0,
-		maxPoints: 0
+		hoursPerYear: 0,
+		additionalHoursPerYear: 0,
+		maxScore: 0
 	}
 ];
 
