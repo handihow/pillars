@@ -14,9 +14,8 @@ managementScore.organisation = function(school, role){
     let maxScore = school.standard.management[role.key].maxScore ? 
     						Number(school.standard.management[role.key].maxScore) :
     							Number(config.management.standards[role.key].maxScore);
-    if(!school.standard.management[role.key].hoursPerYear || !school.standard.management[role.key].additionalHoursPerYear ||
-    				!school.standard.management[role.key].maxScore){
-    	result.error = "Waarschuwing: normering voor " + role.role + " is niet goed ingesteld of ingesteld op 0 uur."
+    if(!school.standard.management[role.key]){
+    	result.error = "Waarschuwing: normering voor " + role.role + " lijkt niet goed ingesteld."
     }
     var standardHours = hoursPerYear;
     //bereken het aantal extra uren

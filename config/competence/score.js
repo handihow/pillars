@@ -4,6 +4,9 @@ var competenceScore = {};
 //checks competence criterium rated competence
 competenceScore.competenceRating = function(school){
     var result = {result: 0, error: null};
+    if(!school.standard.competence.competenceRating){
+        result.error = "Waarschuwing: standaard voor beoordeelde deskundigheid lijkt niet goed ingesteld."
+    }
     //check if the standard is set, otherwise override with standard settings
     let minimumRating = school.standard.competence.competenceRating.standard ? 
                     school.standard.competence.competenceRating.standard :
@@ -13,15 +16,16 @@ competenceScore.competenceRating = function(school){
                         config.competence.standards.competenceRating.maxScore;
     if(Number(school.competence.teachers)>=Number(minimumRating)){
         result.result = Number(maximumScore);
-    } else {
-        result.error = "Probleem bij het berekenen van de score van het criterium beoordeelde deskundigheid";
-    }        
+    }      
     return result;
 };
 
 //checks competence criterium software rating
 competenceScore.softwareRating = function(school){
     var result = {result: 0, error: null};
+    if(!school.standard.competence.softwareRating){
+        result.error = "Waarschuwing: standaard voor gemiddelde effectiviteit software lijkt niet goed ingesteld."
+    }
     //check if the standard is set, otherwise override with standard settings
     let minimumRating = school.standard.competence.softwareRating.standard ? 
                     school.standard.competence.softwareRating.standard :
@@ -31,9 +35,7 @@ competenceScore.softwareRating = function(school){
                         config.competence.standards.softwareRating.maxScore;
     if(school.competence.effectiveness>=Number(minimumRating)){
         result.result = Number(maximumScore);
-    } else {
-        result.error = "Probleem bij het berekenen van de score van het criterium gemiddelde effectiviteit software";
-    } 
+    }
     return result;
 };
 

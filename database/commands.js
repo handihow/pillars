@@ -253,12 +253,9 @@ db.users.updateMany({}, { $rename: {
 
 
 db.schools.find({ 'name': { $exists: true } }).snapshot().forEach(function(item){
-    if(typeof item.management.roles == 'array'){
-        item.management.roles.forEach(function(role){
-            role.hours = role.hoursPerYear;
-            delete role.hoursPerYear;
-        });    
-    }
+    item.management.roles.forEach(function(role){
+        role.hours = role.hoursPerYear;
+    });    
     db.schools.update({_id: item._id}, item);
 });
 
