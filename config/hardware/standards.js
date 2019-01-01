@@ -14,7 +14,8 @@ standards.computersPerStudent = {
 standards.digitalSchoolbordsPerClassroom = {
 	maxScore: 1.5,
 	standard: 1,
-	isTouchscreen: true
+	isTouchscreen: true,
+	maxYear: 5
 }
 
 //STANDARD 3 - GOOD NETWORK CONNECTION
