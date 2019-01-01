@@ -307,6 +307,9 @@ router.get("/:hardware_id/edit", middleware.isNotDemoAccount, middleware.isSchoo
 router.put("/:hardware_id", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
  Hardware.findByIdAndUpdate(req.params.hardware_id, req.body.hardware, function(err, hardware){
    if(err || !hardware){
+     req.flash("error", err.message);
+     res.redirect("back");
+   } else if(!hardware){
      req.flash("error", "Hardware niet gevonden");
      res.redirect("back");
    } else {
