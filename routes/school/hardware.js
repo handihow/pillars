@@ -26,7 +26,7 @@ router.get("/", middleware.isLoggedIn, function(req, res){
               hardware.isDepreciated = true;
               hardware.warning = "Te weinig werkgeheugen";
           } else if(!school.standard.hardware.computersPerStudent.isComputer.includes(hardware.type) && 
-                  hardware.deploymentYear >= (new Date()).getFullYear() - school.standard.hardware.computersPerStudent.maxYear) {
+                  hardware.deploymentYear < (new Date()).getFullYear() - school.standard.hardware.computersPerStudent.maxYear) {
               hardware.isDepreciated = true;
               hardware.warning = "Apparaat is te oud";
           } else if(hardware.type==="Multipoint computer" && !hardware.numberWorkPlacesMultipoint){
