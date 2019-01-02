@@ -17,6 +17,7 @@ var managementStandards = require('./management/standards'); //management standa
 var scripts = require('./other/scripts'); //scripts loaded in header or footer of the html
 var email = require('./other/email'); //emails that are sent to users
 var processingActivity = require('./other/processingActivity'); //processing activities
+var inspectionResults = require('./other/inspectionResults'); //school inspection results
 
 //Definition of config variable
 var config = {};
@@ -49,5 +50,6 @@ config.management.standards = managementStandards;
 config.email = email;
 config.scripts = scripts;
 config.processingActivity = processingActivity;
+config.inspectionResults = inspectionResults;
 
 module.exports = config;

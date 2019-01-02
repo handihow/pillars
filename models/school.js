@@ -19,6 +19,8 @@ var scholenSchema=  mongoose.Schema({
     city: {type: String, required: true},
     logo: String,
     uploadedLogo: String,
+    inspectionResult: String,
+    floorMap: String,
     countStudents: Number,
     countClassrooms: Number,
     network: {
@@ -75,7 +77,7 @@ var scholenSchema=  mongoose.Schema({
         ref: "Evaluation"
     }],
     isSecondarySchool: Boolean
-}, { usePushEach: true });
+}, { usePushEach: true, timestamps: true });
 
 scholenSchema.post("remove", function(school){
     console.log("triggered");

@@ -3,11 +3,23 @@
 <% include ../partials/flash-message %>
 <% include ../partials/school-header %>
 
-<h2 class="ui header"><i class="university icon"></i><%= school.name %></h2>
-<div class="ui divider"></div>
-<%if(school.logo || school.uploadedLogo){%><img 
-        class="right floated small ui image" 
+<!-- <h2 class="ui header"><i class="university icon"></i><%= school.name %></h2> -->
+
+<h2 class="ui header">
+  <%if(school.logo || school.uploadedLogo){%><img 
+        class="ui image" 
         src="<%=school.uploadedLogo ? school.uploadedLogo : school.logo %>"><%}%>
+  <div class="content">
+    <%= school.name %>
+  </div>
+</h2>
+<div class="ui divider"></div>
+<div class="ui modal floorMap">
+  <div class="header">Plattegrond</div>
+  <div class="image content">
+    <img class="image" src="<%=school.floorMap%>">
+  </div>
+</div>
 <div class="item">
   <div class="ui stackable grid">
     <div class="eight wide column">
@@ -56,17 +68,37 @@
       </div>
     </div>
     <div class="eight wide column">
-      <h4 class="content">Toegevoegd op</h4>
-      <div class="content"><%=school.created.toJSON().slice(0,10).split('-').reverse().join('/')%> </div>
+      <h4 class="content">Oordeel inspectie</h4>
+      <div class="content"><%=school.inspectionResult%></div>
     </div>
     <div class="eight wide column">
-      <h4 class="content">Soort onderwijs</h4>
+      <h4 class="content">Plattegrond</h4>
       <div class="content">
-        <% if(school.isSecondarySchool) { %>
-        Voortgezet onderwijs
-        <% } else { %>
-        Primair onderwijs
+        <%if(school.floorMap){%>
+          <button type="button" class="ui icon button" id="floorMap">
+            <i class="map icon"></i>
+          </button>
+        <%} else {%>
+          Upload plattegrond bij "Bewerken"
         <% } %>
+      </div>
+    </div>
+    <div class="eight wide column">
+      <h4 class="content">School admins</h4>
+      <div class="content"> 
+        <ul>
+        <%schoolAdmins.forEach(function(admin){%>
+          <li><%=admin.firstName%> <%=admin.lastName%></li>
+        <%})%>
+        </ul>
+      </div>
+    </div>
+    <div class="eight wide column">
+      <h4 class="content">Laatste update</h4>
+      <div class="content"> 
+       <%if(school.updatedAt){%>
+          <%= school.updatedAt.toJSON().slice(0,10).split('-').reverse().join('/')%>
+       <%}%>
       </div>
     </div>
   </div>

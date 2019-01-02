@@ -17,11 +17,13 @@ router.get("/", middleware.isPadmin, function(req,res){
 
 //show form to add organisation
 router.get("/new", middleware.isPadmin, function(req, res){
+  res.locals.scripts.header.uploadcare = true;
 	res.render("organisations/new");
 });
 
 //CREATE ROUTE
 router.post("/", middleware.isPadmin, function(req, res){
+    res.locals.scripts.header.uploadcare = false;
     Organisation.create(req.body.organisation, function(err, organisation){
       if(err || !organisation){
         req.flash("error", err.message);
@@ -41,6 +43,7 @@ router.get("/:id/edit", middleware.isPadmin, function(req, res){
            req.flash("error", "Organisatie niet gevonden.");
            res.redirect("/organisations");
        } else {
+           res.locals.scripts.header.uploadcare = true;
            res.render("organisations/edit", {organisation: organisation});
        }
    });
@@ -48,6 +51,7 @@ router.get("/:id/edit", middleware.isPadmin, function(req, res){
 
 //UPDATE ROUTE
 router.put("/:id", middleware.isPadmin, function(req, res){
+    res.locals.scripts.header.uploadcare = false;
     Organisation.findByIdAndUpdate(req.params.id, req.body.organisation, function(err, organisation){
        if(err || !organisation){
            req.flash("error", "Organisatie niet gevonden.");

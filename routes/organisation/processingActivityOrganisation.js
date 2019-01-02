@@ -25,6 +25,8 @@ router.get("/", middleware.isLoggedIn, function(req, res){
 
 //NEW ROUTE
 router.get("/new", middleware.isAuthenticatedBadmin, function(req, res){
+  res.locals.scripts.header.tinymce = true;
+  res.locals.scripts.header.uploadcare = true;
   res.render("processingActivity/new", {schoolLevel: false});
 });
 
@@ -60,6 +62,8 @@ router.post("/", middleware.isAuthenticatedBadmin, function(req, res){
                 res.locals.error = req.flash("error");
                 res.render("processingActivity/new", {  schoolLevel: false});
             }  else {
+                res.locals.scripts.header.tinymce = false;
+                res.locals.scripts.header.uploadcare = false;
                 if(processingActivity.attachment.includes('~')){
                   processingActivity.hasMultipleAttachments = true;
                 }
@@ -79,6 +83,8 @@ router.get("/:pid/edit", middleware.isAuthenticatedBadmin, function(req, res){
               req.flash("error", "Verwerkingsactiviteit niet gevonden.");
               res.redirect("/scholen/"+req.params.id+"/processingActivity");
           } else {
+              res.locals.scripts.header.tinymce = true;
+              res.locals.scripts.header.uploadcare = true;
               res.render("processingActivity/edit", {   processingActivity: processingActivity, 
                                                         schoolLevel: false});
           }
@@ -93,6 +99,8 @@ router.put("/:pid", middleware.isAuthenticatedBadmin, function(req, res){
         req.flash("error", "Verwerkingsactiviteit niet gevonden.");
         res.redirect("/processingActivity");
     } else {
+        res.locals.scripts.header.tinymce = false;
+        res.locals.scripts.header.uploadcare = false;
         req.flash("success", "Verwerkingsactiviteit updated");
         res.redirect("/processingActivity/" + req.params.pid);
     }

@@ -64,6 +64,7 @@
               <input  type="hidden" 
                     role="uploadcare-uploader" 
                     name="school[uploadedLogo]"
+                    value="<%=school.uploadedLogo%>"
                     data-multiple="false"/>
             </div>
           </div>
@@ -113,6 +114,25 @@
                   <label>Ja</label>
                 </div>
               </div>
+            </div>
+          </div>
+          <div class="two fields">
+            <div class="field">
+              <label>Oordeel onderwijsinspectie</label>
+                <select name="school[inspectionResult]" class="ui dropdown">
+                  <option value="">Selecteer oordeel</option>
+                  <% inspectionResults.forEach(function(result) { %>
+                  <option value="<%=result%>" <%if(school.inspectionResult == result){ %> selected="" <% } %>><%=result%></option>
+                  <% }) %>
+                </select>
+            </div>
+            <div class="four wide field">
+              <label>Upload plattegrond</label>
+              <input  type="hidden" 
+                    role="uploadcare-uploader" 
+                    name="school[floorMap]"
+                    value="<%=school.floorMap%>"
+                    data-multiple="false"/>
             </div>
           </div>
           <button class="ui button" type="submit">Bewaren</button>

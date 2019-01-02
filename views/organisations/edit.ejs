@@ -33,6 +33,13 @@
              <label>Activatiecode</label>
              <input type="text" name="organisation[activationCode]" id="organisation[activationCode]" value="<%=organisation.activationCode%>">
           </div>
+          <div class="field">
+            <label>Upload logo</label>
+            <input type="hidden" 
+                  role="uploadcare-uploader" 
+                  name="organisation[logo]"
+                  data-multiple="false"/>
+          </div>
           <button class="ui button" type="submit">Bewaren</button>
           <div class="ui error message"></div>
         </form>

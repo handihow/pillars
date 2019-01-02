@@ -48,6 +48,9 @@ $(document).ready(function() {
       { $('.ui.modal.confidentiality').modal('show');}
     });
      
+    $("#floorMap").click(function(){
+      { $('.ui.modal.floorMap').modal('show');}
+    });
   
     
 

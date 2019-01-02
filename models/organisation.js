@@ -9,6 +9,7 @@ var OrganisationSchema = new mongoose.Schema({
    country: String,
    activationCode: String,
    activated: {type: Boolean, default: false},
+   logo: String,
    created: {type: Date, default: Date.now},
 }, { usePushEach: true });
 

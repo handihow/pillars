@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var request = require("request");
 var School = require("../../models/school");
+var Organisation = require("../../models/organisation");
 var middleware = require("../../middleware");
 var User = require("../../models/user");
 var config = require("../../config/config");
@@ -33,7 +34,9 @@ router.get("/", middleware.isLoggedIn, function(req, res){
           req.flash("error", err.message);
           res.redirect("back");
         } else {
-          res.render("schools/index", {schools: schools});         
+          Organisation.findById(req.user.organisation, function(err, organisation){
+            res.render("schools/index", {schools: schools, organisation: organisation}); 
+          })    
         }
       });
   }
@@ -51,12 +54,15 @@ router.get("/manual", middleware.isAuthenticatedBadmin, function(req, res){
 
 //SHOW ROUTE
 router.get("/:id", middleware.isLoggedIn, function(req, res){
- School.findById(req.params.id).exec(function(err, school){
+ School.findById(req.params.id).populate("users").exec(function(err, school){
    if(err ||!school){
      req.flash("error", "School niet gevonden.");
      res.redirect("back");
    } else {
-     res.render("schools/show", {school: school}); 
+     if(school.users){
+      var schoolAdmins = school.users.filter(user => user.role =="sadmin");
+     }
+     res.render("schools/show", {school: school, schoolAdmins: schoolAdmins}); 
    }
  });
 });
@@ -158,7 +164,8 @@ router.get("/:id/edit", middleware.isNotDemoAccount, middleware.isLoggedIn, func
      res.redirect("/schools");
    } else {
      res.locals.scripts.header.uploadcare = true;
-     res.render("schools/edit", {school: school});
+     var inspectionResults = config.inspectionResults;
+     res.render("schools/edit", {school: school, inspectionResults: inspectionResults});
    }
  });
 });
