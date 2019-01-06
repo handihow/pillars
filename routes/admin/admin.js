@@ -4,6 +4,7 @@ var School = require("../../models/school");
 var middleware = require("../../middleware");
 var User = require("../../models/user");
 var Organisation = require("../../models/organisation");
+var Standard = require("../../models/standard");
 
 //show route
 router.get("/", middleware.isPadmin, function(req, res){
@@ -111,6 +112,20 @@ router.post("/update-user", middleware.isPadmin, function(req, res){
       res.redirect("transfer");
     }
   });
+});
+
+//STANDARDS ROUTE
+router.get("/standard", middleware.isLoggedIn, function(req, res){
+    Standard.find().populate("organisation").exec(function(err, standards){
+        if(err) {
+            req.flash("error", err.message);
+            res.redirect("back");
+        } else {
+            standards.sort(function(a,b){return a.organisation.name.localeCompare(b.organisation.name);});
+            console.log(standards);
+            res.render("standard/index", {standards: standards, isAdmin: true});         
+        }
+    });
 });
 
 module.exports = router;

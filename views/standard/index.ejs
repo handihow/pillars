@@ -6,26 +6,27 @@
     <h2 class="ui center aligned header">
       <div>Normering</div>
     </h2>
-    <a class="positive ui button right" href="/standard/new">Normering Toevoegen</a>
-   <!--  <div class="ui segment">
-      <h4 class="ui right aligned header">
-        <i class="youtube icon"></i>
-        <div class="content">
-          <a href="https://youtu.be/ahbafP_I7uM" target="_blank">Normeringen Toevoegen en Beheren</a>
-          <div class="sub header">YouTube Instructie Video</div>
-        </div>
-      </h4>
-    </div> -->
+    <%if(!isAdmin){%><a class="positive ui button right" href="/standard/new">Normering Toevoegen</a><% } %>
     <!--divider and then all cards for standards-->
     <div class="ui divider"></div>
-    <!--kaarten met normering-->
+    <!-- placeholder if no standards -->
+    <%if(standards.length===0){%>
+      <div class="ui placeholder segment">
+        <div class="ui icon header">
+          <i class="dont icon"></i>
+          Nog geen normeringen
+        </div>
+      </div>
+    <%}%>
+    <!--cards with standards-->
     <div class="ui six doubling cards">
       <% standards.forEach(function(standard){ %>
       <div class="card">
         <div class="content">
           <div class="header"><a href="/standard/<%=standard._id%>"><%= standard.name %></a></div>
           <div class="description">
-            Datum: <%= standard.created.toJSON().slice(0,10).split('-').reverse().join('/') %>
+            <p>Datum: <%= standard.created.toJSON().slice(0,10).split('-').reverse().join('/') %></p>
+            <%if(isAdmin){%><p><%=standard.organisation.name%></p><%}%>
           </div>
         </div>
         <a class="ui bottom attached button" href="/standard/<%=standard._id%>">

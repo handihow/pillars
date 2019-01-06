@@ -1,0 +1,38 @@
+<div class="ui info message">
+  Hier geeft u basisinformatie over het beveiligingsincident of datalek.
+</div>
+<div class="two fields">
+  <div class="required field">
+    <label>Naam incident</label>
+    <input type="text" name="securityIncident[securityIncidentName]" value="<%=securityIncident.securityIncidentName%>" id="securityIncident[securityIncidentName]">
+  </div>
+  <div class="field">
+    <label>Dag en tijdstip van de ontdekking van de inbreuk</label>
+    <input type="text" name="securityIncident[discoveryDateAndTime]" placeholder="Dag en tijdstip van de ontdekking van de inbreuk " value="<%=securityIncident.discoveryDateAndTime%>">
+  </div>
+  
+</div>
+<div class="two fields">
+  <div class="field">
+    <label>Dag en tijdstip van de melding</label>
+    <input type="text" name="securityIncident[notificationDateAndTime]" placeholder="Dag en tijdstip van de melding" value="<%=securityIncident.notificationDateAndTime%>">
+  </div>
+  <div class="field">
+    <label>Dag en tijdstip van de inbreuk</label>
+    <input type="text" name="securityIncident[incidentDateAndTime]" placeholder="Dag en tijdstip van de inbreuk" value="<%=securityIncident.incidentDateAndTime%>">
+  </div>
+</div>
+<div class="two fields">
+  <div class="field">
+    <label>Waar vond inbreuk plaats</label>
+    <input type="text" name="securityIncident[incidentPlace]" placeholder="Waar vond de inbreuk plaats" value="<%=securityIncident.incidentPlace%>">
+  </div>
+  <div class="field">
+    <label>Korte omschrijving van de inbreuk</label>
+    <input type="text" name="securityIncident[incidentDescription]" placeholder="Korte omschrijving van de inbreuk" value="<%=securityIncident.incidentDescription%>">
+  </div>
+</div>
+<div class="field">
+  <label>Aard van de inbreuk: wat is er met de gegevens gebeurd</label>
+  <input type="text" name="securityIncident[natureOfInfringement]"  placeholder="Aard van de inbreuk: wat is er met de gegevens gebeurd" value="<%=securityIncident.natureOfInfringement%>">
+</div>

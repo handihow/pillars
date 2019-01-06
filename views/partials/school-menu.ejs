@@ -52,4 +52,8 @@
     <i class="id card outline icon"></i>
     Verwerkingsactiviteiten
   </a>
+  <a class="item <%if(url.includes("/schools/"+school._id+"/securityIncident")) { %> active <% } %>" href="/schools/<%= school._id %>/securityIncident">
+    <i class="shield alternate icon"></i>
+    Beveiligingsincidenten
+  </a>
 </div>

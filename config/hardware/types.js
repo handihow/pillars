@@ -112,6 +112,30 @@ types.types = [
             isComputer: false,
             isLaptop: false,
             isAll: false
+        },
+        {
+            singular: "Server",
+            plural: "Servers",
+            track: false,
+            isComputer: false,
+            isLaptop: false,
+            isAll: false
+        },
+        {
+            singular: "Koptelefoon",
+            plural: "Koptelefoons",
+            track: false,
+            isComputer: false,
+            isLaptop: false,
+            isAll: false
+        },
+        {
+            singular: "Geluidsinstallatie",
+            plural: "Geluidsinstallaties",
+            track: false,
+            isComputer: false,
+            isLaptop: false,
+            isAll: false
         }
 ];
 

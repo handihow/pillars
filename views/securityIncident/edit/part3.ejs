@@ -1,0 +1,25 @@
+<div class="ui info message">
+ Geef informatie over de gevolgen van het incident en de maatregelen die zijn getroffen.
+</div>
+<div class="two fields">
+  <div class="field">
+    <label>Om hoeveel personen gaat het wiens persoonsgegevens zijn gelekt</label>
+    <input type="text" name="securityIncident[numberOfPersonsAffected]" placeholder="Om hoeveel personen gaat het wiens persoonsgegevens zijn gelekt" value="<%=securityIncident.numberOfPersonsAffected%>">
+  </div>
+  <div class="field">
+    <label>Om welke soorten persoonsgegevens gaat het</label>
+    <input type="text" name="securityIncident[typeOfDataCompromised]" placeholder="Om welke soorten persoonsgegevens gaat het" value="<%=securityIncident.typeOfDataCompromised%>">
+  </div>
+</div>
+<div class="field">
+  <label>Omschrijving van (mogelijke) gevolgen van de inbreuk voor de persoonlijke levenssfeer van betrokkenen</label>
+  <textarea type="text" name="securityIncident[consequences]"><%=securityIncident.consequences%></textarea>
+</div>
+<div class="field">
+  <label>Welke maatregelen zijn getroffen om de inbreuk te beperken en herstellen</label>
+  <textarea type="text" name="securityIncident[mitigationMeasures]"><%=securityIncident.mitigationMeasures%></textarea>
+</div>
+<div class="field">
+  <label>Wat is er gedaan zodat een incident niet nog een keer kan voorkomen</label>
+  <textarea type="text" name="securityIncident[preventionMeasures]"><%=securityIncident.preventionMeasures%></textarea>
+</div>

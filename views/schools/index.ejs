@@ -10,18 +10,18 @@
       <a class="ui yellow button right" href="/schools/new">Scholen Automatisch Toevoegen</a>
       <a class="ui blue button right" href="/schools/manual">School Handmatig Invoeren</a>
     <% } %>
-    <!-- <div class="ui segment">
-        <h4 class="ui right aligned header inline">
-          <i class="youtube icon"></i>
-          <div class="content">
-            <a href="https://youtu.be/6hk04QVjH2A" target="_blank">Scholen Toevoegen en Beheren</a>
-            <div class="sub header">YouTube Instructie Video</div>
-          </div>
-        </h4>
-    </div> -->
     <%if(organisation.logo){%><img class="right floated small ui image"  src="<%=organisation.logo%>"><%}%>
     <!--divider and then all cards for schools-->
     <div class="ui divider"></div>
+    <!-- placeholder if no schools -->
+    <%if(schools.length===0){%>
+      <div class="ui placeholder segment">
+        <div class="ui icon header">
+          <i class="dont icon"></i>
+          Nog geen scholen
+        </div>
+      </div>
+    <%}%>
     <!--cards with schools-->
     <div class="ui three doubling cards">
       <% schools.forEach(function(school){ %>

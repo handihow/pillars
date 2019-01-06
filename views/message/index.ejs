@@ -7,18 +7,18 @@
       <div>Berichten</div>
     </h2>
     <a class="positive ui button right" href="/message/new">Bericht Toevoegen</a>
-    <!-- <div class="ui segment">
-      <h4 class="ui right aligned header">
-        <i class="youtube icon"></i>
-        <div class="content">
-          <a href="https://youtu.be/VxXs9TzB_Ok" target="_blank">Informatie toevoegen door middel van berichten</a>
-          <div class="sub header">YouTube Instructie Video</div>
-        </div>
-      </h4>
-    </div> -->
     <!--divider and then all messages-->
     <div class="ui divider"></div>
-    <!--kaarten met berichten-->
+    <!-- placeholder if no messages -->
+    <%if(messages.length===0){%>
+      <div class="ui placeholder segment">
+        <div class="ui icon header">
+          <i class="dont icon"></i>
+          Nog geen berichten
+        </div>
+      </div>
+    <%}%>
+    <!--cards with messages-->
     <div class="ui four doubling cards">
       <% messages.forEach(function(message){ %>
       <div class="card">

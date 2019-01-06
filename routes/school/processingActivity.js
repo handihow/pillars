@@ -57,7 +57,7 @@ router.get("/:pid", middleware.isLoggedIn, function(req, res){
         req.flash("error", "Probleem bij vinden van schoolgegevens.")
         res.redirect("back");
       } else {
-        ProcessingActivity.findById(req.params.pid, function(err, processingActivity){
+        ProcessingActivity.findById(req.params.pid).populate("processingActivity").exec(function(err, processingActivity){
             if(err ||!processingActivity){
                 req.flash("error", "Verwerkingsactiviteit niet gevonden.");
                 res.redirect("back");

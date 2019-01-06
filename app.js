@@ -25,6 +25,7 @@ var pillarsRoutes = require("./routes/school/pillars");
 var evaluationRoutes = require("./routes/school/evaluation");
 var informationRoutes = require("./routes/school/information");
 var processingActivityRoutes = require("./routes/school/processingActivity");
+var securityIncidentRoutes = require("./routes/school/securityIncident");
 //ROUTES RELATED TO USERS
 var orgUserRoutes = require("./routes/user/org-user");
 var schoolUserRoutes = require("./routes/user/school-user");
@@ -34,6 +35,7 @@ var userEvalRoutes = require("./routes/user/user-eval");
 //ROUTES RELATED TO ORGANISATION
 var standardRoutes = require("./routes/organisation/standard");
 var processingActivityOrganisationRoutes = require("./routes/organisation/processingActivityOrganisation");
+var securityIncidentOrganisationRoutes = require("./routes/organisation/securityIncidentOrganisation");
 var messageRoutes = require("./routes/organisation/message");
 var questionnaireRoutes = require("./routes/organisation/questionnaire");
 var overviewRoutes = require("./routes/organisation/overview");
@@ -156,6 +158,7 @@ app.use("/schools/:id/pillars", pillarsRoutes);
 app.use("/schools/:id/evaluation", evaluationRoutes);
 app.use("/schools/:id/information", informationRoutes);
 app.use("/schools/:id/processingActivity", processingActivityRoutes);
+app.use("/schools/:id/securityIncident", securityIncidentRoutes);
 //ROUTES RELATED TO USERS
 app.use("/schools/:id/user", schoolUserRoutes);
 app.use("/user/:id/test", userTestRoutes);
@@ -165,6 +168,7 @@ app.use("/org-user", orgUserRoutes);
 //ROUTES RELATED TO ORGANISATION
 app.use("/standard", standardRoutes);
 app.use("/processingActivity", processingActivityOrganisationRoutes);
+app.use("/securityIncident", securityIncidentOrganisationRoutes);
 app.use("/overview", overviewRoutes);
 app.use("/questionnaire", questionnaireRoutes);
 app.use("/message", messageRoutes);

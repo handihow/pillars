@@ -22,6 +22,15 @@
     <% } %>
     <!--divider and then all cards for processing activities-->
     <div class="ui divider"></div>
+    <!-- placeholder if no security incidents -->
+    <%if(processingActivities.length===0){%>
+      <div class="ui placeholder segment">
+        <div class="ui icon header">
+          <i class="dont icon"></i>
+          Nog geen verwerkingsactiviteiten
+        </div>
+      </div>
+    <%}%>
     <!--kaarten met verwerkingsactiviteiten-->
     <div class="ui six doubling cards">
       <% processingActivities.forEach(function(processingActivity){ %>

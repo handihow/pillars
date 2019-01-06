@@ -1,0 +1,57 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<%if(schoolLevel){%>
+  <% include ../partials/school-header %>
+<%} else { %>
+ <div class="ui container">
+<%}%>
+
+<h2 class="ui header"><i class="shield alternate icon"></i><%=securityIncident.securityIncidentName%></h2>
+<div class="ui top attached tabular menu">
+    <a class="item active" data-tab="first">Melder</a>
+    <a class="item" data-tab="second">Incident</a>
+    <a class="item" data-tab="third">Gevolgen</a>
+    <a class="item" data-tab="fourth">Berichten</a>
+    <a class="item" data-tab="fifth">Verwerker</a>
+  </div>
+  <div class="ui bottom attached tab segment active" data-tab="first">
+      <% include show/part1 %>
+  </div>
+  <div class="ui bottom attached tab segment" data-tab="second">
+      <% include show/part2 %>
+  </div>
+  <div class="ui bottom attached tab segment" data-tab="third">
+      <% include show/part3 %>
+  </div>
+  <div class="ui bottom attached tab segment" data-tab="fourth">
+       <% include show/part4 %>
+  </div>
+  <div class="ui bottom attached tab segment" data-tab="fifth">
+       <% include show/part5 %>
+  </div>
+
+<%if(schoolLevel && !securityIncident.isValidForAllOrganisation){%>
+    <a id="edit" 
+    class="ui primary basic button" 
+    href="/schools/<%=school._id%>/securityIncident/<%=securityIncident._id%>/edit">
+    Bewerken
+    </a>
+    <form id="delete" 
+    action="/schools/<%= school._id %>/securityIncident/<%=securityIncident._id%>?_method=DELETE" 
+    method="POST">
+    <button class="ui red basic button">Verwijderen</button>
+  <% include ../partials/school-footer %>
+<%} else if(!schoolLevel) {%>
+    <a id="edit" 
+    class="ui primary basic button" 
+    href="/securityIncident/<%=securityIncident._id%>/edit">
+    Bewerken
+    </a>
+    <form id="delete" 
+    action="/securityIncident/<%=securityIncident._id%>?_method=DELETE" 
+    method="POST">
+    <button class="ui red basic button">Verwijderen</button>
+    </div>
+<% } %>
+<% include ../partials/footer %>

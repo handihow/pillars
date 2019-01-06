@@ -32,7 +32,7 @@ router.get("/new", middleware.isAuthenticatedBadmin, function(req, res){
 
 //SHOW ROUTE
 router.get("/:pid", middleware.isLoggedIn, function(req, res){
-  ProcessingActivity.findById(req.params.pid, function(err, processingActivity){
+  ProcessingActivity.findById(req.params.pid).populate("processingActivity").exec(function(err, processingActivity){
         if(err ||!processingActivity){
             req.flash("error", "Verwerkingsactiviteit niet gevonden.");
             res.redirect("back");

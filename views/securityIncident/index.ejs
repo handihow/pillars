@@ -1,0 +1,75 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<%if(schoolLevel){%>
+  <% include ../partials/school-header %>
+<%}%>
+
+<div class="ui container">
+    <h2 class="ui center aligned header">
+      <div>Register van Beveiligingsincidenten</div>
+    </h2>
+    <%if(schoolLevel){%>
+      <a class="positive ui button right" href="/schools/<%=school._id%>/securityIncident/new/">Beveiligingsincident Toevoegen</a>
+      <div class="ui left pointing label">
+        Dit beveiligingsincident wordt zichtbaar voor (alleen) uw school en het bestuur
+      </div>
+    <%} else {%>
+      <a class="positive ui button right" href="/securityIncident/new/">Beveiligingsincident Toevoegen</a>
+      <div class="ui left pointing label">
+        Dit beveiligingsincident wordt zichtbaar voor alle scholen binnen het bestuur
+      </div>
+    <% } %>
+    
+    <!--divider and then all cards for processing activities-->
+    <div class="ui divider"></div>
+    <!-- placeholder if no security incidents -->
+    <%if(securityIncidents.length===0){%>
+      <div class="ui placeholder segment">
+        <div class="ui icon header">
+          <i class="dont icon"></i>
+          Nog geen beveiligingsincidenten
+        </div>
+      </div>
+    <%}%>
+    <!--cards with security incidents-->
+    <div class="ui six doubling cards">
+      <% securityIncidents.forEach(function(securityIncident){ %>
+      <div class="card">
+        <div class="content">
+          <div class="header"><%if(schoolLevel){%>
+                                <a href="/schools/<%=school._id%>/securityIncident/<%=securityIncident._id%>">
+                              <%} else {%>
+                                <a href="/securityIncident/<%=securityIncident._id%>">
+                              <% } %>
+                        <%= securityIncident.securityIncidentName %></a></div>
+          <div class="description">
+            Geldig voor hele bestuur: <%if(securityIncident.isValidForAllOrganisation) { %><i class="toggle on icon"></i><% } else { %><i class="toggle off icon"></i><% }%>
+          </div>
+          <%if(!schoolLevel && securityIncident.school){%>
+            <div class="description">
+              Geldig voor school: <%=securityIncident.school.name%>
+            </div>
+          <%}%> 
+          <div class="description">
+            Datum: <%= securityIncident.created.toJSON().slice(0,10).split('-').reverse().join('/') %>
+          </div>
+        </div>
+        <a class="ui bottom attached button" 
+            <%if(schoolLevel){%>
+              href="/schools/<%=school._id%>/securityIncident/<%=securityIncident._id%>">
+            <%} else {%>
+              href="/securityIncident/<%=securityIncident._id%>">
+            <% } %>
+          <i class="show icon"></i>
+          Bekijk 
+        </a>
+      </div>
+      <% }); %>
+    </div>
+</div>
+
+<%if(schoolLevel){%>
+  <% include ../partials/school-footer %>
+<%}%>
+<% include ../partials/footer %>

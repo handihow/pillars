@@ -10,6 +10,15 @@
   <a class="positive ui button right" href="/org-user/new/">Medewerker Toevoegen met Email/Wachtwoord</a>
   <a class="positive ui button right" href="/org-user/newSocial/">Medewerker Toevoegen met Schoolaccount</a>
   <div class="ui divider"></div>
+    <!-- placeholder if no users -->
+    <%if(users.length===0){%>
+      <div class="ui placeholder segment">
+        <div class="ui icon header">
+          <i class="dont icon"></i>
+          Nog geen medewerkers
+        </div>
+      </div>
+    <%}%>
     <div class="ui cards">
       <!--make a card for each buser-->
       <% users.forEach(function(user){ %>

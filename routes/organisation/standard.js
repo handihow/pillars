@@ -12,7 +12,7 @@ router.get("/", middleware.isLoggedIn, function(req, res){
             req.flash("error", err.message);
             res.redirect("back");
         } else {
-            res.render("standard/index", {standards: standards});         
+            res.render("standard/index", {standards: standards, isAdmin: false});         
         }
     });
 });

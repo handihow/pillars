@@ -7,17 +7,17 @@
       <div>Profielvragen</div>
     </h2>
     <a class="positive ui button right" href="/questionnaire/new">Profielvragen Toevoegen</a>
-   <!--  <div class="ui segment">
-      <h4 class="ui right aligned header">
-        <i class="youtube icon"></i>
-        <div class="content">
-          <a href="https://youtu.be/Mu4Fsa2NTlQ" target="_blank">Vragenlijsten Aanpassen en Beheren</a>
-          <div class="sub header">YouTube Instructie Video</div>
-        </div>
-      </h4>
-    </div> -->
     <!--divider and then all cards for question lists-->
     <div class="ui divider"></div>
+    <!-- placeholder if no questionnaires -->
+    <%if(questionnaire.length===0){%>
+      <div class="ui placeholder segment">
+        <div class="ui icon header">
+          <i class="dont icon"></i>
+          Nog geen profielvragen
+        </div>
+      </div>
+    <%}%>
     <!--kaarten met questionnairevragen-->
     <div class="ui six doubling cards">
       <% questionnaire.forEach(function(questionnaire){ %>
