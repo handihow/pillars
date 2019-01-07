@@ -108,7 +108,12 @@ router.post("/", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, 
       req.flash("error", "Fout bij ophalen gebruikersgegevens");
       return req.redirect("back");
     }
-    req.body.school.forEach(function(school){
+    var schools = req.body.school;
+    if(!schools || schools.length==0){
+      req.flash("error", "Geen scholen ingevoerd");
+      return req.redirect("back");
+    }
+    schools.forEach(function(school, index){
      School.create(school, function(err, school){
       if(err || !school){
         req.flash("error", err.message);
@@ -121,11 +126,13 @@ router.post("/", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, 
           school.settings.software.subjects = config.software.subjects.secondary.schoolConfig();
         }
         school.save();
+        if(index==schools.length-1){
+          req.flash("success", "Scholen toegevoegd");
+          res.redirect("/schools");
+        }
       }
     }); 
    });
-    req.flash("success", "School toegevoegd");
-    res.redirect("/schools");
   });
 });
 
@@ -139,19 +146,19 @@ router.post("/manual", middleware.isNotDemoAccount, middleware.isAuthenticatedBa
     School.create(req.body.school, function(err, school){
       if(err || !school){
         req.flash("error", err.message);
-        res.render("schools/manual");
+        res.redirect("back");
       }  else {
-            //look up user id and username and add to school
-            school.owner = req.user._id;
-            school.organisation = user.organisation;
-            if(school.isSecondarySchool){
-              school.settings.software.subjects = config.software.subjects.secondary.schoolConfig();
-            }
-            school.save();
-          }
-        });
-    req.flash("success", "School toegevoegd");
-    res.redirect("/schools");
+        //look up user id and username and add to school
+        school.owner = req.user._id;
+        school.organisation = user.organisation;
+        if(school.isSecondarySchool){
+          school.settings.software.subjects = config.software.subjects.secondary.schoolConfig();
+        }
+        school.save();
+        req.flash("success", "School toegevoegd");
+        res.redirect("/schools");
+      }
+    });
   });
 });
 

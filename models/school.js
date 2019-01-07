@@ -76,7 +76,7 @@ var scholenSchema=  mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Evaluation"
     }],
-    isSecondarySchool: Boolean
+    isSecondarySchool: {type: Boolean, default: false},
 }, { usePushEach: true, timestamps: true });
 
 scholenSchema.post("remove", function(school){
