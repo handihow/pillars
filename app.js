@@ -86,6 +86,7 @@ passport.use(new GoogleStrategy({
           if(profile.name && profile.name.givenName && profile.name.familyName){
             user.firstName = profile.name.givenName;
             user.lastName = profile.name.familyName;
+            user.emailIsAuthenticated = true;
             user.save(function(err,user){
               return done(err, user);
             });
@@ -121,6 +122,7 @@ passport.use(new AzureAdOAuth2Strategy({
             if(profile.givenName && profile.familyName){
               user.firstName = profile.givenName;
               user.lastName = profile.familyName;
+              user.emailIsAuthenticated = true;
               user.save(function(err,user){
                 return done(err, user);
               });

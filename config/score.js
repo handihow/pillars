@@ -147,7 +147,8 @@ score.calculate = function(school) {
     } else {
         result.errors.push("Geen tests ingevoerd. Score voor deskundigheid is niet berekend.")
     }
-    if(school.management.roles[0].hours>0){
+    if(school.management.roles[0].hours>0 || school.management.agreement || school.management.networkAdjustment ||
+            school.management.networkProblemSolving || school.management.incidentReporting){
         // ORGANISATIE
         //check if the management has reached agreement
         if(school.management.agreement){
