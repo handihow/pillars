@@ -35,6 +35,24 @@ router.get("/hardware", middleware.isAuthenticatedBadmin, function(req, res){
         req.flash("error", err.message);
         res.redirect("back");
     } else {
+        res.render("overview/hardware", {schools: schools, config: config});         
+    }
+});
+});
+
+//SHOW ROUTE HARDWARE OVERVIEW SCHOLEN
+router.get("/hardware/list", middleware.isAuthenticatedBadmin, function(req, res){
+    School.find(
+        {"organisation": req.user.organisation}, 
+        null,
+        {sort: {name: 1}})
+    .populate("hardware")
+    .populate("standard")
+    .exec(function(err, schools){
+      if(err || !schools) {
+        req.flash("error", err.message);
+        res.redirect("back");
+    } else {
         schools.forEach(function(school){
             school.hardware.forEach(function(hardware){
               if(school.standard){
@@ -50,9 +68,71 @@ router.get("/hardware", middleware.isAuthenticatedBadmin, function(req, res){
               }
             });
         });
-        res.render("overview/hardware", {schools: schools});         
+        res.render("overview/hardware-list", {schools: schools});         
     }
 });
+});
+
+//BUDGET - shows how much budget needs to be spent to get hardware in order
+router.get("/hardware/budget", middleware.isAuthenticatedBadmin, function(req, res){
+    School.find(
+        {"organisation": req.user.organisation}, 
+        null,
+        {sort: {name: 1}})
+      .populate("hardware")
+      .populate("software")
+      .populate("tests")
+      .populate("standard")
+      .exec(function(err, schools){
+      if(err){
+        req.flash("error", err.message);
+        res.redirect("back");
+      } else if(!schools){
+        req.flash("error", "Geen scholen gevonden");
+        res.redirect("back");
+      } else {
+        var schoolsWithoutStandards = [];
+        var goodComputers = 0;
+        var requiredComputers = 0;
+        var missingComputers = 0;
+        var goodDigitalSchoolbords = 0;
+        var requiredDigitalSchoolbords = 0;
+        var missingDigitalSchoolbords = 0;
+        var goodLaptops = 0;
+        var requiredLaptops = 0;
+        var missingLaptops = 0;
+        schools.forEach(function(school){
+            //check if the school has standard set up
+          if(!school.standard){
+            schoolsWithoutStandards.push(school.name);
+          } else {
+            var result = score.calculate(school);
+            goodComputers += result.hardware.goodComputers;
+            requiredComputers += result.hardware.requiredComputers;
+            missingComputers += result.hardware.missingComputers;
+            goodDigitalSchoolbords += result.hardware.goodDigitalSchoolbords;
+            requiredDigitalSchoolbords += result.hardware.requiredDigitalSchoolbords;
+            missingDigitalSchoolbords += result.hardware.missingDigitalSchoolbords;
+            goodLaptops += result.hardware.goodLaptops;
+            requiredLaptops += result.hardware.requiredLaptops;
+            missingLaptops += result.hardware.missingLaptops;
+          }
+        })
+        res.render("overview/hardware-budget", 
+            {
+                schoolsWithoutStandards: schoolsWithoutStandards,
+                goodComputers: goodComputers,
+                requiredComputers: requiredComputers,
+                missingComputers: missingComputers,
+                goodDigitalSchoolbords: goodDigitalSchoolbords,
+                requiredDigitalSchoolbords: requiredDigitalSchoolbords,
+                missingDigitalSchoolbords: missingDigitalSchoolbords,
+                goodLaptops: goodLaptops,
+                requiredLaptops: requiredLaptops,
+                missingLaptops: missingLaptops
+            });   
+      }
+  });
 });
 
 //DOWNLOAD ROUTE HARDWARE OVERVIEW SCHOLEN

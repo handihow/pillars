@@ -6,55 +6,33 @@
     <h2 class="ui center aligned header">
       <div>Overzicht Hardware</div>
     </h2>
-    <p>Dit is een overzicht van alle hardware die is ingevoerd in Pillars van scholen aangesloten bij jouw bestuur. Je kunt het overzicht downloaden in CSV format.</p>
-    <div class="ui message">
-      <div class="header">
-        Tip voor openen csv bestand
-      </div>
-      <p>Het csv bestand heeft een komma als scheidingsteken. Heb je problemen met het openen van het bestand?
-      Probeer het bestand dan eens te importeren in een Google sheet. Maak hiervoor een nieuwe Google sheet aan 
-      en kies Bestand-->Importeren. Je kunt dan de komma als scheidingsteken selecteren.</p>
-       <a class="ui primary small button" href="/overview/hardware/download">
-      Download csv bestand
-      </a>
+    <div class="ui icon buttons">
+      <a class="ui active button" href="/overview/hardware"><i class="th icon"></i></a>
+      <a class="ui button" href="/overview/hardware/list"><i class="list icon"></i></a>
+      <a class="ui button" href="/overview/hardware/budget"><i class="euro sign icon"></i></a>
     </div>
-    <!--make table with schools and progress-->
-    <table class="ui celled small table">
-      <thead>
-        <tr>
-          <th>Instellingsnaam</th>
-          <th>Type</th>
-          <th>Naam</th>
-          <th>Merk</th>
-          <th>Model</th>
-          <th>Serial/Tag</th>
-          <th>Processor</th>
-          <th>Werkgeheugen (GB)</th>
-          <th>Jaar ingebruikname</th>
-          <th>Waarschuwing</th>
-          <th>Bekijk</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% schools.forEach(function(school){ %>
-          <% school.hardware.forEach(function(hardware){ %>
-            <tr <% if(hardware.isDepreciated) { %> class="negative" <% } %> >
-              <td><%=school.name%></td>
-              <td><%=hardware.type%></td>
-              <td><%=hardware.name%></td>
-              <td><%=hardware.brand%></td>
-              <td><%=hardware.model%></td>
-              <td><%=hardware.serialTag%></td>
-              <td><%=hardware.processor%></td>
-              <td><%=hardware.memory%></td>
-              <td><%=hardware.deploymentYear%></td>
-              <td><%=hardware.warning %></td>
-              <td><a class="ui mini primary basic button" href="/schools/<%=school._id%>/hardware/<%=hardware._id%>">Bekijk</a></td>
-            </tr>
-          <% }) %>
-        <% }) %>
-      </tbody>
-    </table>
-</div>
+    <div class="ui divider"></div>
+    
+    <div class="ui four doubling cards">
+      <!--make a card for each type of hardware-->
+      <% config.hardware.types.forEach(function(type){ %>
+      <div class="card">
+        <div class="content">
+          <div class="header" id="countHeader"><%=type.plural%></div>
+          <div class="description count">
+            <% var count = 0 %>
+            <% schools.forEach(function(school){ %>
+                <% school.hardware.forEach(function(hardware){ %>
+                <% if(!isNaN(hardware.numberWorkPlacesMultipoint) && hardware.type === type.singular) { count += hardware.numberWorkPlacesMultipoint %>
+                <% } else if(hardware.type === type.singular) { count += 1} %>
+                <% }); %>
+            <%})%>
+            <%= count %>
+          </div>
+        </div>
+      </div>
+    <%})%>
+    </div>
+
 
 <% include ../partials/footer %>

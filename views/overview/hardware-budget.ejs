@@ -1,0 +1,157 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+
+<div class="ui container">
+    <h2 class="ui center aligned header">
+      <div>Overzicht Hardware</div>
+    </h2>
+    <div class="ui icon buttons">
+      <a class="ui button" href="/overview/hardware"><i class="th icon"></i></a>
+      <a class="ui button" href="/overview/hardware/list"><i class="list icon"></i></a>
+      <a class="ui active button" href="/overview/hardware/budget"><i class="euro sign icon"></i></a>
+    </div>
+    <div class="ui divider"></div>
+    <% if(schoolsWithoutStandards.length>0) { %>
+      <div class="ui red message">
+        De volgende scholen hebben geen ingestelde standaard en zijn niet meegenomen in de berekening:
+        <ul>
+        <%schoolsWithoutStandards.forEach(function(school){%>
+          <li><%=school%></li>
+        <%})%>
+        </ul>
+      </div>
+    <% } %>
+
+    <h2 class="ui header">
+      <i class="desktop icon"></i>
+      <div class="content">
+        Computers
+        <div class="sub header">Budget op basis van 520 euro per computer</div>
+      </div>
+    </h2>
+    <div class="ui small statistics">
+      <div class="statistic">
+        <div class="value">
+          <%=goodComputers%>
+        </div>
+        <div class="label">
+          Goed
+        </div>
+      </div>
+      <div class="statistic">
+        <div class="value">
+          <%=requiredComputers%>
+        </div>
+        <div class="label">
+          Norm
+        </div>
+      </div>
+      <div class="statistic">
+        <div class="value">
+          <%=missingComputers%>
+        </div>
+        <div class="label">
+          Ontbrekend
+        </div>
+      </div>
+      <div class="statistic">
+        <div class="value">
+          <i class="euro sign icon"></i> <%=(missingComputers * 520).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")%>
+        </div>
+        <div class="label">
+          Budget
+        </div>
+      </div>
+    </div>
+
+    <div class="ui divider"></div>
+
+    <h2 class="ui header">
+      <i class="tv icon"></i>
+      <div class="content">
+        Digitale schoolborden
+        <div class="sub header">Budget op basis van 3550 euro per digitaal schoolbord</div>
+      </div>
+    </h2>
+    <div class="ui small statistics">
+      <div class="statistic">
+        <div class="value">
+          <%=goodDigitalSchoolbords%>
+        </div>
+        <div class="label">
+          Goed
+        </div>
+      </div>
+      <div class="statistic">
+        <div class="value">
+          <%=requiredDigitalSchoolbords%>
+        </div>
+        <div class="label">
+          Norm
+        </div>
+      </div>
+      <div class="statistic">
+        <div class="value">
+          <%=missingDigitalSchoolbords%>
+        </div>
+        <div class="label">
+          Ontbrekend
+        </div>
+      </div>
+      <div class="statistic">
+        <div class="value">
+          <i class="euro sign icon"></i> <%=(missingDigitalSchoolbords * 3550).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")%>
+        </div>
+        <div class="label">
+          Budget
+        </div>
+      </div>
+    </div>
+
+    <div class="ui divider"></div>
+
+    <h2 class="ui header">
+      <i class="laptop icon"></i>
+      <div class="content">
+        Laptops
+        <div class="sub header">Budget op basis van 520 euro per laptop</div>
+      </div>
+    </h2>
+    <div class="ui small statistics">
+      <div class="statistic">
+        <div class="value">
+          <%=goodLaptops%>
+        </div>
+        <div class="label">
+          Goed
+        </div>
+      </div>
+      <div class="statistic">
+        <div class="value">
+          <%=requiredLaptops%>
+        </div>
+        <div class="label">
+          Norm
+        </div>
+      </div>
+      <div class="statistic">
+        <div class="value">
+          <%=missingLaptops%>
+        </div>
+        <div class="label">
+          Ontbrekend
+        </div>
+      </div>
+      <div class="statistic">
+        <div class="value">
+          <i class="euro sign icon"></i> <%=(missingLaptops * 520).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")%>
+        </div>
+        <div class="label">
+          Budget
+        </div>
+      </div>
+    </div>
+</div>
+
+<% include ../partials/footer %>
