@@ -3,7 +3,31 @@
 <% include ../partials/flash-message %>
 <% include ../partials/school-header %>
 
-    <h2 class="ui header"><i class="desktop icon"></i> Hardware instellingen van <%= school.name %></h2>
+
+<h2 class="ui header"><i class="desktop icon"></i></i>Hardware van <%= school.name %></h2>
+<div class="ui icon buttons">
+  <a class="ui button" href="/schools/<%=school._id%>/hardware"><i class="th icon"></i></a>
+  <a class="ui button" href="/schools/<%=school._id%>/hardware/list"><i class="list icon"></i></a>
+  <a class="ui button" href="/schools/<%=school._id%>/hardware/budget"><i class="euro sign icon"></i></a>
+</div>
+<div class="ui icon buttons">
+  <a class="ui button" href="/schools/<%=school._id%>/hardware/bulk"><i class="upload icon"></i></a>
+  <a class="ui button" href="/schools/<%=school._id%>/hardware/download"><i class="download icon"></i></a>
+  <a class="ui active button" href="/schools/<%=school._id%>/hardware/settings"><i class="settings icon"></i></a>
+</div>
+<div class="ui dropdown item">
+    <a class="ui icon button"><i class="add icon"></i></a>
+    <div class="menu">
+      <% school.settings.hardware.forEach(function(type){ %>
+        <% if (type.track) { %>
+            <a class="item" href="/schools/<%=school._id%>/hardware/new/<%=type.singular%>">
+              <%=type.singular%>
+            </a>
+         <% } %>
+    <% }); %>
+    </div>
+</div>
+
     <h4>Kies welke hardware je wilt bijhouden</h4>
     <div class="ui divider"></div>
     <form class="ui form" action="/schools/<%=school._id%>/hardware/settings?_method=PUT" method="POST">

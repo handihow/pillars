@@ -5,89 +5,55 @@
 
 
 <h2 class="ui header"><i class="desktop icon"></i></i>Hardware van <%= school.name %></h2>
-<a class="positive ui button right" href="/schools/<%=school._id%>/hardware/bulk">Importeer Hardware CSV</a>
-<a class="primary ui button right" href="/schools/<%=school._id%>/hardware/download">Download Hardware CSV</a>
-<h2 class="ui right aligned header">
-  <a href="/schools/<%=school._id%>/hardware/settings">
-    <i class="setting icon"></i>
-  </a>
-</h2>
+<div class="ui icon buttons">
+  <a class="ui active button" href="/schools/<%=school._id%>/hardware"><i class="th icon"></i></a>
+  <a class="ui button" href="/schools/<%=school._id%>/hardware/list"><i class="list icon"></i></a>
+  <a class="ui button" href="/schools/<%=school._id%>/hardware/budget"><i class="euro sign icon"></i></a>
+</div>
+<div class="ui icon buttons">
+  <a class="ui button" href="/schools/<%=school._id%>/hardware/bulk"><i class="upload icon"></i></a>
+  <a class="ui button" href="/schools/<%=school._id%>/hardware/download"><i class="download icon"></i></a>
+  <a class="ui button" href="/schools/<%=school._id%>/hardware/settings"><i class="settings icon"></i></a>
+</div>
+<div class="ui dropdown item">
+    <a class="ui icon button"><i class="add icon"></i></a>
+    <div class="menu">
+      <% school.settings.hardware.forEach(function(type){ %>
+        <% if (type.track) { %>
+            <a class="item" href="/schools/<%=school._id%>/hardware/new/<%=type.singular%>">
+              <%=type.singular%>
+            </a>
+         <% } %>
+    <% }); %>
+    </div>
+</div>
+<div class="ui divider"></div>
+
 <div class="ui cards">
   <!--make a card for each type of hardware-->
   <% school.settings.hardware.forEach(function(type){ %>
   <% if (type.track) { %>
   <div class="card">
     <div class="content">
-      <div class="header" id="countHeader"><a href="#<%=type.singular%>"><%=type.plural%></a></div>
+      <div class="header" id="countHeader"><%=type.plural%></div>
       <div class="description count">
         <% var count = 0 %>
         <% school.hardware.forEach(function(hardware){ %>
         <% if(!isNaN(hardware.numberWorkPlacesMultipoint) && hardware.type === type.singular) { count += hardware.numberWorkPlacesMultipoint %>
         <% } else if(hardware.type === type.singular) { count += 1} %>
         <% }); %>
-        <%= count %>
+        <%if(count===0){%>
+          0
+        <%}else {%>
+          <a href="/schools/<%=school._id%>/hardware/list/#<%=type.singular%>"><%= count %></a>
+        <%}%>
       </div>
-    </div>
-    <div class="ui bottom attached button">
-      <a href="/schools/<%=school._id%>/hardware/new/<%=type.singular%>">
-        <i class="add icon"></i>
-        <%=type.singular%>
-      </a>
     </div>
   </div>
   <% } %>
   <% }); %>
 </div>
-</div>
-<div class="ui segment">
-  <!--make a table for each type of hardware-->
-  <% config.types.forEach(function(type){ %>
-  <% if(school.hardware.map(a => a.type).includes(type.singular)) { %>
-  <div class="ui huge header"><%=type.plural%></div>
-  <a id="<%=type.singular%>">
-    <table class="ui celled table unstackable">
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Naam</th>
-          <th>Merk</th>
-          <th>Meer info</th>
-        </tr>
-      </thead>
-      <% } %>
-      <tbody>
-        <% school.hardware.forEach(function(hardware){ %>
-        <% if(type.singular === hardware.type) { %>
-        <tr <% if(hardware.isDepreciated) { %> class="negative" <% } %> >
-          <td><%= hardware.type %></td>
-          <td><%= hardware.name %></td>
-          <td><%= hardware.brand %></td>
-          <td>
-            <a 
-            class="ui mini primary basic button" 
-            href="/schools/<%=school._id%>/hardware/<%=hardware._id%>">
-            Toon info
-          </a>
-          <form action="/schools/<%=school._id%>/hardware/<%=hardware._id%>/copy" method="post" class="button-inline">
-            <input type="hidden" name="hardware[name]" value="<%=hardware.name%>">
-            <input type="hidden" name="hardware[type]" value="<%=hardware.type%>">
-            <input type="hidden" name="hardware[brand]" value="<%=hardware.brand%>">
-            <input type="hidden" name="hardware[model]" value="<%=hardware.model%>">
-            <input type="hidden" name="hardware[serialTag]" value="<%=hardware.serialTag%>">
-            <input type="hidden" name="hardware[processor]" value="<%=hardware.processor%>">
-            <input type="hidden" name="hardware[memory]" value="<%=hardware.memory%>">
-            <input type="hidden" name="hardware[deploymentYear]" value="<%=hardware.deploymentYear%>">
-            <button class="ui mini secondary basic button" type="submit">Kopieer</button>
-          </form>
-          <% if(hardware.isDepreciated) { %> <i class="attention icon"></i> <%=hardware.warning %> <% } %>
-        </td>
-      </tr>
-      <% } %>
-      <% }); %>
-    </tbody>
-  </table>
-  <% }); %>
-</div>
+
 
 <% include ../partials/school-footer %>
 <% include ../partials/footer %>

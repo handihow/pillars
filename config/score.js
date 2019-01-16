@@ -17,11 +17,17 @@ score.calculate = function(school) {
         },
         hardware: {
             goodComputers: 0,
+            requiredComputers: 0,
+            missingComputers: 0,
             computersPerStudent: 0,
             goodDigitalSchoolbords: 0,
+            requiredDigitalSchoolbords: 0,
+            missingDigitalSchoolbords: 0,
             digitalSchoolbordsPerClassroom: 0,
             network: 0,
             goodLaptops: 0,
+            requiredLaptops: 0,
+            missingLaptops: 0,
             portableComputersPerSchool: 0
         },
         software: {
@@ -78,12 +84,16 @@ score.calculate = function(school) {
         let computersPerStudent = hardwareScore.computersPerStudent(school);
         result.hardware.computersPerStudent = computersPerStudent.computersPerStudent;
         result.hardware.goodComputers = computersPerStudent.goodComputers;
+        result.hardware.requiredComputers = computersPerStudent.requiredComputers;
+        result.hardware.missingComputers = computersPerStudent.missingComputers;
         if(computersPerStudent.error){
             result.errors.push(computersPerStudent.error);
         }
         //check digitale borden per lokaal
         let digitalSchoolbordsPerClassroom = hardwareScore.digitalSchoolbordsPerClassroom(school);
         result.hardware.goodDigitalSchoolbords = digitalSchoolbordsPerClassroom.goodDigitalSchoolbords;
+        result.hardware.requiredDigitalSchoolbords = digitalSchoolbordsPerClassroom.requiredDigitalSchoolbords;
+        result.hardware.missingDigitalSchoolbords = digitalSchoolbordsPerClassroom.missingDigitalSchoolbords;
         result.hardware.digitalSchoolbordsPerClassroom = digitalSchoolbordsPerClassroom.digitalSchoolbordsPerClassroom;
         if(digitalSchoolbordsPerClassroom.error){
             result.errors.push(digitalSchoolbordsPerClassroom.error);
@@ -93,6 +103,8 @@ score.calculate = function(school) {
         //check portable computers per school criteria
         let portableComputersPerSchool = hardwareScore.portableComputersPerSchool(school);
         result.hardware.goodLaptops = portableComputersPerSchool.goodLaptops;
+        result.hardware.requiredLaptops = portableComputersPerSchool.requiredLaptops;
+        result.hardware.missingLaptops = portableComputersPerSchool.missingLaptops;
         result.hardware.portableComputersPerSchool = portableComputersPerSchool.portableComputersPerSchool;
         if(portableComputersPerSchool.error){
             result.errors.push(portableComputersPerSchool.error);

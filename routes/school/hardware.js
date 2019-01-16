@@ -6,14 +6,27 @@ var config = require("../../config/config");
 var middleware = require("../../middleware");
 var csv = require("fast-csv");
 var json2csv = require("json2csv");
+var score = require("../../config/score");
 
 router.use(function(req,res,next){
   res.locals.config = config.hardware;
   next();
 })
 
-//INDEX - list of hardware
+//INDEX - main page hardware
 router.get("/", middleware.isLoggedIn, function(req, res){
+  School.findById(req.params.id).populate("hardware").populate("standard").exec(function(err, school){
+    if(err || !school) {
+      req.flash("error", "School niet gevonden");
+      res.redirect("back");
+    } else {
+      res.render("hardware/index", {school: school});        
+    }
+  });
+});
+
+//INDEX - list of hardware
+router.get("/list", middleware.isLoggedIn, function(req, res){
   School.findById(req.params.id).populate("hardware").populate("standard").exec(function(err, school){
     if(err || !school) {
       req.flash("error", "School niet gevonden");
@@ -35,8 +48,30 @@ router.get("/", middleware.isLoggedIn, function(req, res){
           }
         }
       })
-      res.render("hardware/index", {school: school});        
+      res.render("hardware/index-list", {school: school});        
     }
+  });
+});
+
+//BUDGET - shows how much budget needs to be spent to get hardware in order
+router.get("/budget", middleware.isLoggedIn, function(req, res){
+    School.findById(req.params.id)
+      .populate("hardware")
+      .populate("software")
+      .populate("tests")
+      .populate("standard")
+      .exec(function(err, school){
+      if(err ||!school){
+          req.flash("error", "School niet gevonden.");
+          res.redirect("back");
+      } else {
+          //check if the school has standard set up
+          if(!school.standard){
+            return res.redirect("/schools/"+school.id+"/pillars/settings");
+          }
+          var result = score.calculate(school);
+          res.render("hardware/budget", {school: school, result: result});            
+      }
   });
 });
 

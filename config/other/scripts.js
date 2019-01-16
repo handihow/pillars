@@ -1,7 +1,7 @@
 var scripts = {
 	header: {
 		tinymce: false,
-		uploadcare: false,
+		uploadcare: false
 	},
 	footer: 
 		{

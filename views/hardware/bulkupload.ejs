@@ -4,7 +4,19 @@
 <% include ../partials/school-header %>
 
 
-    <h2 class="ui header">Hardware Lijst Toevoegen aan <%= school.name %></h2>
+<h2 class="ui header"><i class="desktop icon"></i></i>Hardware van <%= school.name %></h2>
+<div class="ui icon buttons">
+  <a class="ui button" href="/schools/<%=school._id%>/hardware"><i class="th icon"></i></a>
+  <a class="ui button" href="/schools/<%=school._id%>/hardware/list"><i class="list icon"></i></a>
+  <a class="ui button" href="/schools/<%=school._id%>/hardware/budget"><i class="euro sign icon"></i></a>
+</div>
+<div class="ui icon buttons">
+  <a class="ui active button" href="/schools/<%=school._id%>/hardware/bulk"><i class="upload icon"></i></a>
+  <a class="ui button" href="/schools/<%=school._id%>/hardware/download"><i class="download icon"></i></a>
+  <a class="ui button" href="/schools/<%=school._id%>/hardware/settings"><i class="settings icon"></i></a>
+</div>
+
+    <h4 class="ui header">Hardware Lijst Toevoegen aan <%= school.name %></h2>
     <div class="ui message">
       <div class="header">
         BELANGRIJK
