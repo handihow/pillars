@@ -4,7 +4,7 @@ $(document).ready(function() {
     // Chart.defaults.global.legend.display = false;
 
     $.get( "/overview/pillars/api", function( results ) {
-        var ctx = $('#grafiek');
+        var ctx = $('#overview-graph');
         hardwareBackgroundColors = [];
         hardwareBorderColors = []
         softwareBackgroundColors = [];

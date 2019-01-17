@@ -4,13 +4,19 @@
 
 <div class="ui container">
     <h2 class="ui center aligned header">
-      <div>Scholen</div>
+      <%if(organisation.logo){%><img class="ui image"  src="<%=organisation.logo%>"><%}%>
+      <div class="content">Scholen</div>
     </h2>
     <% if(currentUser.role==="badmin" || currentUser.role ==="padmin") { %>
-      <a class="ui yellow button right" href="/schools/new">Scholen Automatisch Toevoegen</a>
-      <a class="ui blue button right" href="/schools/manual">School Handmatig Invoeren</a>
+      <div class="ui dropdown item">
+          <a class="circular green ui icon button" data-content="Scholen toevoegen"><i class="add icon"></i></a>
+          <div class="menu">
+            <a class="item" href="/schools/new">Automatisch Toevoegen</a>
+            <a class="item" href="/schools/manual">Handmatig Invoeren</a>
+          </div>
+      </div>
+      
     <% } %>
-    <%if(organisation.logo){%><img class="right floated small ui image"  src="<%=organisation.logo%>"><%}%>
     <!--divider and then all cards for schools-->
     <div class="ui divider"></div>
     <!-- placeholder if no schools -->
