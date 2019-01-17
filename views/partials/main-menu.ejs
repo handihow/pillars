@@ -12,7 +12,7 @@
   <% } %>
   <% if(currentUser && (currentUser.role==="badmin" || currentUser.role ==="padmin")) { %>
   <div class="ui dropdown horizontal item" data-content="Pillars instellingen">
-    <i class="settings icon"></i>
+    <i class="cog icon"></i>
     <div class="menu">
       <a class="item" href="/standard">
         Normering
@@ -22,8 +22,8 @@
       </a>
     </div>
   </div>
-  <a class="horizontal item" href="/message" data-content="Berichten">
-    <i class="info icon"></i>
+  <a class="horizontal item" href="/message" data-content="Berichtgeving">
+    <i class="bullhorn icon"></i>
   </a>
   <a class="horizontal item" href="/org-user" data-content="Bestuur Medewerkers">
     <i class="users icon"></i>
@@ -40,7 +40,7 @@
     </div>
   </div>
   <div class="ui dropdown horizontal item" data-content="Overzichten">
-    <i class="chart line icon"></i>
+    <i class="chart bar icon"></i>
     <div class="menu">
       <a class="item" href="/overview/schools">Invoer Gegevens</a>
       <a class="item" href="/overview/hardware">Hardware</a>

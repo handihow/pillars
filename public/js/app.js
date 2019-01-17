@@ -50,7 +50,7 @@ $(document).ready(function() {
     //activate the popups
     $('.button')
       .popup({
-        position: 'bottom center'
+        position: 'top center'
       })
     ;
 
