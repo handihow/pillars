@@ -3,15 +3,8 @@
 <% include ../partials/flash-message %>
 
 <div class="ui container">
-    <h2 class="ui center aligned header">
-      <div>Overzicht Hardware</div>
-    </h2>
-    <div class="ui icon buttons">
-      <a class="ui button" href="/overview/hardware"><i class="th icon"></i></a>
-      <a class="ui active button" href="/overview/hardware/list"><i class="list icon"></i></a>
-      <a class="ui button" href="/overview/hardware/budget"><i class="euro sign icon"></i></a>
-    </div>
-    <div class="ui divider"></div>
+    <% include ./hardware-header %>
+    
     <p>Dit is een overzicht van alle hardware die is ingevoerd in Pillars van scholen aangesloten bij jouw bestuur. Je kunt het overzicht downloaden in CSV format.</p>
     <div class="ui message">
       <div class="header">

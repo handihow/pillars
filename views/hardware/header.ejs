@@ -1,0 +1,49 @@
+<h2 class="ui header"><i class="desktop icon"></i></i>Hardware van <%= school.name %></h2>
+<div class="ui icon buttons">
+  <a class="ui <%if(url===("/schools/"+school._id+"/hardware")){ %> active <%}%> button" 
+      href="/schools/<%=school._id%>/hardware" 
+      data-content="Kaarten met totalen">
+      <i class="th icon"></i>
+  </a>
+  <a class="ui <%if(url===("/schools/"+school._id+"/hardware/list")){ %> active <%}%> button" 
+      href="/schools/<%=school._id%>/hardware/list"
+      data-content="Lijst met hardware">
+        <i class="list icon"></i>
+  </a>
+  <a class="ui <%if(url===("/schools/"+school._id+"/hardware/budget")){ %> active <%}%> button" 
+      href="/schools/<%=school._id%>/hardware/budget"
+      data-content="Budget berekenen">
+      <i class="euro sign icon"></i>
+  </a>
+</div>
+<div class="ui icon buttons">
+  <a class="ui <%if(url===("/schools/"+school._id+"/hardware/bulk")){ %> active <%}%> button" 
+      href="/schools/<%=school._id%>/hardware/bulk"
+      data-content="Upload lijst met hardware">
+      <i class="upload icon"></i>
+  </a>
+  <a class="ui <%if(url===("/schools/"+school._id+"/hardware/download")){ %> active <%}%> button" 
+      href="/schools/<%=school._id%>/hardware/download"
+      data-content="Download lijst met hardware">
+      <i class="download icon"></i>
+  </a>
+  <a class="ui <%if(url===("/schools/"+school._id+"/hardware/settings")){ %> active <%}%> button" 
+      href="/schools/<%=school._id%>/hardware/settings"
+      data-content="Hardware settings">
+      <i class="settings icon"></i>
+  </a>
+</div>
+<div class="ui dropdown item">
+    <a class="ui icon button" data-content="Hardware toevoegen"><i class="add icon"></i></a>
+    <div class="menu">
+      <% school.settings.hardware.forEach(function(type){ %>
+        <% if (type.track) { %>
+            <a class="item" href="/schools/<%=school._id%>/hardware/new/<%=type.singular%>">
+              <%=type.singular%>
+            </a>
+         <% } %>
+    <% }); %>
+    </div>
+</div>
+<div class="ui divider"></div>
+

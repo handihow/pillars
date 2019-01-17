@@ -33,6 +33,27 @@ $(document).ready(function() {
     $('.menu .item')
       .tab();
 
+    //activate the popups
+    $('.vertical.item')
+      .popup({
+        position: 'right center'
+      })
+    ;
+    
+    //activate the popups
+    $('.horizontal.item')
+      .popup({
+        position: 'bottom center'
+      })
+    ;
+
+    //activate the popups
+    $('.button')
+      .popup({
+        position: 'bottom center'
+      })
+    ;
+
     //activate the progress bars;
     $('.ui.progress').progress();
 

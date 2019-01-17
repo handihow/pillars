@@ -4,29 +4,8 @@
 <% include ../partials/school-header %>
 
 
-<h2 class="ui header"><i class="desktop icon"></i></i>Hardware van <%= school.name %></h2>
-<div class="ui icon buttons">
-  <a class="ui button" href="/schools/<%=school._id%>/hardware"><i class="th icon"></i></a>
-  <a class="ui button" href="/schools/<%=school._id%>/hardware/list"><i class="list icon"></i></a>
-  <a class="ui active button" href="/schools/<%=school._id%>/hardware/budget"><i class="euro sign icon"></i></a>
-</div>
-<div class="ui icon buttons">
-  <a class="ui button" href="/schools/<%=school._id%>/hardware/bulk"><i class="upload icon"></i></a>
-  <a class="ui button" href="/schools/<%=school._id%>/hardware/download"><i class="download icon"></i></a>
-  <a class="ui button" href="/schools/<%=school._id%>/hardware/settings"><i class="settings icon"></i></a>
-</div>
-<div class="ui dropdown item">
-    <a class="ui icon button"><i class="add icon"></i></a>
-    <div class="menu">
-      <% school.settings.hardware.forEach(function(type){ %>
-        <% if (type.track) { %>
-            <a class="item" href="/schools/<%=school._id%>/hardware/new/<%=type.singular%>">
-              <%=type.singular%>
-            </a>
-         <% } %>
-    <% }); %>
-    </div>
-</div>
+<% include ./header %>
+
 <% if(result.errors && result.errors.length > 0) { %>
   <div class="ui red message">
     Deze pagina maakt gebruik van Pillars score berekening. Er zijn fouten gevonden in de berekening:
@@ -37,7 +16,6 @@
     </ul>
   </div>
 <% } %>
-<div class="ui divider"></div>
 
 <h2 class="ui header">
   <i class="desktop icon"></i>
@@ -73,7 +51,7 @@
   </div>
   <div class="statistic">
     <div class="value">
-      <i class="euro sign icon"></i> <%=(result.hardware.missingComputers * 520).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")%>
+      <i class="euro sign icon"></i> <%=(result.hardware.missingComputers * 520).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")%>
     </div>
     <div class="label">
       Budget
@@ -117,7 +95,7 @@
   </div>
   <div class="statistic">
     <div class="value">
-      <i class="euro sign icon"></i> <%=(result.hardware.missingDigitalSchoolbords * 3550).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")%>
+      <i class="euro sign icon"></i> <%=(result.hardware.missingDigitalSchoolbords * 3550).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")%>
     </div>
     <div class="label">
       Budget
@@ -161,7 +139,7 @@
   </div>
   <div class="statistic">
     <div class="value">
-      <i class="euro sign icon"></i> <%=(result.hardware.missingLaptops * 520).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")%>
+      <i class="euro sign icon"></i> <%=(result.hardware.missingLaptops * 520).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")%>
     </div>
     <div class="label">
       Budget

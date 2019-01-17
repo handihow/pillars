@@ -1,46 +1,51 @@
-<div class="ui inverted menu">
-  <a class="item" href="https://pillars.school">
+<div class="ui blue inverted icon menu">
+  <a class="horizontal item" 
+      href="https://pillars.school" 
+      target="_blank" 
+      data-content="Opent Pillars website in nieuw venster">
     <img src="/img/logo.png">
   </a>
-  <% if(currentUser && currentUser.role==="buser") { %>
-    <a class="item" href="/schools/">
-        Scholen
+  <% if(currentUser && (currentUser.role==="buser" || currentUser.role==="badmin" || currentUser.role ==="padmin")) { %>
+    <a class="horizontal item" href="/schools/" data-content="Scholen">
+        <i class="university icon" ></i>
     </a>
   <% } %>
   <% if(currentUser && (currentUser.role==="badmin" || currentUser.role ==="padmin")) { %>
-  <div class="ui dropdown item">
-    Bestuur
-    <i class="dropdown icon"></i>
+  <div class="ui dropdown horizontal item" data-content="Pillars instellingen">
+    <i class="settings icon"></i>
     <div class="menu">
-      <a class="item" href="/schools/">
-        Scholen
-      </a>
       <a class="item" href="/standard">
         Normering
       </a>
       <a class="item" href="/questionnaire">
         Profielvragen
       </a>
-      <a class="item" href="/message">
-        Berichten
-      </a>
-      <a class="item" href="/org-user">
-        Bestuur Medewerkers
-      </a>
+    </div>
+  </div>
+  <a class="horizontal item" href="/message" data-content="Berichten">
+    <i class="info icon"></i>
+  </a>
+  <a class="horizontal item" href="/org-user" data-content="Bestuur Medewerkers">
+    <i class="users icon"></i>
+  </a>
+  <div class="ui dropdown horizontal item" data-content="Algemene verordening gegevensbescherming (AVG)">
+    <i class="shield icon"></i>
+    <div class="menu">
       <a class="item" href="/processingActivity">
         Verwerkingsactiviteiten
       </a>
       <a class="item" href="/securityIncident">
         Beveiligingsincidenten
       </a>
-      <a class="item" href="https://pillars.school/instructie" target="_blank">
-        Support
-      </a>
     </div>
   </div>
-  <div class="ui dropdown item">
-    Overzichten
-    <i class="dropdown icon"></i>
+  <a class="horizontal item" 
+      href="https://pillars.school/instructie" target="_blank" 
+      data-content="Opent support pagina in nieuw venster">
+    <i class="question icon"></i>
+  </a>
+  <div class="ui dropdown horizontal item" data-content="Overzichten">
+    <i class="chart line icon"></i>
     <div class="menu">
       <a class="item" href="/overview/schools">Invoer Gegevens</a>
       <a class="item" href="/overview/hardware">Hardware</a>
@@ -51,9 +56,8 @@
   </div>
   <% } %>
   <% if(currentUser && currentUser.role ==="padmin") { %>
-  <div class="ui dropdown item">
-    Admin
-    <i class="dropdown icon"></i>
+  <div class="ui dropdown horizontal item" data-content="Pillars admin">
+    <i class="globe icon"></i>
     <div class="menu">
       <a class="item" href="/admin">Lijst scholen</a>
       <a class="item" href="/organisations">Lijst organisaties</a>
@@ -62,17 +66,17 @@
       <a class="item" href="/admin/standard">Lijst normeringen</a>
     </div>            
   </div>
-  
-  
   <% } %>
   <% if(currentUser) { %>
   <div class="right menu">
-    <a class="ui item" id="profiel-menu" href="/user/<%=currentUser._id%>">
-      <i class="user circle icon"></i> <div class="hide-mobile"><%=currentUser.username%></div>
+    <a class="ui horizontal item" 
+        id="profiel-menu" 
+        href="/user/<%=currentUser._id%>" 
+        data-content="Ga naar profielpagina van <%=currentUser.username%>">
+      <i class="user circle icon"></i>
     </a>
-    <a class="ui item" href="/logout">
-      <i class="fa fa-sign-out" aria-hidden="true"></i>
-      <div class="hide-mobile">Uitloggen</div>
+    <a class="ui horizontal item" href="/logout" data-content="Uitloggen">
+      <i class="sign-out icon" aria-hidden="true"></i>
     </a>
   </div>
   <% } %>
