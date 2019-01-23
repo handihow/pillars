@@ -2,6 +2,9 @@ var express = require("express");
 var router = express.Router();
 var User = require("../../models/user");
 var middleware = require("../../middleware");
+var crypto = require("crypto");
+var ejs = require("ejs");
+var config = require("../../config/config");
 
 //VERIFY USER EMAIL ACCOUNT
 router.get("/user/:id", middleware.isLoggedIn, function(req, res){
@@ -24,7 +27,7 @@ router.get("/user/:id", middleware.isLoggedIn, function(req, res){
                       return res.redirect("back");
                   }
                 //send the email
-                var request = email.nocc(user.username, user.firstName + " " + user.lastName, "Email verificatie Pillars", html);
+                var request = config.email.nocc(user.username, user.firstName + " " + user.lastName, "Email verificatie Pillars", html);
                 request
                   .then((result) => {
                     req.flash("success", "Email met verificatie link gestuurd!");
