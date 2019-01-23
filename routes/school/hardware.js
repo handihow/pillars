@@ -88,7 +88,7 @@ router.get("/settings", middleware.isSchoolOwner, function(req, res){
 });
 
 //DOWNLOAD ROUTE HARDWARE OVERVIEW SCHOLEN
-router.get("/download", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
+router.get("/download", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
   School.findById(req.params.id)
   .populate("hardware")
   .exec(function(err, school){
