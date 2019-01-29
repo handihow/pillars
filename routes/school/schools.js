@@ -192,7 +192,7 @@ router.put("/:id", middleware.isNotDemoAccount, middleware.isLoggedIn, function(
 });
 
 //DELETE ROUTE
-router.delete("/:id", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
+router.delete("/:id", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
  School.findById(req.params.id, function(err, school){
    if(err){
      res.redirect("/schools");

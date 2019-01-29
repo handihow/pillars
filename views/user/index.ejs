@@ -30,6 +30,7 @@
                     <% if(user.role==="sadmin") { %>Pillars administrator <% } else { %>Medewerker <% } %>
               </div>
             </div>
+            <% if(currentUser && (currentUser.role==="badmin" || currentUser.role ==="padmin")) { %>
             <div class="ui bottom attached button">
               <% if (user.publicProfile) { %><a class="ui yellow button" href="/user/<%=user._id%>">Bekijken</a><%}%>
               <button class="ui red basic button warning-delete-user">Verwijderen</button>
@@ -43,6 +44,7 @@
               </form>
               </div>
             </div>
+            <%}%>
           </div>
           <% }); %>
         </div>

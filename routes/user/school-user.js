@@ -188,15 +188,15 @@ function registerUser(username, school, role, password, firstName, lastName){
 
 
 //DESTROY route to delete school user from database
-router.delete("/:user_id", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
-    User.findByIdAndRemove(req.params.user_id, function(err, user){
+router.delete("/:user_id", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
+    User.findById(req.params.user_id, function(err, user){
         if(err) {
-            req.flash('error', err.message);
-            res.redirect("/schools");
+          req.flash('error', err.message);
+          res.redirect("/schools");
         }  else {
-            user.remove();
-            req.flash("success", "School medewerker verwijderd");
-            res.redirect("/schools/" + req.params.id + "/user");
+          user.remove();
+          req.flash("success", "School medewerker is verwijderd.");
+          res.redirect("/schools/" + req.params.id + "/user");
         }
     });
 });

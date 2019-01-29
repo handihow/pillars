@@ -15,6 +15,7 @@ var UserSchema = new mongoose.Schema({
   emailAuthenticationToken: String,
   emailIsAuthenticated: Boolean,
   publicProfile: Boolean,
+  toBeRemoved: Boolean,
   organisation: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Organisation"

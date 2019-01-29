@@ -92,7 +92,7 @@ middlewareObj.isAuthenticatedBadmin = function(req, res, next){
                 } else if (user.role==="padmin") {
                     next();
                 } else {
-                    req.flash("error", "Je hebt niet voldoende rechten of email is niet geverifieerd. Controleer je email op een bericht van Pillars met de link om email te verifieren. Als je geen email hebt ontvangen, ga dan naar je profielpagina, en druk daar op de knop Email verifieren. Er wordt dan een nieuwe email verzonden.");
+                    req.flash("error", "Voor deze actie zijn rechten vereist als bestuur admin. Je hebt niet voldoende rechten. Als je wel bestuur admin bent, controleer dan of je email is geverifieerd. Controleer je email op een bericht van Pillars met de link om email te verifieren. Als je geen email hebt ontvangen, ga dan naar je profielpagina, en druk daar op de knop Email verifieren. Er wordt dan een nieuwe email verzonden.");
                     res.redirect("back");
                 }
             }
