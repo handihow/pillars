@@ -93,8 +93,8 @@ router.get("/download", middleware.isSchoolOwner, function(req, res){
       school.tests.forEach(function(test){
         test.school = school.name;
         test.result = Math.ceil(test.result*100)/100;
-        test.user = test.owner.publicProfile ? test.owner.username : 'anoniem';
-        test.userType = test.owner.isTeacher ? 'onderwijzend' : 'ondersteunend/onbekend';
+        test.user = test.owner && test.owner.publicProfile ? test.owner.username : 'anoniem';
+        test.userType = test.owner && test.owner.isTeacher ? 'onderwijzend' : 'ondersteunend/onbekend';
         testList.push(test);
       });
       var fields = ['school', 'subject', 'result', 'user', 'userType'];

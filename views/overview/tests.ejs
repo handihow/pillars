@@ -37,8 +37,8 @@
               <td><%=school.name%></td>
               <td><%=test.subject%></td>
               <td><%= Math.ceil(test.result * 100) %> %</td>
-              <td><%= test.owner.publicProfile ? test.owner.username : 'anoniem' %></td>
-              <td><%= test.owner.isTeacher ? 'onderwijzend' : 'ondersteunend/onbekend'%></td>
+              <td><%= test.owner && test.owner.publicProfile ? test.owner.username : 'anoniem' %></td>
+              <td><%= test.owner && test.owner.isTeacher ? 'onderwijzend' : 'ondersteunend/onbekend'%></td>
               <td><a class="ui mini primary basic button" href="/user/test_overview/test/<%=test._id%>">Bekijk</a></td>
             </tr>
           <% }) %>
