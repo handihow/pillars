@@ -54,6 +54,9 @@ router.post("/", middleware.isNotDemoAccount, middleware.isUser, function(req, r
          req.flash("err", err.message);
          res.redirect("back");
        } else {
+         //add test result to user record
+         user.tests.push(test);
+         user.save();
            //calculate the score
            var total = 0;
            var score = 0;

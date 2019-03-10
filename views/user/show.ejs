@@ -59,8 +59,12 @@
         <h4 class="content">Bouw</h4>
         <div class="content"><%=user.gradeLevelGroup%></div>
       </div>
-      <div class="eight wide column">
-        <h4 class="content">Ik geef mijn leidinggevende en ICT'er inzage in mijn testresultaten en profiel</h4>
+      <div class="four wide column">
+        <h4 class="content">Onderwijzend personeel</h4>
+        <div class="content"><% if(user.isTeacher) {%>Ja <%} else {%> Nee <%}%></div>
+      </div>
+      <div class="four wide column">
+        <h4 class="content">Schoolleiding heeft inzage</h4>
         <div class="content"><% if(user.publicProfile) {%>Ja <%} else {%> Nee <%}%></div>
       </div>
     </div>

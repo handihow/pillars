@@ -13,7 +13,8 @@ router.use(function(req,res,next){
 
 //SHOW ROUTE
 router.get("/", middleware.isSchoolOwner, function(req, res){
-  School.findById(req.params.id).populate("tests").exec(function(err, school){
+  School.findById(req.params.id).populate("tests")
+  .exec(function(err, school){
     if(err ||!school){
       req.flash("error", "School niet gevonden.");
       res.redirect("back");
@@ -29,6 +30,23 @@ router.get("/", middleware.isSchoolOwner, function(req, res){
           res.render("competence/show", {school: school, questionnaire: questionnaire.questionnaire}); 
         }
       })         
+    }
+  });
+});
+
+//SHOW LIST ROUTE
+router.get("/list", middleware.isSchoolOwner, function(req, res){
+  School.findById(req.params.id)
+  .populate({
+    path: 'tests',
+    populate: { path: 'owner' }
+  })
+  .exec(function(err, school){
+    if(err ||!school){
+      req.flash("error", "School niet gevonden.");
+      res.redirect("back");
+    } else {
+      res.render("competence/show-list", {school: school}); 
     }
   });
 });
@@ -62,7 +80,10 @@ router.put("/", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(
 //DOWNLOAD ROUTE TEST OVERVIEW SCHOLEN
 router.get("/download", middleware.isSchoolOwner, function(req, res){
   School.findById(req.params.id)
-  .populate("tests")
+  .populate({
+      path: 'tests',
+      populate: { path: 'owner' }
+    })
   .exec(function(err, school){
     if(err || !school) {
       req.flash("error", err.message);
@@ -72,10 +93,12 @@ router.get("/download", middleware.isSchoolOwner, function(req, res){
       school.tests.forEach(function(test){
         test.school = school.name;
         test.result = Math.ceil(test.result*100)/100;
+        test.user = test.owner.username;
+        test.userType = test.owner.isTeacher ? 'onderwijzend' : 'ondersteunend/onbekend';
         testList.push(test);
       });
-      var fields = ['school', 'subject', 'result', 'username'];
-      var fieldNames = ['School', 'Onderdeel', 'Resultaat', 'Gebruiker'];
+      var fields = ['school', 'subject', 'result', 'user', 'userType'];
+      var fieldNames = ['School', 'Onderdeel', 'Resultaat', 'Gebruikersnaam', 'Personeelstype'];
       json2csv({ data: testList, fields: fields, fieldNames: fieldNames }, function(err, csv) {
         if(err){
           req.flash("error", err.message);

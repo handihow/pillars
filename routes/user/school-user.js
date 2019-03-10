@@ -5,6 +5,7 @@ var User = require("../../models/user");
 var middleware = require("../../middleware");
 var ejs = require("ejs");
 var config = require("../../config/config");
+var Test = require("../../models/test");
 
 //INDEX - list of users of the school
 router.get("/", middleware.isSchoolOwner, function(req, res){

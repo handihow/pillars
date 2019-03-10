@@ -260,7 +260,10 @@ router.get("/tests", middleware.isAuthenticatedBadmin, function(req, res){
         {"organisation": req.user.organisation}, 
         null,
         {sort: {name: 1}})
-    .populate("tests")
+      .populate({
+        path: 'tests',
+        populate: { path: 'owner' }
+      })
     .exec(function(err, schools){
       if(err || !schools) {
         req.flash("error", err.message);
@@ -277,7 +280,10 @@ router.get("/tests/download", middleware.isAuthenticatedBadmin, function(req, re
         {"organisation": req.user.organisation}, 
         null,
         {sort: {name: 1}})
-    .populate("tests")
+    .populate({
+        path: 'tests',
+        populate: { path: 'owner' }
+      })
     .exec(function(err, schools){
       if(err || !schools) {
         req.flash("error", err.message);
@@ -288,11 +294,13 @@ router.get("/tests/download", middleware.isAuthenticatedBadmin, function(req, re
             school.tests.forEach(function(test){
                 test.school = school.name;
                 test.result = Math.ceil(test.result*1000)/10;
+                test.user = test.owner.username;
+                test.userType = test.owner.isTeacher ? 'onderwijzend' : 'ondersteunend/onbekend';
                 testList.push(test);
             });
         });
-        var fields = ['school', 'subject', 'result','username'];
-        var fieldNames = ['School', 'Onderdeel', 'Resultaat', 'Gebruiker'];
+        var fields = ['school', 'subject', 'result', 'user', 'userType'];
+        var fieldNames = ['School', 'Onderdeel', 'Resultaat', 'Gebruikersnaam', 'Personeelstype'];
         json2csv({ data: testList, fields: fields, fieldNames: fieldNames }, function(err, csv) {
             if(err){
                 req.flash("error", err.message);

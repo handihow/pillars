@@ -6,6 +6,7 @@ var UserSchema = new mongoose.Schema({
   username: {type: String, required: true},
   password: String,
   role: String,
+  isTeacher: Boolean,
   supportRole: [{role: String, hours: Number}],
   firstName: String,
   lastName: String,
@@ -24,6 +25,10 @@ var UserSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "School"
   }], 
+  tests: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Test"
+  }],
   evaluations: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Evaluation"
@@ -31,7 +36,7 @@ var UserSchema = new mongoose.Schema({
   dateOfBirth: Date,
   gender: String,
   gradeLevelGroup: String
-}, { usePushEach: true });
+}, { usePushEach: true, timestamps: true });
 
 UserSchema.pre('save', function(next) {
   var username =this.username;

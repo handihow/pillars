@@ -30,12 +30,31 @@
         </div>
         <div class="two fields">
           <div class="field">
-              <label>Organisatie</label>
-              <input type="text" name="user[org]" value="<%=user.org%>" id="user[org]">
-          </div>
-          <div class="field">
               <label>Functie</label>
               <input type="text" name="user[job]" value="<%=user.job%>" id="user[job]">
+          </div>
+          <div class="inline fields">
+            <label>Personeelstype</label>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input 
+                      type="radio" 
+                      name="user[isTeacher]" 
+                      value="0" 
+                      <% if(!user.isTeacher) { %>checked="checked"<% } %>>
+                <label>Onderwijsondersteunend</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input 
+                      type="radio" 
+                      name="user[isTeacher]" 
+                      value="1"
+                      <% if(user.isTeacher) { %>checked="checked"<% } %>>
+                <label>Onderwijzend</label>
+              </div>
+            </div>
           </div>
         </div>
         <div class="two fields">

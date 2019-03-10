@@ -25,7 +25,8 @@
           <th>Instellingsnaam</th>
           <th>Onderdeel</th>
           <th>Resultaat</th>
-          <th>Gebruiker</th>
+          <th>Gebruikersnaam</th>
+          <th>Personeel</th>
           <th>Bekijk</th>
         </tr>
       </thead>
@@ -36,7 +37,8 @@
               <td><%=school.name%></td>
               <td><%=test.subject%></td>
               <td><%= Math.ceil(test.result * 100) %> %</td>
-              <td><%=test.username%></td>
+              <td><%= test.owner.publicProfile ? test.owner.username : 'anoniem' %></td>
+              <td><%= test.owner.isTeacher ? 'onderwijzend' : 'ondersteunend/onbekend'%></td>
               <td><a class="ui mini primary basic button" href="/user/test_overview/test/<%=test._id%>">Bekijk</a></td>
             </tr>
           <% }) %>

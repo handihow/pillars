@@ -25,6 +25,16 @@
       <div class="card">
         <div class="content">
           <div class="header"><%=user.firstName %> <%=user.lastName %></div>
+          <div class="meta">
+            <span>
+                <%if(user.updatedAt){%>
+                  Laatste update op <%= user.updatedAt.toJSON().slice(0,10).split('-').reverse().join('/')%>
+              <%}%> 
+          </span>
+            <%if(user.tests){%>
+                  | <%= user.tests.length%> tests
+              <%}%> 
+          </div>
           <div class="description">
                 <%=user.username%>
           </div>

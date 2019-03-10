@@ -1,0 +1,21 @@
+<h2 class="ui header"><i class="doctor icon"></i>Deskundigheid van Leerkrachten op <%= school.name %></h2>
+<div class="ui icon buttons">
+  <a class="ui <%if(url===("/schools/"+school._id+"/competence")){ %> active <%}%> button" 
+      href="/schools/<%=school._id%>/competence" 
+      data-content="Kaarten met totalen">
+      <i class="th icon"></i>
+  </a>
+  <a class="ui <%if(url===("/schools/"+school._id+"/competence/list")){ %> active <%}%> button" 
+      href="/schools/<%=school._id%>/competence/list"
+      data-content="Lijst met testresultaten">
+        <i class="list icon"></i>
+  </a>
+</div>
+<div class="ui icon buttons">
+  <a class="ui <%if(url===("/schools/"+school._id+"/competence/download")){ %> active <%}%> button" 
+      href="/schools/<%=school._id%>/competence/download"
+      data-content="Download lijst met testresultaten">
+      <i class="download icon"></i>
+  </a>
+</div>
+<div class="ui divider"></div>
