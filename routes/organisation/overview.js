@@ -294,7 +294,7 @@ router.get("/tests/download", middleware.isAuthenticatedBadmin, function(req, re
             school.tests.forEach(function(test){
                 test.school = school.name;
                 test.result = Math.ceil(test.result*1000)/10;
-                test.user = test.owner.username;
+                test.user = test.owner.publicProfile ? test.owner.username : 'anoniem';
                 test.userType = test.owner.isTeacher ? 'onderwijzend' : 'ondersteunend/onbekend';
                 testList.push(test);
             });
