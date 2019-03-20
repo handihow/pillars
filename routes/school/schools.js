@@ -72,19 +72,22 @@ router.post("/new", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmi
   let zoekcriterium = parseInt(req.body.zoekcriterium); 
   let zoekveld = req.body.zoekveld; 
   var url;
-  var secondarySchool = Boolean(zoekcriterium);
+  var secondarySchool;
   if(zoekcriterium==0){
     console.log("PO schools");
     url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=584b8e26-4130-418b-bf2d-f8475f488a82&q=" +
     zoekveld;
+    secondarySchool = false;
   } else if(zoekcriterium==1) {
     console.log("VO schools");
     url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=747f18de-4f46-4689-a1bd-d4292ecbf418&q=" +
     zoekveld;
+    secondarySchool = true;
   } else {
     console.log("Speciaal onderwijs");
     url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=8dea0466-0c57-4b0d-bdfd-2d9d684111a1&q=" +
     zoekveld;
+    secondarySchool = false;
   }
   request(url, function (error, response, body) {
     if(!error && response.statusCode == 200){
