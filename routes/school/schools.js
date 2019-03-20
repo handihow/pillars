@@ -77,9 +77,13 @@ router.post("/new", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmi
     console.log("PO schools");
     url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=584b8e26-4130-418b-bf2d-f8475f488a82&q=" +
     zoekveld;
-  } else {
+  } else if(zoekcriterium==1) {
     console.log("VO schools");
     url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=747f18de-4f46-4689-a1bd-d4292ecbf418&q=" +
+    zoekveld;
+  } else {
+    console.log("Speciaal onderwijs");
+    url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=8dea0466-0c57-4b0d-bdfd-2d9d684111a1&q=" +
     zoekveld;
   }
   request(url, function (error, response, body) {
