@@ -210,6 +210,7 @@ router.get("/software/download", middleware.isAuthenticatedBadmin, function(req,
                 newSoftware.school = school.name;
                 newSoftware.subject = software.subject;
                 newSoftware.name = software.name;
+                newSoftware.typeOfSoftware = software.typeOfSoftware;
                 software.functionalities.forEach(function(functionality){
                     newSoftware[functionality] = "Ja";
                 });
@@ -223,8 +224,8 @@ router.get("/software/download", middleware.isAuthenticatedBadmin, function(req,
                 softwareList.push(newSoftware);
             });
         });
-        var fields = ['school', 'subject', 'name'];
-        var fieldNames = ['School', 'Vak', 'Naam'];
+        var fields = ['school', 'subject', 'name', 'typeOfSoftware'];
+        var fieldNames = ['School', 'Vak', 'Naam', 'Type'];
         config.software.functionality.forEach(function(functionality){
          fields.push(functionality);
          fieldNames.push(functionality);

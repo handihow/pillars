@@ -1,0 +1,31 @@
+<h2 class="ui header"><i class="student icon"></i></i>Digitale Leermiddelen van <%= school.name %></h2>
+<div class="ui icon buttons">
+  <a class="ui <%if(url===("/schools/"+school._id+"/software")){ %> active <%}%> button" 
+      href="/schools/<%=school._id%>/software" 
+      data-content="Kaarten met totalen">
+      <i class="th icon"></i>
+  </a>
+  <a class="ui <%if(url===("/schools/"+school._id+"/software/list")){ %> active <%}%> button" 
+      href="/schools/<%=school._id%>/software/list"
+      data-content="Lijst met digitale leermiddelen">
+        <i class="list icon"></i>
+  </a>
+</div>
+<div class="ui icon buttons">
+  <a class="ui <%if(url===("/schools/"+school._id+"/software/download")){ %> active <%}%> button" 
+      href="/schools/<%=school._id%>/software/download"
+      data-content="Download lijst met digitale leermiddelen">
+      <i class="download icon"></i>
+  </a>
+</div>
+<div class="ui dropdown item">
+    <a class="ui icon button" data-content="Digitaal leermiddel toevoegen"><i class="add icon"></i></a>
+    <div class="menu">
+      <% Object.keys(school.settings.software.subjects).sort().forEach(function(subject){ %>
+            <a class="item" href="/schools/<%=school._id%>/software/new/<%=subject %>">
+              <%= subject %>
+            </a>
+    <% }); %>
+    </div>
+</div>
+<div class="ui divider"></div>

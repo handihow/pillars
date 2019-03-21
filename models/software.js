@@ -10,6 +10,7 @@ var softwareSchema = mongoose.Schema (
         effectiveness: Number,
         licences: Number,
         supplier: String,
+        typeOfSoftware: {type: String, default: "Digitaal"},
         created: {type: Date, default: Date.now},
         school: {
           type:   mongoose.Schema.Types.ObjectId,

@@ -3,10 +3,8 @@
 <% include ../partials/flash-message %>
 <% include ../partials/school-header %>
 
-<h2 class="ui header"><i class="student icon"></i></i>Digitale Leermiddelen van <%= school.name %></h2>
-<a class="primary ui button right" href="/schools/<%=school._id%>/software/download">Download Digitale Leermiddelen CSV</a>
-<br>
-<br>
+<% include ./header %>
+
 <div class="ui cards">
   <!--make a card for each type of software-->
   <% Object.keys(school.settings.software.subjects).sort().forEach(function(subject){ %>
@@ -34,43 +32,7 @@
   <% }); %>
 </div>
 </div>
-<!--make a table for each type of software-->
-<div class="ui segment">
-  <!--check for each key in the school software subjects object (represent subject)-->
-  <% Object.keys(school.settings.software.subjects).sort().forEach(function(subject){ %>
-  <!--if the school software subject is included in the array-->
-  <% if(school.software.map(a => a.subject).some(r => school.settings.software.subjects[subject].includes(r))) { %>
-  <div class="ui huge header"><%= subject %></div>
-  <a id="<%= subject %>">
-    <table class="ui celled table unstackable">
-      <thead>
-        <tr>
-          <th>Vak</th>
-          <th>Naam</th>
-          <th>Meer info</th>
-        </tr>
-      </thead>
-      <% } %>
-      <tbody>
-        <% school.software.forEach(function(software){ %>
-        <% if(school.settings.software.subjects[subject].includes(software.subject)) { %>
-        <tr>
-          <td><%= software.subject %></td>
-          <td><%= software.name %></td>
-          <td>
-            <a 
-            class="ui primary basic button" 
-            href="/schools/<%=school._id%>/software/<%=software._id%>">
-            Toon info
-          </a>
-        </td>
-      </tr>
-      <% } %> 
-      <% }); %>
-    </tbody>
-  </table>
-  <% }); %>
-</div>
+
 </div>
 
 <% include ../partials/school-footer %>

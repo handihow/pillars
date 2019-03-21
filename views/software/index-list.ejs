@@ -1,0 +1,47 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<% include ../partials/school-header %>
+
+<% include ./header %>
+
+<!--make a table for each type of software-->
+<div class="ui segment">
+  <!--check for each key in the school software subjects object (represent subject)-->
+  <% Object.keys(school.settings.software.subjects).sort().forEach(function(subject){ %>
+  <!--if the school software subject is included in the array-->
+  <% if(school.software.map(a => a.subject).some(r => school.settings.software.subjects[subject].includes(r))) { %>
+  <div class="ui header"><%= subject %></div>
+  <a id="<%= subject %>">
+    <table class="ui celled small table">
+      <thead>
+        <tr>
+          <th>Vak</th>
+          <th>Naam</th>
+          <th>Leverancier</th>
+          <th>Aantal licenties</th>
+          <th>Type leermiddel</th>
+          <th>Meer info</th>
+        </tr>
+      </thead>
+      <% } %>
+      <tbody>
+        <% school.software.forEach(function(software){ %>
+        <% if(school.settings.software.subjects[subject].includes(software.subject)) { %>
+        <tr>
+          <td><%= software.subject %></td>
+          <td><%= software.name %></td>
+          <td><%= software.supplier %></td>
+          <td><%= software.licences %></td>
+          <td><%= software.typeOfSoftware %></td>
+          <td class="selectable">
+            <a href="/schools/<%=school._id%>/software/<%=software._id%>">
+            Toon info</a>
+          </td>
+      </tr>
+      <% } %> 
+      <% }); %>
+    </tbody>
+  </table>
+  <% }); %>
+</div>

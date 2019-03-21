@@ -11,7 +11,7 @@ router.use(function(req,res,next){
   next();
 })
 
-//INDEX - list of software
+//INDEX - list of software in tile view
 router.get("/", middleware.isLoggedIn, function(req, res){
     School.findById(req.params.id).populate("software").exec(function(err, school){
         if(err || !school) {
@@ -22,6 +22,19 @@ router.get("/", middleware.isLoggedIn, function(req, res){
         }
     });
 });
+
+//INDEX - list of software in list view
+router.get("/list", middleware.isLoggedIn, function(req, res){
+    School.findById(req.params.id).populate("software").exec(function(err, school){
+        if(err || !school) {
+            req.flash("error", "School niet gevonden.");
+            res.redirect("back");
+        } else {
+            res.render("software/index-list", {school: school});        
+        }
+    });
+});
+
 
 //DOWNLOAD ROUTE SOFTWARE OVERVIEW SCHOLEN
 router.get("/download", middleware.isSchoolOwner, function(req, res){
@@ -38,6 +51,7 @@ router.get("/download", middleware.isSchoolOwner, function(req, res){
                     newSoftware.school = school.name;
                     newSoftware.subject = software.subject;
                     newSoftware.name = software.name;
+                    newSoftware.typeOfSoftware = software.typeOfSoftware;
                     software.functionalities.forEach(function(functionality){
                         newSoftware[functionality] = "Ja";
                     });
@@ -50,8 +64,8 @@ router.get("/download", middleware.isSchoolOwner, function(req, res){
                     newSoftware.effectiveness = software.effectiveness;
                     softwareList.push(newSoftware);
                 });
-                var fields = ['school', 'subject', 'name'];
-                var fieldNames = ['School', 'Vak', 'Naam'];
+                var fields = ['school', 'subject', 'name', 'typeOfSoftware'];
+                var fieldNames = ['School', 'Vak', 'Naam', 'Type'];
                 config.software.functionality.forEach(function(functionality){
                    fields.push(functionality);
                    fieldNames.push(functionality);

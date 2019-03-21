@@ -64,7 +64,7 @@
       </select>
     </div>
   <% } %>
-  <div class="two fields">
+  <div class="three fields">
     <div class="field">
       <label>Leverancier</label>  
       <input type="text" name="software[supplier]" placeholder="Leverancier digitale leermiddel">
@@ -72,6 +72,14 @@
     <div class="field">
       <label>Aantal licenties</label>  
       <input type="number" name="software[licences]" placeholder="Aantal licenties">
+    </div>
+    <div class="field">
+      <label>Type leermiddel</label>
+      <select name="software[typeOfSoftware]" class="ui dropdown">
+        <option value="Digitaal" selected="">Digitaal leermiddel</option>
+        <option value="Niet digitaal">Niet digitaal leermiddel</option>
+        <option value="Beide">Beide</option>
+      </select>
     </div>
   </div>
   <button class="ui button" type="submit">Bewaren</button>
