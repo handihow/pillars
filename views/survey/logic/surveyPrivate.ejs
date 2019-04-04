@@ -20,13 +20,14 @@
 		        url: window.location.origin + "/survey/" + surveyId + "/private",
 		        type: "POST",
 		        data: {
-		            result: JSON.stringify(result),
+		            result: JSON.stringify(result.data),
 		        },
 		        success: function (data) {
 		        	if(data.success){
 		        		document
 			            .querySelector('#surveyResult')
-			            .innerHTML = "result: " + JSON.stringify(result.data);
+			            .innerHTML = "<a href='" + window.location.origin + "/survey/" 
+			            				+ data.surveyResultId +  "/result'>Bekijk je inzending</a>";
 		        	} else {
 		        		alert(data.error);
 		        	}

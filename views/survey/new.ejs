@@ -15,19 +15,23 @@
       Bewerk daarna de enquête in de "Survey Designer" en test indien gewenst onder "Test Survey". Je kunt de enquête bewaren door te klikken op "Save survey" in de "Survey Designer".
   </div>
   <div class="ui grid">
-    <div class="eight wide column">
+    <div class="four wide column">
        <h5> Naam van de enquête </h5>
       <div class="ui fluid icon input">
         <input type="text" placeholder="Geef de enquête een naam..." id="surveyName">
         <i class="edit icon"></i>
       </div>
     </div>
-    <div class="eight wide column">
-      <h5>Alleen voor ingelogde gebruikers?</h5>
+    <div class="four wide column">
+      <h5>Inloggen vereist: </h5>
       <div class="ui checkbox">
         <input type="checkbox" id="isPublicSurvey" checked>
         <label>Alleen ingelogde gebruikers</label>
       </div>
+    </div>
+    <div class="eight wide column">
+      <div><strong>Uitleg:</strong> als de inzender is ingelogd worden gegevens verzameld van de inzender, zijn organisatie en school.</div>
+      <div>Als inloggen niet is vereist, dan kan de enquête worden ingevuld door bijvoorbeeld ouders of leerlingen die geen Pillars account hebben.</div>
     </div>
   </div>
 
@@ -36,6 +40,7 @@
 
 
 <%if(schoolLevel){%>
+  <div id="schoolId" hidden><%=school._id%></div>
   <% include ../partials/school-footer %>
 <%} else {%>
   </div>

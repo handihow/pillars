@@ -1,0 +1,15 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<div class="ui container">
+
+<h2 class="ui header"><i class="question circle outline icon"></i><%=surveyResult.survey.name%></h2>
+<button class="ui labeled icon button" onclick="goBack()"><i class="left chevron icon"></i>Terug</button>
+
+<div id="surveyElement"></div>
+
+<div id="surveyText" hidden><%= JSON.stringify(surveyResult.survey.survey)%></div>
+<div id="surveyData" hidden><%= JSON.stringify(surveyResult.result)%></div>
+
+
+<% include ../partials/footer %>

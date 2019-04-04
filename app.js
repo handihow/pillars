@@ -26,6 +26,7 @@ var evaluationRoutes = require("./routes/school/evaluation");
 var informationRoutes = require("./routes/school/information");
 var processingActivityRoutes = require("./routes/school/processingActivity");
 var securityIncidentRoutes = require("./routes/school/securityIncident");
+var surveyRoutes = require("./routes/school/survey");
 //ROUTES RELATED TO USERS
 var orgUserRoutes = require("./routes/user/org-user");
 var schoolUserRoutes = require("./routes/user/school-user");
@@ -39,7 +40,7 @@ var securityIncidentOrganisationRoutes = require("./routes/organisation/security
 var messageRoutes = require("./routes/organisation/message");
 var questionnaireRoutes = require("./routes/organisation/questionnaire");
 var overviewRoutes = require("./routes/organisation/overview");
-var surveyRoutes = require("./routes/organisation/survey");
+var surveyOrganisationRoutes = require("./routes/organisation/surveyOrganisation");
 //ROUTES RELATED TO PILLARS ADMINISTRATION
 var organisationRoutes = require("./routes/admin/organisations");
 var adminRoutes = require("./routes/admin/admin");
@@ -162,6 +163,7 @@ app.use("/schools/:id/evaluation", evaluationRoutes);
 app.use("/schools/:id/information", informationRoutes);
 app.use("/schools/:id/processingActivity", processingActivityRoutes);
 app.use("/schools/:id/securityIncident", securityIncidentRoutes);
+app.use("/schools/:id/survey", surveyRoutes);
 //ROUTES RELATED TO USERS
 app.use("/schools/:id/user", schoolUserRoutes);
 app.use("/user/:id/test", userTestRoutes);
@@ -175,7 +177,7 @@ app.use("/securityIncident", securityIncidentOrganisationRoutes);
 app.use("/overview", overviewRoutes);
 app.use("/questionnaire", questionnaireRoutes);
 app.use("/message", messageRoutes);
-app.use("/survey", surveyRoutes);
+app.use("/survey", surveyOrganisationRoutes);
 //ROUTES RELATED TO PILLARS ADMIN
 app.use("/organisations", organisationRoutes);
 app.use("/admin", adminRoutes);

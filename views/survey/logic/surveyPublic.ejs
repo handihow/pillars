@@ -20,7 +20,7 @@
 		        url: window.location.origin + "/survey/" + surveyId + "/public",
 		        type: "POST",
 		        data: {
-		            result: JSON.stringify(result),
+		            result: JSON.stringify(result.data),
 		        },
 		        success: function (data) {
 		        	if(data.success){

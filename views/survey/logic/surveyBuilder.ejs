@@ -26,6 +26,10 @@
 
 		var surveyId = $( '#surveyId' ).text();
 
+		var schoolId = $( '#schoolId').text() || null;
+
+		console.log(schoolId);
+
 		//set function on save callback
 		survey.saveSurveyFunc = function (saveNo, callback) {
 			var surveyJson = JSON.parse(survey.text);
@@ -36,10 +40,16 @@
 
 			if($('#isPublicSurvey').is(":checked")) {
 				isPublicSurvey = false
-			} ;
+			};
+
+			var url = window.location.origin + "/survey/" + surveyId
+
+			if(schoolId){
+				url = window.location.origin + "/schools/" + schoolId + "/survey/" + surveyId
+			}
 
 		    $.ajax({
-		        url: window.location.origin + "/survey/" + surveyId,
+		        url: url,
 		        type: "POST",
 		        data: {
 		            surveyId: Math.round(new Date().getTime() + (Math.random() * 100)),

@@ -9,18 +9,25 @@ var ObjectId = require('mongoose').Types.ObjectId;
 
 //INDEX ROUTE
 router.get("/", middleware.isLoggedIn, function(req, res){
+  //reset all scripts if possible
+  res.locals.scripts.header.surveyjs = false;
+  res.locals.scripts.footer.surveyjs = false;
+  res.locals.scripts.footer.surveyBuilder = false;
+  res.locals.scripts.footer.surveyPrivate = false;
+  res.locals.scripts.footer.surveyPublic = false;
+  res.locals.scripts.footer.surveyResult= false;
   Survey.find({organisation: req.user.organisation}).populate("school").exec(function(err, surveys){
-          if(err) {
-              req.flash("error", err.message);
-              res.redirect("back");
-          } else {
-              res.render("survey/index", {surveys: surveys, schoolLevel: false});         
-          }
-      });
+        if(err) {
+            req.flash("error", err.message);
+            res.redirect("back");
+        } else {
+            res.render("survey/index", {surveys: surveys, schoolLevel: false});         
+        }
+    });
 });
 
 //NEW ROUTE
-router.get("/new", middleware.isAuthenticatedBadmin, function(req, res){
+router.get("/new", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
   res.locals.scripts.header.surveyjs = true;
   res.locals.scripts.footer.surveyjs = true;
   res.locals.scripts.footer.surveyBuilder = true;
@@ -34,8 +41,12 @@ router.get("/:id", middleware.isLoggedIn, function(req, res){
         if(err ||!survey){
           req.flash("error", "Enquête niet gevonden.");
           res.redirect("back");
-        } else {
-          SurveyResult.find({survey: new ObjectId(survey._id)}, function(err, surveyResults){
+        } else if(!survey.isPublic) {
+          SurveyResult.find({survey: new ObjectId(survey._id)})
+          .populate('user')
+          .populate({path : 'user', populate : {path : 'organisation'}})
+          .populate({path : 'user', populate : {path : 'school'}})
+          .exec(function(err, surveyResults){
             if(err){
               req.flash(err.message);
               res.redirect("back");
@@ -44,7 +55,18 @@ router.get("/:id", middleware.isLoggedIn, function(req, res){
               res.render("survey/show", {survey: survey, surveyResults: surveyResults, schoolLevel: false, fullUrl: fullUrl}); 
             }
           });        
-        }
+        } else {
+          SurveyResult.find({survey: new ObjectId(survey._id)})
+          .exec(function(err, surveyResults){
+            if(err){
+              req.flash(err.message);
+              res.redirect("back");
+            } else {
+              var fullUrl = req.protocol + '://' + req.get('host');
+              res.render("survey/show", {survey: survey, surveyResults: surveyResults, schoolLevel: false, fullUrl: fullUrl}); 
+            }
+          });        
+        } 
     });
 });
 
@@ -71,13 +93,13 @@ router.post("/", function(req, res){
                 res.locals.scripts.footer.surveyBuilder = false;
                 var fullUrl = req.protocol + '://' + req.get('host');
                 res.contentType('json');
-                res.send({ success: true, redirect: fullUrl + '/survey' });
+                res.send({ success: true, redirect: fullUrl + '/survey/' + survey._id });
             }
       }); 
 });
     
 // //EDIT ROUTE
-router.get("/:id/edit", middleware.isAuthenticatedBadmin, function(req, res){
+router.get("/:id/edit", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
     Survey.findById(req.params.id, function(err, survey){
           if(err || !survey){
               req.flash("error", "Enquête niet gevonden.");
@@ -93,7 +115,7 @@ router.get("/:id/edit", middleware.isAuthenticatedBadmin, function(req, res){
 });
 
 // UPDATE ROUTE
-router.post("/:id", middleware.isAuthenticatedBadmin, function(req, res){
+router.post("/:id",middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
   var updatedSurvey = {
     name: req.body.name,
     survey: JSON.parse(req.body.surveyText),
@@ -158,7 +180,7 @@ router.post("/:id/private", middleware.isLoggedIn, function(req, res){
           error: 'Foutmelding: enquête niet gevonden. Server geeft fout: ' + err.message 
         });
     } else {
-        SurveyResult.find({user: new ObjectId(req.user._id)}, function(err, surveyResult){
+        SurveyResult.find({user: new ObjectId(req.user._id), survey: survey}, function(err, surveyResult){
           if(err) {
 
             res.contentType('json');
@@ -184,7 +206,7 @@ router.post("/:id/private", middleware.isLoggedIn, function(req, res){
               result: JSON.parse(req.body.result),
               organisation: req.user.organisation,
               user: req.user._id,
-            }, function(err, survey){
+            }, function(err, surveyResult){
               if (err) {
                 res.contentType('json');
                 res.send({ 
@@ -196,7 +218,7 @@ router.post("/:id/private", middleware.isLoggedIn, function(req, res){
                 res.locals.scripts.footer.surveyjs = false;
                 res.locals.scripts.footer.surveyPrivate = false;
                 res.contentType('json');
-                res.send({ success: true });
+                res.send({ success: true, surveyResultId:  surveyResult._id});
               }
 
             });
@@ -239,7 +261,7 @@ router.post("/:id/public", function(req, res){
         SurveyResult.create({
           survey: req.params.id,
           result: JSON.parse(req.body.result)
-        }, function(err, survey){
+        }, function(err, surveyResult){
           if (err) {
             res.contentType('json');
             res.send({ 
@@ -251,7 +273,7 @@ router.post("/:id/public", function(req, res){
             res.locals.scripts.footer.surveyjs = false;
             res.locals.scripts.footer.surveyPublic = false;
             res.contentType('json');
-            res.send({ success: true });
+            res.send({ success: true, surveyResultId:  surveyResult._id });
           }
 
         });
@@ -259,5 +281,21 @@ router.post("/:id/public", function(req, res){
   });
 });
 
+//VIEW COMPLETED SURVEY
+
+//SHOWING A PUBLIC SURVEY
+router.get("/:id/result", function(req, res){
+  SurveyResult.findById(req.params.id).populate("survey").exec(function(err, surveyResult){
+        if(err ||!surveyResult){
+            req.flash("error", "Inzending niet gevonden.");
+            res.redirect("back");
+        } else {
+            res.locals.scripts.header.surveyjs = true;
+            res.locals.scripts.footer.surveyjs = true;
+            res.locals.scripts.footer.surveyResult= true;
+            res.render("survey/result", {surveyResult: surveyResult});            
+        }
+    });
+});
 
 module.exports = router;

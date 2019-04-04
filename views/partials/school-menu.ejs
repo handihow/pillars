@@ -56,6 +56,12 @@
     <i class="info circle icon"></i>
     <span class="hide-mobile">Informatie</span>
   </a>
+  <a class="vertical item <%if(url.includes("/schools/"+school._id+"/survey")) { %> active <% } %>" 
+      href="/schools/<%= school._id %>/survey" 
+      data-content="Enquêtes">
+    <i class="question circle icon"></i>
+    <span class="hide-mobile">Enquêtes</span>
+  </a>
   <a class="vertical item <%if(url.includes("/schools/"+school._id+"/processingActivity")) { %> active <% } %>" 
       href="/schools/<%= school._id %>/processingActivity" 
       data-content="Verwerkingsactiviteiten">
