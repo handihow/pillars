@@ -1,0 +1,40 @@
+  <div class="ui container">
+    <div class="ui divider"></div>
+    <h2 class="ui header"><i class="list icon"></i>Inzendingen</h2>
+    <%if(surveyResults.length===0){%>
+    <div class="ui placeholder segment">
+      <div class="ui icon header">
+        <i class="dont icon"></i>
+        Nog geen inzendingen
+      </div>
+    </div>
+    <%} else {%>
+
+      <table class="ui celled small table">
+      <thead>
+        <tr>
+          <th>Datum</th>
+          <th>Ingezonden door</th>
+          <th>School</th>
+          <th>Bekijk</th>
+        </tr>
+      </thead>
+      <tbody>
+          <% surveyResults.forEach(function(surveyResult){ %>
+          <tr>
+            <td><%=surveyResult.createdAt.toJSON().slice(0,10).split('-').reverse().join('/')%></td>
+            <td>Two</td>
+            <td>Three</td>
+            <td class="selectable">
+              <a href="https://youtube.com">
+              Bekijk</a>
+            </td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+
+    <%}%>
+    
+
+  </div>

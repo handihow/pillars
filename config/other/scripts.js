@@ -1,7 +1,8 @@
 var scripts = {
 	header: {
 		tinymce: false,
-		uploadcare: false
+		uploadcare: false,
+		surveyjs: false,
 	},
 	footer: 
 		{
@@ -27,7 +28,11 @@ var scripts = {
 			chartjs: false,
 			pillars: false,
 			overview: false,
-			tests: false
+			tests: false,
+			surveyjs: false,
+			surveyBuilder: false,
+			surveyPrivate: false,
+			surveyPublic: false,
 		}
 };
 

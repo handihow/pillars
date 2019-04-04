@@ -39,6 +39,7 @@ var securityIncidentOrganisationRoutes = require("./routes/organisation/security
 var messageRoutes = require("./routes/organisation/message");
 var questionnaireRoutes = require("./routes/organisation/questionnaire");
 var overviewRoutes = require("./routes/organisation/overview");
+var surveyRoutes = require("./routes/organisation/survey");
 //ROUTES RELATED TO PILLARS ADMINISTRATION
 var organisationRoutes = require("./routes/admin/organisations");
 var adminRoutes = require("./routes/admin/admin");
@@ -174,6 +175,7 @@ app.use("/securityIncident", securityIncidentOrganisationRoutes);
 app.use("/overview", overviewRoutes);
 app.use("/questionnaire", questionnaireRoutes);
 app.use("/message", messageRoutes);
+app.use("/survey", surveyRoutes);
 //ROUTES RELATED TO PILLARS ADMIN
 app.use("/organisations", organisationRoutes);
 app.use("/admin", adminRoutes);

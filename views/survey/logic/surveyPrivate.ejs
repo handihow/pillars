@@ -1,0 +1,41 @@
+<script>
+	$(document).ready(function() {
+
+		var initialText = $( '#surveyText' ).text();
+
+		var json = JSON.parse(initialText);
+
+		var survey = new Survey.Model(json);
+
+		survey.locale = 'nl';
+		
+		$("#surveyElement").Survey({model: survey});
+
+		var surveyId = $( '#surveyId' ).text();
+
+		survey
+	    .onComplete
+	    .add(function (result) {
+	         $.ajax({
+		        url: window.location.origin + "/survey/" + surveyId + "/private",
+		        type: "POST",
+		        data: {
+		            result: JSON.stringify(result),
+		        },
+		        success: function (data) {
+		        	if(data.success){
+		        		document
+			            .querySelector('#surveyResult')
+			            .innerHTML = "result: " + JSON.stringify(result.data);
+		        	} else {
+		        		alert(data.error);
+		        	}
+		        },
+		        error: function(err) {
+		        	alert('Er ging iets mis');
+		        }
+		    });
+
+	    });
+	});
+</script>

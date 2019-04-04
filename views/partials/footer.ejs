@@ -28,5 +28,20 @@
 <% if(scripts.footer.tests){%>
 	<script src="/../../js/results/tests.js"></script>
 <% } %>
+<% if(scripts.footer.surveyjs) {%>
+	<script src="https://surveyjs.azureedge.net/1.0.78/survey.jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
+	<script src="https://surveyjs.azureedge.net/1.0.78/survey.ko.min.js"></script>
+	<script src="https://surveyjs.azureedge.net/1.0.78/surveyeditor.min.js"></script>
+<% } %>
+<% if(scripts.footer.surveyBuilder) { %>
+	<% include ../survey/logic/surveyBuilder %>
+<% } %>
+<% if(scripts.footer.surveyPrivate) { %>
+	<% include ../survey/logic/surveyPrivate %>
+<% } %>
+<% if(scripts.footer.surveyPublic) { %>
+	<% include ../survey/logic/surveyPublic %>
+<% } %>
 </body>
 </html>

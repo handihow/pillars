@@ -1,0 +1,74 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<%if(schoolLevel){%>
+<% include ../partials/school-header %>
+<%}%>
+
+<div class="ui container">
+  <h2 class="ui center aligned header">
+    <div>EnquêteRups</div>
+  </h2>
+  <%if(schoolLevel){%>
+  <a class="positive ui button right" href="/schools/<%=school._id%>/survey/new/">Enquête Toevoegen</a>
+  <div class="ui left pointing label">
+    Deze enquête wordt zichtbaar voor (alleen) uw school en het bestuur
+  </div>
+  <%} else {%>
+  <a class="positive ui button right" href="/survey/new/">Enquête Toevoegen</a>
+  <div class="ui left pointing label">
+    Deze enquête wordt zichtbaar voor alle scholen binnen het bestuur
+  </div>
+  <% } %>
+  <!--divider and then all cards for surveys -->
+  <div class="ui divider"></div>
+  <!-- placeholder if no surveys -->
+  <%if(surveys.length===0){%>
+  <div class="ui placeholder segment">
+    <div class="ui icon header">
+      <i class="dont icon"></i>
+      Nog geen enquêtes
+    </div>
+  </div>
+  <%}%>
+  <!--cards with surveys-->
+  <div class="ui six doubling cards">
+    <% surveys.forEach(function(survey){ %>
+    <div class="card">
+      <div class="content">
+        <div class="header"><%if(schoolLevel){%>
+          <a href="/schools/<%=school._id%>/survey/<%=survey._id%>">
+            <%} else {%>
+            <a href="/survey/<%=survey._id%>">
+              <% } %>
+              <%= survey.name %></a></div>
+              <div class="description">
+                Geldig voor hele bestuur: <%if(survey.isValidForAllOrganisation) { %><i class="toggle on icon"></i><% } else { %><i class="toggle off icon"></i><% }%>
+              </div>
+              <%if(!schoolLevel && survey.school){%>
+              <div class="description">
+                Geldig voor school: <%=survey.school.name%>
+              </div>
+              <%}%> 
+              <div class="description">
+                Datum: <%= survey.createdAt.toJSON().slice(0,10).split('-').reverse().join('/') %>
+              </div>
+            </div>
+            <a class="ui bottom attached button" 
+            <%if(schoolLevel){%>
+            href="/schools/<%=school._id%>/survey/<%=survey._id%>">
+            <%} else {%>
+            href="/survey/<%=survey._id%>">
+            <% } %>
+            <i class="show icon"></i>
+            Bekijk 
+          </a>
+        </div>
+        <% }); %>
+      </div>
+    </div>
+
+    <%if(schoolLevel){%>
+    <% include ../partials/school-footer %>
+    <%}%>
+    <% include ../partials/footer %>

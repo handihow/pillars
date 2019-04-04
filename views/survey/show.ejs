@@ -1,0 +1,104 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<%if(schoolLevel){%>
+  <% include ../partials/school-header %>
+<%} else { %>
+ <div class="ui container">
+<%}%>
+
+  <h2 class="ui header">
+    <i class="paper plane icon"></i>
+    <div class="content">
+      Link naar Enquête
+    </div>
+    <div class="sub header">
+      <%if(survey.isPublic){%>
+        <%=fullUrl%>/survey/<%=survey._id%>/public
+      <%} else {%>
+        <%=fullUrl%>/survey/<%=survey._id%>/private
+      <%}%>    
+    </div>
+  </h2>
+   <div class="ui info message">
+      Je bent zelf verantwoordelijk voor het uitnodigen, bijvoorbeeld via email. Gebruik in je bericht de link naar de enquête: 
+      <%if(survey.isPublic){%>
+        <%=fullUrl%>/survey/<%=survey._id%>/public
+      <%} else {%>
+        <%=fullUrl%>/survey/<%=survey._id%>/private
+      <%}%>
+  </div>
+  <div class="item">
+  <div class="ui stackable grid">
+    <div class="four wide column">
+        <h4 class="content">Naam enquete</h4>
+        <div class="content">
+          <%=survey.name%>
+       </div>
+       </div>
+    <div class="four wide column">
+      <h4 class="content">Alleen voor ingelogde gebruikers?</h4> 
+      <div class="content"><%if(survey.isPublic){ %>Nee<%} else {%> Ja<%}%></div>
+    </div>
+    <div class="four wide column">
+      <h4 class="content">School</h4>
+      <div class="content">
+        <% if(survey.isValidForAllOrganisation){ %>
+          Hele organisatie 
+       <% } else { %> 
+          <%= survey.school.name %>
+       <% } %>
+      </div>
+     </div>
+      <div class="four wide column">
+        <h4 class="content">Laatste update op</h4>
+        <div class="content">
+          <%= survey.updatedAt.toJSON().slice(0,10).split('-').reverse().join('/')  %>
+       </div>
+       </div>
+    </div>
+  </div>
+
+<%if(schoolLevel && !survey.isValidForAllOrganisation){%>
+    <a id="edit" 
+    class="ui primary basic button" 
+    href="/schools/<%=school._id%>/survey/<%=survey._id%>/edit">
+    Bewerken
+    </a>
+    <button class="ui red basic button" id="delete">Verwijderen</button>
+    <div class="ui hidden warning message">
+      <div class="header">Waarschuwing</div>
+      <p>Weet je zeker dat je deze enquête wilt verwijderen? Dit kan niet worden hersteld.</p>
+      <button class="ui positive button" id="cancel">Cancel</button>
+      <form id="delete" 
+        action="/schools/<%= school._id %>/survey/<%=survey._id%>?_method=DELETE" 
+        method="POST">
+        <button class="ui negative button">Verwijder Enquête</button>
+      </form>
+    </div>
+  <% include ../partials/school-footer %>
+<%} else if(!schoolLevel) {%>
+    <a id="edit" 
+    class="ui primary basic button" 
+    href="/survey/<%=survey._id%>/edit">
+    Bewerken
+    </a>
+    <button class="ui red basic button" id="delete">Verwijderen</button>
+    <div class="ui hidden warning message">
+      <div class="header">Waarschuwing</div>
+      <p>Weet je zeker dat je deze enquête wilt verwijderen? Dit kan niet worden hersteld.</p>
+      <button class="ui positive button" id="cancel">Cancel</button>
+       <form id="delete" 
+        action="/survey/<%=survey._id%>?_method=DELETE" 
+        method="POST">
+        <button class="ui negative button">Verwijder Enquête</button>
+      </form>
+    </div>
+   
+    </div>
+<% } %>
+  
+<% include ./results %>
+
+
+<% include ../partials/footer %>

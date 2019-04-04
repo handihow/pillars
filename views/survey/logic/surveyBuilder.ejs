@@ -1,0 +1,68 @@
+<script>
+	$(document).ready(function() {
+
+	SurveyEditor.StylesManager.applyTheme("winter");
+
+	var editorOptions = {
+		 // show the embeded survey tab. It is hidden by default
+		 showEmbededSurveyTab : false,
+		 // hide the test survey tab. It is shown by default
+		 showTestSurveyTab : true,
+		 // hide the JSON text editor tab. It is shown by default
+		 showJSONEditorTab : false,
+		 // show the "Options" button menu. It is hidden by default 
+		 showOptions: false,
+		 // question types shown
+		 questionTypes: ["text", "checkbox", "radiogroup", "dropdown", "rating", "boolean", "matrix", "matrixdropdown", "matrixdynamic", "multipletext", "panel", "paneldynamic"],
+
+		 generateValidJSON: true,
+		}; //see examples below
+		
+		var survey = new SurveyEditor.SurveyEditor("surveyEditorContainer", editorOptions);
+
+		var initialText = $( '#surveyText' ).text();
+		
+		survey.text = initialText;
+
+		var surveyId = $( '#surveyId' ).text();
+
+		//set function on save callback
+		survey.saveSurveyFunc = function (saveNo, callback) {
+			var surveyJson = JSON.parse(survey.text);
+			var stringifiedJson = JSON.stringify(surveyJson);
+
+			var surveyName = $('#surveyName').val();
+			var isPublicSurvey = true;
+
+			if($('#isPublicSurvey').is(":checked")) {
+				isPublicSurvey = false
+			} ;
+
+		    $.ajax({
+		        url: window.location.origin + "/survey/" + surveyId,
+		        type: "POST",
+		        data: {
+		            surveyId: Math.round(new Date().getTime() + (Math.random() * 100)),
+		            surveyText: stringifiedJson,
+		            name: surveyName,
+		            isPublic: isPublicSurvey
+		        },
+		        success: function (data) {
+		        	if(data.success){
+		        		window.location.href = data.redirect;
+		        	} else {
+		        		alert(data.error);
+		        	}
+		        },
+		        error: function(err) {
+		        	alert('Er ging iets mis');
+		        }
+		    });
+		};
+
+
+		$('.svd_commercial_container').hide();
+
+
+	});
+</script>

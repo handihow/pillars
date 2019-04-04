@@ -1,0 +1,43 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<%if(schoolLevel){%>
+  <% include ../partials/school-header %>
+
+  <h2 class="ui top attached header">Enquête Toevoegen aan <%= school.name %></h2>
+<%} else { %>
+  <div class="ui container">
+    <h2 class="ui top attached header">Enquête Toevoegen</h2>
+<% } %>
+
+  <div class="ui info message">
+	    Geef de enquête eerst een naam. Je kunt ook aangeven of deze enquête alleen kan worden ingevuld voor ingelogde gebruikers.
+      Bewerk daarna de enquête in de "Survey Designer" en test indien gewenst onder "Test Survey". Je kunt de enquête bewaren door te klikken op "Save survey" in de "Survey Designer".
+  </div>
+  <div class="ui grid">
+    <div class="eight wide column">
+       <h5> Naam van de enquête </h5>
+      <div class="ui fluid icon input">
+        <input type="text" placeholder="Geef de enquête een naam..." id="surveyName">
+        <i class="edit icon"></i>
+      </div>
+    </div>
+    <div class="eight wide column">
+      <h5>Alleen voor ingelogde gebruikers?</h5>
+      <div class="ui checkbox">
+        <input type="checkbox" id="isPublicSurvey" checked>
+        <label>Alleen ingelogde gebruikers</label>
+      </div>
+    </div>
+  </div>
+
+  
+  <div id="surveyEditorContainer"></div>
+
+
+<%if(schoolLevel){%>
+  <% include ../partials/school-footer %>
+<%} else {%>
+  </div>
+<% } %>
+<% include ../partials/footer %>
