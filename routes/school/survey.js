@@ -50,7 +50,8 @@ router.get("/new", middleware.isSchoolOwner, function(req, res){
         res.locals.scripts.header.surveyjs = true;
         res.locals.scripts.footer.surveyjs = true;
         res.locals.scripts.footer.surveyBuilder = true;
-        var fullUrl = req.protocol + '://' + req.get('host');
+        var protocol = req.connection && req.connection.encrypted ? 'https' : 'http'
+        var fullUrl = protocol + '://' + req.get('host');
         res.render("survey/new", {schoolLevel: true, school: school});
         
       }
@@ -78,7 +79,8 @@ router.get("/:sid", middleware.isLoggedIn, function(req, res){
                   req.flash(err.message);
                   res.redirect("back");
                 } else {
-                  var fullUrl = req.protocol + '://' + req.get('host');
+                  var protocol = req.connection && req.connection.encrypted ? 'https' : 'http'
+                  var fullUrl = protocol + '://' + req.get('host');
                   res.render("survey/show", {school: school, survey: survey, surveyResults: surveyResults, schoolLevel: true, fullUrl: fullUrl}); 
                 }
               });        
@@ -90,7 +92,8 @@ router.get("/:sid", middleware.isLoggedIn, function(req, res){
                   req.flash(err.message);
                   res.redirect("back");
                 } else {
-                  var fullUrl = req.protocol + '://' + req.get('host');
+                  var protocol = req.connection && req.connection.encrypted ? 'https' : 'http'
+                  var fullUrl = protocol + '://' + req.get('host');
                   res.render("survey/show", {school: school, survey: survey, surveyResults: surveyResults, schoolLevel: true, fullUrl: fullUrl}); 
                 }
               });        
@@ -127,7 +130,8 @@ router.post("/", middleware.isNotDemoAccount, middleware.isSchoolOwner, function
                     res.locals.scripts.header.surveyjs = false;
                     res.locals.scripts.footer.surveyjs = false;
                     res.locals.scripts.footer.surveyBuilder = false;
-                    var fullUrl = req.protocol + '://' + req.get('host');
+                    var protocol = req.connection && req.connection.encrypted ? 'https' : 'http'
+                    var fullUrl = protocol + '://' + req.get('host');
                     res.contentType('json');
                     res.send({ success: true, redirect: fullUrl + '/schools/' + req.params.id + '/survey/' + survey._id });
                 }
@@ -150,7 +154,8 @@ router.get("/:sid/edit", middleware.isNotDemoAccount, middleware.isSchoolOwner, 
                 res.locals.scripts.header.surveyjs = true;
                 res.locals.scripts.footer.surveyjs = true;
                 res.locals.scripts.footer.surveyBuilder = true;
-                var fullUrl = req.protocol + '://' + req.get('host');
+                var protocol = req.connection && req.connection.encrypted ? 'https' : 'http'
+                var fullUrl = protocol + '://' + req.get('host');
                 res.render("survey/edit", {survey: survey, schoolLevel: true});
             }
         });
@@ -176,7 +181,8 @@ router.post("/:sid", middleware.isNotDemoAccount, middleware.isSchoolOwner, func
         res.locals.scripts.header.surveyjs = false;
         res.locals.scripts.footer.surveyjs = false;
         res.locals.scripts.footer.surveyBuilder = false;
-        var fullUrl = req.protocol + '://' + req.get('host');
+        var protocol = req.connection && req.connection.encrypted ? 'https' : 'http'
+        var fullUrl = protocol + '://' + req.get('host');
         res.contentType('json');
         res.send({ success: true, redirect: fullUrl + '/schools/' + req.params.id + '/survey/' + survey._id });
     }
