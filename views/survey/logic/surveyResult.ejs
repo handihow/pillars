@@ -1,5 +1,9 @@
 <script>
 	$(document).ready(function() {
+		
+		function renderSurvey(survey, element) {
+		    survey.render(element);
+		}
 
 		var initialText = $( '#surveyText' ).text();
 
@@ -18,6 +22,14 @@
 		survey.data = JSON.parse(results);
 
 		survey.mode = "display";
+
+		document
+	    .getElementById("saveToPDFbtn")
+	    .onclick = function () {
+	        var pdfWidth = 595;
+	        var pdfHeight = 842;
+	        saveSurveyToPdf("surveyResult.pdf", survey, pdfWidth, pdfHeight, renderSurvey);
+	    }
 		
 	});
 </script>

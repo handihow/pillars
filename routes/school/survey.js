@@ -7,6 +7,7 @@ var middleware = require("../../middleware");
 var User = require("../../models/user");
 var config = require("../../config/config");
 var ObjectId = require('mongoose').Types.ObjectId; 
+var json2csv = require("json2csv");
 
 //INDEX ROUTE
 router.get("/", middleware.isLoggedIn, function(req, res){
@@ -200,6 +201,94 @@ router.delete("/:sid", middleware.isNotDemoAccount, middleware.isSchoolOwner, fu
           res.redirect("/schools/"+req.params.id+"/survey");  
       }
   });
+});
+
+//DOWNLOAD ROUTE SURVEY RESULTS FOR ORGANISATION
+router.get("/:sid/download", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
+    Survey.findById(req.params.sid, function(err, survey){
+        if(err ||!survey){
+          req.flash("error", "Enquête niet gevonden.");
+          res.redirect("back");
+        } else if(!survey.isPublic) {
+          SurveyResult.find({survey: new ObjectId(survey._id)})
+          .populate('user')
+          .populate({path : 'user', populate : {path : 'organisation'}})
+          .populate({path : 'user', populate : {path : 'school'}})
+          .exec(function(err, surveyResults){
+            if(err){
+              req.flash(err.message);
+              res.redirect("back");
+            } else {
+              var protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http'
+              var fullUrl = protocol + '://' + req.get('host');
+              var surveyResultList = [];
+              var surveyAnswerKeys = [];
+              surveyResults.forEach(function(surveyResult){
+                surveyResult.date = surveyResult.createdAt.toJSON().slice(0,10).split('-').reverse().join('/');
+                surveyResult.firstName = surveyResult.user.firstName;
+                surveyResult.lastName = surveyResult.user.lastName;
+                surveyResult.email = surveyResult.user.username;
+                surveyResult.organisation = surveyResult.user.organisation.name;
+                surveyResult.school = surveyResult.user.school.map(s => s.name);
+                surveyResult.link = fullUrl + "/survey/" + surveyResult._id + "/result";
+                
+                Object.keys(surveyResult.result).forEach(function(key){
+                  surveyResult[key] = surveyResult.result[key];
+                  surveyAnswerKeys.push(key);
+                });
+                surveyResultList.push(surveyResult);
+              });
+              var fields = ['date', 'firstName', 'lastName', 'email', 'organisation', 'school', 'link'].concat(surveyAnswerKeys);
+              var fieldNames = ['Datum', 'Voornaam', 'Achternaam', 'Email', 'Organisatie', 'School', 'Link'].concat(surveyAnswerKeys);
+              json2csv({ data: surveyResultList, fields: fields, fieldNames: fieldNames }, function(err, csv) {
+                if(err){
+                  req.flash("error", err.message);
+                  res.redirect("back");
+                } else {
+                  res.setHeader('Survey-download', 'attachment; filename=surveyResults.csv');
+                  res.set('Content-Type', 'text/csv');
+                  res.status(200).send(csv);
+                }
+              });
+            }
+          });        
+        } else {
+          SurveyResult.find({survey: new ObjectId(survey._id)})
+          .exec(function(err, surveyResults){
+            if(err){
+              req.flash(err.message);
+              res.redirect("back");
+            } else {
+              var protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http'
+              var fullUrl = protocol + '://' + req.get('host');
+              var surveyResultList = [];
+              var surveyAnswerKeys = [];
+              surveyResults.forEach(function(surveyResult){
+                surveyResult.date = surveyResult.createdAt.toJSON().slice(0,10).split('-').reverse().join('/');
+                surveyResult.link = fullUrl + "/survey/" + surveyResult._id + "/result";
+                
+                Object.keys(surveyResult.result).forEach(function(key){
+                  surveyResult[key] = surveyResult.result[key];
+                  surveyAnswerKeys.push(key);
+                });
+                surveyResultList.push(surveyResult);
+              });
+              var fields = ['date', 'link'].concat(surveyAnswerKeys);
+              var fieldNames = ['Datum', 'Link'].concat(surveyAnswerKeys);
+              json2csv({ data: surveyResultList, fields: fields, fieldNames: fieldNames }, function(err, csv) {
+                if(err){
+                  req.flash("error", err.message);
+                  res.redirect("back");
+                } else {
+                  res.setHeader('Survey-download', 'attachment; filename=surveyResults.csv');
+                  res.set('Content-Type', 'text/csv');
+                  res.status(200).send(csv);
+                }
+              }); 
+            }
+          });        
+        } 
+    });
 });
 
 module.exports = router;

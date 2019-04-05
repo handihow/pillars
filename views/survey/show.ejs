@@ -66,15 +66,15 @@
 
   <div class="ui divider"></div>
 
-  <a id="view" 
-    class="ui positive basic button" 
-    href="<%if(survey.isPublic){%>
-        <%=fullUrl%>/survey/<%=survey._id%>/public
-      <%} else {%>
-        <%=fullUrl%>/survey/<%=survey._id%>/private
-      <%}%>  "
-       target="_blank">
-    Bekijken
+    <a id="view" 
+      class="ui positive basic button" 
+      href="<%if(survey.isPublic){%>
+          <%=fullUrl%>/survey/<%=survey._id%>/public
+        <%} else {%>
+          <%=fullUrl%>/survey/<%=survey._id%>/private
+        <%}%>  "
+         target="_blank">
+      Bekijken
     </a>
 <%if(schoolLevel && !survey.isValidForAllOrganisation){%>
     
@@ -82,6 +82,11 @@
     class="ui primary basic button" 
     href="/schools/<%=school._id%>/survey/<%=survey._id%>/edit">
     Bewerken
+    </a>
+    <a id="download" 
+    class="ui secondary basic button" 
+    href="/schools/<%=school._id%>/survey/<%=survey._id%>/download">
+    Download resultaten
     </a>
     <button class="ui red basic button" id="delete">Verwijderen</button>
     <div class="ui hidden warning message">
@@ -100,6 +105,11 @@
     class="ui primary basic button" 
     href="/survey/<%=survey._id%>/edit">
     Bewerken
+    </a>
+    <a id="download" 
+    class="ui secondary basic button" 
+    href="/survey/<%=survey._id%>/download">
+    Download resultaten
     </a>
     <button class="ui red basic button" id="delete">Verwijderen</button>
     <div class="ui hidden warning message">
