@@ -154,9 +154,9 @@ router.get("/:sid/edit", middleware.isNotDemoAccount, middleware.isSchoolOwner, 
                 res.locals.scripts.header.surveyjs = true;
                 res.locals.scripts.footer.surveyjs = true;
                 res.locals.scripts.footer.surveyBuilder = true;
-                var protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http'
+                var protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
                 var fullUrl = protocol + '://' + req.get('host');
-                res.render("survey/edit", {survey: survey, schoolLevel: true});
+                res.render("survey/edit", {survey: survey, schoolLevel: true, school: school});
             }
         });
      }
@@ -181,7 +181,7 @@ router.post("/:sid", middleware.isNotDemoAccount, middleware.isSchoolOwner, func
         res.locals.scripts.header.surveyjs = false;
         res.locals.scripts.footer.surveyjs = false;
         res.locals.scripts.footer.surveyBuilder = false;
-        var protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http'
+        var protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
         var fullUrl = protocol + '://' + req.get('host');
         res.contentType('json');
         res.send({ success: true, redirect: fullUrl + '/schools/' + req.params.id + '/survey/' + survey._id });
