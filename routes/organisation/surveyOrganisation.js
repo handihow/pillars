@@ -51,7 +51,7 @@ router.get("/:id", middleware.isLoggedIn, function(req, res){
               req.flash(err.message);
               res.redirect("back");
             } else {
-              var protocol = req.secure ? 'https' : 'http'
+              var protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http'
               var fullUrl = protocol + '://' + req.get('host');
               res.render("survey/show", {survey: survey, surveyResults: surveyResults, schoolLevel: false, fullUrl: fullUrl}); 
             }
