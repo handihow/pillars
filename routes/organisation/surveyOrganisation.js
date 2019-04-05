@@ -63,7 +63,7 @@ router.get("/:id", middleware.isLoggedIn, function(req, res){
               req.flash(err.message);
               res.redirect("back");
             } else {
-              var protocol = req.secure ? 'https' : 'http'
+              var protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http'
               var fullUrl = protocol + '://' + req.get('host');
               res.render("survey/show", {survey: survey, surveyResults: surveyResults, schoolLevel: false, fullUrl: fullUrl}); 
             }
@@ -93,7 +93,7 @@ router.post("/", function(req, res){
                 res.locals.scripts.header.surveyjs = false;
                 res.locals.scripts.footer.surveyjs = false;
                 res.locals.scripts.footer.surveyBuilder = false;
-                var protocol = req.secure ? 'https' : 'http'
+                var protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http'
                 var fullUrl = protocol + '://' + req.get('host');
                 res.contentType('json');
                 res.send({ success: true, redirect: fullUrl + '/survey/' + survey._id });
@@ -111,7 +111,7 @@ router.get("/:id/edit", middleware.isNotDemoAccount, middleware.isAuthenticatedB
               res.locals.scripts.header.surveyjs = true;
               res.locals.scripts.footer.surveyjs = true;
               res.locals.scripts.footer.surveyBuilder = true;
-              var protocol = req.secure ? 'https' : 'http'
+              var protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http'
               var fullUrl = protocol + '://' + req.get('host');
               res.render("survey/edit", {survey: survey, schoolLevel: false});
           }
@@ -136,7 +136,7 @@ router.post("/:id",middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin
         res.locals.scripts.header.surveyjs = false;
         res.locals.scripts.footer.surveyjs = false;
         res.locals.scripts.footer.surveyBuilder = false;
-        var protocol = req.secure ? 'https' : 'http'
+        var protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http'
         var fullUrl = protocol + '://' + req.get('host');
         res.contentType('json');
         res.send({ success: true, redirect: fullUrl + '/survey' });
