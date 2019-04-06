@@ -43,6 +43,9 @@ router.get("/:id", middleware.isLoggedIn, function(req, res){
           req.flash("error", "Enquête niet gevonden.");
           res.redirect("back");
         } else if(!survey.isPublic) {
+          res.locals.scripts.header.surveyjs = true;
+          res.locals.scripts.footer.surveyjs = true;
+          res.locals.scripts.footer.surveyResults = true;
           SurveyResult.find({survey: new ObjectId(survey._id)})
           .populate('user')
           .populate({path : 'user', populate : {path : 'organisation'}})
@@ -58,6 +61,9 @@ router.get("/:id", middleware.isLoggedIn, function(req, res){
             }
           });        
         } else {
+          res.locals.scripts.header.surveyjs = true;
+          res.locals.scripts.footer.surveyjs = true;
+          res.locals.scripts.footer.surveyResults = true;
           SurveyResult.find({survey: new ObjectId(survey._id)})
           .exec(function(err, surveyResults){
             if(err){

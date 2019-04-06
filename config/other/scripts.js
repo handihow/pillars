@@ -33,6 +33,7 @@ var scripts = {
 			surveyBuilder: false,
 			surveyPrivate: false,
 			surveyPublic: false,
+			surveyResults: false,
 			surveyResult: false,
 		}
 };

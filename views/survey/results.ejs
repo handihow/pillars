@@ -10,38 +10,7 @@
     </div>
     <%} else {%>
 
-      <table class="ui celled small table">
-      <thead>
-        <tr>
-          <th>Datum</th>
-          <%if(!survey.isPublic){%>
-            <th>Ingezonden door</th>
-            <th>Email</th>
-            <th>Organisatie</th>
-            <th>School</th>
-          <%}%>
-          <th>Bekijk</th>
-        </tr>
-      </thead>
-      <tbody>
-          <% surveyResults.forEach(function(surveyResult){ %>
-          <tr>
-            <td><%=surveyResult.createdAt.toJSON().slice(0,10).split('-').reverse().join('/')%></td>
-            <%if(!survey.isPublic){%>
-              <td><%=surveyResult.user.firstName%> <%=surveyResult.user.lastName%></td>
-              <td><%=surveyResult.user.username%></td>
-              <td><%=surveyResult.user.organisation.name%></td>
-              <td><%=surveyResult.user.school.map(s => s.name)%></td>
-            <%}%>
-            <td class="selectable">
-              <a href="/survey/<%=surveyResult._id%>/result">
-              Bekijk</a>
-            </td>
-        </tr>
-        <% }); %>
-      </tbody>
-    </table>
-
+      <table id="resultsTable" class="ui celled small table display"></table>
     <%}%>
     
 

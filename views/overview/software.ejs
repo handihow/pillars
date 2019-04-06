@@ -6,17 +6,12 @@
     <h2 class="ui center aligned header">
       <div>Overzicht Digitale Leermiddelen</div>
     </h2>
-    <p>Dit is een overzicht van alle digitale leermiddelen die zijn ingevoerd in Pillars van scholen aangesloten bij jouw bestuur. Je kunt het overzicht downloaden in CSV format.</p>
+    
     <div class="ui message">
       <div class="header">
-        Tip voor openen csv bestand
+        Leermiddelen
       </div>
-      <p>Het csv bestand heeft een komma als scheidingsteken. Heb je problemen met het openen van het bestand?
-      Probeer het bestand dan eens te importeren in een Google sheet. Maak hiervoor een nieuwe Google sheet aan 
-      en kies Bestand-->Importeren. Je kunt dan de komma als scheidingsteken selecteren.</p>
-       <a class="ui primary small button" href="/overview/software/download">
-      Download csv bestand
-      </a>
+     <p>Dit is een overzicht van alle digitale leermiddelen die zijn ingevoerd in Pillars van scholen aangesloten bij jouw bestuur. Je kunt het overzicht op verschillende manieren downloaden.</p>
     </div>
     <!--make table with schools and progress-->
     <table class="ui celled small table">
@@ -43,7 +38,7 @@
               <td><%=software.gradeLevels%></td>
               <td><%=software.ratings%></td>
               <td><%=software.typeOfSoftware%></td>
-              <td><a class="ui mini primary basic button" href="/schools/<%=school._id%>/software/<%=software._id%>">Bekijk</a></td>
+              <td class="selectable"><a href="/schools/<%=school._id%>/software/<%=software._id%>">Bekijk</a></td>
             </tr>
           <% }) %>
         <% }) %>

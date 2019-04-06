@@ -1,0 +1,121 @@
+<script>
+	$(document).ready(function() {
+
+		// $('#resultsTable').DataTable();
+
+		var surveyInfo = $( '#surveyText' ).text();
+
+		var surveyInfo = JSON.parse(surveyInfo)
+
+		var surveyData = surveyInfo.survey;
+
+		var survey = new Survey.Model(surveyData);
+
+		var resultsInfo = $( '#surveyResults' ).text();
+
+		var result = JSON.parse(resultsInfo);
+
+		var dateSubmitted = result.map(function(r) {
+	          return {date: r.createdAt.slice(0,10).split('-').reverse().join('/')} || "{}";
+	        });
+
+
+  		var results = 
+	        result.map(function(r) {
+	        	returnedData = r.result || {};
+	        	returnedData.date = r.createdAt.slice(0,10).split('-').reverse().join('/');
+	        	if(!surveyInfo.isPublic){
+	        		returnedData.name = r.user.firstName + " " + r.user.lastName;
+	        		returnedData.email = r.user.username;
+	        		returnedData.organisation = r.user.organisation.name;
+	        		returnedData.school = r.user.school.map(s => s.name)
+	        	}
+	        	returnedData.link = '<a href="/survey/' + r._id + '/result">Inzending</a>'
+	          return returnedData;
+	        });
+
+	    var standardColumns = [];
+	 	
+	 	standardColumns.push({
+	 		data: 'date',
+	 		sTitle: 'Datum'
+	 	})
+
+	 	if(!surveyInfo.isPublic){
+	 		standardColumns.push({
+		 		data: 'name',
+		 		sTitle: 'Ingezonden door'
+		 	});
+		 	standardColumns.push({
+		 		data: 'email',
+		 		sTitle: 'Email'
+		 	});
+		 	standardColumns.push({
+		 		data: 'organisation',
+		 		sTitle: 'Organisatie'
+		 	});
+		 	standardColumns.push({
+		 		data: 'school',
+		 		sTitle: 'School'
+		 	});
+		 	standardColumns.push({
+		    	data: 'link',
+		    	sTitle: 'Bekijk',
+		    	sortable: false
+		    })
+	 	};
+
+      	var surveyColumns = survey.getAllQuestions().map(function(q) {
+          return {
+            data: q.name,
+            sTitle: (q.title || "").trim(" ") || q.name,
+            mRender: function(data, type, row) {
+              survey.data = row;
+              var displayValue = q.displayValue;
+              return (
+                (typeof displayValue === "string"
+                  ? displayValue
+                  : JSON.stringify(displayValue)) || ""
+              );
+            }
+          };
+        });
+
+	    var columns = standardColumns.concat(surveyColumns);
+
+	    $("#resultsTable").DataTable({
+	    	retrieve: true,
+	        columns: columns,
+	        data: results,
+	        dom: 'Bfrtip',
+	        buttons: [
+	            'copy', 'csv', 'excel', 'colvis'
+	        ],
+	        "language": {
+			    "sProcessing": "Bezig...",
+			    "sLengthMenu": "_MENU_ resultaten weergeven",
+			    "sZeroRecords": "Geen resultaten gevonden",
+			    "sInfo": "_START_ tot _END_ van _TOTAL_ resultaten",
+			    "sInfoEmpty": "Geen resultaten om weer te geven",
+			    "sInfoFiltered": " (gefilterd uit _MAX_ resultaten)",
+			    "sInfoPostFix": "",
+			    "sSearch": "Zoeken:",
+			    "sEmptyTable": "Geen resultaten aanwezig in de tabel",
+			    "sInfoThousands": ".",
+			    "sLoadingRecords": "Een moment geduld aub - bezig met laden...",
+			    "oPaginate": {
+			        "sFirst": "Eerste",
+			        "sLast": "Laatste",
+			        "sNext": "Volgende",
+			        "sPrevious": "Vorige"
+			    },
+			    "oAria": {
+			        "sSortAscending":  ": activeer om kolom oplopend te sorteren",
+			        "sSortDescending": ": activeer om kolom aflopend te sorteren"
+			    }
+			}
+	      });
+
+			
+	});
+</script>

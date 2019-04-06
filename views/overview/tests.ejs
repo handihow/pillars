@@ -6,17 +6,12 @@
     <h2 class="ui center aligned header">
       <div>Overzicht Test Resultaten</div>
     </h2>
-    <p>Dit is een overzicht van alle testresultaten op de aangesloten scholen bij jouw bestuur. Je kunt het overzicht downloaden in CSV format.</p>
+    
     <div class="ui message">
       <div class="header">
-        Tip voor openen csv bestand
+        Test resultaten
       </div>
-      <p>Het csv bestand heeft een komma als scheidingsteken. Heb je problemen met het openen van het bestand?
-      Probeer het bestand dan eens te importeren in een Google sheet. Maak hiervoor een nieuwe Google sheet aan 
-      en kies Bestand-->Importeren. Je kunt dan de komma als scheidingsteken selecteren.</p>
-       <a class="ui primary small button" href="/overview/tests/download">
-      Download csv bestand
-      </a>
+      <p>Dit is een overzicht van alle testresultaten op de aangesloten scholen bij jouw bestuur. Je kunt het overzicht op verschillende manieren downloaden.</p>
     </div>
     <!--make table with schools and progress-->
     <table class="ui celled small table">
@@ -39,7 +34,7 @@
               <td><%= Math.ceil(test.result * 100) %> %</td>
               <td><%= test.owner && test.owner.publicProfile ? test.owner.username : 'anoniem' %></td>
               <td><%= test.owner && test.owner.isTeacher ? 'onderwijzend' : 'ondersteunend/onbekend'%></td>
-              <td><a class="ui mini primary basic button" href="/user/test_overview/test/<%=test._id%>">Bekijk</a></td>
+              <td class="selectable"><a href="/user/test_overview/test/<%=test._id%>">Bekijk</a></td>
             </tr>
           <% }) %>
         <% }) %>
