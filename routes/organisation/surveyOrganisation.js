@@ -16,7 +16,8 @@ router.get("/", middleware.isLoggedIn, function(req, res){
   res.locals.scripts.footer.surveyBuilder = false;
   res.locals.scripts.footer.surveyPrivate = false;
   res.locals.scripts.footer.surveyPublic = false;
-  res.locals.scripts.footer.surveyResult= false;
+  res.locals.scripts.footer.surveyResult = false;
+  res.locals.scripts.footer.surveyResults = false;
   Survey.find({organisation: req.user.organisation}).populate("school").exec(function(err, surveys){
         if(err) {
             req.flash("error", err.message);
