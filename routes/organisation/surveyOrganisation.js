@@ -177,7 +177,7 @@ router.get("/:id/download", middleware.isNotDemoAccount, middleware.isAuthentica
               var protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http'
               var fullUrl = protocol + '://' + req.get('host');
               var surveyResultList = [];
-              var surveyAnswerKeys = [];
+              var surveyAnswerKeys;
               surveyResults.forEach(function(surveyResult){
                 surveyResult.date = surveyResult.createdAt.toJSON().slice(0,10).split('-').reverse().join('/');
                 surveyResult.firstName = surveyResult.user.firstName;
@@ -186,11 +186,14 @@ router.get("/:id/download", middleware.isNotDemoAccount, middleware.isAuthentica
                 surveyResult.organisation = surveyResult.user.organisation.name;
                 surveyResult.school = surveyResult.user.school.map(s => s.name);
                 surveyResult.link = fullUrl + "/survey/" + surveyResult._id + "/result";
-                
-                Object.keys(surveyResult.result).forEach(function(key){
-                  surveyResult[key] = surveyResult.result[key];
-                  surveyAnswerKeys.push(key);
-                });
+                if(surveyResult.result){
+                  surveyAnswerKeys = Object.keys(surveyResult.result);
+                  Object.keys(surveyResult.result).forEach(function(key){
+                    if(surveyResult.result && surveyResult.result[key]){
+                      surveyResult[key] = typeof surveyResult.result[key] == 'string' ? surveyResult.result[key] : JSON.stringify(surveyResult.result[key]);
+                    }  
+                  });
+                } 
                 surveyResultList.push(surveyResult);
               });
               var fields = ['date', 'firstName', 'lastName', 'email', 'organisation', 'school', 'link'].concat(surveyAnswerKeys);
@@ -217,15 +220,18 @@ router.get("/:id/download", middleware.isNotDemoAccount, middleware.isAuthentica
               var protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http'
               var fullUrl = protocol + '://' + req.get('host');
               var surveyResultList = [];
-              var surveyAnswerKeys = [];
+              var surveyAnswerKeys;
               surveyResults.forEach(function(surveyResult){
                 surveyResult.date = surveyResult.createdAt.toJSON().slice(0,10).split('-').reverse().join('/');
                 surveyResult.link = fullUrl + "/survey/" + surveyResult._id + "/result";
-                
-                Object.keys(surveyResult.result).forEach(function(key){
-                  surveyResult[key] = surveyResult.result[key];
-                  surveyAnswerKeys.push(key);
-                });
+                if(surveyResult.result){
+                  surveyAnswerKeys = Object.keys(surveyResult.result);
+                  Object.keys(surveyResult.result).forEach(function(key){
+                    if(surveyResult.result && surveyResult.result[key]){
+                      surveyResult[key] = typeof surveyResult.result[key] == 'string' ? surveyResult.result[key] : JSON.stringify(surveyResult.result[key]);
+                    }  
+                  });
+                }    
                 surveyResultList.push(surveyResult);
               });
               var fields = ['date', 'link'].concat(surveyAnswerKeys);
