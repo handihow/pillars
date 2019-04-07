@@ -5,75 +5,100 @@ function goBack() { window.history.back(); }
 $(document).ready(function() {
 
     //generic functionality to prevent deleting by accident
-    $("#delete").click(function(){
-      $('.warning').removeClass("hidden");
-      $('#delete').addClass("disabled");
-    });
+    if($("#delete").length > 0) {
+      $("#delete").click(function(){
+        $('.warning').removeClass("hidden");
+        $('#delete').addClass("disabled");
+      });
+    }
     //give users the chance to cancel the destroy method
-    $("#cancel").click(function(){
-      $('.warning').addClass("hidden");
-      $('#delete').removeClass("disabled");
-    });
+    if($("#cancel").length > 0) {
+      $("#cancel").click(function(){
+        $('.warning').addClass("hidden");
+        $('#delete').removeClass("disabled");
+      });
+    }
 
     //warning before deleting the user
-    $(".warning-delete-user").click(function(){
-      $('.warning').removeClass("hidden");
-      $('.warning-delete-user').addClass("disabled");
-    });
+    if($(".warning-delete-user").length > 0) {
+      $(".warning-delete-user").click(function(){
+        $('.warning').removeClass("hidden");
+        $('.warning-delete-user').addClass("disabled");
+      });
+    }
 
-    $(".cancel-delete-user").click(function(){
-      $('.warning').addClass("hidden");
-      $('.warning-delete-user').removeClass("disabled");
-    });
+    if($(".cancel-delete-user").length > 0) {
+      $(".cancel-delete-user").click(function(){
+        $('.warning').addClass("hidden");
+        $('.warning-delete-user').removeClass("disabled");
+      });
+    }
 
-    //activate the dropdown menus
-    $('.ui.dropdown').dropdown();
+    if($('.ui.dropdown').length > 0){
+      //activate the dropdown menus
+      $('.ui.dropdown').dropdown();
+    }
 
-    //activating the tabs menu;
-    $('.menu .item')
-      .tab();
+    if($('.menu .item').length > 0){
+      //activating the tabs menu;
+      $('.menu .item')
+        .tab();
+    }
 
+    if($('.vertical.item').length > 0){
     //activate the popups
-    $('.vertical.item')
-      .popup({
-        position: 'right center'
-      })
-    ;
+      $('.vertical.item')
+        .popup({
+          position: 'right center'
+        })
+    };
     
-    //activate the popups
-    $('.horizontal.item')
-      .popup({
-        position: 'bottom center'
-      })
-    ;
+    if($('.horizontal.item').length > 0){
+      //activate the popups
+      $('.horizontal.item')
+        .popup({
+          position: 'bottom center'
+        })
+    };
 
-    //activate the popups
-    $('.button')
-      .popup({
-        position: 'top center'
-      })
-    ;
+    if($('.button').length > 0){
+      //activate the popups
+      $('.button')
+        .popup({
+          position: 'top center'
+        })
+    };
 
     //activate the progress bars;
-    $('.ui.progress').progress();
+    if($('.ui.progress').length > 0){
+      $('.ui.progress').progress();
+    }
 
-    $("#availability").click(function(){
-      { $('.ui.modal.availability').modal('show');}
-    });
+    if($("#availability").length > 0){
+      $("#availability").click(function(){
+        { $('.ui.modal.availability').modal('show');}
+      });
+    }
 
-    $("#integrity").click(function(){
-      { $('.ui.modal.integrity').modal('show');}
-    });
+    if($("#integrity").length > 0){
+      $("#integrity").click(function(){
+        { $('.ui.modal.integrity').modal('show');}
+      });
+    }
 
-    $("#confidentiality").click(function(){
-      { $('.ui.modal.confidentiality').modal('show');}
-    });
+    if($("#confidentiality").length > 0){
+      $("#confidentiality").click(function(){
+        { $('.ui.modal.confidentiality').modal('show');}
+      });
+    }
      
-    $("#floorMap").click(function(){
-      { $('.ui.modal.floorMap').modal('show');}
-    });
+    if($("#floorMap").length > 0){
+      $("#floorMap").click(function(){
+        { $('.ui.modal.floorMap').modal('show');}
+      });
+    }
 
-    if($("#resultsTable").length == 0) {
+    if($("#resultsTable").length == 0 && $(".ui table").length > 0) {
 
       $(".ui table").DataTable({
             buttons: [

@@ -1,5 +1,3 @@
-  <div class="ui container">
-    <div class="ui divider"></div>
     <h2 class="ui header"><i class="list icon"></i>Inzendingen</h2>
     <%if(surveyResults.length===0){%>
     <div class="ui placeholder segment">
@@ -9,14 +7,9 @@
       </div>
     </div>
     <%} else {%>
-
-      <table id="resultsTable" class="ui celled small table display"></table>
-      
-      <h2 class="ui header"><i class="chart pie icon"></i>Grafieken</h2>
       <div class="ui divider"></div>
-      <div id="resultCharts" class="ui stackable grid"></div>
+      <table id="resultsTable" class="ui celled small table display" width="100%"></table>
+      
 
     <%}%>
     
-
-  </div>

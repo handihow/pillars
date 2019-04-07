@@ -1,7 +1,9 @@
 <script>
 	$(document).ready(function() {
 
-		// $('#resultsTable').DataTable();
+		if (typeof Survey == "undefined") {
+		   return;
+		}
 
 		var surveyInfo = $( '#surveyText' ).text();
 
@@ -15,7 +17,6 @@
 
 		var result = JSON.parse(resultsInfo || '[]');
 
-
 		var dateSubmitted = result.map(function(r) {
 	          return {date: r.createdAt.slice(0,10).split('-').reverse().join('/')} || "{}";
 	        });
@@ -28,11 +29,13 @@
 	        		returnedData.name = r.user.firstName + " " + r.user.lastName;
 	        		returnedData.email = r.user.username;
 	        		returnedData.organisation = r.user.organisation.name;
-	        		returnedData.school = r.user.school.map(s => s.name)
+	        		returnedData.school = r.user.school.map(s => s.name).join()
 	        	}
 	        	returnedData.link = '<a href="/survey/' + r._id + '/result">Inzending</a>'
 	          return returnedData;
 	        });
+
+  		
 
 	    var standardColumns = [];
 	 	
@@ -68,11 +71,16 @@
 		    });
 
 
-      	var surveyColumns = survey.getAllQuestions().map(function(q) {
-      	  console.log(q.getType());
+      	var surveyColumns = survey.getAllQuestions().map(function(q, i) {
+      	  var maxColumnsFromSurvey = surveyInfo.isPublic ? 7 : 3;
           return {
+          	type: q.getType(),
+          	choices: ['radiogroup','checkbox','dropdown'].includes(q.getType()) ? q.choices.map(c => c.text) : [],
+          	values: ['radiogroup','checkbox','dropdown'].includes(q.getType()) ? q.choices.map(c => c.value) : [],
+          	question: q,
             data: q.name,
             sTitle: (q.title || "").trim(" ") || q.name,
+            bVisible: i > maxColumnsFromSurvey ? false : true,
             mRender: function(data, type, row) {
               survey.data = row;
               var displayValue = q.displayValue;
@@ -87,7 +95,7 @@
 
 	    var columns = standardColumns.concat(surveyColumns);
 
-	    $("#resultsTable").DataTable({
+	    var table = $("#resultsTable").DataTable({
 	    	retrieve: true,
 	        columns: columns,
 	        data: results,
@@ -120,26 +128,170 @@
 			    "buttons": {
 	                "colvis": "Zichtbare kolommen"
 	            }
-			}
+			},
+			initComplete: function () {
+				if(surveyInfo.isPublic){
+					return; //no filters on public surveys
+				}
+	            this.api().columns([1,2,3,4]).every( function () {
+	                var column = this;
+	                var select = $('<select><option value=""></option></select>')
+	                    .appendTo( $(column.header() ))
+	                    .on( 'change', function () {
+	                        var val = $.fn.dataTable.util.escapeRegex(
+	                            $(this).val()
+	                        );
+	 
+	                        column
+	                            .search( val ? '^'+val+'$' : '', true, false )
+	                            .draw();
+	                    } );
+	 
+	                column.data().unique().sort().each( function ( d, j ) {
+	                	if(d.length>1){
+	                		select.append('<option value="' + d + '">' + d.substr(0,30) + '</option>')
+	                	}
+	                } );
+	            } );
+	        }
 	      });
 
 
-		// function showChart(chartDataSource) {
-		// 	console.log(chartDataSource)
-		//     document
-		//         .getElementById("chartContainer")
-		//         .style
-		//         .height = "500px";
-		//     $("#chartContainer").dxPieChart({
-		//         dataSource: chartDataSource,
-		//         series: {
-		//             argumentField: 'name',
-		//             valueField: 'value'
-		//         }
-		//     });
-		// }
+	    surveyColumns.forEach(function(column, i){
+	    	var extraInfo = ['radiogroup','dropdown', 'checkbox', 'boolean', 'rating'].includes(column.type) ? '' : "Er is geen grafiek beschikbaar voor het type vraag ";
+	    	$( "#resultCharts" ).append( "<div class='eight wide column'>" + 
+	    									"<h4 class='content'>"  +
+	    										column.sTitle + 
+	    									"</h4><div class='content'>" +
+	    										extraInfo + column.type +
+	    										"</div>" +
+	    										"<div id='chart" + i + "'>" + 
+	    										"</div>" +
+	    								"</div>" );
 
-		// showChart([{name: 'Henk', value: true}, {name: 'Katrien', value: true}, {name: 'Henk', value: true}]);
+	    	if(column.type == 'boolean'){
+	    		var chartData = [];
+	    		var yesAnswers = 0;
+	    		var noAnswers = 0
+		    	results.forEach(function(result){
+		    		if(result[column.data] ){
+		    			yesAnswers += 1;
+		    		} else {
+						noAnswers += 1;
+		    		}
+		    	})
+		    	chartData.push({name: 'Ja', value: yesAnswers});		    	
+		    	chartData.push({name: 'Nee', value: noAnswers});
+		    	showPieChart(chartData, i);
+		    } else if(column.type == 'rating'){
+		    	var chartData = [];
+		    	var step;
+				for (step = column.question.rateMin; step <= column.question.rateMax; step+=column.question.rateStep) {
+				  // Runs 5 times, with values of step 0 through 4.
+				  var numberTimesChosen = 0;
+				  results.forEach(function(result){
+			    		if (result[column.data]==step) {
+			    				numberTimesChosen += 1;
+			    			};
+			    	});
+				  var nameInfo = step;
+				  if(step == column.question.rateMin){
+				  	nameInfo = step + " " + column.question.minRateDescription;
+				  } else if(step == column.question.rateMax){
+				  	nameInfo = step + " " + column.question.maxRateDescription;
+				  }
+				  var newData = {name: step, value: numberTimesChosen};
+    			  chartData.push(newData);
+				}
+		    	showPieChart(chartData, i);
+	    	} else if(['radiogroup','dropdown', 'checkbox'].includes(column.type)){
+	    		var chartData = [];
+	    		column.values.forEach(function(value, i){
+	    			var numberTimesChosen = 0;
+	    			results.forEach(function(result){
+		    			if(column.type=='checkbox' && result[column.data].includes(value)){
+		    				numberTimesChosen += 1;
+		    			} else if (result[column.data]==value) {
+		    				numberTimesChosen += 1;
+		    			};
+			    	})
+    				var newData = {name: column.choices[i], value: numberTimesChosen};
+    				chartData.push(newData);
+    			});
+		    	showPieChart(chartData, i);
+	    	} else {
+	    		console.log('not the right chart type');
+	    	};
+	    	
+
+	    });
+
+
+		function showPieChart(chartDataSource, i) {
+		    document
+		        .getElementById("chart" + i)
+		        .style
+		        .height = "300px"
+		        .width = "300px";
+		    $("#chart" + i).dxPieChart({
+		    	palette: [
+                    'rgba(227,6,19,1)',
+                    'rgba(0,159,227, 1)',
+                    'rgba(249,178,51, 1)',
+                    'rgba(0, 0, 0, 1)',
+                    'rgba(156,16,6, 1)',
+                    'rgba(34, 34, 188, 1)',
+                    'rgba(246, 190, 91, 1)',
+                    'rgba(58, 58, 58, 1)',
+                    'rgba(191,35,66, 1)',
+                    'rgba(36, 83, 189, 1)',
+                    'rgba(249, 203, 19, 1)',
+                    'rgba(112, 112, 112, 1)',
+                ],
+                legend: {
+                	verticalAlignment: 'bottom',
+                	horizontalAlignment: 'center',
+                },
+		        dataSource: chartDataSource,
+		        series: {
+		            argumentField: 'name',
+		            valueField: 'value'
+		        }
+		    });
+		}
+
+		function changePageAppearance(el){
+			['info', 'table', 'chart'].forEach(function(page){
+				if(page==el){
+					if($('#'+ page).hasClass("hidden")){
+			        	$('#'+ page).removeClass("hidden");
+			        }
+			        if(!$('#'+ page + 'Button').hasClass("active")){
+			        	$('#'+ page + 'Button').addClass("active");
+			        }
+				} else {
+					if(!$('#' + page).hasClass("hidden")){
+			        	$('#' + page).addClass("hidden");
+			        }
+			        if($('#'+ page + 'Button').hasClass("active")){
+			        	$('#'+ page + 'Button').removeClass("active");
+			        }
+				}
+			})
+		}
+
+		$("#infoButton").click(function(){
+			changePageAppearance('info');
+	      });
+
+		$("#tableButton").click(function(){
+			changePageAppearance('table');
+	      });
+
+		$("#chartButton").click(function(){
+			changePageAppearance('chart');
+	      });
+
 
 			
 	});
