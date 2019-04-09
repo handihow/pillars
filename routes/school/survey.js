@@ -10,7 +10,7 @@ var ObjectId = require('mongoose').Types.ObjectId;
 var json2csv = require("json2csv");
 
 //INDEX ROUTE
-router.get("/", middleware.isLoggedIn, function(req, res){
+router.get("/", middleware.isSchoolOwner, function(req, res){
     //reset all scripts if possible
     res.locals.scripts.header.surveyjs = false;
     res.locals.scripts.footer.surveyjs = false;
@@ -24,7 +24,15 @@ router.get("/", middleware.isLoggedIn, function(req, res){
           req.flash("error", err.message);
           res.redirect("back");
       } else {
-        Survey.find({school: req.params.id})
+        Survey.find({$or: 
+                        [
+                          {school: req.params.id}, 
+                          {$and: [
+                            {organisation: school.organisation}, 
+                            {isValidForAllOrganisation: true},
+                            {isPublic: false}
+                           ]}
+                        ]})
                 .exec(function(err, surveys){
                     if(err) {
                         req.flash("error", err.message);
@@ -56,7 +64,7 @@ router.get("/new", middleware.isSchoolOwner, function(req, res){
 });
 
 //SHOW ROUTE
-router.get("/:sid", middleware.isLoggedIn, function(req, res){
+router.get("/:sid", middleware.isSchoolOwner, function(req, res){
   School.findById(req.params.id, function(err, school){
       if(err || !school){
         req.flash("error", "Probleem bij vinden van schoolgegevens.")
@@ -79,9 +87,18 @@ router.get("/:sid", middleware.isLoggedIn, function(req, res){
                   req.flash(err.message);
                   res.redirect("back");
                 } else {
+                  var returnedSurveyResults = [];
+                  surveyResults.forEach(function(surveyResult){
+                    var isInArray = school.users.some(function (user) {
+                        return user.equals(surveyResult.user._id);
+                    });
+                    if(isInArray){
+                      returnedSurveyResults.push(surveyResult);
+                    }
+                  });
                   var protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http'
                   var fullUrl = protocol + '://' + req.get('host');
-                  res.render("survey/show", {school: school, survey: survey, surveyResults: surveyResults, schoolLevel: true, fullUrl: fullUrl}); 
+                  res.render("survey/show", {school: school, survey: survey, surveyResults: returnedSurveyResults, schoolLevel: true, fullUrl: fullUrl}); 
                 }
               });        
             } else {

@@ -1,0 +1,42 @@
+<div class="ui divider"></div>
+<div class="ui small header">Profiel Informatie</div>
+<div class="ui relaxed divided list">
+	<div class="item">
+		<% if(currentUser.firstName && currentUser.lastName){%>
+	  		<i class="check green icon"></i>
+        <div class="content">
+          Voornaam en achternaam ingevuld
+          <div class="description">
+            <a href="/user/<%=currentUser._id%>">Bekijk je profiel</a>
+          </div>
+        </div>
+	  <%} else {%>
+	  		<i class="edit outline icon"></i>
+        <div class="content">
+          Voornaam en achternaam zijn niet ingevuld
+          <div class="description">
+            <a href="/user/<%=currentUser._id%>/edit">Bewerk je profiel</a>
+          </div>
+        </div>
+	  <%}%>
+  </div>
+  <div class="item">
+    <% if(currentUser.publicProfile){%>
+        <i class="check green icon"></i>
+        <div class="content">
+          Schoolleiding heeft toegang tot profiel informatie
+          <div class="description">
+            <a href="/user/<%=currentUser._id%>">Bekijk je profiel</a>
+          </div>
+        </div>
+    <%} else {%>
+        <i class="edit outline icon"></i>
+        <div class="content">
+          Profielinformatie is nuttig bij het analyseren van enquêtes. 
+          <div class="description">
+            <a href="/user/<%=currentUser._id%>/edit">Bewerk je profiel</a> als je deze informatie wilt invullen en delen met de schoolleiding.
+          </div> 
+        </div>
+    <%}%>
+  </div>
+</div>

@@ -48,37 +48,64 @@
         <% }) %>
     </select>
   </div>
-  <div class="two fields">
+    <div class="two fields">
     <div class="field">
-        <input type="hidden" value="0" name="processingActivity[involvesProfiling]">
-        <div class="ui toggle checkbox">
-            <input 
-                type="checkbox" 
-                name="processingActivity[involvesProfiling]"
-                <% if(processingActivity.involvesProfiling) { %>
-                        checked="checked"
-                        <% } %>
-            >
-            <label>Gegevensverzameling d.m.v. profiling?</label>
-            <div class="ui small pointing label">
-              Elke vorm van geautomatiseerde verwerking van persoonsgegevens waarbij aan de hand van persoonsgegevens bepaalde persoonlijke aspecten van een natuurlijke persoon worden geëvalueerd, met name met de bedoeling zijn beroepsprestaties, economische situatie, gezondheid, persoonlijke voorkeuren, interesses, betrouwbaarheid, gedrag, locatie of verplaatsingen te analyseren of te voorspellen.
-           </div>
+        <div class="inline fields">
+          <div class="ui small right pointing label">
+            Elke vorm van geautomatiseerde verwerking van persoonsgegevens waarbij aan de hand van persoonsgegevens bepaalde persoonlijke aspecten van een natuurlijke persoon worden geëvalueerd, met name met de bedoeling zijn beroepsprestaties, economische situatie, gezondheid, persoonlijke voorkeuren, interesses, betrouwbaarheid, gedrag, locatie of verplaatsingen te analyseren of te voorspellen.
          </div>
+          <label>Gegevensverzameling d.m.v. profiling?</label>
+          
+          <div class="field">
+            <div class="ui radio checkbox">
+              <input 
+                    type="radio" 
+                    name="processingActivity[involvesProfiling]" 
+                    value="0" 
+                    <% if(!processingActivity.involvesProfiling) { %>checked="checked"<% } %>>
+              <label>Nee</label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui radio checkbox">
+              <input 
+                    type="radio" 
+                    name="processingActivity[involvesProfiling]" 
+                    value="1"
+                    <% if(processingActivity.involvesProfiling) { %>checked="checked"<% } %>>
+              <label>Ja</label>
+            </div>
+          </div>
+        </div>
+         
     </div>
     <div class="field">
-        <div class="ui toggle checkbox">
-            <input type="hidden" value="0" name="processingActivity[involvesSensitiveData]">
-            <input 
-                type="checkbox" 
-                name="processingActivity[involvesSensitiveData]"
-                <% if(processingActivity.involvesSensitiveData) { %>
-                        checked="checked"
-                        <% } %>
-            >
-            <label>Betreft gevoelige gegevens? (art 9 en 10)</label>
-            <div class="ui small pointing label">
-              Gevoelige persoonsgegevens, die door de wetgever extra zijn beschermd, te weten Ras, godsdienst, gezondheid, politieke overtuiging, seksuele geaardheid, lidmaatschap vakbond, strafrechtelijk verleden.
+      <div class="inline fields">
+          <div class="ui small right pointing label">
+            Gevoelige persoonsgegevens, die door de wetgever extra zijn beschermd, te weten Ras, godsdienst, gezondheid, politieke overtuiging, seksuele geaardheid, lidmaatschap vakbond, strafrechtelijk verleden.
+          </div>
+          <label>Betreft gevoelige gegevens? (art 9 en 10)</label>
+          <div class="field">
+            <div class="ui radio checkbox">
+              <input 
+                    type="radio" 
+                    name="processingActivity[involvesSensitiveData]" 
+                    value="0" 
+                    <% if(!processingActivity.involvesSensitiveData) { %>checked="checked"<% } %>>
+              <label>Nee</label>
             </div>
-         </div>
+          </div>
+          <div class="field">
+            <div class="ui radio checkbox">
+              <input 
+                    type="radio" 
+                    name="processingActivity[involvesSensitiveData]" 
+                    value="1"
+                    <% if(processingActivity.involvesSensitiveData) { %>checked="checked"<% } %>>
+              <label>Ja</label>
+            </div>
+          </div>
+        </div>
+        
     </div>
   </div>

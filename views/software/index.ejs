@@ -10,7 +10,7 @@
   <% Object.keys(school.settings.software.subjects).sort().forEach(function(subject){ %>
   <div class="card">
     <div class="content">
-      <div class="header countHeader"><a href="#<%=subject%>"><%= subject %></a></div>
+      <div class="header countHeader"><%= subject %></div>
       <div class="description count">
         <% var count = 0 %>
         <% school.software.forEach(function(software){ %>
@@ -20,14 +20,16 @@
         <%= count %>
       </div>
     </div>
-    <div class="ui bottom attached button">
-      <div class="item">
-        <a href="/schools/<%=school._id%>/software/new/<%=subject %>">
-          <i class="add icon"></i>
-          <%=subject %> Toevoegen
-        </a>
+    <% if(!(currentUser.role==="suser")) { %>
+      <div class="ui bottom attached button">
+        <div class="item">
+          <a href="/schools/<%=school._id%>/software/new/<%=subject %>">
+            <i class="add icon"></i>
+            <%=subject %> Toevoegen
+          </a>
+        </div>
       </div>
-    </div>
+    <%}%>
   </div>
   <% }); %>
 </div>

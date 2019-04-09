@@ -77,7 +77,7 @@ checkSoftwareStandard = function(school, subject){
 								config.software.standards.secondary[subjectKey] : 
 									config.software.standards.primary[subjectKey];
 	Object.keys(standardConfig).forEach(function(key){
-		standard[key] = school.standard.software[subjectKey][key] ?
+		standard[key] = school.standard.software[subjectKey] ?
 							school.standard.software[subjectKey][key] :
 								standardConfig[key]
 	});

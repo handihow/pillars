@@ -9,11 +9,11 @@ var config = require("../../config/config");
 
 //INDEX ROUTE
 router.get("/", middleware.isLoggedIn, function(req, res){
-  //if user is school employee, direct to his profile page
-  if(req.user.role==="suser") {
-    return res.redirect("/user/"+req.user._id);
-  //if user is school admin then go to school page    
-  } else if(req.user.role==="sadmin") {
+  //if user is school employee, direct to school page
+  if(req.user.role==="suser" || req.user.role==="sadmin") {
+  //   return res.redirect("/user/"+req.user._id);
+  // //if user is school admin then go to school page    
+  // } else if(req.user.role==="sadmin") {
       //find the school
       School.findOne({"users": req.user._id}, function(err, school) {
         if(err || !school){
@@ -171,7 +171,7 @@ router.post("/manual", middleware.isNotDemoAccount, middleware.isAuthenticatedBa
 
 
 //EDIT ROUTE
-router.get("/:id/edit", middleware.isNotDemoAccount, middleware.isLoggedIn, function(req, res){
+router.get("/:id/edit", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
   School.findById(req.params.id, function(err, school){
    if(err || !school){
      req.flash("error", "School niet gevonden.");
@@ -185,7 +185,7 @@ router.get("/:id/edit", middleware.isNotDemoAccount, middleware.isLoggedIn, func
 });
 
 //UPDATE ROUTE
-router.put("/:id", middleware.isNotDemoAccount, middleware.isLoggedIn, function(req, res){
+router.put("/:id", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
   School.findByIdAndUpdate(req.params.id, req.body.school, function(err, school){
    if(err || !school){
      req.flash("error", err.message);

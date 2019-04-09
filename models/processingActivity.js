@@ -29,8 +29,8 @@ var ProcessingActivitySchema = new mongoose.Schema({
    processingActivityGoalCategories: [String],              
    personalDataCategories: [String],
    legalJustificationForProcessing: [String],
-   involvesProfiling: Boolean,
-   involvesSensitiveData: Boolean,
+   involvesProfiling: {type: Boolean, default: false},
+   involvesSensitiveData: {type: Boolean, default: false},
    //part 5 of form
    concernedPersonCategoryList: [String],
    concernedPersonCategories: String,

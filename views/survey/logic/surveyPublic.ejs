@@ -48,7 +48,7 @@
 		        	}
 		        },
 		        error: function(err) {
-		        	alert('Er ging iets mis');
+		        	alert(err.message ? err.message : 'Er ging iets mis');
 		        }
 		    });
 

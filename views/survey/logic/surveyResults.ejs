@@ -2,7 +2,57 @@
 	$(document).ready(function() {
 
 		if (typeof Survey == "undefined") {
-		   return;
+		   return console.log('survey model not defined');
+		}
+
+		function changePageAppearance(el){
+			['info', 'table', 'chart'].forEach(function(page){
+				if(page==el){
+					if($('#'+ page).hasClass("hidden")){
+			        	$('#'+ page).removeClass("hidden");
+			        }
+			        if(!$('#'+ page + 'Button').hasClass("active")){
+			        	$('#'+ page + 'Button').addClass("active");
+			        }
+				} else {
+					if(!$('#' + page).hasClass("hidden")){
+			        	$('#' + page).addClass("hidden");
+			        }
+			        if($('#'+ page + 'Button').hasClass("active")){
+			        	$('#'+ page + 'Button').removeClass("active");
+			        }
+				}
+			})
+		}
+
+		if($("#infoButton").length > 0) {
+			$("#infoButton").click(function(){
+				changePageAppearance('info');
+		      });
+		}
+
+		if($("#tableButton").length > 0) {
+			$("#tableButton").click(function(){
+				changePageAppearance('table');
+		      });
+		}
+
+		if($("#chartButton").length > 0) {
+			$("#chartButton").click(function(){
+				changePageAppearance('chart');
+		      });
+		}
+
+		if($( '#surveyResults' ).length==0){
+			return console.log('not on the survey result show page');
+		}
+
+		var resultsInfo = $( '#surveyResults' ).text();
+
+		var result = JSON.parse(resultsInfo || '[]');
+
+		if(result.length===0){
+			return console.log('no survey results');
 		}
 
 		var surveyInfo = $( '#surveyText' ).text();
@@ -13,29 +63,32 @@
 
 		var survey = new Survey.Model(surveyData);
 
-		var resultsInfo = $( '#surveyResults' ).text();
-
-		var result = JSON.parse(resultsInfo || '[]');
-
 		var dateSubmitted = result.map(function(r) {
 	          return {date: r.createdAt.slice(0,10).split('-').reverse().join('/')} || "{}";
 	        });
 
 
   		var results = result.map(function(r) {
-	        	returnedData = r.result || {};
-	        	returnedData.date = r.createdAt.slice(0,10).split('-').reverse().join('/');
-	        	if(!surveyInfo.isPublic){
-	        		returnedData.name = r.user.firstName + " " + r.user.lastName;
-	        		returnedData.email = r.user.username;
-	        		returnedData.organisation = r.user.organisation.name;
-	        		returnedData.school = r.user.school.map(s => s.name).join()
-	        	}
-	        	returnedData.link = '<a href="/survey/' + r._id + '/result">Inzending</a>'
-	          return returnedData;
-	        });
-
-  		
+        	returnedData = r.result || {};
+        	returnedData.date = r.createdAt.slice(0,10).split('-').reverse().join('/');
+        	if(!surveyInfo.isPublic){
+        		returnedData.firstName = r.user.firstName;
+        		returnedData.lastName = r.user.lastName;
+        		returnedData.email = r.user.username;
+        		returnedData.function = r.user.publicProfile ? r.user.job : '-';
+        		returnedData.age = r.user.publicProfile && 
+        								r.user.dateOfBirth ? ~~((Date.now() - new Date(r.user.dateOfBirth)) / (31557600000)) : 
+        								'-';
+        		returnedData.gender = r.user.publicProfile ? r.user.gender : '-';
+        		returnedData.gradeLevel = r.user.publicProfile ? r.user.gradeLevelGroup : '-';
+        		returnedData.isTeacher = r.user.publicProfile &&  r.user.isTeacher ? 'onderwijzend' : 'ondersteunend of -';
+        		returnedData.organisation = r.user.organisation.name;
+        		returnedData.school = r.user.school.map(s => s.name).join();
+        		returnedData.city = r.user.school.map(s => s.city).join();
+        	}
+        	returnedData.link = '<a href="/survey/' + r._id + '/result">Inzending</a>'
+          return returnedData;
+        });
 
 	    var standardColumns = [];
 	 	
@@ -46,22 +99,58 @@
 
 	 	if(!surveyInfo.isPublic){
 	 		standardColumns.push({
-		 		data: 'name',
-		 		sTitle: 'Ingezonden door'
+		 		data: 'firstName',
+		 		sTitle: 'Voornaam',
+		 		bVisible: false
+		 	});
+		 	standardColumns.push({
+		 		data: 'lastName',
+		 		sTitle: 'Achternaam',
+		 		bVisible: false
 		 	});
 		 	standardColumns.push({
 		 		data: 'email',
 		 		sTitle: 'Email'
 		 	});
 		 	standardColumns.push({
+		 		data: 'function',
+		 		sTitle: 'Functie',
+		 		bVisible: false
+		 	});
+		 	standardColumns.push({
+		 		data: 'age',
+		 		sTitle: 'Leeftijd',
+		 		bVisible: false
+		 	});
+		 	standardColumns.push({
+		 		data: 'gender',
+		 		sTitle: 'Geslacht',
+		 		bVisible: false
+		 	});
+		 	standardColumns.push({
+		 		data: 'gradeLevel',
+		 		sTitle: 'Bouw',
+		 		bVisible: false
+		 	});
+		 	standardColumns.push({
+		 		data: 'isTeacher',
+		 		sTitle: 'Personeeltype',
+		 		bVisible: false
+		 	});
+		 	standardColumns.push({
 		 		data: 'organisation',
-		 		sTitle: 'Organisatie'
+		 		sTitle: 'Organisatie',
+		 		bVisible: false
 		 	});
 		 	standardColumns.push({
 		 		data: 'school',
 		 		sTitle: 'School'
 		 	});
-		 	
+		 	standardColumns.push({
+		 		data: 'city',
+		 		sTitle: 'Plaatsnaam',
+		 		bVisible: false
+		 	});
 	 	};
 
 	 	standardColumns.push({
@@ -133,7 +222,7 @@
 				if(surveyInfo.isPublic){
 					return; //no filters on public surveys
 				}
-	            this.api().columns([1,2,3,4]).every( function () {
+	            this.api().columns([1,2,3,4,6,7,8,9,10,11]).every( function () {
 	                var column = this;
 	                var select = $('<select><option value=""></option></select>')
 	                    .appendTo( $(column.header() ))
@@ -148,7 +237,7 @@
 	                    } );
 	 
 	                column.data().unique().sort().each( function ( d, j ) {
-	                	if(d.length>1){
+	                	if(d.length>0){
 	                		select.append('<option value="' + d + '">' + d.substr(0,30) + '</option>')
 	                	}
 	                } );
@@ -235,8 +324,8 @@
 		        .width = "300px";
 		    $("#chart" + i).dxPieChart({
 		    	palette: [
-                    'rgba(227,6,19,1)',
                     'rgba(0,159,227, 1)',
+                    'rgba(227,6,19,1)',
                     'rgba(249,178,51, 1)',
                     'rgba(0, 0, 0, 1)',
                     'rgba(156,16,6, 1)',
@@ -255,43 +344,14 @@
 		        dataSource: chartDataSource,
 		        series: {
 		            argumentField: 'name',
-		            valueField: 'value'
+		            valueField: 'value',
+		            label: {
+		            	visible: true,
+		            	position: 'inside'
+		            }
 		        }
 		    });
 		}
-
-		function changePageAppearance(el){
-			['info', 'table', 'chart'].forEach(function(page){
-				if(page==el){
-					if($('#'+ page).hasClass("hidden")){
-			        	$('#'+ page).removeClass("hidden");
-			        }
-			        if(!$('#'+ page + 'Button').hasClass("active")){
-			        	$('#'+ page + 'Button').addClass("active");
-			        }
-				} else {
-					if(!$('#' + page).hasClass("hidden")){
-			        	$('#' + page).addClass("hidden");
-			        }
-			        if($('#'+ page + 'Button').hasClass("active")){
-			        	$('#'+ page + 'Button').removeClass("active");
-			        }
-				}
-			})
-		}
-
-		$("#infoButton").click(function(){
-			changePageAppearance('info');
-	      });
-
-		$("#tableButton").click(function(){
-			changePageAppearance('table');
-	      });
-
-		$("#chartButton").click(function(){
-			changePageAppearance('chart');
-	      });
-
 
 			
 	});

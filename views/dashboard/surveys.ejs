@@ -1,0 +1,26 @@
+<div class="ui divider"></div>
+<div class="ui small header">Deskundigheids Tests</div>
+<div class="ui relaxed divided list">
+<% surveys.forEach(function(survey){ %>
+<% var index = surveyResults.findIndex(sr => sr.survey.equals(survey._id));%>
+  <div class="item">
+  	<% if(index>-1){%>
+  		<i class="check green icon"></i>
+  	<%} else {%>
+  		<i class="edit outline icon"></i>
+  	<%}%>
+    <div class="content">
+      <%= survey.competenceStandardTitle %>
+      <div class="description">
+      	<% if(index>-1){%>
+      		Je hebt <a 
+      			href="/survey/<%=surveyResults[index]._id%>/result">deze antwoorden</a> 
+      			ingezonden op <%=surveyResults[index].createdAt.toJSON().slice(0,10).split('-').reverse().join('/')%>
+      	<%} else {%>
+      		<a href="/survey/<%=survey._id%>/private">Doe nu de test!</a>
+      	<% } %>
+      </div>
+    </div>
+  </div>
+<%});%>
+</div>

@@ -18,6 +18,7 @@
     <i class="student icon"></i>
     <span class="hide-mobile">Digitale Leermiddelen</span>
   </a>
+  <% if(currentUser.role ==="badmin" || currentUser.role==="sadmin" || currentUser.role=== "buser" || currentUser.role==="padmin") { %>
   <a class="vertical item <%if(url.includes("/schools/"+school._id+"/competence")) { %> active <% } %>" 
       href="/schools/<%= school._id %>/competence" 
       data-content="Deskundigheid">
@@ -30,14 +31,13 @@
     <i class="sitemap icon"></i>
     <span class="hide-mobile">Organisatie</span>
   </a>
-  <% if(currentUser.role ==="badmin" || currentUser.role==="sadmin" || currentUser.role=== "buser" || currentUser.role==="padmin") { %>
+  
   <a class="vertical item <%if(url.includes("/schools/"+school._id+"/user")) { %> active <% } %>" 
       href="/schools/<%= school._id %>/user"   
       data-content="Medewerkers">
     <i class="users icon"></i>
     <span class="hide-mobile">Medewerkers</span>
   </a>
-  <% } %>
   <a class="vertical item <%if(url.includes("/schools/"+school._id+"/pillars")) { %> active <% } %>" 
       href="/schools/<%= school._id %>/pillars" 
       data-content="Pillars grafieken">
@@ -74,4 +74,5 @@
     <i class="shield alternate icon"></i>
     <span class="hide-mobile">Beveiligingsincidenten</span>
   </a>
+  <% } %>
 </div>

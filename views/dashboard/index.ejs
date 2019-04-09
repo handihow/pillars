@@ -1,0 +1,24 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+
+<div class="ui container">
+    <h2 class="ui center aligned header">
+      <%if(organisation.logo){%><img class="ui image"  src="<%=organisation.logo%>"><%}%>
+      <div class="content"><%= organisation.name %></div>
+    </h2>
+
+    <div class="ui divider"></div>
+
+    <div class="ui grid">
+      <div class="ten wide column">
+        <% include ./tasks%>
+      </div>
+      <div class="six wide column">
+        <% include ./schools%>
+      </div>
+    </div> 
+    
+</div>
+
+<% include ../partials/footer %>

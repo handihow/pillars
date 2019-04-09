@@ -1,7 +1,28 @@
 <script>
 	$(document).ready(function() {
 
+	if (typeof SurveyEditor == "undefined") {
+	   return console.log('survey editor model not defined');
+	}
+
 	SurveyEditor.StylesManager.applyTheme("winter");
+
+	var isEditingMode = false;
+
+	var surveyInfo; var surveyParsedInfo; var surveyId = ''; var isCompetenceSurvey;
+
+	if($( '#surveyInfo' ).length>0){
+		//edit mode
+
+		isEditingMode = true;
+
+		surveyInfo = $( '#surveyInfo' ).text();
+		surveyParsedInfo = JSON.parse(surveyInfo);
+
+		surveyId = surveyParsedInfo._id;
+
+		isCompetenceSurvey = surveyParsedInfo.isCompetenceSurvey;
+	}
 
 	var editorOptions = {
 		 // show the embeded survey tab. It is hidden by default
@@ -13,66 +34,69 @@
 		 // show the "Options" button menu. It is hidden by default 
 		 showOptions: false,
 		 // question types shown
-		 questionTypes: ["text", "checkbox", "radiogroup", "dropdown", "rating", "boolean", "matrix", "matrixdropdown", "matrixdynamic", "multipletext", "panel", "paneldynamic"],
+		 questionTypes: isCompetenceSurvey ? ["rating", "boolean"] : ["text", "checkbox", "radiogroup", "dropdown", "rating", "boolean", "matrix", "matrixdropdown", "matrixdynamic", "multipletext", "panel", "paneldynamic"],
 
 		 generateValidJSON: true,
-		}; //see examples below
+	}; 
+
+	var survey = new SurveyEditor.SurveyEditor("surveyEditorContainer", editorOptions);
+
+	if(isEditingMode){
+		survey.text = JSON.stringify(surveyParsedInfo.survey);
+	} 
 		
+	var schoolId = $( '#schoolId').text() || null;
 
-		var survey = new SurveyEditor.SurveyEditor("surveyEditorContainer", editorOptions);
+	//set function on save callback
+	survey.saveSurveyFunc = function (saveNo, callback) {
+		var surveyJson = JSON.parse(survey.text);
+		var stringifiedJson = JSON.stringify(surveyJson);
 
-		var initialText = $( '#surveyText' ).text();
-		
-		survey.text = initialText;
+		var surveyName = $('#surveyName').val();
+		var isPublicSurvey = true;
 
-		var surveyId = $( '#surveyId' ).text();
-
-		var schoolId = $( '#schoolId').text() || null;
-
-		console.log(schoolId);
-
-		//set function on save callback
-		survey.saveSurveyFunc = function (saveNo, callback) {
-			var surveyJson = JSON.parse(survey.text);
-			var stringifiedJson = JSON.stringify(surveyJson);
-
-			var surveyName = $('#surveyName').val();
-			var isPublicSurvey = true;
-
-			if($('#isPublicSurvey').is(":checked")) {
-				isPublicSurvey = false
-			};
-
-			var url = window.location.origin + "/survey/" + surveyId
-
-			if(schoolId){
-				url = window.location.origin + "/schools/" + schoolId + "/survey/" + surveyId
-			}
-
-		    $.ajax({
-		        url: url,
-		        type: "POST",
-		        data: {
-		            surveyId: Math.round(new Date().getTime() + (Math.random() * 100)),
-		            surveyText: stringifiedJson,
-		            name: surveyName,
-		            isPublic: isPublicSurvey
-		        },
-		        success: function (data) {
-		        	if(data.success){
-		        		window.location.href = data.redirect;
-		        	} else {
-		        		alert(data.error);
-		        	}
-		        },
-		        error: function(err) {
-		        	alert('Er ging iets mis');
-		        }
-		    });
+		if($('#isPublicSurvey').is(":checked")) {
+			isPublicSurvey = false
 		};
 
+		var isActiveSurvey = false;
+		if($('#isActiveSurvey').is(":checked")) {
+			isActiveSurvey = true
+		};
 
-		$('.svd_commercial_container').hide();
+		console.log(isActiveSurvey);
+
+		var url = window.location.origin + "/survey/" + surveyId
+
+		if(schoolId){
+			url = window.location.origin + "/schools/" + schoolId + "/survey/" + surveyId
+		}
+
+		console.log(url);
+	    $.ajax({
+	        url: url,
+	        type: "POST",
+	        data: {
+	            surveyText: stringifiedJson,
+	            name: surveyName,
+	            isPublic: isPublicSurvey,
+	            isActive: isActiveSurvey
+	        },
+	        success: function (data) {
+	        	if(data.success){
+	        		window.location.href = data.redirect;
+	        	} else {
+	        		alert(data.error);
+	        	}
+	        },
+	        error: function(err) {
+	        	alert('Er ging iets mis');
+	        }
+	    });
+	};
+
+
+	$('.svd_commercial_container').hide();
 
 
 	});

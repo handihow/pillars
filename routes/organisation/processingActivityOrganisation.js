@@ -95,8 +95,11 @@ router.get("/:pid/edit", middleware.isAuthenticatedBadmin, function(req, res){
 router.put("/:pid", middleware.isAuthenticatedBadmin, function(req, res){
   req.body.processingActivity.body = req.sanitize(req.body.processingActivity.body);
   ProcessingActivity.findByIdAndUpdate(req.params.pid, req.body.processingActivity, function(err, processingActivity){
-    if(err || !processingActivity){
-        req.flash("error", "Verwerkingsactiviteit niet gevonden.");
+    if(err){
+        req.flash("error", "Fout bij bewaren van record: " + err.message);
+        res.redirect("/processingActivity");
+    } else if(!processingActivity){
+        req.flash("error", "Verwerkingsactiviteit niet gevonden");
         res.redirect("/processingActivity");
     } else {
         res.locals.scripts.header.tinymce = false;

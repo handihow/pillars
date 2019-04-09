@@ -1,6 +1,15 @@
 <script>
 	$(document).ready(function() {
 
+		if (typeof Survey == "undefined") {
+		   return console.log('survey model not defined');
+		}
+
+
+		if( $( '#surveyData' ).length == 0){
+			return console.log('no survey data');
+		}
+
 		var defaultThemeColors = Survey
 	    .StylesManager
 	    .ThemeColors["default"];
@@ -36,13 +45,13 @@
 
 		survey.mode = "display";
 
-		document
-	    .getElementById("saveToPDFbtn")
-	    .onclick = function () {
-	        var pdfWidth = 595;
-	        var pdfHeight = 842;
-	        saveSurveyToPdf("surveyResult.pdf", survey, pdfWidth, pdfHeight, renderSurvey);
-	    }
+		if($("#saveToPDFbtn").length > 0) {
+			$("#saveToPDFbtn").click(function(){
+		        var pdfWidth = 595;
+		        var pdfHeight = 842;
+		        saveSurveyToPdf("surveyResult.pdf", survey, pdfWidth, pdfHeight, renderSurvey);
+		    });
+		}
 		
 	});
 </script>

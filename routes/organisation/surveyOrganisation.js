@@ -10,14 +10,6 @@ var json2csv = require("json2csv");
 
 //INDEX ROUTE
 router.get("/", middleware.isLoggedIn, function(req, res){
-  //reset all scripts if possible
-  res.locals.scripts.header.surveyjs = false;
-  res.locals.scripts.footer.surveyjs = false;
-  res.locals.scripts.footer.surveyBuilder = false;
-  res.locals.scripts.footer.surveyPrivate = false;
-  res.locals.scripts.footer.surveyPublic = false;
-  res.locals.scripts.footer.surveyResult = false;
-  res.locals.scripts.footer.surveyResults = false;
   Survey.find({organisation: req.user.organisation}).populate("school").exec(function(err, surveys){
         if(err) {
             req.flash("error", err.message);
@@ -84,7 +76,6 @@ router.get("/:id", middleware.isLoggedIn, function(req, res){
 router.post("/", function(req, res){
   Survey.create({
     name: req.body.name,
-    surveyId: req.body.surveyId,
     survey: JSON.parse(req.body.surveyText),
     organisation: req.user.organisation,
     isValidForAllOrganisation: true,
@@ -98,9 +89,6 @@ router.post("/", function(req, res){
                   error: 'Foutmelding: controleer of je de enquete een naam hebt gegeven. Server geeft fout: ' + err.message 
                 });
             }  else {
-                res.locals.scripts.header.surveyjs = false;
-                res.locals.scripts.footer.surveyjs = false;
-                res.locals.scripts.footer.surveyBuilder = false;
                 var protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http'
                 var fullUrl = protocol + '://' + req.get('host');
                 res.contentType('json');
@@ -128,12 +116,8 @@ router.get("/:id/edit", middleware.isNotDemoAccount, middleware.isAuthenticatedB
 
 // UPDATE ROUTE
 router.post("/:id",middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
-  var updatedSurvey = {
-    name: req.body.name,
-    survey: JSON.parse(req.body.surveyText),
-    isPublic: req.body.isPublic
-  }
-  Survey.findByIdAndUpdate(req.params.id, updatedSurvey, function(err, survey){
+  var checkActive = JSON.parse(req.body.isActive);
+  Survey.findById(req.params.id, async function(err, survey){
     if(err || !survey){
         res.contentType('json');
         res.send({ 
@@ -141,15 +125,85 @@ router.post("/:id",middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin
           error: 'Foutmelding: enquête niet gevonden. Server geeft fout: ' + err.message 
         });
     } else {
-        res.locals.scripts.header.surveyjs = false;
-        res.locals.scripts.footer.surveyjs = false;
-        res.locals.scripts.footer.surveyBuilder = false;
-        var protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http'
-        var fullUrl = protocol + '://' + req.get('host');
-        res.contentType('json');
-        res.send({ success: true, redirect: fullUrl + '/survey' });
+        if(checkActive){
+          //check if there is not already an active survey, thow error it needed
+          var hasActiveSurvey = await checkActiveSurvey(req, res, survey);
+          if(hasActiveSurvey){
+            res.contentType('json');
+            return res.send({ 
+              success: false, 
+              error: 'Foutmelding: er is een actieve enquête gevonden op dit onderdeel. Deactiveer deze enquête eerst.' 
+            });
+          }
+        }
+        survey.name = req.body.name;
+        survey.survey = JSON.parse(req.body.surveyText);
+        if(survey.isCompetenceSurvey){
+          survey.isActiveCompetenceSurvey = checkActive;
+        } else {
+          survey.isPublic = req.body.isPublic;
+        }
+        survey.save(function(err, survey){
+          if(err){
+             res.contentType('json');
+             res.send({ 
+                success: false, 
+                error: 'Foutmelding: enquête niet gevonden. Server geeft fout: ' + err.message 
+              });
+          } else {
+            var protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http'
+            var fullUrl = protocol + '://' + req.get('host');
+            res.contentType('json');
+            res.send({ success: true, redirect: fullUrl + '/survey/' + survey._id });
+          }
+        });
     }
   });
+});
+
+function checkActiveSurvey(req, res, survey){
+  return new Promise(function(resolve, reject){
+    Survey.findOne({
+        "organisation": survey.organisation, 
+        "isActiveCompetenceSurvey": true,
+        "competenceStandardKey": survey.competenceStandardKey
+      }, function(err, survey){
+         if(err || survey){
+           resolve(true);
+         } else {
+           resolve(false);
+         }
+      });
+  });
+}
+
+router.get("/:id/competence", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function (req, res){
+  var index = config.competence.questionnaire.competenceCategories.findIndex((e) => e.identifier == req.params.id);
+  if(index == -1){
+    req.flash("error", "Geen deskundigheidstest identifier gevonden om de enquête mee te vullen.");
+    return res.redirect("/survey/");
+  }
+  var standard = config.competence.questionnaire.competenceCategories[index];
+  Survey.create({
+    name: standard.title,
+    survey: config.competence.questionnaire[standard.identifier],
+    organisation: req.user.organisation,
+    isValidForAllOrganisation: true,
+    owner: req.user._id,
+    isPublic: false,
+    isCompetenceSurvey: true,
+    competenceStandardKey: standard.identifier,
+    competenceStandardTitle: standard.title,
+    surveyOption: standard.surveyOption
+  }, function(err, survey){
+            if(err || !survey){
+                req.flash("error", "Er is iets misgegaan. Probeer enquête opnieuw te maken. Error: " + err.message);
+                res.redirect("/survey/");
+            }  else {
+                req.flash("success", "Enquête gemaakt");
+                res.redirect("/survey/" + survey._id); 
+            }
+      });
 });
 
 //DELETE ROUTE
@@ -157,7 +211,7 @@ router.delete("/:id", middleware.isAuthenticatedBadmin, function(req, res){
   Survey.findByIdAndRemove(req.params.id, function(err){
       if(err){
           req.flash("error", "Er is iets misgegaan. Probeer enquête opnieuw te verwijderen.");
-          res.redirect("/survey/" + req.params.pid);
+          res.redirect("/survey/" + req.params.id);
       } else {
           req.flash("success", "Enquête verwijderd");
           res.redirect("/survey");  
@@ -289,7 +343,7 @@ router.post("/:id/private", middleware.isLoggedIn, function(req, res){
     } else {
         SurveyResult.find({user: new ObjectId(req.user._id), survey: survey}, function(err, surveyResult){
           if(err) {
-
+            console.log('error on block1');
             res.contentType('json');
             res.send({ 
                 success: false, 
@@ -298,6 +352,7 @@ router.post("/:id/private", middleware.isLoggedIn, function(req, res){
 
           } else if(surveyResult.length>0) {
 
+            console.log('error on block2');
 
             res.contentType('json');
             res.send({ 
@@ -307,23 +362,24 @@ router.post("/:id/private", middleware.isLoggedIn, function(req, res){
 
 
           } else {
-
+            
             SurveyResult.create({
               survey: req.params.id,
               result: JSON.parse(req.body.result),
               organisation: req.user.organisation,
               user: req.user._id,
+              isCompetenceSurvey: survey.isCompetenceSurvey ? true : false,
+              competenceStandardKey: survey.competenceStandardKey ? survey.competenceStandardKey : '',
+              competenceStandardTitle: survey.competenceStandardTitle ? survey.competenceStandardTitle : '',
             }, function(err, surveyResult){
               if (err) {
+                console.log('error on block 4');
                 res.contentType('json');
                 res.send({ 
                     success: false, 
-                    error: 'Foutmelding: enquête niet gevonden. Server geeft fout: ' + err.message 
+                    error: 'Probleem bij bewaren van de enquête resultaten. Server geeft fout: ' + err.message 
                   });
               } else {
-                res.locals.scripts.header.surveyjs = false;
-                res.locals.scripts.footer.surveyjs = false;
-                res.locals.scripts.footer.surveyPrivate = false;
                 res.contentType('json');
                 res.send({ success: true, surveyResultId:  surveyResult._id});
               }
@@ -376,9 +432,6 @@ router.post("/:id/public", function(req, res){
                 error: 'Foutmelding: enquête niet gevonden. Server geeft fout: ' + err.message 
               });
           } else {
-            res.locals.scripts.header.surveyjs = false;
-            res.locals.scripts.footer.surveyjs = false;
-            res.locals.scripts.footer.surveyPublic = false;
             res.contentType('json');
             res.send({ success: true, surveyResultId:  surveyResult._id });
           }

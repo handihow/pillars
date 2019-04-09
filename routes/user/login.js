@@ -11,7 +11,7 @@ router.get("/login", function(req, res){
 //HANDLE LOG-IN LOGIC
 router.post("/login", passport.authenticate("local", 
 {
-  successRedirect: "/schools",
+  successRedirect: "/home",
   failureRedirect: "/login",
   failureFlash: true
 }), function(req, res){
@@ -26,7 +26,7 @@ router.get("/auth/google", passport.authenticate('google', {
 router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login', failureFlash: true }),
   (req, res) => {
     // Successful authentication, redirect home
-    res.redirect('/schools');
+    res.redirect('/home');
   });
 
 //AUTH WITH OFFICE 365
@@ -38,7 +38,7 @@ router.get('/auth/azureadoauth2/callback',
   passport.authenticate('azure_ad_oauth2', { failureRedirect: '/login', failureFlash: true }),
   function (req, res) {
     // Successful authentication, redirect home.
-    res.redirect('/schools');
+    res.redirect('/home');
   });
 
 //LOG OUT ROUTE

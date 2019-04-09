@@ -5,7 +5,7 @@ var middleware = require("../../middleware");
 var config = require('../../config/config');
 
 //SHOW ROUTE
-router.get("/", middleware.isLoggedIn, function(req, res){
+router.get("/", middleware.isSchoolOwner, function(req, res){
   School.findById(req.params.id).exec(function(err, school){
       if(err ||!school){
           req.flash("error", "School niet gevonden.");
@@ -17,7 +17,7 @@ router.get("/", middleware.isLoggedIn, function(req, res){
 });
 
 //EDIT ROUTE
-router.get("/edit", middleware.isNotDemoAccount, middleware.isLoggedIn, function(req, res){
+router.get("/edit", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
     School.findById(req.params.id, function(err, school){
        if(err || !school){
            req.flash("error", "School niet gevonden.");
@@ -29,7 +29,7 @@ router.get("/edit", middleware.isNotDemoAccount, middleware.isLoggedIn, function
 });
 
 //UPDATE ROUTE
-router.put("/", middleware.isNotDemoAccount, middleware.isLoggedIn, function(req, res){
+router.put("/", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
     School.findByIdAndUpdate(req.params.id, req.body.school, function(err, school){
        if(err || !school){
            req.flash("error", "School niet gevonden.");

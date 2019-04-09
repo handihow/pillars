@@ -1,6 +1,6 @@
 
 
-<% if(!schoolLevel || !survey.isValidForAllOrganisation) {%>
+<% if((!schoolLevel || !survey.isValidForAllOrganisation) && !survey.isCompetenceSurvey)  {%>
   
   <h2 class="ui header">
     <i class="paper plane icon"></i>
@@ -24,6 +24,19 @@
       <%}%>
   </div>
 
+<%} else if(survey.isCompetenceSurvey){%>
+    <h2 class="ui header">
+      <i class="doctor icon"></i>
+      <div class="content">
+        Deskundigheidstest
+      </div>
+      <div class="sub header">
+        <%= survey.competenceStandardTitle %>  
+      </div>
+    </h2>
+     <div class="ui info message">
+        Deze deskundigheidstest wordt zichtbaar voor alle medewerkers van de organisatie zodra deze als actief wordt aangemerkt. 
+    </div>
 <%}%>
 
   <div class="item">
@@ -33,11 +46,18 @@
         <div class="content">
           <%=survey.name%>
        </div>
-       </div>
-    <div class="four wide column">
-      <h4 class="content">Alleen voor ingelogde gebruikers?</h4> 
-      <div class="content"><%if(survey.isPublic){ %>Nee<%} else {%> Ja<%}%></div>
     </div>
+    <%if(survey.isCompetenceSurvey){%>
+      <div class="four wide column">
+        <h4 class="content">Actieve test?</h4> 
+        <div class="content"><%if(survey.isActiveCompetenceSurvey){ %>Ja<%} else {%> Nee<%}%></div>
+      </div>
+    <%} else {%>
+      <div class="four wide column">
+        <h4 class="content">Alleen voor ingelogde gebruikers?</h4> 
+        <div class="content"><%if(survey.isPublic){ %>Nee<%} else {%> Ja<%}%></div>
+      </div>
+    <%}%>
     <div class="four wide column">
       <h4 class="content">School</h4>
       <div class="content">

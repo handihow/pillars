@@ -1,0 +1,31 @@
+<%if(currentUser.role=='sadmin'){%>
+	<div class="ui header">
+		Status school
+	</div>
+	<div class="ui divider"></div>
+	<% include ./school %>
+<% } %>
+
+<div class="ui header">
+	<a href="/schools">Scholen</a>
+</div>
+<div class="ui divider"></div>
+<%if(schools.length===0){%>
+  <div class="ui placeholder segment">
+    <div class="ui icon header">
+      <i class="dont icon"></i>
+      Nog geen scholen
+    </div>
+  </div>
+<%} else {%>
+	<div class="ui relaxed divided list">
+	<% schools.forEach(function(school){ %>
+	  <div class="item">
+	    <div class="content">
+	      <a class="header" href="/schools/<%=school._id%>"><%= school.name %></a>
+	      <div class="description"><%= school.city %></div>
+	    </div>
+	  </div>
+	<%});%>
+	</div>
+<%}%>

@@ -13,7 +13,7 @@ router.use(function(req,res,next){
 })
 
 //INDEX ROUTE
-router.get("/", middleware.isLoggedIn, function(req, res){
+router.get("/", middleware.isSchoolOwner, function(req, res){
   School.findById(req.params.id, function(err, school){
     if(err || !school) {
       req.flash("error", err.message);
@@ -64,7 +64,7 @@ router.get("/new", middleware.isSchoolOwner, function(req, res){
 });
 
 //SHOW ROUTE
-router.get("/:pid", middleware.isLoggedIn, function(req, res){
+router.get("/:pid", middleware.isSchoolOwner, function(req, res){
   School.findById(req.params.id, function(err, school){
     if(err || !school){
       req.flash("error", "Probleem bij vinden van schoolgegevens.")

@@ -12,6 +12,7 @@
   
   <div class="ui info message">
       Bewerk de enquête in de "Survey Designer" en test indien gewenst onder "Test Survey". Je kunt de enquête bewaren door te klikken op "Save survey" in de "Survey Designer".
+      Gebruik maar 1 van beide vraagtypes: Rating (1-5) of Boolean (Ja/Nee)! Niet door elkaar gebruiken.
   </div>
 
   <div class="ui grid">
@@ -22,20 +23,29 @@
         <i class="edit icon"></i>
       </div>
     </div>
-    <div class="eight wide column">
-      <h5>Alleen voor ingelogde gebruikers?</h5>
-      <div class="ui checkbox">
-        <input type="checkbox" id="isPublicSurvey" checked="<%=!survey.isPublic%>">
-        <label>Alleen ingelogde gebruikers</label>
+    <%if(survey.isCompetenceSurvey){%>
+      <div class="eight wide column">
+        <h5>Is actief?</h5>
+        <div class="ui checkbox">
+          <input type="checkbox" id="isActiveSurvey" <%if(survey.isActiveCompetenceSurvey){%>checked<%}%>>
+          <label>Is actieve deskundigheidstest?</label>
+        </div>
       </div>
-    </div>
+    <%} else {%>
+      <div class="eight wide column">
+        <h5>Alleen voor ingelogde gebruikers?</h5>
+        <div class="ui checkbox">
+          <input type="checkbox" id="isPublicSurvey" <%if(!survey.isPublic){%> checked<%}%>>
+          <label>Alleen ingelogde gebruikers</label>
+        </div>
+      </div>
+
+    <%}%>
   </div>
 
   
   <div id="surveyEditorContainer"></div>
-  <div id="surveyText" hidden><%= JSON.stringify(survey.survey)%></div>
-  <div id="surveyId" hidden><%= survey._id %></div>
-
+  <div id="surveyInfo" hidden><%= JSON.stringify(survey)%></div>
 
 <%if(schoolLevel){%>
   <div id="schoolId" hidden><%=school._id%></div>

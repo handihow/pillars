@@ -15,9 +15,22 @@
     Deze enquête wordt zichtbaar voor (alleen) uw school en het bestuur
   </div>
   <%} else {%>
-  <a class="positive ui button right" href="/survey/new/">Enquête Toevoegen</a>
-  <div class="ui left pointing label">
-    Deze enquête wordt alleen zichtbaar voor het bestuur
+  <div class="ui pointing dropdown link item">
+    <i class="add icon"></i>
+    <span class="text">Enquête Toevoegen</span>
+    <i class="dropdown icon"></i>
+    <div class="menu">
+      <a class="item" href="/survey/new/">Blanco Enquête Toevoegen</a>
+      <div class="item">
+        Deskundigheidstests Pillars
+        <div class="menu">
+          <a class="item" href="/survey/ictSkills/competence">ICT Vaardigheden</a>
+          <a class="item" href="/survey/pedagogicalDidacticalSkills/competence">Pedagogisch Didactisch Handelen</a>
+          <a class="item" href="/survey/workInSchoolContext/competence">Werken in de schoolcontext</a>
+          <a class="item" href="/survey/personalDevelopment/competence">Persoonlijke Ontwikkeling</a>
+        </div>
+      </div>
+    </div>
   </div>
   <% } %>
   <!--divider and then all cards for surveys -->
@@ -32,7 +45,7 @@
   </div>
   <%}%>
   <!--cards with surveys-->
-  <div class="ui six doubling cards">
+  <div class="ui three doubling cards">
     <% surveys.forEach(function(survey){ %>
     <div class="card">
       <div class="content">
@@ -43,8 +56,19 @@
               <% } %>
               <%= survey.name %></a></div>
               <div class="description">
-                Geldig voor hele bestuur: <%if(survey.isValidForAllOrganisation) { %><i class="toggle on icon"></i><% } else { %><i class="toggle off icon"></i><% }%>
+                <%if(survey.isValidForAllOrganisation) { %><i class="toggle on icon"></i><% } else { %><i class="toggle off icon"></i><% }%> Geldig voor hele bestuur 
               </div>
+              <div class="description">
+               <%if(survey.isCompetenceSurvey) { %><i class="toggle on icon"></i><% } else { %><i class="toggle off icon"></i><% }%>  Deskundigheidstest 
+              </div>
+              <%if(survey.isCompetenceSurvey){%>
+                <div class="description">
+                  <%if(survey.isActiveCompetenceSurvey) { %><i class="toggle on icon"></i><% } else { %><i class="toggle off icon"></i><% }%> Actief
+                </div>
+                <div class="description">
+                  Onderdeel: <%= survey.competenceStandardTitle %> 
+                </div>
+              <%}%>
               <%if(!schoolLevel && survey.school){%>
               <div class="description">
                 School: <%=survey.school.name%>
@@ -53,6 +77,7 @@
               <div class="description">
                 Datum: <%= survey.createdAt.toJSON().slice(0,10).split('-').reverse().join('/') %>
               </div>
+
             </div>
             <a class="ui bottom attached button" 
             <%if(schoolLevel){%>

@@ -3,7 +3,6 @@ var mongoose = require("mongoose");
 var surveySchema = mongoose.Schema ( 
     {
         name: {type: String, required: true},
-        surveyId: {type: String, required: true},
         survey: {type: {}, required: true},
         organisation: {                                 
               type: mongoose.Schema.Types.ObjectId,
@@ -16,9 +15,14 @@ var surveySchema = mongoose.Schema (
         owner: {                                 
               type: mongoose.Schema.Types.ObjectId,
               ref: "User"
-          },
+        },
         isValidForAllOrganisation: Boolean,
         isPublic: {type: Boolean, default: false},
+        isCompetenceSurvey: {type: Boolean, default: false},
+        competenceStandardKey: String,
+        competenceStandardTitle: String,
+        isActiveCompetenceSurvey: {type: Boolean, default: false},
+        surveyOption: String,
         results: [],
     }, { usePushEach: true, timestamps: true }
 );

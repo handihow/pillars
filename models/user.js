@@ -17,6 +17,7 @@ var UserSchema = new mongoose.Schema({
   emailIsAuthenticated: Boolean,
   publicProfile: Boolean,
   toBeRemoved: Boolean,
+  hasCompleteProfile: Boolean,
   organisation: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Organisation"
@@ -51,11 +52,21 @@ UserSchema.pre('save', function(next) {
 UserSchema.post('remove', function(user){
  Test.find({"owner": user._id}, function(err, tests){
   tests.forEach(function(test){
-    test.remove(function(err, test){
-      if(err) return console.log(err);
+      test.remove(function(err, test){
+        if(err) return console.log(err);
+      })
     })
-  })
+  });
 });
+
+UserSchema.post('remove', function(user){
+ SurveyResult.find({"user": user._id}, function(err, surveyResults){
+  surveyResults.forEach(function(surveyResult){
+      surveyResult.remove(function(err, surveyResult){
+        if(err) return console.log(err);
+      })
+    })
+  });
 });
 
 UserSchema.plugin(passportLocalMongoose);

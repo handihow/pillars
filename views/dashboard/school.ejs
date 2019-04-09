@@ -1,0 +1,79 @@
+<div class="ui relaxed divided list">
+  <div class="item">
+    <% if(schools[0].countStudents){%>
+        <i class="check green icon"></i>
+        <div class="content">
+          Algemene informatie school is bijgewerkt
+          <div class="description">
+            <a href="/schools/<%=schools[0]._id%>">Bekijk </a>algemene informatie school
+          </div>
+        </div>
+    <%} else {%>
+        <i class="edit outline icon"></i>
+        <div class="content">
+          Algemene informatie school is nog niet bijgewerkt
+          <div class="description">
+            <a href="/schools/<%=schools[0]._id%>/edit">Bewerk algemene informatie</a>
+          </div>
+        </div>
+    <%}%>
+  </div>
+  <div class="item">
+    <% if(schools[0].hardware && schools[0].hardware.length>0){%>
+        <i class="check green icon"></i>
+        <div class="content">
+          School heeft hardware
+          <div class="description">
+            <a href="/schools/<%=schools[0]._id%>/hardware">Bekijk </a>hardware van de school
+          </div>
+        </div>
+    <%} else {%>
+        <i class="edit outline icon"></i>
+        <div class="content">
+          School heeft nog geen hardware records
+          <div class="description">
+            <a href="/schools/<%=schools[0]._id%>/hardware">Voeg hardware toe</a>
+          </div>
+        </div>
+    <%}%>
+  </div>
+  <div class="item">
+    <% if(schools[0].software && schools[0].software.length>0){%>
+        <i class="check green icon"></i>
+        <div class="content">
+          School heeft leermiddelen
+          <div class="description">
+            <a href="/schools/<%=schools[0]._id%>/software">Bekijk </a>leermiddelen van de school
+          </div>
+        </div>
+    <%} else {%>
+        <i class="edit outline icon"></i>
+        <div class="content">
+          School heeft nog geen leermiddelen
+          <div class="description">
+            <a href="/schools/<%=schools[0]._id%>/software">Voeg leermiddelen toe</a>
+          </div>
+        </div>
+    <%}%>
+  </div>
+  <div class="item">
+    <% if(schools[0].management.agreement || schools[0].management.networkAdjustment 
+          || schools[0].management.networkProblemSolving || schools[0].management.incidentReporting){%>
+        <i class="check green icon"></i>
+        <div class="content">
+          School heeft organisatie omschreven
+          <div class="description">
+            <a href="/schools/<%=schools[0]._id%>/management">Bekijk </a>organisatie van de school
+          </div>
+        </div>
+    <%} else {%>
+        <i class="edit outline icon"></i>
+        <div class="content">
+          School heeft nog geen gegevens ingevuld betreft de organisatie
+          <div class="description">
+            <a href="/schools/<%=schools[0]._id%>/management/edit">Vul gegevens in</a>
+          </div>
+        </div>
+    <%}%>
+  </div>
+</div>

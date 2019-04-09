@@ -183,3 +183,17 @@
 .dataTables_paginate{
   float:right;
 }
+
+.Site {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.Site-content {
+  flex: 1;
+}
+
+.ui.inverted.vertical.footer.segment {
+  margin-top: 30px;
+}

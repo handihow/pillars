@@ -17,7 +17,6 @@
   <% include ./show/info %>
 </div>
 
-<% if(!schoolLevel || !survey.isValidForAllOrganisation) {%>
   <div id="table" class="transition hidden">
     <% include ./show/table %>
   </div>
@@ -26,8 +25,7 @@
   </div>
   <div id="surveyText" hidden><%= JSON.stringify(survey)%></div>
   <div id="surveyResults" hidden><%= JSON.stringify(surveyResults)%></div>
-<%}%>
-<%if(schoolLevel && !survey.isValidForAllOrganisation){%>
+<%if(schoolLevel){%>
   <% include ../partials/school-footer %>
 <% } else { %>
   </div>

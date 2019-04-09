@@ -18,14 +18,16 @@
       <i class="download icon"></i>
   </a>
 </div>
-<div class="ui dropdown item">
-    <a class="ui icon button" data-content="Digitaal leermiddel toevoegen"><i class="add icon"></i></a>
-    <div class="menu">
-      <% Object.keys(school.settings.software.subjects).sort().forEach(function(subject){ %>
-            <a class="item" href="/schools/<%=school._id%>/software/new/<%=subject %>">
-              <%= subject %>
-            </a>
-    <% }); %>
-    </div>
-</div>
+<% if(!(currentUser.role==="suser")) { %>
+  <div class="ui dropdown item">
+      <a class="ui icon button" data-content="Digitaal leermiddel toevoegen"><i class="add icon"></i></a>
+      <div class="menu">
+        <% Object.keys(school.settings.software.subjects).sort().forEach(function(subject){ %>
+              <a class="item" href="/schools/<%=school._id%>/software/new/<%=subject %>">
+                <%= subject %>
+              </a>
+      <% }); %>
+      </div>
+  </div>
+<%}%>
 <div class="ui divider"></div>

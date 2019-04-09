@@ -6,7 +6,7 @@ var middleware = require("../../middleware");
 var score = require("../../config/score");
 
 //SHOW ROUTE
-router.get("/", middleware.isLoggedIn, function(req, res){
+router.get("/", middleware.isSchoolOwner, function(req, res){
     School.findById(req.params.id)
       .populate("hardware")
       .populate("software")

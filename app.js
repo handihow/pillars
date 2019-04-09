@@ -89,7 +89,7 @@ passport.use(new GoogleStrategy({
             user.firstName = profile.name.givenName;
             user.lastName = profile.name.familyName;
             user.emailIsAuthenticated = true;
-            user.save(function(err,user){
+            user.save(function(err,updateInformation){
               return done(err, user);
             });
           } else {
@@ -144,7 +144,7 @@ passport.use(new AzureAdOAuth2Strategy({
 //DECLARE GLOBAL VARIABLES
 app.use(function(req, res, next){
    res.locals.currentUser = req.user || null;
-   res.locals.scripts = config.scripts;
+   res.locals.scripts = JSON.parse(JSON.stringify(config.scripts)); //create copy of the object to prevent mutating it
    res.locals.error = req.flash("error");
    res.locals.success = req.flash("success");
    res.locals.url = req.url;

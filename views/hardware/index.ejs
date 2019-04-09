@@ -25,12 +25,14 @@
         <%}%>
       </div>
     </div>
-    <div class="ui bottom attached button">
-      <a href="/schools/<%=school._id%>/hardware/new/<%=type.singular%>">
-        <i class="add icon"></i>
-        <%=type.singular%>
-      </a>
-    </div>
+    <% if(!(currentUser.role==="suser")) { %>
+      <div class="ui bottom attached button">
+        <a href="/schools/<%=school._id%>/hardware/new/<%=type.singular%>">
+          <i class="add icon"></i>
+          <%=type.singular%>
+        </a>
+      </div>
+    <%}%>
   </div>
   <% } %>
   <% }); %>
