@@ -37,6 +37,9 @@ router.get("/:id", middleware.isLoggedIn, function(req, res){
           res.redirect("back");
         } else if(!survey.isPublic) {
           res.locals.scripts.header.surveyjs = true;
+          if(survey.isCompetenceSurvey){
+            res.locals.scripts.header.plotly = true;  
+          }
           res.locals.scripts.footer.surveyjs = true;
           res.locals.scripts.footer.surveyResults = true;
           SurveyResult.find({survey: new ObjectId(survey._id)})

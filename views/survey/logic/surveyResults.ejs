@@ -6,7 +6,7 @@
 		}
 
 		function changePageAppearance(el){
-			['info', 'table', 'chart'].forEach(function(page){
+			['info', 'table', 'chart', 'analysis'].forEach(function(page){
 				if(page==el){
 					if($('#'+ page).hasClass("hidden")){
 			        	$('#'+ page).removeClass("hidden");
@@ -40,6 +40,12 @@
 		if($("#chartButton").length > 0) {
 			$("#chartButton").click(function(){
 				changePageAppearance('chart');
+		      });
+		}
+
+		if($("#analysisButton").length > 0) {
+			$("#analysisButton").click(function(){
+				changePageAppearance('analysis');
 		      });
 		}
 
@@ -275,22 +281,34 @@
 		    } else if(column.type == 'rating'){
 		    	var chartData = [];
 		    	var step;
-				for (step = column.question.rateMin; step <= column.question.rateMax; step+=column.question.rateStep) {
+		    	var stepIndex = 0;
+		    	for (step = column.question.rateMin; step <= column.question.rateMax; step+=column.question.rateStep) {
 				  // Runs 5 times, with values of step 0 through 4.
-				  var numberTimesChosen = 0;
-				  results.forEach(function(result){
-			    		if (result[column.data]==step) {
-			    				numberTimesChosen += 1;
-			    			};
-			    	});
+				  var value = step;
+				  if(column.question.rateValues 
+				  			&& column.question.rateValues.length == column.question.rateMax){
+				  	value = column.question.rateValues[stepIndex].value;
+				  }
 				  var nameInfo = step;
 				  if(step == column.question.rateMin){
 				  	nameInfo = step + " " + column.question.minRateDescription;
 				  } else if(step == column.question.rateMax){
 				  	nameInfo = step + " " + column.question.maxRateDescription;
 				  }
-				  var newData = {name: step, value: numberTimesChosen};
+				  if(column.question.rateValues 
+				  			&& column.question.rateValues.length == column.question.rateMax){
+
+				  	nameInfo = column.question.rateValues[stepIndex].text;
+				  }
+				  var numberTimesChosen = 0;
+				  results.forEach(function(result){
+				  		if (result[column.data]==value) {
+			    				numberTimesChosen += 1;
+			    		};
+			    	});
+				  var newData = {name: nameInfo, value: numberTimesChosen};
     			  chartData.push(newData);
+    			  stepIndex += 1;
 				}
 		    	showPieChart(chartData, i);
 	    	} else if(['radiogroup','dropdown', 'checkbox'].includes(column.type)){
@@ -352,6 +370,50 @@
 		        }
 		    });
 		}
+
+		ANALYSIS = document.getElementById('analysisChart');
+
+		Plotly.d3.csv("https://raw.githubusercontent.com/plotly/datasets/master/violin_data.csv", function(err, rows){
+
+		  function unpack(rows, key) {
+			  return rows.map(function(row) { return row[key]; });
+			  }
+
+			var data = [{
+			  type: 'violin',
+			  x: unpack(rows, 'day'),
+			  y: unpack(rows, 'total_bill'),
+			  points: 'none',
+			  box: {
+			    visible: true
+			  },
+			  line: {
+			    color: 'green',
+			  },
+			  meanline: {
+			    visible: true
+			  },
+			  transforms: [{
+			  	 type: 'groupby',
+				 groups: unpack(rows, 'day'),
+				 styles: [
+					{target: 'Sun', value: {line: {color: 'blue'}}},
+					{target: 'Sat', value: {line: {color: 'orange'}}},
+					{target: 'Thur', value: {line: {color: 'green'}}},
+					{target: 'Fri', value: {line: {color: 'red'}}}
+				 ]
+				}]
+			}]
+
+			var layout = {
+			  title: "Multiple Traces Violin Plot",
+			  yaxis: {
+			    zeroline: false
+			  }
+			}
+
+			Plotly.plot(ANALYSIS, data, layout);
+		});
 
 			
 	});

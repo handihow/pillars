@@ -10,7 +10,6 @@ var OrganisationSchema = new mongoose.Schema({
    activationCode: String,
    activated: {type: Boolean, default: false},
    logo: String,
-   surveyOption: {type: String, default: 'pillars'},
    created: {type: Date, default: Date.now},
 }, { usePushEach: true });
 

@@ -3,6 +3,7 @@ var scripts = {
 		tinymce: false,
 		uploadcare: false,
 		surveyjs: false,
+		plotly: false,
 	},
 	footer: 
 		{

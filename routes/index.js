@@ -45,8 +45,7 @@ function renderHomePageContent(req, res, schools){
     if(!organisation){return noDataErrorFunction('Organisatie')};
       Survey.find({
         "organisation": new ObjectId(req.user.organisation), 
-        "isActiveCompetenceSurvey": true,
-        "surveyOption": organisation.surveyOption
+        "isActiveCompetenceSurvey": true
       }, function(err, surveys){
         if(err) {return callbackErrorFunction(err)};
         SurveyResult.find({"user": new ObjectId(req.user._id)}, function(err, surveyResults){
