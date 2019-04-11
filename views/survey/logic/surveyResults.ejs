@@ -78,9 +78,9 @@
         	returnedData = r.result || {};
         	returnedData.date = r.createdAt.slice(0,10).split('-').reverse().join('/');
         	if(!surveyInfo.isPublic){
-        		returnedData.firstName = r.user.firstName;
-        		returnedData.lastName = r.user.lastName;
-        		returnedData.email = r.user.username;
+        		returnedData.firstName = r.user ? r.user.firstName : '-';
+        		returnedData.lastName = r.user ? r.user.lastName : '-';
+        		returnedData.email = r.user ? r.user.username : '-';
         		returnedData.function = r.user.publicProfile ? r.user.job : '-';
         		returnedData.age = r.user.publicProfile && 
         								r.user.dateOfBirth ? ~~((Date.now() - new Date(r.user.dateOfBirth)) / (31557600000)) : 
@@ -88,9 +88,9 @@
         		returnedData.gender = r.user.publicProfile ? r.user.gender : '-';
         		returnedData.gradeLevel = r.user.publicProfile ? r.user.gradeLevelGroup : '-';
         		returnedData.isTeacher = r.user.publicProfile &&  r.user.isTeacher ? 'onderwijzend' : 'ondersteunend of -';
-        		returnedData.organisation = r.user.organisation.name;
-        		returnedData.school = r.user.school.map(s => s.name).join();
-        		returnedData.city = r.user.school.map(s => s.city).join();
+        		returnedData.organisation = r.user ? r.user.organisation.name : '-';
+        		returnedData.school = r.user ? r.user.school.map(s => s.name).join() : '-';
+        		returnedData.city = r.user ? r.user.school.map(s => s.city).join() : '-';
         	}
         	returnedData.link = '<a href="/survey/' + r._id + '/result">Inzending</a>'
           return returnedData;
