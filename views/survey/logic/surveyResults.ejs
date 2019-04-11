@@ -77,9 +77,9 @@
   		var results = result.map(function(r) {
         	returnedData = r.result || {};
         	if(!surveyInfo.isPublic && Object.keys(returnedData).length > 0){
-        		returnedData.firstName = r.user ? r.user.firstName : '-';
-        		returnedData.lastName = r.user ? r.user.lastName : '-';
-        		returnedData.email = r.user ? r.user.username : '-';
+        		returnedData.firstName = r.user.firstName ? r.user.firstName : '-';
+        		returnedData.lastName = r.user.lastName ? r.user.lastName : '-';
+        		returnedData.email = r.user.username ? r.user.username : '-';
         		returnedData.function = r.user.publicProfile ? r.user.job : '-';
         		returnedData.age = r.user.publicProfile && 
         								r.user.dateOfBirth ? ~~((Date.now() - new Date(r.user.dateOfBirth)) / (31557600000)) : 
