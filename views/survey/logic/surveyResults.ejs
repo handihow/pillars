@@ -167,7 +167,7 @@
 
 
       	var surveyColumns = survey.getAllQuestions().map(function(q, i) {
-      	  var maxColumnsFromSurvey = surveyInfo.isPublic ? 7 : 3;
+      	  var maxColumnsFromSurvey = surveyInfo.isPublic ? 4 : 1;
           return {
           	type: q.getType(),
           	choices: ['radiogroup','checkbox','dropdown'].includes(q.getType()) ? q.choices.map(c => c.text) : [],
