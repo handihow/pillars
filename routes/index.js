@@ -50,6 +50,7 @@ function renderHomePageContent(req, res, schools){
         if(err) {return callbackErrorFunction(err)};
         SurveyResult.find({"user": new ObjectId(req.user._id)}, function(err, surveyResults){
           if(err) {return callbackErrorFunction(err)};
+            res.locals.scripts.footer.dashboard = true;
             res.render("dashboard/index", {schools: schools, organisation: organisation, surveys, surveyResults}); 
         })
       });

@@ -17,7 +17,7 @@
           </div>
         </div>
         <div class="ui divider"></div>
-        <div class="ui cards">
+        <div class="ui three doubling cards">
           <!--make a card for each user-->
           <% school.users.forEach(function(user){ %>
           <div class="card">
@@ -42,8 +42,9 @@
             </div>
             <% if(currentUser && (currentUser.role==="badmin" || currentUser.role ==="padmin")) { %>
             <div class="ui bottom attached button">
-              <% if (user.publicProfile) { %><a class="ui yellow button" href="/user/<%=user._id%>">Bekijken</a><%}%>
-              <button class="ui red basic button warning-delete-user">Verwijderen</button>
+              <% if (user.publicProfile) { %><a class="ui yellow icon button" href="/user/<%=user._id%>">
+                <i class="user circle icon"></i></a><%}%>
+              <button class="ui red icon button warning-delete-user"><i class="trash icon"></i></button>
               <div class="ui hidden warning message">
                 <div class="header">Waarschuwing</div>
                 <p>Weet je zeker dat je deze gebruiker wilt verwijderen? Dit kan niet worden hersteld.</p>

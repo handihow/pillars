@@ -78,6 +78,9 @@ router.get("/:sid", middleware.isSchoolOwner, function(req, res){
               res.locals.scripts.header.surveyjs = true;
               res.locals.scripts.footer.surveyjs = true;
               res.locals.scripts.footer.surveyResults = true;
+              if(survey.isCompetenceSurvey){
+                res.locals.scripts.header.plotly = true;  
+              }
               SurveyResult.find({survey: new ObjectId(survey._id)})
               .populate('user')
               .populate({path : 'user', populate : {path : 'organisation'}})
@@ -96,9 +99,17 @@ router.get("/:sid", middleware.isSchoolOwner, function(req, res){
                       returnedSurveyResults.push(surveyResult);
                     }
                   });
+                  var statistics = config.competence.survey.calculateStatistics(survey, returnedSurveyResults);
                   var protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http'
                   var fullUrl = protocol + '://' + req.get('host');
-                  res.render("survey/show", {school: school, survey: survey, surveyResults: returnedSurveyResults, schoolLevel: true, fullUrl: fullUrl}); 
+                  res.render("survey/show", {
+                    school: school, 
+                    survey: survey,
+                    statistics: statistics,
+                    surveyResults: returnedSurveyResults, 
+                    schoolLevel: true, 
+                    fullUrl: fullUrl
+                  }); 
                 }
               });        
             } else {

@@ -371,49 +371,59 @@
 		    });
 		}
 
-		ANALYSIS = document.getElementById('analysisChart');
+		var statisticsString = $( '#statistics' ).text();
 
-		Plotly.d3.csv("https://raw.githubusercontent.com/plotly/datasets/master/violin_data.csv", function(err, rows){
+		var chartWidth = $('#statistics').parent().width();
 
-		  function unpack(rows, key) {
-			  return rows.map(function(row) { return row[key]; });
-			  }
+		var chartHeight = $('#statistics').parent().height();
 
-			var data = [{
-			  type: 'violin',
-			  x: unpack(rows, 'day'),
-			  y: unpack(rows, 'total_bill'),
-			  points: 'none',
-			  box: {
-			    visible: true
-			  },
-			  line: {
-			    color: 'green',
-			  },
-			  meanline: {
-			    visible: true
-			  },
-			  transforms: [{
-			  	 type: 'groupby',
-				 groups: unpack(rows, 'day'),
-				 styles: [
-					{target: 'Sun', value: {line: {color: 'blue'}}},
-					{target: 'Sat', value: {line: {color: 'orange'}}},
-					{target: 'Thur', value: {line: {color: 'green'}}},
-					{target: 'Fri', value: {line: {color: 'red'}}}
-				 ]
-				}]
-			}]
+		var statistics = JSON.parse(statisticsString || '[]')
 
-			var layout = {
-			  title: "Multiple Traces Violin Plot",
-			  yaxis: {
-			    zeroline: false
-			  }
+		console.log(statistics);
+
+		let chartColors = [
+                    'E30613',
+                    '009FE3',
+                    'F9B233',
+                    '12AC13',
+                    'rgb(0,0,0)',
+                    'rgba(34, 34, 188, 1)',
+                    'rgba(246, 190, 91, 1)',
+                    'rgba(58, 58, 58, 1)',
+                    'rgba(191,35,66, 1)',
+                    'rgba(36, 83, 189, 1)',
+                    'rgba(249, 203, 19, 1)',
+                    'rgba(112, 112, 112, 1)',
+                ];
+
+		var data = [];
+
+		statistics.forEach(function(stat, statIndex){
+			var trace = {
+				boxpoints: 'all',
+				y: stat.statistics,
+				type: 'box',
+				name: stat.title,
+				jitter: 0.3,
+    			pointpos: -1.8,
+				fillcolor: chartColors[statIndex],
 			}
-
-			Plotly.plot(ANALYSIS, data, layout);
+			data.push(trace);
 		});
+
+		var layout = {
+		  // title: 'Resultaten per deelgebied',
+		  yaxis: {
+		  	range: [0, 100]
+		  },
+		  showlegend: false,
+		  width: chartWidth * 0.9,
+		  height: chartHeight * 0.9
+		  
+		}
+
+
+		Plotly.newPlot('analysisChart', data, layout);
 
 			
 	});

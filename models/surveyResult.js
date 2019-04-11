@@ -40,8 +40,8 @@ function calculateSurveyScore(result){
     var answer = result[value];
     if(typeof answer == 'boolean'){
       totalScore += answer ? 1 : 0;
-    } else if (typeof answer == 'number'){
-      totalScore += answer / 5;
+    } else if (typeof answer == 'string'){
+      totalScore += parseFloat(answer);
     } else {
       isValidScore = false;
     }

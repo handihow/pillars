@@ -29,7 +29,13 @@ router.get("/", middleware.isSchoolOwner, function(req, res){
         } else {
           res.render("competence/show", {school: school, questionnaire: questionnaire.questionnaire}); 
         }
-      })         
+      }) 
+      // Survey.find({
+      //   "organisation": new ObjectId(req.user.organisation), 
+      //   "isActiveCompetenceSurvey": true
+      // }, function(err, surveys){
+        
+      // })        
     }
   });
 });

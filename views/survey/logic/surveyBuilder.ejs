@@ -24,6 +24,49 @@
 		isCompetenceSurvey = surveyParsedInfo.isCompetenceSurvey;
 	}
 
+	var competenceSurveyRatingQuestion = {
+        name: "competencerating",
+        isCopied: true,
+        iconName: "icon-rating",
+        title: "Rating",
+        json: {
+            "type": "rating",
+            "rateValues": [
+              {
+                "value": "0",
+                "text": {
+                  "nl": "Nee"
+                }
+              },
+              {
+                "value": "0.25",
+                "text": {
+                  "nl": "Oneens"
+                }
+              },
+              {
+                "value": "0.5",
+                "text": {
+                  "nl": "Eens"
+                }
+              },
+              {
+                "value": "0.75",
+                "text": {
+                  "nl": "Meer eens"
+                }
+              },
+              {
+                "value": "1",
+                "text": {
+                  "nl": "Helemaal mee eens"
+                }
+              }
+            ],
+            "isRequired": true
+        }
+    }
+
 	var editorOptions = {
 		 // show the embeded survey tab. It is hidden by default
 		 showEmbededSurveyTab : false,
@@ -34,12 +77,16 @@
 		 // show the "Options" button menu. It is hidden by default 
 		 showOptions: false,
 		 // question types shown
-		 questionTypes: isCompetenceSurvey ? ["rating", "boolean"] : ["text", "checkbox", "radiogroup", "dropdown", "rating", "boolean", "matrix", "matrixdropdown", "matrixdynamic", "multipletext", "panel", "paneldynamic"],
+		 questionTypes: isCompetenceSurvey ? ["boolean"] : ["text", "checkbox", "radiogroup", "dropdown", "rating", "boolean", "matrix", "matrixdropdown", "matrixdynamic", "multipletext", "panel", "paneldynamic"],
 
 		 generateValidJSON: true,
 	}; 
 
 	var survey = new SurveyEditor.SurveyEditor("surveyEditorContainer", editorOptions);
+
+	if(isCompetenceSurvey){
+		survey.toolbox.addItem(competenceSurveyRatingQuestion);
+	}
 
 	if(isEditingMode){
 		survey.text = JSON.stringify(surveyParsedInfo.survey);

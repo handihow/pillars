@@ -8,6 +8,7 @@ var subjects = require('./software/subjects'); //software subjects
 var softwareStandards = require('./software/standards'); //software Pillars standards
 //import competence configuration files
 var questionnaire = require('./competence/questionnaire'); //competence questionnaires
+var survey = require('./competence/survey'); //competence survey
 var competenceStandards = require('./competence/standards'); //competence standards
 //import management configuration files
 var roles = require('./management/roles'); //management roles
@@ -39,6 +40,7 @@ config.software.standards = softwareStandards;
 //competence
 config.competence = {};
 config.competence.questionnaire = questionnaire;
+config.competence.survey = survey;
 config.competence.standards = competenceStandards;
 
 //management

@@ -51,9 +51,16 @@ router.get("/:id", middleware.isLoggedIn, function(req, res){
               req.flash(err.message);
               res.redirect("back");
             } else {
+              var statistics = config.competence.survey.calculateStatistics(survey, surveyResults);
               var protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http'
               var fullUrl = protocol + '://' + req.get('host');
-              res.render("survey/show", {survey: survey, surveyResults: surveyResults, schoolLevel: false, fullUrl: fullUrl}); 
+              res.render("survey/show", {
+                survey: survey, 
+                surveyResults: surveyResults,
+                statistics: statistics,
+                schoolLevel: false, 
+                fullUrl: fullUrl
+              }); 
             }
           });        
         } else {
@@ -181,15 +188,15 @@ function checkActiveSurvey(req, res, survey){
 }
 
 router.get("/:id/competence", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function (req, res){
-  var index = config.competence.questionnaire.competenceCategories.findIndex((e) => e.identifier == req.params.id);
+  var index = config.competence.survey.competenceCategories.findIndex((e) => e.identifier == req.params.id);
   if(index == -1){
     req.flash("error", "Geen deskundigheidstest identifier gevonden om de enquête mee te vullen.");
     return res.redirect("/survey/");
   }
-  var standard = config.competence.questionnaire.competenceCategories[index];
+  var standard = config.competence.survey.competenceCategories[index];
   Survey.create({
     name: standard.title,
-    survey: config.competence.questionnaire[standard.identifier],
+    survey: config.competence.survey[standard.identifier],
     organisation: req.user.organisation,
     isValidForAllOrganisation: true,
     owner: req.user._id,
