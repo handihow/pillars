@@ -75,8 +75,8 @@
 
 
   		var results = result.map(function(r) {
-        	returnedData = r.result || null;
-        	if(!surveyInfo.isPublic && returnedData){
+        	returnedData = r.result || {};
+        	if(!surveyInfo.isPublic && Object.keys(returnedData).length > 0){
         		returnedData.firstName = r.user ? r.user.firstName : '-';
         		returnedData.lastName = r.user ? r.user.lastName : '-';
         		returnedData.email = r.user ? r.user.username : '-';
