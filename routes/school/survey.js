@@ -30,7 +30,13 @@ router.get("/", middleware.isSchoolOwner, function(req, res){
                           {$and: [
                             {organisation: school.organisation}, 
                             {isValidForAllOrganisation: true},
-                            {isPublic: false}
+                            {isPublic: false},
+                            {isCompetenceSurvey: false}
+                           ]},
+                           {$and: [
+                            {organisation: school.organisation}, 
+                            {isCompetenceSurvey: true},
+                            {isActiveCompetenceSurvey: true}
                            ]}
                         ]})
                 .exec(function(err, surveys){
