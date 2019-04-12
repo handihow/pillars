@@ -21,9 +21,17 @@
 	<div class="ui relaxed divided list">
 	<% schools.forEach(function(school){ %>
 	  <div class="item">
+	  	<%if(school.logo || school.uploadedLogo){%>
+	      <div class="right floated content">
+	      	 <a href="/schools/<%=school._id%>"><img 
+              class="tiny ui image" 
+              src="<%=school.uploadedLogo ? school.uploadedLogo : school.logo %>"></a>
+	      </div>
+	   <%}%>
 	    <div class="content">
 	      <a class="header" href="/schools/<%=school._id%>"><%= school.name %></a>
 	      <div class="description"><%= school.city %></div>
+	      
 	    </div>
 	  </div>
 	<%});%>

@@ -1,0 +1,16 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+ <div class="ui container">
+    <h2 class="ui header"><i class="bar chart icon"></i><%=survey.name%></h2>
+    
+    <div id="organisationStatistics" hidden><%= JSON.stringify(organisationStatistics)%></div>
+    <div id="schoolStatistics" hidden><%= JSON.stringify(schoolStatistics)%></div>
+    <div id="individualStatistics" hidden><%= JSON.stringify(individualStatistics)%></div>
+    <div id="analysisChart"></div>
+    <button class="ui basic button" onclick="goBack()">Terug</button>
+    <a class="ui primary basic button" href="https://towardsdatascience.com/understanding-boxplots-5e2df7bcbd51" target="_blank">
+      Informatie Boxplot Grafiek
+    </a>
+  </div>
+<% include ../partials/footer %>

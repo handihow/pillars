@@ -36,6 +36,7 @@ var scripts = {
 			surveyPublic: false,
 			surveyResults: false,
 			surveyResult: false,
+			individualResults: false,
 		}
 };
 

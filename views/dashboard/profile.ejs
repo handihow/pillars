@@ -1,6 +1,16 @@
 <div class="ui divider"></div>
-<div class="ui small header">Profiel Informatie</div>
 <div class="ui relaxed divided list">
+  <div class="item">
+    <div class="content">
+      <i class="user circle icon"></i>
+      Jouw profielpagina
+      <div class="right floated content">
+        <button type="button" class="ui mini circular icon button" id="profile-info"  data-content="Meer informatie">
+          <i class="info icon"></i>
+        </button>
+      </div>
+    </div>
+  </div>
 	<div class="item">
 		<% if(currentUser.firstName && currentUser.lastName){%>
 	  		<i class="check green icon"></i>
@@ -38,5 +48,27 @@
           </div> 
         </div>
     <%}%>
+  </div>
+</div>
+
+<div class="ui basic modal profile-info">
+  <div class="ui icon header">
+    <i class="user circle icon"></i>
+    Gebruikers Profiel
+  </div>
+  <div class="content">
+    <p>In Pillars zie je via de knop rechtsbovenin het menu jouw profielpagina. Hier kun je jouw gegevens invullen.</p>
+    <h4>Privacy</h4>
+    <p>Bij het invullen van deskundigheidstests worden automatisch je naam en email adres gedeeld met de schoolleiding. Als je hiertegen bezwaar hebt, geef dit dan aub door aan jouw directie.</p>
+
+    <h4>Profielinformatie</h4>
+    <p>Op jouw profiel worden gegevens gevraagd betreffende bijvoorbeeld jouw functie, jouw algemene taak binnen de school (onderwijzend of ondersteuned) en je leeftijd. Deze gegevens zijn nuttig bij het analyseren van de deskundigheidstests. Je kunt op jouw profielpagina deze gegevens invullen en ook aangeven of je deze gegevens wilt delen.</p>
+
+  </div>
+  <div class="actions">
+    <div class="ui green ok inverted button">
+      <i class="checkmark icon"></i>
+      Duidelijk
+    </div>
   </div>
 </div>

@@ -16,7 +16,7 @@ middlewareObj.isUser = function(req,res,next) {
         User.findById(req.params.id, function(err, user){
              if(err || !user){
                   req.flash("error", err);
-                  res.redirect("/scholen");
+                  res.redirect("/schools");
               } else {
                   if(user._id.equals(req.user._id)){
                       next();
@@ -45,7 +45,7 @@ middlewareObj.isSchoolOwner = function (req, res, next) {
         School.findById(req.params.id, function(err, school){
             if(err || !school){
                 req.flash("error", "School niet gevonden");
-                res.redirect("/scholen");
+                res.redirect("/schools");
             } else {
                 //check if user is bestuur admin for this school
                 if((req.user.role==="badmin" || req.user.role==="buser") 

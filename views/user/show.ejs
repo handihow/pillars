@@ -75,6 +75,12 @@
     <a class="ui black button right" href="/user/<%=user._id%>/evaluation">Evaluaties</a>
     <a class="ui green button right" href="/user/<%=user._id%>/ready">Klaar met invullen!</a>
     <%if(hasQuestionnaire){%>
+    <div class="ui warning message">
+      <div class="header">
+        Veranderingen in Pillars
+      </div>
+      <p>De vragenlijst-functionaliteit op deze pagina wordt binnenkort verwijderd. Alle ingevulde vragenlijsten zijn omgezet naar enquete-resultaten en zijn nu beschikbaar via de startpagina. Je kunt hier nu geen nieuwe tests meer doen.</p>
+    </div>
     <% var i=0%>
     <div class="ui top attached tabular menu">
       <% Object.keys(questionnaire.questionnaire).sort().forEach(function(key){ %>
@@ -96,7 +102,7 @@
       <a id="edit" class="ui mini blue basic button" href="/user/<%= user._id %>/test/<%=test._id%>">Bekijk</a>
       <form id="delete" 
       action="/user/<%= user._id %>/test/<%=test._id%>?_method=DELETE" method="POST">
-      <button class="ui mini red basic button">Verwijderen</button>
+      <button class="ui mini red basic button" disabled>Verwijderen</button>
     </form>
     <%}%>
     <%})%>

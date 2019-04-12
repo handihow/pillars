@@ -6,7 +6,7 @@
       <i class="doctor icon"></i>
       Deskundigheids Tests
       <div class="right floated content">
-        <button type="button" class="ui mini circular icon button" id="general-tests">
+        <button type="button" class="ui mini circular icon button" id="general-tests" data-content="Meer informatie">
           <i class="info icon"></i>
         </button>
       </div>
@@ -24,9 +24,16 @@
       <%= survey.competenceStandardTitle %>
       <div class="description">
       	<% if(index>-1){%>
-      		Je hebt <a 
+      		<div class="right floated content">
+            <a class="ui mini blue circular icon button" data-content="Analyseer resultaten"
+                href="/survey/<%=survey._id%>/individual">
+              <i class="bar chart icon"></i>
+            </a>
+          </div>
+          Je hebt <a 
       			href="/survey/<%=surveyResults[index]._id%>/result">deze antwoorden</a> 
       			ingezonden op <%=surveyResults[index].createdAt.toJSON().slice(0,10).split('-').reverse().join('/')%>
+            
       	<%} else {%>
       		<a href="/survey/<%=survey._id%>/private">Doe nu de test!</a>
       	<% } %>
@@ -34,6 +41,11 @@
     </div>
   </div>
 <%});%>
+  <div class="item">
+    <div class="right floated content">
+      <a href="/user/<%=currentUser._id%>/ready">Klaar met invullen?</a>
+    </div>
+  </div>
 </div>
 
 
