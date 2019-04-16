@@ -19,6 +19,12 @@
   </a>
 </div>
 <% if(!(currentUser.role==="suser")) { %>
+  <div class="ui icon buttons">
+    <a class="ui <%if(url===("/schools/"+school._id+"/software/settings")){ %> active <%}%> button" 
+          href="/schools/<%=school._id%>/software/settings"
+          data-content="Settings digitale leermiddelen">
+          <i class="settings icon"></i></a>
+  </div>
   <div class="ui dropdown item">
       <a class="ui icon button" data-content="Digitaal leermiddel toevoegen"><i class="add icon"></i></a>
       <div class="menu">

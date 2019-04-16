@@ -1,0 +1,26 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<% include ../partials/school-header %>
+
+<% include ./header %>
+
+
+<form class="ui form" action="/schools/<%=school._id%>/software/settings?_method=PUT" method="POST" id="softwareSettingsForm">
+  <h4 class="ui header">Beschikbare opties functionaliteit</h4>
+  <p>De eerste 3 opties (<%=school.settings.software.functionalities[0]%>, <%=school.settings.software.functionalities[1]%> en <%=school.settings.software.functionalities[2]%>) kunnen niet worden aangepast. Er kan 1 optie worden toegevoegd.</p>
+  <div class="field">
+        <label>Extra optie functionaliteit</label>
+        <input type="text" name="extrafunction" placeholder="Extra functionaliteit" 
+              value="<%=school.settings.software.functionalities[3]%>">
+  </div>
+  <h4 class="ui header">Beschikbare opties kwaliteitseisen</h4>
+   <% school.settings.software.ratings.forEach(function(rating, index){%>
+    <div class="required field">
+      <label>Kwaliteitseis <%=index+1%></label>
+      <input type="text" name="ratings<%=index%>" value="<%=rating%>">  
+    </div>
+   <%});%>
+  <button class="ui button" type="submit">Bewaren</button>
+  <div class="ui error message"></div>
+</form>

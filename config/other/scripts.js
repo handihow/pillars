@@ -23,6 +23,7 @@ var scripts = {
 				reset: true,
 				schools: true,
 				software: true,
+				softwareSettings: true,
 				standard: true,
 				userProfile: true
 			},

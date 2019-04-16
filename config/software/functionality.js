@@ -1,7 +1,7 @@
 var functionality = [
 	"Instructie", 
 	"Oefenen", 
-	"Toets"
+	"Toets",
 ];
 
 module.exports = functionality;

@@ -35,6 +35,18 @@ router.get("/list", middleware.isLoggedIn, function(req, res){
     });
 });
 
+//INDEX - list of software in list view
+router.get("/settings", middleware.isLoggedIn, function(req, res){
+    School.findById(req.params.id).populate("software").exec(function(err, school){
+        if(err || !school) {
+            req.flash("error", "School niet gevonden.");
+            res.redirect("back");
+        } else {
+            res.render("software/settings", {school: school});        
+        }
+    });
+});
+
 
 //DOWNLOAD ROUTE SOFTWARE OVERVIEW SCHOLEN
 router.get("/download", middleware.isSchoolOwner, function(req, res){
@@ -172,6 +184,31 @@ router.get("/:software_id/edit", middleware.isNotDemoAccount, middleware.isSchoo
           });
       }
   });
+});
+
+//UPDATE ROUTE SOFTWARE SETTINGS
+router.put("/settings", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
+  School.findById(req.params.id, function(err, school){
+   if(err || !school){
+     req.flash("error", "School niet gevonden.");
+     res.redirect("/schools");
+   } else {
+     if(req.body.extrafunction){
+       if(school.settings.software.functionalities[3]){
+         school.settings.software.functionalities.pop();
+       }
+       school.settings.software.functionalities.push(req.body.extrafunction);  
+     }
+     if(!req.body.ratings0 || !req.body.ratings1 || !req.body.ratings2 || !req.body.ratings3 || !req.body.ratings4){
+       req.flash("error", "Alle 5 kwaliteitseisen moeten zijn ingevuld. Wijzigingen zijn niet opgeslagen.")
+       return res.redirect("back");
+     }
+     school.settings.software.ratings = [req.body.ratings0, req.body.ratings1, req.body.ratings2, req.body.ratings3, req.body.ratings4];
+     school.save();
+     req.flash("success", "Instellingen voor digitale leermiddelen gewijzigd");
+     res.redirect("/schools/" + req.params.id+"/software"); 
+   }
+ });
 });
 
 //UPDATE route to store edited software to database

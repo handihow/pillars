@@ -7,23 +7,23 @@
  <div class="ui container">
 <%}%>
 <div class="ui icon buttons">
-  <button class="ui active icon button" id="infoButton"><i class="edit icon"></i></button>
+  <button class="ui <%if(surveyResults.length==0){%>active<%}%> icon button" id="infoButton"><i class="edit icon"></i></button>
   <button class="ui icon button" id="tableButton"><i class="table icon"></i></button>
-  <button class="ui icon button" id="chartButton"><i class="chart pie icon"></i></button>
+  <button class="ui <%if(surveyResults.length>0){%>active<%}%> icon button" id="chartButton"><i class="chart pie icon"></i></button>
   <% if(survey.isCompetenceSurvey){%>
     <button class="ui icon button" id="analysisButton"><i class="chart bar icon"></i></button>
   <%}%>
 </div>
 <div class="ui divider"></div>
 
-<div id="info" class="transition">
+<div id="info" class="transition <%if(surveyResults.length>0){%> hidden <%}%>">
   <% include ./show/info %>
 </div>
 
   <div id="table" class="transition hidden">
     <% include ./show/table %>
   </div>
-  <div id="chart" class="transition hidden">
+  <div id="chart" class="transition <%if(surveyResults.length==0){%> hidden <%}%>">
     <% include ./show/chart %>
   </div>
   <% if(survey.isCompetenceSurvey){%>
