@@ -55,7 +55,7 @@
   <!--cards with surveys-->
   <div class="ui three doubling cards">
     <% surveys.forEach(function(survey){ %>
-    <div class="card">
+    <div class="<%if(survey.isActiveCompetenceSurvey){%> green<%} else {%> red <%}%> card">
       <div class="content">
         <div class="header"><%if(schoolLevel){%>
           <a href="/schools/<%=school._id%>/survey/<%=survey._id%>">

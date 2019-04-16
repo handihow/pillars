@@ -11,7 +11,10 @@ var json2csv = require("json2csv");
 
 //INDEX ROUTE
 router.get("/", middleware.isLoggedIn, function(req, res){
-  Survey.find({organisation: req.user.organisation}).populate("school").exec(function(err, surveys){
+  Survey.find({organisation: req.user.organisation})
+        .populate("school")
+        .sort({isActiveCompetenceSurvey:-1})
+        .exec(function(err, surveys){
         if(err) {
             req.flash("error", err.message);
             res.redirect("back");
