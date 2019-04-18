@@ -373,9 +373,9 @@
 
 		var statisticsString = $( '#statistics' ).text();
 
-		var chartWidth = $('#statistics').parent().width();
+		// var chartWidth = $('#analysisChart').width() * 0.9;
 
-		var chartHeight = $('#statistics').parent().height();
+		// var chartHeight = $('#statistics').parent().height();
 
 		var statistics = JSON.parse(statisticsString || '[]')
 
@@ -414,13 +414,13 @@
 		var layout = {
 		  // title: 'Resultaten per deelgebied',
 		  showlegend: false,
-		  width: chartWidth * 0.9,
-		  height: chartHeight * 0.9
+		  // width: chartWidth,
+		  // height: chartHeight * 0.9
 		  
 		}
 
 
-		Plotly.newPlot('analysisChart', data, layout);
+		Plotly.newPlot('analysisChart', data, layout, {responsive: true});
 
 			
 	});

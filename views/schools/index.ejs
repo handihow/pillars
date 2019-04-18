@@ -50,7 +50,7 @@
             </span>
           </div>
         </div>
-        <div class="ui bottom attached progress" data-percent="<%= Math.ceil(((school.countStudents ? 1 : 0) + ((school.hardware && school.hardware.length>0) ? 1 : 0) + ((school.software && school.software.length>0) ? 1 : 0) + ((school.tests && school.tests.length>0) ? 1 : 0) + (school.management.roles[0].hoursPerYear>0 ? 1 : 0) + ((school.users && school.users.length>0) ? 1 : 0)) / 0.06) %>">
+        <div class="ui bottom attached progress" data-percent="<%= Math.ceil(((school.countStudents ? 1 : 0) + ((school.hardware && school.hardware.length>0) ? 1 : 0) + ((school.software && school.software.length>0) ? 1 : 0) + ((school.tests && school.tests.length>0) ? 1 : 0) + (school.management.roles[0].hours>0 ? 1 : 0) + ((school.users && school.users.length>0) ? 1 : 0)) / 0.06) %>">
           <div class="bar"></div>
         </div>
       </a>
