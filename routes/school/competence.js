@@ -46,7 +46,7 @@ router.get("/", middleware.isSchoolOwner, function(req, res){
               console.log(schoolStatistics);
               if(schoolStatistics[0].statistics.length>0){
                  let sum = schoolStatistics[0].statistics.reduce((previous, current) => current += previous);
-                 let avg = sum / schoolStatistics[0].statistics.length;
+                 let avg = Math.round(sum / schoolStatistics[0].statistics.length);
                  averages.push(avg);
               } else {
                 averages.push(0);
