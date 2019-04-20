@@ -23,7 +23,7 @@ router.get("/", middleware.isSchoolOwner, function(req, res){
       res.redirect("back");
     } else {
       Survey.find({
-        "organisation": req.user.organisation, 
+        "organisation": school.organisation, 
         "isActiveCompetenceSurvey": true
       }, function(err, surveys){
         var averages = [];
