@@ -3,6 +3,7 @@ var router = express.Router({mergeParams: true});
 var School = require("../../models/school");
 var User = require("../../models/user");
 var Questionnaire = require("../../models/questionnaire");
+var SurveyResult = require("../../models/surveyResult");
 var middleware = require("../../middleware");
 var config = require("../../config/config");
 var Test = require("../../models/test");
@@ -68,6 +69,21 @@ router.get("/api/tests", middleware.isLoggedIn, function(req, res){
   });
 });
 
+router.get("/surveys", middleware.isUser, function(req, res){
+  SurveyResult.find({"user": req.user._id})
+         .populate("survey")
+         .sort("createdAt")
+         .exec(function(err, surveyResults){
+         if(err){
+            req.flash("error", "Onbekende fout: " + err.message);
+            res.redirect("back");
+          } else {
+            res.locals.scripts.footer.dashboard = true;
+            res.render("user/surveys", {surveyResults: surveyResults});
+          }
+        });
+});
+
 
 //EDIT ROUTE - EDIT PROFILE PAGE
 router.get("/edit", middleware.isNotDemoAccount, middleware.isUser, function(req,res){
@@ -80,6 +96,7 @@ router.get("/edit", middleware.isNotDemoAccount, middleware.isUser, function(req
     }
   });
 });
+
 
 //UPDATE route to store edited user to database
 router.put("/", middleware.isNotDemoAccount, middleware.isUser, function(req, res){

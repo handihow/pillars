@@ -11,13 +11,6 @@ var json2csv = require("json2csv");
 
 //INDEX ROUTE
 router.get("/", middleware.isSchoolOwner, function(req, res){
-    //reset all scripts if possible
-    res.locals.scripts.header.surveyjs = false;
-    res.locals.scripts.footer.surveyjs = false;
-    res.locals.scripts.footer.surveyBuilder = false;
-    res.locals.scripts.footer.surveyPrivate = false;
-    res.locals.scripts.footer.surveyPublic = false;
-    res.locals.scripts.footer.surveyResult= false;
     //find the school
     School.findById(req.params.id, function(err, school){
       if(err || !school) {

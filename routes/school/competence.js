@@ -2,6 +2,8 @@ var express = require("express");
 var router = express.Router({mergeParams: true});
 var School = require("../../models/school");
 var Questionnaire = require('../../models/questionnaire');
+var Survey = require('../../models/survey');
+var SurveyResult = require('../../models/surveyResult');
 var middleware = require("../../middleware");
 var json2csv = require("json2csv");
 var config = require("../../config/config");
@@ -13,29 +15,50 @@ router.use(function(req,res,next){
 
 //SHOW ROUTE
 router.get("/", middleware.isSchoolOwner, function(req, res){
-  School.findById(req.params.id).populate("tests")
+  School.findById(req.params.id)
+  .populate("organisation")
   .exec(function(err, school){
     if(err ||!school){
       req.flash("error", "School niet gevonden.");
       res.redirect("back");
     } else {
-      //check if the school has an active questionnaire, it will be used for the headings of the tiles on the show page
-      Questionnaire.findOne({"organisation": school.organisation, "isActual": true}, function(err, questionnaire){
-        if(err){
-          req.flash("error", err);
-          res.redirect("back");
-        } else if (!questionnaire){
-          res.render("competence/show", {school: school, questionnaire: config.competence.questionnaire.standard}); 
-        } else {
-          res.render("competence/show", {school: school, questionnaire: questionnaire.questionnaire}); 
-        }
-      }) 
-      // Survey.find({
-      //   "organisation": new ObjectId(req.user.organisation), 
-      //   "isActiveCompetenceSurvey": true
-      // }, function(err, surveys){
+      Survey.find({
+        "organisation": req.user.organisation, 
+        "isActiveCompetenceSurvey": true
+      }, function(err, surveys){
+        var averages = [];
+        surveys.forEach(function(survey, index){
+          SurveyResult.find({"survey": survey._id}, function(err, surveyResults){
+            if(err){
+              req.flash("error", err.message)
+            } else {
+              var returnedSurveyResults = [];
+              var schoolStatistics = [];
+              surveyResults.forEach(function(surveyResult){
+                var isInArray = school.users.some(function (user) {
+                    return user.equals(surveyResult.user._id);
+                });
+                if(isInArray){
+                  returnedSurveyResults.push(surveyResult);
+                }
+              });
+              schoolStatistics = config.competence.survey.calculateStatistics(survey, returnedSurveyResults);
+              console.log(schoolStatistics);
+              if(schoolStatistics[0].statistics.length>0){
+                 let sum = schoolStatistics[0].statistics.reduce((previous, current) => current += previous);
+                 let avg = sum / schoolStatistics[0].statistics.length;
+                 averages.push(avg);
+              } else {
+                averages.push(0);
+              }
+              if(index==surveys.length-1){
+                res.render("competence/show", {school: school, surveys: surveys, averages: averages})
+              }
+            }
+          })
+        });
         
-      // })        
+      })        
     }
   });
 });

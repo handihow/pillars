@@ -2,8 +2,8 @@
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
 <% include ../partials/school-header %>
-<% include ./header %>
 
+<h2 class="ui header"><i class="doctor icon"></i>Deskundigheid van Leerkrachten op <%= school.name %></h2>
          <div class="ui three doubling cards">
           <div class="card">
             <div class="content">
@@ -57,26 +57,23 @@
               <a id="edit" href="/schools/<%= school._id %>/competence/edit">Bewerken</a>
             </div>
           </div>
-          <!--TEST RESULTATEN SCHOOL MEDEWERKERS-->
-          <% Object.keys(questionnaire).sort().forEach(function(subject){ %>
+          <%surveys.forEach(function(survey, index){%>
             <div class="card">
               <div class="content">
-                <div class="header">
-                  <%=subject%>
+                 <div class="header">
+                  <%=survey.competenceStandardTitle%>
+                 </div>
+                 <div class="description">
+                   Bekijken opent de enquête. Gemiddelde score:
                 </div>
-                <div class="description count">
-                  <% var sum = 0, i = 0, result = 0  %>
-                  <%school.tests.forEach(function(test){ %>
-                     <%if(test.subject === subject) { sum += test.result; i++; result = Math.ceil(sum / i *100) } %>
-                  <% }); %>
-                  <%= result %> %
-                </div>
+                 <div class="description count">
+                   <%= averages[index] ? averages[index] + " %" : "-" %>
+                 </div>
               </div>
               <div class="ui bottom attached button">
-                <a href="#testResults">Bekijken</a>
+                <a id="edit" href="/schools/<%= school._id %>/survey/<%=survey._id%>">Bekijken</a>
               </div>
             </div>
-          <% }) %>
-          <!--EINDE TESTRESULTATEN MEDEWERKERS-->
+          <%})%>
         </div>
         <a id="edit" class="ui primary basic button" href="/schools/<%= school._id %>/competence/edit">Bewerken</a>

@@ -12,6 +12,13 @@
       </div>
     </div>
   </div>
+  <%if(surveys.length===0){%>
+  <div class="item">
+    <div class="content">
+      Jouw bestuur heeft geen actieve deskundigheidstests ingesteld
+    </div>
+  </div>
+  <%}%>
 <% surveys.forEach(function(survey){ %>
 <% var index = surveyResults.findIndex(sr => sr.survey.equals(survey._id));%>
   <div class="item">
@@ -43,7 +50,10 @@
 <%});%>
   <div class="item">
     <div class="right floated content">
-      <a href="/user/<%=currentUser._id%>/ready">Klaar met invullen?</a>
+      <a href="/user/<%=currentUser._id%>/ready"><i class="flag checkered icon"></i> Klaar met invullen?</a>
+    </div>
+    <div class="content">
+      <a href="/user/<%=currentUser._id%>/surveys"><i class="history icon"></i>Bekijk alle tests</a>
     </div>
   </div>
 </div>

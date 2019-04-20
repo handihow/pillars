@@ -3,7 +3,7 @@
 <% include ../partials/flash-message %>
 
 <div class="ui container">
-  <div class="ui huge header">Pillars Profiel Pagina</div>
+  <div class="ui huge header">Profiel Pagina</div>
   <% if(user.role==="sadmin") { %>
   <a class="ui blue basic button" href="/scholen/">
     Terug naar mijn school
@@ -69,51 +69,10 @@
       </div>
     </div>
     <div class="ui divider"></div>
-    <a class="ui yellow button right" href="/user/<%=user._id%>/edit">Gegevens wijzigen</a>
-    <a class="ui blue button right" href="/forgot">Wachtwoord wijzigen</a>
-    <a class="ui red button right" href="/verify/user/<%=user._id%>">Email verifieren</a>
-    <a class="ui black button right" href="/user/<%=user._id%>/evaluation">Evaluaties</a>
-    <a class="ui green button right" href="/user/<%=user._id%>/ready">Klaar met invullen!</a>
-    <%if(hasQuestionnaire){%>
-    <div class="ui warning message">
-      <div class="header">
-        Veranderingen in Pillars
-      </div>
-      <p>De vragenlijst-functionaliteit op deze pagina wordt binnenkort verwijderd. Alle ingevulde vragenlijsten zijn omgezet naar enquete-resultaten en zijn nu beschikbaar via de startpagina. Je kunt hier nu geen nieuwe tests meer doen.</p>
-    </div>
-    <% var i=0%>
-    <div class="ui top attached tabular menu">
-      <% Object.keys(questionnaire.questionnaire).sort().forEach(function(key){ %>
-      <a class="item <%if(i==0){%>active<%}%>" data-tab="<%=i%>"><%=key%></a>
-      <% i++%>
-      <%});%>
-    </div>
-    <% var j=0%>
-    <% Object.keys(questionnaire.questionnaire).sort().forEach(function(key){ %>
-    <div class="ui bottom attached tab segment <%if(j==0){%>active<%}%>" data-tab="<%=j%>">
-      <%tests.forEach(function(test){%>
-      <%if(test.subject==key){%>
-      <div class=content>
-        Uitkomst: <%=Math.ceil(test.result *100) %> % 
-      </div>
-      <div class=content>
-        Datum: <%=test.created.toJSON().slice(0,10).split('-').reverse().join('/')%>
-      </div>
-      <a id="edit" class="ui mini blue basic button" href="/user/<%= user._id %>/test/<%=test._id%>">Bekijk</a>
-      <form id="delete" 
-      action="/user/<%= user._id %>/test/<%=test._id%>?_method=DELETE" method="POST">
-      <button class="ui mini red basic button" disabled>Verwijderen</button>
-    </form>
-    <%}%>
-    <%})%>
-    <div class="ui divider"></div>
-    <!-- <a class="ui primary basic button" href="/user/<%=user._id%>/test/new/<%=key%>">Test <%=key%></a> -->
-  </div>
-  <% j++ %>
-  <%});%>
-  <%} else {%>
-  <h3>Bestuur heeft nog geen vragenlijsten ingesteld. Neem aub contact op met het bestuur.</h3>
-  <% } %>
+    <button class="ui secondary basic button" onclick="goBack()">Terug</button>
+    <a class="ui primary button right" href="/user/<%=user._id%>/edit">Gegevens wijzigen</a>
+    <a class="ui warning button right" href="/forgot">Wachtwoord wijzigen</a>
+    <a class="ui yellow basic button right" href="/verify/user/<%=user._id%>">Email verifieren</a>
 </div>
 
 <% include ../partials/footer %>
