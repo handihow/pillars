@@ -1,6 +1,6 @@
 
 
-<% if((!schoolLevel || !survey.isValidForAllOrganisation) && !survey.isCompetenceSurvey)  {%>
+<% if((!schoolLevel || !survey.isValidForAllOrganisation) && !survey.isCompetenceSurvey && !survey.isSoftwareSurvey)  {%>
   
   <h2 class="ui header">
     <i class="paper plane icon"></i>
@@ -37,6 +37,19 @@
      <div class="ui info message">
         Deze deskundigheidstest wordt zichtbaar voor alle medewerkers van de organisatie zodra deze als actief wordt aangemerkt. 
     </div>
+<%} else if(survey.isSoftwareSurvey){%>
+    <h2 class="ui header">
+      <i class="student icon"></i>
+      <div class="content">
+        Beoordelingsformulier
+      </div>
+      <div class="sub header">
+        <%= survey.softwareStandardTitle %>  
+      </div>
+    </h2>
+     <div class="ui info message">
+        Dit beoordelingsformulier wordt beschikbaar bij ieder leermiddel zodra deze als actief wordt aangemerkt. 
+    </div>
 <%}%>
 
   <div class="item">
@@ -51,6 +64,11 @@
       <div class="four wide column">
         <h4 class="content">Actieve test?</h4> 
         <div class="content"><%if(survey.isActiveCompetenceSurvey){ %>Ja<%} else {%> Nee<%}%></div>
+      </div>
+    <%} else if(survey.isSoftwareSurvey){%>
+      <div class="four wide column">
+        <h4 class="content">Actieve test?</h4> 
+        <div class="content"><%if(survey.isActiveSoftwareSurvey){ %>Ja<%} else {%> Nee<%}%></div>
       </div>
     <%} else {%>
       <div class="four wide column">

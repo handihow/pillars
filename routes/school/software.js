@@ -35,7 +35,7 @@ router.get("/list", middleware.isLoggedIn, function(req, res){
     });
 });
 
-//INDEX - list of software in list view
+//settings of software
 router.get("/settings", middleware.isLoggedIn, function(req, res){
     School.findById(req.params.id).populate("software").exec(function(err, school){
         if(err || !school) {
@@ -43,6 +43,18 @@ router.get("/settings", middleware.isLoggedIn, function(req, res){
             res.redirect("back");
         } else {
             res.render("software/settings", {school: school});        
+        }
+    });
+});
+
+//ADD automatically software
+router.get("/import", middleware.isLoggedIn, function(req, res){
+    School.findById(req.params.id).populate("software").exec(function(err, school){
+        if(err || !school) {
+            req.flash("error", "School niet gevonden.");
+            res.redirect("back");
+        } else {
+            res.render("software/import", {school: school});        
         }
     });
 });
@@ -125,6 +137,7 @@ router.get("/:software_id", middleware.isSchoolOwner, function(req, res){
       }
   });
 });
+
 
 //NEW - form to create new hardware
 router.get("/new/:subject", middleware.isNotDemoAccount , middleware.isSchoolOwner, function(req, res){

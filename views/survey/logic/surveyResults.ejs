@@ -61,9 +61,9 @@
 			return console.log('no survey results');
 		}
 
-		var surveyInfo = $( '#surveyText' ).text();
+		var surveyInfoText = $( '#surveyText' ).text();
 
-		var surveyInfo = JSON.parse(surveyInfo || '[]')
+		var surveyInfo = JSON.parse(surveyInfoText || '[]');
 
 		var surveyData = surveyInfo.survey;
 
@@ -419,8 +419,11 @@
 		  
 		}
 
+		if(surveyInfo.isCompetenceSurvey){
+			Plotly.newPlot('analysisChart', data, layout, {responsive: true});
+		}
 
-		Plotly.newPlot('analysisChart', data, layout, {responsive: true});
+		
 
 			
 	});

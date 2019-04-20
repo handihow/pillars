@@ -14,6 +14,9 @@ var surveyResultSchema = mongoose.Schema (
         isCompetenceSurvey: Boolean,
         competenceStandardKey: String,
         competenceStandardTitle: String,
+        isSoftwareSurvey: Boolean,
+        softwareStandardKey: String,
+        softwareStandardTitle: String,
         user: {                                 
               type: mongoose.Schema.Types.ObjectId,
               ref: "User"

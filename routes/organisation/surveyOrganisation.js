@@ -13,7 +13,7 @@ var json2csv = require("json2csv");
 router.get("/", middleware.isLoggedIn, function(req, res){
   Survey.find({organisation: req.user.organisation})
         .populate("school")
-        .sort({isActiveCompetenceSurvey:-1})
+        .sort({isActiveCompetenceSurvey:-1, isActiveSoftwareSurvey:-1})
         .exec(function(err, surveys){
         if(err) {
             req.flash("error", err.message);
@@ -212,6 +212,8 @@ router.post("/:id",middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin
         survey.survey = JSON.parse(req.body.surveyText);
         if(survey.isCompetenceSurvey){
           survey.isActiveCompetenceSurvey = checkActive;
+        } else if(survey.isSoftwareSurvey){
+          survey.isActiveSoftwareSurvey = checkActive;
         } else {
           survey.isPublic = req.body.isPublic;
         }
@@ -234,19 +236,37 @@ router.post("/:id",middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin
 });
 
 function checkActiveSurvey(req, res, survey){
-  return new Promise(function(resolve, reject){
-    Survey.findOne({
-        "organisation": survey.organisation, 
-        "isActiveCompetenceSurvey": true,
-        "competenceStandardKey": survey.competenceStandardKey
-      }, function(err, survey){
-         if(err || survey){
-           resolve(true);
-         } else {
-           resolve(false);
-         }
-      });
-  });
+  if(survey.isCompetenceSurvey){
+    return new Promise(function(resolve, reject){
+      Survey.findOne({
+          "organisation": survey.organisation, 
+          "isActiveCompetenceSurvey": true,
+          "competenceStandardKey": survey.competenceStandardKey
+        }, function(err, survey){
+           if(err || survey){
+             resolve(true);
+           } else {
+             resolve(false);
+           }
+        });
+    });
+  } else if(survey.isSoftwareSurvey){
+    return new Promise(function(resolve, reject){
+      Survey.findOne({
+          "organisation": survey.organisation, 
+          "isActiveSoftwareSurvey": true,
+          "softwareStandardKey": survey.softwareStandardKey
+        }, function(err, survey){
+           if(err || survey){
+             resolve(true);
+           } else {
+             resolve(false);
+           }
+        });
+    });
+  } else {
+    return false;
+  }
 }
 
 router.get("/:id/competence", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function (req, res){
@@ -257,7 +277,7 @@ router.get("/:id/competence", middleware.isNotDemoAccount, middleware.isAuthenti
   }
   var standard = config.competence.survey.competenceCategories[index];
   Survey.create({
-    name: standard.title,
+    name: standard.title + " " + config.currentSchoolYear,
     survey: config.competence.survey[standard.identifier],
     organisation: req.user.organisation,
     isValidForAllOrganisation: true,
@@ -267,6 +287,35 @@ router.get("/:id/competence", middleware.isNotDemoAccount, middleware.isAuthenti
     competenceStandardKey: standard.identifier,
     competenceStandardTitle: standard.title,
     surveyOption: standard.surveyOption
+  }, function(err, survey){
+            if(err || !survey){
+                req.flash("error", "Er is iets misgegaan. Probeer enquête opnieuw te maken. Error: " + err.message);
+                res.redirect("/survey/");
+            }  else {
+                req.flash("success", "Enquête gemaakt");
+                res.redirect("/survey/" + survey._id); 
+            }
+      });
+});
+
+router.get("/:id/software", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function (req, res){
+  var index = config.software.survey.assessmentCategories.findIndex((e) => e.identifier == req.params.id);
+  if(index == -1){
+    req.flash("error", "Geen leermiddelentest identifier gevonden om de enquête mee te vullen.");
+    return res.redirect("/survey/");
+  }
+  var assessment = config.software.survey.assessmentCategories[index];
+  Survey.create({
+    name: assessment.title + " " + config.currentSchoolYear,
+    survey: config.software.survey[assessment.identifier],
+    organisation: req.user.organisation,
+    isValidForAllOrganisation: true,
+    owner: req.user._id,
+    isPublic: false,
+    isSoftwareSurvey: true,
+    softwareStandardKey: assessment.identifier,
+    softwareStandardTitle: assessment.title,
+    surveyOption: assessment.surveyOption
   }, function(err, survey){
             if(err || !survey){
                 req.flash("error", "Er is iets misgegaan. Probeer enquête opnieuw te maken. Error: " + err.message);
@@ -422,7 +471,7 @@ router.post("/:id/private", middleware.isLoggedIn, function(req, res){
                 error: 'Foutmelding: enquête niet gevonden. Server geeft fout: ' + err.message 
               });
 
-          } else if(surveyResult.length>0) {
+          } else if(surveyResult.length>0 && survey.isActiveCompetenceSurvey) {
 
             console.log('error on block2');
 
@@ -443,6 +492,9 @@ router.post("/:id/private", middleware.isLoggedIn, function(req, res){
               isCompetenceSurvey: survey.isCompetenceSurvey ? true : false,
               competenceStandardKey: survey.competenceStandardKey ? survey.competenceStandardKey : '',
               competenceStandardTitle: survey.competenceStandardTitle ? survey.competenceStandardTitle : '',
+              isSoftwareSurvey: survey.isSoftwareSurvey ? true : false,
+              softwareStandardKey: survey.softwareStandardKey ? survey.softwareStandardKey : '',
+              softwareStandardTitle: survey.softwareStandardTitle ? survey.softwareStandardTitle : '',
             }, function(err, surveyResult){
               if (err) {
                 console.log('error on block 4');

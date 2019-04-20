@@ -22,6 +22,7 @@
 		surveyId = surveyParsedInfo._id;
 
 		isCompetenceSurvey = surveyParsedInfo.isCompetenceSurvey;
+		isSoftwareSurvey = surveyParsedInfo.isSoftwareSurvey;
 	}
 
 	var competenceSurveyRatingQuestion = {
@@ -77,14 +78,14 @@
 		 // show the "Options" button menu. It is hidden by default 
 		 showOptions: false,
 		 // question types shown
-		 questionTypes: isCompetenceSurvey ? ["boolean"] : ["text", "checkbox", "radiogroup", "dropdown", "rating", "boolean", "matrix", "matrixdropdown", "matrixdynamic", "multipletext", "panel", "paneldynamic"],
+		 questionTypes: isCompetenceSurvey || isSoftwareSurvey ? ["boolean"] : ["text", "checkbox", "radiogroup", "dropdown", "rating", "boolean", "matrix", "matrixdropdown", "matrixdynamic", "multipletext", "panel", "paneldynamic"],
 
 		 generateValidJSON: true,
 	}; 
 
 	var survey = new SurveyEditor.SurveyEditor("surveyEditorContainer", editorOptions);
 
-	if(isCompetenceSurvey){
+	if(isCompetenceSurvey || isSoftwareSurvey){
 		survey.toolbox.addItem(competenceSurveyRatingQuestion);
 	}
 

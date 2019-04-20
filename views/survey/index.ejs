@@ -38,6 +38,7 @@
           <a class="item" href="/survey/mediaSkills/competence">Mediavaardigheden</a>
         </div>
       </div>
+      <a class="item" href="/survey/kennisnet/software">Beoordeling van Leermiddelen</a>
     </div>
   </div>
   <% } %>
@@ -55,7 +56,7 @@
   <!--cards with surveys-->
   <div class="ui three doubling cards">
     <% surveys.forEach(function(survey){ %>
-    <div class="<%if(survey.isActiveCompetenceSurvey){%> green<%} else {%> red <%}%> card">
+    <div class="<%if(survey.isActiveCompetenceSurvey || survey.isActiveSoftwareSurvey){%> green<%} else if(survey.isCompetenceSurvey || survey.isSoftwareSurvey) {%> red <%}%> card">
       <div class="content">
         <div class="header"><%if(schoolLevel){%>
           <a href="/schools/<%=school._id%>/survey/<%=survey._id%>">
@@ -69,12 +70,22 @@
               <div class="description">
                <%if(survey.isCompetenceSurvey) { %><i class="toggle on icon"></i><% } else { %><i class="toggle off icon"></i><% }%>  Deskundigheidstest 
               </div>
+              <div class="description">
+               <%if(survey.isSoftwareSurvey) { %><i class="toggle on icon"></i><% } else { %><i class="toggle off icon"></i><% }%>  Beoordelingsformulier leermiddelen
+              </div>
               <%if(survey.isCompetenceSurvey){%>
                 <div class="description">
                   <%if(survey.isActiveCompetenceSurvey) { %><i class="toggle on icon"></i><% } else { %><i class="toggle off icon"></i><% }%> Actief
                 </div>
                 <div class="description">
                   Onderdeel: <%= survey.competenceStandardTitle %> 
+                </div>
+              <%} else if(survey.isSoftwareSurvey){%>
+                <div class="description">
+                  <%if(survey.isActiveSoftwareSurvey) { %><i class="toggle on icon"></i><% } else { %><i class="toggle off icon"></i><% }%> Actief
+                </div>
+                <div class="description">
+                  Onderdeel: <%= survey.softwareStandardTitle %> 
                 </div>
               <%}%>
               <%if(!schoolLevel && survey.school){%>

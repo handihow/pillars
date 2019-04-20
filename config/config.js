@@ -6,9 +6,10 @@ var functionality = require('./software/functionality'); //software functionalit
 var ratings = require('./software/ratings'); //software ratings
 var subjects = require('./software/subjects'); //software subjects
 var softwareStandards = require('./software/standards'); //software Pillars standards
+var softwareSurvey = require('./software/survey'); //software survey
 //import competence configuration files
 var questionnaire = require('./competence/questionnaire'); //competence questionnaires
-var survey = require('./competence/survey'); //competence survey
+var competenceSurvey = require('./competence/survey'); //competence survey
 var competenceStandards = require('./competence/standards'); //competence standards
 //import management configuration files
 var roles = require('./management/roles'); //management roles
@@ -36,11 +37,12 @@ config.software.subjects = subjects;
 config.software.functionality = functionality;
 config.software.ratings = ratings;
 config.software.standards = softwareStandards;
+config.software.survey = softwareSurvey;
 
 //competence
 config.competence = {};
 config.competence.questionnaire = questionnaire;
-config.competence.survey = survey;
+config.competence.survey = competenceSurvey;
 config.competence.standards = competenceStandards;
 
 //management
@@ -53,5 +55,7 @@ config.email = email;
 config.scripts = scripts;
 config.processingActivity = processingActivity;
 config.inspectionResults = inspectionResults;
+
+config.currentSchoolYear = "2018/2019"
 
 module.exports = config;

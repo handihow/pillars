@@ -12,7 +12,6 @@
   
   <div class="ui info message">
       Bewerk de enquête in de "Survey Designer" en test indien gewenst onder "Test Survey". Je kunt de enquête bewaren door te klikken op "Save survey" in de "Survey Designer".
-      Gebruik maar 1 van beide vraagtypes: Rating (1-5) of Boolean (Ja/Nee)! Niet door elkaar gebruiken.
   </div>
 
   <div class="ui grid">
@@ -29,6 +28,14 @@
         <div class="ui checkbox">
           <input type="checkbox" id="isActiveSurvey" <%if(survey.isActiveCompetenceSurvey){%>checked<%}%>>
           <label>Is actieve deskundigheidstest?</label>
+        </div>
+      </div>
+    <%} else if(survey.isSoftwareSurvey){%>
+      <div class="eight wide column">
+        <h5>Is actief?</h5>
+        <div class="ui checkbox">
+          <input type="checkbox" id="isActiveSurvey" <%if(survey.isActiveSoftwareSurvey){%>checked<%}%>>
+          <label>Is actief beoordelingsformulier?</label>
         </div>
       </div>
     <%} else {%>

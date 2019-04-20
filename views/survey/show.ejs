@@ -30,10 +30,11 @@
     <div id="analysis" class="transition hidden">
       <% include ./show/analysis %>
     </div>
+    <div id="statistics" hidden><%=JSON.stringify(statistics)%></div>
   <%}%>
   <div id="surveyText" hidden><%= JSON.stringify(survey)%></div>
   <div id="surveyResults" hidden><%= JSON.stringify(surveyResults)%></div>
-  <div id="statistics" hidden><%=JSON.stringify(statistics)%></div>
+  
 <%if(schoolLevel){%>
   <% include ../partials/school-footer %>
 <% } else { %>

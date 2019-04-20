@@ -1,6 +1,6 @@
 var survey = {};
 
-survey.competenceCategories = competenceCategories = [
+competenceCategories = [
 	{
 		identifier: 'ictSkills',
 		title: "ICT Geletterdheid",
@@ -170,6 +170,8 @@ survey.competenceCategories = competenceCategories = [
 		]
 	}
 ];
+
+survey.competenceCategories = competenceCategories;
 
 survey.calculateStatistics = function(survey, surveyResults){
 	var statistics = [];
