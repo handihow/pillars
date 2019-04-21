@@ -23,6 +23,20 @@
 		var survey = new Survey.Model(json);
 
 		survey.locale = 'nl';
+
+		var softwareText = $( '#softwareText' ).text();
+		var softwareJSON = JSON.parse(softwareText);
+		if(softwareJSON.hasInfo){
+			survey.data = {
+				'course': softwareJSON.course,
+				'name': softwareJSON.name,
+				'gradeLevels': softwareJSON.gradeLevels,
+				'supplier': softwareJSON.supplier,
+				'type': softwareJSON.type,
+				'school': softwareJSON.school,
+				'softwareId': softwareJSON.id
+			}
+		}
 		
 		$("#surveyElement").Survey({model: survey});
 

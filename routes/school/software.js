@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router({mergeParams: true});
 var School = require("../../models/school");
 var Software = require("../../models/software");
+var Survey = require("../../models/survey");
 var middleware = require("../../middleware");
 var json2csv = require("json2csv");
 var config = require("../../config/config");
@@ -30,7 +31,15 @@ router.get("/list", middleware.isLoggedIn, function(req, res){
             req.flash("error", "School niet gevonden.");
             res.redirect("back");
         } else {
-            res.render("software/index-list", {school: school});        
+             Survey.findOne({organisation: school.organisation,isActiveSoftwareSurvey: true})
+                    .exec(function(err, survey){
+                        if(err){
+                          req.flash("error", err.message);
+                          res.redirect("back");
+                        } else {
+                          res.render("software/index-list", {school: school, survey: survey});
+                        }
+                    })
         }
     });
 });
@@ -54,6 +63,7 @@ router.get("/import", middleware.isLoggedIn, function(req, res){
             req.flash("error", "School niet gevonden.");
             res.redirect("back");
         } else {
+            res.locals.scripts.footer.edurep = true;
             res.render("software/import", {school: school});        
         }
     });
@@ -147,6 +157,7 @@ router.get("/new/:subject", middleware.isNotDemoAccount , middleware.isSchoolOwn
             req.flash("error", "School niet gevonden.");
             res.redirect("back");
         } else {
+            res.locals.scripts.footer.edurep = true;
             res.render("software/new", {school: school, subject: req.params.subject});        
         }
     });

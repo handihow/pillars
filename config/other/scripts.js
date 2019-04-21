@@ -38,6 +38,7 @@ var scripts = {
 			surveyResults: false,
 			surveyResult: false,
 			individualResults: false,
+			edurep: false
 		}
 };
 

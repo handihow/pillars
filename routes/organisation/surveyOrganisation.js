@@ -443,11 +443,24 @@ router.get("/:id/private", middleware.isLoggedIn, function(req, res){
         } else if(survey.isPublic){
             req.flash("error", "Deze enquête is niet prive.");
             res.redirect("back");
+
         } else {
+            var software = {};
+            software.hasInfo = false;
+            if(survey.isActiveSoftwareSurvey){
+              software.hasInfo = true;
+              software.course = req.query.course;
+              software.name = req.query.name;
+              software.supplier = req.query.supplier;
+              software.gradeLevels = req.query.gradeLevels;
+              software.type = req.query.type;
+              software.school = req.query.school;
+              software.id = req.query.softwareId;
+            }
             res.locals.scripts.header.surveyjs = true;
             res.locals.scripts.footer.surveyjs = true;
             res.locals.scripts.footer.surveyPrivate = true;
-            res.render("survey/private", {survey: survey});            
+            res.render("survey/private", {survey: survey, software: software});            
         }
     });
 });

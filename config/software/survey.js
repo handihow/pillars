@@ -48,7 +48,7 @@ survey.kennisnet =
    "elements": [
     {
      "type": "text",
-     "name": "general-question1",
+     "name": "course",
      "title": {
       "nl": "Vak"
      },
@@ -57,7 +57,7 @@ survey.kennisnet =
     },
     {
      "type": "text",
-     "name": "general-question2",
+     "name": "name",
      "title": {
       "nl": "Naam"
      },
@@ -66,33 +66,39 @@ survey.kennisnet =
     },
     {
      "type": "text",
-     "name": "general-question3",
-     "visible": false,
+     "name": "gradeLevels",
      "title": {
       "nl": "Klassen"
-     }
+     },
+     "isRequired": true,
+     "readOnly": true
     },
     {
      "type": "text",
-     "name": "general-question4",
+     "name": "supplier",
      "title": {
       "nl": "Leverancier"
-     }
+     },
+     "isRequired": true,
+     "readOnly": true
     },
     {
      "type": "text",
-     "name": "general-question5",
-     "visible": false,
+     "name": "type",
      "title": {
       "nl": "Type leermiddel"
-     }
+     },
+     "isRequired": true,
+     "readOnly": true
     },
     {
      "type": "text",
-     "name": "general-question6",
+     "name": "school",
      "title": {
       "nl": "School"
-     }
+     },
+     "isRequired": true,
+     "readOnly": true
     },
     {
      "type": "text",
@@ -104,9 +110,11 @@ survey.kennisnet =
      "readOnly": true
     }
    ],
-   "visible": false,
    "title": {
     "nl": "Algemene informatie"
+   },
+   "description": {
+    "nl": "Deze gegevens zijn automatisch overgenomen en worden opgeslagen bij deze beoordeling. Ga naar de volgende pagina."
    }
   },
   {

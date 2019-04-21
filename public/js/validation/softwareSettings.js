@@ -1,7 +1,6 @@
 //load jQuery when document is ready
 $(document).ready(function() {
 
-  console.log("validating softwaresettingsform..");
 //================================================//
 //FORM VALIDATIONS ON THE SOFTWARE SETTINGS ROUTE//
 //================================================//

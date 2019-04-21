@@ -1,0 +1,65 @@
+<script>
+	$(document).ready(function() {
+
+		$('.ui.button.search')
+		  .api({
+		  	onResponse: function(response) {
+		  		if(response.status.name == "OK"){
+		  			$('.edurep.summary').remove();
+		  			$('.ui.icon.mini.button').off();
+		  			$('.ui.icon.mini.button').remove();
+		  			$('.edurep.search.results').append(
+		  					"<div class='edurep summary'>Aantal zoekresultaten: "
+		  					+ response.search.recordcount + 
+		  					". Hieronder maximaal 20 resultaten</div>"
+		  				)
+		  			$('.edurep.item').remove();
+		  			response.search.records.forEach(function(record, index){
+		  				$(".ui.list.edurep").append(
+			  				"<div class='edurep item'><div class='content'><a target=_blank href='" + 
+			  				record.url.location + "'>"+
+			  				record.title + " (" + record.publisher.name + ")" +
+			  				"</a>" +  "<div class='description'>" + 
+			  				"<div class='right floated content'>" +
+			  				"<button class='ui mini blue circular icon button' id='button" + index + "'><i class='plus circle icon'></i></button></div>" + record.description + 
+			  				 "</div></div>"
+			  			)
+			  			$('#button' + index).click(function(){
+							$( "#softwareName" ).val( record.title );
+							$( "#softwareSupplier" ).val( record.publisher.name[0] );
+							$( "#softwareMetadata" ).val( JSON.stringify(record) );
+							$('.ui.modal.edurep').modal('hide');
+							$('#edurep').val('');
+						})
+		  			});
+		  			$('.ui.modal.edurep').modal('show')
+		  			
+		  		} else {
+		  			$('.edurep.summary').remove();
+		  			$('.edurep.search.results').append(
+		  					"<div class='edurep summary'>Foutmelding: "
+		  					+ response.status.message
+		  				)
+		  			$('.ui.modal.edurep').modal('show');
+
+		  		}
+		  		
+		  	},
+		  	beforeSend: function(settings) {
+
+	            settings.urlData = {
+	                value: $('#edurep').val().replace(/\s+/g, '+AND+')
+	            };
+
+	            return settings;
+	        },
+		    url: 'https://proxy.edurep.nl/v3/search?mode=json&query={value}&maximumRecords=20',
+		  });
+		
+	});
+
+</script>
+
+
+
+

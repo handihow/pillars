@@ -82,8 +82,28 @@
       <div class="content"><%= software.typeOfSoftware %></div>
     </div>
   </div>
+  <%if(software.metadata){%>
+  <div class="ui stackable grid">
+    <div class="eight wide column">
+      <h4 class="content">Beschrijving</h4>
+      <div class="small content"><%=JSON.parse(software.metadata).description%> </div>
+    </div>
+    <div class="four wide column">
+      <h4 class="content">URL</h4>
+      <div class="content">
+        <%if(JSON.parse(software.metadata).url){%>
+        <a href="<%=JSON.parse(software.metadata).url.location%>" target=_blank>
+          <%=JSON.parse(software.metadata).url.location%></a>
+        <%} else { %>
+        geen link
+        <%}%>
+        </div>
+    </div>
+  </div>
+  <%}%>
   <h4 class="content">Toegevoegd op</h4>
   <div class="content"><%=software.created.toJSON().slice(0,10).split('-').reverse().join('/')%> </div>
+  
   <a id="edit" 
   class="ui primary basic button" 
   href="/schools/<%=school._id%>/software/<%=software._id%>/edit">

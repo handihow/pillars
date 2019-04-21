@@ -15,7 +15,8 @@ var softwareSchema = mongoose.Schema (
         school: {
           type:   mongoose.Schema.Types.ObjectId,
           ref: "School"
-        }
+        },
+        metadata: {}
     }, { usePushEach: true }
 );
 

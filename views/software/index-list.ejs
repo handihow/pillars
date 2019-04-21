@@ -7,6 +7,16 @@
 
 <!--make a table for each type of software-->
 <div class="ui segment">
+
+  <!-- placeholder if no security incidents -->
+    <%if(school.software.length===0){%>
+      <div class="ui placeholder segment">
+        <div class="ui icon header">
+          <i class="dont icon"></i>
+          Nog geen (digitale) leermiddelen
+        </div>
+      </div>
+    <%}%>
   <!--check for each key in the school software subjects object (represent subject)-->
   <% Object.keys(school.settings.software.subjects).sort().forEach(function(subject){ %>
   <!--if the school software subject is included in the array-->
@@ -22,6 +32,7 @@
           <th>Aantal licenties</th>
           <th>Type leermiddel</th>
           <th>Meer info</th>
+          <th>Beoordeel</th>
         </tr>
       </thead>
       <% } %>
@@ -38,6 +49,14 @@
             <a href="/schools/<%=school._id%>/software/<%=software._id%>">
             Toon info</a>
           </td>
+          <%if(survey){%>
+            <td class="selectable">
+              <a href="/survey/<%=survey._id%>/private?course=<%=software.subject%>&name=<%=software.name%>&supplier=<%=software.supplier%>&gradeLevels=<%=software.gradeLevels%>&school=<%=school.name%>&type=<%=software.typeOfSoftware%>&softwareId=<%=software._id%>">
+              Beoordeel</a>
+            </td>
+          <%} else {%>
+            <td>-</td>
+          <%}%>
       </tr>
       <% } %> 
       <% }); %>

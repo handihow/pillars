@@ -24,15 +24,9 @@ router.get("/", middleware.isSchoolOwner, function(req, res){
                             {organisation: school.organisation}, 
                             {isValidForAllOrganisation: true},
                             {isPublic: false},
-                            // {isCompetenceSurvey: false}
                            ]},
-                           // {$and: [
-                           //  {organisation: school.organisation}, 
-                           //  {isCompetenceSurvey: true},
-                           //  {isActiveCompetenceSurvey: true}
-                           // ]}
                         ]})
-                .sort({isActiveCompetenceSurvey:-1})
+                .sort({isActiveCompetenceSurvey:-1, isActiveSoftwareSurvey:-1})
                 .exec(function(err, surveys){
                     if(err) {
                         req.flash("error", err.message);
