@@ -323,6 +323,9 @@ survey.kennisnet =
    ],
    "title": {
     "nl": "Vakinhoudelijke kwaliteit"
+   },
+   "description": {
+    "nl": "Bron (vertaling van eerste vijf vragen):\nJung, I. (2016, 9 februari). A framework for assessing fitness for purpose in open educational resources. Geraadpleegd op 22 april 2019, van https://educationaltechnologyjournal.springeropen.com/articles/10.1186/s41239-016-0002-5"
    }
   },
   {
@@ -546,6 +549,9 @@ survey.kennisnet =
    ],
    "title": {
     "nl": "Kwaliteit van het leermiddel"
+   },
+   "description": {
+    "nl": "Bron (herformuleren vragenkaarten):\nWelp, E. (2017, 23 oktober). Kiezen voor het juiste digitale leermiddel? Stel vragen. Geraadpleegd op 22 april 2019, van https://www.kennisnet.nl/artikel/kiezen-voor-het-juiste-digitale-leermiddel-stel-vragen/"
    }
   },
   {
@@ -681,8 +687,12 @@ survey.kennisnet =
      ]
     }
    ],
+   "questionTitleLocation": "top",
    "title": {
     "nl": "Integratie met Educatieve Leeromgeving ELO"
+   },
+   "description": {
+    "nl": "Bron (herformuleren vragenkaarten):\nWelp, E. (2017, 23 oktober). Kiezen voor het juiste digitale leermiddel? Stel vragen. Geraadpleegd op 22 april 2019, van https://www.kennisnet.nl/artikel/kiezen-voor-het-juiste-digitale-leermiddel-stel-vragen/"
    }
   },
   {
@@ -789,7 +799,7 @@ survey.kennisnet =
     "nl": "Privacy"
    },
    "description": {
-    "nl": "Door het gebruik van digitale materialen wordt er ook steeds meer persoonlijke informatie van leerlingen opgeslagen. Dit is handig, want met deze informatie kunnen we de voortgang van individuele leerlingen bijhouden. Maar deze persoonsgegevens en leerresultaten zijn ook privacygevoelig en moeten niet voor iedereen zichtbaar zijn of makkelijk te hacken. Schoolbesturen, vertegenwoordigd door de PO-Raad en de VO-raad, hebben daarom afspraken gemaakt met leveranciers van digitale leermiddelen over een goede omgang met leerlinggegevens. Deze afspraken zijn vastgelegd in het privacyconvenant voor digitale leermiddelen. Elke leverancier zou dit convenant moeten ondertekenen. De leverancier informeert het schoolbestuur in een privacybijsluiter over alle privacyaspecten van het product."
+    "nl": "Door het gebruik van digitale materialen wordt er ook steeds meer persoonlijke informatie van leerlingen opgeslagen. Dit is handig, want met deze informatie kunnen we de voortgang van individuele leerlingen bijhouden. Maar deze persoonsgegevens en leerresultaten zijn ook privacygevoelig en moeten niet voor iedereen zichtbaar zijn of makkelijk te hacken. Schoolbesturen, vertegenwoordigd door de PO-Raad en de VO-raad, hebben daarom afspraken gemaakt met leveranciers van digitale leermiddelen over een goede omgang met leerlinggegevens. Deze afspraken zijn vastgelegd in het privacyconvenant voor digitale leermiddelen. Elke leverancier zou dit convenant moeten ondertekenen. De leverancier informeert het schoolbestuur in een privacybijsluiter over alle privacyaspecten van het product.\nBron (herformuleren vragenkaarten):\nWelp, E. (2017, 23 oktober). Kiezen voor het juiste digitale leermiddel? Stel vragen. Geraadpleegd op 22 april 2019, van https://www.kennisnet.nl/artikel/kiezen-voor-het-juiste-digitale-leermiddel-stel-vragen/"
    }
   }
  ],

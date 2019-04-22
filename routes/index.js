@@ -43,15 +43,25 @@ function renderHomePageContent(req, res, schools){
   Organisation.findById(req.user.organisation, function(err, organisation){
     if(err) {return callbackErrorFunction(err)};
     if(!organisation){return noDataErrorFunction('Organisatie')};
-      Survey.find({
-        "organisation": new ObjectId(req.user.organisation), 
-        "isActiveCompetenceSurvey": true
-      }, function(err, surveys){
+      Survey.find(
+        {$or: 
+        [
+          {$and: [
+            {organisation: req.user.organisation}, 
+            {"isActiveCompetenceSurvey": true},
+           ]},
+           {$and: [
+            {organisation: req.user.organisation}, 
+            {"isActiveSoftwareSurvey": true}
+           ]},
+        ]}, function(err, returnedSurveys){
         if(err) {return callbackErrorFunction(err)};
         SurveyResult.find({"user": new ObjectId(req.user._id)}, function(err, surveyResults){
           if(err) {return callbackErrorFunction(err)};
             res.locals.scripts.footer.dashboard = true;
-            res.render("dashboard/index", {schools: schools, organisation: organisation, surveys, surveyResults}); 
+            surveys = returnedSurveys.filter(s => s.isActiveCompetenceSurvey);
+            var hasActiveSoftwareSurvey = returnedSurveys.findIndex(s => s.isActiveSoftwareSurvey) > -1 ? true : false;
+            res.render("dashboard/index", {schools, organisation, surveys, surveyResults, hasActiveSoftwareSurvey}); 
         })
       });
     });  

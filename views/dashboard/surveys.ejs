@@ -3,6 +3,43 @@
 <div class="ui relaxed divided list">
   <div class="item">
     <div class="content">
+      <i class="student icon"></i>
+      Beoordeling leermiddelen
+      <div class="right floated content">
+        <button type="button" class="ui mini circular icon button" id="software-assessments" data-content="Meer informatie">
+          <i class="info icon"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <%if(currentUser.role==='admin' || currentUser.role==='padmin'){%>
+    <div class="item">
+      <div class="content">
+        Nieuw! Stel beoordelingsformulier in voor leermiddelen bij <a href="/survey">enquêtes</a>
+      </div>
+    </div>
+  <%} else if(!hasActiveSoftwareSurvey){%>
+  <div class="item">
+    <div class="content">
+      Jouw bestuur heeft geen beoordelingsformulier leermiddelen ingesteld
+    </div>
+  </div>
+  <%} else {%>
+    <div class="item">
+    <div class="content">
+      <i class="edit outline icon"></i>
+      Beoordeel (digitale) leermiddelen van jouw school
+      <div class="right floated content">
+        <a class="ui mini blue circular icon button" data-content="Beoordeel leermiddelen"
+            href="/schools/<%=schools[0]._id%>/software/list">
+          <i class="edit icon"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+  <%}%>
+  <div class="item">
+    <div class="content">
       <i class="doctor icon"></i>
       Deskundigheids Tests
       <div class="right floated content">

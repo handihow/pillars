@@ -28,7 +28,9 @@
 				y: organisationStatistics[i].statistics,
 				x: array1,
 				type: 'box',
-				name: organisationStatistics[i].title + ' - organisatie',
+				name: organisationStatistics[i].title.length > 30 ? 
+							organisationStatistics[i].title.substring(0,29) + '...' : 
+							organisationStatistics[i].title,
 				jitter: 0.5,
         		whiskerwidth: 0.2,
 		    	marker: {
@@ -36,7 +38,8 @@
 		        },
 		        line: {
 		            width: 1
-		        }
+		        },
+		        legendgroup: 'organisation',
 				// fillcolor: chartColors[i],
 			}
 			data.push(trace1);
@@ -48,7 +51,9 @@
 					y: schoolStatistics[i].statistics,
 					x: array2,
 					type: 'box',
-					name: schoolStatistics[i].title + ' - school',
+					name: schoolStatistics[i].title.length > 30 ?
+										schoolStatistics[i].title.substring(0,29) + '...' :
+										schoolStatistics[i].title,
 					jitter: 0.5,
 	        		whiskerwidth: 0.2,
 			    	marker: {
@@ -56,25 +61,38 @@
 			        },
 			        line: {
 			            width: 1
-			        }
+			        },
+			        legendgroup: 'school',
 					// fillcolor: chartColors[i],
 				}
 				data.push(trace2);
 			}
+			var array3 = Array(organisationStatistics.length);
+			array3.fill('individueel');
 			var trace3 = {
 				boxpoints: 'all',
 				y: individualStatistics[i].statistics,
-				x: ['individueel'],
+				x: array3,
 				type: 'box',
-				name: individualStatistics[i].title + ' - individueel',
-
+				name: individualStatistics[i].title.length > 30 ?
+										individualStatistics[i].title.substring(0,29) + '...' :
+										individualStatistics[i].title,
+				legendgroup: 'individual',
 				// fillcolor: chartColors[i],
 			}
 			data.push(trace3);
 		}
 
+		// var layout = {
+		//   boxmode: 'group'	  
+		// }
 		var layout = {
-		  boxmode: 'group'	  
+		  // title: 'Resultaten per deelgebied',
+		  boxmode: 'group',
+		  showlegend: true,
+		  // width: chartWidth,
+		  // height: chartHeight * 0.9
+		  
 		}
 
 

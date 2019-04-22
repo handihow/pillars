@@ -103,22 +103,20 @@ router.get("/:id/individual", middleware.isLoggedIn, function(req, res){
             } else {
               res.locals.scripts.footer.individualResults = true;
               res.locals.scripts.header.plotly = true;  
-              SurveyResult.find({survey: new ObjectId(survey._id)})
-              .populate('user')
-              .populate({path : 'user', populate : {path : 'organisation'}})
-              .populate({path : 'user', populate : {path : 'school'}})
+              SurveyResult.find({survey: survey._id})
               .exec(function(err, surveyResults){
                 if(err){
                   req.flash(err.message);
                   res.redirect("back");
                 } else {
+                  var totalOrganisationSurveyResults = surveyResults.length;
                   var organisationStatistics = config.competence.survey.calculateStatistics(survey, surveyResults);
                   var returnedSurveyResults = [];
                   var schoolStatistics = [];
                   if(school){
                     surveyResults.forEach(function(surveyResult){
                       var isInArray = school.users.some(function (user) {
-                          return user.equals(surveyResult.user._id);
+                          return user.equals(surveyResult.user);
                       });
                       if(isInArray){
                         returnedSurveyResults.push(surveyResult);
@@ -127,6 +125,7 @@ router.get("/:id/individual", middleware.isLoggedIn, function(req, res){
                     schoolStatistics = config.competence.survey.calculateStatistics(survey, returnedSurveyResults);
 
                   }
+                  var totalSchoolSurveyResults = returnedSurveyResults.length;
                   var individualResult = surveyResults.find(result => result.user.equals(req.user._id));
                   var individualStatistics = config.competence.survey.calculateStatistics(survey, [individualResult]);
                   res.render("survey/individual", {
@@ -135,6 +134,8 @@ router.get("/:id/individual", middleware.isLoggedIn, function(req, res){
                     schoolStatistics: schoolStatistics,
                     organisationStatistics: organisationStatistics,
                     individualStatistics: individualStatistics,
+                    totalOrganisationSurveyResults: totalOrganisationSurveyResults,
+                    totalSchoolSurveyResults: totalSchoolSurveyResults
                   }); 
                 }
               });        

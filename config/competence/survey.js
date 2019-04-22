@@ -168,7 +168,40 @@ competenceCategories = [
 				previousIdentifier: "b - Lesgeven in de mediawijsheid"
 			}
 		]
-	}
+	},
+  {
+    identifier: 'assessmentForm',
+    title: "Observatie-instrument voor optimaal leerrendement uit ICT-gebruik",
+    surveyOption: "assessment",
+    type: "rating",
+    categories: [
+      {
+        name: "teacherDrivenLearning",
+        title: "Leerkrachtgestuurd leren",
+      },
+      {
+        name: "selfOrganizedLearning",
+        title: "Zelfgeorganiseerd leren",
+      },
+      {
+        name: "instructionAndExercise",
+        title: "Instructie en oefening",
+      },
+      {
+        name: "personalLearningEnvironment",
+        title: "Persoonlijke leeromgeving"
+      },
+      {
+        name: "independentLearning",
+        title: "Zelfstandig leren"
+      },
+      {
+        name: "adaptiveLearningMaterial",
+        title: "Adaptief leermateriaal"
+      }
+    ]
+  },
+
 ];
 
 survey.competenceCategories = competenceCategories;
@@ -3471,7 +3504,809 @@ survey.instrumentalSkills = {
     ]
   };
 
-
+survey.assessmentForm = {
+ "locale": "nl",
+ "title": {
+  "default": "Observatie-instrument voor optimaal leerrendement uit ICT-gebruik op schoolniveau",
+  "nl": "Observatie-instrument voor optimaal leerrendement uit ICT-gebruik"
+ },
+ "pages": [
+  {
+   "name": "observation",
+   "elements": [
+    {
+     "type": "text",
+     "name": "question1",
+     "title": {
+      "nl": "Naam observator"
+     },
+     "isRequired": true
+    },
+    {
+     "type": "rating",
+     "name": "teacherDrivenLearning-question1",
+     "title": {
+      "nl": "Leerkracht geeft klassikaal uitleg om kennis over te dragen"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "selfOrganizedLearning-question1",
+     "title": {
+      "nl": "Leerling stelt op eigen initiatief doelen over eindresultaat en leerproces"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "instructionAndExercise-question1",
+     "title": {
+      "nl": "Digitaal lesmateriaal wordt door leerkracht aangereikt om lesstof te oefenen en te herhalen"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "personalLearningEnvironment-question1",
+     "title": {
+      "nl": "Leerlingen zoeken zelf naar digitale bronnen"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "independentLearning-question1",
+     "title": {
+      "nl": "Leerkracht coacht wat betreft inhoud, maar leerling kan op eigen tempo werken"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "adaptiveLearningMaterial-question1",
+     "title": {
+      "nl": "Leerling bestudeert digitale bronnen waarin gezocht wordt naar antwoorden"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "selfOrganizedLearning-question2",
+     "title": {
+      "nl": "Leerlingen werken samen om de stof te ontdekken en geven elkaar daarbij feedback"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "personalLearningEnvironment-question2",
+     "title": {
+      "nl": "Leerlingen werken samen met behulp van een digitale leeromgeving"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "teacherDrivenLearning-question2",
+     "title": {
+      "nl": "Leerkracht geeft gerichte opdracht om stof te verwerken via oefening"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "selfOrganizedLearning-question3",
+     "title": {
+      "nl": "Leerlingen voeren opdrachten uit die aansluiten bij hun individuele leerproces waarbij leraar als coach fungeert"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "instructionAndExercise-question2",
+     "title": {
+      "nl": "Leerkracht gebruikt ICT om kennis over te brengen of opdrachten te geven"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "teacherDrivenLearning-question3",
+     "title": {
+      "nl": "Leerkracht sluit les af door middel van klassikale terugkoppeling over geleerde stof (feedback/toets)"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "instructionAndExercise-question3",
+     "title": {
+      "nl": "Leerlingen volgen niet allen hetzelfde programma, digitaal lesmateriaal is gepersonaliseerd"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "adaptiveLearningMaterial-question2",
+     "title": {
+      "nl": "Digitaal leermateriaal voorziet in feedback en hints aan leerling"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "adaptiveLearningMaterial-question3",
+     "title": {
+      "nl": "Digitaal leermateriaal past zich aan op niveau en tempo van leerling"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "independentLearning-question2",
+     "title": {
+      "nl": "Leerkracht biedt bronnen aan waar leerlingen mee aan de slag kunnen"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "independentLearning-question3",
+     "title": {
+      "nl": "Leerkracht stimuleert de leerlingen zichzelf doelen te stellen"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "personalLearningEnvironment-question3",
+     "title": {
+      "nl": "Leerlingen maken gebruik van een digitale leeromgeving die ingericht kan worden naar eigen behoefte"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "personalLearningEnvironment-question4",
+     "title": {
+      "nl": "Leerlingen wisselen feedback uit met behulp van een digitale leeromgeving"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "comment",
+     "name": "question3",
+     "title": {
+      "nl": "Commentaar observator"
+     }
+    },
+    {
+     "type": "comment",
+     "name": "question2",
+     "title": {
+      "nl": "Commentaar  leraar"
+     }
+    }
+   ],
+   "title": {
+    "nl": "Observatie instrument"
+   },
+   "description": {
+    "nl": "Nodig een collega uit om jouw les te observeren met behulp van deze vragenlijst!\nBron:\nHulshof, C. D. (2016, 4 mei). Observatie instrument voor optimaal leerrendement uit ICT-gebruik op schoolniveau. Geraadpleegd op 22 april 2019, van https://dspace.library.uu.nl/handle/1874/330790"
+   }
+  }
+ ],
+ "showTitle": false
+}
 
 
 module.exports = survey;
