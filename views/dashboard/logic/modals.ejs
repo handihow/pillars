@@ -3,13 +3,20 @@
 
 		if($("#general-tests").length > 0){
 	      $("#general-tests").click(function(){
-	        { $('.ui.modal.general-tests').modal('show');}
+	        $('.ui.modal.general-tests').modal('show');
+	      });
+	    }
+
+	    if($("#software-assessments").length > 0){
+	      $("#software-assessments").click(function(){
+	      	console.log("clicked")
+	        $('.ui.modal.software-assessments').modal('show');
 	      });
 	    }
 
 	    if($("#profile-info").length > 0){
 	      $("#profile-info").click(function(){
-	        { $('.ui.modal.profile-info').modal('show');}
+	      	$('.ui.modal.profile-info').modal('show');
 	      });
 	    }
 
