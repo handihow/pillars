@@ -1,15 +1,15 @@
 <%if(currentUser.role=='sadmin'){%>
-	<div class="ui header">
-		Status school
+	<div class="ui segment">
+		<h5 class="ui header">
+	        <i class="tasks icon"></i>
+	        <div class="content">
+	          Status school
+	        </div>
+	      </h5>
+		<% include ./school %>
 	</div>
-	<div class="ui divider"></div>
-	<% include ./school %>
 <% } %>
 
-<div class="ui header">
-	<a href="/schools">Scholen</a>
-</div>
-<div class="ui divider"></div>
 <%if(schools.length===0){%>
   <div class="ui placeholder segment">
     <div class="ui icon header">
@@ -18,22 +18,32 @@
     </div>
   </div>
 <%} else {%>
-	<div class="ui relaxed divided list">
-	<% schools.forEach(function(school){ %>
-	  <div class="item">
-	  	<%if(school.logo || school.uploadedLogo){%>
-	      <div class="right floated content">
-	      	 <a href="/schools/<%=school._id%>"><img 
-              class="tiny ui image" 
-              src="<%=school.uploadedLogo ? school.uploadedLogo : school.logo %>"></a>
-	      </div>
-	   <%}%>
-	    <div class="content">
-	      <a class="header" href="/schools/<%=school._id%>"><%= school.name %></a>
-	      <div class="description"><%= school.city %></div>
-	      
-	    </div>
-	  </div>
-	<%});%>
+
+	<div class="ui segment">
+	  <h5 class="ui header">
+        <i class="university icon"></i>
+        <div class="content">
+          Scholen
+        </div>
+      </h5>
+		<div class="ui relaxed divided list">
+		<% schools.forEach(function(school){ %>
+		  <div class="item">
+		  	<%if(school.logo || school.uploadedLogo){%>
+		      <div class="right floated content">
+		      	 <a href="/schools/<%=school._id%>"><img 
+	              class="tiny ui image" 
+	              src="<%=school.uploadedLogo ? school.uploadedLogo : school.logo %>"></a>
+		      </div>
+		   <%}%>
+		    <div class="content">
+		      <a class="header" href="/schools/<%=school._id%>"><%= school.name %></a>
+		      <div class="description"><%= school.city %></div>
+		      
+		    </div>
+		  </div>
+		<%});%>
+		</div>
 	</div>
 <%}%>
+

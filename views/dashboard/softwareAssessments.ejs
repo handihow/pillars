@@ -1,0 +1,79 @@
+<div class="ui grid">
+  <div class="two column row">
+    <div class="left floated column">
+      <h5 class="ui header">
+        <i class="student icon"></i>
+        <div class="content">
+          Beoordeling leermiddelen
+        </div>
+      </h5>
+    </div>
+    <div class="right floated column">
+      <button type="button" class="ui right floated mini circular icon button" id="software-assessments" data-content="Meer informatie">
+        <i class="info icon"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="ui relaxed divided list">
+  <%if(currentUser.role==='badmin' || currentUser.role==='padmin' || currentUser.role==='buser'){%>
+    <div class="item">
+      <div class="content">
+        <%if(hasActiveSoftwareSurvey){%>
+          <i class="green checkmark icon"></i>
+          Beoordelingsformulier voor leermiddelen is ingesteld bij <a href="/survey">enquêtes</a>
+        <%} else {%>
+          <i class="edit outline icon"></i>
+          Stel beoordelingsformulier in voor leermiddelen bij <a href="/survey">enquêtes</a>
+        <% } %>
+      </div>
+    </div>
+  <%} else {%>
+    <div class="item">
+    <div class="content">
+      <%if(!hasActiveSoftwareSurvey){%>
+        Jouw bestuur heeft geen beoordelingsformulier leermiddelen ingesteld
+      <%} else {%>
+        <i class="edit outline icon"></i>
+        Beoordeel (digitale) leermiddelen van jouw school
+        <div class="right floated content">
+          <a class="ui mini blue circular icon button" data-content="Beoordeel leermiddelen"
+              href="/schools/<%=schools[0]._id%>/software/list">
+            <i class="edit icon"></i>
+          </a>
+        </div>
+      <% } %>
+    </div>
+  </div>
+  <%}%>
+</div>
+
+
+
+<div class="ui basic modal software-assessments">
+  <div class="ui icon header">
+    <i class="student icon"></i>
+    Beoordeling leermiddelen
+  </div>
+  <div class="content">
+    <p>In Pillars is een nieuwe vragenlijst opgenomen waarmee leraren de (digitale) leermiddelen op hun school uitgebreid kunnen beoordelen.</p>
+    <p>Je kunt een leermiddel beoordelen door in de lijst leermiddelen van jouw school het leermiddel te zoeken dat je wilt beoordelen. Klik daarna aan in de uiterst rechtse kolom op Beoordelen.</p>
+    <h4>Niet gelukt?</h4>
+    <p>Kun je de knop beoordelen niet vinden? Controleer dan of jouw organisatie de vragenlijst al heeft ingesteld.</p>
+    <p>Staat het leermiddel dat je wilt beoordelen niet in de lijst? Geef dan aan bij de admin van de school dat het leermiddel ontbreekt, zodat deze kan worden toegevoegd.</p>
+
+    <h4>Bron</h4>
+    <p>Jung, I. (2016, 9 februari). A framework for assessing fitness for purpose in open educational resources. Geraadpleegd op 22 april 2019, van <a href="https://educationaltechnologyjournal.springeropen.com/articles/10.1186/s41239-016-0002-5" target=_blank>https://educationaltechnologyjournal.springeropen.com/articles/10.1186/s41239-016-0002-5</a></p>
+    <p>Welp, E. (2017, 23 oktober). Kiezen voor het juiste digitale leermiddel? Stel vragen. Geraadpleegd op 22 april 2019, van <a href="https://www.kennisnet.nl/artikel/kiezen-voor-het-juiste-digitale-leermiddel-stel-vragen/" target=_blank>https://www.kennisnet.nl/artikel/kiezen-voor-het-juiste-digitale-leermiddel-stel-vragen/</a></p>
+   
+
+  </div>
+  <div class="actions">
+
+    <div class="ui green ok inverted button">
+      <i class="checkmark icon"></i>
+      Duidelijk
+    </div>
+  </div>
+</div>

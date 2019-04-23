@@ -1,16 +1,22 @@
-<div class="ui divider"></div>
-<div class="ui relaxed divided list">
-  <div class="item">
-    <div class="content">
-      <i class="user circle icon"></i>
-      Jouw profielpagina
-      <div class="right floated content">
-        <button type="button" class="ui mini circular icon button" id="profile-info"  data-content="Meer informatie">
+<div class="ui grid">
+  <div class="two column row">
+    <div class="left floated column">
+      <h5 class="ui header">
+        <i class="user circle icon"></i>
+        <div class="content">
+          Jouw profielpagina
+        </div>
+      </h5>
+    </div>
+    <div class="right floated column">
+      <button type="button" class="ui right floated mini circular icon button" id="profile-info"  data-content="Meer informatie">
           <i class="info icon"></i>
-        </button>
-      </div>
+      </button>
     </div>
   </div>
+</div>
+
+<div class="ui relaxed divided list">
 	<div class="item">
 		<% if(currentUser.firstName && currentUser.lastName){%>
 	  		<i class="check green icon"></i>
@@ -50,6 +56,7 @@
     <%}%>
   </div>
 </div>
+
 
 <div class="ui basic modal profile-info">
   <div class="ui icon header">
