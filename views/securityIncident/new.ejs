@@ -3,40 +3,15 @@
 <% include ../partials/flash-message %>
 <%if(schoolLevel){%>
   <% include ../partials/school-header %>
-
-  <h2 class="ui top attached header">Beveiligingsincident Toevoegen aan <%= school.name %></h2>
-  <form class="ui small form" action="/schools/<%=school._id%>/securityIncident" method="POST" id="securityIncidentForm">
 <%} else { %>
-  <div class="ui container">
-    <h2 class="ui top attached header">Beveiligingsincident Toevoegen</h2>
-    <form class="ui small form" action="/securityIncident" method="POST" id="securityIncidentForm">
+	<div class="ui container">
 <% } %>
-  <div class="ui top attached tabular menu">
-    <a class="item active" data-tab="first">Melder</a>
-    <a class="item" data-tab="second">Incident</a>
-    <a class="item" data-tab="third">Gevolgen</a>
-    <a class="item" data-tab="fourth">Berichten</a>
-    <a class="item" data-tab="fifth">Verwerker</a>
-  </div>
-  <div class="ui bottom attached tab segment active" data-tab="first">
-      <% include new/part1 %>
-  </div>
-  <div class="ui bottom attached tab segment" data-tab="second">
-      <% include new/part2 %>
-  </div>
-  <div class="ui bottom attached tab segment" data-tab="third">
-      <% include new/part3 %>
-  </div>
-  <div class="ui bottom attached tab segment" data-tab="fourth">
-       <% include new/part4 %>
-  </div>
-  <div class="ui bottom attached tab segment" data-tab="fifth">
-       <% include new/part5 %>
-  </div>
-  <button class="ui button" type="submit">Bewaren</button>
-  <div class="ui error message"></div>
-</form>
+    <h2 class="ui header">Beveiligingsincident Toevoegen</h2>
+    <div id="securityIncidentForm"></div>
+    <div id="schoolLevel" hidden><%=schoolLevel%></div>
+    
 <%if(schoolLevel){%>
+  <div id="schoolId" hidden><%= school._id%></div>
   <% include ../partials/school-footer %>
 <%} else {%>
   </div>

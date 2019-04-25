@@ -25,15 +25,14 @@ var SecurityIncidentSchema = new mongoose.Schema({
    mitigationMeasures: String,
    preventionMeasures: String,
    //part 4 of form
+   hasAuthorityReport: Boolean,
    authorityReport: String,
+   hasConcernedPeopleReport: Boolean,
    concernedPeopleReport: String,
    otherRelevantInformation: String,
    //other
    created: {type: Date, default: Date.now},
-   processingActivity: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "ProcessingActivity"
-   },
+   processingActivity: String,
    school: {                                 
        type: mongoose.Schema.Types.ObjectId,
        ref: "School"

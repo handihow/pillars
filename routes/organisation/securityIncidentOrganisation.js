@@ -25,45 +25,47 @@ router.get("/", middleware.isLoggedIn, function(req, res){
 
 //NEW ROUTE
 router.get("/new", middleware.isAuthenticatedBadmin, function(req, res){
-  ProcessingActivity.find({organisation: req.user.organisation}).exec(function(err, processingActivities){
-      if(err) {
-          req.flash("error", err.message);
-          res.redirect("back");
-      } else {
-          res.locals.scripts.header.tinymce = true;
-          res.render("securityIncident/new", {schoolLevel: false, processingActivities: processingActivities});        
-      }
-  });
+    res.locals.scripts.header.surveyjs = true;
+    res.locals.scripts.footer.surveyjs = true;
+    res.locals.scripts.footer.surveyOptions = true;
+    res.locals.scripts.footer.securityIncident = true;
+    res.render("securityIncident/new", {schoolLevel: false});
 });
 
 //SHOW ROUTE
 router.get("/:pid", middleware.isLoggedIn, function(req, res){
-  SecurityIncident.findById(req.params.pid).populate("processingActivity").exec(function(err, securityIncident){
+  SecurityIncident.findById(req.params.pid).exec(function(err, securityIncident){
         if(err ||!securityIncident){
             req.flash("error", "Beveiligingsincident niet gevonden.");
             res.redirect("back");
         } else {
+            res.locals.scripts.header.surveyjs = true;
+            res.locals.scripts.footer.surveyjs = true;
+            res.locals.scripts.footer.surveyOptions = true;
+            res.locals.scripts.footer.securityIncident = true;
             res.render("securityIncident/show", {securityIncident: securityIncident, schoolLevel: false});            
         }
     });
-
 });
 
 //CREATE ROUTE
 router.post("/", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
-  req.body.securityIncident.body = req.sanitize(req.body.securityIncident.body);
-  SecurityIncident.create(req.body.securityIncident, function(err, securityIncident){
+  var securityIncident = JSON.parse(req.body.result);
+  SecurityIncident.create(securityIncident, function(err, securityIncident){
             if(err || !securityIncident){
-                req.flash("error", err.message);
-                res.locals.error = req.flash("error");
-                res.render("securityIncident/new", {  schoolLevel: false});
+                res.contentType('json');
+                res.send({ 
+                    success: false, 
+                    error: 'Foutmelding: beveiligingsincident niet gemaakt. Server geeft fout: ' + err.message 
+                  });
             }  else {
-                res.locals.scripts.header.tinymce = false;
                 securityIncident.organisation = req.user.organisation;
                 securityIncident.isValidForAllOrganisation = true;
                 securityIncident.save();
-                req.flash("success", "Beveiligingsincident toegevoegd");
-                res.redirect("/securityIncident");
+                res.contentType('json');
+                res.send({ 
+                    success: true
+                  });
             }
       }); 
 });
@@ -78,35 +80,38 @@ router.get("/:pid/edit", middleware.isNotDemoAccount, middleware.isAuthenticated
               req.flash("error", "Beveiligingsincident niet gevonden");
               res.redirect("back");
           } else {
-            ProcessingActivity.find({organisation: req.user.organisation}).exec(function(err, processingActivities){
-                if(err) {
-                    req.flash("error", err.message);
-                    res.redirect("back");
-                } else {
-                    res.locals.scripts.header.tinymce = true;
-                    res.render("securityIncident/edit", {securityIncident: securityIncident, 
-                                                        schoolLevel: false,
-                                                        processingActivities: processingActivities});       
-                }
-            });  
+              res.locals.scripts.header.surveyjs = true;
+              res.locals.scripts.footer.surveyjs = true;
+              res.locals.scripts.footer.surveyOptions = true;
+              res.locals.scripts.footer.securityIncident = true;
+              res.render("securityIncident/edit", {securityIncident: securityIncident, 
+                                                        schoolLevel: false});       
           }
+          
       });
 });
 
 // //UPDATE ROUTE
-router.put("/:pid", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
-  req.body.securityIncident.body = req.sanitize(req.body.securityIncident.body);
-  SecurityIncident.findByIdAndUpdate(req.params.pid, req.body.securityIncident, function(err, securityIncident){
+router.post("/:pid", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
+  var securityIncident = JSON.parse(req.body.result);
+  SecurityIncident.findByIdAndUpdate(req.params.pid, securityIncident, function(err, securityIncident){
     if(err){
-        req.flash("error", err.message);
-        res.redirect("/securityIncident");
+        res.contentType('json');
+        res.send({ 
+            success: false, 
+            error: 'Foutmelding: beveiligingsincident niet geupdated. Server geeft fout: ' + err.message 
+          });
     } else if (!securityIncident){
-        req.flash("error", "Beveiligingsincident niet gevonden");
-        res.redirect("/securityIncident");
+        res.contentType('json');
+        res.send({ 
+            success: false, 
+            error: 'Foutmelding: beveiligingsincident niet gevonden' 
+          });
     } else {
-        res.locals.scripts.header.tinymce = false;
-        req.flash("success", "Beveiligingsincident updated");
-        res.redirect("/securityIncident/" + req.params.pid);
+        res.contentType('json');
+        res.send({ 
+            success: true
+          });
     }
   });
 });

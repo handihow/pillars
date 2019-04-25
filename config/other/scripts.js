@@ -41,7 +41,8 @@ var scripts = {
 			individualResults: false,
 			edurep: false,
 			evaluation: false,
-			hardware: false
+			hardware: false,
+			securityIncident: false,
 		}
 };
 

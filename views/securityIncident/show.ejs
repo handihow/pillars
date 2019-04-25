@@ -8,29 +8,12 @@
 <%}%>
 
 <h2 class="ui header"><i class="shield alternate icon"></i><%=securityIncident.securityIncidentName%></h2>
-<div class="ui top attached tabular menu">
-    <a class="item active" data-tab="first">Melder</a>
-    <a class="item" data-tab="second">Incident</a>
-    <a class="item" data-tab="third">Gevolgen</a>
-    <a class="item" data-tab="fourth">Berichten</a>
-    <a class="item" data-tab="fifth">Verwerker</a>
-  </div>
-  <div class="ui bottom attached tab segment active" data-tab="first">
-      <% include show/part1 %>
-  </div>
-  <div class="ui bottom attached tab segment" data-tab="second">
-      <% include show/part2 %>
-  </div>
-  <div class="ui bottom attached tab segment" data-tab="third">
-      <% include show/part3 %>
-  </div>
-  <div class="ui bottom attached tab segment" data-tab="fourth">
-       <% include show/part4 %>
-  </div>
-  <div class="ui bottom attached tab segment" data-tab="fifth">
-       <% include show/part5 %>
-  </div>
+<div id="securityIncidentData" hidden><%=JSON.stringify(securityIncident)%></div>
+<div id="isShow" hidden>true</div>
+<div id="securityIncidentForm"></div>
+<div id="schoolLevel" hidden><%=schoolLevel%></div>
 
+<button class="ui basic button" id="saveToPDFbtn">Bewaar PDF</button>
 <%if(schoolLevel && !securityIncident.isValidForAllOrganisation){%>
     <a id="edit" 
     class="ui primary basic button" 
