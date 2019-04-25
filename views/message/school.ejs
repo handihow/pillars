@@ -4,24 +4,37 @@
 <% include ../partials/school-header %>
 
 <!--MESSAGES-->
-        <h2 class="ui top attached header"><i class="info circle icon"></i> Informatie / Berichten van het Bestuur</h2>
-        <div class="ui attached segment">
-          <% messages.forEach(function(message){%>
-            <div class="ui feed">
-              <div class="event">
-                <div class="label">
-                  <i class="pencil icon"></i>
-                </div>
-                <div class="content">
-                  <div class="summary">
-                    Het bestuur heeft informatie / bericht met titel <a href="/message/<%=message._id%>"><%=message.title%></a> geplaatst.
-                    <div class="date"><%=message.created.toDateString()%></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          <%})%>
+        <h2 class="ui header"><i class="info circle icon"></i> Informatie / Berichten van het Bestuur</h2>
+        <div class="ui divider"></div>
+    <!-- placeholder if no messages -->
+    <%if(messages.length===0){%>
+      <div class="ui placeholder segment">
+        <div class="ui icon header">
+          <i class="dont icon"></i>
+          Nog geen berichten
         </div>
+      </div>
+    <%}%>
+    <!--cards with messages-->
+    <div class="ui three doubling cards">
+      <% messages.forEach(function(message){ %>
+      <div class="card">
+        <div class="content">
+          <div class="header"><a href="/message/<%=message._id%>"><%= message.title %></a></div>
+          <div class="description">
+            <%= message.message ? message.message.replace(/(&nbsp;)*/g,"").replace(/<\/?[^>]+(>|$)/g, "").substring(0,100) : null%> ...
+          </div>
+          <div class="description">
+            Datum: <%= message.created.toJSON().slice(0,10).split('-').reverse().join('/') %>
+          </div>
+        </div>
+        <a class="ui bottom attached button" href="/message/<%=message._id%>">
+          <i class="show icon"></i>
+          Bekijk 
+        </a>
+      </div>
+      <% }); %>
+    </div>
         
 <% include ../partials/school-footer %>
 <% include ../partials/footer %>
