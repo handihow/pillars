@@ -6,15 +6,15 @@
 
 
     <h2 class="ui header"><i class="comments icon"></i> Evaluatie van <%= school.name %></h2>
-    <h4><%=evaluation.title%></h4>
-    <h5>Rapport van het evaluatiegesprek</h5>
-    <p><%-evaluation.report%></p>
-    <h5>Plan van aanpak</h5>
-    <p><%-evaluation.plan%></p>
-      <a class="ui primary basic button" href="/schools/<%= school._id %>/evaluation/<%= evaluation._id%>/edit">Bewerken</a>
-      <form id="delete" action="/schools/<%= evaluation.school._id %>/evaluation/<%= evaluation._id%>?_method=DELETE" method="POST">
-          <button class="ui red basic button">Verwijderen</button>
-      </form>
+    <div id="evaluationForm"></div>
+    <div id="schoolId" hidden><%= school._id%></div>
+    <div id="evaluationData" hidden><%=JSON.stringify(evaluation)%></div>
+    <div id="isShow" hidden>true</div>
+
+    <a class="ui primary basic button" href="/schools/<%= school._id %>/evaluation/<%= evaluation._id%>/edit">Bewerken</a>
+    <form id="delete" action="/schools/<%= evaluation.school._id %>/evaluation/<%= evaluation._id%>?_method=DELETE" method="POST">
+        <button class="ui red basic button">Verwijderen</button>
+    </form>
 </div>
     
 <% include ../partials/school-footer %>

@@ -32,13 +32,16 @@ var scripts = {
 			overview: false,
 			tests: false,
 			surveyjs: false,
+			surveyOptions: false,
 			surveyBuilder: false,
 			surveyPrivate: false,
 			surveyPublic: false,
 			surveyResults: false,
 			surveyResult: false,
 			individualResults: false,
-			edurep: false
+			edurep: false,
+			evaluation: false,
+			hardware: false
 		}
 };
 

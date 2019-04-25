@@ -460,6 +460,7 @@ router.get("/:id/private", middleware.isLoggedIn, function(req, res){
             }
             res.locals.scripts.header.surveyjs = true;
             res.locals.scripts.footer.surveyjs = true;
+            res.locals.scripts.footer.surveyOptions = true;
             res.locals.scripts.footer.surveyPrivate = true;
             res.render("survey/private", {survey: survey, software: software});            
         }
@@ -543,6 +544,7 @@ router.get("/:id/public", function(req, res){
         } else {
             res.locals.scripts.header.surveyjs = true;
             res.locals.scripts.footer.surveyjs = true;
+            res.locals.scripts.footer.surveyOptions = true;
             res.locals.scripts.footer.surveyPublic = true;
             res.render("survey/public", {survey: survey});            
         }

@@ -1,21 +1,6 @@
 <script>
 	$(document).ready(function() {
 
-		var defaultThemeColors = Survey
-	    .StylesManager
-	    .ThemeColors["default"];
-		defaultThemeColors["$main-color"] = "#3B83C0";
-		defaultThemeColors["$main-hover-color"] = "#54C8FF";
-		defaultThemeColors["$text-color"] = "#4a4a4a";
-		defaultThemeColors["$header-color"] = "#3B83C0";
-
-		defaultThemeColors["$header-background-color"] = "#4a4a4a";
-		defaultThemeColors["$body-container-background-color"] = "#F7F7F7";
-
-		Survey
-		    .StylesManager
-		    .applyTheme();
-
 		var initialText = $( '#surveyText' ).text();
 
 		var json = JSON.parse(initialText);

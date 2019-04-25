@@ -6,6 +6,8 @@ var evaluationSchema=  mongoose.Schema({
     plan: String,
     //ALGEMEEN
     created: {type: Date, default: Date.now},
+    date: String,
+    actions: [{}],
     owner: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "User"

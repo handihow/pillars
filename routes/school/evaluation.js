@@ -23,7 +23,10 @@ router.get("/new", middleware.isSchoolOwner, function(req, res){
       req.flash("error", err.message);
       res.redirect("back");
     } else {
-      res.locals.scripts.header.tinymce = true;
+      res.locals.scripts.header.surveyjs = true;
+      res.locals.scripts.footer.surveyjs = true;
+      res.locals.scripts.footer.surveyOptions = true;
+      res.locals.scripts.footer.evaluation = true;
       res.render("evaluation/new", {school: school});
     }
   });
@@ -36,6 +39,11 @@ router.get("/:eval_id", middleware.isSchoolOwner, function(req, res){
           req.flash("error", "Evaluatie niet gevonden.");
           res.redirect("back");
       } else {
+          res.locals.scripts.header.surveyjs = true;
+          res.locals.scripts.footer.surveyjs = true;
+          res.locals.scripts.footer.surveyOptions = true;
+          res.locals.scripts.footer.evaluation = true;
+          evaluation.created = evaluation.created.toDateString();
           res.render("evaluation/show", {evaluation: evaluation, school: evaluation.school});            
       }
   });
@@ -44,12 +52,14 @@ router.get("/:eval_id", middleware.isSchoolOwner, function(req, res){
 
 //CREATE NEW SCHOOL EVALUATION ROUTE
 router.post("/", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
-    req.body.evaluation.body = req.sanitize(req.body.evaluation.body);
-    Evaluation.create(req.body.evaluation, function(err, evaluation){
+    var evaluation = JSON.parse(req.body.result);
+    Evaluation.create(evaluation, function(err, evaluation){
           if(err || !evaluation){
-              req.flash("error", err.message);
-              res.locals.error = req.flash("error");
-              res.render("evaluation/new");
+              res.contentType('json');
+              res.send({ 
+                  success: false, 
+                  error: 'Foutmelding: evaluatie niet gemaakt. Server geeft fout: ' + err.message 
+                });
           }  else {
               //look up user id and add to evaluation
               evaluation.owner = req.user._id;
@@ -62,9 +72,10 @@ router.post("/", middleware.isNotDemoAccount, middleware.isSchoolOwner, function
                 } else {
                   school.evaluations.push(evaluation);
                   school.save();
-                  res.locals.scripts.header.tinymce = false;
-                  req.flash("success", "Evaluatie toegevoegd");
-                  res.redirect("/schools/" + req.params.id + "/evaluation/");
+                  res.contentType('json');
+                  res.send({ 
+                      success: true
+                    }); 
                 }
               });
           }
@@ -78,23 +89,30 @@ router.get("/:eval_id/edit", middleware.isNotDemoAccount, middleware.isSchoolOwn
           req.flash("error", "Evaluatie niet gevonden.");
           res.redirect("back");
       } else {
-          res.locals.scripts.header.tinymce = true;
+          res.locals.scripts.header.surveyjs = true;
+          res.locals.scripts.footer.surveyjs = true;
+          res.locals.scripts.footer.surveyOptions = true;
+          res.locals.scripts.footer.evaluation = true;
           res.render("evaluation/edit", {evaluation: evaluation, school: evaluation.school});
       }
   });
 });
 
 //UPDATE ROUTE
-router.put("/:eval_id", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
-    req.body.evaluation.body = req.sanitize(req.body.evaluation.body);
-    Evaluation.findByIdAndUpdate(req.params.eval_id, req.body.evaluation, function(err, evaluation){
+router.post("/:eval_id", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
+    var evaluation = JSON.parse(req.body.result);
+    Evaluation.findByIdAndUpdate(req.params.eval_id, evaluation, function(err, evaluation){
       if(err || !evaluation){
-          req.flash("error", "Evaluatie niet gevonden.");
-          res.redirect("back");
+          res.contentType('json');
+          res.send({ 
+              success: false, 
+              error: 'Foutmelding: evaluatie niet gemaakt. Server geeft fout: ' + err.message 
+            });
       } else {
-          res.locals.scripts.header.tinymce = false;
-          req.flash("success", "Evaluatie updated");
-          res.redirect("/schools/" + req.params.id + "/evaluation/" + req.params.eval_id);
+          res.contentType('json');
+          res.send({ 
+              success: true
+            }); 
       }
     });
 });

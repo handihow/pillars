@@ -7,6 +7,7 @@ var middleware = require("../../middleware");
 var csv = require("fast-csv");
 var json2csv = require("json2csv");
 var score = require("../../config/score");
+var mongoose = require("mongoose");
 
 router.use(function(req,res,next){
   res.locals.config = config.hardware;
@@ -122,13 +123,17 @@ router.get("/download", middleware.isNotDemoAccount, middleware.isSchoolOwner, f
 });
 
 //NEW - form to create new hardware
-router.get("/new/:type", middleware.isSchoolOwner, function(req, res){
+router.get("/new/:mode", middleware.isSchoolOwner, function(req, res){
   School.findById(req.params.id, function(err, school){
     if(err || !school) {
       req.flash("error", "School niet gevonden");
       res.redirect("/schools");
     } else {
-      res.render("hardware/new", {school: school, type: req.params.type});        
+      res.locals.scripts.header.surveyjs = true;
+      res.locals.scripts.footer.surveyjs = true;
+      res.locals.scripts.footer.surveyOptions = true;
+      res.locals.scripts.footer.hardware = true;
+      res.render("hardware/new", {school: school, mode: req.params.mode});        
     }
   });
 });
@@ -221,7 +226,6 @@ router.post("/bulk2", middleware.isNotDemoAccount, middleware.isSchoolOwner, fun
             hardwareIds.forEach(function(hardwareId){
               school.hardware.push(hardwareId);
             });
-            school.isToegevoegdHardware = true;
             //then save the school
             school.save(function(err){
               if(err){
@@ -241,35 +245,81 @@ router.post("/bulk2", middleware.isNotDemoAccount, middleware.isSchoolOwner, fun
 
 //CREATE - creates new hardware in the database and links it to school
 router.post("/", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
+  var hardware = JSON.parse(req.body.result);
     //lookup school by ID
-    School.findById(req.params.id, function(err, school){
-     if(err || !school){
-       req.flash("error", "School niet gevonden");
-       res.redirect("back");
+  School.findById(req.params.id, function(err, school){
+   if(err || !school){
+     req.flash("error", "School niet gevonden");
+     res.redirect("back");
+   } else if(req.body.mode == "long") {
+     //detailed form was used, create single new hardware in DB
+     Hardware.create(hardware, function(err, hardware){
+       if(err){
+         res.contentType('json');
+          res.send({ 
+              success: false, 
+              error: 'Foutmelding: hardware niet toegevoegd. Server geeft fout: ' + err.message 
+            });
+       } else {
+             //add owner (id and username) to hardware
+             hardware.owner = req.user._id;
+             //connect new hardware to school in DB
+             hardware.save();
+             school.hardware.push(hardware);
+             school.save();
+             //redirect to school hardware show page
+             req.flash("success", "Hardware succesvol toegevoegd!");
+             res.contentType('json');
+             res.send({ 
+                  success: true
+                }); 
+        }
+       });
      } else {
-       //create new hardware in DB
-       Hardware.create(req.body.hardware, function(err, hardware){
-         if(err){
-           req.flash("error", "Hardware niet gevonden");
-           res.redirect("back");
-         } else {
-               //add owner (id and username) to hardware
-               hardware.owner = req.user._id;
-               //connect new hardware to school in DB
-               hardware.save();
-               school.hardware.push(hardware);
-               school.isToegevoegdHardware = true;
-               school.save(function(err, school){
-                if(err){
-                  console.log(err);
-                }
-                console.log(school);
-              });
-               //redirect to school hardware show page
-               req.flash("success", "Hardware succesvol toegevoegd!");
-               res.redirect("/schools/"+school._id+"/hardware");
-             }
-           });
+       var newHardware = []
+       //add hardware from the list of hardware
+       hardware.hardware.forEach(function(hardware){
+         var count = 0;
+         while (count < parseInt(hardware.numberDevices)) {
+           var newHW = JSON.parse(JSON.stringify(hardware));
+           newHW.owner = req.user._id;
+           newHW._id = mongoose.mongo.ObjectId();
+           delete newHW.numberDevices;
+           newHardware.push(newHW);
+           count ++;
+         }
+       });
+      Hardware.collection.insertMany(newHardware, function(err, result){
+        if(err){
+          res.contentType('json');
+          res.send({ 
+            success: false, 
+            error: 'Hardware werd niet toegevoegd. Foutmelding: ' + err.message
+          });
+        } else {
+            //store the ids of the hardware in an array
+            var hardwareIds = result.ops.map(function(o){return String(o._id)});
+            //add the id of each hardware to the school hardware
+            hardwareIds.forEach(function(hardwareId){
+              school.hardware.push(hardwareId);
+            });
+            //then save the school
+            school.save(function(err, school){
+              if(err){
+                res.contentType('json');
+                res.send({ 
+                  success: false, 
+                  error: 'Er ging iets mis. Foutmelding: ' + err.message
+                });
+              } else {
+                res.contentType('json');
+                res.send({ 
+                  success: true
+                });
+              }
+            });
+        }
+      });
      }
    });
   });

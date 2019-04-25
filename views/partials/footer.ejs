@@ -54,6 +54,9 @@
 <% if(scripts.footer.surveyBuilder) { %>
 	<% include ../survey/logic/surveyBuilder %>
 <% } %>
+<% if(scripts.footer.surveyOptions) {%>
+	<% include ../partials/surveyOptions %>
+<% } %>
 <% if(scripts.footer.surveyResults) {%>
 	<% include ../survey/logic/surveyResults %>
 	<script src="https://cdn3.devexpress.com/jslib/17.2.5/js/dx.all.js"></script>
@@ -73,6 +76,12 @@
 <% } %>
 <% if(scripts.footer.edurep) { %>
 	<% include ../software/logic/edurep %>
+<% } %>
+<% if(scripts.footer.evaluation){ %>
+	<% include ../evaluation/logic %>
+<% } %>
+<% if(scripts.footer.hardware){ %>
+	<% include ../hardware/logic %>
 <% } %>
 
 </body>

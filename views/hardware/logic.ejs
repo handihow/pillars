@@ -1,0 +1,47 @@
+<script>
+
+	var mode = $( '#mode' ).text();
+	
+	var hardwareForm;
+
+	if(mode == 'long'){
+		hardwareForm = {"locale":"nl","title":{"nl":"Hardware toevoegen"},"completedHtml":{"nl":"Hardware wordt verwerkt..."},"loadingHtml":{"nl":"Even geduld aub..."},"pages":[{"name":"long","elements":[{"type":"dropdown","name":"type","startWithNewLine":false,"title":{"nl":"Type hardware"},"isRequired":true,"choices":["Desktop","Multipoint computer","Laptop","Digitaal schoolbord","Tablet","Chromebook","Telefoon","Kopieermachine","Printer"]},{"type":"text","name":"name","startWithNewLine":false,"title":{"nl":"Naam hardware"},"isRequired":true},{"type":"dropdown","name":"memory","visibleIf":"{type} = \"Desktop\" or {type} = \"Multipoint computer\" or {type} = \"Laptop\"","startWithNewLine":false,"title":{"nl":"Werkgeheugen (GB)"},"isRequired":true,"hasOther":true,"choices":[{"value":"2","text":{"nl":"2 GB"}},{"value":"4","text":{"nl":"4 GB"}},{"value":"8","text":{"nl":"8 GB"}},{"value":"16","text":{"nl":"16 GB"}},{"value":"32","text":{"nl":"32 GB"}}],"otherText":{"nl":"Anders, nl."}},{"type":"dropdown","name":"deploymentYear","startWithNewLine":false,"title":{"nl":"Jaar ingebruikname"},"isRequired":true,"hasOther":true,"choices":["2019","2018","2017","2016","2015",{"value":"2014","text":{"nl":"Ouder dan 2014"}},{"value":"0","text":{"nl":"Onbekend"}}],"otherText":{"nl":"Anders, nl."}},{"type":"text","name":"brand","title":{"nl":"Merk"}},{"type":"text","name":"model","startWithNewLine":false,"title":{"nl":"Model"}},{"type":"text","name":"processor","startWithNewLine":false,"title":{"nl":"Processor"}},{"type":"text","name":"serialTag","startWithNewLine":false,"title":{"nl":"Serial/Tag nummer"}},{"type":"text","name":"numberWorkPlacesMultipoint","visibleIf":"{type} = \"Multipoint computer\"","title":{"nl":"Aantal werkplekken multipoint computer"},"isRequired":true,"validators":[{"type":"numeric","minValue":1,"maxValue":5}],"inputType":"number"},{"type":"boolean","name":"isTouchscreenDigibord","visibleIf":"{type} = \"Digitaal schoolbord\"","startWithNewLine":false,"title":{"nl":"Touchscreen Digitaal Schoolbord"},"isRequired":true},{"type":"text","name":"screensizeDigibord","visibleIf":"{type} = \"Digitaal schoolbord\"","startWithNewLine":false,"title":{"nl":"Beelddiagonaal in inch"},"inputType":"number"},{"type":"text","name":"supplier","title":{"nl":"Leverancier"}},{"type":"text","name":"warranty","startWithNewLine":false,"title":{"nl":"Garantievorm"}}],"title":{"nl":"Uitgebreid invoeren hardware"}}],"showTitle":false,"showPageTitles":false,"showQuestionNumbers":"off"};
+	} else {
+	 	hardwareForm = {"locale":"nl","title":{"nl":"Hardware toevoegen"},"completedHtml":{"nl":"Hardware wordt verwerkt..."},"loadingHtml":{"nl":"Even geduld aub..."},"pages":[{"name":"short","elements":[{"type":"paneldynamic","name":"hardware","title":{"nl":"Voer hardware in"},"templateElements":[{"type":"dropdown","name":"type","startWithNewLine":false,"title":{"nl":"Type hardware"},"isRequired":true,"choices":["Desktop","Multipoint computer","Laptop","Digitaal schoolbord","Tablet","Chromebook","Telefoon","Kopieermachine","Printer"]},{"type":"text","name":"name","startWithNewLine":false,"title":{"nl":"Naam hardware"},"isRequired":true},{"type":"dropdown","name":"memory","visibleIf":"{panel.type} contains \"Desktop\" or {panel.type} contains \"Multipoint computer\" or {panel.type} contains \"Laptop\"","startWithNewLine":false,"title":{"nl":"Werkgeheugen (GB)"},"isRequired":true,"hasOther":true,"choices":[{"value":"2","text":{"nl":"2 GB"}},{"value":"4","text":{"nl":"4 GB"}},{"value":"8","text":{"nl":"8 GB"}},{"value":"16","text":{"nl":"16 GB"}},{"value":"32","text":{"nl":"32 GB"}},{"value":"0","text":{"nl":"Niet van toepassing"}}],"otherText":{"nl":"Anders, nl."}},{"type":"dropdown","name":"deploymentYear","startWithNewLine":false,"title":{"nl":"Jaar ingebruikname"},"isRequired":true,"hasOther":true,"choices":["2019","2018","2017","2016","2015",{"value":"2014","text":{"nl":"Ouder dan 2014"}},{"value":"0","text":{"nl":"Onbekend"}}],"otherText":{"nl":"Anders, nl."}},{"type":"text","name":"numberDevices","startWithNewLine":false,"title":{"nl":"Aantal apparaten"},"defaultValue":1,"isRequired":true,"validators":[{"type":"numeric","minValue":1,"maxValue":100}],"inputType":"number"},{"type":"text","name":"numberWorkPlacesMultipoint","visibleIf":"{panel.type} = \"Multipoint computer\"","width":"30%","title":{"nl":"Aantal werkplekken per multipoint"},"isRequired":true,"validators":[{"type":"numeric","minValue":1,"maxValue":10}],"inputType":"number"},{"type":"text","name":"screensizeDigibord","visibleIf":"{panel.type} = \"Digitaal schoolbord\"","title":{"nl":"Beelddiagonaal in inches"},"isRequired":true,"inputType":"number"},{"type":"boolean","name":"isTouchscreenDigibord","visibleIf":"{panel.type} = \"Digitaal schoolbord\"","startWithNewLine":false,"title":{"nl":"Touchscreen digitaal schoolbord"},"isRequired":true}],"panelCount":1,"minPanelCount":1,"confirmDelete":true,"confirmDeleteText":{"nl":"Weet je zeker dat je deze regel wilt verwijderen?"},"panelAddText":{"nl":"Regel toevoegen"},"panelRemoveText":{"nl":"Regel verwijderen"}}],"title":{"nl":"Snelle invoer"}}],"showTitle":false,"showPageTitles":false,"showQuestionNumbers":"off"};
+	}
+	
+	var survey = new Survey.Model(hardwareForm);
+    
+    survey.locale = 'nl';
+    
+    $("#hardwareForm").Survey({model: survey});
+
+    var schoolId = $( '#schoolId' ).text();
+    var url = window.location.origin + "/schools/" + schoolId + "/hardware"; //post url for new hardware
+
+    survey
+      .onComplete
+      .add(function (result) {
+        console.log(url);
+           $.ajax({
+            url: url,
+            type: "POST",
+            data: {
+                result: JSON.stringify(result.data),
+                mode: mode
+            },
+            success: function (data) {
+              if(data.success){
+                window.location.href = window.location.origin + "/schools/" + schoolId +  "/hardware";
+              } else {
+                alert(data.error);
+              }
+            },
+            error: function(err) {
+              alert(err.message ? err.message : 'Er ging iets mis');
+            }
+        });
+
+      });
+
+</script>
