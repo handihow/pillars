@@ -201,7 +201,42 @@ competenceCategories = [
       }
     ]
   },
-
+  {
+    identifier: 'rubric',
+    title: 'Beoordelingsinstrument adhv Rubrics',
+    surveyOption: 'assessment',
+    type: 'matrix',
+    categories: [
+      {
+        name: 'interpersonalCompetence',
+        title: 'Interpersoonlijk competent'
+      },
+      {
+        name: 'pedagogicalCompetence',
+        title: 'Pedagogisch competent'
+      },
+      {
+        name: 'competenceInSubjectMatterAndDidactics',
+        title: 'Vakinhoudelijk en didactisch competent'
+      },
+      {
+        name: 'organisationalCompetence',
+        title: 'Organisatorisch competent'
+      },
+      {
+        name: 'competenceWhenWorkingWithColleagues',
+        title: 'Competent in het samenwerken met collegas'
+      },
+      {
+        name: 'competenceInWorkingWithTheEnvironment',
+        title: 'Competent in het samenwerken met de omgeving'
+      },
+      {
+        name: 'competenceInReflectionAndPersonalDevelopment',
+        title: 'Competent in reflectie en zelfontwikkeling'
+      }
+    ]
+  },
 ];
 
 survey.competenceCategories = competenceCategories;
@@ -229,7 +264,6 @@ survey.calculateStatistics = function(survey, surveyResults){
        var questions = 0;
        var total = 0;
        Object.keys(surveyResult.result).forEach(function(key){
-
           var value = surveyResult.result[key];
           if(typeof value == 'string'){
             value = parseFloat(value);
@@ -4308,5 +4342,1465 @@ survey.assessmentForm = {
  "showTitle": false
 }
 
+survey.rubric = {
+ "locale": "nl",
+ "title": {
+  "default": "Beoordelingscriteria leraar adhv Rubrics",
+  "nl": "Beoordelingscriteria adhv Rubrics"
+ },
+ "pages": [
+  {
+   "name": "interpersonalCompetencePage",
+   "elements": [
+    {
+     "type": "matrix",
+     "name": "interpersonalCompetence",
+     "title": {
+      "nl": "Interpersoonlijk competent"
+     },
+     "isRequired": true,
+     "columns": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Niveau 1"
+       }
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Niveau 2"
+       }
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Niveau 3"
+       }
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Niveau 4"
+       }
+      }
+     ],
+     "rows": [
+      {
+       "value": "interactingWithPupils",
+       "text": {
+        "nl": "In contact met leerlingen "
+       }
+      },
+      {
+       "value": "communicatingWithPupils",
+       "text": {
+        "nl": "Communiceren met leerlingen"
+       }
+      },
+      {
+       "value": "creatingGoodAtmosphereForCooperation",
+       "text": {
+        "nl": "Klimaat voor samenwerking  scheppen"
+       }
+      }
+     ],
+     "cells": {
+      "interactingWithPupils": {
+       "1": {
+        "nl": "Heeft amper zicht op wat leerlingen bezighoudt. \n\nMijdt ongeïnteresseerde, lastige leerlingen; mijdt moeilijke situaties."
+       },
+       "2": {
+        "nl": "Heeft enig zicht op wat leerlingen bezighoudt; weet dat af en toe te benutten.\n\nGaat lastige leerlingen en situaties wel aan, maar heeft daarbij hulp van anderen nodig.\n\nLeidt, begeleidt."
+       },
+       "3": {
+        "nl": "Merkt op wat leerlingen bezighoudt en weet dat te benutten; stemt af.\n\nHoudt zich staande bij  lastige leerlingen en situaties.\n\nLeidt, begeleidt, bouwt een band op en zet met succes leerlingen aan tot acties."
+       },
+       "4": {
+        "nl": "Heeft goed zicht op wat leerlingen bezighoudt, en weet geregeld moeilijke leerlingen voor zich te winnen."
+       }
+      },
+      "communicatingWithPupils": {
+       "1": {
+        "nl": "Communiceert moeizaam en luistert niet goed.\n\nIs eigen en andermans emoties niet de baas."
+       },
+       "2": {
+        "nl": "Past aanwijzingen toe m.b.t. het tot stand brengen van communicatie met de klas en met de leerlingen.\n\nCommuniceert op inhoudsniveau.\n\nHoudt zich in, en weert (verbale) agressie af."
+       },
+       "3": {
+        "nl": "Houdt in taalgebruik en manier van communiceren rekening met wat gebruikelijk is in de leefwereld van leerlingen.\n\nLuistert naar de leerlingen en reageert op hen.\n\nCommuniceert goed op inhoudsniveau.\n\nZet non-verbale communicatie in.\n\nGeeft en wekt vertrouwen, en bezweert agressie."
+       },
+       "4": {
+        "nl": "Communiceert effectief, efficiënt en met empathie. \n\nCommuniceert goed op inhouds- en betrekkingsniveau.\n\nGeeft en wekt vertrouwen, en bezweert agressie."
+       }
+      },
+      "creatingGoodAtmosphereForCooperation": {
+       "1": {
+        "nl": "Werkt vooral klassikaal; er is samenwerking tussen docent en individuele leerlingen. "
+       },
+       "2": {
+        "nl": "Werkt samen met de klas; zorgt ervoor dat leerlingen rekening houden met elkaar.\nLaat merken dat hij/zij een goede samenwerking tussen leerlingen waardeert."
+       },
+       "3": {
+        "nl": "Werkt samen met de klas; stimuleert samenwerking tussen de leerlingen. \nWerkt samen met de klas; zorgt ervoor dat leerlingen rekening houden met elkaar.\n\nMerkt op hoe de sociale verhoudingen liggen; zet zich in om deze zo nodig te verbeteren.\n\nZet groepswerk in; zorgt ervoor dat leerlingen onderling samenwerken. "
+       },
+       "4": {
+        "nl": "Werkt samen met de klas; zorgt ervoor dat leerlingen rekening houden met elkaar.\n\nZet groepswerk in; zorgt ervoor dat leerlingen onderling samenwerken. \n\nVerantwoordt hoe hij/zij met de (heterogene) groepen omgaat en ook met de individuele leerlingen.\n"
+       }
+      }
+     }
+    },
+    {
+     "type": "comment",
+     "name": "interpersonalCompetenceCommentSelf",
+     "title": {
+      "nl": "Eigen commentaar"
+     }
+    },
+    {
+     "type": "comment",
+     "name": "interpersonalCompetenceCommentCoach",
+     "title": {
+      "nl": "Commentaar begeleider"
+     }
+    }
+   ],
+   "title": "Interpersoonlijk competent"
+  },
+  {
+   "name": "pedagogicalCompetencePage",
+   "elements": [
+    {
+     "type": "matrix",
+     "name": "pedagogicalCompetence",
+     "title": {
+      "nl": "Pedagogisch competent"
+     },
+     "isRequired": true,
+     "columns": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Niveau 1"
+       }
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Niveau 2"
+       }
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Niveau 3"
+       }
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Niveau 4"
+       }
+      }
+     ],
+     "rows": [
+      {
+       "value": "safeLearningEnvironment",
+       "text": {
+        "nl": "Veilige leeromgeving scheppen"
+       }
+      },
+      {
+       "value": "acknowledgingDifferences",
+       "text": {
+        "nl": "Recht doen aan verschillen tussen leerlingen"
+       }
+      },
+      {
+       "value": "socialEmotionalDevelopment",
+       "text": {
+        "nl": "Begeleiden van leerlingen op het gebied van sociaal-emotionele en morele ontwikkeling"
+       }
+      },
+      {
+       "value": "independentResponsible",
+       "text": {
+        "nl": "Begeleiden van leerlingen op het gebied van zelfstandig en verantwoordelijk worden"
+       }
+      },
+      {
+       "value": "talentCapabilities",
+       "text": {
+        "nl": "Begeleiden van leerlingen bij het ontwikkelen van talent/capaciteiten"
+       }
+      }
+     ],
+     "cells": {
+      "interactingWithPupils": {
+       "1": {
+        "nl": "Heeft amper zicht op wat leerlingen bezighoudt. \n\nMijdt ongeïnteresseerde, lastige leerlingen; mijdt moeilijke situaties."
+       },
+       "2": {
+        "nl": "Heeft enig zicht op wat leerlingen bezighoudt; weet dat af en toe te benutten.\n\nGaat lastige leerlingen en situaties wel aan, maar heeft daarbij hulp van anderen nodig.\n\nLeidt, begeleidt."
+       },
+       "3": {
+        "nl": "Merkt op wat leerlingen bezighoudt en weet dat te benutten; stemt af.\n\nHoudt zich staande bij  lastige leerlingen en situaties.\n\nLeidt, begeleidt, bouwt een band op en zet met succes leerlingen aan tot acties."
+       },
+       "4": {
+        "nl": "Heeft goed zicht op wat leerlingen bezighoudt, en weet geregeld moeilijke leerlingen voor zich te winnen."
+       }
+      },
+      "communicatingWithPupils": {
+       "1": {
+        "nl": "Communiceert moeizaam en luistert niet goed.\n\nIs eigen en andermans emoties niet de baas."
+       },
+       "2": {
+        "nl": "Past aanwijzingen toe m.b.t. het tot stand brengen van communicatie met de klas en met de leerlingen.\n\nCommuniceert op inhoudsniveau.\n\nHoudt zich in, en weert (verbale) agressie af."
+       },
+       "3": {
+        "nl": "Houdt in taalgebruik en manier van communiceren rekening met wat gebruikelijk is in de leefwereld van leerlingen.\n\nLuistert naar de leerlingen en reageert op hen.\n\nCommuniceert goed op inhoudsniveau.\n\nZet non-verbale communicatie in.\n\nGeeft en wekt vertrouwen, en bezweert agressie."
+       },
+       "4": {
+        "nl": "Communiceert effectief, efficiënt en met empathie. \n\nCommuniceert goed op inhouds- en betrekkingsniveau.\n\nGeeft en wekt vertrouwen, en bezweert agressie."
+       }
+      },
+      "creatingGoodAtmosphereForCooperation": {
+       "1": {
+        "nl": "Werkt vooral klassikaal; er is samenwerking tussen docent en individuele leerlingen. "
+       },
+       "2": {
+        "nl": "Werkt samen met de klas; zorgt ervoor dat leerlingen rekening houden met elkaar.\nLaat merken dat hij/zij een goede samenwerking tussen leerlingen waardeert."
+       },
+       "3": {
+        "nl": "Werkt samen met de klas; stimuleert samenwerking tussen de leerlingen. \nWerkt samen met de klas; zorgt ervoor dat leerlingen rekening houden met elkaar.\n\nMerkt op hoe de sociale verhoudingen liggen; zet zich in om deze zo nodig te verbeteren.\n\nZet groepswerk in; zorgt ervoor dat leerlingen onderling samenwerken. "
+       },
+       "4": {
+        "nl": "Werkt samen met de klas; zorgt ervoor dat leerlingen rekening houden met elkaar.\n\nZet groepswerk in; zorgt ervoor dat leerlingen onderling samenwerken. \n\nVerantwoordt hoe hij/zij met de (heterogene) groepen omgaat en ook met de individuele leerlingen.\n"
+       }
+      },
+      "safeLearningEnvironment": {
+       "1": {
+        "nl": "Het (niet) handelen in de klas bevordert geregeld eerder chaos dan orde.\n\nLaat gedrag vrijwel volledig leiden door het groepsgebeuren."
+       },
+       "2": {
+        "nl": "Merkt op hoe de leerlingen met elkaar omgaan en wat dat voor gevolgen heeft voor het welbevinden van individuele leerlingen. \n\nDeelt de leerlingen omgangsregels mee en handhaaft deze soms wel, soms niet.\n\nRespecteert de leerlingen; laat ze in hun waarde."
+       },
+       "3": {
+        "nl": "Bespreekt met de leerlingen de sfeer in de groep en de omgang met elkaar. \n\nSpreekt geregeld leerlingen aan op ongewenst gedrag;\nstimuleert gewenst gedrag.\n\nGeeft positieve feedback.\n\nWaardeert de inbreng van de leerlingen; staat open voor hun ideeën.\n\nOndersteunt het zelfvertrouwen van de leerlingen; behandelt iedereen gelijkwaardig."
+       },
+       "4": {
+        "nl": "Schept en handhaaft in vrijwel elke situatie een veilige leeromgeving, waar de leerlingen zich medeverantwoordelijk voor voelen."
+       }
+      },
+      "acknowledgingDifferences": {
+       "1": {
+        "nl": "Ziet de klas als geheel; heeft geen oog voor individuele leerlingen."
+       },
+       "2": {
+        "nl": "Merkt op dat de leerlingen op verschillende manieren functioneren (verschillende interesses, kenmerken, achtergronden hebben)."
+       },
+       "3": {
+        "nl": "Signaleert verschillen tussen de leerlingen; reageert daar adequaat op. \n\nBenadert verschillende leerlingen passend en effectief."
+       },
+       "4": {
+        "nl": "Doet recht aan verschillen tussen de leerlingen; stimuleert de leerlingen om op een eigen manier te leren."
+       }
+      },
+      "socialEmotionalDevelopment": {
+       "1": {
+        "nl": "Heeft nauwelijks oog voor de sociaal-emotionele en morele ontwikkeling van de leerlingen."
+       },
+       "2": {
+        "nl": "Signaleert de sociaal-emotionele ontwikkeling (of de belemmering daarin) nog niet zelf, maar gaat hier wel mee om als er op gewezen wordt. \n\nSignaleert de morele ontwikkeling (of de belemmering daarin) nog niet zelf, maar gaat hier wel mee om als er op gewezen wordt."
+       },
+       "3": {
+        "nl": "Merkt op waar individuele leerlingen zijn in hun sociaal-emotionele ontwikkeling, en waar ze afwijken of achterblijven. \n\n\nMerkt op waar individuele leerlingen zijn in hun morele ontwikkeling, en waar ze afwijken of achterblijven."
+       },
+       "4": {
+        "nl": "Signaleert problemen en belemmeringen in de sociaal-emotionele ontwikkeling van leerlingen; consulteert collega’s daarover en onderneemt passende actie. \n\nSpeelt in op de sociaal-emotionele ontwikkeling van leerlingen. \n\nSignaleert problemen en belemmeringen in de morele ontwikkeling van leerlingen; consulteert collega’s daarover en onderneemt passende actie.\nSpeelt in op de morele ontwikkeling van de leerlingen. "
+       }
+      },
+      "independentResponsible": {
+       "1": {
+        "nl": "Heeft nauwelijks oog voor de zelfstandigheid en verantwoordelijkheid van de leerlingen."
+       },
+       "2": {
+        "nl": "Helpt bij de begeleiding van de leerlingen naar zelfstandigheid en verantwoordelijkheid, als daarop gewezen wordt."
+       },
+       "3": {
+        "nl": "Merkt op hoe de leerlingen zich ontwikkelen in zelfstandigheid en verantwoordelijkheid.\n\nDraagt bij aan deze ontwikkeling."
+       },
+       "4": {
+        "nl": "Signaleert individuele verschillen tussen leerlingen in hun ontwikkeling naar zelfstandigheid en verantwoordelijkheid.\n\nBegeleidt individuele leerlingen die achterblijven in deze ontwikkeling."
+       }
+      },
+      "talentCapabilities": {
+       "1": {
+        "nl": "Heeft nauwelijks oog voor talent/capaciteiten van de leerlingen."
+       },
+       "2": {
+        "nl": "Kan de talenten en capaciteiten van individuele leerlingen nog niet herkennen, maar als erop gewezen wordt wel mee omgaan."
+       },
+       "3": {
+        "nl": "Merkt op welke talenten en capaciteiten de leerlingen hebben."
+       },
+       "4": {
+        "nl": "Helpt en begeleidt de leerlingen bij het ontwikkelen van individuele talenten en capaciteiten, en kan adviseren over de (school)loopbaan. \nHoudt rekening met verschillen. \nLeert leerlingen wat hun rol en verantwoordelijkheid in de samenleving is door een voorbeeld te zijn in gedrag."
+       }
+      }
+     }
+    },
+    {
+     "type": "comment",
+     "name": "pedagogicalCompetenceCommentSelf",
+     "title": {
+      "nl": "Eigen commentaar"
+     }
+    },
+    {
+     "type": "comment",
+     "name": "pedagogicalCompetenceCommentCoach",
+     "title": {
+      "nl": "Commentaar begeleider"
+     }
+    }
+   ],
+   "title": {
+    "nl": "Pedagogisch competent"
+   }
+  },
+  {
+   "name": "competenceInSubjectMatterAndDidacticsPage",
+   "elements": [
+    {
+     "type": "matrix",
+     "name": "competenceInSubjectMatterAndDidactics",
+     "title": {
+      "nl": "Vakinhoudelijk en didactisch competent"
+     },
+     "isRequired": true,
+     "columns": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Niveau 1"
+       }
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Niveau 2"
+       }
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Niveau 3"
+       }
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Niveau 4"
+       }
+      }
+     ],
+     "rows": [
+      {
+       "value": "knowledgeOfSubjectMatter",
+       "text": {
+        "nl": "Vakinhoudelijke kennis"
+       }
+      },
+      {
+       "value": "learningObjectives",
+       "text": {
+        "nl": "Leerdoelen"
+       }
+      },
+      {
+       "value": "possibilitiesAndLimitations",
+       "text": {
+        "nl": "Mogelijkheden en beperkingen"
+       }
+      },
+      {
+       "value": "strategyAndImplementation",
+       "text": {
+        "nl": "Aanpak en uitvoering"
+       }
+      },
+      {
+       "value": "modesOfInstruction",
+       "text": {
+        "nl": "Werkvormen"
+       }
+      },
+      {
+       "value": "teachingMaterial",
+       "text": {
+        "nl": "Leermiddelen"
+       }
+      },
+      {
+       "value": "testing",
+       "text": {
+        "nl": "Toetsing"
+       }
+      },
+      {
+       "value": "assistingTheLearningProcess",
+       "text": {
+        "nl": "Bevorderen van leren"
+       }
+      },
+      {
+       "value": "givingFeedback",
+       "text": {
+        "nl": "Feedback geven"
+       }
+      }
+     ],
+     "cells": {
+      "interactingWithPupils": {
+       "1": {
+        "nl": "Heeft amper zicht op wat leerlingen bezighoudt. \n\nMijdt ongeïnteresseerde, lastige leerlingen; mijdt moeilijke situaties."
+       },
+       "2": {
+        "nl": "Heeft enig zicht op wat leerlingen bezighoudt; weet dat af en toe te benutten.\n\nGaat lastige leerlingen en situaties wel aan, maar heeft daarbij hulp van anderen nodig.\n\nLeidt, begeleidt."
+       },
+       "3": {
+        "nl": "Merkt op wat leerlingen bezighoudt en weet dat te benutten; stemt af.\n\nHoudt zich staande bij  lastige leerlingen en situaties.\n\nLeidt, begeleidt, bouwt een band op en zet met succes leerlingen aan tot acties."
+       },
+       "4": {
+        "nl": "Heeft goed zicht op wat leerlingen bezighoudt, en weet geregeld moeilijke leerlingen voor zich te winnen."
+       }
+      },
+      "communicatingWithPupils": {
+       "1": {
+        "nl": "Communiceert moeizaam en luistert niet goed.\n\nIs eigen en andermans emoties niet de baas."
+       },
+       "2": {
+        "nl": "Past aanwijzingen toe m.b.t. het tot stand brengen van communicatie met de klas en met de leerlingen.\n\nCommuniceert op inhoudsniveau.\n\nHoudt zich in, en weert (verbale) agressie af."
+       },
+       "3": {
+        "nl": "Houdt in taalgebruik en manier van communiceren rekening met wat gebruikelijk is in de leefwereld van leerlingen.\n\nLuistert naar de leerlingen en reageert op hen.\n\nCommuniceert goed op inhoudsniveau.\n\nZet non-verbale communicatie in.\n\nGeeft en wekt vertrouwen, en bezweert agressie."
+       },
+       "4": {
+        "nl": "Communiceert effectief, efficiënt en met empathie. \n\nCommuniceert goed op inhouds- en betrekkingsniveau.\n\nGeeft en wekt vertrouwen, en bezweert agressie."
+       }
+      },
+      "creatingGoodAtmosphereForCooperation": {
+       "1": {
+        "nl": "Werkt vooral klassikaal; er is samenwerking tussen docent en individuele leerlingen. "
+       },
+       "2": {
+        "nl": "Werkt samen met de klas; zorgt ervoor dat leerlingen rekening houden met elkaar.\nLaat merken dat hij/zij een goede samenwerking tussen leerlingen waardeert."
+       },
+       "3": {
+        "nl": "Werkt samen met de klas; stimuleert samenwerking tussen de leerlingen. \nWerkt samen met de klas; zorgt ervoor dat leerlingen rekening houden met elkaar.\n\nMerkt op hoe de sociale verhoudingen liggen; zet zich in om deze zo nodig te verbeteren.\n\nZet groepswerk in; zorgt ervoor dat leerlingen onderling samenwerken. "
+       },
+       "4": {
+        "nl": "Werkt samen met de klas; zorgt ervoor dat leerlingen rekening houden met elkaar.\n\nZet groepswerk in; zorgt ervoor dat leerlingen onderling samenwerken. \n\nVerantwoordt hoe hij/zij met de (heterogene) groepen omgaat en ook met de individuele leerlingen.\n"
+       }
+      },
+      "knowledgeOfSubjectMatter": {
+       "1": {
+        "nl": "Staat onvoldoende boven de lesstof. \n\nIs te afhankelijk van de gebruikte methode.\n\nHeeft te weinig parate vakinhoudelijke kennis. \n\nBeantwoordt \nvragen soms foutief."
+       },
+       "2": {
+        "nl": "Geeft alleen in samenwerking met de begeleider een vakinhoudelijk correcte les. \n\nHeeft soms moeite met uitstapjes buiten de lesstof en met onverwachte vragen. "
+       },
+       "3": {
+        "nl": "Heeft geen moeite met de correcte weergave van de stof uit de gebruikte methode; variëren en improviseren gaat niet vloeiend.\n\nBeantwoordt vragen van de leerlingen met betrekking tot de lesstof goed. \n\nVoert zelf opdrachten, oefeningen en toetsen op onderbouwniveau waar zijn leerlingen mee te maken krijgen foutloos uit."
+       },
+       "4": {
+        "nl": "Staat ruim boven de lesstof. Heeft een voldoende groot arsenaal aan voorbeelden waaruit hij kan putten.\n \nBeantwoordt onverwachte vragen van leerlingen vakinhoudelijk correct. \n\nLeunt voor vakinhoudelijke kennis niet op de methode. \n\nVoert zelf opdrachten, oefeningen en toetsen op bovenbouwniveau waar zijn leerlingen mee te maken krijgen foutloos uit."
+       }
+      },
+      "learningObjectives": {
+       "1": {
+        "nl": "Leerdoelen zijn nog niet altijd relevant en haalbaar."
+       },
+       "2": {
+        "nl": "Heeft voor de leerlingen haalbare en relevante doelen;\nontwerpt nog niet altijd passende leeractiviteiten bij de leerdoelen."
+       },
+       "3": {
+        "nl": "Heeft voor de leerlingen haalbare, relevante en toetsbare doelen; ontwerpt daarbij meestal passende leeractiviteiten.\n\nLegt duidelijk uit aan de leerlingen welke leerdoelen hij met welke activiteiten nastreeft."
+       },
+       "4": {
+        "nl": "Heeft voor de leerlingen haalbare, relevante en toetsbare doelen; ontwerpt daarbij passende leeractiviteiten; houdt daarbij rekening met verschillen tussen de leerlingen. \n\nLegt duidelijk uit aan de leerlingen welke leerdoelen hij met welke activiteiten nastreeft."
+       }
+      },
+      "possibilitiesAndLimitations": {
+       "1": {
+        "nl": "Bereidt een les voor, maar vindt nauwelijks aansluiting op voorkennis en anticipatie op misconcepties."
+       },
+       "2": {
+        "nl": "Bereidt een les voor waarin rekening is gehouden met voorkennis en mogelijke misconcepties."
+       },
+       "3": {
+        "nl": "Bereidt een les voor waarin rekening is gehouden met voorkennis en mogelijke misconcepties; voert deze uit zoals beoogd."
+       },
+       "4": {
+        "nl": "Bereidt een lessenserie voor waarin rekening is gehouden met voorkennis en mogelijke misconcepties; voert deze uit zoals beoogd."
+       }
+      },
+      "strategyAndImplementation": {
+       "1": {
+        "nl": "Bereidt een les voor, maar houdt daarbij nauwelijks rekening met vaktaal, afgesproken notaties, en fasen in de les."
+       },
+       "2": {
+        "nl": "Bereidt een les voor waarin rekening is gehouden vaktaal, afgesproken notaties en indeling in fasen."
+       },
+       "3": {
+        "nl": "Bereidt een les voor waarin rekening is gehouden met vaktaal en afgesproken notaties.\nDeelt een les in fasen in.\nKan directe instructie inzetten.\nVoert deze uit zoals beoogd."
+       },
+       "4": {
+        "nl": "Bereidt een lessenserie voor waarin rekening is gehouden met vaktaal en afgesproken notaties.\nDeelt een les in fasen in. \nKan directe instructie inzetten.\nVoert de lessenserie uit zoals beoogd."
+       }
+      },
+      "modesOfInstruction": {
+       "1": {
+        "nl": "Heeft nog nauwelijks oog voor werkvormen in relatie tot leerdoelen."
+       },
+       "2": {
+        "nl": "Gebruikt een beperkt aantal werkvormen, ook als andere werkvormen meer voor de hand zouden liggen."
+       },
+       "3": {
+        "nl": "Gebruikt minstens de werkvormen klassikale uitleg, onderwijsleergesprek en zelfstandig werken en enkele ADSL (Activerende Didactiek & Samenwerkend Leren)werkvormen die in principe tot het realiseren van de leerdoelen kunnen leiden; de uitvoering is soms nog niet zoals beoogd."
+       },
+       "4": {
+        "nl": "Gebruikt een breed repertoire van activerende werkvormen, waaronder samenwerkende werkvormen, die gegeven de doelen functioneel zijn; voert deze uit zoals beoogd."
+       }
+      },
+      "teachingMaterial": {
+       "1": {
+        "nl": "Heeft nog nauwelijks oog voor hoe het leren bij leerlingen kan worden bevorderd met behulp van leermiddelen."
+       },
+       "2": {
+        "nl": "Heeft kennis van  leermiddelen, waaronder ICT-middelen om het leren bij leerlingen te bevorderen."
+       },
+       "3": {
+        "nl": "Maakt gebruik van  leermiddelen, waaronder ICT-middelen.\n\nLaat de leerlingen met ICT-middelen werken."
+       },
+       "4": {
+        "nl": "Maakt gebruik van  leermiddelen, waaronder ICT-middelen die effectief bijdragen aan het bereiken van de leerdoelen."
+       }
+      },
+      "testing": {
+       "1": {
+        "nl": "Heeft nog nauwelijks  oog voor verschillende soorten toetsing."
+       },
+       "2": {
+        "nl": "Stelt betrouwbare en valide toetsen op, met een correctiemodel en toetsmatrijs."
+       },
+       "3": {
+        "nl": "Gaat tijdens de les na in hoeverre de leerlingen de doelen bereiken.\n\nStelt betrouwbare en valide toetsen op, met een correctiemodel en toetsmatrijs. \n\nKijkt toetsen na en bespreekt die aan de hand van een correctiemodel. "
+       },
+       "4": {
+        "nl": "Gaat tijdens de les na in hoeverre de leerlingen de doelen bereiken, en past de (volgende) les daar op aan.\n\nStelt betrouwbare en valide toetsen op, met een correctiemodel en toetsmatrijs.\n\nKijkt toetsen na en bespreekt die aan de hand van een correctiemodel. \n\nDoet op basis van toetsing betrouwbare uitspraken over kennis en vaardigheden van leerlingen."
+       }
+      },
+      "assistingTheLearningProcess": {
+       "1": {
+        "nl": "Heeft nog nauwelijks oog voor het leren van leerlingen en hoe hij dit leren kan bevorderen. "
+       },
+       "2": {
+        "nl": "Kan benoemen wat de vorderingen zijn van de leerlingen. Signaleert leerproblemen."
+       },
+       "3": {
+        "nl": "Kan benoemen wat de vorderingen zijn van de leerlingen en wat hun sterke en zwakke punten zijn. \n\nSignaleert leerproblemen en weet waar hij  en de leerling eventueel hulp kunnen vinden in en buiten de school."
+       },
+       "4": {
+        "nl": "Kan benoemen  hoe zijn leerlingen leren, wat hun vorderingen zijn en hun sterke en zwakke punten, en hoe hij hun leren bevordert. \n\nSignaleert leerproblemen en kan beoordelen of en hoe hij die problemen zelf kan aanpakken, en  weet waar hij en de leerling eventueel hulp kunnen vinden in en buiten de school."
+       }
+      },
+      "givingFeedback": {
+       "1": {
+        "nl": "Herkent hoe docenten feedback geven aan leerlingen. Kan terugkoppelen of iets goed of fout is, maar geeft nog geen duidelijke feedback."
+       },
+       "2": {
+        "nl": "Geeft opbouwend commentaar op het werk van zijn leerlingen en op de manier waarop ze werken."
+       },
+       "3": {
+        "nl": "Geeft in verschillende situaties goede individuele feedback aan leerlingen. \n\nGeeft opbouwend commentaar op het werk van zijn leerlingen en op de manier waarop ze werken."
+       },
+       "4": {
+        "nl": "Geeft in verschillende situaties goede individuele feedback aan leerlingen, en onderbouwt deze feedback. \n\nGeeft opbouwend commentaar op het werk van zijn leerlingen en op de manier waarop ze werken."
+       }
+      }
+     }
+    },
+    {
+     "type": "comment",
+     "name": "competenceInSubjectMatterAndDidacticsCommentSelf",
+     "title": {
+      "nl": "Eigen commentaar"
+     }
+    },
+    {
+     "type": "comment",
+     "name": "competenceInSubjectMatterAndDidacticsCommentCoach",
+     "title": {
+      "nl": "Commentaar begeleider"
+     }
+    }
+   ],
+   "title": {
+    "nl": "Vakinhoudelijk en didactisch competent"
+   }
+  },
+  {
+   "name": "organisationalCompetencePage",
+   "elements": [
+    {
+     "type": "matrix",
+     "name": "organisationalCompetence",
+     "title": {
+      "nl": "Organisatorisch competent"
+     },
+     "isRequired": true,
+     "columns": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Niveau 1"
+       }
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Niveau 2"
+       }
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Niveau 3"
+       }
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Niveau 4"
+       }
+      }
+     ],
+     "rows": [
+      {
+       "value": "upholdingProceduresAndRules",
+       "text": {
+        "nl": "Hanteren procedures en afspraken"
+       }
+      },
+      {
+       "value": "organisationOfTeachingProcess",
+       "text": {
+        "nl": "Organisatie (leer)proces"
+       }
+      },
+      {
+       "value": "organisationOfTeachingEnvironment",
+       "text": {
+        "nl": "Organisatie leeromgeving"
+       }
+      },
+      {
+       "value": "timeManagement",
+       "text": {
+        "nl": "Planning / timemanagement"
+       }
+      }
+     ],
+     "cells": {
+      "interactingWithPupils": {
+       "1": {
+        "nl": "Heeft amper zicht op wat leerlingen bezighoudt. \n\nMijdt ongeïnteresseerde, lastige leerlingen; mijdt moeilijke situaties."
+       },
+       "2": {
+        "nl": "Heeft enig zicht op wat leerlingen bezighoudt; weet dat af en toe te benutten.\n\nGaat lastige leerlingen en situaties wel aan, maar heeft daarbij hulp van anderen nodig.\n\nLeidt, begeleidt."
+       },
+       "3": {
+        "nl": "Merkt op wat leerlingen bezighoudt en weet dat te benutten; stemt af.\n\nHoudt zich staande bij  lastige leerlingen en situaties.\n\nLeidt, begeleidt, bouwt een band op en zet met succes leerlingen aan tot acties."
+       },
+       "4": {
+        "nl": "Heeft goed zicht op wat leerlingen bezighoudt, en weet geregeld moeilijke leerlingen voor zich te winnen."
+       }
+      },
+      "communicatingWithPupils": {
+       "1": {
+        "nl": "Communiceert moeizaam en luistert niet goed.\n\nIs eigen en andermans emoties niet de baas."
+       },
+       "2": {
+        "nl": "Past aanwijzingen toe m.b.t. het tot stand brengen van communicatie met de klas en met de leerlingen.\n\nCommuniceert op inhoudsniveau.\n\nHoudt zich in, en weert (verbale) agressie af."
+       },
+       "3": {
+        "nl": "Houdt in taalgebruik en manier van communiceren rekening met wat gebruikelijk is in de leefwereld van leerlingen.\n\nLuistert naar de leerlingen en reageert op hen.\n\nCommuniceert goed op inhoudsniveau.\n\nZet non-verbale communicatie in.\n\nGeeft en wekt vertrouwen, en bezweert agressie."
+       },
+       "4": {
+        "nl": "Communiceert effectief, efficiënt en met empathie. \n\nCommuniceert goed op inhouds- en betrekkingsniveau.\n\nGeeft en wekt vertrouwen, en bezweert agressie."
+       }
+      },
+      "creatingGoodAtmosphereForCooperation": {
+       "1": {
+        "nl": "Werkt vooral klassikaal; er is samenwerking tussen docent en individuele leerlingen. "
+       },
+       "2": {
+        "nl": "Werkt samen met de klas; zorgt ervoor dat leerlingen rekening houden met elkaar.\nLaat merken dat hij/zij een goede samenwerking tussen leerlingen waardeert."
+       },
+       "3": {
+        "nl": "Werkt samen met de klas; stimuleert samenwerking tussen de leerlingen. \nWerkt samen met de klas; zorgt ervoor dat leerlingen rekening houden met elkaar.\n\nMerkt op hoe de sociale verhoudingen liggen; zet zich in om deze zo nodig te verbeteren.\n\nZet groepswerk in; zorgt ervoor dat leerlingen onderling samenwerken. "
+       },
+       "4": {
+        "nl": "Werkt samen met de klas; zorgt ervoor dat leerlingen rekening houden met elkaar.\n\nZet groepswerk in; zorgt ervoor dat leerlingen onderling samenwerken. \n\nVerantwoordt hoe hij/zij met de (heterogene) groepen omgaat en ook met de individuele leerlingen.\n"
+       }
+      },
+      "upholdingProceduresAndRules": {
+       "1": {
+        "nl": "Kent de schoolregels, en weet of/hoe docenten die handhaven.\n\nDoet pogingen tot gezag.\n\nIs oriënterend m.b.t. die aspecten van groeps- of klassenmanagement die voor zijn vorm van onderwijs relevant zijn. "
+       },
+       "2": {
+        "nl": "Is duidelijk over afspraken en procedures; grijpt nog niet altijd in.\n\nPast de regels gedeeltelijk toe; soms wat overdreven ingrijpen.\n\nGezag wordt gedeeltelijk aanvaard.\n\nIs bekend met die aspecten van groeps- of klassenmanagement die voor zijn/haar vorm van onderwijs relevant zijn."
+       },
+       "3": {
+        "nl": "Is duidelijk over afspraken en procedures.\n \nPast de regels toe.\n\nLeerlingen accepteren gezag. Is een enkele keer aarzelend in corrigeren.\n\nHanteert die aspecten van groeps- of klassenmanagement die voor zijn vorm van onderwijs relevant zijn."
+       },
+       "4": {
+        "nl": "Het is duidelijk en vanzelfsprekend dat regels en procedures gehandhaafd worden; houdt zichzelf en de klas daar ook aan.\n\nGaat goed om met ordeproblemen;\ncorrigeert leerlingen op het juiste moment. \n\nIs, en toont zich leidinggevende. \n\nVerantwoordt zijn opvattingen, aanpak van groeps- of klassenmanagement en de organisatie van zijn onderwijs."
+       }
+      },
+      "organisationOfTeachingProcess": {
+       "1": {
+        "nl": "Weet hoe vorm te geven aan het leerproces.\n\nPast dit nog niet toe."
+       },
+       "2": {
+        "nl": "Heeft nog hulp nodig van begeleidend docent om het leerproces vorm te geven. \n\nZiet het verschil tussen orde en wanorde nog niet scherp genoeg."
+       },
+       "3": {
+        "nl": "Laat les ordelijk verlopen. \n\nOndersteunt leeractiviteiten daarmee.\n\nHeeft werkvormen en leermiddelen ter ondersteuning van de leeractiviteiten paraat."
+       },
+       "4": {
+        "nl": "Laat les ordelijk en gestructureerd verlopen.\n\nHeeft werkvormen en leermiddelen ter ondersteuning van de leeractiviteiten paraat. \n\nVerantwoordt zijn werkvormen en leermiddelen."
+       }
+      },
+      "organisationOfTeachingEnvironment": {
+       "1": {
+        "nl": "Geeft opdrachten zonder doelen en verwachtingen.\n \nBereidt alleen eigen aandeel in de les voor.\n\nHeeft sporadisch overzicht tijdens de les."
+       },
+       "2": {
+        "nl": "Geeft opdrachten zonder doelen óf verwachtingen.\n\nBereidt vooral eigen aandeel in de les voor, en summier dat van leerlingen. \n\nGebruikt enkele activiteiten en werkvormen. \n\nHeeft wisselend overzicht tijdens de les."
+       },
+       "3": {
+        "nl": "Is meestal helder over doelen, taken en verwachtingen. \n\nBereidt leerling-activerende les voor, met eigen aandeel daarin.\n\n\nHeeft goed overzicht tijdens de les. \n\n\nGebruikt feedback van leerlingen om organisatie te verbeteren."
+       },
+       "4": {
+        "nl": "Is glashelder over doelen, taken en verwachtingen.\n \nOrganiseert elk type les en onderwijsactiviteit goed en vlot. \n\nGebruikt een ruime  variatie in activiteiten en werkvormen. \n\nHeeft overzicht en anticipeert tijdens de les. \n\nWerkt soms in andere opstelling, of buiten het lokaal. \n\nIntroduceert nieuwe werkvormen en activiteiten in de school."
+       }
+      },
+      "timeManagement": {
+       "1": {
+        "nl": "Onrealistisch en weinig flexibel in planning.\n \nOrganisatie-eenheid is de les."
+       },
+       "2": {
+        "nl": "Redelijk realistisch maar gaat nog te rigide om met eigen planning. \n\nVerliest planning uit het oog.\n\nOrganisatie-eenheid is  hoofdstuk of onderwerp."
+       },
+       "3": {
+        "nl": "Maakt een realistische planning;\nis flexibel in de omgang van de planning; informeert leerlingen over planning. \n\nKomt incidenteel in de problemen.\n\nHelpt leerlingen plannen.\n\nOrganisatie-eenheid is trimester of rapportperiode."
+       },
+       "4": {
+        "nl": "Realistisch en flexibel in planning, ook van experimentele en complexe leerprocessen.\n\nGebruikt leertijd efficiënt.\n \nOrganisatie-eenheid is het cursusjaar.\n"
+       }
+      }
+     }
+    },
+    {
+     "type": "comment",
+     "name": "organisationalCompetenceCommentSelf",
+     "title": {
+      "nl": "Eigen commentaar"
+     }
+    },
+    {
+     "type": "comment",
+     "name": "organisationalCompetenceCommentCoach",
+     "title": {
+      "nl": "Commentaar begeleider"
+     }
+    }
+   ],
+   "title": {
+    "nl": "Organisatorisch competent"
+   }
+  },
+  {
+   "name": "competenceWhenWorkingWithColleaguesPage",
+   "elements": [
+    {
+     "type": "matrix",
+     "name": "competenceWhenWorkingWithColleagues",
+     "title": {
+      "nl": "Competent in het samenwerken met collega's"
+     },
+     "isRequired": true,
+     "columns": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Niveau 1"
+       }
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Niveau 2"
+       }
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Niveau 3"
+       }
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Niveau 4"
+       }
+      }
+     ],
+     "rows": [
+      {
+       "value": "sharingInformation",
+       "text": {
+        "nl": "Informatie delen met collega’s, overleg en samenwerken"
+       }
+      },
+      {
+       "value": "developmentsAndImprovementsAtSchool",
+       "text": {
+        "nl": "Ontwikkelen en verbeteren van de school"
+       }
+      },
+      {
+       "value": "settingBoundaries",
+       "text": {
+        "nl": "Grenzen stellen"
+       }
+      }
+     ],
+     "cells": {
+      "interactingWithPupils": {
+       "1": {
+        "nl": "Heeft amper zicht op wat leerlingen bezighoudt. \n\nMijdt ongeïnteresseerde, lastige leerlingen; mijdt moeilijke situaties."
+       },
+       "2": {
+        "nl": "Heeft enig zicht op wat leerlingen bezighoudt; weet dat af en toe te benutten.\n\nGaat lastige leerlingen en situaties wel aan, maar heeft daarbij hulp van anderen nodig.\n\nLeidt, begeleidt."
+       },
+       "3": {
+        "nl": "Merkt op wat leerlingen bezighoudt en weet dat te benutten; stemt af.\n\nHoudt zich staande bij  lastige leerlingen en situaties.\n\nLeidt, begeleidt, bouwt een band op en zet met succes leerlingen aan tot acties."
+       },
+       "4": {
+        "nl": "Heeft goed zicht op wat leerlingen bezighoudt, en weet geregeld moeilijke leerlingen voor zich te winnen."
+       }
+      },
+      "communicatingWithPupils": {
+       "1": {
+        "nl": "Communiceert moeizaam en luistert niet goed.\n\nIs eigen en andermans emoties niet de baas."
+       },
+       "2": {
+        "nl": "Past aanwijzingen toe m.b.t. het tot stand brengen van communicatie met de klas en met de leerlingen.\n\nCommuniceert op inhoudsniveau.\n\nHoudt zich in, en weert (verbale) agressie af."
+       },
+       "3": {
+        "nl": "Houdt in taalgebruik en manier van communiceren rekening met wat gebruikelijk is in de leefwereld van leerlingen.\n\nLuistert naar de leerlingen en reageert op hen.\n\nCommuniceert goed op inhoudsniveau.\n\nZet non-verbale communicatie in.\n\nGeeft en wekt vertrouwen, en bezweert agressie."
+       },
+       "4": {
+        "nl": "Communiceert effectief, efficiënt en met empathie. \n\nCommuniceert goed op inhouds- en betrekkingsniveau.\n\nGeeft en wekt vertrouwen, en bezweert agressie."
+       }
+      },
+      "creatingGoodAtmosphereForCooperation": {
+       "1": {
+        "nl": "Werkt vooral klassikaal; er is samenwerking tussen docent en individuele leerlingen. "
+       },
+       "2": {
+        "nl": "Werkt samen met de klas; zorgt ervoor dat leerlingen rekening houden met elkaar.\nLaat merken dat hij/zij een goede samenwerking tussen leerlingen waardeert."
+       },
+       "3": {
+        "nl": "Werkt samen met de klas; stimuleert samenwerking tussen de leerlingen. \nWerkt samen met de klas; zorgt ervoor dat leerlingen rekening houden met elkaar.\n\nMerkt op hoe de sociale verhoudingen liggen; zet zich in om deze zo nodig te verbeteren.\n\nZet groepswerk in; zorgt ervoor dat leerlingen onderling samenwerken. "
+       },
+       "4": {
+        "nl": "Werkt samen met de klas; zorgt ervoor dat leerlingen rekening houden met elkaar.\n\nZet groepswerk in; zorgt ervoor dat leerlingen onderling samenwerken. \n\nVerantwoordt hoe hij/zij met de (heterogene) groepen omgaat en ook met de individuele leerlingen.\n"
+       }
+      },
+      "upholdingProceduresAndRules": {
+       "1": {
+        "nl": "Kent de schoolregels, en weet of/hoe docenten die handhaven.\n\nDoet pogingen tot gezag.\n\nIs oriënterend m.b.t. die aspecten van groeps- of klassenmanagement die voor zijn vorm van onderwijs relevant zijn. "
+       },
+       "2": {
+        "nl": "Is duidelijk over afspraken en procedures; grijpt nog niet altijd in.\n\nPast de regels gedeeltelijk toe; soms wat overdreven ingrijpen.\n\nGezag wordt gedeeltelijk aanvaard.\n\nIs bekend met die aspecten van groeps- of klassenmanagement die voor zijn/haar vorm van onderwijs relevant zijn."
+       },
+       "3": {
+        "nl": "Is duidelijk over afspraken en procedures.\n \nPast de regels toe.\n\nLeerlingen accepteren gezag. Is een enkele keer aarzelend in corrigeren.\n\nHanteert die aspecten van groeps- of klassenmanagement die voor zijn vorm van onderwijs relevant zijn."
+       },
+       "4": {
+        "nl": "Het is duidelijk en vanzelfsprekend dat regels en procedures gehandhaafd worden; houdt zichzelf en de klas daar ook aan.\n\nGaat goed om met ordeproblemen;\ncorrigeert leerlingen op het juiste moment. \n\nIs, en toont zich leidinggevende. \n\nVerantwoordt zijn opvattingen, aanpak van groeps- of klassenmanagement en de organisatie van zijn onderwijs."
+       }
+      },
+      "organisationOfTeachingProcess": {
+       "1": {
+        "nl": "Weet hoe vorm te geven aan het leerproces.\n\nPast dit nog niet toe."
+       },
+       "2": {
+        "nl": "Heeft nog hulp nodig van begeleidend docent om het leerproces vorm te geven. \n\nZiet het verschil tussen orde en wanorde nog niet scherp genoeg."
+       },
+       "3": {
+        "nl": "Laat les ordelijk verlopen. \n\nOndersteunt leeractiviteiten daarmee.\n\nHeeft werkvormen en leermiddelen ter ondersteuning van de leeractiviteiten paraat."
+       },
+       "4": {
+        "nl": "Laat les ordelijk en gestructureerd verlopen.\n\nHeeft werkvormen en leermiddelen ter ondersteuning van de leeractiviteiten paraat. \n\nVerantwoordt zijn werkvormen en leermiddelen."
+       }
+      },
+      "organisationOfTeachingEnvironment": {
+       "1": {
+        "nl": "Geeft opdrachten zonder doelen en verwachtingen.\n \nBereidt alleen eigen aandeel in de les voor.\n\nHeeft sporadisch overzicht tijdens de les."
+       },
+       "2": {
+        "nl": "Geeft opdrachten zonder doelen óf verwachtingen.\n\nBereidt vooral eigen aandeel in de les voor, en summier dat van leerlingen. \n\nGebruikt enkele activiteiten en werkvormen. \n\nHeeft wisselend overzicht tijdens de les."
+       },
+       "3": {
+        "nl": "Is meestal helder over doelen, taken en verwachtingen. \n\nBereidt leerling-activerende les voor, met eigen aandeel daarin.\n\n\nHeeft goed overzicht tijdens de les. \n\n\nGebruikt feedback van leerlingen om organisatie te verbeteren."
+       },
+       "4": {
+        "nl": "Is glashelder over doelen, taken en verwachtingen.\n \nOrganiseert elk type les en onderwijsactiviteit goed en vlot. \n\nGebruikt een ruime  variatie in activiteiten en werkvormen. \n\nHeeft overzicht en anticipeert tijdens de les. \n\nWerkt soms in andere opstelling, of buiten het lokaal. \n\nIntroduceert nieuwe werkvormen en activiteiten in de school."
+       }
+      },
+      "timeManagement": {
+       "1": {
+        "nl": "Onrealistisch en weinig flexibel in planning.\n \nOrganisatie-eenheid is de les."
+       },
+       "2": {
+        "nl": "Redelijk realistisch maar gaat nog te rigide om met eigen planning. \n\nVerliest planning uit het oog.\n\nOrganisatie-eenheid is  hoofdstuk of onderwerp."
+       },
+       "3": {
+        "nl": "Maakt een realistische planning;\nis flexibel in de omgang van de planning; informeert leerlingen over planning. \n\nKomt incidenteel in de problemen.\n\nHelpt leerlingen plannen.\n\nOrganisatie-eenheid is trimester of rapportperiode."
+       },
+       "4": {
+        "nl": "Realistisch en flexibel in planning, ook van experimentele en complexe leerprocessen.\n\nGebruikt leertijd efficiënt.\n \nOrganisatie-eenheid is het cursusjaar.\n"
+       }
+      },
+      "default": {
+       "3": {
+        "nl": "\n\nProbeert collega’s tot steun te zijn, toont betrokkenheid bij de school of het team."
+       }
+      },
+      "sharingInformation": {
+       "1": {
+        "nl": "Heeft vrijwel alleen contact met zijn begeleider of directe collega's.\n\nStemt werkzaamheden nog niet af met collega’s; wacht af of collega’s informatie delen.\n\nLoopt (observerend) mee in het team."
+       },
+       "2": {
+        "nl": "Wisselt soms informatie uit met collega’s.\n\nMaakt gebruik van informatie van collega’s.\n\nIs passief lid van het team."
+       },
+       "3": {
+        "nl": "Zoekt actief naar uitwisseling met collega’s om eigen lessen te optimaliseren.\n\nDeelt informatie, en maakt gebruik van informatie van collega’s; stemt werkzaamheden af. \n\nLevert een bijdrage aan verschillende vormen van overleg en samenwerken op school.\n\nIs actief lid van het team. "
+       },
+       "4": {
+        "nl": "Wisselt structureel ervaringen uit met collega’s gericht op verdere wederzijdse professionalisering. \n\nLevert een constructieve bijdrage aan verschillende vormen van overleg en samenwerken op school.\n\nNeemt actief deel aan en initieert overleg.\n\nHeeft een gemakkelijk toegankelijke administratie en registratie van leerlinggegevens. \n\nIs collega’s tot steun, toont betrokkenheid bij school en team."
+       }
+      },
+      "developmentsAndImprovementsAtSchool": {
+       "1": {
+        "nl": "Is niet bekend met ontwikkelingen binnen de school."
+       },
+       "2": {
+        "nl": "Weet van ontwikkelingen binnen de school.\n \nHoudt ontwikkelingen actief in de gaten."
+       },
+       "3": {
+        "nl": "Is op de hoogte van ontwikkelingen en projecten op de school.\n\nPast de bevindingen daaruit toe in de lespraktijk.\n\nLevert een bijdrage aan verbeteringen in de school."
+       },
+       "4": {
+        "nl": "Werkt met collega’s (onderzoeksmatig) samen aan de ontwikkeling en verbetering van zijn school.\n\nInitieert en levert een bijdrage aan verbeteringen in de school. \n\nIs op de hoogte van modellen voor kwaliteitszorg en methodieken voor onderwijsverbetering en schoolontwikkeling."
+       }
+      },
+      "settingBoundaries": {
+       "1": {
+        "nl": "Ondergaat werkdruk zonder grenzen aan te geven."
+       },
+       "2": {
+        "nl": "Probeert grenzen van tijd en betrokkenheid af te bakenen."
+       },
+       "3": {
+        "nl": "Geeft grenzen van tijd en betrokkenheid aan."
+       },
+       "4": {
+        "nl": "Geeft grenzen van tijd en betrokkenheid aan.\n\nSpreekt de organisatie aan op verantwoordelijkheid naar haar werknemers."
+       }
+      }
+     }
+    },
+    {
+     "type": "comment",
+     "name": "competenceWhenWorkingWithColleaguesCommentSelf",
+     "title": {
+      "nl": "Eigen commentaar"
+     }
+    },
+    {
+     "type": "comment",
+     "name": "competenceWhenWorkingWithColleaguesCommentCoach",
+     "title": {
+      "nl": "Commentaar begeleider"
+     }
+    }
+   ],
+   "title": {
+    "nl": "Competent in het samenwerken met collega’s"
+   }
+  },
+  {
+   "name": "competenceInWorkingWithTheEnvironmentPage",
+   "elements": [
+    {
+     "type": "matrix",
+     "name": "competenceInWorkingWithTheEnvironment",
+     "title": {
+      "nl": "Competent in het samenwerken met de omgeving"
+     },
+     "isRequired": true,
+     "columns": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Niveau 1"
+       }
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Niveau 2"
+       }
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Niveau 3"
+       }
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Niveau 4"
+       }
+      }
+     ],
+     "rows": [
+      {
+       "value": "sharingInformationWithParents",
+       "text": {
+        "nl": "Informatie uitwisselen met ouders"
+       }
+      },
+      {
+       "value": "outsideActivities",
+       "text": {
+        "nl": "Binnen- en buitenschools leren afstemmen (bijvoorbeeld opdrachten, excursies, stages)"
+       }
+      },
+      {
+       "value": "effectiveCommunicationWithEnvironment",
+       "text": {
+        "nl": "Doelmatig contact met de omgeving"
+       }
+      }
+     ],
+     "cells": {
+      "interactingWithPupils": {
+       "1": {
+        "nl": "Heeft amper zicht op wat leerlingen bezighoudt. \n\nMijdt ongeïnteresseerde, lastige leerlingen; mijdt moeilijke situaties."
+       },
+       "2": {
+        "nl": "Heeft enig zicht op wat leerlingen bezighoudt; weet dat af en toe te benutten.\n\nGaat lastige leerlingen en situaties wel aan, maar heeft daarbij hulp van anderen nodig.\n\nLeidt, begeleidt."
+       },
+       "3": {
+        "nl": "Merkt op wat leerlingen bezighoudt en weet dat te benutten; stemt af.\n\nHoudt zich staande bij  lastige leerlingen en situaties.\n\nLeidt, begeleidt, bouwt een band op en zet met succes leerlingen aan tot acties."
+       },
+       "4": {
+        "nl": "Heeft goed zicht op wat leerlingen bezighoudt, en weet geregeld moeilijke leerlingen voor zich te winnen."
+       }
+      },
+      "communicatingWithPupils": {
+       "1": {
+        "nl": "Communiceert moeizaam en luistert niet goed.\n\nIs eigen en andermans emoties niet de baas."
+       },
+       "2": {
+        "nl": "Past aanwijzingen toe m.b.t. het tot stand brengen van communicatie met de klas en met de leerlingen.\n\nCommuniceert op inhoudsniveau.\n\nHoudt zich in, en weert (verbale) agressie af."
+       },
+       "3": {
+        "nl": "Houdt in taalgebruik en manier van communiceren rekening met wat gebruikelijk is in de leefwereld van leerlingen.\n\nLuistert naar de leerlingen en reageert op hen.\n\nCommuniceert goed op inhoudsniveau.\n\nZet non-verbale communicatie in.\n\nGeeft en wekt vertrouwen, en bezweert agressie."
+       },
+       "4": {
+        "nl": "Communiceert effectief, efficiënt en met empathie. \n\nCommuniceert goed op inhouds- en betrekkingsniveau.\n\nGeeft en wekt vertrouwen, en bezweert agressie."
+       }
+      },
+      "creatingGoodAtmosphereForCooperation": {
+       "1": {
+        "nl": "Werkt vooral klassikaal; er is samenwerking tussen docent en individuele leerlingen. "
+       },
+       "2": {
+        "nl": "Werkt samen met de klas; zorgt ervoor dat leerlingen rekening houden met elkaar.\nLaat merken dat hij/zij een goede samenwerking tussen leerlingen waardeert."
+       },
+       "3": {
+        "nl": "Werkt samen met de klas; stimuleert samenwerking tussen de leerlingen. \nWerkt samen met de klas; zorgt ervoor dat leerlingen rekening houden met elkaar.\n\nMerkt op hoe de sociale verhoudingen liggen; zet zich in om deze zo nodig te verbeteren.\n\nZet groepswerk in; zorgt ervoor dat leerlingen onderling samenwerken. "
+       },
+       "4": {
+        "nl": "Werkt samen met de klas; zorgt ervoor dat leerlingen rekening houden met elkaar.\n\nZet groepswerk in; zorgt ervoor dat leerlingen onderling samenwerken. \n\nVerantwoordt hoe hij/zij met de (heterogene) groepen omgaat en ook met de individuele leerlingen.\n"
+       }
+      },
+      "sharingInformationWithParents": {
+       "1": {
+        "nl": "Weet hoe het contact met ouders verloopt binnen de regels, normen en waarden van school. "
+       },
+       "2": {
+        "nl": "Observeert contact met ouders (bv ouderavond). \n\nGeeft en krijgt de informatie van ouders (bv ouderavond) binnen de regels, normen en waarden van school.\n\nIs zich bewust van ieders verantwoordelijkheid en bijdrage m.b.t  het leren binnen en buiten de school."
+       },
+       "3": {
+        "nl": "Neemt indien nodig contact op met ouders binnen de regels, normen en waarden van school. \nGebruikt de informatie die hij van hen krijgt.\n\nMaakt ieders verantwoordelijkheid en bijdrage duidelijk m.b.t. het leren binnen en buiten de school.\n\nNeemt deel aan verschillende vormen van overleg met mensen en instellingen buiten de school."
+       },
+       "4": {
+        "nl": "Geeft op professionele manier informatie over de leerlingen aan ouders en andere belanghebbenden. Maakt relevant gebruik van de informatie die hij van hen krijgt. Zorgt in overleg met de leerling en andere betrokkenen voor afstemming tussen het leren in en buiten de school en voor duidelijkheid over ieders verantwoordelijkheid en bijdrage hierin. Neemt op een constructieve manier deel aan verschillende vormen van overleg met mensen en instellingen buiten de school.\nVerantwoordt zijn professionele opvattingen en werkwijze met betrekking tot een leerling aan ouders en andere belanghebbenden en past in gezamenlijk overleg zo nodig zijn werk met die leerling aan."
+       }
+      },
+      "outsideActivities": {
+       "1": {
+        "nl": "Is nauwelijks op de hoogte van mogelijkheden van leren die buiten de les kunnen plaatsvinden."
+       },
+       "2": {
+        "nl": "Begeleidt bij (vakoverstijgende) activiteiten buiten de les. \n\nBegeleidt bij buitenschoolse activiteiten."
+       },
+       "3": {
+        "nl": "Helpt bij het organiseren van leeractiviteiten buiten de les, en buitenschools. "
+       },
+       "4": {
+        "nl": "Initieert en organiseert activiteiten buiten de les, en past dit ook actief toe in het onderwijs.\n\nInitieert en organiseert buitenschoolse activiteiten en past dit ook actief toe in het onderwijs."
+       }
+      },
+      "effectiveCommunicationWithEnvironment": {
+       "1": {
+        "nl": "Schrikt terug voor contact met de omgeving.\n\nLevert als gesprekspartner nog nauwelijks constructieve bijdragen."
+       },
+       "2": {
+        "nl": "Afwachtend in contact met de omgeving; raadpleegt deskundigen over procedures van de school.\n\nLevert als gesprekspartner soms constructieve bijdragen."
+       },
+       "3": {
+        "nl": "Toont initiatief in contact met de omgeving; past procedures van de school zelfstandig toe.\n\nLevert als gesprekspartner geregeld constructieve bijdragen; bereidt zich geregeld voor op belangrijke gesprekken en overlegsituaties.\n\nPoogt culturele verschillen te overbruggen  o.m. door respect te tonen."
+       },
+       "4": {
+        "nl": "Initiatiefrijk in contact met de omgeving, past procedures van de school zelfstandig toe en ontwikkelt nieuwe. \n\nLevert als gesprekspartner geregeld constructieve bijdragen; bereidt zich steevast voor op belangrijke gesprekken en overlegsituaties\n\nTreedt op als effectieve mediator bij moeilijke contacten.\n\nPoogt culturele verschillen te overbruggen o.m. door respect te tonen en respect te oogsten.\n\nTreedt op als woordvoerder voor de school."
+       }
+      }
+     }
+    },
+    {
+     "type": "comment",
+     "name": "competenceInWorkingWithTheEnvironmentCommentSelf",
+     "title": {
+      "nl": "Eigen commentaar"
+     }
+    },
+    {
+     "type": "comment",
+     "name": "competenceInWorkingWithTheEnvironmentCommentCoach",
+     "title": {
+      "nl": "Commentaar begeleider"
+     }
+    }
+   ],
+   "title": {
+    "nl": "Competent in het samenwerken met de omgeving"
+   }
+  },
+  {
+   "name": "competenceInReflectionAndPersonalDevelopmentPage",
+   "elements": [
+    {
+     "type": "matrix",
+     "name": "competenceInReflectionAndPersonalDevelopment",
+     "title": {
+      "nl": "Competent in reflectie en zelfontwikkeling"
+     },
+     "isRequired": true,
+     "columns": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Niveau 1"
+       }
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Niveau 2"
+       }
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Niveau 3"
+       }
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Niveau 4"
+       }
+      }
+     ],
+     "rows": [
+      {
+       "value": "feedback",
+       "text": {
+        "nl": "Feedback vragen en gebruiken"
+       }
+      },
+      {
+       "value": "professionalDevelopment",
+       "text": {
+        "nl": "Werken aan vakinhoudelijke ontwikkeling"
+       }
+      },
+      {
+       "value": "didacticDevelopment",
+       "text": {
+        "nl": "Werken aan vakdidactische ontwikkeling"
+       }
+      },
+      {
+       "value": "developingClassManagement",
+       "text": {
+        "nl": "Werken aan ontwikkeling in klassenmanagement"
+       }
+      },
+      {
+       "value": "adaptingBehaviour",
+       "text": {
+        "nl": "Gedrag aanpassen aan team en school"
+       }
+      }
+     ],
+     "cells": {
+      "interactingWithPupils": {
+       "1": {
+        "nl": "Heeft amper zicht op wat leerlingen bezighoudt. \n\nMijdt ongeïnteresseerde, lastige leerlingen; mijdt moeilijke situaties."
+       },
+       "2": {
+        "nl": "Heeft enig zicht op wat leerlingen bezighoudt; weet dat af en toe te benutten.\n\nGaat lastige leerlingen en situaties wel aan, maar heeft daarbij hulp van anderen nodig.\n\nLeidt, begeleidt."
+       },
+       "3": {
+        "nl": "Merkt op wat leerlingen bezighoudt en weet dat te benutten; stemt af.\n\nHoudt zich staande bij  lastige leerlingen en situaties.\n\nLeidt, begeleidt, bouwt een band op en zet met succes leerlingen aan tot acties."
+       },
+       "4": {
+        "nl": "Heeft goed zicht op wat leerlingen bezighoudt, en weet geregeld moeilijke leerlingen voor zich te winnen."
+       }
+      },
+      "communicatingWithPupils": {
+       "1": {
+        "nl": "Communiceert moeizaam en luistert niet goed.\n\nIs eigen en andermans emoties niet de baas."
+       },
+       "2": {
+        "nl": "Past aanwijzingen toe m.b.t. het tot stand brengen van communicatie met de klas en met de leerlingen.\n\nCommuniceert op inhoudsniveau.\n\nHoudt zich in, en weert (verbale) agressie af."
+       },
+       "3": {
+        "nl": "Houdt in taalgebruik en manier van communiceren rekening met wat gebruikelijk is in de leefwereld van leerlingen.\n\nLuistert naar de leerlingen en reageert op hen.\n\nCommuniceert goed op inhoudsniveau.\n\nZet non-verbale communicatie in.\n\nGeeft en wekt vertrouwen, en bezweert agressie."
+       },
+       "4": {
+        "nl": "Communiceert effectief, efficiënt en met empathie. \n\nCommuniceert goed op inhouds- en betrekkingsniveau.\n\nGeeft en wekt vertrouwen, en bezweert agressie."
+       }
+      },
+      "creatingGoodAtmosphereForCooperation": {
+       "1": {
+        "nl": "Werkt vooral klassikaal; er is samenwerking tussen docent en individuele leerlingen. "
+       },
+       "2": {
+        "nl": "Werkt samen met de klas; zorgt ervoor dat leerlingen rekening houden met elkaar.\nLaat merken dat hij/zij een goede samenwerking tussen leerlingen waardeert."
+       },
+       "3": {
+        "nl": "Werkt samen met de klas; stimuleert samenwerking tussen de leerlingen. \nWerkt samen met de klas; zorgt ervoor dat leerlingen rekening houden met elkaar.\n\nMerkt op hoe de sociale verhoudingen liggen; zet zich in om deze zo nodig te verbeteren.\n\nZet groepswerk in; zorgt ervoor dat leerlingen onderling samenwerken. "
+       },
+       "4": {
+        "nl": "Werkt samen met de klas; zorgt ervoor dat leerlingen rekening houden met elkaar.\n\nZet groepswerk in; zorgt ervoor dat leerlingen onderling samenwerken. \n\nVerantwoordt hoe hij/zij met de (heterogene) groepen omgaat en ook met de individuele leerlingen.\n"
+       }
+      },
+      "feedback": {
+       "1": {
+        "nl": "Gebruikt feedback nauwelijks. "
+       },
+       "2": {
+        "nl": "Herkent en staat open voor commentaar van leerlingen en collega's, maar weet die feedback niet te gebruiken."
+       },
+       "3": {
+        "nl": "Herkent en staat open voor commentaar van leerlingen en collega's en onderneemt actie in overeenstemming daarmee."
+       },
+       "4": {
+        "nl": "Vraagt met regelmaat en systematisch om feedback en benut die voor het ontwikkelen van het eigen handelen."
+       }
+      },
+      "professionalDevelopment": {
+       "1": {
+        "nl": "Beschrijft en benoemt de te onderwijzen stof."
+       },
+       "2": {
+        "nl": "Identificeert bij zichzelf sterke en zwakke punten, maar weet daar nog geen praktische consequenties aan te verbinden."
+       },
+       "3": {
+        "nl": "Weet bij zichzelf met regelmaat zwakke en sterke punten te identificeren; werkt aan verbetering van zwaktes en uitbouwen van sterktes. "
+       },
+       "4": {
+        "nl": "Werkt voortdurend en systematisch aan het identificeren van eigen sterktes en zwaktes, en het verbinden van praktische consequenties daaraan. "
+       }
+      },
+      "didacticDevelopment": {
+       "1": {
+        "nl": "Beschrijft en benoemt lesvormen / didactische aspecten. "
+       },
+       "2": {
+        "nl": "Identificeert bij zichzelf sterke en zwakke punten, maar weet daar nog geen praktische consequenties aan te verbinden."
+       },
+       "3": {
+        "nl": "Weet bij zichzelf met regelmaat zwakke en sterke punten te identificeren; werkt aan verbetering van zwaktes en uitbouwen van sterktes."
+       },
+       "4": {
+        "nl": "Werkt voortdurend en systematisch aan het identificeren van sterktes en zwaktes, en het verbinden van praktische consequenties daaraan."
+       }
+      },
+      "developingClassManagement": {
+       "1": {
+        "nl": "Is zich bewust van ordeproblemen als die zich voordoen."
+       },
+       "2": {
+        "nl": "Identificeert bij zichzelf sterke en zwakke punten, maar weet daar nog geen praktische consequenties aan te verbinden."
+       },
+       "3": {
+        "nl": "Weet bij zichzelf met regelmaat zwakke en sterke punten te identificeren; werkt aan verbetering van zwaktes en uitbouwen van sterktes. "
+       },
+       "4": {
+        "nl": "Werkt voortdurend en systematisch aan het identificeren van sterktes en zwaktes, en het verbinden van praktische consequenties daaraan."
+       }
+      },
+      "adaptingBehaviour": {
+       "1": {
+        "nl": "Benoemt de regels van de school. "
+       },
+       "2": {
+        "nl": "Benoemt de regels van de school.\n\nBenoemt de verwachtingen \nvan het team (sectie, afdeling, school). "
+       },
+       "3": {
+        "nl": "Benoemt de regels van de school.\n\nBenoemt de verwachtingen \nvan het team (sectie, afdeling, school).\n\nWeet zijn/haar gedrag daar in veel gevallen op aan te passen."
+       },
+       "4": {
+        "nl": "Weet wat er verwacht wordt, beoordeelt het eigen handelen systematisch in dat licht, en past dat zo nodig aan. "
+       }
+      }
+     }
+    },
+    {
+     "type": "comment",
+     "name": "competenceInReflectionAndPersonalDevelopmentCommentSelf",
+     "title": {
+      "nl": "Eigen commentaar"
+     }
+    },
+    {
+     "type": "comment",
+     "name": "competenceInReflectionAndPersonalDevelopmentCommentCoach",
+     "title": {
+      "nl": "Commentaar begeleider"
+     }
+    }
+   ],
+   "title": {
+    "nl": "Competent in reflectie en ontwikkeling"
+   }
+  },
+  {
+   "name": "actionItems",
+   "elements": [
+    {
+     "type": "text",
+     "name": "coach",
+     "title": {
+      "nl": "Naam begeleider"
+     }
+    },
+    {
+     "type": "text",
+     "name": "place",
+     "title": {
+      "nl": "Plaats en datum van het beoordelingsgesprek"
+     }
+    },
+    {
+     "type": "paneldynamic",
+     "name": "actions",
+     "title": {
+      "nl": "Actie punten"
+     },
+     "templateElements": [
+      {
+       "type": "text",
+       "name": "dueDate",
+       "width": "20%",
+       "startWithNewLine": false,
+       "title": {
+        "nl": "Vervaldatum"
+       },
+       "inputType": "date"
+      },
+      {
+       "type": "text",
+       "name": "actionItem",
+       "width": "30%",
+       "startWithNewLine": false,
+       "title": {
+        "nl": "Actie punt"
+       }
+      },
+      {
+       "type": "text",
+       "name": "hyperlink",
+       "width": "30%",
+       "startWithNewLine": false,
+       "title": {
+        "nl": "Hyperlink"
+       },
+       "inputType": "url"
+      },
+      {
+       "type": "boolean",
+       "name": "isDone",
+       "width": "20%",
+       "startWithNewLine": false,
+       "title": {
+        "nl": "Klaar"
+       },
+       "defaultValue": "false"
+      }
+     ],
+     "panelCount": 3,
+     "minPanelCount": 3,
+     "panelAddText": {
+      "nl": "Voeg actiepunt toe"
+     },
+     "panelRemoveText": {
+      "nl": "Verwijder actiepunt"
+     }
+    }
+   ],
+   "title": {
+    "nl": "Actie punten"
+   }
+  }
+ ],
+ "showTitle": false,
+ "showQuestionNumbers": "off"
+};
 
 module.exports = survey;
