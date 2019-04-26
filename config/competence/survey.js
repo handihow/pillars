@@ -209,31 +209,38 @@ competenceCategories = [
     categories: [
       {
         name: 'interpersonalCompetence',
-        title: 'Interpersoonlijk competent'
+        title: 'Interpersoonlijk competent',
+        subCategories: ['interactingWithPupils', 'communicatingWithPupils', 'creatingGoodAtmosphereForCooperation']
       },
       {
         name: 'pedagogicalCompetence',
-        title: 'Pedagogisch competent'
+        title: 'Pedagogisch competent',
+        subCategories: ['safeLearningEnvironment', 'acknowledgingDifferences', 'socialEmotionalDevelopment', 'independentResponsible', 'talentCapabilities']
       },
       {
         name: 'competenceInSubjectMatterAndDidactics',
-        title: 'Vakinhoudelijk en didactisch competent'
+        title: 'Vakinhoudelijk en didactisch competent',
+        subCategories: ['knowledgeOfSubjectMatter', 'learningObjectives', 'possibilitiesAndLimitations', 'strategyAndImplementation', 'modesOfInstruction', 'teachingMaterial', 'testing', 'assistingTheLearningProcess', 'givingFeedback']
       },
       {
         name: 'organisationalCompetence',
-        title: 'Organisatorisch competent'
+        title: 'Organisatorisch competent',
+        subCategories: ['upholdingProceduresAndRules', 'organisationOfTeachingProcess', 'organisationOfTeachingEnvironment', 'timeManagement']
       },
       {
         name: 'competenceWhenWorkingWithColleagues',
-        title: 'Competent in het samenwerken met collegas'
+        title: 'Competent in het samenwerken met collegas',
+        subCategories: ['sharingInformation', 'developmentsAndImprovementsAtSchool', 'settingBoundaries']
       },
       {
         name: 'competenceInWorkingWithTheEnvironment',
-        title: 'Competent in het samenwerken met de omgeving'
+        title: 'Competent in het samenwerken met de omgeving',
+        subCategories: ['sharingInformationWithParents', 'outsideActivities', 'effectiveCommunicationWithEnvironment']
       },
       {
         name: 'competenceInReflectionAndPersonalDevelopment',
-        title: 'Competent in reflectie en zelfontwikkeling'
+        title: 'Competent in reflectie en zelfontwikkeling',
+        subCategories: ['feedback', 'professionalDevelopment', 'didacticDevelopment', 'developingClassManagement', 'adaptingBehaviour']
       }
     ]
   },
@@ -244,49 +251,74 @@ survey.competenceCategories = competenceCategories;
 survey.calculateStatistics = function(survey, surveyResults){
 	var statistics = [];
 	var index = competenceCategories.findIndex(cat => cat.identifier == survey.competenceStandardKey);
-	if(index>-1){
+  var isRubric = index > -1 && competenceCategories[index].identifier == 'rubric' ? true : false;
+  if(index>-1){
     var generalStatistic = {
       name: competenceCategories[index].identifier,
       title: competenceCategories[index].title,
       statistics: [],
+      subCategories: []
     }
     statistics.push(generalStatistic);
 		competenceCategories[index].categories.forEach(function(category){
 			var newStatistic = {
 				name: category.name,
 				title: category.title,
+        subCategories: category.subCategories ? category.subCategories : [],
 				statistics: [],
 			}
 			statistics.push(newStatistic);
 		});
-		surveyResults.forEach(function(surveyResult){
-     statistics.forEach(function(stat, statIndex){
-       var questions = 0;
-       var total = 0;
-       Object.keys(surveyResult.result).forEach(function(key){
-          var value = surveyResult.result[key];
-          if(typeof value == 'string'){
-            value = parseFloat(value);
-          } else if(typeof value == 'boolean'){
-            value = value ? 1 : 0;
+    if(isRubric){
+      surveyResults.forEach(function(surveyResult){
+        var totalScore = 0;
+        statistics.forEach(function(stat, statIndex){
+          var score = 0;
+          stat.subCategories.forEach(function(subCat, subCatIndex){
+            var value = surveyResult.result[stat.name][subCat];
+            score += parseInt(value);
+          });
+          var average = score / stat.subCategories.length;
+          if(statIndex > 0){
+            stat.statistics.push(average);
           }
-
-          if(statIndex == 0) {
-             //this is the general statistics
-             questions += 1;
-             total += value;
-          }
-
-          var name = key.substring(0,key.indexOf("-"));
-          if(name == stat.name){
-             questions += 1;
-             total += value;            
-          }
+          totalScore += average;
         });
-        var result = Math.round(total / questions * 100);
-        stat.statistics.push(result);
-     });
-		});
+        var grandAverage = totalScore / 7;
+        statistics[0].statistics.push(grandAverage);
+      });
+
+    } else {
+      surveyResults.forEach(function(surveyResult){
+       statistics.forEach(function(stat, statIndex){
+         var questions = 0;
+         var total = 0;
+         Object.keys(surveyResult.result).forEach(function(key){
+            var value = surveyResult.result[key];
+            if(typeof value == 'string'){
+              value = parseFloat(value);
+            } else if(typeof value == 'boolean'){
+              value = value ? 1 : 0;
+            }
+
+            if(statIndex == 0) {
+               //this is the general statistics
+               questions += 1;
+               total += value;
+            }
+
+            var name = key.substring(0,key.indexOf("-"));
+            if(name == stat.name){
+               questions += 1;
+               total += value;            
+            }
+          });
+          var result = Math.round(total / questions * 100);
+          stat.statistics.push(result);
+       });
+      });
+    }
+		
 	} 
 	return statistics;
 }
@@ -4448,7 +4480,8 @@ survey.rubric = {
         "nl": "Werkt samen met de klas; zorgt ervoor dat leerlingen rekening houden met elkaar.\n\nZet groepswerk in; zorgt ervoor dat leerlingen onderling samenwerken. \n\nVerantwoordt hoe hij/zij met de (heterogene) groepen omgaat en ook met de individuele leerlingen.\n"
        }
       }
-     }
+     },
+     "isAllRowRequired": true
     },
     {
      "type": "comment",
@@ -4461,7 +4494,7 @@ survey.rubric = {
      "type": "comment",
      "name": "interpersonalCompetenceCommentCoach",
      "title": {
-      "nl": "Commentaar begeleider"
+      "nl": "Commentaar observator"
      }
     }
    ],
@@ -4648,7 +4681,8 @@ survey.rubric = {
         "nl": "Helpt en begeleidt de leerlingen bij het ontwikkelen van individuele talenten en capaciteiten, en kan adviseren over de (school)loopbaan. \nHoudt rekening met verschillen. \nLeert leerlingen wat hun rol en verantwoordelijkheid in de samenleving is door een voorbeeld te zijn in gedrag."
        }
       }
-     }
+     },
+     "isAllRowRequired": true
     },
     {
      "type": "comment",
@@ -4661,7 +4695,7 @@ survey.rubric = {
      "type": "comment",
      "name": "pedagogicalCompetenceCommentCoach",
      "title": {
-      "nl": "Commentaar begeleider"
+      "nl": "Commentaar observator"
      }
     }
    ],
@@ -4809,7 +4843,7 @@ survey.rubric = {
         "nl": "Staat onvoldoende boven de lesstof. \n\nIs te afhankelijk van de gebruikte methode.\n\nHeeft te weinig parate vakinhoudelijke kennis. \n\nBeantwoordt \nvragen soms foutief."
        },
        "2": {
-        "nl": "Geeft alleen in samenwerking met de begeleider een vakinhoudelijk correcte les. \n\nHeeft soms moeite met uitstapjes buiten de lesstof en met onverwachte vragen. "
+        "nl": "Geeft alleen in samenwerking met de collega een vakinhoudelijk correcte les. \n\nHeeft soms moeite met uitstapjes buiten de lesstof en met onverwachte vragen. "
        },
        "3": {
         "nl": "Heeft geen moeite met de correcte weergave van de stof uit de gebruikte methode; variëren en improviseren gaat niet vloeiend.\n\nBeantwoordt vragen van de leerlingen met betrekking tot de lesstof goed. \n\nVoert zelf opdrachten, oefeningen en toetsen op onderbouwniveau waar zijn leerlingen mee te maken krijgen foutloos uit."
@@ -4930,7 +4964,8 @@ survey.rubric = {
         "nl": "Geeft in verschillende situaties goede individuele feedback aan leerlingen, en onderbouwt deze feedback. \n\nGeeft opbouwend commentaar op het werk van zijn leerlingen en op de manier waarop ze werken."
        }
       }
-     }
+     },
+     "isAllRowRequired": true
     },
     {
      "type": "comment",
@@ -4943,7 +4978,7 @@ survey.rubric = {
      "type": "comment",
      "name": "competenceInSubjectMatterAndDidacticsCommentCoach",
      "title": {
-      "nl": "Commentaar begeleider"
+      "nl": "Commentaar observator"
      }
     }
    ],
@@ -5112,7 +5147,8 @@ survey.rubric = {
         "nl": "Realistisch en flexibel in planning, ook van experimentele en complexe leerprocessen.\n\nGebruikt leertijd efficiënt.\n \nOrganisatie-eenheid is het cursusjaar.\n"
        }
       }
-     }
+     },
+     "isAllRowRequired": true
     },
     {
      "type": "comment",
@@ -5125,7 +5161,7 @@ survey.rubric = {
      "type": "comment",
      "name": "organisationalCompetenceCommentCoach",
      "title": {
-      "nl": "Commentaar begeleider"
+      "nl": "Commentaar observator"
      }
     }
    ],
@@ -5295,7 +5331,7 @@ survey.rubric = {
       },
       "sharingInformation": {
        "1": {
-        "nl": "Heeft vrijwel alleen contact met zijn begeleider of directe collega's.\n\nStemt werkzaamheden nog niet af met collega’s; wacht af of collega’s informatie delen.\n\nLoopt (observerend) mee in het team."
+        "nl": "Heeft vrijwel alleen contact met zijn directe collega's.\n\nStemt werkzaamheden nog niet af met collega’s; wacht af of collega’s informatie delen.\n\nLoopt (observerend) mee in het team."
        },
        "2": {
         "nl": "Wisselt soms informatie uit met collega’s.\n\nMaakt gebruik van informatie van collega’s.\n\nIs passief lid van het team."
@@ -5335,7 +5371,8 @@ survey.rubric = {
         "nl": "Geeft grenzen van tijd en betrokkenheid aan.\n\nSpreekt de organisatie aan op verantwoordelijkheid naar haar werknemers."
        }
       }
-     }
+     },
+     "isAllRowRequired": true
     },
     {
      "type": "comment",
@@ -5348,7 +5385,7 @@ survey.rubric = {
      "type": "comment",
      "name": "competenceWhenWorkingWithColleaguesCommentCoach",
      "title": {
-      "nl": "Commentaar begeleider"
+      "nl": "Commentaar observator"
      }
     }
    ],
@@ -5497,7 +5534,8 @@ survey.rubric = {
         "nl": "Initiatiefrijk in contact met de omgeving, past procedures van de school zelfstandig toe en ontwikkelt nieuwe. \n\nLevert als gesprekspartner geregeld constructieve bijdragen; bereidt zich steevast voor op belangrijke gesprekken en overlegsituaties\n\nTreedt op als effectieve mediator bij moeilijke contacten.\n\nPoogt culturele verschillen te overbruggen o.m. door respect te tonen en respect te oogsten.\n\nTreedt op als woordvoerder voor de school."
        }
       }
-     }
+     },
+     "isAllRowRequired": true
     },
     {
      "type": "comment",
@@ -5510,7 +5548,7 @@ survey.rubric = {
      "type": "comment",
      "name": "competenceInWorkingWithTheEnvironmentCommentCoach",
      "title": {
-      "nl": "Commentaar begeleider"
+      "nl": "Commentaar observator"
      }
     }
    ],
@@ -5699,7 +5737,8 @@ survey.rubric = {
         "nl": "Weet wat er verwacht wordt, beoordeelt het eigen handelen systematisch in dat licht, en past dat zo nodig aan. "
        }
       }
-     }
+     },
+     "isAllRowRequired": true
     },
     {
      "type": "comment",
@@ -5712,7 +5751,7 @@ survey.rubric = {
      "type": "comment",
      "name": "competenceInReflectionAndPersonalDevelopmentCommentCoach",
      "title": {
-      "nl": "Commentaar begeleider"
+      "nl": "Commentaar observator"
      }
     }
    ],
@@ -5727,15 +5766,17 @@ survey.rubric = {
      "type": "text",
      "name": "coach",
      "title": {
-      "nl": "Naam begeleider"
-     }
+      "nl": "Naam observator"
+     },
+     "isRequired": true
     },
     {
      "type": "text",
      "name": "place",
      "title": {
       "nl": "Plaats en datum van het beoordelingsgesprek"
-     }
+     },
+     "isRequired": true
     },
     {
      "type": "paneldynamic",
