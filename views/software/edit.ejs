@@ -14,11 +14,11 @@
         <input type="text" name="software[name]" value="<%=software.name%>">
     </div>
     <!--NON-CORE SUBJECTS ONLY-->
-    <% if(school.settings.software.subjects[config.subjects.noncore].includes(software.subject)) { %> 
+    <% if(config.subjects.noncore == software.subject) { %> 
         <% include ./edit/noncore %>
     <% } else { %>
     <!--CORE SUBJECTS -->
-        <% if(school.settings.software.subjects[config.subjects.ict].includes(software.subject)) { %>
+        <% if(config.subjects.ict == software.subject) { %>
            <% include ./edit/ict %>
         <% } else { %>
             <input type="hidden" name="software[subject]" value="<%= software.subject %>">

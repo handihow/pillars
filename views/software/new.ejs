@@ -63,6 +63,15 @@
         <% }) %>
       </select>
     </div>
+     <div class="field">
+      <label>Kwaliteitsnormen</label>
+      <select multiple="" name="software[ratings]" class="ui dropdown">
+        <option value="">Selecteer kwaliteitsnormen</option>
+        <% school.settings.software.ratings.forEach(function(rating) { %>
+        <option value="<%=rating%>"><%=rating%></option>
+        <% }) %>
+      </select>
+    </div>
     <% if(school.isSecondarySchool){ %>
     <div class="required field">
       <label>Klassen</label>
