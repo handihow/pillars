@@ -2,6 +2,7 @@ var mongoose = require("mongoose");
 var Survey = require("./survey");
 var Statistic = require("./statistic");
 var School = require("./school");
+var calcs = require("../config/competence/survey")
 
 var surveyResultSchema = mongoose.Schema ( 
     {
@@ -25,37 +26,24 @@ var surveyResultSchema = mongoose.Schema (
 );
 
 surveyResultSchema.pre('save', function(next) {
-  if(this.isCompetenceSurvey){
-    var result = this.result;
-    var score = calculateSurveyScore(result);
-    this.score = score;
-    next();
+  var surveyResultToBeSaved = this;
+  if(surveyResultToBeSaved.isCompetenceSurvey){
+    var result = [];
+    result.push(surveyResultToBeSaved);
+    Survey.findById(surveyResultToBeSaved.survey, function(err, survey){
+      if(err){
+        next(new Error({message: 'Survey could not be found'}));
+      } else {
+        var statistics = calcs.calculateStatistics(survey, result);
+        var score = statistics[0].statistics[0] / 100;
+        surveyResultToBeSaved.score = score;
+        next();
+      }
+    });
   } else {
     next();
   }
 });
-
-function calculateSurveyScore(result){
-  var totalScore = 0;
-  var totalQuestions = 0;
-  var isValidScore = true;
-  Object.keys(result).forEach(function(value){
-    var answer = result[value];
-    if(typeof answer == 'boolean'){
-      totalScore += answer ? 1 : 0;
-    } else if (typeof answer == 'string'){
-      totalScore += parseFloat(answer);
-    } else {
-      isValidScore = false;
-    }
-    totalQuestions += 1;
-  });
-  if(isValidScore){
-    return totalScore / totalQuestions;
-  } else {
-    return 0;
-  }
-}
 
 surveyResultSchema.post('save', function(surveyResult, next) {
   if(surveyResult.score && surveyResult.competenceStandardKey){

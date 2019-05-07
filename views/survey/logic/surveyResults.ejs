@@ -406,16 +406,19 @@
 				name: stat.title,
 				jitter: 0.3,
     			pointpos: -1.8,
-				fillcolor: chartColors[statIndex],
+				// fillcolor: chartColors[statIndex],
 			}
 			data.push(trace);
 		});
 
 		var layout = {
 		  // title: 'Resultaten per deelgebied',
-		  showlegend: false,
+		  showlegend: true,
 		  // width: chartWidth,
-		  // height: chartHeight * 0.9
+		  // height: chartHeight * 0.9,
+		  autosize: true,
+		  width: 1200,
+		  height: 800
 		  
 		}
 

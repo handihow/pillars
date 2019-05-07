@@ -90,13 +90,14 @@
 		  // title: 'Resultaten per deelgebied',
 		  boxmode: 'group',
 		  showlegend: true,
-		  // width: chartWidth,
-		  // height: chartHeight * 0.9
+		  width: 1200,
+		  height: 700
+		  // width: chartWidth
 		  
 		}
 
 
-		Plotly.newPlot('analysisChart', data, layout,{responsive: true});
+		Plotly.newPlot('analysisChart', data, layout, {responsive: true});
 
 			
 	});

@@ -1,6 +1,6 @@
 
 <!--FORM FIELDS PART 1-->
-<div class="fields">
+<div class="four fields">
     <div class="field">
       <label>Minimum beoordeelde deskundigheid</label>
       <input type="number" name="standard[competence][competenceRating][standard]" 
@@ -14,7 +14,7 @@
 </div>
 
 <!--FORM FIELDS PART 2 = MAXIMUM SCORES-->
-<div class="fields">
+<div class="four fields">
     <div class="field">
       <label>Max score beoordeelde deskundigheid</label>
       <input type="number" name="standard[competence][competenceRating][maxScore]" 
@@ -30,7 +30,7 @@
       <input type="number" name="standard[competence][support][maxScore]" value="<%=standard.competence.support.maxScore%>">
     </div>
 </div>
-<div class="fields">
+<div class="four fields">
     <div class="field">
       <label>Max score ICT Geletterdheid</label>
       <input type="number" name="standard[competence][ictSkills][maxScore]" 
@@ -52,7 +52,7 @@
       value="<%=standard.competence.personalDevelopment.maxScore%>">
     </div>
 </div>
-<div class="fields">
+<div class="four fields">
     <div class="field">
       <label>Max score Instrumentele vaardigheden</label>
       <input type="number" name="standard[competence][instrumentalSkills][maxScore]" 
@@ -67,5 +67,17 @@
       <label>Max score Mediavaardigheden</label>
       <input type="number" name="standard[competence][mediaSkills][maxScore]" 
       value="<%=standard.competence.mediaSkills.maxScore%>">
+    </div>
+</div>
+<div class="four fields">
+    <div class="field">
+      <label>Max score Observatieinstrument ICT gebruik</label>
+      <input type="number" name="standard[competence][assessmentForm][maxScore]" 
+      value="<%= standard.competence.assessmentForm ? standard.competence.assessmentForm.maxScore : 0 %>">
+    </div>
+    <div class="field">
+      <label>Max score Rubric</label>
+      <input type="number" name="standard[competence][rubric][maxScore]" 
+      value="<%= standard.competence.rubric ? standard.competence.rubric.maxScore : 0 %>">
     </div>
 </div>

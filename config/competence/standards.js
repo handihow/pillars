@@ -2,19 +2,19 @@ var standards = {};
 
 //STANDARD 1 - RATED COMPETENCE OF TEACHERS
 standards.competenceRating = {
-	maxScore: 1,
+	maxScore: 0,
 	standard: 5
 }
 
 //STANDARD 2 - RATED AVERAGE OF EFFECTIVENESS SOFTWARE
 standards.softwareRating = {
-	maxScore: 0.5,
+	maxScore: 0,
 	standard: 5
 }
 
 //STANDARD 3 - RATED AVERAGE OF EFFECTIVENESS SOFTWARE
 standards.support = {
-	maxScore: 0.5
+	maxScore: 0
 }
 
 //STANDARD 4 - ICT SKILLS
@@ -54,6 +54,16 @@ standards.informationSkills = {
 //STANDARD 10 - MEDIA SKILLS
 standards.mediaSkills = {
 	maxScore: 0
+}
+
+//STANDARD 11 - ICT ASSESSMENT FORM
+standards.assessmentForm = {
+	maxScore: 1
+}
+
+//STANDARD 12 - RUBRIC
+standards.rubric = {
+	maxScore: 1
 }
 
 module.exports = standards;

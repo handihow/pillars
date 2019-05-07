@@ -281,8 +281,8 @@ survey.calculateStatistics = function(survey, surveyResults){
           var average = score / stat.subCategories.length;
           if(statIndex > 0){
             stat.statistics.push(average);
+            totalScore += average;
           }
-          totalScore += average;
         });
         var grandAverage = totalScore / 7;
         statistics[0].statistics.push(grandAverage);
@@ -301,7 +301,8 @@ survey.calculateStatistics = function(survey, surveyResults){
               value = value ? 1 : 0;
             }
 
-            if(statIndex == 0) {
+            if(statIndex == 0 && !isNaN(value)) {
+              console.log(value);
                //this is the general statistics
                questions += 1;
                total += value;
