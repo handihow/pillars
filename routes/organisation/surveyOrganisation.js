@@ -41,7 +41,7 @@ router.get("/:id", middleware.isLoggedIn, function(req, res){
           res.redirect("back");
         } else if(!survey.isPublic) {
           res.locals.scripts.header.surveyjs = true;
-          if(survey.isCompetenceSurvey){
+          if(survey.isCompetenceSurvey || survey.isSoftwareSurvey){
             res.locals.scripts.header.plotly = true;  
           }
           res.locals.scripts.footer.surveyjs = true;
@@ -55,13 +55,19 @@ router.get("/:id", middleware.isLoggedIn, function(req, res){
               req.flash(err.message);
               res.redirect("back");
             } else {
-              var statistics = config.competence.survey.calculateStatistics(survey, surveyResults);
+              var statistics; var bubbles;
+              if(survey.isCompetenceSurvey){
+                statistics = config.competence.survey.calculateStatistics(survey, surveyResults);
+              } else if(survey.isSoftwareSurvey){
+                bubbles = config.software.survey.calculateBubbles(survey, surveyResults);
+              }
               var protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http'
               var fullUrl = protocol + '://' + req.get('host');
               res.render("survey/show", {
                 survey: survey, 
                 surveyResults: surveyResults,
                 statistics: statistics,
+                bubbles: bubbles,
                 schoolLevel: false, 
                 fullUrl: fullUrl
               }); 
@@ -339,100 +345,6 @@ router.delete("/:id", middleware.isAuthenticatedBadmin, function(req, res){
           res.redirect("/survey");  
       }
   });
-});
-
-//DOWNLOAD ROUTE SURVEY RESULTS FOR ORGANISATION
-router.get("/:id/download", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
-    Survey.findById(req.params.id, function(err, survey){
-        if(err ||!survey){
-          req.flash("error", "Enquête niet gevonden.");
-          res.redirect("back");
-        } else if(!survey.isPublic) {
-          SurveyResult.find({survey: new ObjectId(survey._id)})
-          .populate('user')
-          .populate({path : 'user', populate : {path : 'organisation'}})
-          .populate({path : 'user', populate : {path : 'school'}})
-          .exec(function(err, surveyResults){
-            if(err){
-              req.flash(err.message);
-              res.redirect("back");
-            } else {
-              var protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http'
-              var fullUrl = protocol + '://' + req.get('host');
-              var surveyResultList = [];
-              var surveyAnswerKeys;
-              surveyResults.forEach(function(surveyResult){
-                surveyResult.date = surveyResult.createdAt.toJSON().slice(0,10).split('-').reverse().join('/');
-                surveyResult.firstName = surveyResult.user.firstName;
-                surveyResult.lastName = surveyResult.user.lastName;
-                surveyResult.email = surveyResult.user.username;
-                surveyResult.organisation = surveyResult.user.organisation.name;
-                surveyResult.school = surveyResult.user.school.map(s => s.name);
-                surveyResult.link = fullUrl + "/survey/" + surveyResult._id + "/result";
-                if(surveyResult.result){
-                  surveyAnswerKeys = Object.keys(surveyResult.result);
-                  Object.keys(surveyResult.result).forEach(function(key){
-                    if(surveyResult.result && surveyResult.result[key]){
-                      surveyResult[key] = typeof surveyResult.result[key] == 'string' ? surveyResult.result[key] : JSON.stringify(surveyResult.result[key]);
-                    }  
-                  });
-                } 
-                surveyResultList.push(surveyResult);
-              });
-              var fields = ['date', 'firstName', 'lastName', 'email', 'organisation', 'school', 'link'].concat(surveyAnswerKeys);
-              var fieldNames = ['Datum', 'Voornaam', 'Achternaam', 'Email', 'Organisatie', 'School', 'Link'].concat(surveyAnswerKeys);
-              json2csv({ data: surveyResultList, fields: fields, fieldNames: fieldNames }, function(err, csv) {
-                if(err){
-                  req.flash("error", err.message);
-                  res.redirect("back");
-                } else {
-                  res.setHeader('Survey-download', 'attachment; filename=surveyResults.csv');
-                  res.set('Content-Type', 'text/csv');
-                  res.status(200).send(csv);
-                }
-              });
-            }
-          });        
-        } else {
-          SurveyResult.find({survey: new ObjectId(survey._id)})
-          .exec(function(err, surveyResults){
-            if(err){
-              req.flash(err.message);
-              res.redirect("back");
-            } else {
-              var protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http'
-              var fullUrl = protocol + '://' + req.get('host');
-              var surveyResultList = [];
-              var surveyAnswerKeys;
-              surveyResults.forEach(function(surveyResult){
-                surveyResult.date = surveyResult.createdAt.toJSON().slice(0,10).split('-').reverse().join('/');
-                surveyResult.link = fullUrl + "/survey/" + surveyResult._id + "/result";
-                if(surveyResult.result){
-                  surveyAnswerKeys = Object.keys(surveyResult.result);
-                  Object.keys(surveyResult.result).forEach(function(key){
-                    if(surveyResult.result && surveyResult.result[key]){
-                      surveyResult[key] = typeof surveyResult.result[key] == 'string' ? surveyResult.result[key] : JSON.stringify(surveyResult.result[key]);
-                    }  
-                  });
-                }    
-                surveyResultList.push(surveyResult);
-              });
-              var fields = ['date', 'link'].concat(surveyAnswerKeys);
-              var fieldNames = ['Datum', 'Link'].concat(surveyAnswerKeys);
-              json2csv({ data: surveyResultList, fields: fields, fieldNames: fieldNames }, function(err, csv) {
-                if(err){
-                  req.flash("error", err.message);
-                  res.redirect("back");
-                } else {
-                  res.setHeader('Survey-download', 'attachment; filename=surveyResults.csv');
-                  res.set('Content-Type', 'text/csv');
-                  res.status(200).send(csv);
-                }
-              }); 
-            }
-          });        
-        } 
-    });
 });
 
 //SHOWING A PRIVATE SURVEY

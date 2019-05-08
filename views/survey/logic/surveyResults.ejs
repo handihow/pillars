@@ -6,7 +6,7 @@
 		}
 
 		function changePageAppearance(el){
-			['info', 'table', 'chart', 'analysis'].forEach(function(page){
+			['info', 'table', 'chart', 'analysis', 'bubbles'].forEach(function(page){
 				if(page==el){
 					if($('#'+ page).hasClass("hidden")){
 			        	$('#'+ page).removeClass("hidden");
@@ -46,6 +46,12 @@
 		if($("#analysisButton").length > 0) {
 			$("#analysisButton").click(function(){
 				changePageAppearance('analysis');
+		      });
+		}
+
+		if($("#bubblesButton").length > 0) {
+			$("#bubblesButton").click(function(){
+				changePageAppearance('bubbles');
 		      });
 		}
 
@@ -346,7 +352,7 @@
                     'rgba(227,6,19,1)',
                     'rgba(249,178,51, 1)',
                     'rgba(0, 0, 0, 1)',
-                    'rgba(156,16,6, 1)',
+                    'rgba(18,172,19, 1)',
                     'rgba(34, 34, 188, 1)',
                     'rgba(246, 190, 91, 1)',
                     'rgba(58, 58, 58, 1)',
@@ -371,59 +377,76 @@
 		    });
 		}
 
-		var statisticsString = $( '#statistics' ).text();
-
-		// var chartWidth = $('#analysisChart').width() * 0.9;
-
-		// var chartHeight = $('#statistics').parent().height();
-
-		var statistics = JSON.parse(statisticsString || '[]')
-
-		console.log(statistics);
-
-		let chartColors = [
-                    'E30613',
-                    '009FE3',
-                    'F9B233',
-                    'rgb(0,0,0)',
-                    '12AC13',
-                    'rgba(34, 34, 188, 1)',
-                    'rgba(246, 190, 91, 1)',
-                    'rgba(58, 58, 58, 1)',
-                    'rgba(191,35,66, 1)',
-                    'rgba(36, 83, 189, 1)',
-                    'rgba(249, 203, 19, 1)',
-                    'rgba(112, 112, 112, 1)',
-                ];
-
-		var data = [];
-
-		statistics.forEach(function(stat, statIndex){
-			var trace = {
-				boxpoints: 'all',
-				y: stat.statistics,
-				type: 'box',
-				name: stat.title,
-				jitter: 0.3,
-    			pointpos: -1.8,
-				// fillcolor: chartColors[statIndex],
-			}
-			data.push(trace);
-		});
-
-		var layout = {
-		  // title: 'Resultaten per deelgebied',
-		  showlegend: true,
-		  // width: chartWidth,
-		  // height: chartHeight * 0.9,
-		  autosize: true,
-		  width: 1200,
-		  height: 800
-		  
-		}
-
 		if(surveyInfo.isCompetenceSurvey){
+			var statisticsString = $( '#statistics' ).text();
+
+			var statistics = JSON.parse(statisticsString || '[]')
+
+			var data = [];
+
+			statistics.forEach(function(stat, statIndex){
+				var trace = {
+					boxpoints: 'all',
+					y: stat.statistics,
+					type: 'box',
+					name: stat.title,
+					jitter: 0.3,
+	    			pointpos: -1.8,
+					// fillcolor: chartColors[statIndex],
+				}
+				data.push(trace);
+			});
+
+			var layout = {
+			  showlegend: true,
+			  autosize: true,
+			  width: 1200,
+			  height: 800
+			  
+			}
 			Plotly.newPlot('analysisChart', data, layout, {responsive: true});
+		} else if(surveyInfo.isSoftwareSurvey){
+			var bubblesString = $( '#bubblesInfo' ).text();
+
+			console.log(bubblesString);
+
+			var bubbles = JSON.parse(bubblesString || '[]');
+
+			console.log(bubbles);
+			
+			var traces = [];
+
+			bubbles.x.forEach(function(bubble, index){
+				var newTrace = {
+				  x: [bubbles.x[index]],
+				  y: [bubbles.y[index]],
+				  text: [bubbles.text[index]],
+				  mode: 'markers',
+				  marker: {
+				    color: [bubbles.color[index]],
+				    size: [bubbles.size[index]],
+				  },
+				  name: bubbles.text[index],
+				};
+				traces.push(newTrace);
+			})
+
+			var data = traces;
+
+			var layout = {
+			  title: 'Frequentie versus Noodzaak en Kwaliteit',
+			  showlegend: true,
+			  height: 800,
+			  width: 1200,
+			  xaxis: {
+			  	title: 'Frequentie (0 = weinig, 1 = zeer vaak)'
+			  },
+			  yaxis: {
+			  	title: 'Noodzaak (0 = niet belangrijk, 1 = essentieel)'
+			  }
+			};
+
+			Plotly.newPlot('bubblesChart', data, layout);
 		}
 
 		

@@ -12,6 +12,8 @@
   <button class="ui <%if(surveyResults.length>0){%>active<%}%> icon button" id="chartButton"><i class="chart pie icon"></i></button>
   <% if(survey.isCompetenceSurvey){%>
     <button class="ui icon button" id="analysisButton"><i class="chart bar icon"></i></button>
+  <%} else if(survey.isSoftwareSurvey){%>
+    <button class="ui icon button" id="bubblesButton"><i class="chart bar icon"></i></button>
   <%}%>
 </div>
 <div class="ui divider"></div>
@@ -31,6 +33,11 @@
       <% include ./show/analysis %>
     </div>
     <div id="statistics" hidden><%=JSON.stringify(statistics)%></div>
+  <%} else if(survey.isSoftwareSurvey){%>
+      <div id="bubbles" class="transition hidden">
+      <% include ./show/bubbles %>
+    </div>
+    <div id="bubblesInfo" hidden><%=JSON.stringify(bubbles)%></div>
   <%}%>
   <div id="surveyText" hidden><%= JSON.stringify(survey)%></div>
   <div id="surveyResults" hidden><%= JSON.stringify(surveyResults)%></div>

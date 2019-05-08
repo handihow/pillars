@@ -1,8 +1,8 @@
+var subjects = require('./subjects');
 var survey = {}
 
 //https://www.kennisnet.nl/artikel/kiezen-voor-het-juiste-digitale-leermiddel-stel-vragen/
 //https://educationaltechnologyjournal.springeropen.com/articles/10.1186/s41239-016-0002-5
-
 
 survey.assessmentCategories = [
   {
@@ -35,8 +35,62 @@ survey.assessmentCategories = [
   },
 ];
 
-survey.kennisnet = 
+survey.calculateBubbles = function(survey, surveyResults){
+  //exit the function if there are no survey results
+  if(surveyResults.length == 0) {
+    return console.log('no survey results');
+  }
+  //define the results variable to return from the function
+  var results = {
+    x: [],
+    y: [],
+    text: [],
+    color: [],
+    size: []
+  };
+  subjects.allSubjects.forEach(function(subject){
+    var subjectResults = surveyResults.filter(o => o.result.course == subject);
+    var subjectAverages = []; var subjectFrequencies = []; var subjectNecessities = [];
+    subjectResults.forEach(function(result){
+      const arr = Object.keys(result.result)
+      .filter(key => ['content', 'quality', 'learningManagementSystem'].includes(key.substring(0,key.indexOf("-"))))
+      .reduce((obj, key) => {
+        obj[key] = parseFloat(result.result[key]);
+        return Object.values(obj);
+      }, {});
+      var sum, avg = 0;
+      if (arr.length) {
+          sum = arr.reduce(function(a, b) { return a + b; });
+          avg = sum / arr.length;
+      }
+      subjectAverages.push(avg * 100);
+      subjectNecessities.push(parseFloat(result.result["frequencyNecessity-question1"]));
+      subjectFrequencies.push(parseFloat(result.result["frequencyNecessity-question2"]));
+    });
+    var subjectAvg, subjectFrequency, subjectNecessity = 0;
+    if(subjectAverages.length){
+       subjectAvg  = subjectAverages.reduce(function(a, b) { return a + b; }) / subjectAverages.length;
+       subjectNecessity = subjectNecessities.reduce(function(a, b) { return a + b; }) / subjectAverages.length;
+       subjectFrequency = subjectFrequencies.reduce(function(a, b) { return a + b; }) / subjectAverages.length;
+       results.x.push(subjectFrequency);
+       results.y.push(subjectNecessity);
+       results.text.push(subject);
+       results.size.push(subjectAvg);
+       results.color.push(getRandomRgb());
+    }
+  });
+  return results;
+}
 
+function getRandomRgb() {
+  var num = Math.round(0xffffff * Math.random());
+  var r = num >> 16;
+  var g = num >> 8 & 255;
+  var b = num & 255;
+  return 'rgb(' + r + ', ' + g + ', ' + b + ')';
+}
+
+survey.kennisnet =
 {
  "locale": "nl",
  "title": {

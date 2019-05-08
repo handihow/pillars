@@ -376,4 +376,6 @@ subjects.secondary.schoolConfig = function(){
     return schoolConfig;
 }
 
+subjects.allSubjects = [...new Set(subjects.primary.map(o => o.subject).concat(subjects.secondary.map(o => o.subject)))].sort();
+
 module.exports = subjects;

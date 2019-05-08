@@ -1,0 +1,17 @@
+<h2 class="ui header"><i class="chart bar icon"></i>Analyse leermiddelen</h2>
+    <div class="ui divider"></div>
+    <%if(surveyResults.length===0){%>
+    <div class="ui placeholder segment">
+      <div class="ui icon header">
+        <i class="dont icon"></i>
+        Nog geen inzendingen
+      </div>
+    </div>
+    <%} else {%>
+      
+    <div id="bubblesChart" class="ui stackable grid"></div>
+
+    <%}%>
+    
+
+  </div>
