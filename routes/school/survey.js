@@ -93,13 +93,19 @@ router.get("/:sid", middleware.isSchoolOwner, function(req, res){
                       returnedSurveyResults.push(surveyResult);
                     }
                   });
-                  var statistics = config.competence.survey.calculateStatistics(survey, returnedSurveyResults);
+                  var statistics; var bubbles;
+                  if(survey.isCompetenceSurvey){
+                    statistics = config.competence.survey.calculateStatistics(survey, returnedSurveyResults);
+                  } else if(survey.isSoftwareSurvey){
+                    bubbles = config.software.survey.calculateBubbles(survey, returnedSurveyResults);
+                  }
                   var protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http'
                   var fullUrl = protocol + '://' + req.get('host');
                   res.render("survey/show", {
                     school: school, 
                     survey: survey,
                     statistics: statistics,
+                    bubbles: bubbles,
                     surveyResults: returnedSurveyResults, 
                     schoolLevel: true, 
                     fullUrl: fullUrl
