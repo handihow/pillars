@@ -72,7 +72,7 @@ router.get("/:sid", middleware.isSchoolOwner, function(req, res){
               res.locals.scripts.header.surveyjs = true;
               res.locals.scripts.footer.surveyjs = true;
               res.locals.scripts.footer.surveyResults = true;
-              if(survey.isCompetenceSurvey){
+              if(survey.isCompetenceSurvey || survey.isSoftwareSurvey){
                 res.locals.scripts.header.plotly = true;  
               }
               SurveyResult.find({survey: new ObjectId(survey._id)})
