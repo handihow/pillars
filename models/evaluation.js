@@ -2,6 +2,8 @@ var mongoose = require("mongoose");
 
 var evaluationSchema=  mongoose.Schema({
     title: {type: String, required: true},
+    reportHTML: String,                    //depreciated
+    planHTML: String,                      //depreciated
     report: String,
     plan: String,
     //ALGEMEEN
