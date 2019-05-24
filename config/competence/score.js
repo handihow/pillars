@@ -64,7 +64,7 @@ competenceScore.averageTestResult = function(school, identifier, surveyResults){
     var count = 0;
     var result = {result: 0, error: null};
     //check if the standard is set, otherwise override with standard settings
-    let maximumScore = school.standard.competence[identifier].maxScore ? 
+    let maximumScore = school.standard.competence[identifier] && school.standard.competence[identifier].maxScore ? 
                             school.standard.competence[identifier].maxScore :
                                 config.competence.standards[identifier].maxScore;
     surveyResults.forEach(function(surveyResult){
