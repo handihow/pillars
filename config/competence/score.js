@@ -59,18 +59,17 @@ competenceScore.support = function(school){
 };
 
 //checks the resulting average score from tests
-competenceScore.averageTestResult = function(school, subject){
+competenceScore.averageTestResult = function(school, identifier, surveyResults){
     var total = 0;
     var count = 0;
     var result = {result: 0, error: null};
-    let subjectKey = subject.key;
     //check if the standard is set, otherwise override with standard settings
-    let maximumScore = school.standard.competence[subjectKey].maxScore ? 
-                            school.standard.competence[subjectKey].maxScore :
-                                config.competence.standards[subjectKey].maxScore;
-    school.tests.forEach(function(test){
-        if(test.subject === subject.topic){
-            total = total + test.result;
+    let maximumScore = school.standard.competence[identifier].maxScore ? 
+                            school.standard.competence[identifier].maxScore :
+                                config.competence.standards[identifier].maxScore;
+    surveyResults.forEach(function(surveyResult){
+        if(surveyResult.competenceStandardKey === identifier){
+            total = total + surveyResult.score;
             count ++;
         }
     });

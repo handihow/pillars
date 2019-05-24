@@ -72,6 +72,7 @@ var scholenSchema=  mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Standard"
     },
+    timeRange: {type: String, default: 'ALL'},
     evaluations: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Evaluation"

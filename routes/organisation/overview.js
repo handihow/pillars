@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router({mergeParams: true});
 var School = require("../../models/school");
+var SurveyResult = require("../../models/surveyResult");
 var middleware = require("../../middleware");
 var json2csv = require("json2csv");
 var config = require("../../config/config");
@@ -80,8 +81,6 @@ router.get("/hardware/budget", middleware.isAuthenticatedBadmin, function(req, r
         null,
         {sort: {name: 1}})
       .populate("hardware")
-      .populate("software")
-      .populate("tests")
       .populate("standard")
       .exec(function(err, schools){
       if(err){
@@ -106,7 +105,7 @@ router.get("/hardware/budget", middleware.isAuthenticatedBadmin, function(req, r
           if(!school.standard){
             schoolsWithoutStandards.push(school.name);
           } else {
-            var result = score.calculate(school);
+            var result = score.calculate(school, [], true);
             goodComputers += result.hardware.goodComputers;
             requiredComputers += result.hardware.requiredComputers;
             missingComputers += result.hardware.missingComputers;
@@ -256,65 +255,65 @@ router.get("/software/download", middleware.isAuthenticatedBadmin, function(req,
 });
 
 //SHOW ROUTE TEST RESULTATEN SCHOLEN
-router.get("/tests", middleware.isAuthenticatedBadmin, function(req, res){
-    School.find(
-        {"organisation": req.user.organisation}, 
-        null,
-        {sort: {name: 1}})
-      .populate({
-        path: 'tests',
-        populate: { path: 'owner' }
-      })
-    .exec(function(err, schools){
-      if(err || !schools) {
-        req.flash("error", err.message);
-        res.redirect("back");
-    } else {
-        res.render("overview/tests", {schools: schools});         
-    }
-});
-});
+// router.get("/tests", middleware.isAuthenticatedBadmin, function(req, res){
+//     School.find(
+//         {"organisation": req.user.organisation}, 
+//         null,
+//         {sort: {name: 1}})
+//       .populate({
+//         path: 'tests',
+//         populate: { path: 'owner' }
+//       })
+//     .exec(function(err, schools){
+//       if(err || !schools) {
+//         req.flash("error", err.message);
+//         res.redirect("back");
+//     } else {
+//         res.render("overview/tests", {schools: schools});         
+//     }
+// });
+// });
 
 //DOWNLOAD ROUTE TEST OVERVIEW SCHOLEN
-router.get("/tests/download", middleware.isAuthenticatedBadmin, function(req, res){
-    School.find(
-        {"organisation": req.user.organisation}, 
-        null,
-        {sort: {name: 1}})
-    .populate({
-        path: 'tests',
-        populate: { path: 'owner' }
-      })
-    .exec(function(err, schools){
-      if(err || !schools) {
-        req.flash("error", err.message);
-        res.redirect("back");
-    } else {
-        var testList = [];
-        schools.forEach(function(school){
-            school.tests.forEach(function(test){
-                test.school = school.name;
-                test.result = Math.ceil(test.result*1000)/10;
-                test.user = test.owner && test.owner.publicProfile ? test.owner.username : 'anoniem';
-                test.userType = test.owner && test.owner.isTeacher ? 'onderwijzend' : 'ondersteunend/onbekend';
-                testList.push(test);
-            });
-        });
-        var fields = ['school', 'subject', 'result', 'user', 'userType'];
-        var fieldNames = ['School', 'Onderdeel', 'Resultaat', 'Gebruikersnaam', 'Personeelstype'];
-        json2csv({ data: testList, fields: fields, fieldNames: fieldNames }, function(err, csv) {
-            if(err){
-                req.flash("error", err.message);
-                res.redirect("back");
-            } else {
-                res.setHeader('Test-download', 'attachment; filename=tests.csv');
-                res.set('Content-Type', 'text/csv');
-                res.status(200).send(csv);
-            }
-        });
-    }
-});
-});
+// router.get("/tests/download", middleware.isAuthenticatedBadmin, function(req, res){
+//     School.find(
+//         {"organisation": req.user.organisation}, 
+//         null,
+//         {sort: {name: 1}})
+//     .populate({
+//         path: 'tests',
+//         populate: { path: 'owner' }
+//       })
+//     .exec(function(err, schools){
+//       if(err || !schools) {
+//         req.flash("error", err.message);
+//         res.redirect("back");
+//     } else {
+//         var testList = [];
+//         schools.forEach(function(school){
+//             school.tests.forEach(function(test){
+//                 test.school = school.name;
+//                 test.result = Math.ceil(test.result*1000)/10;
+//                 test.user = test.owner && test.owner.publicProfile ? test.owner.username : 'anoniem';
+//                 test.userType = test.owner && test.owner.isTeacher ? 'onderwijzend' : 'ondersteunend/onbekend';
+//                 testList.push(test);
+//             });
+//         });
+//         var fields = ['school', 'subject', 'result', 'user', 'userType'];
+//         var fieldNames = ['School', 'Onderdeel', 'Resultaat', 'Gebruikersnaam', 'Personeelstype'];
+//         json2csv({ data: testList, fields: fields, fieldNames: fieldNames }, function(err, csv) {
+//             if(err){
+//                 req.flash("error", err.message);
+//                 res.redirect("back");
+//             } else {
+//                 res.setHeader('Test-download', 'attachment; filename=tests.csv');
+//                 res.set('Content-Type', 'text/csv');
+//                 res.status(200).send(csv);
+//             }
+//         });
+//     }
+// });
+// });
 
 //SHOW ROUTE TEST RESULTATEN SCHOLEN
 router.get("/pillars", middleware.isAuthenticatedBadmin, function(req, res){
@@ -324,25 +323,64 @@ router.get("/pillars", middleware.isAuthenticatedBadmin, function(req, res){
         {sort: {name: 1}})
     .populate("hardware")
     .populate("software")
-    .populate("tests")
     .populate("standard")
-    .exec(function(err, schools){
+    .exec(async function(err, schools){
       if(err || !schools) {
         req.flash("error", err.message);
         res.redirect("back");
     } else {
         var results = [];
-        schools.forEach(function(school){
-            var result = score.calculate(school);
+        await asyncForEach(schools, async function(school, index, schools){
+            let surveyResults = await retrieveSurveyResultsForPillarsScoreOverview(school);
+            var result = score.calculate(school, surveyResults);
             results.push(result);
         });
         res.locals.scripts.footer.chartjs = true;
         res.locals.scripts.footer.pillars = true;
         res.locals.scripts.footer.overview = true;
-        res.render("overview/pillars", {schools: schools, results: results});   
+        res.render("overview/pillars", {schools: schools, results: results});  
     }
 });
 });
+
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+}
+
+function retrieveSurveyResultsForPillarsScoreOverview(school){
+  return new Promise(function(resolve, reject) {
+    var surveyResults = [];
+    if(school.users.length == 0){
+      return resolve(surveyResults);
+    } 
+    var filter = {isCompetenceSurvey: true};
+    school.users.forEach(function(user, index, users){
+      filter.user = user;
+      SurveyResult
+        .find(filter)
+        .populate("survey")
+        .exec(function(err, userSurveyResults){
+            if(err){
+              return resolve(surveyResults);
+            }
+            userSurveyResults.forEach(function(result){
+              if(result.score){
+                surveyResults.push(result);  
+              } else {
+                var statistics = calcs.calculateStatistics(survey, result);
+                result.score = statistics[0].statistics[0] / 100;
+                surveyResults.push(result);
+              }
+            });
+            if(index == users.length - 1){
+              return resolve(surveyResults);
+            }
+      });
+    });
+  });
+}
 
 //SHOW ROUTE TEST RESULTATEN SCHOLEN
 router.get("/pillars/api", middleware.isAuthenticatedBadmin, function(req, res){
@@ -352,16 +390,16 @@ router.get("/pillars/api", middleware.isAuthenticatedBadmin, function(req, res){
         {sort: {name: 1}})
     .populate("hardware")
     .populate("software")
-    .populate("tests")
     .populate("standard")
-    .exec(function(err, schools){
+    .exec(async function(err, schools){
       if(err || !schools) {
         req.flash("error", err.message);
         res.redirect("back");
     } else {
         var results = [];
-        schools.forEach(function(school){
-            var result = score.calculate(school);
+        await asyncForEach(schools, async function(school, index, schools){
+            let surveyResults = await retrieveSurveyResultsForPillarsScoreOverview(school);
+            var result = score.calculate(school, surveyResults);
             results.push(result);
         });
         res.setHeader('Content-Type', 'application/json');

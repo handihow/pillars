@@ -10,7 +10,7 @@
       <a class="ui primary button" href="/standard/<%=school.standard._id%>">Bekijk normering</a>
       <div class="ui divider"></div>
     <% } %>
-    <h4>Kies welke normering je wilt gebruiken voor deze school.</h4>
+    <h4>Kies welke normering je wilt gebruiken voor deze school en welke tijdrange.</h4>
     <div class="ui divider"></div>
     <form class="ui form" action="/schools/<%=school._id%>/pillars/settings?_method=PUT" method="POST" id="pillarsInstellingen">
         <div class="field">
@@ -18,6 +18,14 @@
       <select class="ui fluid dropdown" name="school[standard]">
         <% standards.forEach(function(standard){%>
          <option value="<%=standard._id%>" <%if(school.standard){if(school.standard.equals(standard._id)) { %> selected="" <% }} %>><%=standard.name%></option>
+        <%})%>
+      </select>
+    </div>
+      <div class="field">
+      <label>Tijdrange voor gegevens</label>
+      <select class="ui fluid dropdown" name="school[timeRange]">
+        <% [{value: 'ALL', label: 'Alle gegevens'}, {value: '20182019', label: 'Gegevens van schooljaar 2018/2019'}, {value: '20172018', label: 'Gegevens van schooljaar 2017/2018'}].forEach(function(value){%>
+         <option value="<%=value.value%>" <%if(school.timeRange == value.value) { %> selected="" <% } %>><%=value.label%></option>
         <%})%>
       </select>
     </div>

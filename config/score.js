@@ -5,7 +5,10 @@ var softwareScore = require('./software/score');
 var competenceScore = require('./competence/score');
 var managementScore = require('./management/score');
 
-score.calculate = function(school) {
+score.calculate = function(school, surveyResults, onlyHardware) {
+    if (typeof surveyResults === 'undefined') { surveyResults = []; }
+    if (typeof onlyHardware === 'undefined') { onlyHardware = false; }
+
     //define the output variable "result" of the function
     var result = {
         school: school.name,
@@ -61,7 +64,9 @@ score.calculate = function(school) {
             personalDevelopment: 0,
             instrumentalSkills: 0,
             informationSkills: 0,
-            mediaSkills: 0
+            mediaSkills: 0,
+            assessmentForm: 0,
+            rubric: 0
         },
         management: {
             agreement: 0,
@@ -113,7 +118,7 @@ score.calculate = function(school) {
     } else {
         result.errors.push("Algemene gegevens niet compleet of geen hardware ingevoerd. Hardware score is niet berekend.")
     }
-    if(school.software && school.software.length>0){
+    if(!onlyHardware && school.software && school.software.length>0){
         //PILLARS CHECK SOFTWARE
         var evaluatedSubjects = school.isSecondarySchool ? config.software.subjects.secondary : config.software.subjects.primary;
         evaluatedSubjects.forEach(function(subject){
@@ -125,10 +130,10 @@ score.calculate = function(school) {
                 }     
             }
         });
-    } else {
-        result.errors.push("Geen digitale leermiddelen ingevoerd. Digitale leermiddelen score is niet berekend.")
+    } else if(!onlyHardware){
+        result.errors.push("Geen digitale leermiddelen ingevoerd. Digitale leermiddelen score is niet berekend.")        
     }
-    if(school.tests && school.tests.length>0){
+    if(!onlyHardware && surveyResults.length > 0){
         //DESKUNDIGHEID
         //check rated competence
         let newCompetenceRating = competenceScore.competenceRating(school);
@@ -149,17 +154,17 @@ score.calculate = function(school) {
             result.errors.push(newSupportRating.error);
         }
         //check the test results
-        config.competence.questionnaire.topics.forEach(function(topic){
-            let newTestResult = competenceScore.averageTestResult(school, topic)
-            result.competence[topic.key] = newTestResult.result;
+        config.competence.survey.competenceCategories.forEach(function(category){
+            let newTestResult = competenceScore.averageTestResult(school, category.identifier, surveyResults)
+            result.competence[category.identifier] = newTestResult.result;
             if(newTestResult.error){
                 result.errors.push(newTestResult.error);
             }
         })
-    } else {
+    } else if(!onlyHardware){
         result.errors.push("Geen tests ingevoerd. Score voor deskundigheid is niet berekend.")
     }
-    if(school.management.roles[0].hours>0 || school.management.agreement || school.management.networkAdjustment ||
+    if(!onlyHardware && school.management.roles[0].hours>0 || school.management.agreement || school.management.networkAdjustment ||
             school.management.networkProblemSolving || school.management.incidentReporting){
         // ORGANISATIE
         //check if the management has reached agreement
@@ -181,7 +186,7 @@ score.calculate = function(school) {
                 result.errors.push(newRoleResult.error);
             } 
         })
-    } else {
+    } else if(!onlyHardware){
         result.errors.push("Gegevens van organisatie zijn niet compleet. Score organisatie is niet berekend.")
     }
     //CALCULATE TOTALS

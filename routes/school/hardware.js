@@ -58,8 +58,6 @@ router.get("/list", middleware.isLoggedIn, function(req, res){
 router.get("/budget", middleware.isLoggedIn, function(req, res){
     School.findById(req.params.id)
       .populate("hardware")
-      .populate("software")
-      .populate("tests")
       .populate("standard")
       .exec(function(err, school){
       if(err ||!school){
@@ -70,7 +68,7 @@ router.get("/budget", middleware.isLoggedIn, function(req, res){
           if(!school.standard){
             return res.redirect("/schools/"+school.id+"/pillars/settings");
           }
-          var result = score.calculate(school);
+          var result = score.calculate(school, [], true);
           res.render("hardware/budget", {school: school, result: result});            
       }
   });
