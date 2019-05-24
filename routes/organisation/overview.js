@@ -6,7 +6,7 @@ var middleware = require("../../middleware");
 var json2csv = require("json2csv");
 var config = require("../../config/config");
 var score = require("../../config/score");
-var calcs = require("../config/competence/survey")
+var calcs = require("../../config/competence/survey")
 
 //SHOW ROUTE INVOER OVERVIEW SCHOLEN
 router.get("/schools", middleware.isAuthenticatedBadmin, function(req, res){
