@@ -5,6 +5,7 @@ var Standard = require("../../models/standard");
 var SurveyResult = require("../../models/surveyResult");
 var middleware = require("../../middleware");
 var score = require("../../config/score");
+var calcs = require("../config/competence/survey")
 
 //SHOW ROUTE
 router.get("/", middleware.isSchoolOwner, function(req, res){
