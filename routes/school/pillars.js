@@ -53,7 +53,7 @@ function retrieveSurveyResultsForPillarsScore(school){
               if(result.score){
                 surveyResults.push(result);  
               } else {
-                var statistics = calcs.calculateStatistics(survey, result);
+                var statistics = calcs.calculateStatistics(result.survey, result);
                 result.score = statistics[0].statistics[0] / 100;
                 surveyResults.push(result);
               }
