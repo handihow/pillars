@@ -20,6 +20,7 @@ var scripts = require('./other/scripts'); //scripts loaded in header or footer o
 var email = require('./other/email'); //emails that are sent to users
 var processingActivity = require('./other/processingActivity'); //processing activities
 var inspectionResults = require('./other/inspectionResults'); //school inspection results
+var organisationSettings = require('./other/organisationSettings'); //organisation settings
 
 //Definition of config variable
 var config = {};
@@ -55,6 +56,7 @@ config.email = email;
 config.scripts = scripts;
 config.processingActivity = processingActivity;
 config.inspectionResults = inspectionResults;
+config.organisationSettings = organisationSettings;
 
 config.currentSchoolYear = "2018/2019"
 

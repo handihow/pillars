@@ -20,17 +20,19 @@
       <a class="item" href="/standard">
         Normering
       </a>
-      <a class="item" href="/questionnaire">
-        Profielvragen
+      <a class="item" href="/organisationSettings">
+        Module instellingen
       </a>
     </div>
   </div>
   <div class="ui dropdown horizontal item" data-content="Communicatie">
     <i class="bullhorn icon"></i>
     <div class="menu">
-      <a class="item" href="/message">
-        Berichtgeving
-      </a>
+      <% if(organisationSettings.messages){ %>
+        <a class="item" href="/message">
+          Berichtgeving
+        </a>
+      <% } %>
       <a class="item" href="/survey">
         Enquêtes
       </a>
@@ -39,25 +41,33 @@
   <a class="horizontal item" href="/org-user" data-content="Bestuur Medewerkers">
     <i class="users icon"></i>
   </a>
-  <div class="ui dropdown horizontal item" data-content="Algemene verordening gegevensbescherming (AVG)">
-    <i class="shield icon"></i>
-    <div class="menu">
-      <a class="item" href="/processingActivity">
-        Verwerkingsactiviteiten
-      </a>
-      <a class="item" href="/securityIncident">
-        Beveiligingsincidenten
-      </a>
+  <% if(organisationSettings.privacy){ %>
+    <div class="ui dropdown horizontal item" data-content="Algemene verordening gegevensbescherming (AVG)">
+      <i class="shield icon"></i>
+      <div class="menu">
+        <a class="item" href="/processingActivity">
+          Verwerkingsactiviteiten
+        </a>
+        <a class="item" href="/securityIncident">
+          Beveiligingsincidenten
+        </a>
+      </div>
     </div>
-  </div>
+  <% } %>
   <div class="ui dropdown horizontal item" data-content="Overzichten">
     <i class="chart bar icon"></i>
     <div class="menu">
       <a class="item" href="/overview/schools">Invoer Gegevens</a>
-      <a class="item" href="/overview/hardware">Hardware</a>
-      <a class="item" href="/overview/software">Digitale Leermiddelen</a>
+      <% if(organisationSettings.hardware){ %>
+        <a class="item" href="/overview/hardware">Hardware</a>
+      <% } %>
+      <% if(organisationSettings.software){ %>
+        <a class="item" href="/overview/software">Digitale Leermiddelen</a>
+      <% } %>
       <!-- <a class="item" href="/overview/tests">Test Resultaten</a> -->
-      <a class="item" href="/overview/pillars">Pillars Resultaten</a>
+      <% if(organisationSettings.pillars){ %>
+        <a class="item" href="/overview/pillars">Pillars Resultaten</a>
+      <% } %>
     </div>            
   </div>
   <% } %>

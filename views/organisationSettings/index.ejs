@@ -1,0 +1,47 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+
+<div class="ui container">
+    <h2 class="ui center aligned header">
+      <div>Module Instellingen</div>
+    </h2>
+
+    <div class="ui info message">
+      Je kunt modules aan en uitzetten, en je schakelt hiermee opties (knoppen) aan en uit in het top menu en het zij-menu bij scholen. 
+  </div>
+    
+    <% var labels = {
+        messages: "Module Berichten / Informatie",
+        privacy: "Module Algemene Verordering Gegevensbescherming",
+        hardware: "Module Hardware",
+        software: "Module (Digitale) Leermiddelen",
+        competence: "Module Deskundigheid",
+        management: "Module Organisatie",
+        pillars: "Module Pillars Berekening",
+        evaluations: "Module Evaluatie"
+      }; %>
+
+    <!--divider and then all cards for question lists-->
+    <form class="ui form" action="/organisationSettings" method="POST">
+      <% Object.keys(organisationSettings).forEach(function(setting){ %>
+          <div class="two fields">
+            <div class="field">
+              <div class="ui toggle checkbox">
+                <input type="hidden" value="0" name="<%=setting%>">
+                <input 
+                  type="checkbox"
+                  name="<%=setting%>"
+                  <% if(organisationSettings[setting]) { %> 
+                  checked="checked" <% } %> 
+                  >
+                <label><%=labels[setting] %></label>
+              </div>
+            </div>
+           </div>
+        <% }); %>
+        <button class="ui button" type="submit">Bewaren</button>
+      </form>
+</div>
+
+<% include ../partials/footer %>

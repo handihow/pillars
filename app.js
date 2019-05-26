@@ -13,6 +13,7 @@ var flash = require("connect-flash");
 var fileUpload = require('express-fileupload');
 var expressSanitizer = require("express-sanitizer");
 var config = require("./config/config");
+var Organisation = require("./models/organisation");
 
 //REQUIRING ROUTES
 // //ROUTES RELATED TO SCHOOLS
@@ -38,7 +39,7 @@ var standardRoutes = require("./routes/organisation/standard");
 var processingActivityOrganisationRoutes = require("./routes/organisation/processingActivityOrganisation");
 var securityIncidentOrganisationRoutes = require("./routes/organisation/securityIncidentOrganisation");
 var messageRoutes = require("./routes/organisation/message");
-var questionnaireRoutes = require("./routes/organisation/questionnaire");
+var organisationSettingsRoutes = require("./routes/organisation/organisationSettings");
 var overviewRoutes = require("./routes/organisation/overview");
 var surveyOrganisationRoutes = require("./routes/organisation/surveyOrganisation");
 //ROUTES RELATED TO PILLARS ADMINISTRATION
@@ -148,8 +149,21 @@ app.use(function(req, res, next){
    res.locals.error = req.flash("error");
    res.locals.success = req.flash("success");
    res.locals.url = req.url;
-   next();
+   if(req.user && req.user.organisation){
+     Organisation.findById(req.user.organisation, function(err, organisation){
+       if(err || !organisation){
+         res.locals.organisationSettings = JSON.parse(JSON.stringify(config.organisationSettings));
+         next();
+       } else {
+         res.locals.organisationSettings = JSON.parse(JSON.stringify(organisation.settings));
+         next();
+       }
+     });
+   } else {
+     next();
+   }
 });
+
 
 //USE ROUTES
 //ROUTES RELATED TO SCHOOLS
@@ -175,7 +189,7 @@ app.use("/standard", standardRoutes);
 app.use("/processingActivity", processingActivityOrganisationRoutes);
 app.use("/securityIncident", securityIncidentOrganisationRoutes);
 app.use("/overview", overviewRoutes);
-app.use("/questionnaire", questionnaireRoutes);
+app.use("/organisationSettings", organisationSettingsRoutes);
 app.use("/message", messageRoutes);
 app.use("/survey", surveyOrganisationRoutes);
 //ROUTES RELATED TO PILLARS ADMIN

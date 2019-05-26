@@ -6,31 +6,39 @@
     <i class="university icon" ></i>
     <span class="hide-mobile">Algemene informatie</span>
   </a>
-  <a class="vertical item <%if(url.includes("/schools/"+school._id+"/hardware")) { %> active <% } %>" 
-      href="/schools/<%= school._id %>/hardware" 
-      data-content="Hardware">
-    <i class="desktop icon"></i>
-    <span class="hide-mobile">Hardware</span>
-  </a>
-  <a class="vertical item <%if(url.includes("/schools/"+school._id+"/software")) { %> active <% } %>" 
-      href="/schools/<%= school._id %>/software" 
-      data-content="Digitale leermiddelen">
-    <i class="student icon"></i>
-    <span class="hide-mobile">Digitale Leermiddelen</span>
-  </a>
+  <% if(organisationSettings.hardware){ %>
+    <a class="vertical item <%if(url.includes("/schools/"+school._id+"/hardware")) { %> active <% } %>" 
+        href="/schools/<%= school._id %>/hardware" 
+        data-content="Hardware">
+      <i class="desktop icon"></i>
+      <span class="hide-mobile">Hardware</span>
+    </a>
+  <% } %>
+  <% if(organisationSettings.software){ %>
+    <a class="vertical item <%if(url.includes("/schools/"+school._id+"/software")) { %> active <% } %>" 
+        href="/schools/<%= school._id %>/software" 
+        data-content="Digitale leermiddelen">
+      <i class="student icon"></i>
+      <span class="hide-mobile">Digitale Leermiddelen</span>
+    </a>
+  <% } %>
   <% if(currentUser.role ==="badmin" || currentUser.role==="sadmin" || currentUser.role=== "buser" || currentUser.role==="padmin") { %>
-  <a class="vertical item <%if(url.includes("/schools/"+school._id+"/competence")) { %> active <% } %>" 
-      href="/schools/<%= school._id %>/competence" 
-      data-content="Deskundigheid">
-    <i class="doctor icon"></i>
-    <span class="hide-mobile">Deskundigheid</span>
-  </a>
-  <a class="vertical item <%if(url.includes("/schools/"+school._id+"/management")) { %> active <% } %>" 
-      href="/schools/<%= school._id %>/management" 
-      data-content="Organisatie">
-    <i class="sitemap icon"></i>
-    <span class="hide-mobile">Organisatie</span>
-  </a>
+  <% if(organisationSettings.competence){ %>
+    <a class="vertical item <%if(url.includes("/schools/"+school._id+"/competence")) { %> active <% } %>" 
+        href="/schools/<%= school._id %>/competence" 
+        data-content="Deskundigheid">
+      <i class="doctor icon"></i>
+      <span class="hide-mobile">Deskundigheid</span>
+    </a>
+  <% } %>
+  <% if(organisationSettings.management){ %>
+    <a class="vertical item <%if(url.includes("/schools/"+school._id+"/management")) { %> active <% } %>" 
+        href="/schools/<%= school._id %>/management" 
+        data-content="Organisatie">
+      <i class="sitemap icon"></i>
+      <span class="hide-mobile">Organisatie</span>
+    </a>
+  <% } %>
   
   <a class="vertical item <%if(url.includes("/schools/"+school._id+"/user")) { %> active <% } %>" 
       href="/schools/<%= school._id %>/user"   
@@ -38,41 +46,49 @@
     <i class="users icon"></i>
     <span class="hide-mobile">Medewerkers</span>
   </a>
-  <a class="vertical item <%if(url.includes("/schools/"+school._id+"/pillars")) { %> active <% } %>" 
-      href="/schools/<%= school._id %>/pillars" 
-      data-content="Pillars grafieken">
-    <i class="bar chart icon"></i>
-    <span class="hide-mobile">Pillars grafieken</span>
-  </a>
-  <a class="vertical item <%if(url.includes("/schools/"+school._id+"/evaluation")) { %> active <% } %>" 
-      href="/schools/<%= school._id %>/evaluation" 
-      data-content="Evaluaties">
-    <i class="comments icon"></i>
-    <span class="hide-mobile">Evaluaties</span>
-  </a>
-  <a class="vertical item <%if(url.includes("/schools/"+school._id+"/information")) { %> active <% } %>" 
-      href="/schools/<%= school._id %>/information" 
-      data-content="Informatie">
-    <i class="info circle icon"></i>
-    <span class="hide-mobile">Informatie</span>
-  </a>
+  <% if(organisationSettings.pillars){ %>
+    <a class="vertical item <%if(url.includes("/schools/"+school._id+"/pillars")) { %> active <% } %>" 
+        href="/schools/<%= school._id %>/pillars" 
+        data-content="Pillars grafieken">
+      <i class="bar chart icon"></i>
+      <span class="hide-mobile">Pillars grafieken</span>
+    </a>
+  <% } %>
+  <% if(organisationSettings.evaluations){ %>
+    <a class="vertical item <%if(url.includes("/schools/"+school._id+"/evaluation")) { %> active <% } %>" 
+        href="/schools/<%= school._id %>/evaluation" 
+        data-content="Evaluaties">
+      <i class="comments icon"></i>
+      <span class="hide-mobile">Evaluaties</span>
+    </a>
+  <% } %>
+  <% if(organisationSettings.messages){ %>
+    <a class="vertical item <%if(url.includes("/schools/"+school._id+"/information")) { %> active <% } %>" 
+        href="/schools/<%= school._id %>/information" 
+        data-content="Informatie">
+      <i class="info circle icon"></i>
+      <span class="hide-mobile">Informatie</span>
+    </a>
+  <% } %>
   <a class="vertical item <%if(url.includes("/schools/"+school._id+"/survey")) { %> active <% } %>" 
       href="/schools/<%= school._id %>/survey" 
       data-content="Enquêtes">
     <i class="question circle icon"></i>
     <span class="hide-mobile">Enquêtes</span>
   </a>
-  <a class="vertical item <%if(url.includes("/schools/"+school._id+"/processingActivity")) { %> active <% } %>" 
-      href="/schools/<%= school._id %>/processingActivity" 
-      data-content="Verwerkingsactiviteiten">
-    <i class="id card outline icon"></i>
-    <span class="hide-mobile">Verwerkingsactiviteiten</span>
-  </a>
-  <a class="vertical item <%if(url.includes("/schools/"+school._id+"/securityIncident")) { %> active <% } %>" 
-      href="/schools/<%= school._id %>/securityIncident" 
-      data-content="Beveiligingsincidenten">
-    <i class="shield alternate icon"></i>
-    <span class="hide-mobile">Beveiligingsincidenten</span>
-  </a>
+  <% if(organisationSettings.privacy){ %>
+    <a class="vertical item <%if(url.includes("/schools/"+school._id+"/processingActivity")) { %> active <% } %>" 
+        href="/schools/<%= school._id %>/processingActivity" 
+        data-content="Verwerkingsactiviteiten">
+      <i class="id card outline icon"></i>
+      <span class="hide-mobile">Verwerkingsactiviteiten</span>
+    </a>
+    <a class="vertical item <%if(url.includes("/schools/"+school._id+"/securityIncident")) { %> active <% } %>" 
+        href="/schools/<%= school._id %>/securityIncident" 
+        data-content="Beveiligingsincidenten">
+      <i class="shield alternate icon"></i>
+      <span class="hide-mobile">Beveiligingsincidenten</span>
+    </a>
+  <% } %>
   <% } %>
 </div>
