@@ -1,5 +1,5 @@
 <script>
-	$(document).ready(function() {
+	$(document).ready(async function() {
 
 		if (typeof Survey == "undefined") {
 		   return console.log('survey model not defined');
@@ -24,6 +24,7 @@
 				}
 			})
 		}
+
 
 		if($("#infoButton").length > 0) {
 			$("#infoButton").click(function(){
@@ -58,6 +59,8 @@
 		if($( '#surveyResults' ).length==0){
 			return console.log('not on the survey result show page');
 		}
+
+		var $progress = $('#progressOnPieChartCalcs.ui.progress');
 
 		var resultsInfo = $( '#surveyResults' ).text();
 
@@ -101,6 +104,8 @@
         	returnedData.link = '<a href="/survey/' + r._id + '/result">Inzending</a>'
           return returnedData;
         });
+
+        $progress.progress('increment');
 
 	    var standardColumns = [];
 	 	
@@ -171,6 +176,7 @@
 		    	sortable: false
 		    });
 
+	 	$progress.progress('increment');
 
       	var surveyColumns = survey.getAllQuestions().map(function(q, i) {
       	  var maxColumnsFromSurvey = surveyInfo.isPublic ? 4 : 1;
@@ -257,6 +263,7 @@
 	        }
 	      });
 
+	    $progress.progress('increment');
 
 	    surveyColumns.forEach(function(column, i){
 	    	var extraInfo = ['radiogroup','dropdown', 'checkbox', 'boolean', 'rating'].includes(column.type) ? '' : "Er is geen grafiek beschikbaar voor het type vraag ";
@@ -339,6 +346,7 @@
 
 	    });
 
+	    $progress.progress('increment');
 
 		function showPieChart(chartDataSource, i) {
 		    document
@@ -376,6 +384,8 @@
 		        }
 		    });
 		}
+
+		$progress.progress('increment');
 
 		if(surveyInfo.isCompetenceSurvey){
 			var statisticsString = $( '#statistics' ).text();
@@ -449,8 +459,7 @@
 			Plotly.newPlot('bubblesChart', data, layout);
 		}
 
-		
-
-			
+		$progress.progress('increment');
+					
 	});
 </script>

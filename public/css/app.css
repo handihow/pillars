@@ -3,6 +3,10 @@
   margin-bottom: 50px;
 }
 
+#progressOnPieChartCalcs {
+  width: 100%;
+}
+
 .slideshow{
   list-style-type:none
 }
