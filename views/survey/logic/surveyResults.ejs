@@ -80,8 +80,6 @@
 	          return {date: r.createdAt.slice(0,10).split('-').reverse().join('/')} || "{}";
 	        });
 
-		var $progress = $('#progressOnPieChartCalcs.ui.progress');
-
   		var results = result.map(function(r) {
         	returnedData = r.result || {};
         	if(!surveyInfo.isPublic && Object.keys(returnedData).length > 0){
@@ -101,7 +99,6 @@
         	}
         	returnedData.date = r.createdAt ? r.createdAt.slice(0,10).split('-').reverse().join('/') : '-';
         	returnedData.link = '<a href="/survey/' + r._id + '/result">Inzending</a>'
-        	$progress.progress('increment');
           return returnedData;
         });
 
@@ -448,8 +445,8 @@
 
 			Plotly.newPlot('bubblesChart', data, layout);
 		}
-	
-		$progress.hide();
 
+		$('#loader').hide();
+	
 	});
 </script>

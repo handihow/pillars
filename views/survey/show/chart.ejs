@@ -10,14 +10,15 @@
     </div>
     <%} else {%>
       
-      <div id="resultCharts" class="ui stackable grid"></div>
-
-      <div class="ui tiny indicating progress" data-value="1" data-total="<%=surveyResults.length%>" id="progressOnPieChartCalcs">
-        <div class="bar">
-          <div class="progress"></div>
+      <div class="ui placeholder segment" id="loader">
+        <div class="ui active inverted dimmer">
+          <div class="ui text loader">Laden..</div>
         </div>
-        <div class="label">Grafieken berekenen</div>
+        <p></p>
       </div>
+
+
+      <div id="resultCharts" class="ui stackable grid"></div>
       
 
     <%}%>
