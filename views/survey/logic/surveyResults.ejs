@@ -1,5 +1,5 @@
 <script>
-	$(document).ready(async function() {
+	$(document).ready(function() {
 
 		if (typeof Survey == "undefined") {
 		   return console.log('survey model not defined');
@@ -60,8 +60,6 @@
 			return console.log('not on the survey result show page');
 		}
 
-		var $progress = $('#progressOnPieChartCalcs.ui.progress');
-
 		var resultsInfo = $( '#surveyResults' ).text();
 
 		var result = JSON.parse(resultsInfo || '[]');
@@ -82,6 +80,7 @@
 	          return {date: r.createdAt.slice(0,10).split('-').reverse().join('/')} || "{}";
 	        });
 
+		var $progress = $('#progressOnPieChartCalcs.ui.progress');
 
   		var results = result.map(function(r) {
         	returnedData = r.result || {};
@@ -102,10 +101,9 @@
         	}
         	returnedData.date = r.createdAt ? r.createdAt.slice(0,10).split('-').reverse().join('/') : '-';
         	returnedData.link = '<a href="/survey/' + r._id + '/result">Inzending</a>'
+        	$progress.progress('increment');
           return returnedData;
         });
-
-        $progress.progress('increment');
 
 	    var standardColumns = [];
 	 	
@@ -175,8 +173,6 @@
 		    	sTitle: 'Bekijk',
 		    	sortable: false
 		    });
-
-	 	$progress.progress('increment');
 
       	var surveyColumns = survey.getAllQuestions().map(function(q, i) {
       	  var maxColumnsFromSurvey = surveyInfo.isPublic ? 4 : 1;
@@ -263,8 +259,6 @@
 	        }
 	      });
 
-	    $progress.progress('increment');
-
 	    surveyColumns.forEach(function(column, i){
 	    	var extraInfo = ['radiogroup','dropdown', 'checkbox', 'boolean', 'rating'].includes(column.type) ? '' : "Er is geen grafiek beschikbaar voor het type vraag ";
 	    	$( "#resultCharts" ).append( "<div class='eight wide column'>" + 
@@ -346,8 +340,6 @@
 
 	    });
 
-	    $progress.progress('increment');
-
 		function showPieChart(chartDataSource, i) {
 		    document
 		        .getElementById("chart" + i)
@@ -384,8 +376,6 @@
 		        }
 		    });
 		}
-
-		$progress.progress('increment');
 
 		if(surveyInfo.isCompetenceSurvey){
 			var statisticsString = $( '#statistics' ).text();
@@ -458,8 +448,8 @@
 
 			Plotly.newPlot('bubblesChart', data, layout);
 		}
+	
+		$progress.hide();
 
-		$progress.progress('increment');
-					
 	});
 </script>
