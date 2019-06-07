@@ -25,43 +25,55 @@ router.get("/", middleware.isSchoolOwner, function(req, res){
       Survey.find({
         "organisation": school.organisation, 
         "isActiveCompetenceSurvey": true
-      }, function(err, surveys){
+      }, async function(err, surveys){
         var averages = [];
-        surveys.forEach(function(survey, index){
-          SurveyResult.find({"survey": survey._id}, function(err, surveyResults){
-            if(err){
-              req.flash("error", err.message)
-            } else {
-              var returnedSurveyResults = [];
-              var schoolStatistics = [];
-              surveyResults.forEach(function(surveyResult){
-                var isInArray = school.users.some(function (user) {
-                    return user.equals(surveyResult.user._id);
-                });
-                if(isInArray){
-                  returnedSurveyResults.push(surveyResult);
-                }
-              });
-              schoolStatistics = config.competence.survey.calculateStatistics(survey, returnedSurveyResults);
-              console.log(schoolStatistics);
-              if(schoolStatistics[0].statistics.length>0){
-                 let sum = schoolStatistics[0].statistics.reduce((previous, current) => current += previous);
-                 let avg = Math.round(sum / schoolStatistics[0].statistics.length);
-                 averages.push(avg);
-              } else {
-                averages.push(0);
-              }
-              if(index==surveys.length-1){
-                res.render("competence/show", {school: school, surveys: surveys, averages: averages})
-              }
-            }
-          })
-        });
-        
+        await asyncForEach(surveys, async function(survey, index){
+           let average = await retrieveSurveyResults(survey, school);
+           averages.push(average);          
+           if(index==surveys.length-1){
+            res.render("competence/show", {school: school, surveys: surveys, averages: averages})
+          }
+        });   
       })        
     }
   });
 });
+
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+}
+
+function retrieveSurveyResults(survey, school){
+  return new Promise(function(resolve, reject) {
+    SurveyResult.find({"survey": survey._id}, function(err, surveyResults){
+        if(err){
+          return resolve(0);
+        } else {
+          var returnedSurveyResults = [];
+          var schoolStatistics = [];
+          surveyResults.forEach(function(surveyResult){
+            var isInArray = school.users.some(function (user) {
+                return user.equals(surveyResult.user._id);
+            });
+            if(isInArray){
+              returnedSurveyResults.push(surveyResult);
+            }
+          });
+          schoolStatistics = config.competence.survey.calculateStatistics(survey, returnedSurveyResults);
+          if(schoolStatistics[0].statistics.length>0){
+             let sum = schoolStatistics[0].statistics.reduce((previous, current) => current += previous);
+             let avg = Math.round(sum / schoolStatistics[0].statistics.length);
+             return resolve(avg);
+          } else {
+            return resolve(0);
+          }
+          
+        }
+      })
+  });
+}
 
 //SHOW LIST ROUTE
 router.get("/list", middleware.isSchoolOwner, function(req, res){
