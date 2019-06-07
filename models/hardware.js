@@ -17,6 +17,8 @@ var hardwareSchema = mongoose.Schema (
         warranty: String,
         isDepreciated: Boolean,
         warning: String,
+        cost: Number,
+        depreciationPeriod: Number,
         created: {type: Date, default: Date.now},
         owner: {
               type:   mongoose.Schema.Types.ObjectId,

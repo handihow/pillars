@@ -98,7 +98,7 @@ $(document).ready(function() {
       });
     }
 
-    if($("#resultsTable").length == 0 && $(".ui table").length > 0) {
+    if($("#resultsTable").length == 0 && $(".ui table").length > 0 ) {
 
       $(".ui table").DataTable({
             buttons: [
@@ -129,9 +129,10 @@ $(document).ready(function() {
               },
               "buttons": {
                 "colvis": "Zichtbare kolommen"
-              }
+              },
           }
       });
+
     }
   
     

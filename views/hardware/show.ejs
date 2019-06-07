@@ -72,6 +72,27 @@
         <div class="content"><%= hardware.warranty %></div>
       </div>
     </div>
+    <div class="ui divider"></div>
+    <div class="ui stackable grid">
+      <div class="four wide column">
+        <h4 class="content">Kosten</h4>
+        <div class="content">€ <%= hardware.cost %></div>
+      </div>
+      <div class="four wide column">
+        <h4 class="content">Afschrijven (na jaren)</h4>
+        <div class="content"><%= hardware.depreciationPeriod %></div>
+      </div>
+      <%if(hardware.cost && hardware.depreciationPeriod) {%>
+        <div class="four wide column">
+          <h4 class="content">Afschrijving per jaar</h4>
+          <div class="content">€ <%= Math.round(hardware.cost / hardware.depreciationPeriod) %></div>
+        </div>
+        <div class="four wide column">
+          <h4 class="content">Afgeschreven in jaar</h4>
+          <div class="content"><%= hardware.depreciationPeriod + hardware.deploymentYear %></div>
+        </div>
+      <% } %>
+    </div>
     <h4 class="content">Toegevoegd op</h4>
     <div class="content"><%=hardware.created.toJSON().slice(0,10).split('-').reverse().join('/')%> </div>
     <a id="edit" 

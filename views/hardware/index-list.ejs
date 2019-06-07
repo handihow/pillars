@@ -11,7 +11,7 @@
   <% if(school.hardware.map(a => a.type).includes(type.singular)) { %>
   <div class="ui header"><%=type.plural%></div>
   <a id="<%=type.singular%>">
-     <table class="ui celled small table">
+     <table class="ui celled small table hardware-table">
       <thead>
         <tr>
           <th>Naam</th>
@@ -30,7 +30,7 @@
         <% if(type.singular === hardware.type) { %>
         <tr <% if(hardware.isDepreciated) { %> class="negative" <% } %> >
               <td class="selectable">
-                <a href="/schools/<%=school._id%>/hardware/<%=hardware._id%>"><%=hardware.name%></a>
+                <a href="/schools/<%=school._id%>/hardware/<%=hardware._id%>/edit"><%=hardware.name%></a>
               </td>
               <td><%=hardware.brand%></td>
               <td><%=hardware.processor%></td>

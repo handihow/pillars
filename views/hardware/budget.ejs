@@ -147,6 +147,57 @@
   </div>
 </div>
 
+<div class="ui divider"></div>
+<h2 class="ui header">
+  <i class="euro sign icon"></i>
+  <div class="content">
+    Activa
+    <div class="sub header">Overzicht activa met kosten en afschrijving voor hardware</div>
+  </div>
+</h2>
+
+<div class="ui segment">
+  <!--make a table for each type of hardware-->
+  <% config.types.forEach(function(type){ %>
+  <% if(school.hardware.map(a => a.type).includes(type.singular)) { %>
+  <div class="ui header"><%=type.plural%></div>
+  <a id="<%=type.singular%>">
+     <table class="ui celled small table hardware-table">
+      <thead>
+        <tr>
+          <th>Naam</th>
+          <th>Merk</th>
+          <th>Jaar ingebruikname</th>
+          <th>Kosten</th>
+          <th>Afschrijvingsperiode</th>
+          <th>Afschrijving per jaar</th>
+          <th>Afgeschreven in jaar</th>
+        </tr>
+      </thead>
+      <% } %>
+      <tbody>
+        <% school.hardware.forEach(function(hardware){ %>
+        <% if(type.singular === hardware.type) { %>
+        <tr <% if(hardware.isDepreciated) { %> class="negative" <% } %> >
+              <td class="selectable">
+                <a href="/schools/<%=school._id%>/hardware/<%=hardware._id%>/edit"><%=hardware.name%></a>
+              </td>
+              <td><%=hardware.brand%></td>
+              <td><%=hardware.deploymentYear%></td>
+              <td>€ <%= hardware.cost %></td>
+              <td><%= hardware.depreciationPeriod %> <%if(hardware.depreciationPeriod) {%>  jaar <%}%></td>
+              <td><%if(hardware.cost && hardware.depreciationPeriod) {%> € <%= Math.round(hardware.cost / hardware.depreciationPeriod) %> <%}%></td>
+              <td><%if(hardware.cost && hardware.depreciationPeriod) {%><%= hardware.depreciationPeriod + hardware.deploymentYear %> <%}%></td>
+      </tr>
+      <% } %>
+      <% }); %>
+    </tbody>
+  </table>
+  <% }); %>
+</div>
+
+
+
 <% include ../partials/school-footer %>
 <% include ../partials/footer %>
 

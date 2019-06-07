@@ -108,6 +108,30 @@
               <input type="text" name="hardware[warranty]" value="<%=hardware.warranty%>">
             </div>
           </div>
+          <div class="two fields">
+            <div class="field">
+              <label>Kosten in EURO (geheel getal)</label>
+              <input type="number" name="hardware[cost]" value="<%=hardware.cost%>">
+            </div>
+            <div class="field">
+              <label>Afschrijven na hoeveel jaar?</label>
+              <div class="ui selection dropdown">
+                  <input type="hidden" name="hardware[depreciationPeriod]" id="dropdown" 
+                        value="<%=hardware.depreciationPeriod%>">
+                  <div class="text">Kies het aantal jaar</div>
+                  <i class="dropdown icon"></i>
+                  <div class="menu">
+                      <% [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].forEach(function(year){%>
+                        <div class="item <%if(year===hardware.depreciationPeriod){%>active<%}%>"
+                            data-value="<%=year%>"
+                          <% if(year===hardware.depreciationPeriod){ %> selected="" <% } %> >
+                              <%=year%> jaren
+                        </div>
+                      <%})%>
+                  </div>
+              </div>
+          </div>
+          </div>
           <button class="ui button" type="submit">Bewaren</button>
           <div class="ui error message"></div>
     </form>
