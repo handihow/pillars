@@ -147,12 +147,18 @@
   </div>
 </div>
 
+<% var totalAmount = 0 %>
+<% var totalDepreciation = 0 %>
+<% school.hardware.forEach(function(hardware){ %>
+  <% if(hardware.cost && !hardware.isDepreciated) {totalAmount += hardware.cost} %>
+  <% if(hardware.cost && hardware.depreciationPeriod && !hardware.isDepreciated) {totalDepreciation += Math.round(hardware.cost/hardware.depreciationPeriod) } %>
+<%});%>
 <div class="ui divider"></div>
 <h2 class="ui header">
   <i class="euro sign icon"></i>
   <div class="content">
-    Activa
-    <div class="sub header">Overzicht activa met kosten en afschrijving voor hardware</div>
+    Overzicht activa hardware
+    <div class="sub header">Totale nieuwwaarde € <%=totalAmount%> met jaarlijkse afschrijving van € <%=totalDepreciation%></div>
   </div>
 </h2>
 
@@ -186,7 +192,7 @@
               <td><%=hardware.deploymentYear%></td>
               <td>€ <%= hardware.cost %></td>
               <td><%= hardware.depreciationPeriod %> <%if(hardware.depreciationPeriod) {%>  jaar <%}%></td>
-              <td><%if(hardware.cost && hardware.depreciationPeriod) {%> € <%= Math.round(hardware.cost / hardware.depreciationPeriod) %> <%}%></td>
+              <td><%if(hardware.cost && hardware.depreciationPeriod && !hardware.isDepreciated) {%> € <%= Math.round(hardware.cost / hardware.depreciationPeriod) %> <%}%></td>
               <td><%if(hardware.cost && hardware.depreciationPeriod) {%><%= hardware.depreciationPeriod + hardware.deploymentYear %> <%}%></td>
       </tr>
       <% } %>

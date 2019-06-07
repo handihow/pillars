@@ -68,6 +68,12 @@ router.get("/budget", middleware.isLoggedIn, function(req, res){
           if(!school.standard){
             return res.redirect("/schools/"+school.id+"/pillars/settings");
           }
+          school.hardware.forEach(function(hardware){
+              if(hardware.deploymentYear && hardware.depreciationPeriod 
+                    && (hardware.deploymentYear + hardware.depreciationPeriod < new Date().getFullYear() )){
+                  hardware.isDepreciated = true;
+              }
+          })
           var result = score.calculate(school, [], true);
           res.render("hardware/budget", {school: school, result: result});            
       }
