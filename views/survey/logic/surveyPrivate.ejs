@@ -27,6 +27,28 @@
 
 		var surveyId = $( '#surveyId' ).text();
 
+		function saveSurveyToPdf(filename, surveyModel, pdfWidth, pdfHeight) {
+		    var options = {
+		        fontSize: 14,
+		        margins: {
+		            left: 10,
+		            right: 10,
+		            top: 10,
+		            bot: 10
+		        },
+		        format: [pdfWidth, pdfHeight]
+		    };
+		    var surveyPDF = new SurveyPDF.Survey(json, options);
+		    surveyPDF.data = surveyModel.data;
+		    surveyPDF.save(filename);
+		}
+
+		$("#saveToPDFbtn").click(function () {
+	        var pdfWidth = survey.pdfWidth || 210;
+	        var pdfHeight = survey.pdfHeight || 297;
+	        saveSurveyToPdf("surveyResult.pdf", survey, pdfWidth, pdfHeight);
+	    });
+
 
 		survey
 	    .onComplete

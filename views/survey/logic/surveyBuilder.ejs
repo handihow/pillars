@@ -85,6 +85,9 @@
 
 	var survey = new SurveyEditor.SurveyEditor("surveyEditorContainer", editorOptions);
 
+	survey.haveCommercialLicense = true;
+	survey.hideAdvancedSettings = true;
+
 	if(isCompetenceSurvey || isSoftwareSurvey){
 		survey.toolbox.addItem(competenceSurveyRatingQuestion);
 	}
@@ -142,10 +145,6 @@
 	        }
 	    });
 	};
-
-
-	$('.svd_commercial_container').hide();
-
 
 	});
 </script>
