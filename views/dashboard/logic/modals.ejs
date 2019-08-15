@@ -20,5 +20,28 @@
 	      });
 	    }
 
+	    $.get('https://pillars.school/wp-json/wp/v2/posts?per_page=5', function(data){
+	    	data.forEach(function(post){
+	    		$( ".news" ).append( `
+	    		<div class="item">
+				    <div class="content">
+				      <a class="header" target="_blank" href="
+				`
+				+ post.link + `
+				">
+				` 
+				+ post.title.rendered  + `
+
+				</a>
+				      <div class="description">
+				` + new Date(post.date).toJSON().slice(0,10).split('-').reverse().join('/') + post.content.rendered + `</div>
+				    </div>
+				  </div>
+	    		` );
+	    	});
+	    	console.log(data);
+
+	    });
+
 	});
 </script>
