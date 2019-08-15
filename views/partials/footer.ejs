@@ -84,6 +84,9 @@
 <% if(scripts.footer.hardware){ %>
 	<% include ../hardware/logic %>
 <% } %>
+<% if(scripts.footer.hardwareanalytics) {%>
+	<% include ../hardware/analytics %>
+<% } %>
 <% if(scripts.footer.securityIncident){ %>
 	<% include ../securityIncident/logic %>
 <% } %>

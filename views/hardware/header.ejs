@@ -15,6 +15,11 @@
       data-content="Budget berekenen">
       <i class="euro sign icon"></i>
   </a>
+  <a class="ui <%if(url===("/schools/"+school._id+"/hardware/charts")){ %> active <%}%> button" 
+      href="/schools/<%=school._id%>/hardware/charts"
+      data-content="Grafieken">
+      <i class="chart pie icon"></i>
+  </a>
 </div>
 <% if(!(currentUser.role==="suser")) { %>
   <div class="ui icon buttons">

@@ -4,6 +4,7 @@ var scripts = {
 		uploadcare: false,
 		surveyjs: false,
 		plotly: false,
+		surveyanalytics: false
 	},
 	footer: 
 		{
@@ -43,6 +44,7 @@ var scripts = {
 			evaluation: false,
 			hardware: false,
 			securityIncident: false,
+			hardwareanalytics: false
 		}
 };
 

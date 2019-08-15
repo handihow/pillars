@@ -111,6 +111,21 @@ router.get("/budget", middleware.isLoggedIn, function(req, res){
   });
 });
 
+//CHARTS - charts of hardware
+router.get("/charts", middleware.isLoggedIn, function(req, res){
+  School.findById(req.params.id).populate("hardware").populate("standard").exec(function(err, school){
+    if(err || !school) {
+      req.flash("error", "School niet gevonden");
+      res.redirect("back");
+    } else {
+      calculateHardwareStatus(school);
+      res.locals.scripts.header.surveyanalytics = true;
+      res.locals.scripts.footer.hardwareanalytics = true;
+      res.render("hardware/charts", {school: school});        
+    }
+  });
+});
+
 //HARDWARE SETTINGS EDIT ROUTE
 router.get("/settings", middleware.isSchoolOwner, function(req, res){
   School.findById(req.params.id, function(err, school){

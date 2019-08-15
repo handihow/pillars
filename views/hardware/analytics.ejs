@@ -1,0 +1,27 @@
+<script>
+
+	Survey
+	    .StylesManager
+	    .applyTheme("default");
+
+	 var hardwareForm = {"locale":"nl","title":{"nl":"Hardware toevoegen"},"completedHtml":{"nl":"Hardware wordt verwerkt..."},"loadingHtml":{"nl":"Even geduld aub..."},"pages":[{"name":"long","elements":[{"type":"dropdown","name":"type","startWithNewLine":false,"title":{"nl":"Type hardware"},"isRequired":true,"choices":["Desktop","Multipoint computer","Laptop","Digitaal schoolbord","Tablet","Chromebook","Telefoon","Kopieermachine","Printer"]},{"type":"text","name":"name","startWithNewLine":false,"title":{"nl":"Naam hardware"},"isRequired":true},{"type":"dropdown","name":"memory","visibleIf":"{type} = \"Desktop\" or {type} = \"Multipoint computer\" or {type} = \"Laptop\"","startWithNewLine":false,"title":{"nl":"Werkgeheugen (GB)"},"isRequired":true,"hasOther":true,"choices":[{"value":"2","text":{"nl":"2 GB"}},{"value":"4","text":{"nl":"4 GB"}},{"value":"8","text":{"nl":"8 GB"}},{"value":"16","text":{"nl":"16 GB"}},{"value":"32","text":{"nl":"32 GB"}}],"otherText":{"nl":"Anders, nl."}},{"type":"dropdown","name":"deploymentYear","startWithNewLine":false,"title":{"nl":"Jaar ingebruikname"},"isRequired":true,"hasOther":true,"choices":["2019","2018","2017","2016","2015",{"value":"2014","text":{"nl":"Ouder dan 2014"}},{"value":"0","text":{"nl":"Onbekend"}}],"otherText":{"nl":"Anders, nl."}},{"type":"text","name":"brand","title":{"nl":"Merk"}},{"type":"text","name":"model","startWithNewLine":false,"title":{"nl":"Model"}},{"type":"text","name":"processor","startWithNewLine":false,"title":{"nl":"Processor"}},{"type":"text","name":"serialTag","startWithNewLine":false,"title":{"nl":"Serial/Tag nummer"}},{"type":"text","name":"numberWorkPlacesMultipoint","visibleIf":"{type} = \"Multipoint computer\"","title":{"nl":"Aantal werkplekken multipoint computer"},"isRequired":true,"validators":[{"type":"numeric","minValue":1,"maxValue":5}],"inputType":"number"},{"type":"boolean","name":"isTouchscreenDigibord","visibleIf":"{type} = \"Digitaal schoolbord\"","startWithNewLine":false,"title":{"nl":"Touchscreen Digitaal Schoolbord"},"isRequired":true},{"type":"text","name":"screensizeDigibord","visibleIf":"{type} = \"Digitaal schoolbord\"","startWithNewLine":false,"title":{"nl":"Beelddiagonaal in inch"},"inputType":"number"},{"type":"text","name":"supplier","title":{"nl":"Leverancier"}},{"type":"text","name":"warranty","startWithNewLine":false,"title":{"nl":"Garantievorm"}},{"type":"text","name":"cost","title":{"nl":"Kosten in EURO (afgerond op geheel bedrag)"},"validators":[{"type":"numeric","text":"Nummer tussen 0 en 100000","minValue":0,"maxValue":100000}],"inputType":"number"},{"type":"dropdown","name":"depreciationPeriod","startWithNewLine":false,"title":{"nl":"Afschrijven na hoeveel jaar"},"choices":[{"value":"1","text":{"nl":"1 jaar"}},{"value":"2","text":{"nl":"2 jaar"}},{"value":"3","text":{"nl":"3 jaar"}},{"value":"4","text":{"nl":"4 jaar"}},{"value":"5","text":{"nl":"5 jaar"}},{"value":"6","text":{"nl":"6 jaar"}},{"value":"7","text":{"nl":"7 jaar"}},{"value":"8","text":{"nl":"8 jaar"}},{"value":"9","text":{"nl":"9 jaar"}},{"value":"10","text":{"nl":"10 jaar"}}]}],"title":{"nl":"Uitgebreid invoeren hardware"}}],"showTitle":false,"showPageTitles":false,"showQuestionNumbers":"off"};
+
+	window.survey = new Survey.SurveyModel(hardwareForm);
+
+	var dataString = $( '#data' ).text();
+
+	var data = JSON.parse(dataString || '[]');
+
+	var normalizedData = data.map(function(item) {
+	    survey.getAllQuestions().forEach(function(q) {
+	      if (!item[q.name]) {
+	        item[q.name] = "";
+	      }
+	    });
+	    return item;
+	  });
+
+	var visPanel = new SurveyAnalytics.VisualizationPanel(document.getElementById("surveyResult"), survey.getAllQuestions(), normalizedData);
+	visPanel.render();
+
+</script>
