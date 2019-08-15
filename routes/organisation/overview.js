@@ -75,6 +75,43 @@ router.get("/hardware/list", middleware.isAuthenticatedBadmin, function(req, res
 });
 });
 
+//CHARTS - charts of hardware
+router.get("/hardware/charts", middleware.isAuthenticatedBadmin, function(req, res){
+    School.find(
+        {"organisation": req.user.organisation}, 
+        null,
+        {sort: {name: 1}})
+    .populate("hardware")
+    .populate("standard")
+    .exec(function(err, schools){
+      if(err || !schools) {
+        req.flash("error", err.message);
+        res.redirect("back");
+    } else {
+        let organisation = {hardware : []};
+        schools.forEach(function(school){
+            school.hardware.forEach(function(hardware){
+              if(school.standard){
+                if(school.standard.hardware.computersPerStudent.isComputer.includes(hardware.type) && 
+                        hardware.memory < school.standard.hardware.computersPerStudent.minRAM){
+                    hardware.isDepreciated = true;
+                    hardware.warning = "Te weinig werkgeheugen";
+                } else if(!school.standard.hardware.computersPerStudent.isComputer.includes(hardware.type) && 
+                        hardware.deploymentYear < (new Date()).getFullYear() - school.standard.hardware.computersPerStudent.maxYear) {
+                    hardware.isDepreciated = true;
+                    hardware.warning = "Apparaat is te oud";
+                }
+              }
+              organisation.hardware.push(hardware);
+            });
+        });
+      res.locals.scripts.header.surveyanalytics = true;
+      res.locals.scripts.footer.hardwareanalytics = true;
+      res.render("overview/hardware-charts", {organisation: organisation});        
+    }
+  });
+});
+
 //BUDGET - shows how much budget needs to be spent to get hardware in order
 router.get("/hardware/budget", middleware.isAuthenticatedBadmin, function(req, res){
     School.find(
