@@ -75,17 +75,17 @@ router.post("/new", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmi
   var secondarySchool;
   if(zoekcriterium==0){
     console.log("PO schools");
-    url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=584b8e26-4130-418b-bf2d-f8475f488a82&q=" +
+    url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=616793a8-10df-4ea9-9905-13d48e126b45&q=" +
     zoekveld;
     secondarySchool = false;
   } else if(zoekcriterium==1) {
     console.log("VO schools");
-    url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=747f18de-4f46-4689-a1bd-d4292ecbf418&q=" +
+    url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=3c3fd20f-6bff-4266-bd3e-5360b17dae5e&q=" +
     zoekveld;
     secondarySchool = true;
   } else {
     console.log("Speciaal onderwijs");
-    url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=8dea0466-0c57-4b0d-bdfd-2d9d684111a1&q=" +
+    url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=93c9f726-6b93-439a-9e3e-2136c158ac47&q=" +
     zoekveld;
     secondarySchool = false;
   }
