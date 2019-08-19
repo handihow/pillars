@@ -10,6 +10,11 @@
       data-content="Lijst met digitale leermiddelen">
         <i class="list icon"></i>
   </a>
+  <a class="ui <%if(url===("/schools/"+school._id+"/software/charts")){ %> active <%}%> button" 
+      href="/schools/<%=school._id%>/software/charts"
+      data-content="Grafieken">
+      <i class="chart pie icon"></i>
+  </a>
 </div>
 <div class="ui icon buttons">
   <a class="ui <%if(url===("/schools/"+school._id+"/software/download")){ %> active <%}%> button" 

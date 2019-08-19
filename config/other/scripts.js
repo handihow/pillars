@@ -44,7 +44,8 @@ var scripts = {
 			evaluation: false,
 			hardware: false,
 			securityIncident: false,
-			hardwareanalytics: false
+			hardwareanalytics: false,
+			softwareanalytics: false
 		}
 };
 

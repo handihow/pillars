@@ -10,29 +10,39 @@
 
     <div class="ui divider"></div>
 
-    <div class="ui grid">
-      <div class="ten wide column">
+    <div class="ui grid stackable">
+      <div class="six wide column">
         <% include ./tasks%>
       </div>
       <div class="six wide column">
+
         <% include ./schools%>
         <div class="ui segment">
           <% include ./profile %>
         </div>
       </div>
+      <div class="four wide column">
+        <div class="ui segment">
+          <h5 class="ui header">
+              <i class="newspaper icon"></i>
+              <div class="content">
+                Nieuwe features in Pillars
+              </div>
+            </h5>
+          <div class="ui placeholder segment" id="loader">
+            <div class="ui active inverted dimmer">
+              <div class="ui text loader">Laden..</div>
+            </div>
+            <p></p>
+          </div>
+          <div class="ui relaxed divided list news">
+            
+          </div>
+        </div>
+      </div>
     </div> 
 
-    <div class="ui segment">
-      <h5 class="ui header">
-          <i class="newspaper icon"></i>
-          <div class="content">
-            Nieuwe features in Pillars
-          </div>
-        </h5>
-      <div class="ui relaxed divided list news">
-        
-      </div>
-    </div>
+    
     
 </div>
 

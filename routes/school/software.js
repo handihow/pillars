@@ -44,6 +44,20 @@ router.get("/list", middleware.isLoggedIn, function(req, res){
     });
 });
 
+//INDEX - list of software in tile view
+router.get("/charts", middleware.isLoggedIn, function(req, res){
+    School.findById(req.params.id).populate("software").exec(function(err, school){
+        if(err || !school) {
+          req.flash("error", "School niet gevonden.");
+          res.redirect("back");
+        } else {
+          res.locals.scripts.header.surveyanalytics = true;
+          res.locals.scripts.footer.softwareanalytics = true;
+          res.render("software/charts", {school: school});        
+        }
+    });
+});
+
 //settings of software
 router.get("/settings", middleware.isLoggedIn, function(req, res){
     School.findById(req.params.id).populate("software").exec(function(err, school){

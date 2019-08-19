@@ -1,0 +1,51 @@
+
+<script>
+
+	Survey
+	    .StylesManager
+	    .applyTheme("default");
+
+	let secondarySchoolString = $('#schoolType').text();
+	let isSecondarySchool = JSON.parse(secondarySchoolString || 'false') === 'false' ? false : true;
+
+	let softwareForm = {"locale":"nl","pages":[{"name":"primary","elements":[{"type":"radiogroup","name":"subject","title":{"nl":"Vak"},"isRequired":true,"hasOther":true,"choices":["Rekenen","Technisch lezen","Begrijpend lezen","Spelling","Taal","Toetsenbordvaardigheid","Programmeren","Mediawijsheid"],"otherText":{"nl":"Anders, nl."}},{"type":"text","name":"name","title":"Naam","isRequired":true,"placeHolder":"Naam digitale leermiddel"},{"type":"checkbox","name":"functionalities","title":"Software functies","isRequired":true,"hasOther":true,"choices":["Instructie","Oefenen","Toets"],"otherText":"Anders, nl."},{"type":"checkbox","name":"ratings","title":{"nl":"Kwaliteitsnormen"},"isRequired":true,"choices":["Sluit goed aan op leerdoelen","Is aantrekkelijk en gebruiksvriendelijk","Toont resultaten van leerlingen","Is adaptief","Leerlingen kunnen thuis oefenen"]},{"type":"checkbox","name":"gradeLevels","title":"Groepen","isRequired":true,"choices":["Groep 1","Groep 2","Groep 3","Groep 4","Groep 5","Groep 6","Groep 7","Groep 8"]},{"type":"text","name":"supplier","title":{"nl":"Leverancier"},"placeHolder":{"nl":"Leverancier"}},{"type":"text","name":"licences","startWithNewLine":false,"title":{"nl":"Aantal licenties"},"placeHolder":{"nl":"Aantal licenties"}},{"type":"radiogroup","name":"typeOfSoftware","startWithNewLine":false,"title":{"nl":"Type leermiddel"},"choices":["Digitaal leermiddel","Niet digitaal leermiddel","Beide"]}],"title":{"default":"Algemene input","nl":"Primair onderwijs"}}],"storeOthersAsComment":false};
+
+	if(isSecondarySchool){
+		console.log(isSecondarySchool);
+		softwareForm = {"locale":"nl","pages":[{"name":"secondary","elements":[{"type":"radiogroup","name":"subject","title":{"nl":"Vak"},"isRequired":true,"hasOther":true,"choices":["Wiskunde","Nederlands","Engels","Aardrijkskunde","Geschiedenis","Biologie","Natuurkunde","Scheikunde","Frans","Duits","Economie"],"otherText":{"nl":"Anders, nl."}},{"type":"text","name":"name","title":"Naam","isRequired":true,"placeHolder":"Naam digitale leermiddel"},{"type":"checkbox","name":"functionalities","title":"Software functies","isRequired":true,"hasOther":true,"choices":["Instructie","Oefenen","Toets"],"otherText":"Anders, nl."},{"type":"checkbox","name":"ratings","title":{"nl":"Kwaliteitsnormen"},"isRequired":true,"choices":["Sluit goed aan op leerdoelen","Is aantrekkelijk en gebruiksvriendelijk","Toont resultaten van leerlingen","Is adaptief","Leerlingen kunnen thuis oefenen"]},{"type":"checkbox","name":"gradeLevels","title":{"default":"Groepen","nl":"Klassen"},"isRequired":true,"choices":["Klas 1","Klas 2","Klas 3","Klas 4","Klas 5","Klas 6"]},{"type":"text","name":"supplier","title":{"nl":"Leverancier"},"placeHolder":{"nl":"Leverancier"}},{"type":"text","name":"licences","startWithNewLine":false,"title":{"nl":"Aantal licenties"},"placeHolder":{"nl":"Aantal licenties"}},{"type":"radiogroup","name":"typeOfSoftware","startWithNewLine":false,"title":{"nl":"Type leermiddel"},"choices":["Digitaal leermiddel","Niet digitaal leermiddel","Beide"]}],"title":{"default":"Algemene input","nl":"Voortgezet onderwijs"}}],"storeOthersAsComment":false};
+	}
+
+	window.survey = new Survey.SurveyModel(softwareForm);
+
+	var dataString = $( '#data' ).text();
+
+	var data = JSON.parse(dataString || '[]');
+
+	var normalizedData = data.map(function(item) {
+	    survey.getAllQuestions().forEach(function(q) {
+	      if (!item[q.name]) {
+	        item[q.name] = "";
+	      }
+	    });
+	    return item;
+	  });
+
+    SurveyAnalytics.VisualizerBase.prototype.getColors = function () {
+        var colors = [
+                    'rgba(0,159,227, 1)',
+                    'rgba(227,6,19,1)',
+                    'rgba(249,178,51, 1)',
+                    'rgba(0, 0, 0, 1)',
+                    'rgba(18,172,19, 1)',
+                ];
+        var manyColors = [];
+        for (var index = 0; index < 10; index++) {
+            manyColors = manyColors.concat(colors);
+        }
+        return manyColors;
+    };
+
+	var visPanel = new SurveyAnalytics.VisualizationPanel(document.getElementById("surveyResult"), survey.getAllQuestions(), normalizedData);
+	visPanel.render();
+
+</script>
