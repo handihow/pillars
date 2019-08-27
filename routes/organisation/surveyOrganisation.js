@@ -92,65 +92,6 @@ router.get("/:id", middleware.isLoggedIn, function(req, res){
     });
 });
 
-//SHOW INDIVIDUAL RESULTS ROUTE
-router.get("/:id/individual", middleware.isLoggedIn, function(req, res){
-  School.findOne({"users": req.user._id}, function(err, school){
-      if(err){
-        req.flash("error", err.message)
-        res.redirect("back");
-      } else {
-        Survey.findById(req.params.id, function(err, survey){
-            if(err){
-              req.flash("error", "Foutmelding: " + err.message);
-              res.redirect("back");
-            } else if(!survey){
-              req.flash("error", "Enquête niet gevonden.");
-              res.redirect("back");
-            } else {
-              res.locals.scripts.footer.individualResults = true;
-              res.locals.scripts.header.plotly = true;  
-              SurveyResult.find({survey: survey._id})
-              .exec(function(err, surveyResults){
-                if(err){
-                  req.flash(err.message);
-                  res.redirect("back");
-                } else {
-                  var totalOrganisationSurveyResults = surveyResults.length;
-                  var organisationStatistics = config.competence.survey.calculateStatistics(survey, surveyResults);
-                  var returnedSurveyResults = [];
-                  var schoolStatistics = [];
-                  if(school){
-                    surveyResults.forEach(function(surveyResult){
-                      var isInArray = school.users.some(function (user) {
-                          return user.equals(surveyResult.user);
-                      });
-                      if(isInArray){
-                        returnedSurveyResults.push(surveyResult);
-                      }
-                    });
-                    schoolStatistics = config.competence.survey.calculateStatistics(survey, returnedSurveyResults);
-
-                  }
-                  var totalSchoolSurveyResults = returnedSurveyResults.length;
-                  var individualResult = surveyResults.find(result => result.user.equals(req.user._id));
-                  var individualStatistics = config.competence.survey.calculateStatistics(survey, [individualResult]);
-                  res.render("survey/individual", {
-                    school: school, 
-                    survey: survey,
-                    schoolStatistics: schoolStatistics,
-                    organisationStatistics: organisationStatistics,
-                    individualStatistics: individualStatistics,
-                    totalOrganisationSurveyResults: totalOrganisationSurveyResults,
-                    totalSchoolSurveyResults: totalSchoolSurveyResults
-                  }); 
-                }
-              });        
-            }
-        });
-      }
-  });
-});
-
 //CREATE ROUTE
 router.post("/", function(req, res){
   Survey.create({
@@ -493,6 +434,7 @@ router.post("/:id/public", function(req, res){
   });
 });
 
+
 //VIEW COMPLETED SURVEY
 
 //SHOWING A PUBLIC SURVEY
@@ -508,6 +450,65 @@ router.get("/:id/result", function(req, res){
             res.render("survey/result", {surveyResult: surveyResult});            
         }
     });
+});
+
+//SHOW INDIVIDUAL RESULTS ROUTE
+router.get("/:id/:uid", middleware.isLoggedIn, function(req, res){
+  School.findOne({"users": req.params.uid}, function(err, school){
+      if(err){
+        req.flash("error", err.message)
+        res.redirect("back");
+      } else {
+        Survey.findById(req.params.id, function(err, survey){
+            if(err){
+              req.flash("error", "Foutmelding: " + err.message);
+              res.redirect("back");
+            } else if(!survey){
+              req.flash("error", "Enquête niet gevonden.");
+              res.redirect("back");
+            } else {
+              res.locals.scripts.footer.individualResults = true;
+              res.locals.scripts.header.plotly = true;  
+              SurveyResult.find({survey: survey._id})
+              .exec(function(err, surveyResults){
+                if(err){
+                  req.flash(err.message);
+                  res.redirect("back");
+                } else {
+                  var totalOrganisationSurveyResults = surveyResults.length;
+                  var organisationStatistics = config.competence.survey.calculateStatistics(survey, surveyResults);
+                  var returnedSurveyResults = [];
+                  var schoolStatistics = [];
+                  if(school){
+                    surveyResults.forEach(function(surveyResult){
+                      var isInArray = school.users.some(function (user) {
+                          return user.equals(surveyResult.user);
+                      });
+                      if(isInArray){
+                        returnedSurveyResults.push(surveyResult);
+                      }
+                    });
+                    schoolStatistics = config.competence.survey.calculateStatistics(survey, returnedSurveyResults);
+
+                  }
+                  var totalSchoolSurveyResults = returnedSurveyResults.length;
+                  var individualResult = surveyResults.find(result => result.user.equals(req.params.uid));
+                  var individualStatistics = config.competence.survey.calculateStatistics(survey, [individualResult]);
+                  res.render("survey/individual", {
+                    school: school, 
+                    survey: survey,
+                    schoolStatistics: schoolStatistics,
+                    organisationStatistics: organisationStatistics,
+                    individualStatistics: individualStatistics,
+                    totalOrganisationSurveyResults: totalOrganisationSurveyResults,
+                    totalSchoolSurveyResults: totalSchoolSurveyResults
+                  }); 
+                }
+              });        
+            }
+        });
+      }
+  });
 });
 
 

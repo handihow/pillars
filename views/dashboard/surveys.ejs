@@ -38,7 +38,7 @@
       	<% if(index>-1){%>
       		<div class="right floated content">
             <a class="ui mini blue circular icon button" data-content="Analyseer resultaten"
-                href="/survey/<%=survey._id%>/individual">
+                href="/survey/<%=survey._id%>/<%=currentUser._id%>">
               <i class="bar chart icon"></i>
             </a>
           </div>

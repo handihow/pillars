@@ -20,31 +20,16 @@
 	    });
 	    return item;
 	  });
+	
+    SurveyAnalytics.SelectBasePlotly.types = ["bar", "pie"];
 
-	SurveyAnalytics.GaugePlotly.prototype.generateText = function (maxValue, minValue, stepsCount) {
-        var text = [];
-        return [
-            "uitstekend (" + maxValue + ")",
-            "goed",
-            "gemiddeld",
-            "minder",
-            "niet (" + minValue + ")"
-        ];
-    };
-    SurveyAnalytics.VisualizerBase.prototype.getColors = function () {
-        var colors = [
+    SurveyAnalytics.VisualizerBase.customColors = [
                     'rgba(0,159,227, 1)',
                     'rgba(227,6,19,1)',
                     'rgba(249,178,51, 1)',
                     'rgba(0, 0, 0, 1)',
                     'rgba(18,172,19, 1)',
                 ];
-        var manyColors = [];
-        for (var index = 0; index < 10; index++) {
-            manyColors = manyColors.concat(colors);
-        }
-        return manyColors;
-    };
 
 	var visPanel = new SurveyAnalytics.VisualizationPanel(document.getElementById("surveyResult"), survey.getAllQuestions(), normalizedData);
 	visPanel.render();
