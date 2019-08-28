@@ -81,7 +81,6 @@
 	        });
 
   		var results = result.map(function(r) {
-  			console.log(r);
         	returnedData = r.result || {};
         	if(!surveyInfo.isPublic && Object.keys(returnedData).length > 0){
         		returnedData.firstName = r.user.firstName ? r.user.firstName : '-';
@@ -264,6 +263,33 @@
 	        }
 	      });
 
+	 //    var vispanelresults = result.map(r => r.result);
+
+	 //    var normalizedData = vispanelresults.map(function(item) {
+		//     survey.getAllQuestions().forEach(function(q) {
+		//       if (!item[q.name]) {
+		//         item[q.name] = "";
+		//       }
+		//     });
+		//     return item;
+		//   });
+		
+		// console.log(normalizedData);
+
+		// console.log(survey.getAllQuestions());
+
+	 //    SurveyAnalytics.SelectBasePlotly.types = ["bar", "pie"];
+
+	 //    SurveyAnalytics.VisualizerBase.customColors = [
+	 //                    'rgba(0,159,227, 1)',
+	 //                    'rgba(227,6,19,1)',
+	 //                    'rgba(249,178,51, 1)',
+	 //                    'rgba(0, 0, 0, 1)',
+	 //                    'rgba(18,172,19, 1)',
+	 //                ];
+
+		// var visPanel = new SurveyAnalytics.VisualizationPanel(document.getElementById("resultCharts"), survey.getAllQuestions(), normalizedData);
+		// visPanel.render();
 	    surveyColumns.forEach(function(column, i){
 	    	var extraInfo = ['radiogroup','dropdown', 'checkbox', 'boolean', 'rating'].includes(column.type) ? '' : "Er is geen grafiek beschikbaar voor het type vraag ";
 	    	$( "#resultCharts" ).append( "<div class='eight wide column'>" + 
@@ -389,6 +415,35 @@
 
 			var data = [];
 
+			var markerColors = [
+                    'rgba(0,159,227, 1)',
+                    'rgba(227,6,19,1)',
+                    'rgba(249,178,51, 1)',
+                    'rgba(0, 0, 0, 1)',
+                    'rgba(18,172,19, 1)',
+                    'rgba(34, 34, 188, 1)',
+                    'rgba(246, 190, 91, 1)',
+                    'rgba(58, 58, 58, 1)',
+                    'rgba(191,35,66, 1)',
+                    'rgba(36, 83, 189, 1)',
+                    'rgba(249, 203, 19, 1)',
+                    'rgba(112, 112, 112, 1)',
+                ];
+            var fillColors = [
+                    'rgba(0,159,227, 0.7)',
+                    'rgba(227,6,19,0.7)',
+                    'rgba(249,178,51, 0.7)',
+                    'rgba(0, 0, 0, 0.7)',
+                    'rgba(18,172,19, 0.7)',
+                    'rgba(34, 34, 188, 0.7)',
+                    'rgba(246, 190, 91, 0.7)',
+                    'rgba(58, 58, 58, 0.7)',
+                    'rgba(191,35,66, 0.7)',
+                    'rgba(36, 83, 189, 0.7)',
+                    'rgba(249, 203, 19, 0.7)',
+                    'rgba(112, 112, 112, 0.7)',
+                ];
+
 			statistics.forEach(function(stat, statIndex){
 				var trace = {
 					boxpoints: 'all',
@@ -397,7 +452,10 @@
 					name: stat.title,
 					jitter: 0.3,
 	    			pointpos: -1.8,
-					// fillcolor: chartColors[statIndex],
+	    			marker: {
+	    				color:markerColors[statIndex]
+	    			},
+					fillcolor: fillColors[statIndex],
 				}
 				data.push(trace);
 			});

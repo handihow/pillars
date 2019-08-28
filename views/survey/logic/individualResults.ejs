@@ -19,6 +19,35 @@
 
 		var data = [];
 
+		var markerColors = [
+                    'rgba(0,159,227, 1)',
+                    'rgba(227,6,19,1)',
+                    'rgba(249,178,51, 1)',
+                    'rgba(0, 0, 0, 1)',
+                    'rgba(18,172,19, 1)',
+                    'rgba(34, 34, 188, 1)',
+                    'rgba(246, 190, 91, 1)',
+                    'rgba(58, 58, 58, 1)',
+                    'rgba(191,35,66, 1)',
+                    'rgba(36, 83, 189, 1)',
+                    'rgba(249, 203, 19, 1)',
+                    'rgba(112, 112, 112, 1)',
+                ];
+            var fillColors = [
+                    'rgba(0,159,227, 0.7)',
+                    'rgba(227,6,19,0.7)',
+                    'rgba(249,178,51, 0.7)',
+                    'rgba(0, 0, 0, 0.7)',
+                    'rgba(18,172,19, 0.7)',
+                    'rgba(34, 34, 188, 0.7)',
+                    'rgba(246, 190, 91, 0.7)',
+                    'rgba(58, 58, 58, 0.7)',
+                    'rgba(191,35,66, 0.7)',
+                    'rgba(36, 83, 189, 0.7)',
+                    'rgba(249, 203, 19, 0.7)',
+                    'rgba(112, 112, 112, 0.7)',
+                ];
+
 		for(var i=0; i<organisationStatistics.length; i++){
 			console.log(i);
 			var array1 = Array(organisationStatistics.length);
@@ -34,12 +63,14 @@
 				jitter: 0.5,
         		whiskerwidth: 0.2,
 		    	marker: {
-		            size: 2
+		            size: 2,
+		            color:markerColors[i]
 		        },
 		        line: {
 		            width: 1
 		        },
 		        legendgroup: 'organisation',
+				fillcolor: fillColors[i],
 				// fillcolor: chartColors[i],
 			}
 			data.push(trace1);
@@ -57,12 +88,14 @@
 					jitter: 0.5,
 	        		whiskerwidth: 0.2,
 			    	marker: {
-			            size: 2
+			            size: 2,
+			            color:markerColors[i]
 			        },
 			        line: {
 			            width: 1
 			        },
 			        legendgroup: 'school',
+			        fillcolor: fillColors[i],
 					// fillcolor: chartColors[i],
 				}
 				data.push(trace2);
@@ -78,7 +111,10 @@
 										individualStatistics[i].title.substring(0,29) + '...' :
 										individualStatistics[i].title,
 				legendgroup: 'individual',
-				// fillcolor: chartColors[i],
+				marker: {
+		            color:markerColors[i]
+		        },
+				fillcolor: fillColors[i],
 			}
 			data.push(trace3);
 		}
