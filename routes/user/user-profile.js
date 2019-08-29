@@ -70,7 +70,7 @@ router.get("/api/tests", middleware.isLoggedIn, function(req, res){
 });
 
 router.get("/surveys", middleware.isUser, function(req, res){
-  SurveyResult.find({"user": req.user._id})
+  SurveyResult.find({"user": req.user._id, "isCompetenceSurvey": true})
          .populate("survey")
          .sort("createdAt")
          .exec(function(err, surveyResults){

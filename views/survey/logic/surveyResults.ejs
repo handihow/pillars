@@ -99,7 +99,9 @@
         	}
         	returnedData.date = r.createdAt ? r.createdAt.slice(0,10).split('-').reverse().join('/') : '-';
         	returnedData.link = '<a href="/survey/' + r._id + '/result">Inzending</a>';
-        	returnedData.chart = r.user._id ? '<a href="/survey/' + r.survey + '/' + r.user._id + '">Grafiek</a>' : '-';
+        	if(surveyInfo.isCompetenceSurvey){
+        		returnedData.chart = r.user._id ? '<a href="/survey/' + r.survey + '/' + r.user._id + '">Grafiek</a>' : '-';	
+        	}
           return returnedData;
         });
 
@@ -172,11 +174,13 @@
 		    	sortable: false
 		    });
 
-	 	standardColumns.push({
-		    	data: 'chart',
-		    	sTitle: 'Grafiek',
-		    	sortable: false
-		    });
+	 	if(surveyInfo.isCompetenceSurvey){
+		 	standardColumns.push({
+			    	data: 'chart',
+			    	sTitle: 'Grafiek',
+			    	sortable: false
+			    });
+		}
 
       	var surveyColumns = survey.getAllQuestions().map(function(q, i) {
       	  var maxColumnsFromSurvey = surveyInfo.isPublic ? 4 : 1;
@@ -265,6 +269,10 @@
 
 	 //    var vispanelresults = result.map(r => r.result);
 
+	 //    console.log(JSON.stringify(vispanelresults));
+
+	 //    console.log(JSON.stringify(surveyData));
+
 	 //    var normalizedData = vispanelresults.map(function(item) {
 		//     survey.getAllQuestions().forEach(function(q) {
 		//       if (!item[q.name]) {
@@ -273,10 +281,6 @@
 		//     });
 		//     return item;
 		//   });
-		
-		// console.log(normalizedData);
-
-		// console.log(survey.getAllQuestions());
 
 	 //    SurveyAnalytics.SelectBasePlotly.types = ["bar", "pie"];
 

@@ -8,6 +8,7 @@
 		var survey = new Survey.Model(json);
 
 		survey.locale = 'nl';
+		survey.haveCommercialLicense = true;
 
 		var softwareText = $( '#softwareText' ).text();
 		var softwareJSON = JSON.parse(softwareText);
@@ -36,9 +37,10 @@
 		            top: 10,
 		            bot: 10
 		        },
-		        format: [pdfWidth, pdfHeight]
+		        format: [pdfWidth, pdfHeight],
+		        commercial: true
 		    };
-		    var surveyPDF = new SurveyPDF.Survey(json, options);
+		    var surveyPDF = new SurveyPDF.SurveyPDF(json, options);
 		    surveyPDF.data = surveyModel.data;
 		    surveyPDF.save(filename);
 		}
