@@ -294,6 +294,7 @@
 
 		// var visPanel = new SurveyAnalytics.VisualizationPanel(document.getElementById("resultCharts"), survey.getAllQuestions(), normalizedData);
 		// visPanel.render();
+		
 	    surveyColumns.forEach(function(column, i){
 	    	var extraInfo = ['radiogroup','dropdown', 'checkbox', 'boolean', 'rating'].includes(column.type) ? '' : "Er is geen grafiek beschikbaar voor het type vraag ";
 	    	$( "#resultCharts" ).append( "<div class='eight wide column'>" + 
