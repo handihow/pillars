@@ -1,3 +1,8 @@
+#pillars-logo {
+  width: 50px;
+  height: 50px;
+}
+
 #analysisChart {
   padding-bottom: 50px;
   margin-bottom: 50px;
@@ -126,8 +131,6 @@
     opacity: 1;
   }
 }
-
-
 
 .container.main {
     margin-top: 2em;
