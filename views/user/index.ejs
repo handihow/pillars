@@ -19,7 +19,7 @@
         <div class="ui divider"></div>
         <div class="ui three doubling cards">
           <!--make a card for each user-->
-          <% school.users.forEach(function(user){ %>
+          <% school.users.forEach(function(user, index){ %>
           <div class="card">
             <div class="content">
               <div class="header"><%=user.firstName %> <%=user.lastName %></div>
@@ -40,20 +40,21 @@
                     <% if(user.role==="sadmin") { %>Pillars administrator <% } else { %>Medewerker <% } %>
               </div>
             </div>
-            <% if(currentUser && (currentUser.role==="badmin" || currentUser.role ==="padmin")) { %>
+            <% if(currentUser 
+                    && (currentUser.role==="badmin" || currentUser.role ==="padmin" || currentUser.role === 'sadmin')) { %>
             <div class="ui bottom attached button">
               <% if (user.publicProfile) { %><a class="ui yellow icon button" href="/user/<%=user._id%>">
                 <i class="user circle icon"></i></a><%}%>
-              <button class="ui red icon button warning-delete-user"><i class="trash icon"></i></button>
-              <div class="ui hidden warning message">
+              <button class="ui red icon button warning-delete-user <%=index%>"><i class="trash icon"></i></button>
+              <div class="ui hidden warning message <%=index%>">
                 <div class="header">Waarschuwing</div>
                 <p>Weet je zeker dat je deze gebruiker wilt verwijderen? Dit kan niet worden hersteld.</p>
-                <button class="ui positive button cancel-delete-user">Cancel</button>
+                <button class="ui positive button cancel-delete-user <%=index%>">Cancel</button>
                 <form id="delete" 
                   action="/schools/<%= school._id %>/user/<%=user._id%>?_method=DELETE" method="POST">
                   <button class="ui red button">Verwijderen</button>
               </form>
-              </div>
+            </div>
             </div>
             <%}%>
           </div>

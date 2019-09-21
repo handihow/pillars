@@ -22,8 +22,9 @@ $(document).ready(function() {
     //warning before deleting the user
     if($(".warning-delete-user").length > 0) {
       $(".warning-delete-user").click(function(){
-        $('.warning').removeClass("hidden");
-        $('.warning-delete-user').addClass("disabled");
+        var myClass = $(this).attr("class");
+        $('.warning.'+myClass[myClass.length -1]).removeClass("hidden");
+        $('.warning-delete-user'+myClass[myClass.length -1]).addClass("disabled");
       });
     }
 
