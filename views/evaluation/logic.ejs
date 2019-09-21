@@ -20,19 +20,19 @@
 
       var evaluation = JSON.parse(evaluationData);
 
-      if(evaluation.reportHTML){
-        console.log(evaluation.reportHTML);
-        var q1 = survey.getQuestionByName('reportHTML');
-        q1.html = evaluation.reportHTML; 
-      }
-      if(evaluation.planHTML){
-        console.log(evaluation.planHTML);
-        var q2 = survey.getQuestionByName('planHTML');
-        q2.html = evaluation.planHTML;
-      }
-      if(evaluation.reportHTML || evaluation.planHTML){
-        survey.render();
-      }
+      // if(evaluation.reportHTML){
+      //   console.log(evaluation.reportHTML);
+      //   var q1 = survey.getQuestionByName('reportHTML');
+      //   q1.html = evaluation.reportHTML; 
+      // }
+      // if(evaluation.planHTML){
+      //   console.log(evaluation.planHTML);
+      //   var q2 = survey.getQuestionByName('planHTML');
+      //   q2.html = evaluation.planHTML;
+      // }
+      // if(evaluation.reportHTML || evaluation.planHTML){
+      //   survey.render();
+      // }
       
       survey.data = evaluation;
       
