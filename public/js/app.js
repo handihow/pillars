@@ -22,16 +22,19 @@ $(document).ready(function() {
     //warning before deleting the user
     if($(".warning-delete-user").length > 0) {
       $(".warning-delete-user").click(function(){
-        var myClass = $(this).attr("class");
+        var myClass = $(this).attr("class").split(' ');
         $('.warning.'+myClass[myClass.length -1]).removeClass("hidden");
+        $('.user-info.'+myClass[myClass.length -1]).addClass("hidden");
         $('.warning-delete-user'+myClass[myClass.length -1]).addClass("disabled");
       });
     }
 
     if($(".cancel-delete-user").length > 0) {
       $(".cancel-delete-user").click(function(){
-        $('.warning').addClass("hidden");
-        $('.warning-delete-user').removeClass("disabled");
+        var myClass = $(this).attr("class").split(' ');
+        $('.warning.'+myClass[myClass.length -1]).addClass("hidden");
+        $('.user-info.'+myClass[myClass.length -1]).removeClass("hidden");
+        $('.warning-delete-user.'+myClass[myClass.length -1]).removeClass("disabled");
       });
     }
 

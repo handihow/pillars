@@ -221,5 +221,8 @@
   font-family: unset;
 }
 
+.user-info.hidden {
+  display: none;
+}
 
 
