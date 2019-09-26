@@ -189,7 +189,7 @@ function registerUser(username, school, role, password, firstName, lastName){
 
 
 //DESTROY route to delete school user from database
-router.delete("/:user_id", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
+router.delete("/:user_id", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
     User.findById(req.params.user_id, function(err, user){
         if(err) {
           req.flash('error', err.message);

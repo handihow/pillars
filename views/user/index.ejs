@@ -52,8 +52,9 @@
             <% if(currentUser 
                     && (currentUser.role==="badmin" || currentUser.role ==="padmin" || currentUser.role === 'sadmin')) { %>
             <div class="ui bottom attached button">
-              <% if (user.publicProfile) { %><a class="ui yellow icon button" href="/user/<%=user._id%>">
-                <i class="user circle icon"></i></a><%}%>
+              <a class="ui yellow icon button <% if(!user.publicProfile){%>disabled<%}%>" href="/user/<%=user._id%>">
+                <i class="user circle icon"></i>
+              </a>
               <button class="ui red icon button warning-delete-user <%=index%>"><i class="trash icon"></i></button>
             </div>
             <%}%>
