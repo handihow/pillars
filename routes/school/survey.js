@@ -87,7 +87,7 @@ router.get("/:sid", middleware.isSchoolOwner, function(req, res){
                   var returnedSurveyResults = [];
                   surveyResults.forEach(function(surveyResult){
                     var isInArray = school.users.some(function (user) {
-                        return user.equals(surveyResult.user._id);
+                        return user.equals(surveyResult.user && surveyResult.user._id ? surveyResult.user._id : 'nonesense');
                     });
                     if(isInArray){
                       returnedSurveyResults.push(surveyResult);
