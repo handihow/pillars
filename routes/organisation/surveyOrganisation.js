@@ -56,17 +56,23 @@ router.get("/:id", middleware.isLoggedIn, function(req, res){
               req.flash(err.message);
               res.redirect("back");
             } else {
+              var returnedSurveyResults = [];
+                surveyResults.forEach(function(surveyResult){
+                  if(surveyResult.user && surveyResult.user._id){
+                    returnedSurveyResults.push(surveyResult);
+                  }
+                });
               var statistics; var bubbles;
               if(survey.isCompetenceSurvey){
-                statistics = config.competence.survey.calculateStatistics(survey, surveyResults);
+                statistics = config.competence.survey.calculateStatistics(survey, returnedSurveyResults);
               } else if(survey.isSoftwareSurvey){
-                bubbles = config.software.survey.calculateBubbles(survey, surveyResults);
+                bubbles = config.software.survey.calculateBubbles(survey, returnedSurveyResults);
               }
               var protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http'
               var fullUrl = protocol + '://' + req.get('host');
               res.render("survey/show", {
                 survey: survey, 
-                surveyResults: surveyResults,
+                surveyResults: returnedSurveyResults,
                 statistics: statistics,
                 bubbles: bubbles,
                 schoolLevel: false, 
