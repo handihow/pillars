@@ -18,6 +18,7 @@ var UserSchema = new mongoose.Schema({
   publicProfile: Boolean,
   toBeRemoved: Boolean,
   hasCompleteProfile: Boolean,
+  numberOfSurveyResults: Number,
   organisation: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Organisation"

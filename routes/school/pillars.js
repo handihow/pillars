@@ -13,6 +13,7 @@ router.get("/", middleware.isSchoolOwner, function(req, res){
       .populate("hardware")
       .populate("software")
       .populate("standard")
+      .populate("users")
       .exec(async function(err, school){
       if(err ||!school){
           req.flash("error", "School niet gevonden.");
@@ -24,54 +25,48 @@ router.get("/", middleware.isSchoolOwner, function(req, res){
           //filter hardware
           school.hardware = filterHardwareForPillarsScore(school);
           school.software = filterSoftwareForPillarsScore(school);
-          let surveyResults = await retrieveSurveyResultsForPillarsScore(school);
-          var result = score.calculate(school, surveyResults);
-          res.locals.scripts.footer.chartjs = true;
-          res.locals.scripts.footer.pillars = true;
-          res.render("pillars/show", {school: school, result: result});            
-      }
-  });
-});
-
-function retrieveSurveyResultsForPillarsScore(school){
-  return new Promise(function(resolve, reject) {
-    if(!school.users){
-      return reject(null);
-    }
-    var surveyResults = [];
-    var filter = {isCompetenceSurvey: true};
-    school.users.forEach(function(user, index, users){
-      filter.user = user;
-      SurveyResult
-        .find(filter)
-        .populate("survey")
-        .exec(function(err, userSurveyResults){
+          SurveyResult.find({isCompetenceSurvey: true}).populate("survey").exec(function(err, surveyResults){
             if(err){
-              return reject(null);
+              req.flash("error", "Probleem bij het vinden van testresultaten");
+              return res.redirect("back");
             }
-            userSurveyResults.forEach(function(result){
+            let schoolSurveyResults = [];
+            school.users.forEach(function(user){
+              if(user && user._id){
+                var filteredResults = surveyResults.filter(sr => sr.user._id.equals(user._id) );
+                schoolSurveyResults = schoolSurveyResults.concat(filteredResults);  
+              }
+            });
+            let calculatedSurveyResults = [];
+            schoolSurveyResults.forEach(function(result){
               if(result.score){
-                surveyResults.push(result);  
+                calculatedSurveyResults.push(result);  
               } else {
                 var resultToBeAnalyzed = [];
                 resultToBeAnalyzed.push(result);
                 var statistics = calcs.calculateStatistics(result.survey, resultToBeAnalyzed);
                 result.score = statistics[0].statistics[0] / 100;
-                surveyResults.push(result);
+                calculatedSurveyResults.push(result);
               }
             });
-            if(index == users.length - 1){
-              if(school.timeRange == '20172018'){
-                return resolve(surveyResults.filter(r => r.createdAt >= new Date(2017, 8, 1) && r.createdAt <= new Date(2018, 7, 31)));
-              } else if(school.timeRange == '20182019'){
-                return resolve(surveyResults.filter(r => r.createdAt >= new Date(2018, 8, 1) && r.createdAt <= new Date(2019, 7, 31)));
-              }
-              return resolve(surveyResults);
+            var filteredSurveyResults = [];
+            if(school.timeRange=="20172018"){
+              filteredSurveyResults = calculatedSurveyResults.filter(r => r.createdAt >= new Date(2017, 8, 1) && r.createdAt <= new Date(2018, 7, 31))
+            } else if(school.timeRange="2018-2019"){
+              filteredSurveyResults = calculatedSurveyResults.filter(r => r.createdAt >= new Date(2018, 8, 1) && r.createdAt <= new Date(2019, 7, 31))
+            } else if(school.timeRange="2019-2020"){
+              filteredSurveyResults = calculatedSurveyResults.filter(r => r.createdAt >= new Date(2019, 8, 1) && r.createdAt <= new Date(2020, 7, 31))
+            } else {
+              filteredSurveyResults = calculatedSurveyResults 
             }
-      });
-    });
+            var result = score.calculate(school, filteredSurveyResults);
+            res.locals.scripts.footer.chartjs = true;
+            res.locals.scripts.footer.pillars = true;
+            res.render("pillars/show", {school: school, result: result}); 
+          });                  
+      }
   });
-}
+});
 
 function filterHardwareForPillarsScore(school){
   if(school.timeRange == '20172018'){

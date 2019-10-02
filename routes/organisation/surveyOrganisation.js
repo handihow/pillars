@@ -358,7 +358,6 @@ router.post("/:id/private", middleware.isLoggedIn, function(req, res){
 
 
           } else {
-            
             SurveyResult.create({
               survey: req.params.id,
               result: JSON.parse(req.body.result),

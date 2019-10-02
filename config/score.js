@@ -200,14 +200,11 @@ score.calculate = function(school, surveyResults, onlyHardware) {
         result.total.software += Number(result.software[score]);
     });
     Object.keys(result.competence).forEach(function(score){
-        console.log(score);
-        console.log(result.competence[score]);
         result.total.competence += Number(result.competence[score]);
     });
     Object.keys(result.management).forEach(function(score){
         result.total.management += Number(result.management[score]);
     });
-    console.log(result.total.competence);
     //round the main results
     result.total.hardware = Math.round(result.total.hardware*10)/10;
     result.total.software = Math.round(result.total.software*10)/10;

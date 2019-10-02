@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router({mergeParams: true});
 var School = require("../../models/school");
 var User = require("../../models/user");
+var SurveyResult = require("../../models/surveyResult");
 var middleware = require("../../middleware");
 var ejs = require("ejs");
 var config = require("../../config/config");
@@ -14,10 +15,23 @@ router.get("/", middleware.isSchoolOwner, function(req, res){
             req.flash("error", "School niet gevonden");
             res.redirect("back");
         } else {
-            res.render("user/index", {school: school});        
+          SurveyResult.find({isCompetenceSurvey: true}).exec(function(err, surveyResults){
+            if(err){
+              req.flash("error", "Probleem bij het vinden van testresultaten");
+              return res.redirect("back");
+            }
+            school.users.forEach(function(user){
+              if(user && user._id){
+                var filteredResults = surveyResults.filter(sr => sr.user._id.equals(user._id));
+                user.numberOfSurveyResults = filteredResults ? filteredResults.length : 0;  
+              }
+            });
+            res.render("user/index", {school: school});
+          })
         }
     });
 });
+
 
 //NEW - form to create new school user
 router.get("/new", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
