@@ -51,7 +51,7 @@
                     <label>Processor</label>
                     <input type="text" name="hardware[processor]" value="<%=hardware.processor%>">
                 </div>
-                <% if(hardware.type==="Desktop"||hardware.type==="Multipoint computer"||hardware.type==="Laptop") { %>
+                <% if(hardware.type==="Desktop"||hardware.type==="Multipoint computer"||hardware.type==="Laptop" ||hardware.type==="Chromebook") { %>
                     <div class="four wide field required">
                         <label>Werkgeheugen (GB)</label>
                         <input type="number" name="hardware[memory]" value="<%=hardware.memory%>" id="hardware[memory]">
