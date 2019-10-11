@@ -91,7 +91,16 @@
           <h4 class="content">Afgeschreven in jaar</h4>
           <div class="content"><%= hardware.depreciationPeriod + hardware.deploymentYear %></div>
         </div>
+        
       <% } %>
+        <div class="four wide column">
+          <h4 class="content">Locatie device</h4>
+          <div class="content"><%= hardware.location %></div>
+        </div>
+        <div class="four wide column">
+          <h4 class="content">Functie device</h4>
+          <div class="content"><%= hardware.functionsAs %></div>
+        </div>
     </div>
     <h4 class="content">Toegevoegd op</h4>
     <div class="content"><%=hardware.created.toJSON().slice(0,10).split('-').reverse().join('/')%> </div>

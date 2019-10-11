@@ -19,6 +19,8 @@ var hardwareSchema = mongoose.Schema (
         warning: String,
         cost: Number,
         depreciationPeriod: Number,
+        location: String,
+        functionsAs: String,
         created: {type: Date, default: Date.now},
         owner: {
               type:   mongoose.Schema.Types.ObjectId,

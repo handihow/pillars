@@ -132,6 +132,21 @@
               </div>
           </div>
           </div>
+          
+          <div class="two fields">
+            <% if(hardware.type==="Tablet"||hardware.type==="Laptop" ||hardware.type==="Chromebook") { %>
+                  <div class="field">
+                      <label>Locatie van draagbaar device</label>
+                      <input type="text" name="hardware[location]" value="<%=hardware.location%>" id="hardware[location]">
+                  </div>
+             <% } %>
+             <% if(hardware.type==="Desktop"||hardware.type==="Laptop" ||hardware.type==="Chromebook") { %>
+              <div class="field">
+                  <label>Functie device</label>
+                  <input type="text" name="hardware[functionsAs]" value="<%=hardware.functionsAs%>" id="hardware[functionsAs]">
+              </div>
+             <% } %>
+          </div>
           <button class="ui button" type="submit">Bewaren</button>
           <div class="ui error message"></div>
     </form>
