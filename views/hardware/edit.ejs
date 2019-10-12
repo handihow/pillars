@@ -137,13 +137,28 @@
             <% if(hardware.type==="Tablet"||hardware.type==="Laptop" ||hardware.type==="Chromebook") { %>
                   <div class="field">
                       <label>Locatie van draagbaar device</label>
-                      <input type="text" name="hardware[location]" value="<%=hardware.location%>" id="hardware[location]">
+                      <input type="text" name="hardware[location]" value="<%=hardware.location%>" id="hardware[location]" 
+                          placeholder="Laptop kar | directie kantoor | IB-kantoor">
                   </div>
              <% } %>
              <% if(hardware.type==="Desktop"||hardware.type==="Laptop" ||hardware.type==="Chromebook") { %>
               <div class="field">
                   <label>Functie device</label>
-                  <input type="text" name="hardware[functionsAs]" value="<%=hardware.functionsAs%>" id="hardware[functionsAs]">
+                  <div class="ui selection dropdown">
+                      <input type="hidden" name="hardware[functionsAs]" id="dropdown" 
+                            value="<%=hardware.functionsAs%>">
+                      <div class="text">Kies functie van device</div>
+                      <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <% ['Leerling device', 'Medewerker device', 'Directie device'].forEach(function(option){%>
+                          <div class="item <%if(option===hardware.functionsAs){%>active<%}%>"
+                              data-value="<%=option%>"
+                            <% if(option===hardware.functionsAs){ %> selected="" <% } %> >
+                                <%=option%>
+                          </div>
+                        <%})%>
+                    </div>
+                  </div>
               </div>
              <% } %>
           </div>
