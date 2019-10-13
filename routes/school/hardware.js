@@ -445,6 +445,12 @@ router.get("/:hardware_id/edit", middleware.isNotDemoAccount, middleware.isSchoo
 //UPDATE route to store edited hardware to database
 router.post("/:hardware_id", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
  var hardware = JSON.parse(req.body.result);
+ if(hardware.warning){
+   delete hardware.warning;
+ }
+ if(hardware.isDepreciated){
+   delete hardware.isDepreciated;
+ }
  Hardware.findByIdAndUpdate(req.params.hardware_id, hardware, function(err, hardware){
    if(err || !hardware){
      res.contentType('json');
