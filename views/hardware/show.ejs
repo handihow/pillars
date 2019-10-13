@@ -104,16 +104,27 @@
     </div>
     <h4 class="content">Toegevoegd op</h4>
     <div class="content"><%=hardware.created.toJSON().slice(0,10).split('-').reverse().join('/')%> </div>
+    <form action="/schools/<%=school._id%>/hardware/<%=hardware._id%>/copy" method="post" class="button-inline">
+      <input type="hidden" name="hardware[name]" value="<%=hardware.name%>">
+      <input type="hidden" name="hardware[type]" value="<%=hardware.type%>">
+      <input type="hidden" name="hardware[brand]" value="<%=hardware.brand%>">
+      <input type="hidden" name="hardware[model]" value="<%=hardware.model%>">
+      <input type="hidden" name="hardware[serialTag]" value="<%=hardware.serialTag%>">
+      <input type="hidden" name="hardware[processor]" value="<%=hardware.processor%>">
+      <input type="hidden" name="hardware[memory]" value="<%=hardware.memory%>">
+      <input type="hidden" name="hardware[deploymentYear]" value="<%=hardware.deploymentYear%>">
+      <button class="ui secondary basic button" type="submit">Kopieer</button>
+    </form>
     <a id="edit" 
-    class="ui primary basic button" 
-    href="/schools/<%=school._id%>/hardware/<%=hardware._id%>/edit">
-    Bewerken
-  </a>
-  <form id="delete" 
-  action="/schools/<%= school._id %>/hardware/<%=hardware._id%>?_method=DELETE" 
-  method="POST">
-  <button class="ui red basic button">Verwijderen</button>
-</form>
+      class="ui primary basic button" 
+      href="/schools/<%=school._id%>/hardware/<%=hardware._id%>/edit">
+      Bewerken
+    </a>
+    <form id="delete" 
+      action="/schools/<%= school._id %>/hardware/<%=hardware._id%>?_method=DELETE" 
+      method="POST">
+      <button class="ui red basic button">Verwijderen</button>
+    </form>
 </div>
 </div>
 </div>

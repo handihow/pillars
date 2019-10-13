@@ -10,8 +10,7 @@
   } else {
 	 	hardwareForm = {"locale":"nl","title":{"nl":"Hardware toevoegen"},"completedHtml":{"nl":"Hardware wordt verwerkt..."},"loadingHtml":{"nl":"Even geduld aub..."},"pages":[{"name":"short","elements":[{"type":"paneldynamic","name":"hardware","title":{"nl":"Voer hardware in"},"templateElements":[{"type":"dropdown","name":"type","startWithNewLine":false,"title":{"nl":"Type hardware"},"isRequired":true,"choices":["Desktop","Multipoint computer","Laptop","Digitaal schoolbord","Tablet","Chromebook","Telefoon","Kopieermachine","Printer"]},{"type":"text","name":"name","startWithNewLine":false,"title":{"nl":"Naam hardware"},"isRequired":true},{"type":"dropdown","name":"memory","visibleIf":"{panel.type} contains \"Desktop\" or {panel.type} contains \"Multipoint computer\" or {panel.type} contains \"Laptop\" or {panel.type} contains \"Chromebook\"","startWithNewLine":false,"title":{"nl":"Werkgeheugen (GB)"},"isRequired":true,"hasOther":true,"choices":[{"value":"2","text":{"nl":"2 GB"}},{"value":"4","text":{"nl":"4 GB"}},{"value":"8","text":{"nl":"8 GB"}},{"value":"16","text":{"nl":"16 GB"}},{"value":"32","text":{"nl":"32 GB"}},{"value":"0","text":{"nl":"Niet van toepassing"}}],"otherText":{"nl":"Anders, nl."}},{"type":"dropdown","name":"deploymentYear","startWithNewLine":false,"title":{"nl":"Jaar ingebruikname"},"isRequired":true,"hasOther":true,"choices":["2020","2019","2018","2017","2016","2015",{"value":"2014","text":{"nl":"Ouder dan 2014"}},{"value":"0","text":{"nl":"Onbekend"}}],"otherText":{"nl":"Anders, nl."}},{"type":"text","name":"numberDevices","startWithNewLine":false,"title":{"nl":"Aantal apparaten"},"defaultValue":1,"isRequired":true,"validators":[{"type":"numeric","minValue":1,"maxValue":100}],"inputType":"number"},{"type":"text","name":"numberWorkPlacesMultipoint","visibleIf":"{panel.type} = \"Multipoint computer\"","width":"30%","title":{"nl":"Aantal werkplekken per multipoint"},"isRequired":true,"validators":[{"type":"numeric","minValue":1,"maxValue":10}],"inputType":"number"},{"type":"text","name":"screensizeDigibord","visibleIf":"{panel.type} = \"Digitaal schoolbord\"","title":{"nl":"Beelddiagonaal in inches"},"isRequired":true,"inputType":"number"},{"type":"boolean","name":"isTouchscreenDigibord","visibleIf":"{panel.type} = \"Digitaal schoolbord\"","startWithNewLine":false,"title":{"nl":"Touchscreen digitaal schoolbord"},"isRequired":true}],"panelCount":1,"minPanelCount":1,"confirmDelete":true,"confirmDeleteText":{"nl":"Weet je zeker dat je deze regel wilt verwijderen?"},"panelAddText":{"nl":"Regel toevoegen"},"panelRemoveText":{"nl":"Regel verwijderen"}}],"title":{"nl":"Snelle invoer"}}],"showTitle":false,"showPageTitles":false,"showQuestionNumbers":"off"};
 	} 
-  
-    
+
   var survey = new Survey.Model(hardwareForm);
   $("#hardwareForm").Survey({model: survey});
   survey.locale = 'nl';
@@ -19,10 +18,32 @@
   var schoolId = $( '#schoolId' ).text();
   var url = window.location.origin + "/schools/" + schoolId + "/hardware"; //post url for new hardware
 
+  var isShow = $( '#isShow' ).text();
+  var isEdit = $( '#isEdit' ).text();
+  var isEditingInModal = false;
+  var index = 0;
+
+  if(isShow || isEdit){
+    
+    var hardwareData = $( '#hardwareData' ).text();
+
+    var hardware = JSON.parse(hardwareData);
+
+    survey.data = hardware;
+    
+    url = window.location.origin + "/schools/" + schoolId + "/hardware/" + hardware._id;
+  
+  } 
+
+  if(isShow){
+
+    survey.mode = "display";
+  
+  }
+  
   survey
     .onComplete
     .add(function (result) {
-      console.log(url);
          $.ajax({
           url: url,
           type: "POST",
@@ -32,7 +53,18 @@
           },
           success: function (data) {
             if(data.success){
-              window.location.href = window.location.origin + "/schools/" + schoolId +  "/hardware";
+              if(isEditingInModal){
+                survey.clear();
+                $('.ui.modal.hardware-modal').modal('hide');
+                $('.hardware-row#'+index).addClass('positive');
+                $('.hardware-warning.'+index)
+                .html(`
+                  <i class="info circle icon"></i>
+                  Gewijzigd
+                `);
+              } else {
+                window.location.href = window.location.origin + "/schools/" + schoolId +  "/hardware/list";  
+              }
             } else {
               alert(data.error);
             }
@@ -42,6 +74,18 @@
           }
       });
 
+    });
+
+
+    $(".hardware-row").click(function(){
+        index = parseInt(this.id);
+        var hardwareData = $( '#hardwareData' ).text();
+        var hardwareList = JSON.parse(hardwareData);
+        var hardware = hardwareList[index];
+        survey.data = hardware;
+        isEditingInModal = true;
+        url = window.location.origin + "/schools/" + schoolId + "/hardware/" + hardware._id;
+        $('.ui.modal.hardware-modal').modal('show');
     });
 
 </script>

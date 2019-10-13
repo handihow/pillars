@@ -306,7 +306,7 @@ router.post("/", middleware.isNotDemoAccount, middleware.isSchoolOwner, function
      Hardware.create(hardware, function(err, hardware){
        if(err){
          res.contentType('json');
-          res.send({ 
+         res.send({ 
               success: false, 
               error: 'Foutmelding: hardware niet toegevoegd. Server geeft fout: ' + err.message 
             });
@@ -431,7 +431,11 @@ router.get("/:hardware_id/edit", middleware.isNotDemoAccount, middleware.isSchoo
          req.flash("error", "Hardware niet gevonden");
          res.redirect("back");
        } else {
-         res.render("hardware/edit", {hardware: hardware, school: school});
+         res.locals.scripts.header.surveyjs = true;
+         res.locals.scripts.footer.surveyjs = true;
+         res.locals.scripts.footer.surveyOptions = true;
+         res.locals.scripts.footer.hardware = true;
+         res.render("hardware/edit", {hardware: hardware, school: school, mode: 'long'});
        }
      });
    }
@@ -439,17 +443,21 @@ router.get("/:hardware_id/edit", middleware.isNotDemoAccount, middleware.isSchoo
 });
 
 //UPDATE route to store edited hardware to database
-router.put("/:hardware_id", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
- Hardware.findByIdAndUpdate(req.params.hardware_id, req.body.hardware, function(err, hardware){
+router.post("/:hardware_id", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
+ var hardware = JSON.parse(req.body.result);
+ Hardware.findByIdAndUpdate(req.params.hardware_id, hardware, function(err, hardware){
    if(err || !hardware){
-     req.flash("error", err.message);
-     res.redirect("back");
-   } else if(!hardware){
-     req.flash("error", "Hardware niet gevonden");
-     res.redirect("back");
+     res.contentType('json');
+     res.send({ 
+        success: false, 
+        error: 'Foutmelding: hardware niet geupdated. Server geeft fout: ' + err.message 
+      });
    } else {
-     req.flash("success", "Hardware updated");
-     res.redirect("/schools/" + req.params.id + "/hardware/" + hardware._id);
+     req.flash("success", "Hardware succesvol geupdated!");
+     res.contentType('json');
+     res.send({ 
+          success: true
+        }); 
    }
  }); 
 });

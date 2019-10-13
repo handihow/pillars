@@ -105,6 +105,7 @@ $(document).ready(function() {
     if($("#resultsTable").length == 0 && $(".ui table").length > 0 ) {
 
       $(".ui table").DataTable({
+            pageLength: 25,
             buttons: [
                 'copy', 'csv', 'excel', 'colvis'
             ],

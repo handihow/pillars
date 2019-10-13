@@ -6,60 +6,60 @@
 <% include ./header %>
 
 <div class="ui segment">
-  <!--make a table for each type of hardware-->
-  <% config.types.forEach(function(type){ %>
-  <% if(school.hardware.map(a => a.type).includes(type.singular)) { %>
-  <div class="ui header"><%=type.plural%></div>
-  <a id="<%=type.singular%>">
-     <table class="ui celled small table hardware-table">
+
+     <table class="ui selectable celled small table hardware-table">
       <thead>
         <tr>
+          <th>Type</th>
           <th>Naam</th>
           <th>Merk</th>
           <th>Processor</th>
           <th>Werkgeheugen (GB)</th>
           <th>Jaar ingebruikname</th>
           <th>Waarschuwing</th>
-          <th>Bekijk</th>
-          <th>Kopieer</th>
+          <th>Meer</th>
         </tr>
       </thead>
-      <% } %>
       <tbody>
-        <% school.hardware.forEach(function(hardware){ %>
-        <% if(type.singular === hardware.type) { %>
-        <tr <% if(hardware.isDepreciated) { %> class="negative" <% } %> >
-              <td class="selectable">
-                <a href="/schools/<%=school._id%>/hardware/<%=hardware._id%>/edit"><%=hardware.name%></a>
-              </td>
+        <% school.hardware.forEach(function(hardware, index){ %>
+          <tr   <% if(hardware.isDepreciated) { %> 
+                  class="negative hardware-row" id="<%=index%>" 
+                <% } else { %> 
+                  class="hardware-row " id="<%=index%>" 
+                <% } %> >
+              <td><%=hardware.type%></td>
+              <td><%=hardware.name%></td>
               <td><%=hardware.brand%></td>
               <td><%=hardware.processor%></td>
               <td><%=hardware.memory%></td>
               <td><%=hardware.deploymentYear%></td>
-              <td><%=hardware.warning %></td>
+              <td class="hardware-warning <%=index%>"><%=hardware.warning %></td>
               <td class="selectable">
                 <a href="/schools/<%=school._id%>/hardware/<%=hardware._id%>">
                 Bekijk</a>
               </td>
-              <td>
-              <form action="/schools/<%=school._id%>/hardware/<%=hardware._id%>/copy" method="post" class="button-inline">
-                <input type="hidden" name="hardware[name]" value="<%=hardware.name%>">
-                <input type="hidden" name="hardware[type]" value="<%=hardware.type%>">
-                <input type="hidden" name="hardware[brand]" value="<%=hardware.brand%>">
-                <input type="hidden" name="hardware[model]" value="<%=hardware.model%>">
-                <input type="hidden" name="hardware[serialTag]" value="<%=hardware.serialTag%>">
-                <input type="hidden" name="hardware[processor]" value="<%=hardware.processor%>">
-                <input type="hidden" name="hardware[memory]" value="<%=hardware.memory%>">
-                <input type="hidden" name="hardware[deploymentYear]" value="<%=hardware.deploymentYear%>">
-                <button class="ui mini secondary basic button" type="submit">Kopieer</button>
-              </form>
-        </td>
-      </tr>
-      <% } %>
+          </tr>
       <% }); %>
     </tbody>
   </table>
-  <% }); %>
+</div>
+
+
+<div id="schoolId" hidden><%= school._id%></div>
+<div id="hardwareData" hidden><%=JSON.stringify(school.hardware)%></div>
+<div id="mode" hidden>long</div>
+
+<div class="ui modal hardware-modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Bewerk hardware
+  </div>
+  <div class="content">
+    <div class="ui info message">
+      Wijzigingen in dit record zijn pas zichtbaar in de tabel na verversen van de pagina. Je kunt meerdere records wijzigen en daarna de pagina verversen.
+    </div>
+    <div id="hardwareForm"></div>
+  </div>
 </div>
 
 <% include ../partials/school-footer %>
