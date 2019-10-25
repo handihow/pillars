@@ -42,8 +42,8 @@ router.get("/:id", middleware.isLoggedIn, function(req, res){
         } else if(!survey.isPublic) {
           res.locals.scripts.header.surveyjs = true;
           if(survey.isCompetenceSurvey || survey.isSoftwareSurvey){
-            res.locals.scripts.header.plotly = true; 
-            // res.locals.scripts.header.surveyanalytics = true;  
+            // res.locals.scripts.header.plotly = true; 
+            res.locals.scripts.header.surveyanalytics = true;  
           }
           res.locals.scripts.footer.surveyjs = true;
           res.locals.scripts.footer.surveyResults = true;

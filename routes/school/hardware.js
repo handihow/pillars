@@ -133,6 +133,7 @@ router.get("/settings", middleware.isSchoolOwner, function(req, res){
      req.flash("error", "School niet gevonden.");
      res.redirect("/schools");
    } else {
+     res.locals.scripts.footer.hardwaresettings = true;
      res.render("hardware/settings", {school: school});
    }
  });
@@ -468,6 +469,38 @@ router.post("/:hardware_id", middleware.isNotDemoAccount, middleware.isSchoolOwn
  }); 
 });
 
+//DESTROY route to delete hardware from database
+router.delete("/delete-all", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
+  School.findById(req.params.id, function(err, school){
+    if(err || !school) {
+      req.flash("error", "School niet gevonden");
+      res.redirect("back");
+    } else {
+      var promises = [];
+      for (var i = 0; i < school.hardware; i++) {
+        promises.push(new Promise(function(resolve, reject) {
+            Hardware.findByIdAndRemove(school.hardware[i], function(err){
+             if(err){
+               reject(err);
+             } else {
+               resolve(true);
+             }
+           });
+        }));
+      }
+      Promise.all(promises)
+      .then( _ => {
+         school.hardware = [];
+         school.save();
+         req.flash("success", "Alle hardware verwijderd");
+         res.redirect("/schools/" + req.params.id + "/hardware/");
+      }, err => {
+         req.flash("error", "Probleem bij verwijderen hardware " + err && err.message ? err.message : '');
+         res.redirect("back");
+      });
+    }
+  }); 
+});
 
 //DESTROY route to delete hardware from database
 router.delete("/:hardware_id", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){

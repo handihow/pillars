@@ -45,6 +45,7 @@ var scripts = {
 			hardware: false,
 			securityIncident: false,
 			hardwareanalytics: false,
+			hardwaresettings: false,
 			softwareanalytics: false
 		}
 };

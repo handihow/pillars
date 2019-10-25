@@ -73,7 +73,8 @@ router.get("/:sid", middleware.isSchoolOwner, function(req, res){
               res.locals.scripts.footer.surveyjs = true;
               res.locals.scripts.footer.surveyResults = true;
               if(survey.isCompetenceSurvey || survey.isSoftwareSurvey){
-                res.locals.scripts.header.plotly = true;  
+                // res.locals.scripts.header.plotly = true;
+                res.locals.scripts.header.surveyanalytics = true;   
               }
               SurveyResult.find({survey: new ObjectId(survey._id)})
               .populate('user')

@@ -43,4 +43,6 @@
 	var visPanel = new SurveyAnalytics.VisualizationPanel(document.getElementById("surveyResult"), survey.getAllQuestions(), normalizedData);
 	visPanel.render();
 
+	window.dispatchEvent(new Event('resize'));
+
 </script>

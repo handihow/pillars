@@ -6,32 +6,63 @@
 
 <% include ./header %>
 
+    
     <h4>Kies welke hardware je wilt bijhouden</h4>
     <div class="ui divider"></div>
     <form class="ui form" action="/schools/<%=school._id%>/hardware/settings?_method=PUT" method="POST">
-        <% var i = 0 %>
-        <% school.settings.hardware.forEach(function(type){ %>
-            <input type="hidden" name="school[settings][hardware][<%=i%>][singular]" value="<%=type.singular%>">
-            <input type="hidden" name="school[settings][hardware][<%=i%>][plural]" value="<%=type.plural%>">
-            <div class="two fields">
-              <div class="field">
-                <div class="ui toggle checkbox">
-                  <input type="hidden" value="0" name="school[settings][hardware][<%=i%>][track]">
-                  <input 
-                    type="checkbox"
-                    name="school[settings][hardware][<%=i%>][track]"
-                    <% if(type.track) { %> 
-                    checked="checked" <% } %> 
-                    >
-                  <label><%=type.plural %></label>
-                </div>
-              </div>
-             </div>
-             <% i++ %>
-          <% }); %>
-          <button class="ui button" type="submit">Bewaren</button>
-        </form>
+    <% var i = 0 %>
+    <% school.settings.hardware.forEach(function(type){ %>
+        <input type="hidden" name="school[settings][hardware][<%=i%>][singular]" value="<%=type.singular%>">
+        <input type="hidden" name="school[settings][hardware][<%=i%>][plural]" value="<%=type.plural%>">
+        <div class="two fields">
+          <div class="field">
+            <div class="ui toggle checkbox">
+              <input type="hidden" value="0" name="school[settings][hardware][<%=i%>][track]">
+              <input 
+                type="checkbox"
+                name="school[settings][hardware][<%=i%>][track]"
+                <% if(type.track) { %> 
+                checked="checked" <% } %> 
+                >
+              <label><%=type.plural %></label>
+            </div>
+          </div>
+         </div>
+         <% i++ %>
+      <% }); %>
+      <button class="ui button" type="submit">Bewaren</button>
+    </form>
+    <div class="ui divider"></div>
+    <div class="ui warning message">
+      <div class="header">
+        Alle hardware verwijderen
+      </div>
+      <p>Je kunt alle hardware verwijderen van deze school met behulp van de knop hieronder. Je moet eerst deze actie bevestigen.</p>
+      <button class="ui red button" id="delete-all-hardware">Verwijderen</button>
     </div>
+    </div>
+
+</div>
+
+<div class="ui modal hardware-delete-modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Verwijder alle hardware
+  </div>
+  <div class="content">
+      Je staat op het punt om alle hardware van deze school te verwijderen. Wil je doorgaan?
+  </div>
+  <div class="actions">
+    <div class="ui green ok button">
+      <i class="checkmark icon"></i>
+      Annuleren
+    </div>
+    <form id="delete" 
+      action="/schools/<%= school._id %>/hardware/delete-all?_method=DELETE" 
+      method="POST">
+      <button class="ui red cancel button"><i class="remove icon"></i>Alle hardware verwijderen</button>
+    </form>
+  </div>
 </div>
 
 <% include ../partials/school-footer %>
