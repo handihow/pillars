@@ -4,30 +4,12 @@ var scripts = {
 		uploadcare: false,
 		surveyjs: false,
 		plotly: false,
-		surveyanalytics: false
+		surveyanalytics: false,
+		datatables: false
 	},
 	footer: 
 		{
-			validation: {
-				competence: true,
-				evaluation: true,
-				forgot: true,
-				hardware: true,
-				login: true,
-				management: true,
-				message: true,
-				organisation: true,
-				organisationUser: true,
-				processingActivity: true,
-				questionnaire: true,
-				register: true,
-				reset: true,
-				schools: true,
-				software: true,
-				softwareSettings: true,
-				standard: true,
-				userProfile: true
-			},
+			datatables: false,
 			chartjs: false,
 			pillars: false,
 			overview: false,

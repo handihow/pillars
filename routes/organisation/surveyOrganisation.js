@@ -47,6 +47,8 @@ router.get("/:id", middleware.isLoggedIn, function(req, res){
           }
           res.locals.scripts.footer.surveyjs = true;
           res.locals.scripts.footer.surveyResults = true;
+          res.locals.scripts.header.datatables = true;
+          res.locals.scripts.footer.datatables = true;
           SurveyResult.find({survey: new ObjectId(survey._id)})
           .populate('user')
           .populate({path : 'user', populate : {path : 'organisation'}})

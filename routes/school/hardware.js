@@ -39,6 +39,8 @@ router.get("/list", middleware.isLoggedIn, function(req, res){
       res.locals.scripts.footer.surveyjs = true;
       res.locals.scripts.footer.surveyOptions = true;
       res.locals.scripts.footer.hardware = true;
+      res.locals.scripts.header.datatables = true;
+      res.locals.scripts.footer.datatables = true;
       res.render("hardware/index-list", {school: school, mode: 'inline'});        
     }
   });
@@ -106,6 +108,8 @@ router.get("/budget", middleware.isLoggedIn, function(req, res){
               }
           })
           var result = score.calculate(school, [], true);
+          res.locals.scripts.header.datatables = true;
+          res.locals.scripts.footer.datatables = true;
           res.render("hardware/budget", {school: school, result: result});            
       }
   });

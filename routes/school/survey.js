@@ -72,6 +72,8 @@ router.get("/:sid", middleware.isSchoolOwner, function(req, res){
               res.locals.scripts.header.surveyjs = true;
               res.locals.scripts.footer.surveyjs = true;
               res.locals.scripts.footer.surveyResults = true;
+              res.locals.scripts.header.datatables = true;
+              res.locals.scripts.footer.datatables = true;
               if(survey.isCompetenceSurvey || survey.isSoftwareSurvey){
                 // res.locals.scripts.header.plotly = true;
                 res.locals.scripts.header.surveyanalytics = true;   

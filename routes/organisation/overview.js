@@ -19,6 +19,8 @@ router.get("/schools", middleware.isAuthenticatedBadmin, function(req, res){
                 req.flash("error", err.message);
                 res.redirect("back");
             } else {
+                res.locals.scripts.header.datatables = true;
+                res.locals.scripts.footer.datatables = true;
                 res.render("overview/schools", {schools: schools});         
             }
         });
@@ -70,6 +72,8 @@ router.get("/hardware/list", middleware.isAuthenticatedBadmin, function(req, res
               }
             });
         });
+        res.locals.scripts.header.datatables = true;
+        res.locals.scripts.footer.datatables = true;
         res.render("overview/hardware-list", {schools: schools});         
     }
 });
@@ -223,6 +227,8 @@ router.get("/software", middleware.isAuthenticatedBadmin, function(req, res){
         req.flash("error", err.message);
         res.redirect("back");
     } else {
+        res.locals.scripts.header.datatables = true;
+        res.locals.scripts.footer.datatables = true;
         res.render("overview/software", {schools: schools});         
     }
 });
@@ -376,6 +382,8 @@ router.get("/pillars", middleware.isAuthenticatedBadmin, function(req, res){
         res.locals.scripts.footer.chartjs = true;
         res.locals.scripts.footer.pillars = true;
         res.locals.scripts.footer.overview = true;
+        res.locals.scripts.header.datatables = true;
+        res.locals.scripts.footer.datatables = true;
         res.render("overview/pillars", {schools: schools, results: results});  
     }
 });
