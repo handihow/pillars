@@ -7,6 +7,13 @@
 
 		var survey = new Survey.Model(json);
 
+		survey.getAllQuestions().forEach(function(q) {
+	      if(q.getType()==='boolean'){
+	      	q.labelFalse = 'Nee';
+	      	q.labelTrue = 'Ja';
+	      }
+	    });
+
 		survey.locale = 'nl';
 		survey.haveCommercialLicense = true;
 

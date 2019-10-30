@@ -37,6 +37,13 @@
 
 		survey.locale = 'nl';
 		survey.haveCommercialLicense = true;
+
+		survey.getAllQuestions().forEach(function(q) {
+	      if(q.getType()==='boolean'){
+	      	q.labelFalse = 'Nee';
+	      	q.labelTrue = 'Ja';
+	      }
+	    });
 		
 		$("#surveyElement").Survey({model: survey});
 

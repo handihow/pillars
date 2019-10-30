@@ -278,6 +278,10 @@
 		      if (item[q.name] === undefined) {
 		        item[q.name] = "";
 		      }
+		      if(q.getType()==='boolean'){
+		      	q.labelFalse = 'Nee';
+		      	q.labelTrue = 'Ja';
+		      }
 		    });
 		    return item;
 		  });
