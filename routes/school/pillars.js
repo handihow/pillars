@@ -52,12 +52,12 @@ router.get("/", middleware.isSchoolOwner, function(req, res){
             var filteredSurveyResults = [];
             if(school.timeRange=="20172018"){
               filteredSurveyResults = calculatedSurveyResults.filter(r => r.createdAt >= new Date(2017, 8, 1) && r.createdAt <= new Date(2018, 7, 31))
-            } else if(school.timeRange="2018-2019"){
+            } else if(school.timeRange=="20182019"){
               filteredSurveyResults = calculatedSurveyResults.filter(r => r.createdAt >= new Date(2018, 8, 1) && r.createdAt <= new Date(2019, 7, 31))
-            } else if(school.timeRange="2019-2020"){
+            } else if(school.timeRange=="20192020"){
               filteredSurveyResults = calculatedSurveyResults.filter(r => r.createdAt >= new Date(2019, 8, 1) && r.createdAt <= new Date(2020, 7, 31))
             } else {
-              filteredSurveyResults = calculatedSurveyResults 
+              filteredSurveyResults = calculatedSurveyResults;
             }
             var result = score.calculate(school, filteredSurveyResults);
             res.locals.scripts.footer.chartjs = true;

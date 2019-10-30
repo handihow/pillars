@@ -1,6 +1,6 @@
 {
   "name": "Pillars",
-  "version": "1.2.77",
+  "version": "1.2.83",
   "description": "Optimale ICT Resultaten. Zorg voor balans tussen hardware, digitale leermiddelen, deskundigheid en organisatie.",
   "main": "app.js",
   "scripts": {
