@@ -415,11 +415,13 @@ function retrieveSurveyResultsForPillarsScoreOverview(school){
               if(result.score){
                 surveyResults.push(result);  
               } else {
-                var resultToBeAnalyzed = [];
+                let resultToBeAnalyzed = [];
                 resultToBeAnalyzed.push(result);
-                var statistics = calcs.calculateStatistics(result.survey, resultToBeAnalyzed);
-                result.score = statistics[0].statistics[0] / 100;
-                surveyResults.push(result);
+                let statistics = calcs.calculateStatistics(result.survey, resultToBeAnalyzed);
+                if(statistics){
+                    result.score = statistics[0].statistics[0] / 100;
+                    surveyResults.push(result);
+                }
               }
             });
             if(index == users.length - 1){

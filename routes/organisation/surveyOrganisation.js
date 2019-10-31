@@ -341,7 +341,6 @@ router.post("/:id/private", middleware.isLoggedIn, function(req, res){
     } else {
         SurveyResult.find({user: new ObjectId(req.user._id), survey: survey}, function(err, surveyResult){
           if(err) {
-            console.log('error on block1');
             res.contentType('json');
             res.send({ 
                 success: false, 
@@ -349,8 +348,6 @@ router.post("/:id/private", middleware.isLoggedIn, function(req, res){
               });
 
           } else if(surveyResult.length>0 && survey.isActiveCompetenceSurvey) {
-
-            console.log('error on block2');
 
             res.contentType('json');
             res.send({ 
@@ -373,7 +370,6 @@ router.post("/:id/private", middleware.isLoggedIn, function(req, res){
               softwareStandardTitle: survey.softwareStandardTitle ? survey.softwareStandardTitle : '',
             }, function(err, surveyResult){
               if (err) {
-                console.log('error on block 4');
                 res.contentType('json');
                 res.send({ 
                     success: false, 

@@ -249,6 +249,9 @@ competenceCategories = [
 survey.competenceCategories = competenceCategories;
 
 survey.calculateStatistics = function(survey, surveyResults){
+  if(!survey){
+    return
+  }
 	var statistics = [];
 	var index = competenceCategories.findIndex(cat => cat.identifier == survey.competenceStandardKey);
   var isRubric = index > -1 && competenceCategories[index].identifier == 'rubric' ? true : false;

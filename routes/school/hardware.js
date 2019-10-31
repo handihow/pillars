@@ -384,8 +384,7 @@ router.post("/", middleware.isNotDemoAccount, middleware.isSchoolOwner, function
 
 //COPY - makes a copy of hardware in the database
 router.post("/:hardware_id/copy", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
- console.log("hit the hardware copy route");
- console.log(req.body.hardware);
+
  Hardware.create(req.body.hardware, function(err, hardware){
    if(err){
      req.flash("error", err.message);

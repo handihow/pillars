@@ -122,7 +122,6 @@ router.get("/standard", middleware.isLoggedIn, function(req, res){
             res.redirect("back");
         } else {
             standards.sort(function(a,b){return a.organisation.name.localeCompare(b.organisation.name);});
-            console.log(standards);
             res.render("standard/index", {standards: standards, isAdmin: true});         
         }
     });
