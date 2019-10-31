@@ -56,11 +56,14 @@ function calculateHardwareStatus(school){
   });
   school.hardware.forEach(function(hardware){
     let index = trackedHardware.findIndex(h => h.singular === hardware.type);
-    if(hardware.type==="Multipoint computer" && !isNaN(hardware.numberWorkPlacesMultipoint)){
-      trackedHardware[index].count += hardware.numberWorkPlacesMultipoint;
-    } else {
-      trackedHardware[index].count += 1;
+    if(index>-1){
+       if(hardware.type==="Multipoint computer" && !isNaN(hardware.numberWorkPlacesMultipoint)){
+          trackedHardware[index].count += hardware.numberWorkPlacesMultipoint;
+        } else {
+          trackedHardware[index].count += 1;
+        }
     }
+    
     //set warnings and calculate the number of devices out of spec
     if(school.standard){
       if(school.standard.hardware.computersPerStudent.isComputer.includes(hardware.type) && 
