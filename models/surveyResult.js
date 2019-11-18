@@ -2,7 +2,8 @@ var mongoose = require("mongoose");
 var Survey = require("./survey");
 var Statistic = require("./statistic");
 var School = require("./school");
-var calcs = require("../config/competence/survey")
+var Organisation = require("./organisation");
+var calcs = require("../config/competence/survey");
 
 var surveyResultSchema = mongoose.Schema ( 
     {
@@ -21,6 +22,14 @@ var surveyResultSchema = mongoose.Schema (
         user: {                                 
               type: mongoose.Schema.Types.ObjectId,
               ref: "User"
+        },
+        school: {                                 
+              type: mongoose.Schema.Types.ObjectId,
+              ref: "School"
+        },
+        organisation: {                                 
+              type: mongoose.Schema.Types.ObjectId,
+              ref: "Organisation"
         },
     }, { usePushEach: true, timestamps: true }
 );

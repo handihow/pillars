@@ -357,34 +357,48 @@ router.post("/:id/private", middleware.isLoggedIn, function(req, res){
 
 
           } else {
-            SurveyResult.create({
-              survey: req.params.id,
-              result: JSON.parse(req.body.result),
-              organisation: req.user.organisation,
-              user: req.user._id,
-              isCompetenceSurvey: survey.isCompetenceSurvey ? true : false,
-              competenceStandardKey: survey.competenceStandardKey ? survey.competenceStandardKey : '',
-              competenceStandardTitle: survey.competenceStandardTitle ? survey.competenceStandardTitle : '',
-              isSoftwareSurvey: survey.isSoftwareSurvey ? true : false,
-              softwareStandardKey: survey.softwareStandardKey ? survey.softwareStandardKey : '',
-              softwareStandardTitle: survey.softwareStandardTitle ? survey.softwareStandardTitle : '',
-            }, function(err, surveyResult){
-              if (err) {
-                res.contentType('json');
-                res.send({ 
-                    success: false, 
-                    error: 'Probleem bij bewaren van de enquête resultaten. Server geeft fout: ' + err.message 
-                  });
+            User.findById(req.user._id, function(err, user){
+              if(err || !user){
+                res.contentType('json')
+                res.send({
+                  success: false,
+                  error: "Foutmelding: gebruiker niet gevonden."
+                })
               } else {
-                res.contentType('json');
-                res.send({ success: true, surveyResultId:  surveyResult._id});
+                let surveyResult = SurveyResult({
+                  survey: req.params.id,
+                  result: JSON.parse(req.body.result),
+                  organisation: user.organisation,
+                  user: user._id,
+                  isCompetenceSurvey: survey.isCompetenceSurvey ? true : false,
+                  competenceStandardKey: survey.competenceStandardKey ? survey.competenceStandardKey : '',
+                  competenceStandardTitle: survey.competenceStandardTitle ? survey.competenceStandardTitle : '',
+                  isSoftwareSurvey: survey.isSoftwareSurvey ? true : false,
+                  softwareStandardKey: survey.softwareStandardKey ? survey.softwareStandardKey : '',
+                  softwareStandardTitle: survey.softwareStandardTitle ? survey.softwareStandardTitle : '',
+                });
+                if(user.school && user.school.length>0){
+                  surveyResult.school = user.school[0]
+                }
+                SurveyResult.create(surveyResult, function(err, surveyResult){
+                  if (err) {
+                    res.contentType('json');
+                    res.send({ 
+                        success: false, 
+                        error: 'Probleem bij bewaren van de enquête resultaten. Server geeft fout: ' + err.message 
+                      });
+                  } else {
+                    user.numberOfSurveyResults = user.numberOfSurveyResults ? user.numberOfSurveyResults + 1 : 1;
+                    user.save()
+                    res.contentType('json');
+                    res.send({ success: true, surveyResultId:  surveyResult._id});
+                  }
+
+                });
               }
-
             });
-
           }
         });
-        
     }
   });
 });

@@ -65,7 +65,7 @@ function calculateHardwareStatus(school){
     }
     
     //set warnings and calculate the number of devices out of spec
-    if(school.standard){
+    if(school.standard && index>-1){
       if(school.standard.hardware.computersPerStudent.isComputer.includes(hardware.type) && 
               hardware.memory < school.standard.hardware.computersPerStudent.minRAM){
           hardware.isDepreciated = true;
