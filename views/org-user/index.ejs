@@ -31,9 +31,7 @@
                   Laatste update op <%= user.updatedAt.toJSON().slice(0,10).split('-').reverse().join('/')%>
               <%}%> 
           </span>
-            <%if(user.tests){%>
-                  | <%= user.tests.length%> tests
-              <%}%> 
+                  | <%= user.numberOfSurveyResults ? user.numberOfSurveyResults : 0%> tests
           </div>
           <div class="description">
                 <%=user.username%>
