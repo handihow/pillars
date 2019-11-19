@@ -7,6 +7,7 @@ var Software = require("./software");
 var Test = require("./test");
 var Evaluation = require("./evaluation");
 var Setting = require("./setting");
+var SurveyResult = require('./surveyResult');
 
 var scholenSchema=  mongoose.Schema({
     schoolIdNumber: {type: String, required: true},
@@ -60,6 +61,10 @@ var scholenSchema=  mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Test"
     }],
+    surveyResults: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "SurveyResult"
+    }],
     settings: {
         hardware: {type: [{}], default: config.hardware.types},
         software: {
@@ -81,7 +86,6 @@ var scholenSchema=  mongoose.Schema({
 }, { usePushEach: true, timestamps: true });
 
 scholenSchema.post("remove", function(school){
-    console.log("triggered");
     this.users.forEach(function(user){
         User.findByIdAndRemove(user, function(err){
             if(err){
@@ -90,7 +94,6 @@ scholenSchema.post("remove", function(school){
         });
     });
     this.hardware.forEach(function(hardware){
-        console.log("hardware each..")
         Hardware.findByIdAndRemove(hardware, function(err){
             if(err){
                 console.log(err);
@@ -98,7 +101,6 @@ scholenSchema.post("remove", function(school){
         });
     });
     this.software.forEach(function(software){
-        console.log("software each..");
         Software.findByIdAndRemove(software, function(err){
             if(err){
                 console.log(err)

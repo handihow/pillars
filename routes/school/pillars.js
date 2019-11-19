@@ -78,10 +78,8 @@ function filterHardwareForPillarsScore(school){
 
 function filterSoftwareForPillarsScore(school){
   if(school.timeRange == '20172018'){
-    console.log(school.software.filter(h => h.created < new Date(2018, 9, 1)).length);
     return school.software.filter(h => h.created < new Date(2018, 9, 1));
   } else {
-    console.log(school.software.length);
     return school.software;
   }
 }

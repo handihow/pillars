@@ -1,6 +1,7 @@
 var mongoose = require("mongoose");
 var passportLocalMongoose = require("passport-local-mongoose");
 var Test = require("./test");
+var SurveyResult = require('./surveyResult');
 
 var UserSchema = new mongoose.Schema({
   username: {type: String, required: true},

@@ -38,7 +38,7 @@ survey.assessmentCategories = [
 survey.calculateBubbles = function(survey, surveyResults){
   //exit the function if there are no survey results
   if(surveyResults.length == 0) {
-    return console.log('no survey results');
+    return;
   }
   //define the results variable to return from the function
   var results = {

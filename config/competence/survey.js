@@ -305,7 +305,6 @@ survey.calculateStatistics = function(survey, surveyResults){
             }
 
             if(statIndex == 0 && !isNaN(value)) {
-              console.log(value);
                //this is the general statistics
                questions += 1;
                total += value;

@@ -377,10 +377,11 @@ router.post("/:id/private", middleware.isLoggedIn, function(req, res){
                   softwareStandardKey: survey.softwareStandardKey ? survey.softwareStandardKey : '',
                   softwareStandardTitle: survey.softwareStandardTitle ? survey.softwareStandardTitle : '',
                 });
-                if(user.school && user.school.length>0){
-                  surveyResult.school = user.school[0]
+                if((user.role==='suser' || user.role==='sadmin') && user.school && user.school.length>0){
+                  let schoolId = user.school[0];
+                  surveyResult.school = schoolId;
                 }
-                SurveyResult.create(surveyResult, function(err, surveyResult){
+                SurveyResult.create(surveyResult, function(err, createdSurveyResult){
                   if (err) {
                     res.contentType('json');
                     res.send({ 
@@ -389,11 +390,37 @@ router.post("/:id/private", middleware.isLoggedIn, function(req, res){
                       });
                   } else {
                     user.numberOfSurveyResults = user.numberOfSurveyResults ? user.numberOfSurveyResults + 1 : 1;
-                    user.save()
-                    res.contentType('json');
-                    res.send({ success: true, surveyResultId:  surveyResult._id});
+                    user.save(function(err, user){
+                      if(err){
+                        res.contentType('json');
+                        res.send({ 
+                          success: false, 
+                          error: 'Probleem bij updaten van gebruiker. Server geeft fout: ' + err.message 
+                        })
+                      } else {
+                        if((user.role==='suser' || user.role==='sadmin') && user.school && user.school.length>0){
+                          School.findById(user.school[0], function(err, school){
+                            school.surveyResults.push(createdSurveyResult._id);
+                            school.save(function(err, school){
+                              if(err){
+                                res.contentType('json');
+                                res.send({ 
+                                  success: false, 
+                                  error: 'Probleem bij updaten van school. Server geeft fout: ' + err.message 
+                                });
+                              } else {
+                                res.contentType('json');
+                                res.send({ success: true, surveyResultId:  createdSurveyResult._id});
+                              }
+                            });
+                          })
+                        } else {
+                          res.contentType('json');
+                          res.send({ success: true, surveyResultId:  createdSurveyResult._id});
+                        }
+                      }
+                    })
                   }
-
                 });
               }
             });
