@@ -10,6 +10,13 @@
         <div class="sub header">Pas hier je normering aan. Zorg ervoor dat de maximale score op ieder onderdeel in totaal 5 is!</div>
       </div>
     </h2>
+
+    <div class="ui warning message">
+      <div class="header">
+        Criteria zijn vervallen bij deskundigheid
+      </div>
+      De drie normen "Beoordeelde deskundigheid", "Gemiddelde effectiviteit" en "Ondersteuning nodig" zijn vervallen. U krijgt een waarschuwing bij de Pillars score als u nog altijd punten toekent aan deze criteria. Zorg ervoor dat deze criteria op maximale score 0 staan, en dat de 5 punten verdeeld worden over de verschillende deskundigheid tests.
+    </div>
     <form class="ui form" action="/standard/<%=standard._id%>?_method=PUT" method="POST" id="standardForm" novalidate>
       <div class="field">
         <label>Naam</label>

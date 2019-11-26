@@ -27,11 +27,20 @@ router.get("/", middleware.isSchoolOwner, function(req, res){
         "isActiveCompetenceSurvey": true
       }, async function(err, surveys){
         var averages = [];
+        var counts = [];
+        var comparingAverages = [];
+        var comparingCounts = [];
         await asyncForEach(surveys, async function(survey, index){
-           let average = await retrieveSurveyResults(survey, school);
-           averages.push(average);          
+           let results = await retrieveSurveyResults(survey, school);
+           averages.push(results.average);
+           comparingAverages.push(results.comparingAverage);
+           counts.push(results.count);
+           comparingCounts.push(results.comparingCount);
            if(index==surveys.length-1){
-            res.render("competence/show", {school: school, surveys: surveys, averages: averages})
+            res.locals.scripts.header.plotly = true;
+            res.locals.scripts.footer.competence = true;
+            res.render("competence/show", {school: school, surveys: surveys, averages: averages, 
+              comparingAverages: comparingAverages, counts: counts, comparingCounts: comparingCounts})
           }
         });   
       })        
@@ -49,27 +58,46 @@ function retrieveSurveyResults(survey, school){
   return new Promise(function(resolve, reject) {
     SurveyResult.find({"survey": survey._id}, function(err, surveyResults){
         if(err){
-          return resolve(0);
+          return resolve({
+            average: 0,
+            comparingAverage: 0,
+            count: 0,
+            comparingCount: 0
+          });
         } else {
           var returnedSurveyResults = [];
           var schoolStatistics = [];
+          var comparingResults = [];
           surveyResults.forEach(function(surveyResult){
             var isInArray = school.users.some(function (user) {
                 return user.equals(surveyResult.user._id);
             });
             if(isInArray){
               returnedSurveyResults.push(surveyResult);
-            }
+            } 
+            comparingResults.push(surveyResult);
           });
           schoolStatistics = config.competence.survey.calculateStatistics(survey, returnedSurveyResults);
+          organisationStatistics = config.competence.survey.calculateStatistics(survey, comparingResults);
           if(schoolStatistics[0].statistics.length>0){
              let sum = schoolStatistics[0].statistics.reduce((previous, current) => current += previous);
              let avg = Math.round(sum / schoolStatistics[0].statistics.length);
-             return resolve(avg);
+             let comparingSum = organisationStatistics[0].statistics.reduce((previous, current) => current += previous);
+             let comparingAvg = Math.round(comparingSum / organisationStatistics[0].statistics.length);
+             return resolve({
+               average: avg,
+               comparingAverage: comparingAvg,
+               count: schoolStatistics[0].statistics.length,
+               comparingCount: organisationStatistics[0].statistics.length
+             });
           } else {
-            return resolve(0);
+            return resolve({
+              average: 0,
+              comparingAverage: 0,
+              count: 0,
+              comparingCount: 0
+            });
           }
-          
         }
       })
   });

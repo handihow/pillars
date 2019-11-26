@@ -92,6 +92,7 @@ router.get("/edit", middleware.isNotDemoAccount, middleware.isUser, function(req
       req.flash("error", "Geen gebruiker gevonden of onbekende fout");
       res.redirect("back");
     } else {
+      res.locals.scripts.header.uploadcare = true;
       res.render("user/edit", {user: user});
     }
   });

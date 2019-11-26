@@ -7,14 +7,25 @@
  <div class="ui container">
 <%}%>
 <div class="ui icon buttons">
-  <button class="ui <%if(surveyResults.length==0){%>active<%}%> icon button" id="infoButton"><i class="edit icon"></i></button>
-  <button class="ui icon button" id="tableButton"><i class="table icon"></i></button>
-  <button class="ui <%if(surveyResults.length>0){%>active<%}%> icon button" id="chartButton"><i class="chart pie icon"></i></button>
+  <button class="ui <%if(surveyResults.length==0){%>active<%}%> icon button" 
+          id="infoButton" 
+          data-content="Bewerk enquête"><i class="edit icon"></i></button>
+  <button class="ui icon button" id="tableButton" 
+          data-content="Tabel met resultaten"><i class="table icon"></i></button>
+  <button class="ui <%if(surveyResults.length>0){%>active<%}%> icon button" 
+          id="chartButton"
+          data-content="Grafieken"><i class="chart pie icon"></i></button>
   <% if(survey.isCompetenceSurvey){%>
-    <button class="ui icon button" id="analysisButton"><i class="chart bar icon"></i></button>
+    <button class="ui icon button" id="analysisButton"
+          data-content="Boxplot analyse"><i class="chart bar icon"></i></button>
   <%} else if(survey.isSoftwareSurvey){%>
     <button class="ui icon button" id="bubblesButton"><i class="chart bar icon"></i></button>
   <%}%>
+  <% if(limited) {%>
+    <a href="/survey/<%=survey._id%>/all" 
+        class="ui icon button" 
+        data-content="Alle resultaten ophalen"><i class="sync icon"></i></a>
+  <% } %>
 </div>
 <div class="ui divider"></div>
 

@@ -1,4 +1,4 @@
-<div class="ui blue inverted icon menu large">
+<div class="ui blue inverted icon menu">
   <a class="horizontal item" 
       href="https://pillars.school" 
       target="_blank" 
@@ -85,11 +85,18 @@
   <% } %>
   <% if(currentUser) { %>
   <div class="right menu">
-    <a class="ui horizontal item" 
-        id="profiel-menu" 
+    <a class="ui horizontal item"
         href="/user/<%=currentUser._id%>" 
         data-content="Ga naar profielpagina van <%=currentUser.username%>">
-      <i class="user circle icon"></i>
+      <% var url = 'https://eu.ui-avatars.com/api/?name=Niet+Bekend&background=fe9A76&color=ffffff&bold=true'%>
+      <% if(currentUser.imageUrl){%>
+        <% url = currentUser.imageUrl%>
+      <% } else if (currentUser.firstName && currentUser.lastName) {%>
+       <% url = 'https://eu.ui-avatars.com/api/?name=' 
+                  + currentUser.firstName + '+' + currentUser.lastName 
+                  + '&background=fe9A76&color=ffffff&bold=true' %>
+       <% } %>
+      <img class="ui avatar image" src="<%=url%>">
     </a>
     <a class="horizontal item" 
         href="https://pillars.school/docs" target="_blank" 

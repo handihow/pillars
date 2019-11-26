@@ -25,6 +25,7 @@ var scripts = {
 			edurep: false,
 			evaluation: false,
 			hardware: false,
+			competence: false,
 			securityIncident: false,
 			hardwareanalytics: false,
 			hardwaresettings: false,

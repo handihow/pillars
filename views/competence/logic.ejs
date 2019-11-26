@@ -1,0 +1,51 @@
+<script>
+	$(document).ready(function() {
+
+		console.log('loading competence scripts')
+		var surveysInfo = $( '#surveysInfo' ).text();
+
+		var surveys = JSON.parse(surveysInfo || '[]');
+
+		var averagesInfo = $( '#averagesInfo' ).text();
+
+		var averages = JSON.parse(averagesInfo || '[]');
+
+		var comparingAveragesInfo = $( '#comparingAveragesInfo' ).text();
+
+		var comparingAverages = JSON.parse(comparingAveragesInfo || '[]');
+
+		surveys.forEach(function(survey, index){
+			var data = [
+			  {
+			    type: "indicator",
+			    mode: "number+gauge+delta",
+			    number: { suffix: ' %' },
+			    gauge: { 
+			    	shape: "bullet",
+			    	axis: {
+				        visible: true,
+				        range: [0, 100]
+				      },
+			    },
+			    delta: { reference: comparingAverages[index], relative: true },
+			    value: averages[index],
+			    domain: { x: [0, 1], y: [0, 1] },
+			    title: { text: 'Test ' + (index + 1) }
+			  }
+			];
+
+
+			// var layout = { width: 500, height: 250 };
+			var layout = {
+			  width: 450,
+			  height: 100,
+			  margin: { t: 10, b: 25, l: 5, r: 0 }
+			};
+			Plotly.newPlot(index.toString(), data, layout, {responsive: true});
+		})
+		
+		console.log(surveys);
+		console.log(averages);
+	
+	});
+</script>

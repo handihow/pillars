@@ -20,17 +20,26 @@
 	      });
 	    }
 
-	    $.get('https://pillars.school/wp-json/wp/v2/posts?per_page=3', function(data){
+	    $.get('https://pillars.school/wp-json/wp/v2/posts?per_page=3&_embed', function(data){
 	    	data.forEach(function(post){
-	    		$( ".news" ).append( `
+	    		console.log(post)
+	    		var image = post._embedded['wp:featuredmedia']['0'].source_url;
+	    		if(typeof image =='undefined'){
+	    			image = '/img/logo.png';
+	    		}
+    			$( ".news" ).append( `
 	    		<div class="item">
+				      <img <img class="ui avatar image" src="
+				`
+				+ image + 
+				`">
 				    <div class="content">
 				      <a class="header" target="_blank" href="
 				`
 				+ post.link + `
 				">
 				` 
-				+ new Date(post.date).toJSON().slice(0,10).split('-').reverse().join('/') + " - " + post.title.rendered  + `
+				+ post.title.rendered  + `
 
 				</a></div>
 				      <div class="description">
@@ -38,6 +47,7 @@
 				    
 				  </div>
 	    		` );
+	    		
 	    	});
 	    	$('#loader').hide();
 	    });

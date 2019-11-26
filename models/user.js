@@ -11,6 +11,7 @@ var UserSchema = new mongoose.Schema({
   supportRole: [{role: String, hours: Number}],
   firstName: String,
   lastName: String,
+  imageUrl: String,
   job: String,
   resetPasswordToken: String,
   resetPasswordExpires: Date,

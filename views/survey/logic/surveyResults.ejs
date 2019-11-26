@@ -269,10 +269,6 @@
 
 	    var vispanelresults = result.map(r => r.result);
 
-	    console.log(JSON.stringify(vispanelresults));
-
-	    console.log(JSON.stringify(surveyData));
-
 	    var normalizedData = vispanelresults.map(function(item) {
 		    survey.getAllQuestions().forEach(function(q) {
 		      if (item[q.name] === undefined) {
@@ -285,8 +281,10 @@
 		    });
 		    return item;
 		  });
-
+	    
 	    SurveyAnalytics.SelectBasePlotly.types = ["bar", "pie"];
+
+	    SurveyAnalytics.GaugePlotly.types = ["bullet"];
 
 	    SurveyAnalytics.VisualizerBase.customColors = [
 	                    'rgba(0,159,227, 1)',

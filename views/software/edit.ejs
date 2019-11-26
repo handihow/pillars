@@ -4,7 +4,7 @@
 <% include ../partials/school-header %>
 
 <h2 class="ui header">
-  <i class="student icon"></i></i>Digitale Leermiddelen voor <%= software.subject %> Toevoegen aan <%= school.name %>
+  <i class="tablet alternate icon"></i>Digitale Leermiddelen voor <%= software.subject %> Toevoegen aan <%= school.name %>
 </h2>
 <div class="ui divider"></div>
 <form class="ui form" action="/schools/<%=school._id%>/software/<%=software._id%>?_method=PUT" method="POST" id="softwareForm" novalidate>

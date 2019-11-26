@@ -50,6 +50,7 @@ router.get("/:id", middleware.isLoggedIn, function(req, res){
           res.locals.scripts.header.datatables = true;
           res.locals.scripts.footer.datatables = true;
           SurveyResult.find({survey: new ObjectId(survey._id)})
+          .limit(50)
           .populate('user')
           .populate({path : 'user', populate : {path : 'organisation'}})
           .populate({path : 'user', populate : {path : 'school'}})
@@ -78,7 +79,8 @@ router.get("/:id", middleware.isLoggedIn, function(req, res){
                 statistics: statistics,
                 bubbles: bubbles,
                 schoolLevel: false, 
-                fullUrl: fullUrl
+                fullUrl: fullUrl,
+                limited: returnedSurveyResults.length > 50 ? true : false
               }); 
             }
           });        
@@ -98,6 +100,57 @@ router.get("/:id", middleware.isLoggedIn, function(req, res){
             }
           });        
         } 
+    });
+});
+
+//SHOW ALL ROUTE
+router.get("/:id/all", middleware.isLoggedIn, function(req, res){
+  Survey.findById(req.params.id, function(err, survey){
+        if(err ||!survey){
+          req.flash("error", "Enquête niet gevonden.");
+          res.redirect("back");
+        } else {
+          res.locals.scripts.header.surveyjs = true;
+          res.locals.scripts.header.surveyanalytics = true;  
+          res.locals.scripts.footer.surveyjs = true;
+          res.locals.scripts.footer.surveyResults = true;
+          res.locals.scripts.header.datatables = true;
+          res.locals.scripts.footer.datatables = true;
+          SurveyResult.find({survey: new ObjectId(survey._id)})
+          .populate('user')
+          .populate({path : 'user', populate : {path : 'organisation'}})
+          .populate({path : 'user', populate : {path : 'school'}})
+          .exec(function(err, surveyResults){
+            if(err){
+              req.flash(err.message);
+              res.redirect("back");
+            } else {
+              var returnedSurveyResults = [];
+                surveyResults.forEach(function(surveyResult){
+                  if(surveyResult.user && surveyResult.user._id){
+                    returnedSurveyResults.push(surveyResult);
+                  }
+                });
+              var statistics; var bubbles;
+              if(survey.isCompetenceSurvey){
+                statistics = config.competence.survey.calculateStatistics(survey, returnedSurveyResults);
+              } else if(survey.isSoftwareSurvey){
+                bubbles = config.software.survey.calculateBubbles(survey, returnedSurveyResults);
+              }
+              var protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http'
+              var fullUrl = protocol + '://' + req.get('host');
+              res.render("survey/show", {
+                survey: survey, 
+                surveyResults: returnedSurveyResults,
+                statistics: statistics,
+                bubbles: bubbles,
+                schoolLevel: false, 
+                fullUrl: fullUrl,
+                limited: false
+              }); 
+            }
+          });   
+        }     
     });
 });
 

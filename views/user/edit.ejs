@@ -11,6 +11,15 @@
               <label>E-mail adres</label>
               <input type="text" name="user[username]" value="<%=user.username%>" id="user[username]">
           </div>
+          <div class="field">
+              <label>Upload avatar</label>
+              <input type="hidden" 
+                    role="uploadcare-uploader" 
+                    name="user[imageUrl]"
+                    value="<%=user.imageUrl%>"
+                    data-image-shrink="256x256"
+                    data-multiple="false"/>
+            </div>
         </div>
         <div class="ui warning message">
           <div class="header">Let op!</div>

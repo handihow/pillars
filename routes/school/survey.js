@@ -78,7 +78,10 @@ router.get("/:sid", middleware.isSchoolOwner, function(req, res){
                 // res.locals.scripts.header.plotly = true;
                 res.locals.scripts.header.surveyanalytics = true;   
               }
-              SurveyResult.find({survey: new ObjectId(survey._id)})
+              SurveyResult.find({
+                survey: new ObjectId(survey._id),
+                school: new ObjectId(school._id)
+              })
               .populate('user')
               .populate({path : 'user', populate : {path : 'organisation'}})
               .populate({path : 'user', populate : {path : 'school'}})
@@ -89,10 +92,7 @@ router.get("/:sid", middleware.isSchoolOwner, function(req, res){
                 } else {
                   var returnedSurveyResults = [];
                   surveyResults.forEach(function(surveyResult){
-                    var isInArray = school.users.some(function (user) {
-                        return user.equals(surveyResult.user && surveyResult.user._id ? surveyResult.user._id : 'nonesense');
-                    });
-                    if(isInArray){
+                    if(surveyResult.user && surveyResult.user._id){
                       returnedSurveyResults.push(surveyResult);
                     }
                   });
@@ -111,7 +111,8 @@ router.get("/:sid", middleware.isSchoolOwner, function(req, res){
                     bubbles: bubbles,
                     surveyResults: returnedSurveyResults, 
                     schoolLevel: true, 
-                    fullUrl: fullUrl
+                    fullUrl: fullUrl,
+                    limited: false
                   }); 
                 }
               });        

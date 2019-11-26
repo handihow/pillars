@@ -4,6 +4,8 @@ $(document).ready(function() {
     
     var result = $('#result').attr('data-value')?JSON.parse($('#result').attr('data-value')):null;
 
+    console.log(result);
+
     if(result){
     Chart.defaults.global.legend.display = false;
     
@@ -174,11 +176,10 @@ $(document).ready(function() {
     var myChart4 = new Chart(ctx4, {
         type: 'bar',
         data: {
-            labels: ["Beoord desk", "Gem eff", "Ond nodig", "ICT Gel", "Ped Did Hand", "Werk schcxt", "Pers Ontw", "Instum", "Inform", "Mediav"],
+            labels: ["ICT Gel", "Ped Did Hand", "Werk schcxt", "Pers Ontw", "Instum", "Inform", "Mediav"],
             datasets: [{
                 label: 'Deskundigheid',
-                data: [result.competence.competenceRating, result.competence.softwareRating, 
-                        result.competence.support, result.competence.ictSkills, result.competence.pedagogicalDidacticalSkills,
+                data: [result.competence.ictSkills, result.competence.pedagogicalDidacticalSkills,
                          result.competence.workInSchoolContext, result.competence.personalDevelopment,
                           result.competence.instrumentalSkills, result.competence.informationSkills, 
                           result.competence.mediaSkills],
@@ -189,10 +190,7 @@ $(document).ready(function() {
                     'rgba(255, 222, 0, 0.7)',
                     'rgba(241, 220, 77, 0.7)',
                     'rgba(255, 241, 95, 0.7)',
-                    'rgba(248, 239, 150, 0.7)',
-                    'rgba(251, 244, 150, 0.7)',
-                    'rgba(244, 232, 150, 0.7)',
-                    'rgba(246, 238, 150, 0.7)'
+                    'rgba(248, 239, 150, 0.7)'
                 ],
                 borderColor: [
                     'rgba(249, 178, 51, 1)',
@@ -201,10 +199,7 @@ $(document).ready(function() {
                     'rgba(255, 222, 0, 1)',
                     'rgba(241, 220, 77, 1)',
                     'rgba(255, 241, 95, 1)',
-                     'rgba(248, 239, 150, 1)',
-                    'rgba(251, 244, 150, 1)',
-                    'rgba(244, 232, 150, 1)',
-                    'rgba(246, 238, 150, 1)'
+                     'rgba(248, 239, 150, 1)'
                 ],
                 borderWidth: 1
             }]
@@ -217,9 +212,7 @@ $(document).ready(function() {
                     color:'black',
                     backgroundColor: 'rgba(255,255,255,0.5)',
                     formatter: function(value, context){
-                        var standard = [result.standard.competence.competenceRating.maxScore, 
-                        result.standard.competence.softwareRating.maxScore, 
-                        result.standard.competence.support.maxScore, 
+                        var standard = [ 
                         result.standard.competence.ictSkills.maxScore, 
                         result.standard.competence.pedagogicalDidacticalSkills.maxScore,
                         result.standard.competence.workInSchoolContext.maxScore, 
