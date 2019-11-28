@@ -35,7 +35,7 @@ router.get("/", middleware.isLoggedIn, function(req, res){
           res.redirect("back");
         } else {
           Organisation.findById(req.user.organisation, function(err, organisation){
-            res.render("schools/index", {schools: schools, organisation: organisation}); 
+            res.render("schools/index", {schools: schools, organisation: organisation, canAdd: true, organisationLevel: false}); 
           })    
         }
       });

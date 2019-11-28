@@ -7,41 +7,41 @@ var User = require("../../models/user");
 
 //INDEX ROUTE
 router.get("/", middleware.isLoggedIn, function(req, res){
-    Organisation.findById(req.user.organisation,function(err, organisation){
-        if(err) {
-            req.flash("error", err.message);
-            res.redirect("back");
-        } else {
-            res.render("organisationSettings/index", {organisation: organisation});         
-        }
-    });
+  Organisation.findById(req.params.id,function(err, organisation){
+    if(err) {
+      req.flash("error", err.message);
+      res.redirect("back");
+    } else {
+      res.render("organisationSettings/index", {organisation: organisation});         
+    }
+  });
 });
 
 
 //UPDATE route to store edited profile questions to database
 router.post("/", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
-  Organisation.findById(req.user.organisation, function(err, organisation){
-      if(err || !organisation){
+  Organisation.findById(req.params.id, function(err, organisation){
+    if(err || !organisation){
+      req.flash("error", err.message);
+      res.redirect("back");
+    } else {
+      var updatedSettings = {};
+      Object.keys(organisation.settings).forEach(function(setting){
+        if(req.body[setting].includes("on")){
+          updatedSettings[setting] = true;
+        } else {
+          updatedSettings[setting] = false;
+        }
+      });
+      organisation.update({settings: updatedSettings}, function(err){
+        if(err){
           req.flash("error", err.message);
-          res.redirect("back");
-      } else {
-        var updatedSettings = {};
-          Object.keys(organisation.settings).forEach(function(setting){
-            if(req.body[setting].includes("on")){
-              updatedSettings[setting] = true;
-            } else {
-              updatedSettings[setting] = false;
-            }
-          });
-          organisation.update({settings: updatedSettings}, function(err){
-            if(err){
-              req.flash("error", err.message);
-            } else {
-              req.flash("success", "Module instellingen updated");
-            }
-            res.redirect("/organisationSettings");
-          });
-      }
+        } else {
+          req.flash("success", "Module instellingen updated");
+        }
+        res.redirect("/organisations/"+ organisation._id + "/organisationSettings");
+      });
+    }
   }); 
 });
 

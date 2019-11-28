@@ -8,23 +8,7 @@
   <a class="horizontal item" href="/home/" data-content="Startpagina">
       <i class="home icon" ></i>
   </a>
-  <% if(currentUser && (currentUser.role==="buser" || currentUser.role==="badmin" || currentUser.role ==="padmin")) { %>
-    <a class="horizontal item" href="/schools/" data-content="Scholen">
-        <i class="university icon" ></i>
-    </a>
-  <% } %>
   <% if(currentUser && (currentUser.role==="badmin" || currentUser.role ==="padmin")) { %>
-  <div class="ui dropdown horizontal item" data-content="Pillars instellingen">
-    <i class="cog icon"></i>
-    <div class="menu">
-      <a class="item" href="/standard">
-        Normering
-      </a>
-      <a class="item" href="/organisationSettings">
-        Module instellingen
-      </a>
-    </div>
-  </div>
   <div class="ui dropdown horizontal item" data-content="Communicatie">
     <i class="bullhorn icon"></i>
     <div class="menu">
@@ -38,9 +22,6 @@
       </a>
     </div>
   </div>
-  <a class="horizontal item" href="/org-user" data-content="Bestuur Medewerkers">
-    <i class="users icon"></i>
-  </a>
   <% if(organisationSettings.privacy){ %>
     <div class="ui dropdown horizontal item" data-content="Algemene verordening gegevensbescherming (AVG)">
       <i class="shield icon"></i>

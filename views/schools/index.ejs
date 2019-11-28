@@ -1,13 +1,18 @@
 <% include ../partials/header %>
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
+<% if(organisationLevel){ %> 
+  <% include ../partials/organisation-header %>
+<% } else { %>
+  <% include ../partials/dashboard-header %>
+<% } %>
 
 <div class="ui container">
     <h2 class="ui center aligned header">
       <%if(organisation.logo){%><img class="ui image"  src="<%=organisation.logo%>"><%}%>
       <div class="content">Scholen</div>
     </h2>
-    <% if(currentUser.role==="badmin" || currentUser.role ==="padmin") { %>
+    <% if((currentUser.role==="badmin" || currentUser.role ==="padmin") && canAdd) { %>
       <div class="ui dropdown item">
           <a class="circular green ui icon button" data-content="Scholen toevoegen"><i class="add icon"></i></a>
           <div class="menu">
@@ -31,31 +36,14 @@
     <!--cards with schools-->
     <div class="ui three doubling cards">
       <% schools.forEach(function(school){ %>
-      <a class="ui card" href="/schools/<%=school._id%>">
-
-        <div class="content">
-          <%if(school.logo || school.uploadedLogo){%><img 
-              class="right floated tiny ui image" 
-              src="<%=school.uploadedLogo ? school.uploadedLogo : school.logo %>"><%}%>
-          <div class="header"><%= school.name %></div>
-          <div class="description">
-            <p>BRIN: <%= school.schoolIdNumber %></p>
-            <span class="right floated">
-              <%if(school.updatedAt){%>
-                  <%= school.updatedAt.toJSON().slice(0,10).split('-').reverse().join('/')%>
-              <%}%>  
-            </span>
-            <span>
-              <%= school.city %>
-            </span>
-          </div>
-        </div>
-        <div class="ui bottom attached progress" data-percent="<%= Math.ceil(((school.countStudents ? 1 : 0) + ((school.hardware && school.hardware.length>0) ? 1 : 0) + ((school.software && school.software.length>0) ? 1 : 0) + ((school.surveyResults && school.surveyResults.length>0) ? 1 : 0) + (school.management.roles[0].hours>0 ? 1 : 0) + ((school.users && school.users.length>0) ? 1 : 0)) / 0.06) %>">
-          <div class="bar"></div>
-        </div>
-      </a>
+        <% include ../partials/school-card %>
       <% }); %>
     </div>
 </div>
 
+<% if(organisationLevel){ %> 
+  <% include ../partials/organisation-footer %>
+<% } else { %>
+  <% include ../partials/dashboard-footer %>
+<% } %>
 <% include ../partials/footer %>

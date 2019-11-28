@@ -1,0 +1,44 @@
+<div class="card">
+  <div class="content">
+    <div class="header"><%=user.firstName %> <%=user.lastName %></div>
+    <div class="meta user-info <%=index%>">
+      <span>
+          <%if(user.updatedAt){%>
+            Laatste update op <%= user.updatedAt.toJSON().slice(0,10).split('-').reverse().join('/')%>
+        <%}%> 
+    </span>
+            | <%= user.numberOfSurveyResults ? user.numberOfSurveyResults : 0%> tests
+    </div>
+    <div class="description user-info <%=index%>">
+          <%=user.username%>
+    </div>
+    <div class="description user-info <%=index%>">
+          <% if(user.role==="sadmin" || user.role==="badmin" || user.role==="padmin") { %>Pillars administrator <% } else { %>Medewerker <% } %>
+    </div>
+    <div class="ui hidden warning message <%=index%>">
+      <div class="header">Waarschuwing</div>
+      <p>Weet je zeker dat je deze gebruiker wilt verwijderen?</p>
+      <button class="ui positive button cancel-delete-user <%=index%>">Cancel</button>
+      <%if(schoolUser){%>
+        <form id="delete" 
+            action="/schools/<%= school._id %>/user/<%=user._id%>?_method=DELETE" method="POST">
+            <button class="ui red button">Verwijderen</button>
+        </form>
+      <%} else {%>
+        <form id="delete" 
+            action="/organisations/<%=organisation._id%>/org-user/<%=user._id%>?_method=DELETE" method="POST">
+            <button class="ui red button">Verwijderen</button>
+        </form>
+      <% } %>
+    </div>
+  </div>
+  <% if(currentUser 
+          && (currentUser.role==="badmin" || currentUser.role ==="padmin" || currentUser.role === 'sadmin')) { %>
+  <div class="ui bottom attached button">
+    <a class="ui yellow icon button <% if(!user.publicProfile){%>disabled<%}%>" href="/user/<%=user._id%>">
+      <i class="user circle icon"></i>
+    </a>
+    <button class="ui red icon button warning-delete-user <%=index%>"><i class="trash icon"></i></button>
+  </div>
+  <%}%>
+</div>

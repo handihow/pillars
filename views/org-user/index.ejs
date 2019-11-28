@@ -1,14 +1,19 @@
 <% include ../partials/header %>
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
+<% include ../partials/organisation-header %>
 
-<div class="ui container">
   
-  <h2 class="ui center aligned header">
-      <div>Bestuur Medewerkers</div>
-  </h2>
-  <a class="positive ui button right" href="/org-user/new/">Medewerker Toevoegen met Email/Wachtwoord</a>
-  <a class="positive ui button right" href="/org-user/newSocial/">Medewerker Toevoegen met Schoolaccount</a>
+  <h2 class="ui center aligned header">Bestuur Medewerkers</h2>
+  <div class="ui pointing dropdown link item">
+          <i class="add icon"></i>
+          <span class="text">Nieuw</span>
+          <i class="dropdown icon"></i>
+          <div class="menu">
+            <a class="item" href="/organisations/<%=organisation._id%>/org-user/new/">Medewerker Toevoegen met Email/Wachtwoord</a>
+            <a class="item" href="/organisations/<%=organisation._id%>/org-user/newSocial/">Medewerker Toevoegen met Schoolaccount</a>
+          </div>
+  </div>
   <div class="ui divider"></div>
     <!-- placeholder if no users -->
     <%if(users.length===0){%>
@@ -21,34 +26,11 @@
     <%}%>
     <div class="ui cards">
       <!--make a card for each buser-->
-      <% users.forEach(function(user){ %>
-      <div class="card">
-        <div class="content">
-          <div class="header"><%=user.firstName %> <%=user.lastName %></div>
-          <div class="meta">
-            <span>
-                <%if(user.updatedAt){%>
-                  Laatste update op <%= user.updatedAt.toJSON().slice(0,10).split('-').reverse().join('/')%>
-              <%}%> 
-          </span>
-                  | <%= user.numberOfSurveyResults ? user.numberOfSurveyResults : 0%> tests
-          </div>
-          <div class="description">
-                <%=user.username%>
-          </div>
-          <div class="description">
-                <%if(user.role==="badmin"){%>Bestuur Admin<%}else{%>Bestuur User<%}%>
-          </div>
-        </div>
-        <div class="ui bottom attached button">
-          <form id="delete" 
-              action="/org-user/<%=user._id%>?_method=DELETE" method="POST">
-              <button class="ui red basic button">Verwijderen</button>
-          </form>
-        </div>
-      </div>
+      <% users.forEach(function(user, index){ %>
+        <%var schoolUser = false%>
+        <% include ../partials/user-card %>
       <% }); %>
     </div>
-</div>
-  
+
+<% include ../partials/organisation-footer %>
 <% include ../partials/footer %>

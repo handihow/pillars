@@ -1,12 +1,13 @@
 <% include ../partials/header %>
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
+<% include ../partials/organisation-header %>
 
 <% var generatedPassword = Math.random().toString(36).substr(2, 8) %>
 
   <div class="ui container">
     <div class="ui huge header"><i class="users icon"></i> Bestuur Medewerker Toevoegen</div>
-    <form class="ui form" id="orgUserRegister" action="/org-user" method="POST" novalidate>
+    <form class="ui form" id="orgUserRegister" action="/organisations/<%=organisation._id%>/org-user" method="POST" novalidate>
       <div class="required field">
         <label>Naam</label>
         <div class="two fields">
@@ -53,5 +54,6 @@
       <div class="ui error message"></div>
     </form>
     </div>
-    
+
+<% include ../partials/organisation-footer %>
 <% include ../partials/footer %>

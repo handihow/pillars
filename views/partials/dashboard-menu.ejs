@@ -1,0 +1,25 @@
+<div class="ui vertical icon fluid menu">
+
+  <a class="vertical item" href="/user/<%=currentUser._id%>" data-content="Persoonlijke omgeving">
+  	<i class="user circle icon"></i>
+  	<span class="hide-mobile">Persoonlijke omgeving</span>
+  </a>
+  <% if(['padmin', 'badmin', 'buser'].includes(currentUser.role)){%>
+	  <a class="vertical item <%if(url==="/schools/") {%> active <% } %>" 
+	  	href="/schools/" data-content="Scholen">
+	    <i class="university icon" ></i>
+	    <span class="hide-mobile">Scholen</span>
+	  </a>
+	  <a class="vertical item" href="/organisations/<%=currentUser.organisation%>" data-content="Bestuur">
+	    <i class="building icon" ></i>
+	    <span class="hide-mobile">Bestuur</span>
+	  </a>
+
+  <% } else { %>
+  	  <a class="vertical item" href="/schools/<%=currentUser.school%>" data-content="School">
+	    <i class="university icon" ></i>
+	    <span class="hide-mobile">School</span>
+	  </a>
+   <% } %>
+  
+</div>

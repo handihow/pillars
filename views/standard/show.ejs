@@ -1,6 +1,7 @@
 <% include ../partials/header %>
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
+<% include ../partials/organisation-header %>
 
 <div class="ui container">
     <div class="ui huge header">Pillars Normering: <%=standard.name%></div>
@@ -24,10 +25,12 @@
     <div class="ui bottom attached tab segment" data-tab="fourth">
       <% include show/management %>
     </div>
-    <a id="edit" class="ui primary basic button" href="/standard/<%= standard._id %>/edit">Bewerken</a>
-      <form id="delete" action="/standard/<%= standard._id %>?_method=DELETE" method="POST">
+    <a id="edit" class="ui primary basic button" 
+          href="/organisations/<%= organisation._id %>/standard/<%= standard._id %>/edit">Bewerken</a>
+      <form id="delete" action="/organisations/<%= organisation._id %>/standard/<%= standard._id %>?_method=DELETE" method="POST">
           <button class="ui red basic button">Verwijderen</button>
       </form>
 </div>
 
+<% include ../partials/organisation-footer%>
 <% include ../partials/footer %>

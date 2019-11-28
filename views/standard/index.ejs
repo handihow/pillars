@@ -1,12 +1,13 @@
 <% include ../partials/header %>
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
+<% include ../partials/organisation-header %>
 
 <div class="ui container">
     <h2 class="ui center aligned header">
       <div>Normering</div>
     </h2>
-    <%if(!isAdmin){%><a class="positive ui button right" href="/standard/new">Normering Toevoegen</a><% } %>
+    <%if(!isAdmin){%><a class="positive ui button right" href="/organisations/<%=organisation._id%>/standard/new">Normering Toevoegen</a><% } %>
     <!--divider and then all cards for standards-->
     <div class="ui divider"></div>
     <!-- placeholder if no standards -->
@@ -23,13 +24,13 @@
       <% standards.forEach(function(standard){ %>
       <div class="card">
         <div class="content">
-          <div class="header"><a href="/standard/<%=standard._id%>"><%= standard.name %></a></div>
+          <div class="header"><a href="/organisations/<%=organisation._id%>/standard/<%=standard._id%>"><%= standard.name %></a></div>
           <div class="description">
             <p>Datum: <%= standard.created.toJSON().slice(0,10).split('-').reverse().join('/') %></p>
             <%if(isAdmin){%><p><%=standard.organisation.name%></p><%}%>
           </div>
         </div>
-        <a class="ui bottom attached button" href="/standard/<%=standard._id%>">
+        <a class="ui bottom attached button" href="/organisations/<%=organisation._id%>/standard/<%=standard._id%>">
           <i class="show icon"></i>
           Bekijk 
         </a>
@@ -38,4 +39,5 @@
     </div>
 </div>
 
+<% include ../partials/organisation-footer%>
 <% include ../partials/footer %>

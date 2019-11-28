@@ -35,6 +35,17 @@ router.post("/", middleware.isPadmin, function(req, res){
     }); 
 });
 
+//SHOW ROUTE
+router.get('/:id', middleware.isLoggedIn, function(req, res){
+  Organisation.findById(req.params.id, function(err, organisation){
+    if(err || !organisation){
+      req.flash("error", "Organisatie niet gevonden.");
+      res.redirect("back");
+    } else {
+      res.render("organisations/show", {organisation: organisation});
+    }
+  })
+})
 
 //EDIT ROUTE
 router.get("/:id/edit", middleware.isPadmin, function(req, res){

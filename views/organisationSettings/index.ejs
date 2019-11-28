@@ -1,6 +1,7 @@
 <% include ../partials/header %>
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
+<% include ../partials/organisation-header %>
 
 <div class="ui container">
     <h2 class="ui center aligned header">
@@ -23,7 +24,7 @@
       }; %>
 
     <!--divider and then all cards for question lists-->
-    <form class="ui form" action="/organisationSettings" method="POST">
+    <form class="ui form" action="/organisations/<%=organisation._id%>/organisationSettings" method="POST">
       <% Object.keys(organisationSettings).forEach(function(setting){ %>
           <div class="two fields">
             <div class="field">
@@ -44,4 +45,5 @@
       </form>
 </div>
 
+<% include ../partials/organisation-footer %>
 <% include ../partials/footer %>

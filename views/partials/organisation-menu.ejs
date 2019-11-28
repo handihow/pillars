@@ -1,0 +1,45 @@
+
+<div class="ui vertical icon fluid menu">
+
+  <a class="vertical item <%if(url==="/organisations/"+organisation._id) { %> active <% } %>" 
+      href="/organisations/<%= organisation._id %>" 
+      data-content="Algemene informatie">
+    <i class="building icon" ></i>
+    <span class="hide-mobile">Algemene informatie</span>
+  </a>
+
+  <a class="vertical item <%if(url==='/organisations/'+organisation._id+'/schools/') { %> active <% } %>" 
+    href="/organisations/<%= organisation._id %>/schools/" data-content="Scholen">
+    <i class="university icon" ></i>
+    <span class="hide-mobile">Scholen</span>
+  </a>
+
+  <a class="vertical item <%if(url.includes("/organisations/"+organisation._id+'/org-user')) { %> active <% } %>" 
+      href="/organisations/<%= organisation._id %>/org-user" 
+      data-content="Bestuur medewerkers">
+    <i class="users icon" ></i>
+    <span class="hide-mobile">Bestuur medewerkers</span>
+  </a>
+
+  <a class="vertical item <%if(url.includes('/organisations/'+organisation._id+'/organisationSettings/')) { %> active <% } %>" 
+    href="/organisations/<%= organisation._id %>/organisationSettings/" data-content="Modules">
+    <i class="settings icon" ></i>
+    <span class="hide-mobile">Modules</span>
+  </a>
+
+  <a class="vertical item <%if(url.includes('/organisations/'+organisation._id+'/standard/')) { %> active <% } %>" 
+    href="/organisations/<%= organisation._id %>/standard/" data-content="Normering">
+    <i class="handshake icon"></i>
+    <span class="hide-mobile">Normering</span>
+  </a>
+
+  <a class="vertical item <%if(url.includes('/organisations/'+organisation._id+'/message/')) { %> active <% } %>" 
+    href="/organisations/<%= organisation._id %>/message/" data-content="Beleid">
+    <i class="info circle icon"></i>
+    <span class="hide-mobile">Beleid</span>
+  </a>
+
+
+</div>
+
+

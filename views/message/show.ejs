@@ -1,27 +1,33 @@
 <% include ../partials/header %>
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
-
-
-<div class="ui main text container segment">
-    <div class="ui huge header"><%= message.title %></div>
-    <div class="ui top attached">
-        <div class="item">
-            <div class="content">
-                <span><%= message.created.toDateString() %></span>
-            </div>
-            <div class="description" id="down">
-                <p><%- message.message %></p>
-            </div>
-            <% if((currentUser.role === 'badmin' || currentUser.role ==='padmin') 
-                        && message.organisation.equals(currentUser.organisation)) { %>
-            <a class="ui primary basic button" href="/message/<%= message._id %>/edit">Bewerken</a>
-            <form id="delete" action="/message/<%= message._id %>?_method=DELETE" method="POST">
-                <button class="ui red basic button">Verwijderen</button>
-            </form>
-            <% } %>
+<%if(onOrganisationPage){%>
+    <% include ../partials/organisation-header %>
+<%} else {%>
+    <% include ../partials/school-header %>
+<% } %>
+<div class="ui huge header"><%= message.title %></div>
+<div class="ui top attached">
+    <div class="item">
+        <div class="content">
+            <span><%= message.created.toJSON().slice(0,10).split('-').reverse().join('/') %></span>
         </div>
+        <div class="description" id="down">
+            <p><%- message.message %></p>
+        </div>
+        <% if((currentUser.role === 'badmin' || currentUser.role ==='padmin') 
+                    && message.organisation.equals(currentUser.organisation) && onOrganisationPage) { %>
+        <a class="ui primary basic button" href="/organisations/<%=organisation._id%>/message/<%= message._id %>/edit">Bewerken</a>
+        <form id="delete" action="/organisations/<%=organisation._id%>/message/<%= message._id %>?_method=DELETE" method="POST">
+            <button class="ui red basic button">Verwijderen</button>
+        </form>
+        <% } %>
     </div>
 </div>
 
+<%if(onOrganisationPage){%>
+    <% include ../partials/organisation-footer %>
+<%} else {%>
+    <% include ../partials/school-footer %>
+<% } %>    
 <% include ../partials/footer %>

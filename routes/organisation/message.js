@@ -1,106 +1,152 @@
 var express = require("express");
-var router = express.Router();
+var router = express.Router({mergeParams: true});
 var Message = require("../../models/message");
 var School = require("../../models/school");
+var Organisation = require("../../models/organisation");
 var User = require("../../models/user");
 var middleware = require("../../middleware");
 
 //INDEX ROUTE FOR MESSAGES
 router.get("/", middleware.isLoggedIn, function(req, res){
-    Message.find({organisation: req.user.organisation}).populate("owner").exec(function(err, messages){
+  Organisation.findById(req.params.id,function(err, organisation){
+    if(err || !organisation) {
+      req.flash("error", err.message);
+      res.redirect("back");
+    } else {
+      Message.find({organisation: organisation._id}).populate("owner").exec(function(err, messages){
         if(err) {
-            req.flash("error", err.message);
-            res.redirect("back");
+          req.flash("error", err.message);
+          res.redirect("back");
         } else {
-            res.render("message/index", {messages: messages});         
+          res.render("message/index", {messages: messages, organisation: organisation});         
         }
-    });
+      });        
+    }
+  });
 });
 
 //NEW ROUTE
 router.get("/new", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
-  res.locals.scripts.header.tinymce = true;
-  res.render("message/new"); 
+  Organisation.findById(req.params.id,function(err, organisation){
+    if(err || !organisation) {
+      req.flash("error", err.message);
+      res.redirect("back");
+    } else {
+      res.locals.scripts.header.tinymce = true;
+      res.render("message/new", {organisation: organisation});     
+    }
+  });
 });
 
 
 //SHOW ROUTE
-router.get("/:id", middleware.isLoggedIn, function(req, res){
-  Message.findById(req.params.id, function(err, message){
-      if(err ||!message){
-          req.flash("error", "Bericht niet gevonden.");
+router.get("/:mid", middleware.isLoggedIn, function(req, res){
+  Organisation.findById(req.params.id,function(err, organisation){
+    if(err || !organisation) {
+      req.flash("error", err.message);
+      res.redirect("back");
+    } else {
+      Message.findById(req.params.mid, function(err, message){
+        if(err ||!message){
+          req.flash("error", "Beleid niet gevonden.");
           res.redirect("back");
-      } else {
-          res.render("message/show", {message: message});            
-      }
+        } else {
+          res.render("message/show", {message: message, organisation: organisation, onOrganisationPage: true});            
+        }
+      });   
+    }
   });
 });
 
+
 // //EDIT ROUTE
-router.get("/:id/edit", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
-    Message.findById(req.params.id, function(err, message){
-      if(err || !message){
-          req.flash("error", "Bericht niet gevonden.");
-          res.redirect("/message");
-      } else {
+router.get("/:mid/edit", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
+  Organisation.findById(req.params.id,function(err, organisation){
+    if(err || !organisation) {
+      req.flash("error", err.message);
+      res.redirect("back");
+    } else {
+      Message.findById(req.params.mid, function(err, message){
+        if(err || !message){
+          req.flash("error", "Beleid niet gevonden.");
+          res.redirect("/organisations/" + organisation._id + "/message");
+        } else {
           res.locals.scripts.header.tinymce = true;
-          res.render("message/edit", {message: message});
-      }
+          res.render("message/edit", {message: message, organisation: organisation});
+        }
+      });
+    }
+  });
+});
+
+//SHOW ROUTE SCHOOLS
+router.get("/:mid/:sid", middleware.isLoggedIn, function(req, res){
+  School.findById(req.params.sid,function(err, school){
+    if(err || !school) {
+      req.flash("error", err.message);
+      res.redirect("back");
+    } else {
+      Message.findById(req.params.mid, function(err, message){
+        if(err ||!message){
+          req.flash("error", "Beleid niet gevonden.");
+          res.redirect("back");
+        } else {
+          res.render("message/show", {message: message, school: school, onOrganisationPage: false});            
+        }
+      });   
+    }
   });
 });
 
 //CREATE ROUTE
 router.post("/", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
-    User.findById(req.user._id, function(err, user){
-      if(err || !user){
-        req.flash("error", "Probleem bij vinden van gebruikersgegevens.")
-        res.redirect("back");
+  Organisation.findById(req.params.id, function(err, organisation){
+    if(err || !organisation){
+      req.flash("error", "Probleem bij vinden van bestuur.")
+      res.redirect("back");
+    }
+    req.body.message.body = req.sanitize(req.body.message.body);
+    Message.create(req.body.message, function(err, message){
+      if(err || !message){
+        req.flash("error", err.message);
+        res.locals.error = req.flash("error");
+        res.render("message/new", {organisation: organisation});
+      }  else {
+        //look up user id and username and add to message
+        message.owner = req.user._id;
+        message.organisation = organisation._id;
+        message.save();
+        req.flash("success", "Bericht toegevoegd");
+        res.redirect("/organisations/" + organisation._id + "/message"); 
       }
-      req.body.message.body = req.sanitize(req.body.message.body);
-      Message.create(req.body.message, function(err, message){
-            if(err || !message){
-                req.flash("error", err.message);
-                res.locals.error = req.flash("error");
-                res.render("message/new");
-            }  else {
-              //look up user id and username and add to message
-              message.owner = req.user._id;
-              message.organisation = user.organisation;
-              message.save();
-              res.locals.scripts.header.tinymce = false;
-              req.flash("success", "Bericht toegevoegd");
-              res.redirect("/message"); 
-            }
-      }); 
-    });
+    }); 
+  });
 });
-    
 
 // //UPDATE ROUTE
-router.put("/:id", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
-    req.body.message.body = req.sanitize(req.body.message.body);
-    Message.findByIdAndUpdate(req.params.id, req.body.message, function(err, message){
-      if(err || !message){
-          req.flash("error", "Bericht niet gevonden.");
-          res.redirect("/message");
-      } else {
-          res.locals.scripts.header.tinymce = false;
-          req.flash("success", "Bericht updated");
-          res.redirect("/message/" + req.params.id);
-      }
-    });
+router.put("/:mid", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
+  req.body.message.body = req.sanitize(req.body.message.body);
+  Message.findByIdAndUpdate(req.params.mid, req.body.message, function(err, message){
+    if(err || !message){
+      req.flash("error", "Bericht niet gevonden.");
+      res.redirect("/message");
+    } else {
+      req.flash("success", "Bericht updated");
+      res.redirect("/organisations/" + req.params.id + "/message/" + req.params.mid);
+    }
+  });
 });
 
 //DELETE ROUTE
-router.delete("/:id", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
-  Message.findByIdAndRemove(req.params.id, function(err){
-      if(err){
-          req.flash("error", "Er is iets misgegaan. Probeer bericht opnieuw te verwijderen.");
-          res.redirect("/message");
-      } else {
-          req.flash("success", "Bericht verwijderd");
-          res.redirect("/message");  
-      }
+router.delete("/:mid", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
+  Message.findByIdAndRemove(req.params.mid, function(err){
+    if(err){
+      req.flash("error", "Er is iets misgegaan. Probeer beleid opnieuw te verwijderen.");
+      res.redirect("back");
+    } else {
+      req.flash("success", "Bericht verwijderd");
+      res.redirect("/organisations/" + req.params.id + "/message");  
+    }
   });
 });
 

@@ -1,6 +1,7 @@
 <% include ../partials/header %>
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
+<% include ../partials/organisation-header %>
 
 <% var generatedPassword = Math.random().toString(36).substr(2, 8) %>
 
@@ -8,7 +9,7 @@
     <div class="ui huge header"><i class="users icon"></i> Bestuur Medewerker Toevoegen</div>
     <br>
     <div>Gebruik dit formulier als jullie Office365 of Google for Education gebruiken. Gebruikers kunnen dan inloggen via de knoppen voor Office365 of Google.</div>
-    <form class="ui form" id="adminRegister" action="/org-user" method="POST" novalidate>
+    <form class="ui form" id="adminRegister" action="/organisations/<%=organisation._id%>/org-user" method="POST" novalidate>
       <div class="required field">
         <label>E-mail</label>
         <input type="email" name="username" placeholder="E-mail adres" id="email">
@@ -34,5 +35,6 @@
       <div class="ui error message"></div>
     </form>
     </div>
-    
+
+<% include ../partials/organisation-footer %>
 <% include ../partials/footer %>

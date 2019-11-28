@@ -80,7 +80,7 @@ router.get("/:id", middleware.isLoggedIn, function(req, res){
                 bubbles: bubbles,
                 schoolLevel: false, 
                 fullUrl: fullUrl,
-                limited: returnedSurveyResults.length > 50 ? true : false
+                limited: returnedSurveyResults.length > 49 ? true : false
               }); 
             }
           });        

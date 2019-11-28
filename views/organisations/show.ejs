@@ -1,0 +1,49 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<% include ../partials/organisation-header %>
+
+<% var labels = {
+	messages: "Module Berichten / Informatie",
+	privacy: "Module Algemene Verordering Gegevensbescherming",
+	hardware: "Module Hardware",
+	software: "Module (Digitale) Leermiddelen",
+	competence: "Module Deskundigheid",
+	management: "Module Organisatie",
+	pillars: "Module Pillars Berekening",
+	evaluations: "Module Evaluatie"
+}; %>
+
+<h2 class="ui header">
+  <%if(organisation.logo || organisation.uploadedLogo){%><img 
+        class="ui image" 
+        src="<%=organisation.uploadedLogo ? organisation.uploadedLogo : organisation.logo %>"><%}%>
+  <div class="content">
+    <%= organisation.name %>
+  </div>
+</h2>
+<div class="ui divider"></div>
+<div class="ui stackable grid">
+	<div class="eight wide column">
+	  <h4 class="content">Adres</h4>
+	  <div class="content"><%= organisation.address %></div>
+	  <div class="content"><%= organisation.postalCode %> <%= organisation.city %></div>
+	</div>
+	<div class="eight wide column">
+	  <h4 class="content">Activatie code</h4>
+	  <div class="content"><%= organisation.activationCode %></div>
+	  <div class="content"><% if(organisation.activated) { %> Actief  <% } else { %> Niet geactiveerd<% } %></div>
+	</div>
+	<% Object.keys(organisationSettings).forEach(function(setting){ %>
+		<%if(setting){ %>
+			<div class="eight wide column">
+			  <h4 class="content"><%=labels[setting]%></h4>
+			  <div class="content"><% if(organisation.settings[setting]) { %> Actief  <% } else { %> Niet geactiveerd<% } %></div>
+			</div>
+		<% } %>
+	<% }); %>
+</div>
+
+
+<% include ../partials/organisation-footer %>
+<% include ../partials/footer %>

@@ -1,6 +1,7 @@
 <% include ../partials/header %>
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
+<% include ../partials/organisation-header %>
 
 <div class="ui container">
     <h2 class="ui center aligned icon header">
@@ -17,7 +18,8 @@
       </div>
       De drie normen "Beoordeelde deskundigheid", "Gemiddelde effectiviteit" en "Ondersteuning nodig" zijn vervallen. U krijgt een waarschuwing bij de Pillars score als u nog altijd punten toekent aan deze criteria. Zorg ervoor dat deze criteria op maximale score 0 staan, en dat de 5 punten verdeeld worden over de verschillende deskundigheid tests.
     </div>
-    <form class="ui form" action="/standard/<%=standard._id%>?_method=PUT" method="POST" id="standardForm" novalidate>
+    <form class="ui form" action="/organisations/<%=organisation._id%>/standard/<%=standard._id%>?_method=PUT" 
+          method="POST" id="standardForm" novalidate>
       <div class="field">
         <label>Naam</label>
         <input type="text" name="standard[name]" value="<%=standard.name%>" id="standard[name]">
@@ -50,4 +52,5 @@
     </form>  
 </div>
 
+<% include ../partials/organisation-footer%>
 <% include ../partials/footer %>

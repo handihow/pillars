@@ -1,10 +1,11 @@
 <% include ../partials/header %>
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
+<% include ../partials/organisation-header %>
 
 <div class="ui container">
     <div class="ui huge header">Normering Toevoegen</div>
-    <form class="ui form" action="/standard" method="POST" id="addStandard" novalidate>
+    <form class="ui form" action="/organisations/<%=organisation._id%>/standard" method="POST" id="addStandard" novalidate>
         <div class="required field">
             <label>Naam</label>  
             <input type="text" name="standard[name]" placeholder="Naam normering, bijvoorbeeld Standaard Normering Schoolbestuur XXX">
@@ -24,4 +25,5 @@
     </form>
 </div>
 
+<% include ../partials/organisation-footer%>
 <% include ../partials/footer %>

@@ -2,48 +2,46 @@
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
 
-<div class="ui container">
-    <h2 class="ui center aligned header">
-      <%if(organisation.logo){%><img class="ui image"  src="<%=organisation.logo%>"><%}%>
-      <div class="content"><%= organisation.name %></div>
-    </h2>
+<% include ../partials/dashboard-header %>
+      <h2 class="ui center aligned header">
+        <%if(organisation.logo){%><img class="ui image"  src="<%=organisation.logo%>"><%}%>
+        <div class="content"><%= organisation.name %></div>
+      </h2>
 
-    <div class="ui divider"></div>
+      <div class="ui divider"></div>
 
-    <div class="ui grid stackable">
-      <div class="six wide column">
-        <% include ./tasks%>
-      </div>
-      <div class="six wide column">
-
-        <% include ./schools%>
-        <div class="ui segment">
-          <% include ./profile %>
+      <div class="ui grid stackable">
+        <div class="six wide column">
+          <% include ./tasks%>
         </div>
-      </div>
-      <div class="four wide column">
-        <div class="ui segment">
-          <h5 class="ui header">
-              <i class="newspaper icon"></i>
-              <div class="content">
-                Nieuwe features in Pillars
+        <div class="six wide column">
+
+          <% include ./schools%>
+          <div class="ui segment">
+            <% include ./profile %>
+          </div>
+        </div>
+        <div class="four wide column">
+          <div class="ui segment">
+            <h5 class="ui header">
+                <i class="newspaper icon"></i>
+                <div class="content">
+                  Nieuwe features in Pillars
+                </div>
+              </h5>
+            <div class="ui placeholder segment" id="loader">
+              <div class="ui active inverted dimmer">
+                <div class="ui text loader">Laden..</div>
               </div>
-            </h5>
-          <div class="ui placeholder segment" id="loader">
-            <div class="ui active inverted dimmer">
-              <div class="ui text loader">Laden..</div>
+              <p></p>
             </div>
-            <p></p>
-          </div>
-          <div class="ui news list">
-            
+            <div class="ui news list">
+              
+            </div>
           </div>
         </div>
       </div>
-    </div> 
+    </div>   
 
-    
-    
-</div>
-
+<% include ../partials/dashboard-footer %>
 <% include ../partials/footer %>

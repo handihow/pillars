@@ -1,21 +1,23 @@
 <% include ../partials/header %>
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
+<% include ../partials/organisation-header %>
 
 <div class="ui container">
     <div class="ui huge header">Beleid Toevoegen</div>
-    <form class="ui form" action="/message" method="POST" id="messageForm" novalidate>
+    <form class="ui form" action="/organisations/<%=organisation._id%>/message" method="POST" id="messageForm" novalidate>
         <div class="required field">
             <label>Titel</label>  
-            <input type="text" name="message[title]" placeholder="Titel van jouw bericht..." id="message[title]">
+            <input type="text" name="message[title]" placeholder="Titel van jouw beleid..." id="message[title]">
         </div>
         <div class="required field">
-            <label>Bericht</label>  
-            <textarea name="message[message]" placeholder="Jouw bericht... " ></textarea>
+            <label>Beleid</label>  
+            <textarea name="message[message]" placeholder="Jouw beleid... " ></textarea>
         </div>
         <button class="ui button" type="submit">Bewaren</button>
         <div class="ui error message"></div>
     </form>
 </div>
 
+<% include ../partials/organisation-footer %>
 <% include ../partials/footer %>

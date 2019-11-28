@@ -1,40 +1,62 @@
 var express = require("express");
 var router = express.Router({mergeParams: true});
 var School = require("../../models/school");
+var Organisation = require("../../models/organisation");
 var User = require("../../models/user");
 var middleware = require("../../middleware");
 var ejs = require("ejs");
 var config = require("../../config/config");
 
 //INDEX - list of bestuur users and admins
-router.get("/", middleware.isAuthenticatedBadmin, function(req, res){
-    User.find({$and: [{"organisation": req.user.organisation}, 
-                      {$or:[{"role": "badmin"}, {"role": "buser"}]}]})
-      .exec(function(err, users){
-        if(err) {
-            req.flash("error", err.message);
-            res.redirect("back");
-        } else {
-            res.render("org-user/index", {users: users});        
-        }
+router.get("/", middleware.isLoggedIn, function(req, res){
+    Organisation.findById(req.params.id, function(err, organisation){
+      if(err || !organisation){
+        res.flash('error', 'Probleem bij vinden van bestuur');
+        res.redirect('back')
+      } else {
+        User.find({$and: [{"organisation": req.params.id}, 
+                      {$or:[{"role": "padmin"}, {"role": "badmin"}, {"role": "buser"}]}]})
+          .exec(function(err, users){
+            if(err) {
+                req.flash("error", err.message);
+                res.redirect("back");
+            } else {
+                res.render("org-user/index", {users: users, organisation: organisation});        
+            }
+        });
+      }
     });
 });
 
 //NEW - form to create new bestuur (organisation) user
 router.get("/new", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
-    res.render("org-user/new");
+    Organisation.findById(req.params.id, function(err, organisation){
+      if(err || !organisation){
+        res.flash('error', 'Probleem bij vinden van bestuur');
+        res.redirect('back')
+      } else {
+        res.render("org-user/new", {organisation: organisation});
+      }
+    });
 });
 
 //NEW - form to create new social login bestuur user
 router.get("/newSocial", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
-    res.render("org-user/newSocial");
+    Organisation.findById(req.params.id, function(err, organisation){
+      if(err || !organisation){
+        res.flash('error', 'Probleem bij vinden van bestuur');
+        res.redirect('back')
+      } else {
+        res.render("org-user/newSocial", {organisation: organisation});
+      }
+    });
 });
 
 //CREATE - creates new bestuur user in the database
 router.post("/", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
-    User.findById(req.user._id, function(err, badmin){
-      if(err || !badmin){
-        req.flash("error", "Badmin niet gevonden");
+    Organisation.findById(req.params.id, function(err, organisation){
+      if(err || !organisation){
+        req.flash("error", "Bestuur niet gevonden");
         return res.redirect("back");
       }
       var newUser = new User({username: req.body.username, role: req.body.role, firstName: req.body.firstName, lastName: req.body.lastName});
@@ -44,7 +66,7 @@ router.post("/", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, 
                 return res.redirect("back");
           }
           user.owner = req.user._id;
-          user.organisation = badmin.organisation;
+          user.organisation = organisation._id;
           user.save();          
           //send email notification to bestuur user
           var template = "./emails/welkom-bestuur-medewerker.ejs";
@@ -64,11 +86,11 @@ router.post("/", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, 
               request
                 .then((result) => {
                   req.flash("success", "Nieuwe medewerker geregistreerd! Er is een email verstuurd met inlog gegevens en verdere instructies.");
-                  res.redirect("/org-user");
+                  res.redirect("/organisations/" + organisation._id + "/org-user");
                 })
                 .catch((err) => {
                   req.flash("error", "Fout bij verzenden van email. Controleer email adres.");
-                  res.redirect("/org-user");
+                  res.redirect("/organisations/" + organisation._id + "/org-user");
                 });
           });
       });
@@ -77,14 +99,14 @@ router.post("/", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, 
 
 
 //DESTROY route to delete bestuur user from database
-router.delete("/:id", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
-    User.findByIdAndRemove(req.params.id, function(err){
+router.delete("/:uid", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
+    User.findByIdAndRemove(req.params.uid, function(err){
         if(err) {
             req.flash('error', err.message);
-            res.redirect("/org-user");
+            res.redirect("/organisations/" + req.params.id + "/org-user");
         }  else {
             req.flash("success", "Bestuur medewerker verwijderd");
-            res.redirect("/org-user");
+            res.redirect("/organisations/" + req.params.id + "/org-user");
         }
     });
 });
