@@ -7,9 +7,10 @@
   <h2 class="ui top attached header">Verwerkingsovereenkomst Toevoegen aan <%= school.name %></h2>
   <form class="ui small form" action="/schools/<%=school._id%>/processingActivity" method="POST" id="processingActivityForm">
 <%} else { %>
-  <div class="ui container">
-    <h2 class="ui top attached header">Verwerkingsovereenkomst Toevoegen</h2>
-    <form class="ui small form" action="/processingActivity" method="POST" id="processingActivityForm">
+  <% include ../partials/organisation-header %>
+  <h2 class="ui header">Verwerkingsovereenkomst Toevoegen</h2>
+  <form class="ui small form" action="/organisations/<%=organisation._id%>/processingActivity" method="POST" 
+    id="processingActivityForm">
 <% } %>
   <div class="ui top attached tabular menu">
     <a class="item active" data-tab="first">1. VVW.</a>
@@ -59,6 +60,6 @@
 <%if(schoolLevel){%>
   <% include ../partials/school-footer %>
 <%} else {%>
-  </div>
+  <% include ../partials/organisation-footer %>
 <% } %>
 <% include ../partials/footer %>

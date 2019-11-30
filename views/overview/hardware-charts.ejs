@@ -1,16 +1,13 @@
 <% include ../partials/header %>
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
+<% include ../partials/organisation-header %>
+<% include ../partials/organisation-overview-header %>
+<% include ./hardware-header %>
+
+<div id="surveyResult"></div>
+<div id="data" hidden><%=JSON.stringify(organisationHardware.hardware)%></div>
 
 
-<div class="ui container">
-
-	<% include ./hardware-header %>
-
-
-	<div id="surveyResult"></div>
-	<div id="data" hidden><%=JSON.stringify(organisation.hardware)%></div>
-
-</div>
-
+<% include ../partials/organisation-footer %>
 <% include ../partials/footer %>

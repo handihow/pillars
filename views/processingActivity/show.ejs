@@ -4,8 +4,10 @@
 <%if(schoolLevel){%>
   <% include ../partials/school-header %>
 <%} else { %>
+  <% include ../partials/organisation-header %>
+<% } %>
+
  <div class="ui container">
-<%}%>
 
 <h2 class="ui header"><i class="id card outline icon"></i><%=processingActivity.processingActivityName%></h2>
 <div class="ui top attached tabular menu">
@@ -65,11 +67,11 @@
 <%} else if(!schoolLevel) {%>
     <a id="edit" 
     class="ui primary basic button" 
-    href="/processingActivity/<%=processingActivity._id%>/edit">
+    href="/organisations/<%=organisation._id%>/processingActivity/<%=processingActivity._id%>/edit">
     Bewerken
     </a>
     <form id="delete" 
-    action="/processingActivity/<%=processingActivity._id%>?_method=DELETE" 
+    action="/organisations/<%=organisation._id%>/processingActivity/<%=processingActivity._id%>?_method=DELETE" 
     method="POST">
     <button class="ui red basic button">Verwijderen</button>
     </div>

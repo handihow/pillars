@@ -1,24 +1,21 @@
-<h2 class="ui center aligned header">
-  <div>Overzicht Hardware</div>
-</h2>
 <div class="ui icon buttons">
-  <a class="ui <%if(url==="/overview/hardware"){ %> active <%}%> button" 
-  		href="/overview/hardware"
+  <a class="ui <%if(url==="/organisations/" + organisation._id + "/overview/hardware"){ %> active <%}%> button" 
+  		href="/organisations/<%= organisation._id %>/overview/hardware"
   		data-content="Kaarten met totalen">
   		<i class="th icon"></i>
   </a>
-  <a class="ui <%if(url==="/overview/hardware/list"){ %> active <%}%> button" 
-  		href="/overview/hardware/list"
+  <a class="ui <%if(url==="/organisations/" + organisation._id + "/overview/hardware/list"){ %> active <%}%> button" 
+  		href="/organisations/<%= organisation._id %>/overview/hardware/list"
   		data-content="Lijst met hardware">
   		<i class="list icon"></i>
   </a>
-  <a class="ui <%if(url==="/overview/hardware/budget"){ %> active <%}%> button" 
-  		href="/overview/hardware/budget"
+  <a class="ui <%if(url==="/organisations/" + organisation._id + "/overview/hardware/budget"){ %> active <%}%> button" 
+  		href="/organisations/<%= organisation._id %>/overview/hardware/budget"
   		data-content="Budget berekenen">
   		<i class="euro sign icon"></i>
   </a>
-  <a class="ui <%if(url==="/overview/hardware/charts"){ %> active <%}%> button" 
-      href="/overview/hardware/charts"
+  <a class="ui <%if(url==="/organisations/" + organisation._id + "/overview/hardware/charts"){ %> active <%}%> button" 
+      href="/organisations/<%= organisation._id %>/overview/hardware/charts"
       data-content="Grafieken">
       <i class="bar chart icon"></i>
   </a>

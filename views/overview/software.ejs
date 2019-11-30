@@ -1,49 +1,39 @@
 <% include ../partials/header %>
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
+<% include ../partials/organisation-header %>
+<% include ../partials/organisation-overview-header %>
 
-<div class="ui container">
-    <h2 class="ui center aligned header">
-      <div>Overzicht Digitale Leermiddelen</div>
-    </h2>
-    
-    <div class="ui message">
-      <div class="header">
-        Leermiddelen
-      </div>
-     <p>Dit is een overzicht van alle digitale leermiddelen die zijn ingevoerd in Pillars van scholen aangesloten bij jouw bestuur. Je kunt het overzicht op verschillende manieren downloaden.</p>
-    </div>
-    <!--make table with schools and progress-->
-    <table class="ui celled small table">
-      <thead>
+<table class="ui celled small table">
+  <thead>
+    <tr>
+      <th>Instellingsnaam</th>
+      <th>Vak</th>
+      <th>Naam</th>
+      <th>Functies</th>
+      <th>Groepen</th>
+      <th>Kwaliteiten</th>
+      <th>Type</th>
+      <th>Bekijk</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% schools.forEach(function(school){ %>
+      <% school.software.forEach(function(software){ %>
         <tr>
-          <th>Instellingsnaam</th>
-          <th>Vak</th>
-          <th>Naam</th>
-          <th>Functies</th>
-          <th>Groepen</th>
-          <th>Kwaliteiten</th>
-          <th>Type</th>
-          <th>Bekijk</th>
+          <td><%=school.name%></td>
+          <td><%=software.subject%></td>
+          <td><%=software.name%></td>
+          <td><%=software.functionalities%></td>
+          <td><%=software.gradeLevels%></td>
+          <td><%=software.ratings%></td>
+          <td><%=software.typeOfSoftware%></td>
+          <td class="selectable"><a href="/schools/<%=school._id%>/software/<%=software._id%>">Bekijk</a></td>
         </tr>
-      </thead>
-      <tbody>
-        <% schools.forEach(function(school){ %>
-          <% school.software.forEach(function(software){ %>
-            <tr>
-              <td><%=school.name%></td>
-              <td><%=software.subject%></td>
-              <td><%=software.name%></td>
-              <td><%=software.functionalities%></td>
-              <td><%=software.gradeLevels%></td>
-              <td><%=software.ratings%></td>
-              <td><%=software.typeOfSoftware%></td>
-              <td class="selectable"><a href="/schools/<%=school._id%>/software/<%=software._id%>">Bekijk</a></td>
-            </tr>
-          <% }) %>
-        <% }) %>
-      </tbody>
-    </table>
-</div>
+      <% }) %>
+    <% }) %>
+  </tbody>
+</table>
 
+<% include ../partials/organisation-footer %>
 <% include ../partials/footer %>

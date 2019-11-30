@@ -1,9 +1,9 @@
 //load jQuery when document is ready
 $(document).ready(function() {
-    
+    var organisation = $('#organisation').attr('data-value')?JSON.parse($('#organisation').attr('data-value')):null;    
     // Chart.defaults.global.legend.display = false;
 
-    $.get( "/overview/pillars/api", function( results ) {
+    $.get("/organisations/" + organisation._id + "/overview/pillars/api", function( results ) {
         var ctx = $('#overview-graph');
         hardwareBackgroundColors = [];
         hardwareBorderColors = []

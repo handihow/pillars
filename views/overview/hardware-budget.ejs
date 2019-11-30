@@ -1,8 +1,9 @@
 <% include ../partials/header %>
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
+<% include ../partials/organisation-header %>
+<% include ../partials/organisation-overview-header %>
 
-<div class="ui container">
     <% include ./hardware-header %>
     
     <% if(schoolsWithoutStandards.length>0) { %>
@@ -145,6 +146,6 @@
         </div>
       </div>
     </div>
-</div>
 
+<% include ../partials/organisation-footer %>
 <% include ../partials/footer %>

@@ -1,0 +1,15 @@
+<div class="ui secondary pointing menu">
+  <a href="/organisations/<%= organisation._id %>/overview/pillars"  
+    class="item <%if(url.includes('pillars')){%>active<%}%>">
+    Pillars resultaten
+  </a>
+  <a href="/organisations/<%= organisation._id %>/overview/hardware" class="item <%if(url.includes('hardware')){%>active<%}%>">
+    Hardware
+  </a>
+  <a href="/organisations/<%= organisation._id %>/overview/software" class="item <%if(url.includes('software')){%>active<%}%>">
+    Digitale leermiddelen
+  </a>
+   <a href="/organisations/<%= organisation._id %>/overview/schools" class="item <%if(url.includes('schools')){%>active<%}%>">
+    Status scholen
+  </a>
+</div>

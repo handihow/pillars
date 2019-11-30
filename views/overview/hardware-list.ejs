@@ -1,54 +1,47 @@
 <% include ../partials/header %>
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
+<% include ../partials/organisation-header %>
+<% include ../partials/organisation-overview-header %>
+<% include ./hardware-header %>
 
-<div class="ui container">
-    <% include ./hardware-header %>
-    
-    
-    <div class="ui message">
-      <div class="header">
-        Overzicht hardware
-      </div>
-      <p>Dit is een overzicht van alle hardware die is ingevoerd in Pillars van scholen aangesloten bij jouw bestuur.</p>
-    </div>
-    <!--make table with schools and progress-->
-    <table class="ui celled small table">
-      <thead>
-        <tr>
-          <th>Instellingsnaam</th>
-          <th>Type</th>
-          <th>Naam</th>
-          <th>Merk</th>
-          <th>Model</th>
-          <th>Serial/Tag</th>
-          <th>Processor</th>
-          <th>Werkgeheugen (GB)</th>
-          <th>Jaar ingebruikname</th>
-          <th>Waarschuwing</th>
-          <th>Bekijk</th>
+<!--make table with schools and progress-->
+<table class="ui celled small table">
+  <thead>
+    <tr>
+      <th>Instellingsnaam</th>
+      <th>Type</th>
+      <th>Naam</th>
+      <th>Merk</th>
+      <th>Model</th>
+      <th>Serial/Tag</th>
+      <th>Processor</th>
+      <th>Werkgeheugen (GB)</th>
+      <th>Jaar ingebruikname</th>
+      <th>Waarschuwing</th>
+      <th>Bekijk</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% schools.forEach(function(school){ %>
+      <% school.hardware.forEach(function(hardware){ %>
+        <tr <% if(hardware.isDepreciated) { %> class="negative" <% } %> >
+          <td><%=school.name%></td>
+          <td><%=hardware.type%></td>
+          <td><%=hardware.name%></td>
+          <td><%=hardware.brand%></td>
+          <td><%=hardware.model%></td>
+          <td><%=hardware.serialTag%></td>
+          <td><%=hardware.processor%></td>
+          <td><%=hardware.memory%></td>
+          <td><%=hardware.deploymentYear%></td>
+          <td><%=hardware.warning %></td>
+          <td class="selectable"><a href="/schools/<%=school._id%>/hardware/<%=hardware._id%>">Bekijk</a></td>
         </tr>
-      </thead>
-      <tbody>
-        <% schools.forEach(function(school){ %>
-          <% school.hardware.forEach(function(hardware){ %>
-            <tr <% if(hardware.isDepreciated) { %> class="negative" <% } %> >
-              <td><%=school.name%></td>
-              <td><%=hardware.type%></td>
-              <td><%=hardware.name%></td>
-              <td><%=hardware.brand%></td>
-              <td><%=hardware.model%></td>
-              <td><%=hardware.serialTag%></td>
-              <td><%=hardware.processor%></td>
-              <td><%=hardware.memory%></td>
-              <td><%=hardware.deploymentYear%></td>
-              <td><%=hardware.warning %></td>
-              <td class="selectable"><a href="/schools/<%=school._id%>/hardware/<%=hardware._id%>">Bekijk</a></td>
-            </tr>
-          <% }) %>
-        <% }) %>
-      </tbody>
-    </table>
-</div>
+      <% }) %>
+    <% }) %>
+  </tbody>
+</table>
 
+<% include ../partials/organisation-footer %>
 <% include ../partials/footer %>

@@ -188,9 +188,9 @@ app.use("/organisations/:id/org-user", orgUserRoutes);
 //ROUTES RELATED TO ORGANISATION
 app.use("/organisations/:id/schools", organisationSchoolRoutes);
 app.use("/organisations/:id/standard", standardRoutes);
-app.use("/processingActivity", processingActivityOrganisationRoutes);
-app.use("/securityIncident", securityIncidentOrganisationRoutes);
-app.use("/overview", overviewRoutes);
+app.use("/organisations/:id/processingActivity", processingActivityOrganisationRoutes);
+app.use("/organisations/:id/securityIncident", securityIncidentOrganisationRoutes);
+app.use("/organisations/:id/overview", overviewRoutes);
 app.use("/organisations/:id/organisationSettings", organisationSettingsRoutes);
 app.use("/organisations/:id/message", messageRoutes);
 app.use("/survey", surveyOrganisationRoutes);

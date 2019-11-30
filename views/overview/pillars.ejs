@@ -1,49 +1,50 @@
 <% include ../partials/header %>
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
+<% include ../partials/organisation-header %>
+<% include ../partials/organisation-overview-header %>
 
-<div class="ui container">
-    <h2 class="ui center aligned header">
-      <div>Overzicht Pillars Resultaten</div>
-    </h2>
-    <div class="ui placeholder segment" id="loader">
-      <div class="ui active inverted dimmer">
-        <div class="ui text loader">Pillars Grafiek Laden..</div>
-      </div>
-      <p></p>
-    </div>
-    <canvas id="overview-graph"></canvas>
-
-    <div class="ui divider"></div>
-    
-    <!--make table with schools and pillars results-->
-    <table class="ui celled small table">
-      <thead>
-        <tr>
-          <th>Instellingsnaam</th>
-          <th>Hardware</th>
-          <th>Digitale Leermiddelen</th>
-          <th>Deskundigheid</th>
-          <th>Organisatie</th>
-          <th>Bekijk</th>
-          <th>Rapport</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% schools.forEach(function(school, i){ %>
-            <tr>
-              <td><%=school.name%></td>
-              <td><%=results[i].total.hardware.toFixed(2)%></td>
-              <td><%=results[i].total.software.toFixed(2)%></td>
-              <td><%=results[i].total.competence.toFixed(2)%></td>
-              <td><%=results[i].total.management.toFixed(2)%></td>
-              <td><a class="ui mini primary basic button" href="/schools/<%=school._id%>/pillars">Bekijk</a></td>
-              <td><a class="ui mini positive basic button" href="<%=results[i].link%>" 
-                    <%if(results[i].link!=="#"){%>target="_blank"<%}%>>Rapport</a></td>
-            </tr>
-        <% }) %>
-      </tbody>
-    </table>
+<div class="ui placeholder segment" id="loader">
+  <div class="ui active inverted dimmer">
+    <div class="ui text loader">Pillars Grafiek Laden..</div>
+  </div>
+  <p></p>
 </div>
+<canvas id="overview-graph"></canvas>
 
+<div class="ui divider"></div>
+
+<!--make table with schools and pillars results-->
+<table class="ui celled small table">
+  <thead>
+    <tr>
+      <th>Instellingsnaam</th>
+      <th>Hardware</th>
+      <th>Digitale Leermiddelen</th>
+      <th>Deskundigheid</th>
+      <th>Organisatie</th>
+      <th>Bekijk</th>
+      <th>Rapport</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% schools.forEach(function(school, i){ %>
+        <tr>
+          <td><%=school.name%></td>
+          <td><%=results[i].total.hardware.toFixed(2)%></td>
+          <td><%=results[i].total.software.toFixed(2)%></td>
+          <td><%=results[i].total.competence.toFixed(2)%></td>
+          <td><%=results[i].total.management.toFixed(2)%></td>
+          <td><a class="ui mini primary basic button" href="/schools/<%=school._id%>/pillars">Bekijk</a></td>
+          <td><a class="ui mini positive basic button" href="<%=results[i].link%>" 
+                <%if(results[i].link!=="#"){%>target="_blank"<%}%>>Rapport</a></td>
+        </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+
+<div id="organisation" data-value="<%=JSON.stringify(organisation)%>"></div> 
+
+<% include ../partials/organisation-footer %>
 <% include ../partials/footer %>

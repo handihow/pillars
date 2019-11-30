@@ -39,6 +39,17 @@
     <span class="hide-mobile">Beleid</span>
   </a>
 
+  <a class="vertical item <%if(url.includes('/organisations/'+organisation._id+'/processingActivity/')) { %> active <% } %>" 
+    href="/organisations/<%= organisation._id %>/processingActivity/" data-content="Verwerkingsactiviteiten">
+    <i class="info circle icon"></i>
+    <span class="hide-mobile">Verwerkingsactiviteiten</span>
+  </a>
+<!-- toevoeging -->
+    <a class="vertical item <%if(url.includes('/organisations/'+organisation._id+'/overview/')) { %> active <% } %>" 
+    href="/organisations/<%= organisation._id %>/overview/pillars/" data-content="Overzichten">
+    <i class="chart bar icon"></i>
+    <span class="hide-mobile">Overzichten</span>
+  </a>
 
 </div>
 

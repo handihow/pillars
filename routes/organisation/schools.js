@@ -13,7 +13,7 @@ router.get("/", middleware.isLoggedIn, function(req, res){
       res.redirect('back')
     } else {
       School.find({
-        "organisation": req.user.organisation}, 
+        "organisation": organisation._id}, 
         null,
         {sort: {name: 1}
       })

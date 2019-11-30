@@ -1,9 +1,11 @@
 <% include ../partials/header %>
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
-<%if(schoolLevel){%>
+<% if(schoolLevel){ %>
   <% include ../partials/school-header %>
-<%}%>
+<%} else {%>
+  <% include ../partials/organisation-header %>
+<% } %>
 
 <div class="ui container">
     <h2 class="ui center aligned header">
@@ -15,7 +17,9 @@
         Deze verwerkingsactiviteit wordt zichtbaar voor (alleen) uw school en het bestuur
       </div>
     <%} else {%>
-      <a class="positive ui button right" href="/processingActivity/new/">Verwerkingsactiviteit Toevoegen</a>
+      <a class="positive ui button right" href="/organisations/<%=organisation._id%>/processingActivity/new/">
+        Verwerkingsactiviteit Toevoegen
+      </a>
       <div class="ui left pointing label">
         Deze verwerkingsactiviteit wordt zichtbaar voor alle scholen binnen het bestuur
       </div>
@@ -58,7 +62,7 @@
             <%if(schoolLevel){%>
               href="/schools/<%=school._id%>/processingActivity/<%=processingActivity._id%>">
             <%} else {%>
-              href="/processingActivity/<%=processingActivity._id%>">
+              href="/organisations/<%=organisation._id%>/processingActivity/<%=processingActivity._id%>">
             <% } %>
           <i class="show icon"></i>
           Bekijk 
@@ -70,5 +74,7 @@
 
 <%if(schoolLevel){%>
   <% include ../partials/school-footer %>
-<%}%>
+<%} else {%>
+  <% include ../partials/organisation-footer%>
+<% } %>
 <% include ../partials/footer %>

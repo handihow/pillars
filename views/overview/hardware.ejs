@@ -1,30 +1,30 @@
 <% include ../partials/header %>
 <% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
+<% include ../partials/organisation-header %>
+<% include ../partials/organisation-overview-header %>
 
-<div class="ui container">
-    <% include ./hardware-header %>
-    
-    <div class="ui four doubling cards">
-      <!--make a card for each type of hardware-->
-      <% config.hardware.types.forEach(function(type){ %>
-      <div class="card">
-        <div class="content">
-          <div class="header" id="countHeader"><%=type.plural%></div>
-          <div class="description count">
-            <% var count = 0 %>
-            <% schools.forEach(function(school){ %>
-                <% school.hardware.forEach(function(hardware){ %>
-                <% if(!isNaN(hardware.numberWorkPlacesMultipoint) && hardware.type === type.singular) { count += hardware.numberWorkPlacesMultipoint %>
-                <% } else if(hardware.type === type.singular) { count += 1} %>
-                <% }); %>
-            <%})%>
-            <%= count %>
-          </div>
-        </div>
+<% include ./hardware-header %>
+
+<div class="ui four doubling cards">
+  <!--make a card for each type of hardware-->
+  <% config.hardware.types.forEach(function(type){ %>
+  <div class="card">
+    <div class="content">
+      <div class="header" id="countHeader"><%=type.plural%></div>
+      <div class="description count">
+        <% var count = 0 %>
+        <% schools.forEach(function(school){ %>
+            <% school.hardware.forEach(function(hardware){ %>
+            <% if(!isNaN(hardware.numberWorkPlacesMultipoint) && hardware.type === type.singular) { count += hardware.numberWorkPlacesMultipoint %>
+            <% } else if(hardware.type === type.singular) { count += 1} %>
+            <% }); %>
+        <%})%>
+        <%= count %>
       </div>
-    <%})%>
     </div>
+  </div>
+<%})%>
+</div>
 
-
+<% include ../partials/organisation-footer %>
 <% include ../partials/footer %>
