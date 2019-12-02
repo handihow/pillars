@@ -97,6 +97,7 @@
 	} 
 		
 	var schoolId = $( '#schoolId').text() || null;
+	var organisationId = $( '#organisationId').text() || null;
 
 	//set function on save callback
 	survey.saveSurveyFunc = function (saveNo, callback) {
@@ -117,10 +118,12 @@
 
 		console.log(isActiveSurvey);
 
-		var url = window.location.origin + "/survey/" + surveyId
+		var url = ''
 
 		if(schoolId){
 			url = window.location.origin + "/schools/" + schoolId + "/survey/" + surveyId
+		} else if(organisationId){
+			url = window.location.origin + "/organisations/" + organisationId + "/survey/" + surveyId
 		}
 
 		console.log(url);

@@ -7,6 +7,7 @@ var SurveyResult = require('../../models/surveyResult');
 var middleware = require("../../middleware");
 var json2csv = require("json2csv");
 var config = require("../../config/config");
+var _ = require("lodash");
 
 router.use(function(req,res,next){
   res.locals.config = config.competence;
@@ -24,23 +25,20 @@ router.get("/", middleware.isSchoolOwner, function(req, res){
     } else {
       Survey.find({
         "organisation": school.organisation, 
-        "isActiveCompetenceSurvey": true
+        "isCompetenceSurvey": true
       }, async function(err, surveys){
-        var averages = [];
-        var counts = [];
-        var comparingAverages = [];
-        var comparingCounts = [];
+        let results = [];
         await asyncForEach(surveys, async function(survey, index){
-           let results = await retrieveSurveyResults(survey, school);
-           averages.push(results.average);
-           comparingAverages.push(results.comparingAverage);
-           counts.push(results.count);
-           comparingCounts.push(results.comparingCount);
+           let result = await retrieveSurveyResults(survey, school);
+           results.push(result);
            if(index==surveys.length-1){
             res.locals.scripts.header.plotly = true;
             res.locals.scripts.footer.competence = true;
-            res.render("competence/show", {school: school, surveys: surveys, averages: averages, 
-              comparingAverages: comparingAverages, counts: counts, comparingCounts: comparingCounts})
+            res.render("competence/show", {
+              school: school, 
+              surveys: surveys, 
+              results: results
+            })
           }
         });   
       })        
@@ -56,50 +54,27 @@ async function asyncForEach(array, callback) {
 
 function retrieveSurveyResults(survey, school){
   return new Promise(function(resolve, reject) {
-    SurveyResult.find({"survey": survey._id}, function(err, surveyResults){
-        if(err){
-          return resolve({
-            average: 0,
-            comparingAverage: 0,
-            count: 0,
-            comparingCount: 0
-          });
-        } else {
-          var returnedSurveyResults = [];
-          var schoolStatistics = [];
-          var comparingResults = [];
-          surveyResults.forEach(function(surveyResult){
-            var isInArray = school.users.some(function (user) {
-                return user.equals(surveyResult.user._id);
-            });
-            if(isInArray){
-              returnedSurveyResults.push(surveyResult);
-            } 
-            comparingResults.push(surveyResult);
-          });
-          schoolStatistics = config.competence.survey.calculateStatistics(survey, returnedSurveyResults);
-          organisationStatistics = config.competence.survey.calculateStatistics(survey, comparingResults);
-          if(schoolStatistics[0].statistics.length>0){
-             let sum = schoolStatistics[0].statistics.reduce((previous, current) => current += previous);
-             let avg = Math.round(sum / schoolStatistics[0].statistics.length);
-             let comparingSum = organisationStatistics[0].statistics.reduce((previous, current) => current += previous);
-             let comparingAvg = Math.round(comparingSum / organisationStatistics[0].statistics.length);
-             return resolve({
-               average: avg,
-               comparingAverage: comparingAvg,
-               count: schoolStatistics[0].statistics.length,
-               comparingCount: organisationStatistics[0].statistics.length
-             });
-          } else {
-            return resolve({
-              average: 0,
-              comparingAverage: 0,
-              count: 0,
-              comparingCount: 0
-            });
-          }
-        }
-      })
+    SurveyResult.find({"survey": survey._id}).populate('user').exec(function(err, surveyResults){
+      if(err){
+        return resolve({
+          average: 0,
+          comparingAverage: 0,
+          count: 0,
+          comparingCount: 0
+        });
+      } else {
+        var organisationSurveyResults = surveyResults.filter(sr => sr.user && sr.user._id);
+        var organisationStatistics = config.competence.survey.calculateStatistics(survey, organisationSurveyResults);
+        var schoolSurveyResults = organisationSurveyResults.filter(sr => sr.school && sr.school.equals(school._id));
+        var schoolStatistics = config.competence.survey.calculateStatistics(survey, schoolSurveyResults);
+        return resolve({
+          average: _.mean(schoolStatistics[0].statistics),
+          comparingAverage: _.mean(organisationStatistics[0].statistics),
+          count: _.size(schoolStatistics[0].statistics),
+          comparingCount: _.size(organisationStatistics[0].statistics)
+        });
+       }
+    })
   });
 }
 

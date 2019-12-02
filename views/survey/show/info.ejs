@@ -115,6 +115,7 @@
     <a id="edit" 
     class="ui primary basic button" 
     href="/schools/<%=school._id%>/survey/<%=survey._id%>/edit" >
+    
     Bewerken
     </a>
     <button class="ui red basic button" id="delete">Verwijderen</button>
@@ -132,7 +133,7 @@
 <%} else if(!schoolLevel) {%>
     <a id="edit" 
     class="ui primary basic button" 
-    href="/survey/<%=survey._id%>/edit">
+    href="/organisations/<%=organisation._id%>/survey/<%=survey._id%>/edit">
     Bewerken
     </a>
     <button class="ui red basic button" id="delete">Verwijderen</button>
@@ -141,7 +142,7 @@
       <p>Weet je zeker dat je deze enquête wilt verwijderen? Dit kan niet worden hersteld.</p>
       <button class="ui positive button" id="cancel">Cancel</button>
        <form id="delete" 
-        action="/survey/<%=survey._id%>?_method=DELETE" 
+        action="/organisations/<%=organisation._id%>/survey/<%=survey._id%>?_method=DELETE" 
         method="POST">
         <button class="ui negative button">Verwijder Enquête</button>
       </form>

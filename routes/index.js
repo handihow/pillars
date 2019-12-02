@@ -61,7 +61,7 @@ function renderHomePageContent(req, res, schools){
             res.locals.scripts.footer.dashboard = true;
             surveys = returnedSurveys.filter(s => s.isActiveCompetenceSurvey);
             var hasActiveSoftwareSurvey = returnedSurveys.findIndex(s => s.isActiveSoftwareSurvey) > -1 ? true : false;
-            res.render("dashboard/index", {schools, organisation, surveys, surveyResults, hasActiveSoftwareSurvey}); 
+            res.render("dashboard/index", {schools, organisation, surveys, surveyResults, hasActiveSoftwareSurvey, isOnDashboard: true}); 
         })
       });
     });  

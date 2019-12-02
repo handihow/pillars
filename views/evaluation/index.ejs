@@ -3,7 +3,7 @@
 <% include ../partials/flash-message %>
 <% include ../partials/school-header %>
 
-      <h2 class="ui header"><i class="comments icon"></i> Evaluaties van <%= school.name %></h2>
+      <h2 class="ui centered header">Evaluaties</h2>
         <h4><a href="/schools/<%=school._id%>/evaluation/new/"><i class="write square icon"></i> Evaluatie Toevoegen</a></h4>
         <%if(school.evaluations.length===0){%>
           <div class="ui placeholder segment">

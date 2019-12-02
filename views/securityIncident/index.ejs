@@ -3,9 +3,10 @@
 <% include ../partials/flash-message %>
 <%if(schoolLevel){%>
   <% include ../partials/school-header %>
-<%}%>
+<%} else {%>
+   <% include ../partials/organisation-header %>
+<% } %>
 
-<div class="ui container">
     <h2 class="ui center aligned header">
       <div>Register van Beveiligingsincidenten</div>
     </h2>
@@ -15,7 +16,9 @@
         Dit beveiligingsincident wordt zichtbaar voor (alleen) uw school en het bestuur
       </div>
     <%} else {%>
-      <a class="positive ui button right" href="/securityIncident/new/">Beveiligingsincident Toevoegen</a>
+      <a class="positive ui button right" href="/organisations/<%=organisation._id%>/securityIncident/new/">
+        Beveiligingsincident Toevoegen
+      </a>
       <div class="ui left pointing label">
         Dit beveiligingsincident wordt zichtbaar voor alle scholen binnen het bestuur
       </div>
@@ -59,7 +62,7 @@
             <%if(schoolLevel){%>
               href="/schools/<%=school._id%>/securityIncident/<%=securityIncident._id%>">
             <%} else {%>
-              href="/securityIncident/<%=securityIncident._id%>">
+              href="/organisations/<%=organisation._id%>/securityIncident/<%=securityIncident._id%>">
             <% } %>
           <i class="show icon"></i>
           Bekijk 
@@ -67,9 +70,6 @@
       </div>
       <% }); %>
     </div>
-</div>
 
-<%if(schoolLevel){%>
-  <% include ../partials/school-footer %>
-<%}%>
+<% include ../partials/school-footer %>
 <% include ../partials/footer %>

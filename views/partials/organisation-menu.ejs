@@ -21,10 +21,31 @@
     <span class="hide-mobile">Bestuur medewerkers</span>
   </a>
 
-  <a class="vertical item <%if(url.includes('/organisations/'+organisation._id+'/organisationSettings/')) { %> active <% } %>" 
-    href="/organisations/<%= organisation._id %>/organisationSettings/" data-content="Modules">
-    <i class="settings icon" ></i>
-    <span class="hide-mobile">Modules</span>
+  <a class="vertical item <%if(url.includes("/organisations/"+organisation._id+'/overview/hardware')) { %> active <% } %>" 
+      href="/organisations/<%= organisation._id %>/overview/hardware" 
+      data-content="Hardware">
+    <i class="desktop icon" ></i>
+    <span class="hide-mobile">Hardware</span>
+  </a>
+
+  <a class="vertical item <%if(url.includes("/organisations/"+organisation._id+'/overview/software')) { %> active <% } %>" 
+      href="/organisations/<%= organisation._id %>/overview/software" 
+      data-content="Digitale leermiddelen">
+    <i class="tablet alternate icon" ></i>
+    <span class="hide-mobile">Digitale leermiddelen</span>
+  </a>
+
+  <a class="vertical item <%if(url.includes('/organisations/'+organisation._id+'/overview/pillars') 
+        || url.includes('/organisations/'+organisation._id+'/overview/schools')) { %> active <% } %>" 
+    href="/organisations/<%= organisation._id %>/overview/pillars/" data-content="Overzichten">
+    <i class="chart bar icon"></i>
+    <span class="hide-mobile">Overzichten</span>
+  </a>
+
+  <a class="vertical item <%if(url.includes('/organisations/'+organisation._id+'/survey/')) { %> active <% } %>" 
+    href="/organisations/<%= organisation._id %>/survey/" data-content="Enquetes">
+    <i class="question circle icon"></i>
+    <span class="hide-mobile">Enquetes</span>
   </a>
 
   <a class="vertical item <%if(url.includes('/organisations/'+organisation._id+'/standard/')) { %> active <% } %>" 
@@ -33,23 +54,36 @@
     <span class="hide-mobile">Normering</span>
   </a>
 
-  <a class="vertical item <%if(url.includes('/organisations/'+organisation._id+'/message/')) { %> active <% } %>" 
-    href="/organisations/<%= organisation._id %>/message/" data-content="Beleid">
-    <i class="info circle icon"></i>
-    <span class="hide-mobile">Beleid</span>
+  <a class="vertical item <%if(url.includes('/organisations/'+organisation._id+'/organisationSettings/')) { %> active <% } %>" 
+    href="/organisations/<%= organisation._id %>/organisationSettings/" data-content="Modules">
+    <i class="settings icon" ></i>
+    <span class="hide-mobile">Modules</span>
   </a>
 
-  <a class="vertical item <%if(url.includes('/organisations/'+organisation._id+'/processingActivity/')) { %> active <% } %>" 
-    href="/organisations/<%= organisation._id %>/processingActivity/" data-content="Verwerkingsactiviteiten">
-    <i class="info circle icon"></i>
-    <span class="hide-mobile">Verwerkingsactiviteiten</span>
-  </a>
+  <% if(organisationSettings.messages){ %>
+    <a class="vertical item <%if(url.includes('/organisations/'+organisation._id+'/message/')) { %> active <% } %>" 
+      href="/organisations/<%= organisation._id %>/message/" data-content="Beleid">
+      <i class="info circle icon"></i>
+      <span class="hide-mobile">Beleid</span>
+    </a>
+  <% } %>
+
+  <% if(organisationSettings.privacy){ %>
+    <a class="vertical item <%if(url.includes('/organisations/'+organisation._id+'/processingActivity/')) { %> active <% } %>" 
+      href="/organisations/<%= organisation._id %>/processingActivity/" data-content="Algemene verordening gegevensbescherming (AVG)">
+      <i class="id card outline icon"></i>
+      <span class="hide-mobile">Verwerkingsactiviteiten</span>
+    </a>
+
+    <a class="vertical item <%if(url.includes('/organisations/'+organisation._id+'/securityIncident')) { %> active <% } %>" 
+      href="/organisations/<%= organisation._id %>/securityIncident/" data-content="Algemene verordening gegevensbescherming (AVG)">
+      <i class="shield icon"></i>
+      <span class="hide-mobile">Beveiligingsincidenten</span>
+    </a>
+  <%}%>
+  
 <!-- toevoeging -->
-    <a class="vertical item <%if(url.includes('/organisations/'+organisation._id+'/overview/')) { %> active <% } %>" 
-    href="/organisations/<%= organisation._id %>/overview/pillars/" data-content="Overzichten">
-    <i class="chart bar icon"></i>
-    <span class="hide-mobile">Overzichten</span>
-  </a>
+  
 
 </div>
 

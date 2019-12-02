@@ -17,7 +17,7 @@ var UserSchema = new mongoose.Schema({
   resetPasswordExpires: Date,
   emailAuthenticationToken: String,
   emailIsAuthenticated: Boolean,
-  publicProfile: Boolean,
+  publicProfile: {type: Boolean, default: true},
   toBeRemoved: Boolean,
   hasCompleteProfile: Boolean,
   numberOfSurveyResults: {type: Number, default: 0},

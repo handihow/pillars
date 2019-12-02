@@ -1,0 +1,26 @@
+<%if(currentUser.role=='padmin' || currentUser.role=='badmin' || currentUser.role=='buser'){%>
+	<div class="ui segment">
+	  <h5 class="ui header">
+        <i class="building icon"></i>
+        <div class="content">
+          Bestuur
+        </div>
+      </h5>
+		<div class="ui relaxed divided list">
+		  <div class="item">
+		  	<%if(organisation.logo){%>
+		      <div class="right floated content">
+		      	 <a href="/organisations/<%=organisation._id%>"><img 
+	              class="tiny ui image" 
+	              src="<%=organisation.logo%>"></a>
+		      </div>
+		   <%}%>
+		    <div class="content">
+		      <a class="header" href="/organisations/<%=organisation._id%>"><%= organisation.name %></a>
+		      <div class="description"><%= organisation.city %></div>
+		      
+		    </div>
+		  </div>
+		</div>
+	</div>
+<% } %>

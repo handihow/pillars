@@ -4,10 +4,9 @@
 <% include ../partials/school-header %>
 
 
-<h2 class="ui header"><i class="icon">
-    <i class="certificate icon"></i>
-    
-  </i>Deskundigheid van Leerkrachten op <%= school.name %></h2>
+<h2 class="ui centered header">
+  Deskundigheid van leerkrachten
+</h2>
 <div class="ui small info message">
   <ul class="list">
     <li>Indicator toont de gemiddelde score van de school</li>
@@ -16,32 +15,28 @@
 </div>
 <div class="ui stackable grid">
   <%surveys.forEach(function(survey, index){%>
-      <div class="eight wide column">
-        <h3 class="ui top attached header">
-          <%=survey.name%>
-        </h3>
-        <div class="ui attached secondary segment">
-          <div class="ui grid">
-            <div class="six column row">
-              <div class="left floated column">School: <%=counts[index]%></div>
-              <h5 class="column">Inzendingen</h5>
-              <div class="right floated column">Bestuur: <%=comparingCounts[index]%></div>
-            </div>
-          </div>
-        </div>
-        <div class="ui attached segment bullet chart">
-          <div id="<%=index%>"></div>
-        </div>
-        
-        <a href="/schools/<%= school._id %>/survey/<%=survey._id%>" class="ui bottom blue attached button">Resultaten bekijken</a>
-        
-      </div>
+      <%if(survey.isActiveCompetenceSurvey){ %>
+        <% include ./competence-chart %>
+      <%}%>
   <%})%>
 </div>
+<div id='nonactive-content'>
+  <div class="ui divider"></div>
+  <h3 class="ui header">Non-actieve tests</h3>
+  <div class="ui stackable grid">
+    <%surveys.forEach(function(survey, index){%>
+        <%if(!survey.isActiveCompetenceSurvey){ %>
+          <% include ./competence-chart %>
+        <%}%>
+    <%})%>
+  </div>
+</div>
+<div class="ui divider"></div>
+<input class="ui button" type='button' id='hideshow' value='Non-actieve tests'>
+
 
 <div id="surveysInfo" hidden><%= JSON.stringify(surveys)%></div>
-<div id="averagesInfo" hidden><%= JSON.stringify(averages)%></div>
-<div id="comparingAveragesInfo" hidden><%= JSON.stringify(comparingAverages)%></div>
+<div id="resultsInfo" hidden><%= JSON.stringify(results)%></div>
 
 <% include ../partials/school-footer %>
 <% include ../partials/footer %>

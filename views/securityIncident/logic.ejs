@@ -15,11 +15,14 @@
     var isShow = $( '#isShow' ).text();
     var isEdit = $( '#isEdit' ).text();
 
-    var url = window.location.origin + "/securityIncident"; //post url for new securityIncident
+    var url = '';
 
     if(JSON.parse(schoolLevel)){
       var schoolId = $( '#schoolId' ).text();
       url = window.location.origin + "/schools/" + schoolId + "/securityIncident";
+    } else {
+      var organisationId = $( '#organisationId' ).text();
+      url = window.location.origin + "/organisations/" + organisationId + "/securityIncident";
     }
     
 

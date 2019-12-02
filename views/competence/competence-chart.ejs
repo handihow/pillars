@@ -1,0 +1,27 @@
+<div class="eight wide column">
+  <h3 class="ui top attached header">
+    <%=survey.name%>
+  </h3>
+  <div class="ui attached secondary segment">
+    <div class="ui grid">
+      <div class="three column row">
+        <div class="column">School: <%=results[index].count%></div>
+        <h5 class="column">Inzendingen</h5>
+        <div class="column">Bestuur: <%=results[index].comparingCount%></div>
+      </div>
+    </div>
+  </div>
+  <% if(!results[index].average){ %>
+    <h4 class="ui attached header">
+      Nog geen resultaten
+    </h4>
+  <% } else { %>
+    <div class="ui attached segment bullet chart">
+      <div id="<%=index%>"></div>          
+    </div>
+  <% } %>
+  
+  <a href="/schools/<%= school._id %>/survey/<%=survey._id%>" 
+      class="ui bottom blue attached button <% if(!results[index].average){ %>disabled<%}%>">Resultaten bekijken</a>
+  
+</div>

@@ -1,5 +1,6 @@
 var User = require("../models/user");
 var School = require("../models/school");
+var Organisation = require("../models/organisation");
 var middlewareObj = {};
 
 //GENERIC USE: CHECK IF THE USER IS LOGGED IN
@@ -127,5 +128,18 @@ middlewareObj.isPadmin = function(req, res, next) {
         res.redirect("/login");  
     }
 };
+
+//FIND ORGANISATION
+middlewareObj.findOrganisation = function(req,res,next){
+  Organisation.findById(req.params.id, function(err, organisation){
+    if(err || !organisation){
+      req.flash("error", "Bestuur niet gevonden");
+      res.redirect("back");
+    } else {
+      req.organisation = organisation;
+      next();
+    }
+  })
+}
 
 module.exports = middlewareObj;

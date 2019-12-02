@@ -3,6 +3,8 @@
 <% include ../partials/flash-message %>
 <%if(schoolLevel){%>
 <% include ../partials/school-header %>
+<% } else {%>
+  <% include ../partials/organisation-header %> 
 <%}%>
 
 <div class="ui container">
@@ -20,29 +22,29 @@
     <span class="text">Enquête Toevoegen</span>
     <i class="dropdown icon"></i>
     <div class="menu">
-      <a class="item" href="/survey/new/">Blanco Enquête Toevoegen</a>
+      <a class="item" href="/organisations/<%=organisation._id%>/survey/new/">Blanco Enquête Toevoegen</a>
       <div class="item">
         Deskundigheidstests Pillars
         <div class="menu">
-          <a class="item" href="/survey/ictSkills/competence">ICT Vaardigheden</a>
-          <a class="item" href="/survey/pedagogicalDidacticalSkills/competence">Pedagogisch Didactisch Handelen</a>
-          <a class="item" href="/survey/workInSchoolContext/competence">Werken in de schoolcontext</a>
-          <a class="item" href="/survey/personalDevelopment/competence">Persoonlijke Ontwikkeling</a>
+          <a class="item" href="/organisations/<%=organisation._id%>/survey/ictSkills/competence">ICT Vaardigheden</a>
+          <a class="item" href="/organisations/<%=organisation._id%>/survey/pedagogicalDidacticalSkills/competence">Pedagogisch Didactisch Handelen</a>
+          <a class="item" href="/organisations/<%=organisation._id%>/survey/workInSchoolContext/competence">Werken in de schoolcontext</a>
+          <a class="item" href="/organisations/<%=organisation._id%>/survey/personalDevelopment/competence">Persoonlijke Ontwikkeling</a>
         </div>
       </div>
       <div class="item">
         Deskundigheidstests Alpha Scholengroep
         <div class="menu">
-          <a class="item" href="/survey/instrumentalSkills/competence">Instrumentele vaardigheden</a>
-          <a class="item" href="/survey/informationSkills/competence">Informatievaardigheden</a>
-          <a class="item" href="/survey/mediaSkills/competence">Mediavaardigheden</a>
+          <a class="item" href="/organisations/<%=organisation._id%>/survey/instrumentalSkills/competence">Instrumentele vaardigheden</a>
+          <a class="item" href="/organisations/<%=organisation._id%>/survey/informationSkills/competence">Informatievaardigheden</a>
+          <a class="item" href="/organisations/<%=organisation._id%>/survey/mediaSkills/competence">Mediavaardigheden</a>
         </div>
       </div>
-      <a class="item" href="/survey/assessmentForm/competence">
+      <a class="item" href="/organisations/<%=organisation._id%>/survey/assessmentForm/competence">
         Observatie-instrument voor optimaal leerrendement uit ICT-gebruik</a>
-      <a class="item" href="/survey/rubric/competence">
+      <a class="item" href="/organisations/<%=organisation._id%>/survey/rubric/competence">
         Beoordelingsinstrument adhv Rubrics</a>
-      <a class="item" href="/survey/kennisnet/software">Beoordeling van Leermiddelen</a>
+      <a class="item" href="/organisations/<%=organisation._id%>/survey/kennisnet/software">Beoordeling van Leermiddelen</a>
     </div>
   </div>
   <% } %>
@@ -65,7 +67,7 @@
         <div class="header"><%if(schoolLevel){%>
           <a href="/schools/<%=school._id%>/survey/<%=survey._id%>">
             <%} else {%>
-            <a href="/survey/<%=survey._id%>">
+            <a href="/organisations/<%=organisation._id%>/survey/<%=survey._id%>">
               <% } %>
               <%= survey.name %></a></div>
               <div class="description">
@@ -106,7 +108,7 @@
             <%if(schoolLevel){%>
             href="/schools/<%=school._id%>/survey/<%=survey._id%>">
             <%} else {%>
-            href="/survey/<%=survey._id%>">
+            href="/organisations/<%=organisation._id%>/survey/<%=survey._id%>">
             <% } %>
             <i class="show icon"></i>
             Bekijk 
@@ -117,6 +119,8 @@
     </div>
 
     <%if(schoolLevel){%>
-    <% include ../partials/school-footer %>
-    <%}%>
-    <% include ../partials/footer %>
+  <% include ../partials/school-footer %>
+<%} else {%>
+  <% include ../partials/organisation-footer%>
+<% } %>
+<% include ../partials/footer %>

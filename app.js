@@ -34,14 +34,15 @@ var schoolUserRoutes = require("./routes/user/school-user");
 var userProfileRoutes = require("./routes/user/user-profile");
 var userTestRoutes = require("./routes/user/user-test");
 var userEvalRoutes = require("./routes/user/user-eval");
+var userSurveyRoutes = require("./routes/user/survey");
 //ROUTES RELATED TO ORGANISATION
 var standardRoutes = require("./routes/organisation/standard");
-var processingActivityOrganisationRoutes = require("./routes/organisation/processingActivityOrganisation");
-var securityIncidentOrganisationRoutes = require("./routes/organisation/securityIncidentOrganisation");
+var processingActivityOrganisationRoutes = require("./routes/organisation/processingActivity");
+var securityIncidentOrganisationRoutes = require("./routes/organisation/securityIncident");
 var messageRoutes = require("./routes/organisation/message");
-var organisationSettingsRoutes = require("./routes/organisation/organisationSettings");
+var organisationSettingsRoutes = require("./routes/organisation/settings");
 var overviewRoutes = require("./routes/organisation/overview");
-var surveyOrganisationRoutes = require("./routes/organisation/surveyOrganisation");
+var surveyOrganisationRoutes = require("./routes/organisation/survey");
 var organisationSchoolRoutes = require("./routes/organisation/schools");
 //ROUTES RELATED TO PILLARS ADMINISTRATION
 var organisationRoutes = require("./routes/admin/organisations");
@@ -185,6 +186,7 @@ app.use("/user/:id/test", userTestRoutes);
 app.use("/user/:id/evaluation", userEvalRoutes);
 app.use("/user/:id", userProfileRoutes);
 app.use("/organisations/:id/org-user", orgUserRoutes);
+app.use("/survey", userSurveyRoutes);
 //ROUTES RELATED TO ORGANISATION
 app.use("/organisations/:id/schools", organisationSchoolRoutes);
 app.use("/organisations/:id/standard", standardRoutes);
@@ -193,7 +195,7 @@ app.use("/organisations/:id/securityIncident", securityIncidentOrganisationRoute
 app.use("/organisations/:id/overview", overviewRoutes);
 app.use("/organisations/:id/organisationSettings", organisationSettingsRoutes);
 app.use("/organisations/:id/message", messageRoutes);
-app.use("/survey", surveyOrganisationRoutes);
+app.use("/organisations/:id/survey", surveyOrganisationRoutes);
 //ROUTES RELATED TO PILLARS ADMIN
 app.use("/organisations", organisationRoutes);
 app.use("/admin", adminRoutes);

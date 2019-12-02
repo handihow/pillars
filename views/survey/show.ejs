@@ -4,8 +4,9 @@
 <%if(schoolLevel){%>
   <% include ../partials/school-header %>
 <%} else { %>
- <div class="ui container">
+  <% include ../partials/organisation-header %>
 <%}%>
+<h2 class="ui centered header"><%=survey.name%></h2>
 <div class="ui icon buttons">
   <button class="ui <%if(surveyResults.length==0){%>active<%}%> icon button" 
           id="infoButton" 
@@ -22,7 +23,7 @@
     <button class="ui icon button" id="bubblesButton"><i class="chart bar icon"></i></button>
   <%}%>
   <% if(limited) {%>
-    <a href="/survey/<%=survey._id%>/all" 
+    <a href="/organisations/<%=organisation._id%>/survey/<%=survey._id%>/all" 
         class="ui icon button" 
         data-content="Alle resultaten ophalen"><i class="sync icon"></i></a>
   <% } %>
@@ -56,7 +57,7 @@
 <%if(schoolLevel){%>
   <% include ../partials/school-footer %>
 <% } else { %>
-  </div>
+  <% include ../partials/organisation-footer %>
 <% }%>
 
 <% include ../partials/footer %>

@@ -4,7 +4,7 @@
 <%if(schoolLevel){%>
   <% include ../partials/school-header %>
 <%} else { %>
- <div class="ui container">
+ <% include ../partials/organisation-header %>
 <%}%>
 
 <h2 class="ui header"><i class="shield alternate icon"></i><%=securityIncident.securityIncidentName%></h2>
@@ -28,13 +28,15 @@
 <%} else if(!schoolLevel) {%>
     <a id="edit" 
     class="ui primary basic button" 
-    href="/securityIncident/<%=securityIncident._id%>/edit">
+    href="/organisations/<%=organisation._id%>/securityIncident/<%=securityIncident._id%>/edit">
     Bewerken
     </a>
     <form id="delete" 
-    action="/securityIncident/<%=securityIncident._id%>?_method=DELETE" 
+    action="/organisations/<%=organisation._id%>/securityIncident/<%=securityIncident._id%>?_method=DELETE" 
     method="POST">
     <button class="ui red basic button">Verwijderen</button>
     </div>
 <% } %>
+
+<% include ../partials/school-footer%>
 <% include ../partials/footer %>

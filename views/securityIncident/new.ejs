@@ -4,16 +4,16 @@
 <%if(schoolLevel){%>
   <% include ../partials/school-header %>
 <%} else { %>
-	<div class="ui container">
-<% } %>
+	 <% include ../partials/organisation-header %>
+<%}%>
     <h2 class="ui header">Beveiligingsincident Toevoegen</h2>
     <div id="securityIncidentForm"></div>
     <div id="schoolLevel" hidden><%=schoolLevel%></div>
     
 <%if(schoolLevel){%>
   <div id="schoolId" hidden><%= school._id%></div>
-  <% include ../partials/school-footer %>
 <%} else {%>
-  </div>
+  <div id="organisationId" hidden><%= organisation._id%></div>
 <% } %>
+<% include ../partials/school-footer %>
 <% include ../partials/footer %>

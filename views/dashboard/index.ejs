@@ -1,8 +1,7 @@
 <% include ../partials/header %>
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
-
-<% include ../partials/dashboard-header %>
+    <div class="ui container">
       <h2 class="ui center aligned header">
         <%if(organisation.logo){%><img class="ui image"  src="<%=organisation.logo%>"><%}%>
         <div class="content"><%= organisation.name %></div>
@@ -15,8 +14,10 @@
           <% include ./tasks%>
         </div>
         <div class="six wide column">
-
+          <% include ./organisation %>
           <% include ./schools%>
+
+
           <div class="ui segment">
             <% include ./profile %>
           </div>
@@ -43,5 +44,4 @@
       </div>
     </div>   
 
-<% include ../partials/dashboard-footer %>
 <% include ../partials/footer %>

@@ -1,7 +1,7 @@
 
 #pillars-logo {
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
 }
 
 #analysisChart {
@@ -41,6 +41,11 @@
 .ui.attached.segment.bullet.chart{
   z-index: 1;
   padding: 0;
+}
+
+.ui.avatar.image.profile{
+  width:40px;
+  height:40px;
 }
 
 
@@ -230,21 +235,6 @@
 
 .user-info.hidden {
   display: none;
-}
-
-@media only screen and (min-width: 1200px){
-  
-  #resultCharts {
-    width:1100px;
-  }
-
-  #surveyResult{
-    width:1100px;
-  }
-
-  .sva-question__content{
-    width: 550px;
-  }
 }
 
 
