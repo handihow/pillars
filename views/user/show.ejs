@@ -1,18 +1,21 @@
 <% include ../partials/header %>
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
-
-<div class="ui container">
-  <div class="ui huge header">Profiel Pagina</div>
-  <% if(user.role==="sadmin") { %>
-  <a class="ui blue basic button" href="/scholen/">
-    Terug naar mijn school
-  </a>
-  <% } %>
+<% include ../partials/user-header %>
+<h2 class="ui header">
+  <%if(user.imageUrl){%>
+      <img 
+        class="ui image" 
+        src="<%=user.imageUrl %>">
+  <%}%>
+  <div class="content">
+    <%= user.firstName + ' ' + user.lastName %>
+  </div>
+</h2>
   <div class="ui divider"></div>
   <div class="ui stackable grid">
     <div class="four wide column">
-      <h4 class="content">Username</h4>
+      <h4 class="content">Email</h4>
       <div class="content"><%=user.username%></div>
     </div>
     <div class="four wide column">
@@ -69,10 +72,12 @@
       </div>
     </div>
     <div class="ui divider"></div>
-    <button class="ui secondary basic button" onclick="goBack()">Terug</button>
-    <a class="ui primary button right" href="/user/<%=user._id%>/edit">Gegevens wijzigen</a>
-    <a class="ui warning button right" href="/forgot">Wachtwoord wijzigen</a>
-    <a class="ui yellow basic button right" href="/verify/user/<%=user._id%>">Email verifieren</a>
-</div>
+    <% if (!user.emailIsAuthenticated){ %>
+      <a class="ui button right" href="/verify/user/<%=user._id%>">Email verifieren</a>
+    <% } %>
+    <% if(currentUser._id.equals(user._id) || currentUser.role === 'badmin' || currentUser.role === 'padmin') { %>
+      <a class="ui primary button right" href="/user/<%=user._id%>/edit">Gegevens wijzigen</a>
+    <% } %>
 
+<% include ../partials/user-footer %>
 <% include ../partials/footer %>

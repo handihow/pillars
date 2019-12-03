@@ -1,8 +1,8 @@
 <% include ../partials/header %>
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
+<% include ../partials/user-header %>
 
-<div class="ui container">
     <div class="ui huge header">Profiel Aanpassen</div>
     <div class="ui divider"></div>
     <form class="ui form" action="/user/<%=user._id%>?_method=PUT" method="POST" id="profileForm" novalidate>
@@ -42,28 +42,30 @@
               <label>Functie</label>
               <input type="text" name="user[job]" value="<%=user.job%>" id="user[job]">
           </div>
-          <div class="inline fields">
-            <label>Personeelstype</label>
-            <div class="field">
-              <div class="ui radio checkbox">
-                <input 
-                      type="radio" 
-                      name="user[isTeacher]" 
-                      value="0" 
-                      <% if(!user.isTeacher) { %>checked="checked"<% } %>>
-                <label>Onderwijsondersteunend</label>
+          <div class="field">
+              <label>Bouw</label>
+              <div class="ui selection dropdown">
+                  <input type="hidden" name="user[gradeLevelGroup]" id="dropdown" value="<%=user.gradeLevelGroup%>">
+                  <div class="text"><%=user.gradeLevelGroup%></div>
+                  <i class="dropdown icon"></i>
+                  <div class="menu">
+                        <div class="item <%if(user.gradeLevelGroup==="Onderbouw"){%>active<%}%>"
+                            data-value="Onderbouw"
+                          <% if(user.gradeLevelGroup==="Onderbouw"){ %> selected="" <% } %> >
+                              Onderbouw
+                        </div>
+                        <div class="item <%if(user.gradeLevelGroup==="Middenbouw"){%>active<%}%>"
+                            data-value="Middenbouw"
+                          <% if(user.gradeLevelGroup==="Middenbouw"){ %> selected="" <% } %> >
+                              Middenbouw
+                        </div>
+                        <div class="item <%if(user.gradeLevelGroup==="Bovenbouw"){%>active<%}%>"
+                            data-value="Bovenbouw"
+                          <% if(user.gradeLevelGroup==="Bovenbouw"){ %> selected="" <% } %> >
+                              Bovenbouw
+                        </div>
+                  </div>
               </div>
-            </div>
-            <div class="field">
-              <div class="ui radio checkbox">
-                <input 
-                      type="radio" 
-                      name="user[isTeacher]" 
-                      value="1"
-                      <% if(user.isTeacher) { %>checked="checked"<% } %>>
-                <label>Onderwijzend</label>
-              </div>
-            </div>
           </div>
         </div>
         <div class="two fields">
@@ -95,33 +97,32 @@
           </div>
         </div>
         <div class="two fields">
-          <div class="field">
-              <label>Bouw</label>
-              <div class="ui selection dropdown">
-                  <input type="hidden" name="user[gradeLevelGroup]" id="dropdown" value="<%=user.gradeLevelGroup%>">
-                  <div class="text"><%=user.gradeLevelGroup%></div>
-                  <i class="dropdown icon"></i>
-                  <div class="menu">
-                        <div class="item <%if(user.gradeLevelGroup==="Onderbouw"){%>active<%}%>"
-                            data-value="Onderbouw"
-                          <% if(user.gradeLevelGroup==="Onderbouw"){ %> selected="" <% } %> >
-                              Onderbouw
-                        </div>
-                        <div class="item <%if(user.gradeLevelGroup==="Middenbouw"){%>active<%}%>"
-                            data-value="Middenbouw"
-                          <% if(user.gradeLevelGroup==="Middenbouw"){ %> selected="" <% } %> >
-                              Middenbouw
-                        </div>
-                        <div class="item <%if(user.gradeLevelGroup==="Bovenbouw"){%>active<%}%>"
-                            data-value="Bovenbouw"
-                          <% if(user.gradeLevelGroup==="Bovenbouw"){ %> selected="" <% } %> >
-                              Bovenbouw
-                        </div>
-                  </div>
+          
+          <div class="inline fields">
+            <label>Personeelstype</label>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input 
+                      type="radio" 
+                      name="user[isTeacher]" 
+                      value="0" 
+                      <% if(!user.isTeacher) { %>checked="checked"<% } %>>
+                <label>Onderwijsondersteunend</label>
               </div>
+            </div>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input 
+                      type="radio" 
+                      name="user[isTeacher]" 
+                      value="1"
+                      <% if(user.isTeacher) { %>checked="checked"<% } %>>
+                <label>Onderwijzend</label>
+              </div>
+            </div>
           </div>
           <div class="inline fields">
-            <label>Ik geef mijn leidinggevende en ICT'er inzage in mijn profiel</label>
+            <label>Ik geef schoolleiding inzage in mijn profiel</label>
             <div class="field">
               <div class="ui radio checkbox">
                 <input 
@@ -144,11 +145,10 @@
             </div>
           </div>
         </div>
-    <button class="ui red basic button" type="button" onclick="goBack()">Annuleren</button>
-    <button class="ui button" type="submit">Bewaren</button>
+    <button class="ui negative button" type="button" onclick="goBack()">Annuleren</button>
+    <button class="ui primary button" type="submit">Bewaren</button>
     <div class="ui error message"></div>
     </form>
     
-</div>
-        
+<% include ../partials/user-footer %>        
 <% include ../partials/footer %>

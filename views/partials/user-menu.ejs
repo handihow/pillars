@@ -1,0 +1,48 @@
+
+<div class="ui vertical icon fluid menu">
+
+  <a class="vertical item <%if(url==="/user/"+user._id) { %> active <% } %>" 
+      href="/user/<%= user._id %>" 
+      data-content="Profiel">
+    <i class="user circle icon"></i>
+    <span class="hide-mobile">Profiel</span>
+  </a>
+
+  <a class="vertical item <%if(url==="/user/"+user._id+"/surveys") { %> active <% } %>" 
+      href="/user/<%= user._id %>" 
+      data-content="Deskundigheidstests">
+    <i class="certificate icon"></i>
+    <span class="hide-mobile">Deskundigheidstests</span>
+  </a>
+  
+  <a class="vertical item <%if(url==="/user/"+user._id+"/results") { %> active <% } %>" 
+      href="/user/<%= user._id %>" 
+      data-content="Resultaten">
+    <i class="bar chart icon"></i>
+    <span class="hide-mobile">Resultaten</span>
+  </a>
+
+  <a class="vertical item <%if(url==="/user/"+user._id+"/advice") { %> active <% } %>" 
+      href="/user/<%= user._id %>" 
+      data-content="Advies">
+    <i class="magic icon"></i>
+    <span class="hide-mobile">Advies</span>
+  </a>
+
+  <a class="vertical item <%if(url==="/user/"+user._id+"/evaluations") { %> active <% } %>" 
+      href="/user/<%= user._id %>" 
+      data-content="Evaluaties">
+    <i class="comments icon"></i>
+    <span class="hide-mobile">Evaluaties</span>
+  </a>
+
+  <a class="vertical item <%if(url==="/user/"+user._id+"/assistance") { %> active <% } %>" 
+      href="/user/<%= user._id %>" 
+      data-content="Zelfhulp">
+    <i class="book icon"></i>
+    <span class="hide-mobile">Zelfhulp</span>
+  </a>
+
+</div>
+
+

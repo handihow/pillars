@@ -19,7 +19,11 @@
       <div class="item">
          <i class="university icon"></i><%=school.name%>
       </div>
-    <%}%>
+    <%} else if(typeof user !=='undefined' && user.firstName && user.lastName) {%>
+      <div class="item">
+         <i class="user circle icon"></i><%=user.firstName + ' ' +user.lastName%>
+      </div>
+    <% } %>
   </div>
   <% if(currentUser) { %>
   <div class="right menu">

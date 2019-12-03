@@ -60,6 +60,7 @@ mongoose.connect(process.env.DATABASEURL);
 //APP CONFIG
 app.set("view engine", "ejs");
 app.use(express.static("public"));
+app.use(express.static("semantic/dist"));
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true, parameterLimit: 1000000}));
 app.use(methodOverride("_method"));
