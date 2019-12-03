@@ -12,7 +12,7 @@
       <%if(organisation.logo){%><img class="ui image"  src="<%=organisation.logo%>"><%}%>
       <div class="content">Scholen</div>
     </h2>
-    <% if((currentUser.role==="badmin" || currentUser.role ==="padmin") && canAdd) { %>
+    <% if(currentUser.role==="badmin" || currentUser.role ==="padmin") { %>
       <div class="ui dropdown item">
           <a class="circular green ui icon button" data-content="Scholen toevoegen"><i class="add icon"></i></a>
           <div class="menu">
