@@ -17,28 +17,32 @@ router.get("/:sid/private", middleware.isLoggedIn, function(req, res){
         if(err ||!survey){
             req.flash("error", "Enquête niet gevonden.");
             res.redirect("back");
-        } else if(survey.isPublic){
-            req.flash("error", "Deze enquête is niet prive.");
-            res.redirect("back");
-
         } else {
-            var software = {};
-            software.hasInfo = false;
-            if(survey.isActiveSoftwareSurvey){
-              software.hasInfo = true;
-              software.course = req.query.course;
-              software.name = req.query.name;
-              software.supplier = req.query.supplier;
-              software.gradeLevels = req.query.gradeLevels;
-              software.type = req.query.type;
-              software.school = req.query.school;
-              software.id = req.query.softwareId;
-            }
-            res.locals.scripts.header.surveyjs = true;
-            res.locals.scripts.footer.surveyjs = true;
-            res.locals.scripts.footer.surveyOptions = true;
-            res.locals.scripts.footer.surveyPrivate = true;
-            res.render("survey/private", {survey: survey, software: software});            
+          var surveyDefinition = survey.competenceStandardKey ?
+          config.competence.survey[survey.competenceStandardKey] :
+          config.software.survey[survey.softwareStandardKey];
+          if(!surveyDefinition){
+            req.flash("error", "Geen definitie gevonden van deze vragenlijst");
+            return res.redirect("back");
+          }
+          survey.survey = surveyDefinition;
+          var software = {};
+          software.hasInfo = false;
+          if(survey.isActiveSoftwareSurvey){
+            software.hasInfo = true;
+            software.course = req.query.course;
+            software.name = req.query.name;
+            software.supplier = req.query.supplier;
+            software.gradeLevels = req.query.gradeLevels;
+            software.type = req.query.type;
+            software.school = req.query.school;
+            software.id = req.query.softwareId;
+          }
+          res.locals.scripts.header.surveyjs = true;
+          res.locals.scripts.footer.surveyjs = true;
+          res.locals.scripts.footer.surveyOptions = true;
+          res.locals.scripts.footer.surveyPrivate = true;
+          res.render("survey/private", {survey: survey, software: software, isShow: false});            
         }
     });
 });
@@ -58,7 +62,7 @@ router.post("/:sid/private", middleware.isLoggedIn, function(req, res){
             res.contentType('json');
             res.send({ 
                 success: false, 
-                error: 'Foutmelding: enquête niet gevonden. Server geeft fout: ' + err.message 
+                error: 'Foutmelding: ' + err.message 
               });
 
           } else if(surveyResult.length>0 && survey.isActiveCompetenceSurvey) {
@@ -66,7 +70,7 @@ router.post("/:sid/private", middleware.isLoggedIn, function(req, res){
             res.contentType('json');
             res.send({ 
                 success: false, 
-                error: 'Foutmelding: u heeft deze enquête al eerder ingevuld.'
+                error: 'Foutmelding: u heeft deze vragenlijst al eerder ingevuld.'
               });
 
 
@@ -80,7 +84,7 @@ router.post("/:sid/private", middleware.isLoggedIn, function(req, res){
                 })
               } else {
                 let surveyResult = SurveyResult({
-                  survey: req.params.id,
+                  survey: survey._id,
                   result: JSON.parse(req.body.result),
                   organisation: req.user.organisation,
                   user: user._id,
@@ -144,69 +148,28 @@ router.post("/:sid/private", middleware.isLoggedIn, function(req, res){
   });
 });
 
-//SHOWING A PUBLIC SURVEY
-router.get("/:sid/public", function(req, res){
-  Survey.findById(req.params.sid, function(err, survey){
-        if(err ||!survey){
-            req.flash("error", "Enquête niet gevonden.");
-            res.redirect("back");
-        } else if(!survey.isPublic){
-            req.flash("error", "Deze enquête is prive.");
-            res.redirect("back");
-        } else {
-            res.locals.scripts.header.surveyjs = true;
-            res.locals.scripts.footer.surveyjs = true;
-            res.locals.scripts.footer.surveyOptions = true;
-            res.locals.scripts.footer.surveyPublic = true;
-            res.render("survey/public", {survey: survey});            
-        }
-    });
-});
-
-//COMPLETED A PUBLIC SURVEY
-router.post("/:sid/public", function(req, res){
-  Survey.findById(req.params.sid, function(err, survey){
-    if(err || !survey){
-        res.contentType('json');
-        res.send({ 
-          success: false, 
-          error: 'Foutmelding: enquête niet gevonden. Server geeft fout: ' + err.message 
-        });
-    } else {
-        SurveyResult.create({
-          survey: req.params.sid,
-          result: JSON.parse(req.body.result)
-        }, function(err, surveyResult){
-          if (err) {
-            res.contentType('json');
-            res.send({ 
-                success: false, 
-                error: 'Foutmelding: enquête niet gevonden. Server geeft fout: ' + err.message 
-              });
-          } else {
-            res.contentType('json');
-            res.send({ success: true, surveyResultId:  surveyResult._id });
-          }
-
-        });
-    }
-  });
-});
-
-
-//VIEW COMPLETED SURVEY
-
-//SHOWING A PUBLIC SURVEY
+//SHOWING A  SURVEY
 router.get("/:sid/result", function(req, res){
   SurveyResult.findById(req.params.sid).populate("survey").exec(function(err, surveyResult){
         if(err ||!surveyResult){
             req.flash("error", "Inzending niet gevonden.");
             res.redirect("back");
         } else {
-            res.locals.scripts.header.surveyjs = true;
-            res.locals.scripts.footer.surveyjs = true;
-            res.locals.scripts.footer.surveyResult= true;
-            res.render("survey/result", {surveyResult: surveyResult});            
+          var competenceStandardKey = surveyResult.survey && surveyResult.survey.competenceStandardKey ?
+                  surveyResult.survey.competenceStandardKey : null;
+          var softwareStandardKey = surveyResult.survey && surveyResult.survey.softwareStandardKey ?
+                  surveyResult.survey.softwareStandardKey : null;
+          var surveyDefinition = competenceStandardKey ? config.competence.survey[competenceStandardKey] :
+                config.software.survey[softwareStandardKey];
+          if(!surveyDefinition){
+            req.flash("error", "Geen definitie gevonden van deze vragenlijst");
+            return res.redirect("back");
+          }
+          surveyResult.survey.survey = surveyDefinition;
+          res.locals.scripts.header.surveyjs = true;
+          res.locals.scripts.footer.surveyjs = true;
+          res.locals.scripts.footer.surveyPrivate = true;
+          res.render("survey/private", {surveyResult: surveyResult, isShow: true, survey: surveyResult.survey, software: {}});            
         }
     });
 });
@@ -240,6 +203,7 @@ router.get("/:sid/:uid", middleware.isLoggedIn, function(req, res){
 									csr.school.equals(individualResult.school));
 							var	schoolStatistics = config.competence.survey.calculateStatistics(survey, schoolSurveyResults);
 							res.render("survey/individual", {
+                user: user,
 								school: user.schools && user.schools[0] ? user.schools[0] : null, 
 								survey: survey,
 								schoolStatistics: schoolStatistics,

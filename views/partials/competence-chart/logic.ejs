@@ -44,7 +44,14 @@
 				  height: 100,
 				  margin: { t: 10, b: 25, l: 5, r: 0 }
 				};
-				Plotly.newPlot(index.toString(), data, layout, {responsive: true});
+
+				var config = {
+			      displayModeBar: false,
+			      staticPlot: true,
+			      responsive: true
+			    };
+
+				Plotly.newPlot(index.toString(), data, layout, config);
 			}
 			
 		});

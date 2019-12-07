@@ -1,34 +1,16 @@
 var express = require("express");
 var router = express.Router({mergeParams: true});
 var School = require("../../models/school");
+var Survey = require("../../models/survey");
 var SurveyResult = require("../../models/surveyResult");
 var middleware = require("../../middleware");
 var json2csv = require("json2csv");
 var config = require("../../config/config");
 var score = require("../../config/score");
-var calcs = require("../../config/competence/survey")
-// toevoeging
+var calcs = require("../../config/competence/survey");
+var _ = require("lodash");
 var Organisation = require("../../models/organisation");
-
-//SHOW ROUTE INVOER OVERVIEW SCHOLEN
-// router.get("/schools", middleware.isAuthenticatedBadmin, function(req, res){
-//     School.find(
-//         {"organisation": req.user.organisation}, 
-//         null,
-//         {sort: {name: 1}},
-//         function(err, schools){
-//             if(err || !schools) {
-//                 req.flash("error", err.message);
-//                 res.redirect("back");
-//             } else {
-//                 res.locals.scripts.header.datatables = true;
-//                 res.locals.scripts.footer.datatables = true;
-//                 res.render("overview/schools", {schools: schools});         
-//             }
-//         });
-// });
-
-// toevoeging
+var Statistic = require("../../models/statistic");
 
 router.get("/schools", middleware.isAuthenticatedBadmin, function(req, res){
     Organisation.findById(req.params.id, function(err, organisation){
@@ -53,8 +35,6 @@ router.get("/schools", middleware.isAuthenticatedBadmin, function(req, res){
         };
     });
 });
-
-
 
 
 //SHOW ROUTE HARDWARE OVERVIEW SCHOLEN
@@ -82,8 +62,6 @@ router.get("/hardware", middleware.isAuthenticatedBadmin, function(req, res){
         };
     });
 });
-
-
 
     
 
@@ -390,69 +368,81 @@ router.get("/software/download", middleware.isAuthenticatedBadmin, function(req,
     });
 });
 
+//SHOW ROUTE COMPETENCE SUMMARY ORGANISATION
+router.get("/competence", middleware.isAuthenticatedBadmin, function(req, res){
+  Organisation.findById(req.params.id)
+  .exec(function(err, organisation){
+    if(err ||!organisation){
+      req.flash("error", "Bestuur niet gevonden.");
+      res.redirect("back");
+    } else {
+      Survey.find({
+        "organisation": organisation._id, 
+        "isCompetenceSurvey": true
+      }, async function(err, surveys){
+        let results = [];
+        await asyncForEach(surveys, async function(survey, index){
+           let result = await retrieveOrganisationSurveyResults(survey, organisation);
+           results.push(result);
+           if(index==surveys.length-1){
+            res.locals.scripts.header.plotly = true;
+            res.locals.scripts.footer.competence = true;
+            res.render("overview/competence", {
+              organisation: organisation, 
+              surveys: surveys, 
+              results: results
+            })
+          }
+        });   
+      })        
+    }
+  });
+});
 
-//SHOW ROUTE TEST RESULTATEN SCHOLEN
-// router.get("/tests", middleware.isAuthenticatedBadmin, function(req, res){
-//     School.find(
-//         {"organisation": req.user.organisation}, 
-//         null,
-//         {sort: {name: 1}})
-//       .populate({
-//         path: 'tests',
-//         populate: { path: 'owner' }
-//       })
-//     .exec(function(err, schools){
-//       if(err || !schools) {
-//         req.flash("error", err.message);
-//         res.redirect("back");
-//     } else {
-//         res.render("overview/tests", {schools: schools});         
-//     }
-// });
-// });
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+}
 
-//DOWNLOAD ROUTE TEST OVERVIEW SCHOLEN
-// router.get("/tests/download", middleware.isAuthenticatedBadmin, function(req, res){
-//     School.find(
-//         {"organisation": req.user.organisation}, 
-//         null,
-//         {sort: {name: 1}})
-//     .populate({
-//         path: 'tests',
-//         populate: { path: 'owner' }
-//       })
-//     .exec(function(err, schools){
-//       if(err || !schools) {
-//         req.flash("error", err.message);
-//         res.redirect("back");
-//     } else {
-//         var testList = [];
-//         schools.forEach(function(school){
-//             school.tests.forEach(function(test){
-//                 test.school = school.name;
-//                 test.result = Math.ceil(test.result*1000)/10;
-//                 test.user = test.owner && test.owner.publicProfile ? test.owner.username : 'anoniem';
-//                 test.userType = test.owner && test.owner.isTeacher ? 'onderwijzend' : 'ondersteunend/onbekend';
-//                 testList.push(test);
-//             });
-//         });
-//         var fields = ['school', 'subject', 'result', 'user', 'userType'];
-//         var fieldNames = ['School', 'Onderdeel', 'Resultaat', 'Gebruikersnaam', 'Personeelstype'];
-//         json2csv({ data: testList, fields: fields, fieldNames: fieldNames }, function(err, csv) {
-//             if(err){
-//                 req.flash("error", err.message);
-//                 res.redirect("back");
-//             } else {
-//                 res.setHeader('Test-download', 'attachment; filename=tests.csv');
-//                 res.set('Content-Type', 'text/csv');
-//                 res.status(200).send(csv);
-//             }
-//         });
-//     }
-// });
-// });
+function retrieveOrganisationSurveyResults(survey, organisation){
+  return new Promise(function(resolve, reject) {
+    SurveyResult.find({"survey": survey._id}).populate('user').exec(async function(err, surveyResults){
+      if(err){
+        return resolve({
+          average: 0,
+          comparingAverage: 0,
+          count: 0,
+          comparingCount: 0
+        });
+      } else {
+        var organisationSurveyResults = surveyResults.filter(sr => sr.user && sr.user._id);
+        var organisationStatistics = config.competence.survey.calculateStatistics(survey, organisationSurveyResults);
+        var statistic = await retrieveGlobalStatistic(survey.competenceStandardKey);
+        return resolve({
+          average: _.mean(organisationStatistics[0].statistics),
+          comparingAverage: statistic ? _.mean(statistic.results) * 100 : 0,
+          count: _.size(organisationStatistics[0].statistics),
+          comparingCount: statistic ? statistic.results.length : 0
+        });
+       }
+    })
+  });
+}
 
-//SHOW ROUTE TEST RESULTATEN SCHOLEN
+function retrieveGlobalStatistic(competenceStandardKey){
+    return new Promise(function (resolve, reject){
+        Statistic.findOne({"competenceStandardKey": competenceStandardKey, "isGlobalStatistic": true}, function(err, statistic){
+            if(err || !statistic){
+                resolve(null);
+            } else {
+                resolve(statistic);
+            }
+        });
+    });
+}
+
+//SHOW ROUTE PILLARS RESULTATEN SCHOLEN
 router.get("/pillars", middleware.isAuthenticatedBadmin, function(req, res){
     Organisation.findById(req.params.id, function(err, organisation){
         if(err || !organisation){

@@ -3,7 +3,7 @@ var mongoose = require("mongoose");
 var surveySchema = mongoose.Schema ( 
     {
         name: {type: String, required: true},
-        survey: {type: {}, required: true},
+        survey: {},
         organisation: {                                 
               type: mongoose.Schema.Types.ObjectId,
               ref: "Organisation"

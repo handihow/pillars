@@ -8,50 +8,32 @@
   <% include ../partials/organisation-header %>
   <h2 class="ui top attached header">Enquête Bewerken</h2>
 <% } %>
-  
-  <div class="ui info message">
-      Bewerk de enquête in de "Survey Designer" en test indien gewenst onder "Test Survey". Je kunt de enquête bewaren door te klikken op "Save survey" in de "Survey Designer".
-  </div>
-
-  <div class="ui grid">
-    <div class="eight wide column">
-       <h5> Naam van de enquête </h5>
-      <div class="ui fluid icon input">
-        <input type="text" value="<%=survey.name%>" id="surveyName">
-        <i class="edit icon"></i>
+  <form class="ui form" action="/organisations/<%=organisation._id%>/survey/<%=survey._id%>?_method=PUT" 
+          method="POST" novalidate class="ui form">
+      <div class="field">
+        <label>Naam van de enquête </label>
+        <input type="text" name="name" value="<%=survey.name%>">
       </div>
-    </div>
-    <%if(survey.isCompetenceSurvey){%>
-      <div class="eight wide column">
-        <h5>Is actief?</h5>
-        <div class="ui checkbox">
-          <input type="checkbox" id="isActiveSurvey" <%if(survey.isActiveCompetenceSurvey){%>checked<%}%>>
-          <label>Is actieve deskundigheidstest?</label>
+      <input type="hidden" name="isActive" value="false" />
+      <%if(survey.isCompetenceSurvey){%>
+        <div class="field">
+          <div class="ui checkbox">
+            <input type="checkbox" name="isActive" <%if(survey.isActiveCompetenceSurvey){%>checked<%}%> type="hidden">
+            <label>Is actieve deskundigheidstest?</label>
+          </div>
         </div>
-      </div>
-    <%} else if(survey.isSoftwareSurvey){%>
-      <div class="eight wide column">
-        <h5>Is actief?</h5>
-        <div class="ui checkbox">
-          <input type="checkbox" id="isActiveSurvey" <%if(survey.isActiveSoftwareSurvey){%>checked<%}%>>
-          <label>Is actief beoordelingsformulier?</label>
+      <%} else if(survey.isSoftwareSurvey){%>
+        <div class="field">
+          <h5>Is actief?</h5>
+          <div class="ui checkbox">
+            <input type="checkbox" name="isActive" <%if(survey.isActiveSoftwareSurvey){%>checked<%}%> type="hidden">
+            <label>Is actief beoordelingsformulier?</label>
+          </div>
         </div>
-      </div>
-    <%} else {%>
-      <div class="eight wide column">
-        <h5>Alleen voor ingelogde gebruikers?</h5>
-        <div class="ui checkbox">
-          <input type="checkbox" id="isPublicSurvey" <%if(!survey.isPublic){%> checked<%}%>>
-          <label>Alleen ingelogde gebruikers</label>
-        </div>
-      </div>
-
-    <%}%>
-  </div>
-
-  
-  <div id="surveyEditorContainer"></div>
-  <div id="surveyInfo" hidden><%= JSON.stringify(survey)%></div>
+      <%}%>
+      <button class="ui primary button" type="submit">Bewaren</button>
+      <div class="ui error message"></div>
+  </form>  
 
 <%if(schoolLevel){%>
   <div id="schoolId" hidden><%=school._id%></div>

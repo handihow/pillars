@@ -238,5 +238,53 @@
 }
 
 
+.sv_main.sv_default_css input[type="button"], .sv_default_css button {
+  color: unset;
+  background-color: unset;
+}
 
+.sv_q_rating_item_text {
+  margin-left: 5px;
+  margin-right: 10px;
+}
+
+.question-header h5 {
+  font-size: 16px;
+}
+
+.sv-visuallyhidden {
+  display: none;
+}
+
+.sv-hidden {
+  display: none;
+}
+
+.ui.progress.small {
+  width:100%;
+}
+
+.radiogroup__label {
+  font-size: 14px;
+  margin-left: 15px;
+}
+
+fieldset  {
+    display: unset;
+    margin-inline-start: unset;
+    margin-inline-end: unset;
+    padding-block-start: unset;
+    padding-inline-start: unset;
+    padding-inline-end: unset;
+    padding-block-end: unset;
+    min-inline-size: unset;
+    border-width: unset;
+    border-style: unset;
+    border-color: unset;
+    border-image: unset;
+}
+
+.sva-toolbar {
+  display: none;
+}
 

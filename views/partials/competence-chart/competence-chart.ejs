@@ -5,9 +5,9 @@
   <div class="ui attached secondary segment">
     <div class="ui grid">
       <div class="three column row">
-        <div class="column">School: <%=results[index].count%></div>
+        <div class="column"><%=name%>: <%=results[index].count%></div>
         <h5 class="column">Inzendingen</h5>
-        <div class="column">Bestuur: <%=results[index].comparingCount%></div>
+        <div class="column"><%=compareName%>: <%=results[index].comparingCount%></div>
       </div>
     </div>
   </div>
@@ -21,7 +21,7 @@
     </div>
   <% } %>
   
-  <a href="/schools/<%= school._id %>/survey/<%=survey._id%>" 
+  <a href="<%=resultsUrl%>" 
       class="ui bottom blue attached button <% if(!results[index].average){ %>disabled<%}%>">Resultaten bekijken</a>
   
 </div>

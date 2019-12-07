@@ -20,10 +20,10 @@
       <div class="content">
         <%if(hasActiveSoftwareSurvey){%>
           <i class="green checkmark icon"></i>
-          Beoordelingsformulier voor leermiddelen is ingesteld bij <a href="/survey">enquêtes</a>
+          Beoordelingsformulier voor leermiddelen is ingesteld bij <a href="organisations/<%=organisation._id%>/survey">enquêtes</a>
         <%} else {%>
           <i class="edit outline icon"></i>
-          Stel beoordelingsformulier in voor leermiddelen bij <a href="/survey">enquêtes</a>
+          Stel beoordelingsformulier in voor leermiddelen bij <a href="organisations/<%=organisation._id%>/survey">enquêtes</a>
         <% } %>
       </div>
     </div>

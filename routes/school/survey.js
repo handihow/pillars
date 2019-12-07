@@ -68,16 +68,15 @@ router.get("/:sid", middleware.isSchoolOwner, function(req, res){
             if(err ||!survey){
               req.flash("error", "Enquête niet gevonden.");
               res.redirect("back");
-            } else if(!survey.isPublic) {
-              res.locals.scripts.header.surveyjs = true;
-              res.locals.scripts.footer.surveyjs = true;
-              res.locals.scripts.footer.surveyResults = true;
-              res.locals.scripts.header.datatables = true;
-              res.locals.scripts.footer.datatables = true;
-              if(survey.isCompetenceSurvey || survey.isSoftwareSurvey){
-                // res.locals.scripts.header.plotly = true;
-                res.locals.scripts.header.surveyanalytics = true;   
+            } else {
+              var surveyDefinition = survey.competenceStandardKey ?
+                config.competence.survey[survey.competenceStandardKey] :
+                config.software.survey[survey.softwareStandardKey];
+              if(!surveyDefinition){
+                req.flash("error", "Geen definitie gevonden van deze vragenlijst");
+                return res.redirect("back");
               }
+              survey.survey = surveyDefinition;
               SurveyResult.find({
                 survey: new ObjectId(survey._id),
                 school: new ObjectId(school._id)
@@ -104,6 +103,12 @@ router.get("/:sid", middleware.isSchoolOwner, function(req, res){
                   }
                   var protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http'
                   var fullUrl = protocol + '://' + req.get('host');
+                  res.locals.scripts.header.surveyjs = true;
+                  res.locals.scripts.header.surveyanalytics = true;  
+                  res.locals.scripts.header.datatables = true;
+                  res.locals.scripts.footer.surveyjs = true;
+                  res.locals.scripts.footer.surveyResults = true;
+                  res.locals.scripts.footer.datatables = true;
                   res.render("survey/show", {
                     school: school, 
                     survey: survey,
@@ -116,23 +121,7 @@ router.get("/:sid", middleware.isSchoolOwner, function(req, res){
                   }); 
                 }
               });        
-            } else {
-              res.locals.scripts.header.surveyjs = true;
-              res.locals.scripts.footer.surveyjs = true;
-              res.locals.scripts.footer.surveyResults = true;
-              SurveyResult.find({survey: new ObjectId(survey._id)})
-              .populate('survey')
-              .exec(function(err, surveyResults){
-                if(err){
-                  req.flash(err.message);
-                  res.redirect("back");
-                } else {
-                  var protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http'
-                  var fullUrl = protocol + '://' + req.get('host');
-                  res.render("survey/show", {school: school, survey: survey, surveyResults: surveyResults, schoolLevel: true, fullUrl: fullUrl}); 
-                }
-              });        
-            } 
+            }
         });
       }
   });

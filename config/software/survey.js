@@ -98,6 +98,36 @@ survey.kennisnet =
  },
  "pages": [
   {
+   "name": "choices",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "feedback",
+     "title": {
+      "nl": "Hoe wil je dit leermiddel evalueren?"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "quick",
+       "text": {
+        "nl": "Snel"
+       }
+      },
+      {
+       "value": "thorough",
+       "text": {
+        "nl": "Uitgebreid"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Soort feedback"
+   }
+  },
+  {
    "name": "general",
    "elements": [
     {
@@ -164,6 +194,7 @@ survey.kennisnet =
      "readOnly": true
     }
    ],
+   "visible": false,
    "title": {
     "nl": "Algemene informatie"
    },
@@ -375,6 +406,7 @@ survey.kennisnet =
      ]
     }
    ],
+   "visibleIf": "{feedback} = \"thorough\"",
    "title": {
     "nl": "Vakinhoudelijke kwaliteit"
    },
@@ -601,6 +633,7 @@ survey.kennisnet =
      ]
     }
    ],
+   "visibleIf": "{feedback} = \"thorough\"",
    "title": {
     "nl": "Kwaliteit van het leermiddel"
    },
@@ -741,6 +774,7 @@ survey.kennisnet =
      ]
     }
    ],
+   "visibleIf": "{feedback} = \"thorough\"",
    "questionTitleLocation": "top",
    "title": {
     "nl": "Integratie met Educatieve Leeromgeving ELO"
@@ -831,34 +865,150 @@ survey.kennisnet =
        }
       }
      ]
+    },
+    {
+     "type": "rating",
+     "name": "content-question6",
+     "visibleIf": "{feedback} = \"quick\"",
+     "title": {
+      "nl": "Dit leermiddel is van hoge vakinhoudelijke kwaliteit"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Niet van toepassing"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "quality-question6",
+     "visibleIf": "{feedback} = \"quick\"",
+     "title": {
+      "nl": "Dit leermiddel is gemakkelijk in gebruik en geeft veel inzicht"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Erg ongemakkelijk"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Niet makkelijk"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Makkelijk"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Eenmalig en handig"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Erg handig inloggen, ook vanuit huis"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "learningManagementSystem-question4",
+     "title": {
+      "nl": "Dit leermiddel integreert goed met de Educatieve Leeromgeving (ELO)"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "boolean",
+     "name": "privacy-question2",
+     "visible": false,
+     "title": {
+      "nl": "Dit leermiddel voldoet aan de privacywetgeving"
+     },
+     "defaultValue": "true",
+     "isRequired": true,
+     "labelTrue": "Yes",
+     "labelFalse": "No"
     }
    ],
    "title": {
     "nl": "Noodzaak en frequentie"
    }
-  },
-  {
-   "name": "privacy",
-   "elements": [
-    {
-     "type": "boolean",
-     "name": "privacy-question1",
-     "title": {
-      "nl": "De leverancier heeft het privacyconvenant ondertekend"
-     },
-     "defaultValue": "true"
-    }
-   ],
-   "title": {
-    "nl": "Privacy"
-   },
-   "description": {
-    "nl": "Door het gebruik van digitale materialen wordt er ook steeds meer persoonlijke informatie van leerlingen opgeslagen. Dit is handig, want met deze informatie kunnen we de voortgang van individuele leerlingen bijhouden. Maar deze persoonsgegevens en leerresultaten zijn ook privacygevoelig en moeten niet voor iedereen zichtbaar zijn of makkelijk te hacken. Schoolbesturen, vertegenwoordigd door de PO-Raad en de VO-raad, hebben daarom afspraken gemaakt met leveranciers van digitale leermiddelen over een goede omgang met leerlinggegevens. Deze afspraken zijn vastgelegd in het privacyconvenant voor digitale leermiddelen. Elke leverancier zou dit convenant moeten ondertekenen. De leverancier informeert het schoolbestuur in een privacybijsluiter over alle privacyaspecten van het product.\nBron (herformuleren vragenkaarten):\nWelp, E. (2017, 23 oktober). Kiezen voor het juiste digitale leermiddel? Stel vragen. Geraadpleegd op 22 april 2019, van https://www.kennisnet.nl/artikel/kiezen-voor-het-juiste-digitale-leermiddel-stel-vragen/"
-   }
   }
  ],
  "showTitle": false,
+ "showQuestionNumbers": "off",
  "showProgressBar": "bottom"
-}
+};
 
 module.exports = survey;

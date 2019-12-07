@@ -2,15 +2,17 @@
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
 <div class="ui container">
+	<% if(isShow) { %>
+		<button class="ui button" id="saveToPDFbtn" style="margin:10px">Download PDF</button>
+		<div class="ui divider"></div>
+		<div id="surveyData" hidden><%= JSON.stringify(surveyResult.result) %></div>
+	<%}%>
+	<div id="surveyElement"></div>
+	<div id="surveyResult"></div>
 
-<h2 class="ui header"><i class="question circle outline icon"></i><%=survey.name%></h2>
-<button class="ui primary button" id="saveToPDFbtn" style="margin:10px">Download PDF</button>
-
-<div id="surveyElement"></div>
-<div id="surveyResult"></div>
-
-<div id="surveyText" hidden><%= JSON.stringify(survey.survey)%></div>
-<div id="surveyId" hidden><%= survey._id %></div>
-<div id="softwareText" hidden><%= JSON.stringify(software)%></div>
-
+	<div id="surveyText" hidden><%= JSON.stringify(survey.survey)%></div>
+	<div id="surveyId" hidden><%= survey._id %></div>
+	<div id="isShowing" hidden><%= isShow %></div>
+	<div id="softwareText" hidden><%= JSON.stringify(software)%></div>
+</div>
 <% include ../partials/footer %>

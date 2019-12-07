@@ -9,10 +9,10 @@
   </a>
 
   <a class="vertical item <%if(url==="/user/"+user._id+"/surveys") { %> active <% } %>" 
-      href="/user/<%= user._id %>" 
+      href="/user/<%=user._id%>/surveys" 
       data-content="Deskundigheidstests">
     <i class="certificate icon"></i>
-    <span class="hide-mobile">Deskundigheidstests</span>
+    <span class="hide-mobile">Deskundigheid</span>
   </a>
   
   <a class="vertical item <%if(url==="/user/"+user._id+"/results") { %> active <% } %>" 
@@ -22,11 +22,11 @@
     <span class="hide-mobile">Resultaten</span>
   </a>
 
-  <a class="vertical item <%if(url==="/user/"+user._id+"/advice") { %> active <% } %>" 
-      href="/user/<%= user._id %>" 
-      data-content="Advies">
-    <i class="magic icon"></i>
-    <span class="hide-mobile">Advies</span>
+  <a class="vertical item <%if(url==="/user/"+user._id+"/ready") { %> active <% } %>" 
+      href="/user/<%= user._id %>/ready" 
+      data-content="Klaar">
+    <i class="flag checkered icon"></i>
+    <span class="hide-mobile">Klaar</span>
   </a>
 
   <a class="vertical item <%if(url==="/user/"+user._id+"/evaluations") { %> active <% } %>" 
@@ -34,13 +34,6 @@
       data-content="Evaluaties">
     <i class="comments icon"></i>
     <span class="hide-mobile">Evaluaties</span>
-  </a>
-
-  <a class="vertical item <%if(url==="/user/"+user._id+"/assistance") { %> active <% } %>" 
-      href="/user/<%= user._id %>" 
-      data-content="Zelfhulp">
-    <i class="book icon"></i>
-    <span class="hide-mobile">Zelfhulp</span>
   </a>
 
 </div>

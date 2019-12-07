@@ -70,18 +70,25 @@ router.get("/api/tests", middleware.isLoggedIn, function(req, res){
 });
 
 router.get("/surveys", middleware.isUser, function(req, res){
-  SurveyResult.find({"user": req.user._id, "isCompetenceSurvey": true})
-         .populate("survey")
-         .sort("createdAt")
-         .exec(function(err, surveyResults){
-         if(err){
-            req.flash("error", "Onbekende fout: " + err.message);
-            res.redirect("back");
-          } else {
-            res.locals.scripts.footer.dashboard = true;
-            res.render("user/surveys", {surveyResults: surveyResults});
-          }
-        });
+  User.findById(req.params.id).populate("organisation").exec(function(err, user){
+    if(err || !user){
+      req.flash("error", err);
+      res.redirect("back");
+    } else {
+      SurveyResult.find({"user": user._id, "isCompetenceSurvey": true})
+      .populate("survey")
+      .sort("createdAt")
+      .exec(function(err, surveyResults){
+        if(err){
+          req.flash("error", "Onbekende fout: " + err.message);
+          res.redirect("back");
+        } else {
+          res.locals.scripts.footer.dashboard = true;
+          res.render("user/surveys", {surveyResults: surveyResults, user: user});
+        }
+      });
+    }
+  });
 });
 
 

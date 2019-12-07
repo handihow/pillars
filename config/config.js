@@ -58,6 +58,6 @@ config.processingActivity = processingActivity;
 config.inspectionResults = inspectionResults;
 config.organisationSettings = organisationSettings;
 
-config.currentSchoolYear = "2018/2019"
+config.currentSchoolYear = "2019/2020"
 
 module.exports = config;

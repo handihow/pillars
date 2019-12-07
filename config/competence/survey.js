@@ -1,6 +1,6 @@
 var survey = {};
 
-competenceCategories = [
+var competenceCategories = [
 	{
 		identifier: 'ictSkills',
 		title: "ICT Geletterdheid",
@@ -298,22 +298,22 @@ survey.calculateStatistics = function(survey, surveyResults){
          var total = 0;
          Object.keys(surveyResult.result).forEach(function(key){
             var value = surveyResult.result[key];
-            if(typeof value == 'string'){
-              value = parseFloat(value);
+            if(typeof value == 'string' && (value == "true" || value == "false")){
+              transformedValue = value == "true" ? 1 : 0;
+            } else if(typeof value == 'string'){
+              transformedValue = parseFloat(value);
             } else if(typeof value == 'boolean'){
-              value = value ? 1 : 0;
+              transformedValue = value ? 1 : 0;
             }
-
-            if(statIndex == 0 && !isNaN(value)) {
+            if(statIndex == 0 && !isNaN(transformedValue)) {
                //this is the general statistics
                questions += 1;
-               total += value;
+               total += transformedValue;
             }
-
             var name = key.substring(0,key.indexOf("-"));
             if(name == stat.name){
                questions += 1;
-               total += value;            
+               total += transformedValue;            
             }
           });
           var result = Math.round(total / questions * 100);
@@ -321,3257 +321,4507 @@ survey.calculateStatistics = function(survey, surveyResults){
        });
       });
     }
-		
 	} 
 	return statistics;
 }
 
 
 survey.ictSkills = {
- locale: "nl",
- title: {
-  nl: "ICT Geletterdheid"
+ "locale": "nl",
+ "title": {
+  "nl": "ICT Geletterdheid"
  },
- showTitle: false,
- pages: [
+ "pages": [
   {
-   name: "basicSkills",
-   elements: [
+   "name": "basicSkills1",
+   "elements": [
     {
-     type: "boolean",
-     name: "basicSkills-question1",
-     title: {
-      nl: "Ik weet welke ICT voorzieningen (hard- en software) er bij ons op school beschikbaar zijn"
+     "type": "radiogroup",
+     "name": "basicSkills-question1",
+     "title": {
+      "nl": "Ik weet welke ICT voorzieningen (hard- en software) er bij ons op school beschikbaar zijn"
      },
-     defaultValue: "false",
-     isRequired: true
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
     },
     {
-     type: "boolean",
-     name: "basicSkills-question2",
-     title: {
-      nl: "Ik gebruik de ICT voorzieningen met gemak"
+     "type": "radiogroup",
+     "name": "basicSkills-question2",
+     "title": {
+      "nl": "Ik gebruik de ICT voorzieningen met gemak"
      },
-     defaultValue: "false",
-     isRequired: true
-    },
-    {
-     type: "boolean",
-     name: "basicSkills-question3",
-     title: {
-      nl: "Ik ben in staat om meerdere types (mobiele) devices in te zetten (denk aan: smartphone, tablet, chromebook e.d.)"
-     },
-     defaultValue: "false",
-     isRequired: true
-    },
-    {
-     type: "boolean",
-     name: "basicSkills-question4",
-     title: {
-      nl: "Ik kan mij zonder veel moeite een nieuw device eigen maken en gebruiken voor educatieve toepassingen"
-     },
-     defaultValue: "false",
-     isRequired: true
-    },
-    {
-     type: "boolean",
-     name: "basicSkills-question5",
-     title: {
-      nl: "Ik sla mijn mappen en bestanden steeds vaker op in de cloud (Google Drive, OneDrive, Dropbox) en snap hoe ik daarmee documenten kan beheren en delen"
-     },
-     defaultValue: "false",
-     isRequired: true
-    },
-    {
-     type: "boolean",
-     name: "basicSkills-question6",
-     title: {
-      nl: "Ik maak snelkoppelingen naar veelgebruikte mappen of internetpagina's op mijn desktop"
-     },
-     defaultValue: "false",
-     isRequired: true
-    },
-    {
-     type: "boolean",
-     name: "basicSkills-question7",
-     title: {
-      nl: "Ik kan met verschillende bestandstypen en omgaan met bestanden (opslaan/terugvinden, kopiëren/verwijderen, verzenden/ontvangen, delen) op verschillende opslagmedia"
-     },
-     defaultValue: "false",
-     isRequired: true
-    },
-    {
-     type: "boolean",
-     name: "basicSkills-question8",
-     title: {
-      nl: "Ik creëer informatie en gebruik het internet voor de publicatie (website, blog, etc.)"
-     },
-     defaultValue: "false",
-     isRequired: true
-    },
-    {
-     type: "boolean",
-     name: "basicSkills-question9",
-     title: {
-      nl: "Ik ben op de hoogte van de mogelijkheden van YouTube, kan filmpjes toevoegen of een afspeellijst samenstellen"
-     },
-     defaultValue: "false",
-     isRequired: true
-    },
-    {
-     type: "boolean",
-     name: "basicSkills-question10",
-     title: {
-      nl: "Ik maak zelf wel eens filmpjes om mijn boodschap goed over te brengen"
-     },
-     defaultValue: "false",
-     isRequired: true
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
     }
    ],
-   title: {
-    nl: "ICT Basisvaardigheden"
+   "title": {
+    "nl": "ICT basisvaardigheden (1/5)"
    }
   },
   {
-   name: "informationSkills",
-   elements: [
+   "name": "basicSkills2",
+   "elements": [
     {
-     type: "boolean",
-     name: "informationSkills-question1",
-     title: {
-      nl: "Informatie die ik vind op internet kan ik makkelijk integreren in presentaties of opdrachten, zonder dat ik daar veel werk aan heb (bijvoorbeeld knippen en plakken, of integreren van filmpjes in een presentatie)"
+     "type": "radiogroup",
+     "name": "basicSkills-question4",
+     "title": {
+      "nl": "Ik kan mij zonder veel moeite een nieuw device eigen maken en gebruiken voor educatieve toepassingen"
      },
-     defaultValue: "false",
-     isRequired: true
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
     },
     {
-     type: "boolean",
-     name: "informationSkills-question2",
-     title: {
-      nl: "Als mijn zoekopdrachten onvoldoende resultaat opleveren, probeer ik mijn zoektermen aan te passen om toch de informatie te vinden die ik zoek"
+     "type": "radiogroup",
+     "name": "basicSkills-question3",
+     "title": {
+      "nl": "Ik ben in staat om meerdere types (mobiele) devices in te zetten (denk aan: smartphone, tablet, chromebook e.d.)"
      },
-     defaultValue: "false",
-     isRequired: true
-    },
-    {
-     type: "boolean",
-     name: "informationSkills-question3",
-     title: {
-      nl: "Ik controleer over het algemeen de juistheid en actualiteit van de websites of andere plekken waar ik mijn informatie vandaan haal"
-     },
-     defaultValue: "false",
-     isRequired: true
-    },
-    {
-     type: "boolean",
-     name: "informationSkills-question4",
-     title: {
-      nl: "Ik gebruik een internetbrowser met favorieten zodat ik snel op mijn meest gebruikte pagina's terecht kan"
-     },
-     defaultValue: "false",
-     isRequired: true
-    },
-    {
-     type: "boolean",
-     name: "informationSkills-question5",
-     title: {
-      nl: "Ik kan goed uit de voeten met zoekvelden, filters en sorteerfuncties"
-     },
-     defaultValue: "false",
-     isRequired: true
-    },
-    {
-     type: "boolean",
-     name: "informationSkills-question6",
-     title: {
-      nl: "Als ik (leer)materiaal maak met informatie die ik op internet vind, vermeld ik altijd de bron en ik weet welke regels hiervoor gelden"
-     },
-     defaultValue: "false",
-     isRequired: true
-    },
-    {
-     type: "boolean",
-     name: "informationSkills-question7",
-     title: {
-      nl: "Ik weet hoe ik de betrouwbaarheid van educatieve software en websites kan controleren"
-     },
-     defaultValue: "false",
-     isRequired: true
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
     }
    ],
-   title: {
-    nl: "ICT Basisvaardigheden"
+   "title": {
+    "nl": "ICT basisvaardigheden (2/5)"
    }
   },
   {
-   name: "mediaSkills",
-   elements: [
+   "name": "basicSkills3",
+   "elements": [
     {
-     type: "boolean",
-     name: "mediaSkills-question1",
-     title: {
-      nl: "Ik weet hoe ik filmpjes of afbeeldingen kan bewerken (bijvoorbeeld inkorten of tekst toevoegen) en doe dat soms ook om de les er beter van te maken"
+     "type": "radiogroup",
+     "name": "basicSkills-question6",
+     "title": {
+      "nl": "Ik maak snelkoppelingen naar veelgebruikte mappen of internetpagina's op mijn desktop"
      },
-     defaultValue: "false",
-     isRequired: true
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
     },
     {
-     type: "boolean",
-     name: "mediaSkills-question2",
-     title: {
-      nl: "Ik lees jaarlijks meer dan 3 artikelen over het gebruik van ICT in het onderwijs"
+     "type": "radiogroup",
+     "name": "basicSkills-question5",
+     "title": {
+      "nl": "Ik sla mijn mappen en bestanden steeds vaker op in de cloud (Google Drive, OneDrive, Dropbox) en snap hoe ik daarmee documenten kan beheren en delen"
      },
-     defaultValue: "false",
-     isRequired: true
-    },
-    {
-     type: "boolean",
-     name: "mediaSkills-question3",
-     title: {
-      nl: "Ik gebruik dagelijks ICT toepassingen in mijn onderwijs"
-     },
-     defaultValue: "false",
-     isRequired: true
-    },
-    {
-     type: "boolean",
-     name: "mediaSkills-question4",
-     title: {
-      nl: "Ik waak over de nettiquette binnen sociale netwerken"
-     },
-     defaultValue: "false",
-     isRequired: true
-    },
-    {
-     type: "boolean",
-     name: "mediaSkills-question5",
-     title: {
-      nl: "Ik probeer regelmatig nieuwe ICT toepassingen uit in mijn lessen"
-     },
-     defaultValue: "false",
-     isRequired: true
-    },
-    {
-     type: "boolean",
-     name: "mediaSkills-question6",
-     title: {
-      nl: "Ik kan een overzicht geven van gebruikte sociale netwerken zoals Facebook, LinkedIn e.d."
-     },
-     defaultValue: "false",
-     isRequired: true
-    },
-    {
-     type: "boolean",
-     name: "mediaSkills-question7",
-     title: {
-      nl: "Ik snap goed welke risico's internet en sociale media met zich meebrengen en wat dit voor invloed heeft op de dynamiek in de klas"
-     },
-     defaultValue: "false",
-     isRequired: true
-    },
-    {
-     type: "boolean",
-     name: "mediaSkills-question8",
-     title: {
-      nl: "Ik verbeter me in de mediavaardigheden die ik zelf nodig heb om in deze digitale samenleving goed te functioneren"
-     },
-     defaultValue: "false",
-     isRequired: true
-    },
-    {
-     type: "boolean",
-     name: "mediaSkills-question9",
-     title: {
-      nl: "Ik probeer de risico's van sociale media te bespreken in mijn klas, door dit bijvoorbeeld te verwerken in een reflectie van een opdracht"
-     },
-     defaultValue: "false",
-     isRequired: true
-    },
-    {
-     type: "boolean",
-     name: "mediaSkills-question10",
-     title: {
-      nl: "Ik leer mijn klas 21e eeuwse vaardigheden zoals kritisch denken, oplossend vermogen en digitale vaardigheden door deze in te passen in de standaard methoden"
-     },
-     defaultValue: "false",
-     isRequired: true
-    },
-    {
-     type: "boolean",
-     name: "mediaSkills-question11",
-     title: {
-      nl: "Ik heb met mijn klas regelmatig gesprekken over wat er gebeurt op sociale media zoals WhatsApp, Instagram en SnapChat (bijvoorbeeld roddelen of pesten) en hoe ze daarmee om (kunnen) gaan"
-     },
-     defaultValue: "false",
-     isRequired: true
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
     }
    ],
-   title: {
-    nl: "Mediawijsheid"
+   "title": {
+    "nl": "ICT basisvaardigheden (3/5)"
    }
   },
   {
-   name: "computationalThinking",
-   elements: [
+   "name": "basicSkills4",
+   "elements": [
     {
-     type: "boolean",
-     name: "computationalThinking-question1",
-     title: {
-      nl: "Ik kan informatie weergeven in relevante grafieken, tabellen, woorden en plaatjes"
+     "type": "radiogroup",
+     "name": "basicSkills-question8",
+     "title": {
+      "nl": "Ik creëer informatie en gebruik het internet voor de publicatie (website, blog, etc.)"
      },
-     defaultValue: "false",
-     isRequired: true
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
     },
     {
-     type: "boolean",
-     name: "computationalThinking-question2",
-     title: {
-      nl: "Ik snap eenvoudige programeerprincipes en kan deze toepassen op websites zoals Scratch of Microbit"
+     "type": "radiogroup",
+     "name": "basicSkills-question7",
+     "title": {
+      "nl": "Ik kan met verschillende bestandstypen en omgaan met bestanden (opslaan/terugvinden, kopiëren/verwijderen, verzenden/ontvangen, delen) op verschillende opslagmedia"
      },
-     defaultValue: "false",
-     isRequired: true
-    },
-    {
-     type: "boolean",
-     name: "computationalThinking-question3",
-     title: {
-      nl: "Ik kan een computerprogramma schrijven in een omgeving voor kinderen (Microbit / Scratch) of zelfs in een programeertaal zoals Python of C#"
-     },
-     defaultValue: "false",
-     isRequired: true
-    },
-    {
-     type: "boolean",
-     name: "computationalThinking-question4",
-     title: {
-      nl: "Ik kan repetitieve taken laten uitvoeren door computers, bijvoorbeeld het laten uitrekenen van cellen in Excel of het automatisch vullen van brieven in Word"
-     },
-     defaultValue: "false",
-     isRequired: true
-    },
-    {
-     type: "boolean",
-     name: "computationalThinking-question5",
-     title: {
-      nl: "Ik kan een probleem oplossen door het te automatiseren met behulp van bestaande programma's of websites, bijvoorbeeld met behulp van If This Then That"
-     },
-     defaultValue: "false",
-     isRequired: true
-    },
-    {
-     type: "boolean",
-     name: "computationalThinking-question6",
-     title: {
-      nl: "Ik kan de Voice Assistent van mijn telefoon gebruiken om sneller taken uit te voeren op mijn telefoon"
-     },
-     defaultValue: "false",
-     isRequired: true
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
     }
    ],
-   title: {
-    nl: "Computational Thinking"
+   "title": {
+    "nl": "ICT basisvaardigheden (4/5)"
+   }
+  },
+  {
+   "name": "basicSkills5",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "basicSkills-question10",
+     "title": {
+      "nl": "Ik maak zelf wel eens filmpjes om mijn boodschap goed over te brengen"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "basicSkills-question9",
+     "title": {
+      "nl": "Ik ben op de hoogte van de mogelijkheden van YouTube, kan filmpjes toevoegen of een afspeellijst samenstellen"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "ICT basisvaardigheden (5/5)"
+   }
+  },
+  {
+   "name": "informationSkills1",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "informationSkills-question1",
+     "title": {
+      "nl": "Informatie die ik vind op internet kan ik makkelijk integreren in presentaties of opdrachten, zonder dat ik daar veel werk aan heb (bijvoorbeeld knippen en plakken, of integreren van filmpjes in een presentatie)"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "informationSkills-question2",
+     "title": {
+      "nl": "Als mijn zoekopdrachten onvoldoende resultaat opleveren, probeer ik mijn zoektermen aan te passen om toch de informatie te vinden die ik zoek"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Informatievaardigheden (1/4)"
+   }
+  },
+  {
+   "name": "informationSkills2",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "informationSkills-question4",
+     "title": {
+      "nl": "Ik gebruik een internetbrowser met favorieten zodat ik snel op mijn meest gebruikte pagina's terecht kan"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "informationSkills-question3",
+     "title": {
+      "nl": "Ik controleer over het algemeen de juistheid en actualiteit van de websites of andere plekken waar ik mijn informatie vandaan haal"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Informatievaardigheden (2/4)"
+   }
+  },
+  {
+   "name": "informationSkills3",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "informationSkills-question6",
+     "title": {
+      "nl": "Als ik (leer)materiaal maak met informatie die ik op internet vind, vermeld ik altijd de bron en ik weet welke regels hiervoor gelden"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "informationSkills-question5",
+     "title": {
+      "nl": "Ik kan goed uit de voeten met zoekvelden, filters en sorteerfuncties"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Informatievaardigheden (3/4)"
+   }
+  },
+  {
+   "name": "informationSkills4",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "informationSkills-question7",
+     "title": {
+      "nl": "Ik weet hoe ik de betrouwbaarheid van educatieve software en websites kan controleren"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Informatievaardigheden (4/4)"
+   }
+  },
+  {
+   "name": "mediaSkills1",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "mediaSkills-question1",
+     "title": {
+      "nl": "Ik weet hoe ik filmpjes of afbeeldingen kan bewerken (bijvoorbeeld inkorten of tekst toevoegen) en doe dat soms ook om de les er beter van te maken"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "mediaSkills-question2",
+     "title": {
+      "nl": "Ik lees jaarlijks meer dan 3 artikelen over het gebruik van ICT in het onderwijs"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Mediawijsheid (1/6)"
+   }
+  },
+  {
+   "name": "mediaSkills2",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "mediaSkills-question4",
+     "title": {
+      "nl": "Ik waak over de nettiquette binnen sociale netwerken"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "mediaSkills-question3",
+     "title": {
+      "nl": "Ik gebruik dagelijks ICT toepassingen in mijn onderwijs"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Mediawijsheid (2/6)"
+   }
+  },
+  {
+   "name": "mediaSkills3",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "mediaSkills-question6",
+     "title": {
+      "nl": "Ik kan een overzicht geven van gebruikte sociale netwerken zoals Facebook, LinkedIn e.d."
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "mediaSkills-question5",
+     "title": {
+      "nl": "Ik probeer regelmatig nieuwe ICT toepassingen uit in mijn lessen"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Mediawijsheid (3/6)"
+   }
+  },
+  {
+   "name": "mediaSkills4",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "mediaSkills-question8",
+     "title": {
+      "nl": "Ik verbeter me in de mediavaardigheden die ik zelf nodig heb om in deze digitale samenleving goed te functioneren"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "mediaSkills-question7",
+     "title": {
+      "nl": "Ik snap goed welke risico's internet en sociale media met zich meebrengen en wat dit voor invloed heeft op de dynamiek in de klas"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Mediawijsheid (4/6)"
+   }
+  },
+  {
+   "name": "mediaSkills5",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "mediaSkills-question10",
+     "title": {
+      "nl": "Ik leer mijn klas 21e eeuwse vaardigheden zoals kritisch denken, oplossend vermogen en digitale vaardigheden door deze in te passen in de standaard methoden"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "mediaSkills-question9",
+     "title": {
+      "nl": "Ik probeer de risico's van sociale media te bespreken in mijn klas, door dit bijvoorbeeld te verwerken in een reflectie van een opdracht"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Mediawijsheid (5/6)"
+   }
+  },
+  {
+   "name": "mediaSkills6",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "mediaSkills-question11",
+     "title": {
+      "nl": "Ik heb met mijn klas regelmatig gesprekken over wat er gebeurt op sociale media zoals WhatsApp, Instagram en SnapChat (bijvoorbeeld roddelen of pesten) en hoe ze daarmee om (kunnen) gaan"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Mediawijsheid (6/6)"
+   }
+  },
+  {
+   "name": "computationalThinking1",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "computationalThinking-question1",
+     "title": {
+      "nl": "Ik kan informatie weergeven in relevante grafieken, tabellen, woorden en plaatjes"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "computationalThinking-question2",
+     "title": {
+      "nl": "Ik snap eenvoudige programeerprincipes en kan deze toepassen op websites zoals Scratch of Microbit"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Computational Thinking (1/3)"
+   }
+  },
+  {
+   "name": "computationalThinking2",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "computationalThinking-question4",
+     "title": {
+      "nl": "Ik kan repetitieve taken laten uitvoeren door computers, bijvoorbeeld het laten uitrekenen van cellen in Excel of het automatisch vullen van brieven in Word"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "computationalThinking-question3",
+     "title": {
+      "nl": "Ik kan een computerprogramma schrijven in een omgeving voor kinderen (Microbit / Scratch) of zelfs in een programeertaal zoals Python of C#"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Computational Thinking (2/3)"
+   }
+  },
+  {
+   "name": "computationalThinking3",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "computationalThinking-question6",
+     "title": {
+      "nl": "Ik kan de Voice Assistent van mijn telefoon gebruiken om sneller taken uit te voeren op mijn telefoon"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "computationalThinking-question5",
+     "title": {
+      "nl": "Ik kan een probleem oplossen door het te automatiseren met behulp van bestaande programma's of websites, bijvoorbeeld met behulp van If This Then That"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Computational Thinking (3/3)"
    }
   }
- ]
+ ],
+ "showTitle": false,
+ "showQuestionNumbers": "off",
+ "showProgressBar": "bottom",
+ "requiredText": ""
 };
 
 survey.pedagogicalDidacticalSkills = {
-    "locale": "nl",
-    "title": {
-      "nl": "Pedagogisch Didactisch Handelen"
-    },
-    "showTitle": false,
-    "pages": [
+ "locale": "nl",
+ "title": {
+  "nl": "Pedagogisch Didactisch Handelen"
+ },
+ "pages": [
+  {
+   "name": "instructing1",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "instructing-question1",
+     "title": {
+      "nl": "Ik kan op eigen initiatief geschikte toepassingen inzetten bij het leerproces"
+     },
+     "isRequired": true,
+     "choices": [
       {
-        "name": "instructing",
-        "title": {
-          "nl": "Instructie geven"
-        },
-        "elements": [
-          {
-            "type": "boolean",
-            "name": "instructing-question1",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik kan op eigen initiatief geschikte toepassingen inzetten bij het leerproces"
-            }
-          },
-          {
-            "type": "boolean",
-            "name": "instructing-question2",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik ben actief op zoek naar nieuwe educatieve toepassingen en zet deze in binnen het onderwijs"
-            }
-          },
-          {
-            "type": "boolean",
-            "name": "instructing-question3",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik gebruik wel eens tools als Kahoot!, Padlet, Mentimeter en Quizlet om mijn lessen te verrijken"
-            }
-          },
-          {
-            "type": "boolean",
-            "name": "instructing-question4",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik kan een connectie tot stand brengen tussen (leerling-) devices en het digitale bord t.b.v. een interactieve manier van lesgeven"
-            }
-          },
-          {
-            "type": "boolean",
-            "name": "instructing-question5",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik kan het aanwezige digibord functioneel en interactief inzetten in mijn lessen"
-            }
-          },
-          {
-            "type": "boolean",
-            "name": "instructing-question6",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik ben bekend met video conferencing apps zoals Skype en FaceTime en kan daarmee op afstand instructie geven"
-            }
-          }
-        ]
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
       },
       {
-        "name": "learning",
-        "title": {
-          "nl": "Laten leren"
-        },
-        "elements": [
-          {
-            "type": "boolean",
-            "name": "learning-question1",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik kan leerlingen laten werken met educatieve programmas"
-            }
-          },
-          {
-            "type": "boolean",
-            "name": "learning-question2",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik kan apps downloaden, installeren, beoordelen en verwijderen"
-            }
-          },
-          {
-            "type": "boolean",
-            "name": "learning-question3",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik gebruik een online omgeving en/of elo die voor het onderwijs op onze school aanwezig is"
-            }
-          },
-          {
-            "type": "boolean",
-            "name": "learning-question4",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik weet hoe ik de online omgeving en/of elo vanaf verschillende devices kan benaderen"
-            }
-          },
-          {
-            "type": "boolean",
-            "name": "learning-question5",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Voor de op onderwijs gerichte online en/of elo omgeving weet ik hoe leerlingen toegevoegd of verwijderd moeten worden"
-            }
-          },
-          {
-            "type": "boolean",
-            "name": "learning-question6",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Als we op school een nieuwe digitale methode krijgen kan ik deze snel in mijn lessen gebruiken"
-            }
-          },
-          {
-            "type": "boolean",
-            "name": "learning-question7",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik zet op basis van onderzoek media bewust en systematisch in om het eigen onderwijs te verrijken en leerlingen optimaal te laten leren"
-            }
-          },
-          {
-            "type": "boolean",
-            "name": "learning-question8",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik ben in staat om met behulp van digitale leermiddelen leerlingen met uiteenlopende zorgbehoeften te ondersteunen"
-            }
-          }
-        ]
-      },
-      {
-        "name": "testing",
-        "title": {
-          "nl": "Toetsen"
-        },
-        "elements": [
-          {
-            "type": "boolean",
-            "name": "testing-question1",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik kan met behulp van digitale leermiddelen toetsen afnemen en de resultaten analyseren"
-            }
-          },
-          {
-            "type": "boolean",
-            "name": "testing-question2",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik ben in staat om zelf digitale toetsen te maken (bijvoorbeeld met behulp van Google formulieren)"
-            }
-          },
-          {
-            "type": "boolean",
-            "name": "testing-question3",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik kan de leerdoelen per leerling aanpassen met behulp van de resultaten van digitale toetsen"
-            }
-          },
-          {
-            "type": "boolean",
-            "name": "testing-question4",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik kan toetsen op maat aanbieden (adaptieve toets) met behulp van digitale leermiddelen"
-            }
-          }
-        ]
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
       }
-    ]
-  };
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "instructing-question2",
+     "title": {
+      "nl": "Ik ben actief op zoek naar nieuwe educatieve toepassingen en zet deze in binnen het onderwijs"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Instructie geven (1/3)"
+   }
+  },
+  {
+   "name": "instructing2",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "instructing-question3",
+     "title": {
+      "nl": "Ik gebruik wel eens tools als Kahoot!, Padlet, Mentimeter en Quizlet om mijn lessen te verrijken"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "instructing-question4",
+     "title": {
+      "nl": "Ik kan een connectie tot stand brengen tussen (leerling-) devices en het digitale bord t.b.v. een interactieve manier van lesgeven"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Instructie geven (2/3)"
+   }
+  },
+  {
+   "name": "instructing3",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "instructing-question5",
+     "title": {
+      "nl": "Ik kan het aanwezige digibord functioneel en interactief inzetten in mijn lessen"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "instructing-question6",
+     "title": {
+      "nl": "Ik ben bekend met video conferencing apps zoals Skype en FaceTime en kan daarmee op afstand instructie geven"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Instructie geven (3/3)"
+   }
+  },
+  {
+   "name": "learning1",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "learning-question1",
+     "title": {
+      "nl": "Ik kan leerlingen laten werken met educatieve programmas"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "learning-question2",
+     "title": {
+      "nl": "Ik kan apps downloaden, installeren, beoordelen en verwijderen"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Laten leren (1/4)"
+   }
+  },
+  {
+   "name": "learning2",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "learning-question3",
+     "title": {
+      "nl": "Ik gebruik een online omgeving en/of elo die voor het onderwijs op onze school aanwezig is"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "learning-question4",
+     "title": {
+      "nl": "Ik weet hoe ik de online omgeving en/of elo vanaf verschillende devices kan benaderen"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Laten leren (2/4)"
+   }
+  },
+  {
+   "name": "learning3",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "learning-question5",
+     "title": {
+      "nl": "Voor de op onderwijs gerichte online en/of elo omgeving weet ik hoe leerlingen toegevoegd of verwijderd moeten worden"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "learning-question6",
+     "title": {
+      "nl": "Als we op school een nieuwe digitale methode krijgen kan ik deze snel in mijn lessen gebruiken"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Laten leren (3/4)"
+   }
+  },
+  {
+   "name": "learning4",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "learning-question7",
+     "title": {
+      "nl": "Ik zet op basis van onderzoek media bewust en systematisch in om het eigen onderwijs te verrijken en leerlingen optimaal te laten leren"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "learning-question8",
+     "title": {
+      "nl": "Ik ben in staat om met behulp van digitale leermiddelen leerlingen met uiteenlopende zorgbehoeften te ondersteunen"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Laten leren (4/4)"
+   }
+  },
+  {
+   "name": "testing1",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "testing-question1",
+     "title": {
+      "nl": "Ik kan met behulp van digitale leermiddelen toetsen afnemen en de resultaten analyseren"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "testing-question2",
+     "title": {
+      "nl": "Ik ben in staat om zelf digitale toetsen te maken (bijvoorbeeld met behulp van Google formulieren)"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Toetsen (1/2)"
+   }
+  },
+  {
+   "name": "testing2",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "testing-question3",
+     "title": {
+      "nl": "Ik kan de leerdoelen per leerling aanpassen met behulp van de resultaten van digitale toetsen"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "testing-question4",
+     "title": {
+      "nl": "Ik kan toetsen op maat aanbieden (adaptieve toets) met behulp van digitale leermiddelen"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Toetsen (2/2)"
+   }
+  }
+ ],
+ "showTitle": false,
+ "showQuestionNumbers": "off",
+ "showProgressBar": "bottom"
+};
 
 survey.workInSchoolContext = {
-    "locale": "nl",
-    "title": {
-      "nl": "Werken in de schoolcontext"
-    },
-    "showTitle": false,
-    "pages": [
+ "locale": "nl",
+ "title": {
+  "nl": "Werken in de schoolcontext"
+ },
+ "pages": [
+  {
+   "name": "registration1",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "registration-question1",
+     "title": {
+      "nl": "Ik kan een absentie en cijferregistratie invoeren"
+     },
+     "isRequired": true,
+     "choices": [
       {
-        "name": "registration",
-        "title": {
-          "nl": "Registreren"
-        },
-        "elements": [
-          {
-            "type": "boolean",
-            "name": "registration-question1",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik kan een absentie en cijferregistratie invoeren"
-            }
-          },
-          {
-            "type": "boolean",
-            "name": "registration-question2",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik kan dossiers aanleggen van leerlingen en deze gegevens met collegas delen"
-            }
-          },
-          {
-            "type": "boolean",
-            "name": "registration-question3",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik kan mijn administratie (bijvoorbeeld het opstellen van handelingsplannen of het schrijven van een rapportage) op afstand invoeren"
-            }
-          }
-        ]
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
       },
       {
-        "name": "justification",
-        "title": {
-          "nl": "Volgen en verantwoorden"
-        },
-        "elements": [
-          {
-            "type": "boolean",
-            "name": "justification-question1",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik kan een leerlingenrapport maken met behulp van de beschikbare software"
-            }
-          },
-          {
-            "type": "boolean",
-            "name": "justification-question2",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik kan een handelings of groepsplan opstellen met behulp van tekstverwerkers of spreadsheets"
-            }
-          },
-          {
-            "type": "boolean",
-            "name": "justification-question3",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik kan overzichten van resultaten maken en deze verwerken in presentaties"
-            }
-          },
-          {
-            "type": "boolean",
-            "name": "justification-question4",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik kan resultaten van leerlingen uit digitale leermiddelen analyseren en interpreteren"
-            }
-          }
-        ]
-      },
-      {
-        "name": "communication",
-        "title": {
-          "nl": "Communiceren"
-        },
-        "elements": [
-          {
-            "type": "boolean",
-            "name": "communication-question1",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik kan communiceren met anderen via e-mail of ander communicatieprogramma of app"
-            }
-          },
-          {
-            "type": "boolean",
-            "name": "communication-question2",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik gebruik sociale netwerken om het publiek (ouders, betrokken professionals e.d.) te informeren over relevante schoolse zaken"
-            }
-          },
-          {
-            "type": "boolean",
-            "name": "communication-question3",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik weet de kwaliteiten en verdiensten van het eigen onderwijs, de leerlingen en de school naar buiten toe te belichten"
-            }
-          }
-        ]
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
       }
-    ]
-  };
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "registration-question2",
+     "title": {
+      "nl": "Ik kan dossiers aanleggen van leerlingen en deze gegevens met collegas delen"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Registreren (1/2)"
+   }
+  },
+  {
+   "name": "registration2",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "registration-question3",
+     "title": {
+      "nl": "Ik kan mijn administratie (bijvoorbeeld het opstellen van handelingsplannen of het schrijven van een rapportage) op afstand invoeren"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Registreren (2/2)"
+   }
+  },
+  {
+   "name": "justification1",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "justification-question1",
+     "title": {
+      "nl": "Ik kan een leerlingenrapport maken met behulp van de beschikbare software"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "justification-question2",
+     "title": {
+      "nl": "Ik kan een handelings of groepsplan opstellen met behulp van tekstverwerkers of spreadsheets"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Volgen en verantwoorden (1/2)"
+   }
+  },
+  {
+   "name": "justification2",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "justification-question3",
+     "title": {
+      "nl": "Ik kan overzichten van resultaten maken en deze verwerken in presentaties"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "justification-question4",
+     "title": {
+      "nl": "Ik kan resultaten van leerlingen uit digitale leermiddelen analyseren en interpreteren"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Volgen en verantwoorden (2/2)"
+   }
+  },
+  {
+   "name": "communication1",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "communication-question1",
+     "title": {
+      "nl": "Ik kan communiceren met anderen via e-mail of ander communicatieprogramma of app"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "communication-question2",
+     "title": {
+      "nl": "Ik gebruik sociale netwerken om het publiek (ouders, betrokken professionals e.d.) te informeren over relevante schoolse zaken"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Communiceren (1/2)"
+   }
+  },
+  {
+   "name": "communication2",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "communication-question3",
+     "title": {
+      "nl": "Ik weet de kwaliteiten en verdiensten van het eigen onderwijs, de leerlingen en de school naar buiten toe te belichten"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Communiceren (2/2)"
+   }
+  }
+ ],
+ "showTitle": false,
+ "showQuestionNumbers": "off",
+ "showProgressBar": "bottom"
+};
 
 survey.personalDevelopment = {
-    "locale": "nl",
-    "title": {
-      "nl": "Persoonlijke Ontwikkeling"
-    },
-    showTitle: false,
-    "pages": [
+ "locale": "nl",
+ "title": {
+  "nl": "Persoonlijke Ontwikkeling"
+ },
+ "pages": [
+  {
+   "name": "developing1",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "developing-question1",
+     "title": {
+      "nl": "Ik kan sociale netwerken professioneel gebruiken. Denk aan een WhatsApp-groep met collega's"
+     },
+     "isRequired": true,
+     "choices": [
       {
-        "name": "developing",
-        "title": {
-          "nl": "Ontwikkelingen volgen in vakgebied"
-        },
-        "elements": [
-          {
-            "type": "boolean",
-            "name": "developing-question1",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik kan sociale netwerken professioneel gebruiken. Denk aan een WhatsApp-groep met collega's"
-            }
-          },
-          {
-            "type": "boolean",
-            "name": "developing-question2",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik kan een beschrijving geven van minimaal 3 onderwijs gerelateerde thema's per jaar die ik online volg (bijvoorbeeld via een interessegroep op LinkedIn of via nieuwsbrieven)"
-            }
-          },
-          {
-            "type": "boolean",
-            "name": "developing-question3",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik ben door middel van discussie, toevoegingen, e.d. bij minimaal 1 online thema over onderwijs online betrokken"
-            }
-          },
-          {
-            "type": "boolean",
-            "name": "developing-question4",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik ben van minimaal 1 online thema over onderwijs de moderator (= beheerder van het forum of onderwerp)"
-            }
-          }
-        ]
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
       },
       {
-        "name": "sharing",
-        "title": {
-          "nl": "Delen van ervaring"
-        },
-        "elements": [
-          {
-            "type": "boolean",
-            "name": "sharing-question1",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik deel mijn eigen ervaringen (bijvoorbeeld via een blog) en inspireer zo collega’s en vakgenoten"
-            }
-          },
-          {
-            "type": "boolean",
-            "name": "sharing-question2",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik deel wel eens digitale content die ik zelf heb gemaakt voor in mijn lessen met collega's (bv op wikiwijs)"
-            }
-          },
-          {
-            "type": "boolean",
-            "name": "sharing-question3",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik plaats wel een foto's of video's van de school, om ouders te informeren over het onderwijs in mijn klas"
-            }
-          },
-          {
-            "type": "boolean",
-            "name": "sharing-question4",
-            "defaultValue": "false",
-            "isRequired": true,
-            "title": {
-              "nl": "Ik stimuleer de interactie tussen leerlingen en/of collega’s en vakgenoten"
-            }
-          }
-        ]
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
       }
-    ]
-  };
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "developing-question2",
+     "title": {
+      "nl": "Ik kan een beschrijving geven van minimaal 3 onderwijs gerelateerde thema's per jaar die ik online volg (bijvoorbeeld via een interessegroep op LinkedIn of via nieuwsbrieven)"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Ontwikkelingen volgen in vakgebied (1/2)"
+   }
+  },
+  {
+   "name": "developing2",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "developing-question3",
+     "title": {
+      "nl": "Ik ben door middel van discussie, toevoegingen, e.d. bij minimaal 1 online thema over onderwijs online betrokken"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "developing-question4",
+     "title": {
+      "nl": "Ik ben van minimaal 1 online thema over onderwijs de moderator (= beheerder van het forum of onderwerp)"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Ontwikkelingen volgen in vakgebied (2/2)"
+   }
+  },
+  {
+   "name": "sharing1",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "sharing-question1",
+     "title": {
+      "nl": "Ik deel mijn eigen ervaringen (bijvoorbeeld via een blog) en inspireer zo collega’s en vakgenoten"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "sharing-question2",
+     "title": {
+      "nl": "Ik deel wel eens digitale content die ik zelf heb gemaakt voor in mijn lessen met collega's (bv op wikiwijs)"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Delen van ervaring (1/2)"
+   }
+  },
+  {
+   "name": "sharing2",
+   "elements": [
+    {
+     "type": "radiogroup",
+     "name": "sharing-question3",
+     "title": {
+      "nl": "Ik plaats wel een foto's of video's van de school, om ouders te informeren over het onderwijs in mijn klas"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "sharing-question4",
+     "title": {
+      "nl": "Ik stimuleer de interactie tussen leerlingen en/of collega’s en vakgenoten"
+     },
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "false",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "true",
+       "text": {
+        "nl": "Ja"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Delen van ervaring (2/2)"
+   }
+  }
+ ],
+ "showTitle": false,
+ "showQuestionNumbers": "off",
+ "showProgressBar": "bottom"
+};
 
 survey.instrumentalSkills = {
-    "locale": "nl",
-    "title": {
-      "nl": "Instrumentele vaardigheden"
-    },
-    showTitle: false,
-    "pages": [
+ "locale": "nl",
+ "title": {
+  "nl": "Instrumentele vaardigheden"
+ },
+ "pages": [
+  {
+   "name": "ictKnowledge1",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "ictKnowledge-question1",
+     "title": {
+      "nl": "Ik weet welke ict-voorzieningen (hard- én software) er bij ons op school beschikbaar zijn."
+     },
+     "isRequired": true,
+     "rateValues": [
       {
-        "name": "ictKnowledge",
-        "title": {
-          "nl": "Kennis van ICT voorzieningen"
-        },
-        "elements": [
-          {
-            "type": "rating",
-            "name": "ictKnowledge-question1",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik weet welke ict-voorzieningen (hard- én software) er bij ons op school beschikbaar zijn."
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "ictKnowledge-question2",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik gebruik de ict-voorzieningen met gemak"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "ictKnowledge-question3",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik kan aangeven hoe ik de ict-omgeving van de school inzet."
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "ictKnowledge-question4",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik houd mij op de hoogte van het beschikbaar komen van nieuwe ict toepassingen voor het onderwijs."
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "ictKnowledge-question5",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Als er een nieuw softwareprogramma of app bij ons wordt geïntroduceerd, vind ik daarin gemakkelijk mijn weg."
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "ictKnowledge-question6",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Als ik ict in de les wil gebruiken, kan ik goed beoordelen wat de voor- en nadelen van specifieke digitale leermiddelen zijn."
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "ictKnowledge-question7",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik kan benoemen welke didactische ict-toepassingen ik gebruik in mijn lessen."
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "ictKnowledge-question8",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik kan benoemen welke ict- voorzieningen wel en welke niet goed werken in het gebruik voor leren en lesgeven."
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "ictKnowledge-question9",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik kan het aanwezige digibord functioneel en interactief inzetten tijdens mijn lessen."
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          }
-        ]
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
       },
       {
-        "name": "ictUsage",
-        "title": {
-          "nl": "Gebruik van ICT voorzieningen"
-        },
-        "elements": [
-          {
-            "type": "rating",
-            "name": "ictUsage-question1",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik ben in staat om meerdere types (mobiele) devices in te zetten (denk aan: smartphone, tablet, chromebook e.d.)"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "ictUsage-question2",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik kan mij zonder veel moeite een nieuw device eigen maken en gebruiken voor educatieve toepassingen"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "ictUsage-question3",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik gebruik de online omgeving en/of elo die voor het onderwijs op onze school aanwezig is"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "ictUsage-question4",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik gebruik de ondersteunende systemen (LVS) voor het onderwijs op onze school met gemak"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "ictUsage-question5",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik weet hoe ik de online omgeving en/of elo vanaf verschillende devices kan benaderen"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "ictUsage-question6",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Voor de op onderwijs gerichte online en/of elo omgeving weet ik hoe leerlingen toegevoegd of verwijderd moeten worden"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "ictUsage-question7",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik kan een connectie tot stand brengen tussen (leerling-) devices en het digitale bord t.b.v. een interactieve manier van lesgeven"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "ictUsage-question8",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Als we op school een nieuwe digitale methode krijgen, kan ik deze snel in mijn lessen gebruiken"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "ictUsage-question9",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik gebruik wel eens tools als kahoot!, Padlet en Quizlet om mijn lessen te verrijken"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          }
-        ]
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
       },
       {
-        "name": "ictDevelopment",
-        "title": {
-          "nl": "Volgen van ICT ontwikkelingen"
-        },
-        "elements": [
-          {
-            "type": "rating",
-            "name": "ictDevelopment-question1",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik lees jaarlijks meer dan 3 artikelen over het gebruik van ict in het onderwijs"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "ictDevelopment-question2",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik ga jaarlijks naar minimaal 1 ict-gerelateerde bijeenkomst waarin ik word geïnformeerd over nieuwe ontwikkelingen of toepassingen"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "ictDevelopment-question3",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik volg online scholingen/cursussen of heb deze gevolgd"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "ictDevelopment-question4",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik gebruik dagelijks ict toepassingen in mijn onderwijs"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "ictDevelopment-question5",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik probeer regelmatig nieuwe toepassingen uit in mijn lessen"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          }
-        ]
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
       },
       {
-        "name": "socialMedia",
-        "title": {
-          "nl": "Sociale Media"
-        },
-        "elements": [
-          {
-            "type": "rating",
-            "name": "socialMedia-question1",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik kan een overzicht geven van gebruikte sociale netwerken zoals Facebook, LinkedIn e.d."
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "socialMedia-question2",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik kan van deze netwerken aangeven op welke wijze ik ze ook professioneel gebruik. Denk aan WhatsAppgroep met collega's"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "socialMedia-question3",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik kan een beschrijving geven van minimaal 3 onderwijs gerelateerde thema's per jaar die ik online volg (bijvoorbeeld via een interessegroep op LinkedIn, of via nieuwsbrieven)"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "socialMedia-question4",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik ben door middel van discussie, toevoegingen, e.d. bij minimaal 1 online thema over onderwijs online betrokken"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "socialMedia-question5",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik ben van minimaal 1 online thema over onderwijs de moderator (= beheerder van het forum of onderwerp)"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          }
-        ]
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
       },
       {
-        "name": "contentCreation",
-        "title": {
-          "nl": "Creëren van content"
-        },
-        "elements": [
-          {
-            "type": "rating",
-            "name": "contentCreation-question1",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik ben op de hoogte van de mogelijkheden van YouTube, kan filmpjes toevoegen of een afspeellijst samenstellen"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "contentCreation-question2",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik maak wel eens zelf filmpjes om mijn boodschap goed over te kunnen brengen"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "contentCreation-question3",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik zoek vaak filmpjes of afbeeldingen op internet om aan mijn klas te laten zien, zodat ze de lesstof beter snappen"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "contentCreation-question4",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik weet hoe ik filmpjes of afbeeldingen kan bewerken (bijvoorbeeld inkorten, of tekst toevoegen) en doe dat soms ook om de les er beter van te maken"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "contentCreation-question5",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik deel wel eens digitale content die ik zelf heb gemaakt voor in mijn lessen met collega's (bv op wikiwijs)"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "contentCreation-question6",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik plaats wel eens foto’s of video’s op de website en/of facebookpagina van de school, om ouders te informeren over het onderwijs in mijn klas"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          }
-        ]
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
       }
-    ]
-  };
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "ictKnowledge-question2",
+     "title": {
+      "nl": "Ik gebruik de ict-voorzieningen met gemak"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Kennis van ICT voorzieningen (1/5)"
+   }
+  },
+  {
+   "name": "ictKnowledge2",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "ictKnowledge-question3",
+     "title": {
+      "nl": "Ik kan aangeven hoe ik de ict-omgeving van de school inzet."
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "ictKnowledge-question4",
+     "title": {
+      "nl": "Ik houd mij op de hoogte van het beschikbaar komen van nieuwe ict toepassingen voor het onderwijs."
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Kennis van ICT voorzieningen (2/5)"
+   }
+  },
+  {
+   "name": "ictKnowledge3",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "ictKnowledge-question5",
+     "title": {
+      "nl": "Als er een nieuw softwareprogramma of app bij ons wordt geïntroduceerd, vind ik daarin gemakkelijk mijn weg."
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "ictKnowledge-question6",
+     "title": {
+      "nl": "Als ik ict in de les wil gebruiken, kan ik goed beoordelen wat de voor- en nadelen van specifieke digitale leermiddelen zijn."
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Kennis van ICT voorzieningen (3/5)"
+   }
+  },
+  {
+   "name": "ictKnowledge4",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "ictKnowledge-question7",
+     "title": {
+      "nl": "Ik kan benoemen welke didactische ict-toepassingen ik gebruik in mijn lessen."
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "ictKnowledge-question8",
+     "title": {
+      "nl": "Ik kan benoemen welke ict- voorzieningen wel en welke niet goed werken in het gebruik voor leren en lesgeven."
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Kennis van ICT voorzieningen (4/5)"
+   }
+  },
+  {
+   "name": "ictKnowledge5",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "ictKnowledge-question9",
+     "title": {
+      "nl": "Ik kan het aanwezige digibord functioneel en interactief inzetten tijdens mijn lessen."
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Kennis van ICT voorzieningen (5/5)"
+   }
+  },
+  {
+   "name": "ictUsage1",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "ictUsage-question1",
+     "title": {
+      "nl": "Ik ben in staat om meerdere types (mobiele) devices in te zetten (denk aan: smartphone, tablet, chromebook e.d.)"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "ictUsage-question2",
+     "title": {
+      "nl": "Ik kan mij zonder veel moeite een nieuw device eigen maken en gebruiken voor educatieve toepassingen"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Gebruik van ICT voorzieningen (1/5)"
+   }
+  },
+  {
+   "name": "ictUsage2",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "ictUsage-question3",
+     "title": {
+      "nl": "Ik gebruik de online omgeving en/of elo die voor het onderwijs op onze school aanwezig is"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "ictUsage-question4",
+     "title": {
+      "nl": "Ik gebruik de ondersteunende systemen (LVS) voor het onderwijs op onze school met gemak"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Gebruik van ICT voorzieningen (2/5)"
+   }
+  },
+  {
+   "name": "ictUsage3",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "ictUsage-question5",
+     "title": {
+      "nl": "Ik weet hoe ik de online omgeving en/of elo vanaf verschillende devices kan benaderen"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "ictUsage-question6",
+     "title": {
+      "nl": "Voor de op onderwijs gerichte online en/of elo omgeving weet ik hoe leerlingen toegevoegd of verwijderd moeten worden"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Gebruik van ICT voorzieningen (3/5)"
+   }
+  },
+  {
+   "name": "ictUsage4",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "ictUsage-question7",
+     "title": {
+      "nl": "Ik kan een connectie tot stand brengen tussen (leerling-) devices en het digitale bord t.b.v. een interactieve manier van lesgeven"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "ictUsage-question8",
+     "title": {
+      "nl": "Als we op school een nieuwe digitale methode krijgen, kan ik deze snel in mijn lessen gebruiken"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Gebruik van ICT voorzieningen (4/5)"
+   }
+  },
+  {
+   "name": "ictUsage5",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "ictUsage-question9",
+     "title": {
+      "nl": "Ik gebruik wel eens tools als kahoot!, Padlet en Quizlet om mijn lessen te verrijken"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Gebruik van ICT voorzieningen (5/5)"
+   }
+  },
+  {
+   "name": "ictDevelopment1",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "ictDevelopment-question1",
+     "title": {
+      "nl": "Ik lees jaarlijks meer dan 3 artikelen over het gebruik van ict in het onderwijs"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "ictDevelopment-question2",
+     "title": {
+      "nl": "Ik ga jaarlijks naar minimaal 1 ict-gerelateerde bijeenkomst waarin ik word geïnformeerd over nieuwe ontwikkelingen of toepassingen"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Volgen van ICT ontwikkelingen (1/3)"
+   }
+  },
+  {
+   "name": "ictDevelopment2",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "ictDevelopment-question3",
+     "title": {
+      "nl": "Ik volg online scholingen/cursussen of heb deze gevolgd"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "ictDevelopment-question4",
+     "title": {
+      "nl": "Ik gebruik dagelijks ict toepassingen in mijn onderwijs"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Volgen van ICT ontwikkelingen (2/3)"
+   }
+  },
+  {
+   "name": "ictDevelopment3",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "ictDevelopment-question5",
+     "title": {
+      "nl": "Ik probeer regelmatig nieuwe toepassingen uit in mijn lessen"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Volgen van ICT ontwikkelingen (3/3)"
+   }
+  },
+  {
+   "name": "socialMedia1",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "socialMedia-question1",
+     "title": {
+      "nl": "Ik kan een overzicht geven van gebruikte sociale netwerken zoals Facebook, LinkedIn e.d."
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "socialMedia-question2",
+     "title": {
+      "nl": "Ik kan van deze netwerken aangeven op welke wijze ik ze ook professioneel gebruik. Denk aan WhatsAppgroep met collega's"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Sociale Media (1/3)"
+   }
+  },
+  {
+   "name": "socialMedia2",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "socialMedia-question3",
+     "title": {
+      "nl": "Ik kan een beschrijving geven van minimaal 3 onderwijs gerelateerde thema's per jaar die ik online volg (bijvoorbeeld via een interessegroep op LinkedIn, of via nieuwsbrieven)"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "socialMedia-question4",
+     "title": {
+      "nl": "Ik ben door middel van discussie, toevoegingen, e.d. bij minimaal 1 online thema over onderwijs online betrokken"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Sociale Media (2/3)"
+   }
+  },
+  {
+   "name": "socialMedia3",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "socialMedia-question5",
+     "title": {
+      "nl": "Ik ben van minimaal 1 online thema over onderwijs de moderator (= beheerder van het forum of onderwerp)"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Sociale Media (3/3)"
+   }
+  },
+  {
+   "name": "contentCreation1",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "contentCreation-question1",
+     "title": {
+      "nl": "Ik ben op de hoogte van de mogelijkheden van YouTube, kan filmpjes toevoegen of een afspeellijst samenstellen"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "contentCreation-question2",
+     "title": {
+      "nl": "Ik maak wel eens zelf filmpjes om mijn boodschap goed over te kunnen brengen"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Creëren van content (1/3)"
+   }
+  },
+  {
+   "name": "contentCreation2",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "contentCreation-question3",
+     "title": {
+      "nl": "Ik zoek vaak filmpjes of afbeeldingen op internet om aan mijn klas te laten zien, zodat ze de lesstof beter snappen"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "contentCreation-question4",
+     "title": {
+      "nl": "Ik weet hoe ik filmpjes of afbeeldingen kan bewerken (bijvoorbeeld inkorten, of tekst toevoegen) en doe dat soms ook om de les er beter van te maken"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Creëren van content (2/3)"
+   }
+  },
+  {
+   "name": "contentCreation3",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "contentCreation-question5",
+     "title": {
+      "nl": "Ik deel wel eens digitale content die ik zelf heb gemaakt voor in mijn lessen met collega's (bv op wikiwijs)"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "contentCreation-question6",
+     "title": {
+      "nl": "Ik plaats wel eens foto’s of video’s op de website en/of facebookpagina van de school, om ouders te informeren over het onderwijs in mijn klas"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Creëren van content (3/3)"
+   }
+  }
+ ],
+ "showTitle": false,
+ "showQuestionNumbers": "off",
+ "showProgressBar": "bottom"
+};
 
   survey.informationSkills = {
-    "locale": "nl",
-    "title": {
-      "nl": "Informatievaardigheden"
-    },
-    showTitle: false,
-    "pages": [
+ "locale": "nl",
+ "title": {
+  "nl": "Informatievaardigheden"
+ },
+ "pages": [
+  {
+   "name": "searchInformation1",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "searchInformation-question1",
+     "title": {
+      "nl": "Als mijn zoekopdrachten onvoldoende resultaat opleveren, probeer ik mijn zoektermen aan te passen om toch de informatie te vinden die ik zoek"
+     },
+     "isRequired": true,
+     "rateValues": [
       {
-        "name": "searchInformation",
-        "title": {
-          "nl": "Zoeken van informatie"
-        },
-        "elements": [
-          {
-            "type": "rating",
-            "name": "searchInformation-question1",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Als mijn zoekopdrachten onvoldoende resultaat opleveren, probeer ik mijn zoektermen aan te passen om toch de informatie te vinden die ik zoek"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "searchInformation-question2",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik controleer over het algemeen de juistheid en actualiteit van de websites of andere plekken waar ik mijn informatie vandaan haal"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "searchInformation-question3",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik gebruik een internetbrowser met favorieten zodat ik snel op mijn meest gebruikte pagina's terecht kan"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "searchInformation-question4",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik ga regelmatig op zoek naar digitaal (leer)materiaal, buiten de kanalen die ik al ken"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "searchInformation-question5",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik zoek vaak naar nieuw digitaal (leer)materiaal op wikiwijs.nl of vergelijkbare platforms"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "searchInformation-question6",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Als ik informatie moet zoeken in ons administratiesysteem, lukt me dat over het algemeen goed"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "searchInformation-question7",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik kan goed uit de voeten met zoekvelden, filters en sorteerfuncties"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          }
-        ]
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
       },
       {
-        "name": "administerInformation",
-        "title": {
-          "nl": "Beheren van informatie"
-        },
-        "elements": [
-          {
-            "type": "rating",
-            "name": "administerInformation-question1",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Informatie die ik vind op internet kan ik makkelijk integreren in presentaties of opdrachten, zonder dat ik daar te veel werk aan heb (bijvoorbeeld knippen en plakken, of integreren van filmpjes in een presentatie)"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "administerInformation-question2",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik maak gebruik van mappen om mijn bestanden te structureren. Indien nodig pas ik die structuur aan"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "administerInformation-question3",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik sla mijn mappen en bestanden steeds vaker op in de cloud (Google Drive, OneDrive, Dropbox) en snap hoe ik daarmee documenten kan beheren en delen"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "administerInformation-question4",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik maak snelkoppelingen naar veelgebruikte mappen op mijn desktop, of ik hang ze aan 'snelle toegang'"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "administerInformation-question5",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Als ik (leer)materiaal maak met informatie die ik op internet vind, vermeld ik altijd de bron en ik weet welke regels hiervoor gelden"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "administerInformation-question6",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik word er soms wel eens op gewezen dat de informatie in mijn lessen niet klopt, of dat mijn leerlingen tegenstrijdige informatie hebben gevonden op internet"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "administerInformation-question7",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Als mijn leerlingen een opdracht inleveren, valt mij snel op of ze iets van internet hebben gekopieerd en ik weet hoe ik dit makkelijk kan controleren"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          }
-        ]
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
       }
-    ]
-  };
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "searchInformation-question2",
+     "title": {
+      "nl": "Ik controleer over het algemeen de juistheid en actualiteit van de websites of andere plekken waar ik mijn informatie vandaan haal"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Zoeken van informatie (1/4)"
+   }
+  },
+  {
+   "name": "searchInformation2",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "searchInformation-question3",
+     "title": {
+      "nl": "Ik gebruik een internetbrowser met favorieten zodat ik snel op mijn meest gebruikte pagina's terecht kan"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "searchInformation-question4",
+     "title": {
+      "nl": "Ik ga regelmatig op zoek naar digitaal (leer)materiaal, buiten de kanalen die ik al ken"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Zoeken van informatie (2/4)"
+   }
+  },
+  {
+   "name": "searchInformation3",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "searchInformation-question5",
+     "title": {
+      "nl": "Ik zoek vaak naar nieuw digitaal (leer)materiaal op wikiwijs.nl of vergelijkbare platforms"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "searchInformation-question6",
+     "title": {
+      "nl": "Als ik informatie moet zoeken in ons administratiesysteem, lukt me dat over het algemeen goed"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Zoeken van informatie (3/4)"
+   }
+  },
+  {
+   "name": "searchInformation4",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "searchInformation-question7",
+     "title": {
+      "nl": "Ik kan goed uit de voeten met zoekvelden, filters en sorteerfuncties"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Zoeken van informatie (4/4)"
+   }
+  },
+  {
+   "name": "administerInformation1",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "administerInformation-question1",
+     "title": {
+      "nl": "Informatie die ik vind op internet kan ik makkelijk integreren in presentaties of opdrachten, zonder dat ik daar te veel werk aan heb (bijvoorbeeld knippen en plakken, of integreren van filmpjes in een presentatie)"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "administerInformation-question2",
+     "title": {
+      "nl": "Ik maak gebruik van mappen om mijn bestanden te structureren. Indien nodig pas ik die structuur aan"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Beheren van informatie (1/4)"
+   }
+  },
+  {
+   "name": "administerInformation2",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "administerInformation-question3",
+     "title": {
+      "nl": "Ik sla mijn mappen en bestanden steeds vaker op in de cloud (Google Drive, OneDrive, Dropbox) en snap hoe ik daarmee documenten kan beheren en delen"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "administerInformation-question4",
+     "title": {
+      "nl": "Ik maak snelkoppelingen naar veelgebruikte mappen op mijn desktop, of ik hang ze aan 'snelle toegang'"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Beheren van informatie (2/4)"
+   }
+  },
+  {
+   "name": "administerInformation3",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "administerInformation-question5",
+     "title": {
+      "nl": "Als ik (leer)materiaal maak met informatie die ik op internet vind, vermeld ik altijd de bron en ik weet welke regels hiervoor gelden"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "administerInformation-question6",
+     "title": {
+      "nl": "Ik word er soms wel eens op gewezen dat de informatie in mijn lessen niet klopt, of dat mijn leerlingen tegenstrijdige informatie hebben gevonden op internet"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Beheren van informatie (3/4)"
+   }
+  },
+  {
+   "name": "administerInformation4",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "administerInformation-question7",
+     "title": {
+      "nl": "Als mijn leerlingen een opdracht inleveren, valt mij snel op of ze iets van internet hebben gekopieerd en ik weet hoe ik dit makkelijk kan controleren"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Beheren van informatie (4/4)"
+   }
+  }
+ ],
+ "showTitle": false,
+ "showQuestionNumbers": "off",
+ "showProgressBar": "bottom"
+};
 
-  survey.mediaSkills = {
-    "locale": "nl",
-    "title": {
-      "nl": "Mediavaardigheden"
-    },
-    showTitle: false,
-    "pages": [
+survey.mediaSkills = {
+ "locale": "nl",
+ "title": {
+  "nl": "Mediavaardigheden"
+ },
+ "pages": [
+  {
+   "name": "personalSkills1",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "personalSkills-question1",
+     "title": {
+      "nl": "Ik bespreek regelmatig (minstens 1x per maand) met mijn team of leidinggevende hoe wij actuele media gebruiken op school"
+     },
+     "isRequired": true,
+     "rateValues": [
       {
-        "name": "personalSkills",
-        "title": {
-          "nl": "Eigen vaardigheden"
-        },
-        "elements": [
-          {
-            "type": "rating",
-            "name": "personalSkills-question1",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik bespreek regelmatig (minstens 1x per maand) met mijn team of leidinggevende hoe wij actuele media gebruiken op school"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "personalSkills-question2",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik snap goed welke risico's internet en sociale media met zich meebrengen en wat dit voor invloed heeft op de dynamiek in de klas"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "personalSkills-question3",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik verbeter me in de mediavaardigheden die ik zelf nodig heb om in deze digitale samenleving goed te functioneren"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "personalSkills-question4",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik leer mijn klas 21e eeuwse vaardigheden zoals kritisch denken, oplossend vermogen en digitale vaardigheden door deze in te passen in de standaard methoden"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "personalSkills-question5",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik weet hoe ik de betrouwbaarheid van educatieve software en websites kan controleren"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          }
-        ]
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
       },
       {
-        "name": "teachingMediaSkills",
-        "title": {
-          "nl": "Lesgeven in de mediawijsheid"
-        },
-        "elements": [
-          {
-            "type": "rating",
-            "name": "teachingMediaSkills-question1",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Bij het voorbereiden van mijn lessen bedenk ik regelmatig (minstens 1x per maand) of ik sociale media kan inpassen in de les"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "teachingMediaSkills-question2",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik probeer de risico's van sociale media en internet te bespreken in mijn klas, door dit bijvoorbeeld te werken in een reflectie van een opdracht"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "teachingMediaSkills-question3",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik begrijp dat sommige mediaboodschappen bedoeld zijn om kinderen tot (soms negatief) gedrag aan te zetten en houdt hier rekening mee als ik voor de klas sta"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "teachingMediaSkills-question4",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik begrijp wat voor invloed media(uitingen) op mijn leerlingen kunnen hebben en ga hierover regelmatig met hen in gesprek, door het bijvoorbeeld te verwerken in opdrachten"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          },
-          {
-            "type": "rating",
-            "name": "teachingMediaSkills-question5",
-            "defaultValue": null,
-            "isRequired": true,
-            "title": {
-              "nl": "Ik heb met mijn klas regelmatig gesprekken over wat gebeurt op sociale media zoals whatsapp, instagram en snapchat (bijvoorbeeld roddelen of pesten) en hoe ze daarmee om (kunnen) gaan"
-            },
-            "rateValues": [
-              {
-                "value": "0",
-                "text": {
-                  "nl": "Nee"
-                }
-              },
-              {
-                "value": "0.25",
-                "text": {
-                  "nl": "Oneens"
-                }
-              },
-              {
-                "value": "0.5",
-                "text": {
-                  "nl": "Eens"
-                }
-              },
-              {
-                "value": "0.75",
-                "text": {
-                  "nl": "Meer eens"
-                }
-              },
-              {
-                "value": "1",
-                "text": {
-                  "nl": "Helemaal mee eens"
-                }
-              }
-            ]
-          }
-        ]
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
       }
-    ]
-  };
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "personalSkills-question2",
+     "title": {
+      "nl": "Ik snap goed welke risico's internet en sociale media met zich meebrengen en wat dit voor invloed heeft op de dynamiek in de klas"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Eigen vaardigheden (1/3)"
+   }
+  },
+  {
+   "name": "personalSkills2",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "personalSkills-question3",
+     "title": {
+      "nl": "Ik verbeter me in de mediavaardigheden die ik zelf nodig heb om in deze digitale samenleving goed te functioneren"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "personalSkills-question4",
+     "title": {
+      "nl": "Ik leer mijn klas 21e eeuwse vaardigheden zoals kritisch denken, oplossend vermogen en digitale vaardigheden door deze in te passen in de standaard methoden"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Eigen vaardigheden (2/3)"
+   }
+  },
+  {
+   "name": "personalSkills3",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "personalSkills-question5",
+     "title": {
+      "nl": "Ik weet hoe ik de betrouwbaarheid van educatieve software en websites kan controleren"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Eigen vaardigheden (3/3)"
+   }
+  },
+  {
+   "name": "teachingMediaSkills1",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "teachingMediaSkills-question1",
+     "title": {
+      "nl": "Bij het voorbereiden van mijn lessen bedenk ik regelmatig (minstens 1x per maand) of ik sociale media kan inpassen in de les"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "teachingMediaSkills-question2",
+     "title": {
+      "nl": "Ik probeer de risico's van sociale media en internet te bespreken in mijn klas, door dit bijvoorbeeld te werken in een reflectie van een opdracht"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "teachingMediaSkills-question4",
+     "title": {
+      "nl": "Ik begrijp wat voor invloed media(uitingen) op mijn leerlingen kunnen hebben en ga hierover regelmatig met hen in gesprek, door het bijvoorbeeld te verwerken in opdrachten"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "teachingMediaSkills-question5",
+     "title": {
+      "nl": "Ik heb met mijn klas regelmatig gesprekken over wat gebeurt op sociale media zoals whatsapp, instagram en snapchat (bijvoorbeeld roddelen of pesten) en hoe ze daarmee om (kunnen) gaan"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Lesgeven in de mediawijsheid (1/2)"
+   }
+  },
+  {
+   "name": "teachingMediaSkills2",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "teachingMediaSkills-question3",
+     "title": {
+      "nl": "Ik begrijp dat sommige mediaboodschappen bedoeld zijn om kinderen tot (soms negatief) gedrag aan te zetten en houdt hier rekening mee als ik voor de klas sta"
+     },
+     "isRequired": true,
+     "rateValues": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Nee"
+       }
+      },
+      {
+       "value": "0.25",
+       "text": {
+        "nl": "Oneens"
+       }
+      },
+      {
+       "value": "0.5",
+       "text": {
+        "nl": "Eens"
+       }
+      },
+      {
+       "value": "0.75",
+       "text": {
+        "nl": "Meer eens"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Helemaal mee eens"
+       }
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Lesgeven in de mediawijsheid (2/2)"
+   }
+  }
+ ],
+ "showTitle": false,
+ "showQuestionNumbers": "off",
+ "showProgressBar": "bottom"
+};
 
 survey.assessmentForm = {
  "locale": "nl",

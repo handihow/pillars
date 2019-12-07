@@ -64,7 +64,6 @@
 
 		var result = JSON.parse(resultsInfo || '[]');
 
-		console.log(result);
 
 		if(result.length===0){
 			return console.log('no survey results');
@@ -197,11 +196,13 @@
             mRender: function(data, type, row) {
               survey.data = row;
               var displayValue = q.displayValue;
-              return (
-                (typeof displayValue === "string"
-                  ? displayValue
-                  : JSON.stringify(displayValue)) || ""
-              );
+              if(displayValue === true || displayValue == "true"){
+              	return "Ja"
+              } else if(!displayValue || displayValue == "false"){
+              	return "Nee"
+              } else {
+                return JSON.stringify(displayValue) || ""	
+              }
             }
           };
         });
@@ -270,33 +271,36 @@
 	      });
 
 	    var vispanelresults = result.map(r => r.result);
-
+	    
 	    var normalizedData = vispanelresults.map(function(item) {
 		    survey.getAllQuestions().forEach(function(q) {
 		      if (item[q.name] === undefined) {
 		        item[q.name] = "";
-		      }
-		      if(q.getType()==='boolean'){
-		      	q.labelFalse = 'Nee';
-		      	q.labelTrue = 'Ja';
-		      }
+		      } else if(item[q.name] === true) {
+		      	item[q.name] = "true"
+		      } else if(item[q.name] === false) {
+		      	item[q.name] = "false"
+		      } 
 		    });
 		    return item;
 		  });
+
+	    console.log(normalizedData);
 	    
-	    SurveyAnalytics.SelectBasePlotly.types = ["bar", "pie"];
+	    SurveyAnalytics.SelectBasePlotly.types = ["pie"];
 
 	    SurveyAnalytics.GaugePlotly.types = ["bullet"];
 
 	    SurveyAnalytics.VisualizerBase.customColors = [
 	                    'rgba(0,159,227, 1)',
-	                    'rgba(227,6,19,1)',
+	                    'rgba(227,6,19 ,1)',
 	                    'rgba(249,178,51, 1)',
 	                    'rgba(0, 0, 0, 1)',
 	                    'rgba(18,172,19, 1)',
 	                ];
 
 		var visPanel = new SurveyAnalytics.VisualizationPanel(document.getElementById("resultCharts"), survey.getAllQuestions(), normalizedData);
+
 		visPanel.render();
 
 		if(surveyInfo.isCompetenceSurvey){

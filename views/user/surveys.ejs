@@ -1,22 +1,22 @@
 <% include ../partials/header %>
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
+<% include ../partials/user-header %>
 
-<div class="ui container">
-  <div class="ui huge header">Jouw deskundigheidstests</div>
+  <div class="ui centered header">Deskundigheidstests</div>
 	<div class="ui relaxed divided list">
 	<% surveyResults.forEach(function(surveyResult){ %>
 	  <div class="item">
 	    <div class="content">
-	      <%= surveyResult.survey.competenceStandardTitle %>
+	      <h5><%= surveyResult.survey.competenceStandardTitle %></h5>
 	      <div class="description">
 	      	<div class="right floated content">
 	            <a class="ui mini blue circular icon button" data-content="Analyseer resultaten"
-	                href="/survey/<%=surveyResult.survey._id%>/individual">
+	                href="/survey/<%=surveyResult.survey._id%>/<%=user._id%>">
 	              <i class="bar chart icon"></i>
 	            </a>
 	        </div>
-	          Je hebt <a 
+	          <%=user.firstName%> heeft <a 
 	      			href="/survey/<%=surveyResult._id%>/result">deze antwoorden</a> 
 	      			ingezonden op <%=surveyResult.createdAt.toJSON().slice(0,10).split('-').reverse().join('/')%>  
 	      </div>
@@ -25,7 +25,6 @@
 	<%});%>
 	</div>
 	<div class="ui divider"></div>
-	<button class="ui secondary basic button" onclick="goBack()">Terug</button>
-</div>
 
+<% include ../partials/user-footer %>
 <% include ../partials/footer %>

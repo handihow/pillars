@@ -1,9 +1,8 @@
 <% include ../partials/header %>
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
-
-<div class="ui container">
-    <div class="ui huge header"><i class="flag checkered icon"></i>Klaar met Invullen</div>
+<% include ../partials/user-header %>
+    <div class="ui centered header"><i class="flag checkered icon"></i>Klaar met Invullen</div>
     <div class="ui divider"></div>
     <div class="ui segment">
         <h4 class="ui header inline">
@@ -14,12 +13,10 @@
         <p>Als laatste verzoeken wij je om periodiek een evaluatiegesprek te voeren met je leidinggevende. 
         Dit evaluatiegesprek kan worden vastgelegd op jouw profielpagina.</p>
         <p><strong>Tip: </strong> als je klikt op "Gesprek aanvragen" dan kun je zelf aangeven wie je bij het gesprek wilt uitnodigen.</p>
-        <button class="ui secondary basic button" onclick="goBack()">Terug</button>
         <a class="ui yellow button right" href="https://pillars.school/zelfhulp" target="_blank">Zelfstudie</a>
 	    <a class="ui red button right" href="https://goo.gl/forms/YqHFDAMVY6DDGjrC3" target="_blank">Gesprek aanvragen</a>
 	    <a class="ui blue button right" href="/user/<%=user._id%>/evaluation">Evaluaties</a>
     </div>
     
-</div>
-        
+<% include ../partials/user-footer%>        
 <% include ../partials/footer %>

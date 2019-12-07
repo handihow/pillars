@@ -11,12 +11,7 @@
   <h2 class="ui center aligned header">
     <div>Enquêtes</div>
   </h2>
-  <%if(schoolLevel){%>
-  <a class="positive ui button right" href="/schools/<%=school._id%>/survey/new/">Enquête Toevoegen</a>
-  <div class="ui left pointing label">
-    Deze enquête wordt zichtbaar voor (alleen) uw school en het bestuur
-  </div>
-  <%} else {%>
+  <%if(!schoolLevel){%>
   <div class="ui pointing dropdown link item">
     <i class="add icon"></i>
     <span class="text">Enquête Toevoegen</span>

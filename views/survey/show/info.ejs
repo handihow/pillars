@@ -1,30 +1,5 @@
 
-
-<% if((!schoolLevel || !survey.isValidForAllOrganisation) && !survey.isCompetenceSurvey && !survey.isSoftwareSurvey)  {%>
-  
-  <h2 class="ui header">
-    <i class="paper plane icon"></i>
-    <div class="content">
-      Link naar Enquête
-    </div>
-    <div class="sub header">
-      <%if(survey.isPublic){%>
-        <%=fullUrl%>/survey/<%=survey._id%>/public
-      <%} else {%>
-        <%=fullUrl%>/survey/<%=survey._id%>/private
-      <%}%>    
-    </div>
-  </h2>
-   <div class="ui info message">
-      Je bent zelf verantwoordelijk voor het uitnodigen, bijvoorbeeld via email. Gebruik in je bericht de link naar de enquête: 
-      <%if(survey.isPublic){%>
-        <%=fullUrl%>/survey/<%=survey._id%>/public
-      <%} else {%>
-        <%=fullUrl%>/survey/<%=survey._id%>/private
-      <%}%>
-  </div>
-
-<%} else if(survey.isCompetenceSurvey){%>
+<% if(survey.isCompetenceSurvey){%>
     <h2 class="ui header">
       <i class="doctor icon"></i>
       <div class="content">
@@ -70,12 +45,7 @@
         <h4 class="content">Actieve test?</h4> 
         <div class="content"><%if(survey.isActiveSoftwareSurvey){ %>Ja<%} else {%> Nee<%}%></div>
       </div>
-    <%} else {%>
-      <div class="four wide column">
-        <h4 class="content">Alleen voor ingelogde gebruikers?</h4> 
-        <div class="content"><%if(survey.isPublic){ %>Nee<%} else {%> Ja<%}%></div>
-      </div>
-    <%}%>
+    <%} %>
     <div class="four wide column">
       <h4 class="content">School</h4>
       <div class="content">
@@ -96,10 +66,6 @@
   </div>
 
   <div class="ui divider"></div>
-   <button onclick="goBack()"
-      class="ui secondary basic button">
-    Terug
-    </button>
     <a id="view" 
       class="ui positive basic button" 
       href="<%if(survey.isPublic){%>
@@ -110,41 +76,22 @@
          target="_blank">
       Bekijken
     </a>
-<%if(schoolLevel && !survey.isValidForAllOrganisation){%>
-     
-    <a id="edit" 
-    class="ui primary basic button" 
-    href="/schools/<%=school._id%>/survey/<%=survey._id%>/edit" >
-    
-    Bewerken
-    </a>
-    <button class="ui red basic button" id="delete">Verwijderen</button>
-    <div class="ui hidden warning message">
-      <div class="header">Waarschuwing</div>
-      <p>Weet je zeker dat je deze enquête wilt verwijderen? Dit kan niet worden hersteld.</p>
-      <button class="ui positive button" id="cancel">Cancel</button>
-      <form id="delete" 
-        action="/schools/<%= school._id %>/survey/<%=survey._id%>?_method=DELETE" 
-        method="POST">
-        <button class="ui negative button">Verwijder Enquête</button>
-      </form>
-    </div>
   
-<%} else if(!schoolLevel) {%>
-    <a id="edit" 
-    class="ui primary basic button" 
-    href="/organisations/<%=organisation._id%>/survey/<%=survey._id%>/edit">
-    Bewerken
-    </a>
-    <button class="ui red basic button" id="delete">Verwijderen</button>
-    <div class="ui hidden warning message">
-      <div class="header">Waarschuwing</div>
-      <p>Weet je zeker dat je deze enquête wilt verwijderen? Dit kan niet worden hersteld.</p>
-      <button class="ui positive button" id="cancel">Cancel</button>
-       <form id="delete" 
-        action="/organisations/<%=organisation._id%>/survey/<%=survey._id%>?_method=DELETE" 
-        method="POST">
-        <button class="ui negative button">Verwijder Enquête</button>
-      </form>
-    </div>
-<% } %>
+  <%if(!schoolLevel) {%>
+      <a id="edit" 
+      class="ui primary basic button" 
+      href="/organisations/<%=organisation._id%>/survey/<%=survey._id%>/edit">
+      Bewerken
+      </a>
+      <button class="ui red basic button" id="delete">Verwijderen</button>
+      <div class="ui hidden warning message">
+        <div class="header">Waarschuwing</div>
+        <p>Weet je zeker dat je deze enquête wilt verwijderen? Dit kan niet worden hersteld.</p>
+        <button class="ui positive button" id="cancel">Cancel</button>
+         <form id="delete" 
+          action="/organisations/<%=organisation._id%>/survey/<%=survey._id%>?_method=DELETE" 
+          method="POST">
+          <button class="ui negative button">Verwijder Enquête</button>
+        </form>
+      </div>
+  <% } %>

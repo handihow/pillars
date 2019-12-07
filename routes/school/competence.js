@@ -1,7 +1,6 @@
 var express = require("express");
 var router = express.Router({mergeParams: true});
 var School = require("../../models/school");
-var Questionnaire = require('../../models/questionnaire');
 var Survey = require('../../models/survey');
 var SurveyResult = require('../../models/surveyResult');
 var middleware = require("../../middleware");

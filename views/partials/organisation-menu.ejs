@@ -35,6 +35,13 @@
     <span class="hide-mobile">Digitale leermiddelen</span>
   </a>
 
+  <a class="vertical item <%if(url.includes("/organisations/"+organisation._id+'/overview/competence')) { %> active <% } %>" 
+      href="/organisations/<%= organisation._id %>/overview/competence" 
+      data-content="Deskundigheid">
+    <i class="certificate icon" ></i>
+    <span class="hide-mobile">Deskundigheid</span>
+  </a>
+
   <a class="vertical item <%if(url.includes('/organisations/'+organisation._id+'/overview/pillars') 
         || url.includes('/organisations/'+organisation._id+'/overview/schools')) { %> active <% } %>" 
     href="/organisations/<%= organisation._id %>/overview/pillars/" data-content="Overzichten">

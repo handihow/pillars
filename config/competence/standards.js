@@ -30,13 +30,13 @@ standards.pedagogicalDidacticalSkills = {
 
 //STANDARD 6 - WORK IN SCHOOL CONTEXT
 standards.workInSchoolContext = {
-	maxScore: 0.5
+	maxScore: 1
 }
 
 
 //STANDARD 7 - PERSONAL DEVELOPMENT
 standards.personalDevelopment = {
-	maxScore: 0.5
+	maxScore: 1
 }
 
 
@@ -63,7 +63,7 @@ standards.assessmentForm = {
 
 //STANDARD 12 - RUBRIC
 standards.rubric = {
-	maxScore: 1
+	maxScore: 0
 }
 
 module.exports = standards;

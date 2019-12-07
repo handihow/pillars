@@ -1,22 +1,22 @@
 <% include ../partials/header %>
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
-<% include ../partials/school-header %>
+<% include ../partials/organisation-header %>
 
-<%var name='School'; var compareName='Bestuur';%>
+<%var name='Bestuur'; var compareName='Landelijk';%>
 <h2 class="ui centered header">
   Deskundigheid van leerkrachten
 </h2>
 <div class="ui small info message">
   <ul class="list">
-    <li>Indicator toont de gemiddelde score van de school</li>
-    <li>Gekleurde delta toont de afwijking ten opzichte van de gemiddelde score van het bestuur</li>
+    <li>Indicator toont de gemiddelde score van het bestuur</li>
+    <li>Gekleurde delta toont de afwijking ten opzichte van de gemiddelde score landelijk</li>
   </ul>
 </div>
 <div class="ui stackable grid">
   <%surveys.forEach(function(survey, index){%>
       <%if(survey.isActiveCompetenceSurvey){ %>
-        <%var resultsUrl = "/schools/" + school._id +"/survey/" + survey._id%>
+        <%var resultsUrl = "/organisations/" + organisation._id +"/survey/" + survey._id%>
         <% include ../partials/competence-chart/competence-chart %>
       <%}%>
   <%})%>
@@ -27,7 +27,7 @@
   <div class="ui stackable grid">
     <%surveys.forEach(function(survey, index){%>
         <%if(!survey.isActiveCompetenceSurvey){ %>
-          <%var resultsUrl = "/schools/" + school._id +"/survey/" + survey._id%>
+          <%var resultsUrl = "/organisations/" + organisation._id +"/survey/" + survey._id%>
           <% include ../partials/competence-chart/competence-chart %>
         <%}%>
     <%})%>
@@ -40,5 +40,5 @@
 <div id="surveysInfo" hidden><%= JSON.stringify(surveys)%></div>
 <div id="resultsInfo" hidden><%= JSON.stringify(results)%></div>
 
-<% include ../partials/school-footer %>
+<% include ../partials/organisation-footer %>
 <% include ../partials/footer %>

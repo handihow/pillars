@@ -11,15 +11,15 @@
   </a>
   <div class="centered menu">
     <%if(typeof isOnDashboard !=='undefined' && isOnDashboard){%>
-    <%} else if(typeof organisation !=='undefined' && organisation.name){%>
+    <%} else if(typeof organisation !=='undefined' && organisation !== null && organisation.name){%>
       <div class="item">
         <i class="building icon"></i><%=organisation.name%>
       </div>
-    <%} else if(typeof school !=='undefined' && school.name){%>
+    <%} else if(typeof school !=='undefined' && school !== null && school.name){%>
       <div class="item">
          <i class="university icon"></i><%=school.name%>
       </div>
-    <%} else if(typeof user !=='undefined' && user.firstName && user.lastName) {%>
+    <%} else if(typeof user !=='undefined' &&  user !== null && user.firstName && user.lastName) {%>
       <div class="item">
          <i class="user circle icon"></i><%=user.firstName + ' ' +user.lastName%>
       </div>
