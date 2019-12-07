@@ -45,6 +45,10 @@ jspm_packages/
 # TypeScript v1 declaration files
 typings/
 
+# semantic ui except for dist and src
+semantic/gulpfile.js
+semantic/tasks/
+
 # Optional npm cache directory
 .npm
 
