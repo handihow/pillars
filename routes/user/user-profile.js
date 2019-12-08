@@ -60,15 +60,13 @@ router.get("/surveys", middleware.isLoggedIn, function(req, res){
 //SHOW ROUTE
 router.get("/competence", middleware.isLoggedIn, function(req, res){
   User.findById(req.params.id)
-  .populate("organisation")
-  .populate("school")
   .exec(function(err, user){
     if(err ||!user){
       req.flash("error", "Medewerker niet gevonden.");
       res.redirect("back");
     } else {
       Survey.find({
-        "organisation": user.organisation._id, 
+        "organisation": user.organisation, 
         "isCompetenceSurvey": true
       }, async function(err, surveys){
         let results = [];
