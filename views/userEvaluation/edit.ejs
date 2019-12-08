@@ -1,8 +1,7 @@
 <% include ../partials/header %>
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
-
-<div class="ui container">
+<% include ../partials/user-header%>
   <h2 class="ui header"><i class="comments icon"></i> Evaluatie van <%= user.username %> Bewerken</h2>
   
   <form class="ui form" action="/user/<%=user._id%>/evaluation/<%=evaluation._id%>?_method=PUT" method="POST" id="evaluationForm" novalidate>
@@ -20,6 +19,6 @@
     </div>
     <button class="ui button" type="submit">Bewaren</button>
   </form>
-</div>
 
+<% include ../partials/user-footer %>
 <% include ../partials/footer %>

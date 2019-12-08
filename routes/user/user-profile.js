@@ -2,12 +2,11 @@ var express = require("express");
 var router = express.Router({mergeParams: true});
 var School = require("../../models/school");
 var User = require("../../models/user");
-var Questionnaire = require("../../models/questionnaire");
 var SurveyResult = require("../../models/surveyResult");
 var middleware = require("../../middleware");
 var config = require("../../config/config");
-var Test = require("../../models/test");
-
+var Survey = require("../../models/survey");
+var _ = require("lodash");
 
 //SHOW ROUTE - PROFILE PAGE
 router.get("/", middleware.isLoggedIn, function(req, res){
@@ -16,25 +15,11 @@ router.get("/", middleware.isLoggedIn, function(req, res){
       req.flash("error", err);
       res.redirect("back");
     } else {
-      Test.find({"owner": user._id}, function(err, tests){
-        if(err) {
-          req.flash("error", err);
-        } else {
-          Questionnaire.findOne({"organisation": req.user.organisation, "isActual": true}, function(err, questionnaire){
-            if(err){
-              req.flash("error", err);
-              res.redirect("back");
-            } else if (!questionnaire){
-              res.render("user/show", {user: user, hasQuestionnaire: false, tests: tests}); 
-            } else {
-              res.render("user/show", {user: user, hasQuestionnaire: true, questionnaire: questionnaire, tests: tests}); 
-            }
-          })        
-        }
-      });
+      res.render("user/show", {user: user}); 
     }
   });
 });
+
 
 //SHOW ROUTE - READY WITH FILLING QUESTIONS PAGE
 router.get("/ready", middleware.isLoggedIn, function(req, res){
@@ -43,33 +28,13 @@ router.get("/ready", middleware.isLoggedIn, function(req, res){
       req.flash("error", err);
       res.redirect("back");
     } else {
-      Test.find({"owner": user._id}, function(err, tests){
-        if(err) {
-          req.flash("error", err);
-        } else {
-          res.locals.scripts.footer.chartjs = true;
-          res.locals.scripts.footer.pillars = true;
-          res.locals.scripts.footer.tests = true;
-          res.render("user/ready", {user: user, tests: tests});        
-        }
-      });
+      res.render("user/ready", {user: user});        
     }
   });
 });
 
-//API ROUTE TO SHOW TEST RESULTS OF A CERTAIN USER
-router.get("/api/tests", middleware.isLoggedIn, function(req, res){
-  Test.find({"owner": req.params.id}, function(err, tests){
-    if(err) {
-      req.flash("error", err);
-    } else {
-      res.setHeader('Content-Type', 'application/json');
-      res.send(JSON.stringify(tests));        
-    }
-  });
-});
 
-router.get("/surveys", middleware.isUser, function(req, res){
+router.get("/surveys", middleware.isLoggedIn, function(req, res){
   User.findById(req.params.id).populate("organisation").exec(function(err, user){
     if(err || !user){
       req.flash("error", err);
@@ -83,13 +48,86 @@ router.get("/surveys", middleware.isUser, function(req, res){
           req.flash("error", "Onbekende fout: " + err.message);
           res.redirect("back");
         } else {
+          var existingSurveySurveyResults = surveyResults.filter(sr => sr.survey && sr.survey._id);
           res.locals.scripts.footer.dashboard = true;
-          res.render("user/surveys", {surveyResults: surveyResults, user: user});
+          res.render("user/surveys", {surveyResults: existingSurveySurveyResults, user: user});
         }
       });
     }
   });
 });
+
+//SHOW ROUTE
+router.get("/competence", middleware.isLoggedIn, function(req, res){
+  User.findById(req.params.id)
+  .populate("organisation")
+  .populate("school")
+  .exec(function(err, user){
+    if(err ||!user){
+      req.flash("error", "Medewerker niet gevonden.");
+      res.redirect("back");
+    } else {
+      Survey.find({
+        "organisation": user.organisation._id, 
+        "isCompetenceSurvey": true
+      }, async function(err, surveys){
+        let results = [];
+        await asyncForEach(surveys, async function(survey, index){
+           let result = await retrieveUserSurveyResults(survey, user);
+           results.push(result);
+           if(index==surveys.length-1){
+            res.locals.scripts.header.plotly = true;
+            res.locals.scripts.footer.competence = true;
+            res.render("user/competence", {
+              user: user, 
+              surveys: surveys, 
+              results: results
+            })
+          }
+        });   
+      })        
+    }
+  });
+});
+
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+}
+
+function retrieveUserSurveyResults(survey, user){
+  return new Promise(function(resolve, reject) {
+    SurveyResult.find({"survey": survey._id}).populate('user').exec(function(err, surveyResults){
+      if(err){
+        return resolve({
+          average: 0,
+          comparingAverage: 0,
+          count: 0,
+          comparingCount: 0
+        });
+      } else {
+        var organisationSurveyResults = surveyResults.filter(sr => sr.user && sr.user._id);
+        var organisationStatistics = config.competence.survey.calculateStatistics(survey, organisationSurveyResults);
+        var schoolSurveyResults; var schoolStatistics;
+        if(user.role =='sadmin' || user.role =='suser'){
+          schoolSurveyResults = organisationSurveyResults.filter(sr => sr.school && sr.school.equals(user.school[0]));
+          schoolStatistics = config.competence.survey.calculateStatistics(survey, schoolSurveyResults);
+        }
+        var userSurveyResults = organisationSurveyResults.filter(sr => sr.user && sr.user.equals(user._id));
+        var userStatistics = config.competence.survey.calculateStatistics(survey, userSurveyResults);
+        return resolve({
+          average: _.mean(userStatistics[0].statistics),
+          comparingAverage: user.role=='sadmin' || user.role=='suser' ?
+                   _.mean(schoolStatistics[0].statistics) :_.mean(organisationStatistics[0].statistics),
+          count: _.size(userStatistics[0].statistics),
+          comparingCount: user.role=='sadmin' || user.role=='suser' ? 
+                 _.size(schoolStatistics[0].statistics) : _.size(organisationStatistics[0].statistics)
+        });
+       }
+    })
+  });
+}
 
 
 //EDIT ROUTE - EDIT PROFILE PAGE

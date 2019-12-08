@@ -32,7 +32,6 @@ var surveyRoutes = require("./routes/school/survey");
 var orgUserRoutes = require("./routes/user/org-user");
 var schoolUserRoutes = require("./routes/user/school-user");
 var userProfileRoutes = require("./routes/user/user-profile");
-var userTestRoutes = require("./routes/user/user-test");
 var userEvalRoutes = require("./routes/user/user-eval");
 var userSurveyRoutes = require("./routes/user/survey");
 //ROUTES RELATED TO ORGANISATION
@@ -183,7 +182,6 @@ app.use("/schools/:id/securityIncident", securityIncidentRoutes);
 app.use("/schools/:id/survey", surveyRoutes);
 //ROUTES RELATED TO USERS
 app.use("/schools/:id/user", schoolUserRoutes);
-app.use("/user/:id/test", userTestRoutes);
 app.use("/user/:id/evaluation", userEvalRoutes);
 app.use("/user/:id", userProfileRoutes);
 app.use("/organisations/:id/org-user", orgUserRoutes);

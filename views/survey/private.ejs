@@ -1,12 +1,15 @@
 <% include ../partials/header %>
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
-<div class="ui container">
-	<% if(isShow) { %>
-		<button class="ui button" id="saveToPDFbtn" style="margin:10px">Download PDF</button>
-		<div class="ui divider"></div>
-		<div id="surveyData" hidden><%= JSON.stringify(surveyResult.result) %></div>
-	<%}%>
+
+<% if(isShow) { %>
+	<% include ../partials/user-header%>
+	<button class="ui button" id="saveToPDFbtn" style="margin:10px">Download PDF</button>
+	<div class="ui divider"></div>
+	<div id="surveyData" hidden><%= JSON.stringify(surveyResult.result) %></div>
+<%} else {%>
+	<div class="ui container">
+<% } %>
 	<div id="surveyElement"></div>
 	<div id="surveyResult"></div>
 
@@ -15,4 +18,10 @@
 	<div id="isShowing" hidden><%= isShow %></div>
 	<div id="softwareText" hidden><%= JSON.stringify(software)%></div>
 </div>
+
+<% if(isShow) { %>
+	<% include ../partials/user-footer%>
+<%} else {%>
+	</div>
+<% } %>
 <% include ../partials/footer %>

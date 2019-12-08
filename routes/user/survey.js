@@ -150,7 +150,7 @@ router.post("/:sid/private", middleware.isLoggedIn, function(req, res){
 
 //SHOWING A  SURVEY
 router.get("/:sid/result", function(req, res){
-  SurveyResult.findById(req.params.sid).populate("survey").exec(function(err, surveyResult){
+  SurveyResult.findById(req.params.sid).populate("survey").populate("user").exec(function(err, surveyResult){
         if(err ||!surveyResult){
             req.flash("error", "Inzending niet gevonden.");
             res.redirect("back");
@@ -169,7 +169,7 @@ router.get("/:sid/result", function(req, res){
           res.locals.scripts.header.surveyjs = true;
           res.locals.scripts.footer.surveyjs = true;
           res.locals.scripts.footer.surveyPrivate = true;
-          res.render("survey/private", {surveyResult: surveyResult, isShow: true, survey: surveyResult.survey, software: {}});            
+          res.render("survey/private", {surveyResult: surveyResult, user: surveyResult.user, isShow: true, survey: surveyResult.survey, software: {}});            
         }
     });
 });

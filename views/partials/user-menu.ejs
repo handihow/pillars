@@ -10,16 +10,16 @@
 
   <a class="vertical item <%if(url==="/user/"+user._id+"/surveys") { %> active <% } %>" 
       href="/user/<%=user._id%>/surveys" 
-      data-content="Deskundigheidstests">
-    <i class="certificate icon"></i>
-    <span class="hide-mobile">Deskundigheid</span>
+      data-content="Tests">
+    <i class="tasks icon"></i>
+    <span class="hide-mobile">Tests</span>
   </a>
   
-  <a class="vertical item <%if(url==="/user/"+user._id+"/results") { %> active <% } %>" 
-      href="/user/<%= user._id %>" 
-      data-content="Resultaten">
-    <i class="bar chart icon"></i>
-    <span class="hide-mobile">Resultaten</span>
+  <a class="vertical item <%if(url==="/user/"+user._id+"/competence") { %> active <% } %>" 
+      href="/user/<%= user._id%>/competence" 
+      data-content="Deskundigheid">
+    <i class="certificate icon"></i>
+    <span class="hide-mobile">Deskundigheid</span>
   </a>
 
   <a class="vertical item <%if(url==="/user/"+user._id+"/ready") { %> active <% } %>" 
@@ -29,8 +29,8 @@
     <span class="hide-mobile">Klaar</span>
   </a>
 
-  <a class="vertical item <%if(url==="/user/"+user._id+"/evaluations") { %> active <% } %>" 
-      href="/user/<%= user._id %>" 
+  <a class="vertical item <%if(url==="/user/"+user._id+"/evaluation") { %> active <% } %>" 
+      href="/user/<%= user._id %>/evaluation" 
       data-content="Evaluaties">
     <i class="comments icon"></i>
     <span class="hide-mobile">Evaluaties</span>

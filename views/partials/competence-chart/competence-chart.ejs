@@ -21,7 +21,9 @@
     </div>
   <% } %>
   
-  <a href="<%=resultsUrl%>" 
+  <%if(resultsUrl){%>
+    <a href="<%=resultsUrl%>" 
       class="ui bottom blue attached button <% if(!results[index].average){ %>disabled<%}%>">Resultaten bekijken</a>
+  <% } %>
   
 </div>

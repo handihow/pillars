@@ -1,0 +1,45 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<% include ../partials/user-header %>
+
+<%var name='Medewerker'; var compareName= user.role == 'sadmin' || user.role == 'suser' ? 'School' : 'Bestuur';%>
+<h2 class="ui centered header">
+  Resultaten deskundigheid
+</h2>
+<div class="ui small info message">
+  <ul class="list">
+    <li>Indicator toont de gemiddelde score van <%=user.firstName ? user.firstName : 'de medewerker'%> <%=user.lastName%></li>
+    <li>Gekleurde delta toont de afwijking ten opzichte van de gemiddelde score van 
+      <%if(user.role =='sadmin' || user.role == 'suser'){%>de school<%} else {%>het bestuur<%}%></li>
+  </ul>
+</div>
+<div class="ui stackable grid">
+  <%surveys.forEach(function(survey, index){%>
+      <%if(survey.isActiveCompetenceSurvey){ %>
+        <%var resultsUrl = null%>
+        <% include ../partials/competence-chart/competence-chart %>
+      <%}%>
+  <%})%>
+</div>
+<div id='nonactive-content'>
+  <div class="ui divider"></div>
+  <h3 class="ui header">Non-actieve tests</h3>
+  <div class="ui stackable grid">
+    <%surveys.forEach(function(survey, index){%>
+        <%if(!survey.isActiveCompetenceSurvey){ %>
+          <%var resultsUrl = null%>
+          <% include ../partials/competence-chart/competence-chart %>
+        <%}%>
+    <%})%>
+  </div>
+</div>
+<div class="ui divider"></div>
+<input class="ui button" type='button' id='hideshow' value='Non-actieve tests'>
+
+
+<div id="surveysInfo" hidden><%= JSON.stringify(surveys)%></div>
+<div id="resultsInfo" hidden><%= JSON.stringify(results)%></div>
+
+<% include ../partials/school-footer %>
+<% include ../partials/footer %>
