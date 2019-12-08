@@ -340,33 +340,33 @@
                 ];
 
 			statistics.forEach(function(stat, statIndex){
-				var trace = {
-					boxpoints: 'all',
-					y: stat.statistics,
-					type: 'box',
-					name: stat.title,
-					jitter: 0.3,
-	    			pointpos: -1.8,
-	    			marker: {
-	    				color:markerColors[statIndex]
-	    			},
-					fillcolor: fillColors[statIndex],
+				if(statIndex > 0){
+					var trace = {
+						boxpoints: 'all',
+						y: stat.statistics,
+						type: 'box',
+						name: stat.title,
+						jitter: 0.3,
+		    			pointpos: -1.8,
+		    			marker: {
+		    				color:markerColors[statIndex - 1]
+		    			},
+						fillcolor: fillColors[statIndex - 1],
+					}
+					data.push(trace);
 				}
-				data.push(trace);
 			});
 
 			var layout = {
 			  showlegend: true,
 			  autosize: true,
-			  width: 1200,
-			  height: 800
+			  width: 1000,
+			  height: 600
 			  
 			}
 			Plotly.newPlot('analysisChart', data, layout, {responsive: true});
 		} else if(surveyInfo.isSoftwareSurvey){
 			var bubblesString = $( '#bubblesInfo' ).text();
-
-			console.log(bubblesString);
 
 			var bubbles = JSON.parse(bubblesString || '[]');
 
@@ -394,8 +394,8 @@
 			var layout = {
 			  title: 'Frequentie versus Noodzaak en Kwaliteit',
 			  showlegend: true,
-			  height: 800,
-			  width: 1200,
+			  height: 600,
+			  width: 1000,
 			  xaxis: {
 			  	title: 'Frequentie (0 = weinig, 1 = zeer vaak)'
 			  },

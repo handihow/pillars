@@ -54,7 +54,7 @@ var retrievePasswordRoutes = require("./routes/user/retrieve-password");
 var indexRoutes = require("./routes/index");
 
 //DATABASE CONNECTION
-mongoose.connect(process.env.DATABASEURL);
+mongoose.connect(process.env.DATABASEURL, {retryWrites: false});
 
 //APP CONFIG
 app.set("view engine", "ejs");

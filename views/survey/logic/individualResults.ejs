@@ -22,118 +22,104 @@
 		var markerColors = [
                     'rgba(0,159,227, 1)',
                     'rgba(227,6,19,1)',
-                    'rgba(249,178,51, 1)',
-                    'rgba(0, 0, 0, 1)',
-                    'rgba(18,172,19, 1)',
-                    'rgba(34, 34, 188, 1)',
-                    'rgba(246, 190, 91, 1)',
-                    'rgba(58, 58, 58, 1)',
-                    'rgba(191,35,66, 1)',
-                    'rgba(36, 83, 189, 1)',
-                    'rgba(249, 203, 19, 1)',
-                    'rgba(112, 112, 112, 1)',
+                    'rgba(249,178,51, 1)'
                 ];
             var fillColors = [
                     'rgba(0,159,227, 0.7)',
                     'rgba(227,6,19,0.7)',
-                    'rgba(249,178,51, 0.7)',
-                    'rgba(0, 0, 0, 0.7)',
-                    'rgba(18,172,19, 0.7)',
-                    'rgba(34, 34, 188, 0.7)',
-                    'rgba(246, 190, 91, 0.7)',
-                    'rgba(58, 58, 58, 0.7)',
-                    'rgba(191,35,66, 0.7)',
-                    'rgba(36, 83, 189, 0.7)',
-                    'rgba(249, 203, 19, 0.7)',
-                    'rgba(112, 112, 112, 0.7)',
+                    'rgba(249,178,51, 0.7)'
                 ];
 
-		for(var i=0; i<organisationStatistics.length; i++){
-			console.log(i);
-			var array1 = Array(organisationStatistics.length);
-			array1.fill('organisatie');
-			var trace1 = {
+        var orgXLabels = []; var orgYPoints = []; 
+        var schoolXLabels = []; var schoolYPoints = []; 
+        var indXLabels = []; var individualYPoints = [];
+		for(var i=1; i<organisationStatistics.length; i++){
+			var xLabel = Array(organisationStatistics[i].statistics.length);
+			xLabel.fill(organisationStatistics[i].title);
+			orgXLabels = orgXLabels.concat(xLabel);
+			orgYPoints = orgYPoints.concat(organisationStatistics[i].statistics);
+			if(schoolStatistics.length>0){
+				var sxLabel = Array(schoolStatistics[i].statistics.length);
+				sxLabel.fill(schoolStatistics[i].title);
+				schoolXLabels = schoolXLabels.concat(sxLabel);
+				schoolYPoints = schoolYPoints.concat(schoolStatistics[i].statistics);
+			}
+			var ixLabel = Array(individualStatistics[i].statistics.length);
+			ixLabel.fill(individualStatistics[i].title);
+			indXLabels = indXLabels.concat(ixLabel);
+			individualYPoints = individualYPoints.concat(individualStatistics[i].statistics);
+		}
+
+		var trace1 = {
+			boxpoints: 'all',
+			y: orgYPoints,
+			x: orgXLabels,
+			type: 'box',
+			name: 'bestuur',
+			jitter: 0.5,
+    		whiskerwidth: 0.2,
+	    	marker: {
+	            size: 2,
+	            color:markerColors[0]
+	        },
+	        line: {
+	            width: 1
+	        },
+			fillcolor: fillColors[0],
+			// fillcolor: chartColors[i],
+		}
+		data.push(trace1);
+		if(schoolStatistics.length>0){
+			var trace2 = {
 				boxpoints: 'all',
-				y: organisationStatistics[i].statistics,
-				x: array1,
+				y: schoolYPoints,
+				x: schoolXLabels,
 				type: 'box',
-				name: organisationStatistics[i].title.length > 30 ? 
-							organisationStatistics[i].title.substring(0,29) + '...' : 
-							organisationStatistics[i].title,
+				name: 'school',
 				jitter: 0.5,
         		whiskerwidth: 0.2,
 		    	marker: {
 		            size: 2,
-		            color:markerColors[i]
+		            color:markerColors[2]
 		        },
 		        line: {
 		            width: 1
 		        },
-		        legendgroup: 'organisation',
-				fillcolor: fillColors[i],
+		        legendgroup: 'school',
+		        fillcolor: fillColors[2],
 				// fillcolor: chartColors[i],
 			}
-			data.push(trace1);
-			if(schoolStatistics.length>0){
-				var array2 = Array(schoolStatistics.length);
-				array2.fill('school');
-				var trace2 = {
-					boxpoints: 'all',
-					y: schoolStatistics[i].statistics,
-					x: array2,
-					type: 'box',
-					name: schoolStatistics[i].title.length > 30 ?
-										schoolStatistics[i].title.substring(0,29) + '...' :
-										schoolStatistics[i].title,
-					jitter: 0.5,
-	        		whiskerwidth: 0.2,
-			    	marker: {
-			            size: 2,
-			            color:markerColors[i]
-			        },
-			        line: {
-			            width: 1
-			        },
-			        legendgroup: 'school',
-			        fillcolor: fillColors[i],
-					// fillcolor: chartColors[i],
-				}
-				data.push(trace2);
-			}
-			var array3 = Array(organisationStatistics.length);
-			array3.fill('individueel');
-			var trace3 = {
-				boxpoints: 'all',
-				y: individualStatistics[i].statistics,
-				x: array3,
-				type: 'box',
-				name: individualStatistics[i].title.length > 30 ?
-										individualStatistics[i].title.substring(0,29) + '...' :
-										individualStatistics[i].title,
-				legendgroup: 'individual',
-				marker: {
-		            color:markerColors[i]
-		        },
-				fillcolor: fillColors[i],
-			}
-			data.push(trace3);
+			data.push(trace2);
 		}
+		
+		var trace3 = {
+			boxpoints: 'all',
+			y: individualYPoints,
+			x: indXLabels,
+			type: 'scatter',
+			mode: 'markers',
+			name: 'medewerker',
+			legendgroup: 'medewerker',
+			marker: {
+	            color:markerColors[1],
+	            size: 16
+	        },
+			fillcolor: fillColors[1],
+		}
+		data.push(trace3);
 
-		// var layout = {
-		//   boxmode: 'group'	  
-		// }
 		var layout = {
-		  // title: 'Resultaten per deelgebied',
+		  title: 'Resultaten per deelgebied',
 		  boxmode: 'group',
 		  showlegend: true,
-		  width: 1200,
-		  height: 700
+		  width: 1000,
+		  height: 600
 		  // width: chartWidth
 		  
 		}
 
 
-		Plotly.newPlot('analysisChart', data, layout, {responsive: true});
+		Plotly.newPlot('analysisChart', data, layout, {displayModeBar: false, responsive: true});
 
 			
 	});

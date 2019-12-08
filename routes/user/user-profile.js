@@ -70,15 +70,19 @@ router.get("/competence", middleware.isLoggedIn, function(req, res){
         "isCompetenceSurvey": true
       }, async function(err, surveys){
         let results = [];
+        let filledSurveys = [];
         await asyncForEach(surveys, async function(survey, index){
            let result = await retrieveUserSurveyResults(survey, user);
-           results.push(result);
+           if(result.count > 0){
+             results.push(result);
+             filledSurveys.push(survey);
+           }
            if(index==surveys.length-1){
             res.locals.scripts.header.plotly = true;
             res.locals.scripts.footer.competence = true;
             res.render("user/competence", {
               user: user, 
-              surveys: surveys, 
+              surveys: filledSurveys, 
               results: results
             })
           }

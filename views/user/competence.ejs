@@ -14,6 +14,14 @@
       <%if(user.role =='sadmin' || user.role == 'suser'){%>de school<%} else {%>het bestuur<%}%></li>
   </ul>
 </div>
+<%if(!surveys || surveys.length===0){%>
+  <div class="ui placeholder segment">
+    <div class="ui icon header">
+      <i class="dont icon"></i>
+      Nog geen resultaten
+    </div>
+  </div>
+<%}%>
 <div class="ui stackable grid">
   <%surveys.forEach(function(survey, index){%>
       <%if(survey.isActiveCompetenceSurvey){ %>
