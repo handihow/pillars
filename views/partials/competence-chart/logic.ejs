@@ -32,7 +32,7 @@
 					    	color: averages[index] > 50 ? '#009FE3' : '#E30613'
 					    }
 				    },
-				    delta: { reference: comparingAverages[index], relative: true },
+				    delta: { reference: comparingAverages[index], relative: false },
 				    value: averages[index],
 				    domain: { x: [0, 1], y: [0, 1] },
 				    title: { text: 'Test ' + (index + 1) }
