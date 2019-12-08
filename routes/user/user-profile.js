@@ -42,7 +42,7 @@ router.get("/surveys", middleware.isLoggedIn, function(req, res){
     } else {
       SurveyResult.find({"user": user._id, "isCompetenceSurvey": true})
       .populate("survey")
-      .sort("createdAt")
+      .sort({"createdAt" : -1})
       .exec(function(err, surveyResults){
         if(err){
           req.flash("error", "Onbekende fout: " + err.message);
