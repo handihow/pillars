@@ -8,9 +8,9 @@ var subjects = require('./software/subjects'); //software subjects
 var softwareStandards = require('./software/standards'); //software Pillars standards
 var softwareSurvey = require('./software/survey'); //software survey
 //import competence configuration files
-var questionnaire = require('./competence/questionnaire'); //competence questionnaires
 var competenceSurvey = require('./competence/survey'); //competence survey
 var competenceStandards = require('./competence/standards'); //competence standards
+var customCSS = require('./competence/customCSS'); //custom css for the surveys
 //import management configuration files
 var roles = require('./management/roles'); //management roles
 var managementStandards = require('./management/standards'); //management standards
@@ -21,6 +21,7 @@ var email = require('./other/email'); //emails that are sent to users
 var processingActivity = require('./other/processingActivity'); //processing activities
 var inspectionResults = require('./other/inspectionResults'); //school inspection results
 var organisationSettings = require('./other/organisationSettings'); //organisation settings
+var formsCSS = require('./other/formsCSS'); //custom css for forms in the application
 
 //Definition of config variable
 var config = {};
@@ -42,7 +43,7 @@ config.software.survey = softwareSurvey;
 
 //competence
 config.competence = {};
-config.competence.questionnaire = questionnaire;
+config.competence.customCSS = customCSS;
 config.competence.survey = competenceSurvey;
 config.competence.standards = competenceStandards;
 
@@ -57,6 +58,7 @@ config.scripts = scripts;
 config.processingActivity = processingActivity;
 config.inspectionResults = inspectionResults;
 config.organisationSettings = organisationSettings;
+config.formsCSS = formsCSS;
 
 config.currentSchoolYear = "2019/2020"
 

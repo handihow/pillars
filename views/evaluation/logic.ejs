@@ -1,12 +1,131 @@
 <script>
-  var evaluationForm = {"locale":"nl","title":{"nl":"Evaluatie formulier Pillars"},"completedHtml":{"nl":"Evaluatie wordt verwerkt..."},"loadingHtml":{"nl":"Even geduld aub..."},"pages":[{"name":"evaluation","elements":[{"type":"text","name":"date","width":"30%","startWithNewLine":false,"title":{"nl":"Datum"},"isRequired":true,"inputType":"date"},{"type":"text","name":"title","width":"70%","startWithNewLine":false,"title":{"nl":"Naam evaluatierapport"},"isRequired":true},{"type":"editor","name":"report","title":{"nl":"Rapport van gesprek"}},{"type":"editor","name":"plan","title":{"nl":"Plan van aanpak"}},{"type":"paneldynamic","name":"actions","title":{"nl":"Actie punten"},"templateElements":[{"type":"text","name":"dueDate","width":"20%","startWithNewLine":false,"title":{"nl":"Vervaldatum"},"inputType":"date"},{"type":"text","name":"actionItem","width":"30%","startWithNewLine":false,"title":{"nl":"Actie punt"}},{"type":"text","name":"hyperlink","width":"30%","startWithNewLine":false,"title":{"nl":"Hyperlink"},"inputType":"url"},{"type":"boolean","name":"isDone","width":"20%","startWithNewLine":false,"title":{"nl":"Klaar"},"defaultValue":"false"}],"panelCount":3,"minPanelCount":3,"panelAddText":{"nl":"Voeg actiepunt toe"},"panelRemoveText":{"nl":"Verwijder actiepunt"}}],"title":{"nl":"Evaluatie"}}],"showTitle":false};
+  var evaluationForm = {
+     "locale": "nl",
+     "title": {
+      "nl": "Evaluatie formulier Pillars"
+     },
+     "completedHtml": {
+      "nl": "Evaluatie wordt verwerkt..."
+     },
+     "loadingHtml": {
+      "nl": "Even geduld aub..."
+     },
+     "pages": [
+      {
+       "name": "evaluation",
+       "elements": [
+        {
+         "type": "text",
+         "name": "date",
+         "width": "30%",
+         "startWithNewLine": false,
+         "title": {
+          "nl": "Datum"
+         },
+         "isRequired": true,
+         "inputType": "date"
+        },
+        {
+         "type": "text",
+         "name": "title",
+         "width": "70%",
+         "startWithNewLine": false,
+         "title": {
+          "nl": "Naam evaluatierapport"
+         },
+         "isRequired": true
+        },
+        {
+         "type": "editor",
+         "name": "report",
+         "title": {
+          "nl": "Rapport van gesprek"
+         }
+        },
+        {
+         "type": "editor",
+         "name": "plan",
+         "title": {
+          "nl": "Plan van aanpak"
+         }
+        },
+        {
+         "type": "paneldynamic",
+         "name": "actions",
+         "title": {
+          "nl": "Actie punten"
+         },
+         "templateElements": [
+          {
+           "type": "text",
+           "name": "dueDate",
+           "width": "20%",
+           "startWithNewLine": false,
+           "title": {
+            "nl": "Vervaldatum"
+           },
+           "inputType": "date"
+          },
+          {
+           "type": "text",
+           "name": "actionItem",
+           "width": "30%",
+           "startWithNewLine": false,
+           "title": {
+            "nl": "Actie punt"
+           }
+          },
+          {
+           "type": "text",
+           "name": "hyperlink",
+           "width": "30%",
+           "startWithNewLine": false,
+           "title": {
+            "nl": "Hyperlink"
+           },
+           "inputType": "url"
+          },
+          {
+           "type": "boolean",
+           "name": "isDone",
+           "width": "20%",
+           "startWithNewLine": false,
+           "title": {
+            "nl": "Klaar"
+           },
+           "defaultValue": "false",
+           "labelTrue": "Ja",
+           "labelFalse": "Nee"
+          }
+         ],
+         "panelCount": 3,
+         "minPanelCount": 3,
+         "panelAddText": {
+          "nl": "Voeg actiepunt toe"
+         },
+         "panelRemoveText": {
+          "nl": "Verwijder actiepunt"
+         }
+        }
+       ],
+       "title": {
+        "nl": "Evaluatie"
+       }
+      }
+     ],
+     "showTitle": false,
+     "showPageTitles": false,
+     "showQuestionNumbers": "off"
+    };
 
+    var formsCSSText = $('#formsCSS').text();
+    var formsCSS = JSON.parse(formsCSSText);
 
     var survey = new Survey.Model(evaluationForm);
     
     survey.locale = 'nl';
     
-    $("#evaluationForm").Survey({model: survey});
+    $("#evaluationForm").Survey({model: survey, css: formsCSS});
 
     var schoolId = $( '#schoolId' ).text();
     var url = window.location.origin + "/schools/" + schoolId + "/evaluation"; //post url for new evaluation

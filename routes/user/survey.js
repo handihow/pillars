@@ -42,7 +42,7 @@ router.get("/:sid/private", middleware.isLoggedIn, function(req, res){
           res.locals.scripts.footer.surveyjs = true;
           res.locals.scripts.footer.surveyOptions = true;
           res.locals.scripts.footer.surveyPrivate = true;
-          res.render("survey/private", {survey: survey, software: software, isShow: false});            
+          res.render("survey/private", {survey: survey, software: software, isShow: false, customCSS: config.competence.customCSS});            
         }
     });
 });
@@ -169,7 +169,14 @@ router.get("/:sid/result", function(req, res){
           res.locals.scripts.header.surveyjs = true;
           res.locals.scripts.footer.surveyjs = true;
           res.locals.scripts.footer.surveyPrivate = true;
-          res.render("survey/private", {surveyResult: surveyResult, user: surveyResult.user, isShow: true, survey: surveyResult.survey, software: {}});            
+          res.render("survey/private", {
+            surveyResult: surveyResult, 
+            user: surveyResult.user, 
+            isShow: true, 
+            survey: surveyResult.survey, 
+            software: {},
+            customCSS: config.competence.customCSS
+          });            
         }
     });
 });

@@ -288,3 +288,7 @@ fieldset  {
   display: none;
 }
 
+.sva-question__content {
+  min-width: 550px;
+}
+

@@ -3,6 +3,7 @@ var router = express.Router({mergeParams: true});
 var Evaluation = require("../../models/evaluation");
 var School = require("../../models/school");
 var middleware = require("../../middleware");
+var config = require('../../config/config');
 
 //INDEX SCHOOL EVALUATION ROUTE
 router.get("/", middleware.isSchoolOwner, function(req, res){
@@ -27,7 +28,7 @@ router.get("/new", middleware.isSchoolOwner, function(req, res){
       res.locals.scripts.footer.surveyjs = true;
       res.locals.scripts.footer.surveyOptions = true;
       res.locals.scripts.footer.evaluation = true;
-      res.render("evaluation/new", {school: school});
+      res.render("evaluation/new", {school: school, formsCSS: config.formsCSS});
     }
   });
 });

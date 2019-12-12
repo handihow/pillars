@@ -24,9 +24,9 @@
 
   <a class="vertical item <%if(url==="/user/"+user._id+"/ready") { %> active <% } %>" 
       href="/user/<%= user._id %>/ready" 
-      data-content="Klaar">
+      data-content="Advies">
     <i class="flag checkered icon"></i>
-    <span class="hide-mobile">Klaar</span>
+    <span class="hide-mobile">Advies</span>
   </a>
 
   <a class="vertical item <%if(url==="/user/"+user._id+"/evaluation") { %> active <% } %>" 
@@ -35,6 +35,15 @@
     <i class="comments icon"></i>
     <span class="hide-mobile">Evaluaties</span>
   </a>
+
+  <%if(currentUser.role ==='badmin' || currentUser.role === 'padmin'){%>
+    <a class="vertical item <%if(url==="/user/"+user._id+"/account") { %> active <% } %>" 
+        href="/user/<%= user._id %>/account" 
+        data-content="Account beheren">
+      <i class="cogs icon"></i>
+      <span class="hide-mobile">Account beheren</span>
+    </a>
+  <% } %>
 
 </div>
 
