@@ -1,0 +1,19 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<% include ../partials/user-header %>
+<h2 class="ui header">
+  <%if(user.imageUrl){%>
+      <img 
+        class="ui image" 
+        src="<%=user.imageUrl %>">
+  <%}%>
+  <div class="content">
+    <%= user.firstName + ' ' + user.lastName %>
+  </div>
+</h2>
+<img class="ui medium circular image" src="https://cdn.pixabay.com/photo/2016/12/11/08/01/coming-soon-1898936_1280.jpg">
+
+
+<% include ../partials/user-footer %>
+<% include ../partials/footer %>

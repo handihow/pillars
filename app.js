@@ -34,6 +34,7 @@ var schoolUserRoutes = require("./routes/user/school-user");
 var userProfileRoutes = require("./routes/user/user-profile");
 var userEvalRoutes = require("./routes/user/user-eval");
 var userSurveyRoutes = require("./routes/user/survey");
+var userManageAccountRoutes = require("./routes/user/manage-account");
 //ROUTES RELATED TO ORGANISATION
 var standardRoutes = require("./routes/organisation/standard");
 var processingActivityOrganisationRoutes = require("./routes/organisation/processingActivity");
@@ -183,6 +184,7 @@ app.use("/schools/:id/survey", surveyRoutes);
 //ROUTES RELATED TO USERS
 app.use("/schools/:id/user", schoolUserRoutes);
 app.use("/user/:id/evaluation", userEvalRoutes);
+app.use("/user/:id/account", userManageAccountRoutes);
 app.use("/user/:id", userProfileRoutes);
 app.use("/organisations/:id/org-user", orgUserRoutes);
 app.use("/survey", userSurveyRoutes);
