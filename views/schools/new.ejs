@@ -41,7 +41,7 @@
                     <input type="text" name="school[<%=i%>][city]" value="<%= school['PLAATSNAAM'] %>" required>
                 </div>
                 <div class="one wide field">
-                    <i class="trash icon"></i> 
+                    <button class="ui circular icon button school-remove <%=i%>" type="button"><i class="trash icon"></i> </button>
                 </div>
                 <input type="hidden" name="school[<%=i%>][isSecondarySchool]" value=<%=secondarySchool%>>
              </div>

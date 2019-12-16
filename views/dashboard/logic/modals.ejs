@@ -9,7 +9,6 @@
 
 	    if($("#software-assessments").length > 0){
 	      $("#software-assessments").click(function(){
-	      	console.log("clicked")
 	        $('.ui.modal.software-assessments').modal('show');
 	      });
 	    }
@@ -22,7 +21,6 @@
 
 	    $.get('https://pillars.school/wp-json/wp/v2/posts?per_page=3&_embed', function(data){
 	    	data.forEach(function(post){
-	    		console.log(post)
 	    		var image = post._embedded['wp:featuredmedia']['0'].source_url;
 	    		if(typeof image =='undefined'){
 	    			image = '/img/logo.png';

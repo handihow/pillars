@@ -49,6 +49,15 @@ $(document).ready(function() {
       .tab();
     }
 
+    if($('.school-remove').length > 0){
+      $('.school-remove').click(function() {
+        var myClass = $(this).attr("class");
+        var myClasses = myClass.split(/\s+/)
+        var index = myClasses.pop();
+        $('#' + index).remove();
+      })
+    }
+
     if($('.vertical.item').length > 0){
     //activate the popups
     $('.vertical.item')

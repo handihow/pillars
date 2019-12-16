@@ -74,15 +74,15 @@ router.post("/new", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmi
   var url;
   var secondarySchool;
   if(zoekcriterium==0){
-    url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=616793a8-10df-4ea9-9905-13d48e126b45&q=" +
+    url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=32c486ae-bb2a-416a-b1e4-2942b288fd8a&q=" +
     zoekveld;
     secondarySchool = false;
   } else if(zoekcriterium==1) {
-    url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=3c3fd20f-6bff-4266-bd3e-5360b17dae5e&q=" +
+    url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=fb9eb67b-7ec1-497b-9f9d-0620d421320d&q=" +
     zoekveld;
     secondarySchool = true;
   } else {
-    url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=93c9f726-6b93-439a-9e3e-2136c158ac47&q=" +
+    url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=0ebce2e6-16fb-479a-a300-42423bfd3a96&q=" +
     zoekveld;
     secondarySchool = false;
   }
