@@ -100,7 +100,7 @@ router.post("/", middleware.isNotDemoAccount, middleware.isSchoolOwner, function
                         res.redirect("/schools/" + school._id + "/user");
                       })
                       .catch((err) => {
-                        req.flash("error", "Fout bij verzenden van email. Controleer email adres.");
+                        req.flash("error", "Fout bij verzenden van email. Foutmelding: " + err);
                         res.redirect("/schools/" + school._id + "/user");
                       });
                 });
