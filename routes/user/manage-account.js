@@ -128,6 +128,10 @@ router.put("/", middleware.isAuthenticatedBadmin, function(req, res){
 				     }
 				});
 			} else if(updatedUser.role == 'suser' || updatedUser.role =='sadmin') {
+				if(!updatedUser.school || updatedUser.school.length===0){
+					req.flash("error", "Rol op schoolniveau vereist dat tenminste 1 school in het account is geselecteerd");
+					return res.redirect("back");
+				}
 				//user is keeping the school level, check if a school is defined
 				let schoolObjects = [];
 				let previousSchoolObjects = [];
