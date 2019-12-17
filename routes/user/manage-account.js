@@ -39,7 +39,7 @@ router.get("/edit", middleware.isAuthenticatedBadmin, function(req, res){
 								req.flash("error", err);
 								res.redirect("back");
 							} else {
-								res.render("user/account-edit", {user: user, organisation: organisation, schools: schools}); 
+								res.render("user/account-edit", {user: user, schools: schools}); 
 							}
 						});
 				}
