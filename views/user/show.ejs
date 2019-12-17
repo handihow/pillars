@@ -37,7 +37,7 @@
     </div>
     <div class="ui stackable grid">
       <div class="four wide column">
-        <h4 class="content">Organisatie</h4>
+        <h4 class="content">Bestuur</h4>
         <div class="content"><%=user.organisation.name%></div>
       </div>
       <div class="four wide column">
@@ -71,11 +71,11 @@
         <div class="content"><% if(user.publicProfile) {%>Ja <%} else {%> Nee <%}%></div>
       </div>
     </div>
-    <div class="ui divider"></div>
-    <% if (!user.emailIsAuthenticated){ %>
-      <a class="ui button right" href="/verify/user/<%=user._id%>">Email verifieren</a>
-    <% } %>
-    <% if(currentUser._id.equals(user._id) || currentUser.role === 'badmin' || currentUser.role === 'padmin') { %>
+    <% if(currentUser._id.equals(user._id)) { %>
+      <div class="ui divider"></div>
+      <% if (!user.emailIsAuthenticated){ %>  
+        <a class="ui button right" href="/verify/user/<%=user._id%>">Email verifieren</a>
+      <% } %>
       <a class="ui primary button right" href="/user/<%=user._id%>/edit">Gegevens wijzigen</a>
     <% } %>
 

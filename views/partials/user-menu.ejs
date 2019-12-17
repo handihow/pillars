@@ -37,7 +37,7 @@
   </a>
 
   <%if(currentUser.role ==='badmin' || currentUser.role === 'padmin'){%>
-    <a class="vertical item <%if(url==="/user/"+user._id+"/account") { %> active <% } %>" 
+    <a class="vertical item <%if(url.includes("/user/"+user._id+"/account")) { %> active <% } %>" 
         href="/user/<%= user._id %>/account" 
         data-content="Account beheren">
       <i class="cogs icon"></i>

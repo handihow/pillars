@@ -12,8 +12,49 @@
     <%= user.firstName + ' ' + user.lastName %>
   </div>
 </h2>
-<img class="ui medium circular image" src="https://cdn.pixabay.com/photo/2016/12/11/08/01/coming-soon-1898936_1280.jpg">
-
+<div class="ui divider"></div>
+  <div class="ui stackable grid">
+    <div class="four wide column">
+      <h4 class="content">Email</h4>
+      <div class="content"><%=user.username%></div>
+    </div>
+    <div class="four wide column">
+      <h4 class="content">Voornaam</h4>
+      <div class="content"><%=user.firstName%></div>
+    </div>
+    <div class="four wide column">
+      <h4 class="content">Achternaam</h4></h4>
+      <div class="content"><%=user.lastName%></div>
+    </div>
+    <div class="four wide column">
+      <h4 class="content">Rol</h4></h4>
+      <div class="content"><%if(user.role==="badmin"){%>Bestuur admin
+        <%} else if(user.role==="buser"){%>Bestuur medewerker
+        <%} else if(user.role==="sadmin"){%>School admin
+        <%} else if(user.role==="padmin"){%>Pillars admin
+        <%} else {%>School medewerker<%}%></div>
+      </div>
+    </div>
+    <div class="ui stackable grid">
+      <div class="four wide column">
+        <h4 class="content">Bestuur</h4>
+        <div class="content"><%=user.organisation.name%></div>
+      </div>
+      
+      <div class="four wide column">
+        <h4 class="content">School</h4>
+        <%if(user.role == 'suser' || user.role == 'sadmin'){%>
+        	<%user.school.forEach(function(s){%>
+        		<div class="content"><%=s.name%></div>
+        	<%})%>
+        <% } else { %>
+        	<div class="content">Niet van toepassing</div>
+        <% } %>
+      </div>
+     
+    </div>
+    <div class="ui divider"></div>
+    <a class="ui primary button right" href="/user/<%=user._id%>/account/edit">Account wijzigen</a>
 
 <% include ../partials/user-footer %>
 <% include ../partials/footer %>

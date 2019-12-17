@@ -1,0 +1,55 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<% include ../partials/user-header %>
+
+<h2 class="ui centered header">
+  Account wijzigen <%=user.firstName%> <%=user.lastName%>
+</h2>
+<div class="ui divider"></div>
+<form class="ui form" action="/user/<%=user._id%>/account?_method=PUT" method="POST" id="accountManageForm" novalidate>
+    <!--NAME OF SOFTWARE-->
+    <div class="three fields">
+	    <div class="required field">
+	        <label>Email</label>  
+	        <input type="text" name="user[username]" value="<%=user.username%>">
+	    </div>
+	    <div class="required field">
+	        <label>Voornaam</label>  
+	        <input type="text" name="user[firstName]" value="<%=user.firstName%>">
+	    </div>
+	    <div class="required field">
+	        <label>Achternaam</label>  
+	        <input type="text" name="user[lastName]" value="<%=user.lastName%>">
+	    </div>
+	</div>
+	<div class="inline fields">
+      <label>Rol</label>
+      <%[{role: 'suser', label: 'School medewerker'}, {role: 'sadmin', label: 'School administrator'}, {role: 'buser', label: 'Bestuur medewerker'}, {role: 'badmin', label: 'Bestuur administrator'}].forEach(function(option){ %>
+	      <div class="field">
+	        <div class="ui radio checkbox">
+	          <input 
+	                type="radio" 
+	                name="user[role]" 
+	                value="<%=option.role%>" 
+	                <% if(user.role == option.role) { %>checked="checked"<% } %>>
+	          <label><%=option.label%></label>
+	        </div>
+	      </div>
+	    <% }); %>
+    </div>
+	<div class="field">
+        <label>School</label>
+        <select multiple="" name="user[school]" class="ui dropdown">
+          <option value="">Selecteer scholen</option>
+          <% schools.forEach(function(school) { %>
+          	<option value="<%=school._id%>" <%if(user.school.includes(school._id)) { %> selected="" <% } %>><%=school.name%></option>
+          <% }) %>
+      </select>
+    </div>
+	<button class="ui primary button" type="submit">Bewaren</button>
+    <div class="ui error message"></div>
+</form>
+
+<% include ../partials/user-footer %>
+<% include ../partials/footer %>

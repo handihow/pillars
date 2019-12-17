@@ -149,6 +149,41 @@ $(document).ready(function() {
 
     }
 
+//===================================================
+//FORM VALIDATIONS ON THE ACCOUNT MANAGEMENT PAGE
+//===================================================
+$("#accountManageForm").form({
+  fields: {
+    "user[firstName]": {
+      identifier: "user[firstName]",
+      rules: [
+        {
+          type: "empty",
+          prompt: "Voornaam is verplicht" 
+        }
+      ]
+    },
+    "user[lastName]": {
+      identifier: "user[lastName]",
+      rules: [
+        {
+          type: "empty",
+          prompt: "Achternaam is verplicht" 
+        }
+      ]
+    },
+    "user[username]": {
+         identifier: "user[username]",
+         rules: [
+         {
+           type: "email",
+           prompt: "Vul een geldig email adres in"
+         }
+       ]
+     }
+  }
+})
+
   //================================================//
 //FORM VALIDATIONS ON THE COMPETENCE ROUTE//
 //================================================//
