@@ -25,7 +25,7 @@
               <td><a href="/user/<%=user._id%>"><%= user.username %></a></td>
               <td><%= user.firstName %></td>
               <td><%= user.lastName %></td>
-              <td><%= user.organisation.name %></td>
+              <td><%= user.organisation ? user.organisation.name : '-' %></td>
               <td><%= user.school && user.school[0] && user.school[0].name ? user.school[0].name : '-' %></td>
               <td><%if(user.role==="badmin"){%>Bestuur admin
                   <%} else if(user.role==="buser"){%>Bestuur medewerker
