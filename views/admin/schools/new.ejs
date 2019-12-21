@@ -1,10 +1,24 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
+<% include ../../partials/header %>
+<% include ../../partials/main-menu %>
+<% include ../../partials/flash-message %>
+<% include ../../partials/admin-header %>
 
-<div class="ui container">
-    <div class="ui huge header">Scholen uit DUO Database Toevoegen</div>
-    <form class="ui mini form" action="/schools" method="POST" id="scholenToevoegen" novalidate>
+    <div class="ui center aligned header">Scholen uit DUO Database Toevoegen</div>
+    <form class="ui tiny form" action="/admin/schools" method="POST" id="scholenToevoegen" novalidate>
+        <div class="field">
+          <label>Kies bestuur</label>
+          <div class="ui selection dropdown">
+              <input type="hidden" name="organisation" id="organisation" required>
+              <i class="dropdown icon"></i>
+              <div class="default text">Selecteer bestuur</div>
+              <div class="menu">
+                <%organisations.forEach(function(organisation){%>
+                  <div class="item" data-value="<%=organisation._id%>"><%=organisation.name%></div>
+                <%})%>
+              </div>
+          </div>
+         </div>
+         <div class="ui divider"></div>
         <% var i=0 %>
         <% schools.forEach(function(school){ %>
              <div class="eight changing fields" id=<%=i%>>
@@ -49,6 +63,6 @@
           <% }); %>
           <button class="ui button" type="submit">Bewaren</button>
     </form>
-</div>
 
-<% include ../partials/footer %>
+<% include ../../partials/admin-footer %>
+<% include ../../partials/footer %>

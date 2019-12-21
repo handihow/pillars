@@ -10,6 +10,8 @@ router.get("/", middleware.isPadmin, function(req,res){
       req.flash("error", err.message);
       res.redirect("back");
     } else {
+      res.locals.scripts.header.datatables = true;
+      res.locals.scripts.footer.datatables = true;
       res.render("organisations/index", {organisations: organisations}); 
     }
   })

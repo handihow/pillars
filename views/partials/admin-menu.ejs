@@ -1,0 +1,19 @@
+ <div class="ui vertical icon fluid menu">
+
+  <a class="vertical item <%if(url.includes("/organisations")) {%> active <% } %>" 
+  		href="/organisations" data-content="Besturen">
+  	<i class="building icon"></i>
+  	<span class="hide-mobile">Besturen</span>
+  </a>
+  <a class="vertical item <%if(url.includes("/admin/schools")) {%> active <% } %>" 
+  		href="/admin/schools" data-content="Scholen">
+  	<i class="university icon"></i>
+  	<span class="hide-mobile">Scholen</span>
+  </a>
+  <a class="vertical item <%if(url.includes("/admin/users")) {%> active <% } %>" 
+  		href="/admin/users" data-content="Gebruikers">
+  	<i class="users icon"></i>
+  	<span class="hide-mobile">Gebruikers</span>
+  </a>
+
+</div>

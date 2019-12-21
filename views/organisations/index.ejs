@@ -1,11 +1,11 @@
 <% include ../partials/header %>
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
+<% include ../partials/admin-header %>
 
-<div class="ui container">
   
   <h2 class="ui center aligned header">
-      <div>Organisaties</div>
+      <div>Besturen</div>
   </h2>
   <a class="ui blue button right" href="/organisations/new">Organisatie Toevoegen</a>
   <div class="ui divider"></div>
@@ -42,7 +42,6 @@
         <% }); %>
       </tbody>
     </table>
-</div>
 
-
+<% include ../partials/admin-footer %>
 <% include ../partials/footer %>

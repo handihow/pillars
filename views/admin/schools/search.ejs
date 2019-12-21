@@ -1,14 +1,14 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
+<% include ../../partials/header %>
+<% include ../../partials/main-menu %>
+<% include ../../partials/flash-message %>
+<% include ../../partials/admin-header %>
 
-<div class="ui container">
-    <div class="ui huge header">Scholen Toevoegen</div>
+    <div class="ui center aligned header">Scholen Toevoegen</div>
     
     <p>Zoek op BRIN nummer, locatie nummer of bevoegd gezag nummer.</p>
     <p>Gegevens worden opgezocht in de DUO database.</p>
     
-    <form class="ui form" id="zoekScholen" action="/schools/new" method="POST">
+    <form class="ui form" id="zoekScholen" action="/admin/schools/new" method="POST">
         <div class="two fields">
             <div class="field">
               <label>Type school?</label>
@@ -31,6 +31,6 @@
         <button class="ui primary button" type="submit">Zoeken</button>
         <div class="ui error message"></div>
     </form>
-</div>
 
-<% include ../partials/footer %>
+<% include ../../partials/admin-footer %>
+<% include ../../partials/footer %>

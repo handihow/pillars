@@ -1,0 +1,76 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+
+<div class="ui container">
+  
+  <h2 class="ui center aligned header">
+      <div>Pillars Admin</div>
+  </h2>
+  
+   <div class="three ui link cards">
+      <a href="/organisations" class="ui card">
+        <div class="image">
+          <img src="/img/blue.png">
+        </div>
+        <div class="content">
+          <div class="header">Besturen</div>
+          <div class="meta">
+            <span>Beheer besturen</span>
+          </div>
+        </div>
+        <div class="extra content">
+          <span class="right floated">
+            <%=organisationCount%>
+          </span>
+          <span>
+            <i class="building icon"></i>
+            Besturen
+          </span>
+        </div>
+      </a>
+      <a href="/admin/schools" class="ui card">
+        <div class="image">
+          <img src="/img/red.png">
+        </div>
+        <div class="content">
+          <div class="header">Scholen</div>
+          <div class="meta">
+            <span>Beheer scholen</span>
+          </div>
+        </div>
+        <div class="extra content">
+          <span class="right floated">
+            <%=schoolCount%>
+          </span>
+          <span>
+            <i class="university icon"></i>
+            Scholen
+          </span>
+        </div>
+      </a>
+      <a href="/admin/users" class="ui card">
+        <div class="image">
+          <img src="/img/black.png">
+        </div>
+        <div class="content">
+          <div class="header">Gebruikers</div>
+          <div class="meta">
+            <span>Beheer gebruikers</span>
+          </div>
+        </div>
+        <div class="extra content">
+          <span class="right floated">
+            <%=userCount%>
+          </span>
+          <span>
+            <i class="user icon"></i>
+            Gebruikers
+          </span>
+        </div>
+      </a>
+    </div>
+
+</div>
+
+<% include ../partials/footer %>

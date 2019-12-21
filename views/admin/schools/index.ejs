@@ -1,18 +1,19 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
-
-<div class="ui container">
+<% include ../../partials/header %>
+<% include ../../partials/main-menu %>
+<% include ../../partials/flash-message %>
+<% include ../../partials/admin-header %>
   
   <h2 class="ui center aligned header">
-      <div>Pillars Admin</div>
+      <div>Scholen</div>
   </h2>
+  <a class="ui blue button right" href="/admin/schools/new">School Toevoegen</a>
+  <div class="ui divider"></div>
   
    <table class="ui celled small table">
       <thead>
         <tr>
           <th>Instellingsnaam</th>
-          <th>Eigenaar record</th>
+          <th>Bestuur</th>
           <th>Plaatsnaam</th>
           <th>Leerlingen</th>
           <th>Algemene info</th>
@@ -27,7 +28,7 @@
         <% schools.forEach(function(school){ %>
             <tr>
               <td><a href="/schools/<%=school._id%>"><%=school.name%></a></td>
-              <td> <%if(school.owner){%> <%=school.owner.firstName%> <%=school.owner.lastName %> <%}%></td>
+              <td> <%=school.organisation.name%></td>
               <td><%=school.city%></td>
               <td class="right aligned <% if(school.countStudents){ %> positive <% } else { %> negative <% } %>" ><%=school.countStudents%></td>
               <td class="center aligned"><% if(school.countStudents){ %> <i class="large green checkmark icon"></i> <% } %> </td>
@@ -40,6 +41,6 @@
         <% }) %>
       </tbody>
     </table>
-</div>
 
-<% include ../partials/footer %>
+<% include ../../partials/admin-footer %>
+<% include ../../partials/footer %>

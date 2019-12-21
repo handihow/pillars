@@ -47,16 +47,11 @@
       Handleiding
     </a>
     <% if(currentUser && currentUser.role ==="padmin") { %>
-    <div class="ui dropdown horizontal item" data-content="Pillars admin">
-      <i class="globe icon"></i>
-      Admin
-      <div class="menu">
-        <a class="item" href="/admin">Lijst scholen</a>
-        <a class="item" href="/organisations">Lijst organisaties</a>
-        <a class="item" href="/admin/badmin">Bestuur administrator lijst</a>
-        <a class="item" href="/admin/transfer">Gebruiker updaten</a>
-      </div>            
-    </div>
+      <a class=" horizontal item" data-content="Pillars admin"
+          href="/admin">
+        <i class="globe icon"></i>
+        Admin           
+      </a>
     <% } %>
     <a class="ui horizontal item" href="/logout" data-content="Uitloggen">
       <i class="sign-out icon" aria-hidden="true"></i>

@@ -1,0 +1,41 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<% include ../partials/admin-header %>
+
+  
+  <h2 class="ui center aligned header">
+      <div>Gebruikers</div>
+  </h2>
+  
+   <table class="ui celled small table">
+      <thead>
+        <tr>
+          <th>Email & Username</th>
+          <th>Voornaam</th>
+          <th>Achternaam</th>
+          <th>Organisatie</th>
+          <th>School</th>
+          <th>Rol</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% users.forEach(function(user){ %>
+            <tr>
+              <td><a href="/user/<%=user._id%>"><%= user.username %></a></td>
+              <td><%= user.firstName %></td>
+              <td><%= user.lastName %></td>
+              <td><%= user.organisation.name %></td>
+              <td><%= user.school[0] ? user.school[0].name : '-' %></td>
+              <td><%if(user.role==="badmin"){%>Bestuur admin
+                  <%} else if(user.role==="buser"){%>Bestuur medewerker
+                  <%} else if(user.role==="sadmin"){%>School admin
+                  <%} else if(user.role==="padmin"){%>Pillars admin
+                  <%} else {%>School medewerker<%}%></td>
+            </tr>
+        <% }) %>
+      </tbody>
+    </table>
+
+<% include ../partials/admin-footer %>
+<% include ../partials/footer %>

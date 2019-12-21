@@ -105,13 +105,13 @@
   <% if(!(currentUser.role==="suser")) { %>
     <a id="edit" class="ui primary basic button" href="/schools/<%= school._id %>/edit">Bewerken</a>
   <% } %>
-  <% if((currentUser.role==="padmin" || currentUser.role==="badmin")  && school.organisation.equals(currentUser.organisation)) { %>
+  <% if(currentUser.role==="padmin") { %>
   <button class="ui red basic button" id="delete">Verwijderen</button>
   <div class="ui hidden warning message">
     <div class="header">Waarschuwing</div>
     <p>Weet je zeker dat je deze school wilt verwijderen? Dit kan niet worden hersteld.</p>
     <button class="ui positive button" id="cancel">Cancel</button>
-    <form form id="delete" action="/schools/<%= school._id %>?_method=DELETE" method="POST">
+    <form form id="delete" action="/admin/schools/<%= school._id %>?_method=DELETE" method="POST">
       <button class="ui negative button">Verwijder School</button>
     </form>
   </div>
