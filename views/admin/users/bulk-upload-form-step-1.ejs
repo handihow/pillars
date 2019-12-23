@@ -1,0 +1,48 @@
+<% include ../../partials/header %>
+<% include ../../partials/main-menu %>
+<% include ../../partials/flash-message %>
+<% include ../../partials/admin-header %>
+
+  
+  <h2 class="ui center aligned header">
+      <div>Gebruikers toevoegen</div>
+  </h2>
+  <div class="ui divider"></div>
+
+  <div class="ui message">
+    <div class="header">
+      BELANGRIJK
+    </div>
+    <p>Lees aandachtig de onderstaande instructies. Bulk upload werkt alleen goed als deze instructies nauwlettend worden gevolgd.</p>
+  </div>
+  <h4>Instructies</h4>
+  <div class="ui bulleted list">
+    <div class="item">Maak een nieuwe Google Sheet of Excel bestand met de volgende headers: Email, Voornaam, Achternaam</div>
+    <div class="item">Deze headers moeten EXACT overeenkomen met de woorden hierboven</div>
+    <div class="item">Knip en Plak hierna vanuit jouw bestand met medewerkers de gegevens in de juiste kolom. Alle velden zijn verplicht.</div>
+    <div class="item">Als je klaar bent, bewaar dan het bestand als CSV.</div>
+    <div class="item">Selecteer hieronder het scheidingsteken dat wordt gebruikt in het bestand dat je wilt uploaden. Dit kan ";" zijn (bijvoorbeeld vanuit Excel-Nederlands) of "," (bijvoorbeeld vanuit Google Sheets)</div>
+    <div class="item">Kies het csv bestand en klik dan op bewaren</div>
+  </div>
+    <form class="ui form" action="/admin/users/bulk-import-step-1" method="POST" encType="multipart/form-data">
+        <div class="fields">
+          <div class="two wide required field">
+              <label>Scheidingsteken</label>
+              <div class="ui selection dropdown">
+                  <input type="hidden" name="separation" id="dropdown" value=",">
+                  <div class="text">Selecteer scheidingsteken</div>
+                  <i class="dropdown icon"></i>
+                  <div class="menu">
+                      <div class="item" data-value=",">,</div>
+                      <div class="item" data-value=";">;</div>
+                  </div>
+                </div>
+            </div>
+          </div>
+          <input type="file" name="file" accept="*.csv" required/><br/><br/>
+        <button class="ui button" type="submit">Bewaren</button>
+        <div class="ui error message"></div>
+    </form>
+
+<% include ../../partials/admin-footer %>
+<% include ../../partials/footer %>

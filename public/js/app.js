@@ -182,7 +182,33 @@ $("#accountManageForm").form({
        ]
      }
   }
-})
+});
+
+//==================
+//FORM VALIDATION ON THE USER BULK IMPORT
+//=======================================
+$('#usersForm').form({
+  fields: {
+    "organisation": {
+      identifier: "organisation",
+      rules: [
+        {
+          type: "empty",
+          prompt: "Bestuur is verplicht"
+        }
+      ]
+    },
+    "school": {
+      identifier: "school",
+      rules: [
+        {
+          type: "empty",
+          prompt: "School is verplicht"
+        }
+      ]
+    }
+  }
+});
 
   //================================================//
 //FORM VALIDATIONS ON THE COMPETENCE ROUTE//

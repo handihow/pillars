@@ -29,18 +29,4 @@ router.get("/", middleware.isPadmin, function(req, res){
   });   
 });
 
-//get list of users
-router.get("/users", middleware.isPadmin, function(req,res){
-  User.find({}, null, {sort: {organisation: 1, username: 1}}).populate("organisation").populate("school").exec(function(err,users){
-    if(err){
-      req.flash("error", err.message);
-      return res.redirect("back");
-    }
-    res.locals.scripts.header.datatables = true;
-    res.locals.scripts.footer.datatables = true;
-    res.render("admin/users", {users: users});
-  });
-});
-
-
 module.exports = router;

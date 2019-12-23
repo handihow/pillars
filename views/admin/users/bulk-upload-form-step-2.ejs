@@ -1,0 +1,89 @@
+<% include ../../partials/header %>
+<% include ../../partials/main-menu %>
+<% include ../../partials/flash-message %>
+<% include ../../partials/admin-header %>
+
+  <h2 class="ui center aligned header">
+      <div>Gebruikers toevoegen</div>
+  </h2>
+  <div class="ui divider"></div>
+    
+    <div class="ui message">
+      <div class="header">
+        BELANGRIJK
+      </div>
+      <p>Controleer of alle velden die je verwacht zijn gevuld.</p> 
+      <p>Als er gegevens missen, controleer dan eerst of de headers in je bestand exact overeenkomen met de instructies van de vorige stap. Herhaal eventueel de vorige stap.</p>
+      <p>Selecteer ook bij IEDERE rij de juiste rol. Zonder classificatie wordt dit veld automatisch gevuld met "School medewerker".</p>
+    </div>
+    
+    <form class="ui form" action="/admin/users/bulk-import-step-2" method="POST" id="usersForm">
+      <div class="two fields">
+        <div class="field">
+          <label>Kies bestuur</label>
+          <div class="ui selection dropdown">
+              <input type="hidden" name="organisation" id="organisation" 
+                data-rule-required="true" data-msg-required="Bestuur is verplicht">
+              <i class="dropdown icon"></i>
+              <div class="default text">Selecteer bestuur</div>
+              <div class="menu">
+                <%organisations.forEach(function(organisation){%>
+                  <div class="item" data-value="<%=organisation._id%>"><%=organisation.name%></div>
+                <%})%>
+              </div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Kies school</label>
+          <div class="ui selection dropdown">
+              <input type="hidden" name="school" id="school">
+              <i class="dropdown icon"></i>
+              <div class="default text">Selecteer school</div>
+              <div class="menu">
+                <%schools.forEach(function(school){%>
+                  <div class="item" data-value="<%=school._id%>"><%=school.name%></div>
+                <%})%>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui divider"></div>
+        <% users.forEach(function(user, i){%>
+            <div class="four fields">
+                <div class="field">
+                    <label>Email</label>
+                    <input type="text" name="users[<%=i%>][username]" value="<%= user['Email'] %>" required>
+                </div> 
+                <div class="field">
+                    <label>Voornaam</label>
+                    <input type="text" name="users[<%=i%>][firstName]" value="<%= user['Voornaam'] %>" required>
+                </div> 
+                <div class="field">
+                    <label>Achternaam</label>
+                    <input type="text" name="users[<%=i%>][lastName]" value="<%= user['Achternaam'] %>" required>
+                </div> 
+                <div class="field">
+                  <label>Type</label>
+                  <div class="ui compact selection dropdown">
+                      <input type="hidden" name="users[<%=i%>][role]" value="suser" required>
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Rol</div>
+                      <div class="menu">
+                          <%[{role: 'suser', label: 'School medewerker'}, {role: 'sadmin', label: 'School administrator'}].forEach(function(option, index){ %>
+                              <div class="item" 
+                                  data-value="<%=option.role%>">
+                                  <%=option.label%>
+                              </div>
+                          <%})%>
+                      </div>
+                  </div>
+                </div>
+             </div>
+        <%});%>
+        <button class="ui button" type="submit">Bewaren</button>
+        <div class="ui error message"></div>
+    </form>
+    </div>
+    
+<% include ../../partials/admin-footer %>
+<% include ../../partials/footer %>

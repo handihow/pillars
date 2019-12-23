@@ -45,6 +45,7 @@ var overviewRoutes = require("./routes/organisation/overview");
 var surveyOrganisationRoutes = require("./routes/organisation/survey");
 var organisationSchoolRoutes = require("./routes/organisation/schools");
 //ROUTES RELATED TO PILLARS ADMINISTRATION
+var adminUserRoutes = require("./routes/admin/users");
 var adminSchoolRoutes = require("./routes/admin/schools");
 var adminOrganisationRoutes = require("./routes/admin/organisations");
 var adminRoutes = require("./routes/admin/admin");
@@ -201,6 +202,7 @@ app.use("/organisations/:id/survey", surveyOrganisationRoutes);
 //ROUTES RELATED TO PILLARS ADMIN
 app.use("/organisations", adminOrganisationRoutes);
 app.use("/admin/schools", adminSchoolRoutes);
+app.use("/admin/users", adminUserRoutes);
 app.use("/admin", adminRoutes);
 //HOME PAGES
 app.use("/verify", verifyEmailRoutes);

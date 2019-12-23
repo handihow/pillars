@@ -22,12 +22,12 @@
       <div class="item">Selecteer hieronder het scheidingsteken dat wordt gebruikt in het bestand dat je wilt uploaden. Dit kan ";" zijn (bijvoorbeeld vanuit Excel-Nederlands) of "," (bijvoorbeeld vanuit Google Sheets)</div>
       <div class="item">Kies het csv bestand en klik dan op bewaren</div>
     </div>
-    <form class="ui form" action="/schools/<%=school._id%>/hardware/bulk" method="POST" encType="multipart/form-data">
+    <form class="ui form" action="/schools/<%=school._id%>/hardware/bulk" method="POST" encType="multipart/form-data" id="usersForm">
         <div class="fields">
           <div class="two wide required field">
               <label>Scheidingsteken</label>
               <div class="ui selection dropdown">
-                  <input type="hidden" name="separation" id="dropdown" value=",">
+                  <input type="hidden" name="separation" id="dropdown" value="," required>
                   <div class="text">Selecteer scheidingsteken</div>
                   <i class="dropdown icon"></i>
                   <div class="menu">

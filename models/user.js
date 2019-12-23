@@ -1,6 +1,5 @@
 var mongoose = require("mongoose");
 var passportLocalMongoose = require("passport-local-mongoose");
-var Test = require("./test");
 var SurveyResult = require('./surveyResult');
 
 var UserSchema = new mongoose.Schema({
@@ -52,15 +51,6 @@ UserSchema.pre('save', function(next) {
   } 
 });
 
-UserSchema.post('remove', function(user){
- Test.find({"owner": user._id}, function(err, tests){
-  tests.forEach(function(test){
-      test.remove(function(err, test){
-        if(err) return console.log(err);
-      })
-    })
-  });
-});
 
 UserSchema.post('remove', function(user){
  SurveyResult.find({"user": user._id}, function(err, surveyResults){

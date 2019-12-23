@@ -24,17 +24,17 @@ router.get("/", middleware.isLoggedIn, function(req, res){
 });
 
 //NEW (AUTOMATIC) ROUTE
-router.get("/new", middleware.isAuthenticatedBadmin, function(req, res){
+router.get("/new", middleware.isPadmin, function(req, res){
   res.render("admin/schools/search"); 
 });
 
 //NEW MANUAL ROUTE
-router.get("/manual", middleware.isAuthenticatedBadmin, function(req, res){
+router.get("/manual", middleware.isPadmin, function(req, res){
   res.render("admin/schools/manual"); 
 });
 
 //POST ROUTES FOR CREATING SCHOOLS AUTOMATICALLY
-router.post("/new", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
+router.post("/new", middleware.isPadmin, function(req, res){
   let zoekcriterium = parseInt(req.body.zoekcriterium); 
   let zoekveld = req.body.zoekveld; 
   var url;
@@ -77,7 +77,7 @@ router.post("/new", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmi
 });
 
 //CREATE ROUTE
-router.post("/", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
+router.post("/", middleware.isPadmin, function(req, res){
     var organisationId = req.body.organisation;
     var schools = req.body.school;
     if(!schools || schools.length==0){
@@ -106,7 +106,7 @@ router.post("/", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, 
  });
 
 //CREATE ROUTE MANUAL
-router.post("/manual", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
+router.post("/manual", middleware.isPadmin, function(req, res){
   User.findById(req.user._id, function(err, user){
     if(err || !user){
       req.flash("error", "Fout bij ophalen gebruikersgegevens");
@@ -132,7 +132,7 @@ router.post("/manual", middleware.isNotDemoAccount, middleware.isAuthenticatedBa
 });
 
 //DELETE ROUTE
-router.delete("/:id", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
+router.delete("/:id", middleware.isPadmin, function(req, res){
  School.findById(req.params.id, function(err, school){
    if(err){
      res.redirect("/schools");
