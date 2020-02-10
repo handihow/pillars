@@ -10,7 +10,8 @@
     <div id="schoolId" hidden><%= school._id%></div>
     <div id="evaluationData" hidden><%=JSON.stringify(evaluation)%></div>
     <div id="isShow" hidden>true</div>
-
+    <div id="formsCSS" hidden><%= JSON.stringify(formsCSS) %></div>
+    
     <a class="ui primary basic button" href="/schools/<%= school._id %>/evaluation/<%= evaluation._id%>/edit">Bewerken</a>
     <form id="delete" action="/schools/<%= evaluation.school._id %>/evaluation/<%= evaluation._id%>?_method=DELETE" method="POST">
         <button class="ui red basic button">Verwijderen</button>

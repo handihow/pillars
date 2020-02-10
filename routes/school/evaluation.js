@@ -45,7 +45,7 @@ router.get("/:eval_id", middleware.isSchoolOwner, function(req, res){
           res.locals.scripts.footer.surveyOptions = true;
           res.locals.scripts.footer.evaluation = true;
           evaluation.created = evaluation.created.toDateString();
-          res.render("evaluation/show", {evaluation: evaluation, school: evaluation.school});            
+          res.render("evaluation/show", {evaluation: evaluation, school: evaluation.school, formsCSS: config.formsCSS});            
       }
   });
 });
