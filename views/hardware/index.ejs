@@ -41,7 +41,7 @@
       </div>
     </div>
     <div class="extra content">
-      <a class="ui button <%if(type.count===0){%> disabled <%}%>" href="/schools/<%=school._id%>/hardware/list/#<%=type.singular%>">Bekijk lijst</a>
+      <a class="ui button <%if(type.count===0){%> disabled <%}%>" href="/schools/<%=school._id%>/hardware/list/?type=<%=type.singular%>">Bekijk lijst</a>
     </div>
   </div>
   <% }); %>

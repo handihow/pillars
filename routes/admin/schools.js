@@ -40,15 +40,15 @@ router.post("/new", middleware.isPadmin, function(req, res){
   var url;
   var secondarySchool;
   if(zoekcriterium==0){
-    url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=32c486ae-bb2a-416a-b1e4-2942b288fd8a&q=" +
+    url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=dff883f1-6886-49d3-b5b9-c6a95e3dee5c&q=" +
     zoekveld;
     secondarySchool = false;
   } else if(zoekcriterium==1) {
-    url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=fb9eb67b-7ec1-497b-9f9d-0620d421320d&q=" +
+    url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=58fb93d5-dbab-4eb6-bd99-13ea6f0ca382d&q=" +
     zoekveld;
     secondarySchool = true;
   } else {
-    url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=0ebce2e6-16fb-479a-a300-42423bfd3a96&q=" +
+    url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=918c9bf3-f72d-489e-878d-c60f0ccba8ad&q=" +
     zoekveld;
     secondarySchool = false;
   }

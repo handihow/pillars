@@ -88,7 +88,7 @@ var customCSS = {
 			"comment": "form-control",
 			"dropdown": {
 				"root": "",
-				"control": "ui fluid dropdown",
+				"control": "",
 				"other": ""
 			},
 			"html": {

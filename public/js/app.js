@@ -113,7 +113,17 @@ $(document).ready(function() {
 
     if($("#resultsTable").length == 0 && $(".ui table").length > 0 ) {
 
+      var urlParams = new URLSearchParams(window.location.search);
+      var searchParam = ""
+      if(urlParams.has('type')){
+        searchParam = urlParams.get('type')
+      }
+
+
       $(".ui table").DataTable({
+        search: {
+          search: searchParam
+        },
         pageLength: 25,
         buttons: [
         'copy', 'csv', 'excel', 'colvis'
