@@ -144,7 +144,7 @@
 	    return item;
 	  });
 	
-    SurveyAnalytics.SelectBasePlotly.types = ["bar"];
+    SurveyAnalytics.SelectBasePlotly.types = ["bar", "pie", "doughnut"];
 
     SurveyAnalytics.VisualizerBase.customColors = [
                     '#009fe3',
@@ -154,7 +154,7 @@
                     '#12ac13',
                 ];
 
-	var visPanel = new SurveyAnalytics.VisualizationPanel(document.getElementById("surveyResult"), survey.getAllQuestions(), normalizedData);
+	var visPanel = new SurveyAnalytics.VisualizationPanel(document.getElementById("surveyResult"), survey.getAllQuestions(), normalizedData, { allowDynamicLayout: false });
 	visPanel.render();
 
 	window.dispatchEvent(new Event('resize'));

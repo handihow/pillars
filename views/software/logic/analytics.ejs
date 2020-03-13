@@ -230,7 +230,7 @@
                     'rgba(18,172,19, 1)',
                 ];
 
-	var visPanel = new SurveyAnalytics.VisualizationPanel(document.getElementById("surveyResult"), survey.getAllQuestions(), normalizedData);
+	var visPanel = new SurveyAnalytics.VisualizationPanel(document.getElementById("surveyResult"), survey.getAllQuestions(), normalizedData, { allowDynamicLayout: false });
 	visPanel.render();
 
 	window.dispatchEvent(new Event('resize'));

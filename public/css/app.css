@@ -9,6 +9,11 @@
   margin-bottom: 50px;
 }
 
+#analysis__container{
+  margin: auto;
+  max-width: 800px;
+}
+
 #progressOnPieChartCalcs {
   width: 100%;
 }
@@ -284,9 +289,9 @@ fieldset  {
     border-image: unset;
 }
 
-.sva-toolbar {
+/*.sva-toolbar {
   display: none;
-}
+}*/
 
 .sva-question__content {
   min-width: 550px;

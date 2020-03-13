@@ -289,9 +289,9 @@
 		    return item;
 		  });
 	    
-	    SurveyAnalytics.SelectBasePlotly.types = ["pie"];
+	    SurveyAnalytics.SelectBasePlotly.types = ["pie", "bar", "doughnut"];
 
-	    SurveyAnalytics.GaugePlotly.types = ["bullet"];
+	    SurveyAnalytics.GaugePlotly.types = ["gauge"];
 	    SurveyAnalytics.GaugePlotly.showAsPercentage = true
 
 	    SurveyAnalytics.VisualizerBase.customColors = 
@@ -308,7 +308,7 @@
 	                    'rgba(18,172,19, 1)',
 	                ];
 
-		var visPanel = new SurveyAnalytics.VisualizationPanel(document.getElementById("resultCharts"), survey.getAllQuestions(), normalizedData);
+		var visPanel = new SurveyAnalytics.VisualizationPanel(document.getElementById("resultCharts"), survey.getAllQuestions(), normalizedData, { allowDynamicLayout: false });
 
 		visPanel.render();
 
