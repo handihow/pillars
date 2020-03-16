@@ -2,14 +2,50 @@
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
 <% include ../partials/user-header %>
+
     <div class="ui centered header"><i class="flag checkered icon"></i>Klaar met Invullen</div>
     <div class="ui divider"></div>
     <div class="ui segment">
         <h4 class="ui header inline">
           Je bent klaar met invullen. Wat nu?
         </h4>
-        <p>Nu je klaar bent met invullen van de vragenlijsten is het tijd om te bekijken op welke vlakken je jezelf kunt verbeteren.<p>
-        <p>Bekijk eerst je resultaten. Naast iedere ingevulde test staat een ronde blauwe knop waarna je de resultaten kunt vergelijken met alle scholen binnen het bestuur en ook jouw school. Daarna kun je verder met zelfstudie of het indienen van een hulpverzoek.</p>
+        <p>
+            Nu je klaar bent met invullen van de vragenlijsten is het tijd om te bekijken op welke vlakken je jezelf kunt verbeteren. Analyseer je resultaten eventueel verder door op de knop rechts te klikken. Je ziet dan resultaten per deelgebied met daarbij de verdeling van cijfers binnen jouw organisatie.
+        <p>
+        <%comparingEntity = user.role==='sadmin' || user.role==='suser' ? 'de school' : 'het bestuur'%>
+
+        <div class="ui divider"></div>
+        <div class="ui relaxed divided list">
+        <% surveys.forEach(function(survey, index){ %>
+            <%if(survey.isActiveCompetenceSurvey){ %>
+            <%difference=Math.round(Math.abs(results[index]['average']-results[index]['comparingAverage']))%>
+            <%differenceStr=results[index]['average']>results[index]['comparingAverage'] ? 'hoger' : 'lager'%>
+                  <div class="item">
+                    <div class="content">
+                      <h5><%= survey.competenceStandardTitle %></h5>
+                      <div class="description">
+                        <div class="right floated content">
+                            <a class="ui mini blue circular icon button" data-content="Analyseer resultaten"
+                                href="/survey/<%=survey._id%>/<%=user._id%>">
+                              <i class="bar chart icon"></i>
+                            </a>
+                        </div>
+                        <div>
+                            <%=survey.competenceStandardTitle%>: <strong> <%=results[index]['average']%> % </strong>.
+                            Dit is <%=results[index]['difference']%> % <%=results[index]['differenceStr']%> dan het gemiddelde van <%=comparingEntity%> 
+                            (<%=results[index]['comparingCount']%> tests).
+                        </div>
+                        <div class="ui small basic pointing <%=results[index]['autoColor']%> label">
+                            <%=results[index]['autoAdvice']%>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              <%}%>
+        <%});%>
+        </div>
+        <div class="ui divider"></div>
+        <p>Je kunt verder met zelfstudie of het indienen van een hulpverzoek.</p>
         <p>Als laatste verzoeken wij je om periodiek een evaluatiegesprek te voeren met je leidinggevende. 
         Dit evaluatiegesprek kan worden vastgelegd op jouw profielpagina.</p>
         <p><strong>Tip: </strong> als je klikt op "Gesprek aanvragen" dan kun je zelf aangeven wie je bij het gesprek wilt uitnodigen.</p>

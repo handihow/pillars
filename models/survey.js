@@ -26,6 +26,8 @@ var surveySchema = mongoose.Schema (
         softwareStandardTitle: String,
         isActiveCompetenceSurvey: {type: Boolean, default: false},
         isActiveSoftwareSurvey: {type: Boolean, default: false},
+        minimumLevel: {type: Number, default: 50},
+        highLevel: {type: Number, default: 75},
         surveyOption: String,
         results: [],
     }, { usePushEach: true, timestamps: true }

@@ -22,6 +22,14 @@
             <label>Is actieve deskundigheidstest?</label>
           </div>
         </div>
+        <div class="field">
+          <label>Minimum niveau</label>
+          <input type="number" name="minimumLevel" value="<%=survey.minimumLevel%>">
+        </div>
+        <div class="field">
+          <label>Hoog niveau</label>
+          <input type="number" name="highLevel" value="<%=survey.highLevel%>">
+        </div>
       <%} else if(survey.isSoftwareSurvey){%>
         <div class="field">
           <h5>Is actief?</h5>

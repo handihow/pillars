@@ -4,10 +4,11 @@
   </h3>
   <div class="ui attached secondary segment">
     <div class="ui grid">
-      <div class="three column row">
+      <div class="four column row">
         <div class="column"><%=name%>: <%=results[index].count%></div>
-        <h5 class="column">Inzendingen</h5>
         <div class="column"><%=compareName%>: <%=results[index].comparingCount%></div>
+        <div class="column">Min. <%=survey.minimumLevel%>%</div>
+        <div class="column">Hoog > <%=survey.highLevel%> %</div>
       </div>
     </div>
   </div>

@@ -40,6 +40,18 @@
         <h4 class="content">Actieve test?</h4> 
         <div class="content"><%if(survey.isActiveCompetenceSurvey){ %>Ja<%} else {%> Nee<%}%></div>
       </div>
+      <div class="four wide column">
+        <h4 class="content">Minimum niveau</h4> 
+        <div class="content">Score minder dan <%=survey.minimumLevel%> %</div>
+      </div>
+      <div class="four wide column">
+        <h4 class="content">Hoog niveau</h4> 
+        <div class="content">Score meer dan <%=survey.highLevel%> %</div>
+      </div>
+      <div class="four wide column">
+        <h4 class="content">Actieve test?</h4> 
+        <div class="content"><%if(survey.isActiveCompetenceSurvey){ %>Ja<%} else {%> Nee<%}%></div>
+      </div>
     <%} else if(survey.isSoftwareSurvey){%>
       <div class="four wide column">
         <h4 class="content">Actieve test?</h4> 

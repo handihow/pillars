@@ -186,6 +186,8 @@ router.put("/:sid",middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin
         survey.name = req.body.name;
         if(survey.isCompetenceSurvey){
           survey.isActiveCompetenceSurvey = checkActive;
+          survey.minimumLevel = req.body.minimumLevel;
+          survey.highLevel = req.body.highLevel;
         } else if(survey.isSoftwareSurvey){
           survey.isActiveSoftwareSurvey = checkActive;
         }

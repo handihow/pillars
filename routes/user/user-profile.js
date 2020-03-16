@@ -28,7 +28,29 @@ router.get("/ready", middleware.isLoggedIn, function(req, res){
       req.flash("error", err);
       res.redirect("back");
     } else {
-      res.render("user/ready", {user: user});        
+      Survey.find({
+        "organisation": user.organisation, 
+        "isCompetenceSurvey": true
+      }, async function(err, surveys){
+        let results = [];
+        let filledSurveys = [];
+        await asyncForEach(surveys, async function(survey, index){
+           let result = await retrieveUserSurveyResults(survey, user);
+           if(result.count > 0){
+             results.push(result);
+             filledSurveys.push(survey);
+           }
+           if(index==surveys.length-1){
+            res.locals.scripts.header.plotly = true;
+            res.locals.scripts.footer.competence = true;
+            res.render("user/ready", {
+              user: user, 
+              surveys: filledSurveys, 
+              results: results
+            })
+          }
+        });   
+      })        
     }
   });
 });
@@ -118,13 +140,32 @@ function retrieveUserSurveyResults(survey, user){
         }
         var userSurveyResults = organisationSurveyResults.filter(sr => sr.user && sr.user.equals(user._id));
         var userStatistics = config.competence.survey.calculateStatistics(survey, userSurveyResults);
+        let userAverage = _.mean(userStatistics[0].statistics);
+        let comparingAverage = user.role=='sadmin' || user.role=='suser' ?
+                   _.mean(schoolStatistics[0].statistics) :_.mean(organisationStatistics[0].statistics);
+        let count = _.size(userStatistics[0].statistics);
+        let comparingCount = user.role=='sadmin' || user.role=='suser' ? 
+                 _.size(schoolStatistics[0].statistics) : _.size(organisationStatistics[0].statistics);
+        let difference = Math.round(Math.abs(userAverage - comparingAverage))
+        let differenceStr = userAverage<comparingAverage ? 'lager' : 'hoger'
+        let autoAdvice = userAverage < survey.minimumLevel ? 
+                            'Je scoort lager dan het minimum streefniveau van ' + survey.minimumLevel + ' %' :
+                            userAverage > survey.highLevel ? 
+                            'Je scoort hoger dan ' + survey.highLevel + 
+                            ' % op dit onderdeel. Je kunt wellicht je kennis op dit gebied delen met het team.' + 
+                            ' Bespreek dit aub met de schoolleiding.' :
+                            'Jouw score op dit onderdeel is conform de richtlijnen van het bestuur (tussen ' +
+                            survey.minimumLevel + ' en ' + survey.highLevel + ' %)';
+        let autoColor = userAverage < survey.minimumLevel ? 'red' : userAverage > survey.highLevel ? 'green' : '';
         return resolve({
-          average: _.mean(userStatistics[0].statistics),
-          comparingAverage: user.role=='sadmin' || user.role=='suser' ?
-                   _.mean(schoolStatistics[0].statistics) :_.mean(organisationStatistics[0].statistics),
-          count: _.size(userStatistics[0].statistics),
-          comparingCount: user.role=='sadmin' || user.role=='suser' ? 
-                 _.size(schoolStatistics[0].statistics) : _.size(organisationStatistics[0].statistics)
+          average: userAverage,
+          comparingAverage: comparingAverage,
+          count: count,
+          comparingCount: comparingCount,
+          difference: difference,
+          differenceStr: differenceStr,
+          autoAdvice: autoAdvice,
+          autoColor: autoColor
         });
        }
     })
