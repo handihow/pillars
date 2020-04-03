@@ -33,6 +33,7 @@ router.get("/manual", middleware.isPadmin, function(req, res){
   res.render("admin/schools/manual"); 
 });
 
+
 //POST ROUTES FOR CREATING SCHOOLS AUTOMATICALLY
 router.post("/new", middleware.isPadmin, function(req, res){
   let zoekcriterium = parseInt(req.body.zoekcriterium); 
@@ -40,15 +41,15 @@ router.post("/new", middleware.isPadmin, function(req, res){
   var url;
   var secondarySchool;
   if(zoekcriterium==0){
-    url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=dff883f1-6886-49d3-b5b9-c6a95e3dee5c&q=" +
+    url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=36dc8898-d47d-45d4-91bf-b4c3354b0f7a&q=" +
     zoekveld;
     secondarySchool = false;
   } else if(zoekcriterium==1) {
-    url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=58fb93d5-dbab-4eb6-bd99-13ea6f0ca382d&q=" +
+    url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=0ef58768-45a0-4c0a-8b4e-a4e11e8bb6eb&q=" +
     zoekveld;
     secondarySchool = true;
   } else {
-    url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=918c9bf3-f72d-489e-878d-c60f0ccba8ad&q=" +
+    url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=ad50c90b-6a1c-4702-83db-30285ff02482&q=" +
     zoekveld;
     secondarySchool = false;
   }

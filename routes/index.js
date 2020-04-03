@@ -77,4 +77,22 @@ function noDataErrorFunction(doc){
   return res.redirect("back");
 }
 
+router.get("/stepper", middleware.isLoggedIn, function(req, res){
+  Organisation.findById(req.user.organisation, function(err, organisation){
+    if(err) {return callbackErrorFunction(err)};
+    if(!organisation){return noDataErrorFunction('Organisatie')};
+      Survey.find(
+        {$and: [
+          {organisation: req.user.organisation}, 
+          {"isActiveCompetenceSurvey": true},
+        ]}, function(err, returnedSurveys){
+        if(err) {return callbackErrorFunction(err)};
+        SurveyResult.find({"user": new ObjectId(req.user._id)}, function(err, surveyResults){
+          if(err) {return callbackErrorFunction(err)};
+            res.render("stepper/index", {organisation, surveys: returnedSurveys, surveyResults}); 
+        })
+      });
+    });  
+});
+
 module.exports = router;

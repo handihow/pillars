@@ -1,0 +1,93 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+    <div class="ui grid">
+      <div class="four wide column">
+        <div class="ui vertical steps">
+          <% surveys.forEach(function(survey, i){ %>
+          <% var index = surveyResults.findIndex(sr => sr.survey.equals(survey._id));%>
+            <%if(index>-1){%>
+              <div class="completed step">
+                <i class="edit outline icon"></i>
+                <div class="content">
+                  <div class="title">Test <%=i+1%></div>
+                  <div class="description">
+                    <%= survey.competenceStandardTitle %>
+                  </div>
+                </div>
+              </div>
+            <%} else {%>
+              <a class="link step" 
+                href="/survey/<%=survey._id%>/private">
+                <i class="edit outline icon"></i>
+                <div class="content">
+                  <div class="title">Test <%=i+1%></div>
+                  <div class="description">
+                    <%= survey.competenceStandardTitle %>
+                  </div>
+                </div>
+              </a>
+            <%}%>        
+          <%});%>
+        </div>
+      </div>  
+      <div class="twelve wide stretched column">
+        <div class="ui segment">
+
+        <h2 class="ui center aligned header">
+          <%if(organisation.logo){%><img class="ui image"  src="<%=organisation.logo%>"><%}%>
+          <div class="content"><%= organisation.name %></div>
+        </h2>
+        <div class="ui divider"></div>
+        <div class="ui relaxed divided list">
+          <%if(surveys.length===0){%>
+          <div class="item">
+            <div class="content">
+              Jouw bestuur heeft geen actieve deskundigheidstests ingesteld
+            </div>
+          </div>
+          <%}%>
+        <% surveys.forEach(function(survey){ %>
+        <% var index = surveyResults.findIndex(sr => sr.survey.equals(survey._id));%>
+          <div class="item">
+            <% if(index>-1){%>
+              <i class="check green icon"></i>
+            <%} else {%>
+              <i class="edit outline icon"></i>
+            <%}%>
+            <div class="content">
+              <%= survey.competenceStandardTitle %>
+              <div class="description">
+                <% if(index>-1){%>
+                  <div class="right floated content">
+                    <a class="ui mini blue circular icon button" data-content="Analyseer resultaten"
+                        href="/survey/<%=survey._id%>/<%=currentUser._id%>">
+                      <i class="bar chart icon"></i>
+                    </a>
+                  </div>
+                  Je hebt <a 
+                    href="/survey/<%=surveyResults[index]._id%>/result">deze antwoorden</a> 
+                    ingezonden op <%=surveyResults[index].createdAt.toJSON().slice(0,10).split('-').reverse().join('/')%>
+                    
+                <%} else {%>
+                  <a href="/survey/<%=survey._id%>/private">Doe nu de test!</a>
+                <% } %>
+              </div>
+            </div>
+          </div>
+        <%});%>
+          <div class="item">
+            <div class="right floated content">
+              <a href="/user/<%=currentUser._id%>/ready"><i class="flag checkered icon"></i> Klaar met invullen?</a>
+            </div>
+            <div class="content">
+              <a href="/user/<%=currentUser._id%>/surveys"><i class="history icon"></i>Bekijk alle tests</a>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+
+    
+<% include ../partials/footer %>
