@@ -10,12 +10,31 @@ var Test = require("../../models/test");
 
 //INDEX - list of users of the school
 router.get("/", middleware.isSchoolOwner, function(req, res){
-    School.findById(req.params.id).populate("users").exec(function(err, school){
+    School.findById(req.params.id)
+    .populate({path: 'users', options: { sort: { 'lastName': 'asc' } } })
+    .exec(function(err, school){
         if(err || !school) {
             req.flash("error", "School niet gevonden");
             res.redirect("back");
         } else {
-            res.render("user/index", {school: school});
+            res.locals.scripts.header.datatables = true;
+            res.locals.scripts.footer.datatables = true;
+            res.locals.scripts.footer.tinymce = true;
+            res.render("user/index", {school: school, users: school.users, userview :"school"});
+        }
+    });
+});
+
+//INDEX - list of users of the school
+router.get("/cards", middleware.isSchoolOwner, function(req, res){
+    School.findById(req.params.id)
+    .populate({path: 'users', options: { sort: { 'lastName': 'asc' } } })
+    .exec(function(err, school){
+        if(err || !school) {
+            req.flash("error", "School niet gevonden");
+            res.redirect("back");
+        } else {
+          res.render("user/cards", {school: school, users: school.users, userview: "school"});
         }
     });
 });

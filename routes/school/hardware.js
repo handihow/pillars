@@ -8,6 +8,7 @@ var csv = require("fast-csv");
 var json2csv = require("json2csv");
 var score = require("../../config/score");
 var mongoose = require("mongoose");
+var path = require('path');
 
 router.use(function(req,res,next){
   res.locals.config = config.hardware;
@@ -231,13 +232,15 @@ router.get("/:hardware_id", middleware.isSchoolOwner, function(req, res){
 router.post("/bulk", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
   let delimiter = req.body.separation;
   School.findById(req.params.id, function(err, school){
-   if(err || !school){
-     req.flash("error", "School niet gevonden");
-     res.redirect("back");
-   } else {
-    if (!req.files) {
+    if(err || !school){
+      req.flash("error", "School niet gevonden");
+      res.redirect("back");
+    } else if (!req.files) {
       req.flash("error", "Geen file geupload");
-      return res.redirect("back");
+      res.redirect("back");
+    } else if(req.files.file && req.files.file.name && path.extname(req.files.file.name) !== '.csv'){
+      req.flash("error", "Alleen csv files toegestaan.");
+      res.redirect("back");
     } else {
       var hardwareFile = req.files.file;
       var hardware = [];
@@ -250,12 +253,15 @@ router.post("/bulk", middleware.isNotDemoAccount, middleware.isSchoolOwner, func
       .on("data", function(data){
         hardware.push(data);
       })
+      .on('error', error => {
+        req.flash("error", "Probleem bij uploaden file " + error);
+        return res.redirect("back");
+      })
       .on("end", function(){
         res.render("hardware/bulkupload2", {school: school, hardware: hardware});
       });
     }
-  }
-});
+  });
 });
 
 //CREATE - creates new hardware in the database and links it to school from the bulk upload

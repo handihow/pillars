@@ -1,0 +1,48 @@
+<h2 class="ui centered header">Accounts</h2>
+
+<div class="ui divider"></div>
+<% if(userview==="school") { %>
+  <div class="ui icon buttons">
+    <a class="ui <%if(url===("/schools/"+school._id+"/user")){ %> active <%}%> button" 
+        href="/schools/<%=school._id%>/user"
+        data-content="Lijst met accounts">
+          <i class="list icon"></i>
+    </a>
+    <a class="ui <%if(url===("/schools/"+school._id+"/user/cards")){ %> active <%}%> button" 
+        href="/schools/<%=school._id%>/user/cards" 
+        data-content="Kaarten">
+        <i class="th icon"></i>
+    </a>
+  </div>
+  <div class="ui dropdown item">
+      <a class="ui icon button" data-content="Accounts toevoegen"><i class="add icon"></i></a>
+      <div class="menu">
+        <a class="item" href="/schools/<%=school._id%>/user/new/"><i class="add user icon"></i> Account Toevoegen met Email/Wachtwoord</a>
+        <a class="item" href="/schools/<%=school._id%>/user/newSocial/"><i class="add user icon"></i> Account Toevoegen met Schoolaccount (Google / Office365)</a>
+        <div class="divider"></div>
+        <div class="header">Bulk import medewerkers</div>
+        <a class="item" href="/schools/<%=school._id%>/user/newBulk/"><i class="th list icon"></i> Lijst met email adressen invoeren (Google / Office365)</a>
+      </div>
+  </div>
+<%} else if(userview==="organisation"){%>
+  <div class="ui icon buttons">
+    <a class="ui <%if(url===("/organisations/"+organisation._id+"/org-user")){ %> active <%}%> button" 
+        href="/organisations/<%=organisation._id%>/org-user"
+        data-content="Lijst met accounts">
+          <i class="list icon"></i>
+    </a>
+    <a class="ui <%if(url===("/organisations/"+organisation._id+"/org-user/cards")){ %> active <%}%> button" 
+        href="/organisations/<%=organisation._id%>/org-user/cards" 
+        data-content="Kaarten">
+        <i class="th icon"></i>
+    </a>
+  </div>
+  <div class="ui dropdown item">
+      <a class="ui icon button" data-content="Accounts toevoegen"><i class="add icon"></i></a>
+      <div class="menu">
+            <a class="item" href="/organisations/<%=organisation._id%>/org-user/new/">Bestuur Toevoegen met Email/Wachtwoord</a>
+            <a class="item" href="/organisations/<%=organisation._id%>/org-user/newSocial/">Bestuur Toevoegen met Schoolaccount</a>
+        </div>
+  </div>
+<%}%>
+<div class="ui divider"></div>

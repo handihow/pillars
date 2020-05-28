@@ -29,7 +29,8 @@ var scripts = {
 			securityIncident: false,
 			hardwareanalytics: false,
 			hardwaresettings: false,
-			softwareanalytics: false
+			softwareanalytics: false,
+			tinymce: false
 		}
 };
 

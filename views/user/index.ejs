@@ -1,38 +1,125 @@
 <% include ../partials/header %>
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
-<% include ../partials/school-header %>
+<%if(userview==="school"){ %>
+  <% include ../partials/school-header %>
+<%} else if(userview==="organisation"){%>
+  <% include ../partials/organisation-header %>
+<%}%>
+<% include ./header %>
 
-      <h2 class="ui centered header">Medewerkers</h2>
-        <div class="ui pointing dropdown link item">
-          <i class="add icon"></i>
-          <span class="text">Nieuw</span>
-          <i class="dropdown icon"></i>
-          <div class="menu">
-            <a class="item" href="/schools/<%=school._id%>/user/new/"><i class="add user icon"></i> Medewerker Toevoegen met Email/Wachtwoord</a>
-            <a class="item" href="/schools/<%=school._id%>/user/newSocial/"><i class="add user icon"></i> Medewerker Toevoegen met Schoolaccount (Google / Office365)</a>
-            <div class="divider"></div>
-            <div class="header">Bulk import medewerkers</div>
-            <a class="item" href="/schools/<%=school._id%>/user/newBulk/"><i class="th list icon"></i> Lijst met email adressen invoeren (Google / Office365)</a>
-          </div>
-        </div>
-        <div class="ui divider"></div>
-        <%if(school.users.length===0){%>
-          <div class="ui placeholder segment">
-            <div class="ui icon header">
-              <i class="dont icon"></i>
-              Nog geen medewerkers
-            </div>
-          </div>
-        <%}%>
-        <div class="ui three doubling cards">
-          <!--make a card for each user-->
-          <% school.users.forEach(function(user, index){ %>
-            <%var schoolUser = true%>
-            <% include ../partials/user-card %>
-          <% }); %>
-        </div>
+<%if(users.length===0){%>
+<div class="ui placeholder segment">
+  <div class="ui icon header">
+    <i class="dont icon"></i>
+    Nog geen accounts
+  </div>
+</div>
+<%}%>
+<table id="selectableTable" class="ui celled small table">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Acties</th>
+      <th>Email</th>
+      <th>Voornaam</th>
+      <th>Achternaam</th>
+      <%if(userview==='organisation'){%>
+        <th>School</th>
+      <%}%>
+      <th>Rol</th>
+      <th>Laatste update</th>
+      <th>Aantal tests</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% users.forEach(function(user){ %>
+    <tr>
+      <td></td>
+      <td><a href="/user/<%=user._id%>">Bekijk</a></td>
+      <td><%= user.username %></td>
+      <td><%= user.firstName ? user.firstName : user.username %></td>
+      <td><%= user.lastName %></td>
+      <%if(userview==='organisation'){%>
+        <td><%= user.school && user.school[0] ? user.school[0].name : '-'%></td>
+      <%}%>
+      <td>
+        <% include ../partials/user-role %>
+      </td>
+      <td>
+        <%if(user.updatedAt){%>
+        <%= user.updatedAt.toJSON().slice(0,10).split('-').reverse().join('/')%>
+        <%} else {%>
+        -
+        <%}%> 
+      </td>
+      <td>
+        <%= user.numberOfSurveyResults ? user.numberOfSurveyResults : 0%>
+      </td>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>
 
 
-<% include ../partials/school-footer %>
+<div class="ui modal" id="compose-email-modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Stap 1. Maak bericht voor verzenden naar <span class='numberOfEmailRespondents'></span> email adres(sen)
+  </div>
+  <div class="content">
+    <h4>Naar</h4>
+    <div class="emailAddressInfo"></div>
+    <h4>Selecteer template</h4>
+    <div class="ui buttons">
+      <button class="ui button" id="invitationEmailBtn">Uitnodigen</button>
+      <button class="ui button" id="reminderEmailBtn">Herinneren</button>
+      <button class="ui button" id="newAccountBtn">Nieuw account</button>
+      <button class="ui button" id="emptyEmailBtn">Lege email</button>
+    </div>
+    <form class="ui form">
+      <div class="required field">
+        <label>Onderwerp</label>  
+        <input id="emailSubject">
+      </div>
+      <div class="required field">
+          <label>Bericht</label>  
+          <textarea id="emailBody"></textarea>
+      </div>
+    </form>
+  </div>
+  <div class="actions">
+    <div class="ui positive approve right labeled icon button" id="btn-modal-1">
+      Naar stap 2: verzenden
+      <i class="checkmark icon"></i>
+    </div>
+  </div>
+</div>
+
+<div class="ui modal" id="confirm-send-email-modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Stap 2. Bevestig bericht voor verzenden naar <span class='numberOfEmailRespondents'></span> email adres(sen)
+  </div>
+  <div class="content">
+    <h4>Naar</h4>
+    <div class="emailAddressInfo"></div>
+    <h4>Onderwerp</h4>
+    <div id="emailSubjectConfirm"></div>
+    <h4>Bericht</h4>
+    <div id="emailBodyConfirm"></div>
+  </div>
+  <div class="actions">
+    <div class="ui positive approve right labeled icon button">
+      Verzenden
+      <i class="checkmark icon"></i>
+    </div>
+  </div>
+</div>
+
+<%if(userview==="school"){ %>
+  <% include ../partials/school-footer %>
+<%} else if(userview==="organisation"){%>
+  <% include ../partials/organisation-footer %>
+<%}%>
 <% include ../partials/footer %>

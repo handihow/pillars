@@ -1,6 +1,6 @@
 <div class="card">
   <div class="content">
-    <div class="header"><%=user.firstName %> <%=user.lastName %></div>
+    <div class="header"><%= user.firstName ? user.firstName : user.username %> <%=user.lastName %></div>
     <div class="meta user-info <%=index%>">
       <span>
           <%if(user.updatedAt){%>
@@ -13,7 +13,7 @@
           <%=user.username%>
     </div>
     <div class="description user-info <%=index%>">
-          <% if(user.role==="sadmin" || user.role==="badmin" || user.role==="padmin") { %>Pillars administrator <% } else { %>Medewerker <% } %>
+          <% include ./user-role %>
     </div>
     <div class="ui hidden warning message <%=index%>">
       <div class="header">Waarschuwing</div>

@@ -24,13 +24,17 @@
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <%}%>
 <% if(scripts.header.surveyanalytics) {%>
-        <link href="https://surveyjs.azureedge.net/1.5.15/survey.css" type="text/css" rel="stylesheet"/>
-        <link href="https://surveyjs.azureedge.net/1.5.15/survey.analytics.css" rel="stylesheet"/>
-        <script src="https://surveyjs.azureedge.net/1.5.15/survey.core.js"></script>
+        <link href="https://surveyjs.azureedge.net/1.7.8/survey.css" type="text/css" rel="stylesheet"/>
+        <link href="https://surveyjs.azureedge.net/1.7.8/survey.analytics.css" rel="stylesheet"/>
+        <script src="https://surveyjs.azureedge.net/1.7.8/survey.core.js"></script>
         <script src="https://cdn.rawgit.com/inexorabletash/polyfill/master/typedarray.js"></script>
         <script src="https://polyfill.io/v3/polyfill.min.js"></script>
         <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
         <script src="https://unpkg.com/wordcloud@1.1.0/src/wordcloud2.js"></script>       
-        <script src="https://surveyjs.azureedge.net/1.5.15/survey.analytics.js"></script>
+        <script src="https://surveyjs.azureedge.net/1.7.8/survey.analytics.js"></script>
         <link rel="stylesheet" type="text/css" href="/css/app.css">
+<% } %>
+<% if(scripts.header.datatables) {%>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css">
 <% } %>

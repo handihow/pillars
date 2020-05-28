@@ -14,14 +14,40 @@ router.get("/", middleware.isLoggedIn, function(req, res){
         res.flash('error', 'Probleem bij vinden van bestuur');
         res.redirect('back')
       } else {
-        User.find({$and: [{"organisation": req.params.id}, 
-                      {$or:[{"role": "padmin"}, {"role": "badmin"}, {"role": "buser"}]}]})
+        User.find({"organisation": req.params.id})
+          .sort({'lastName': 'asc'})
+          .populate('school')
           .exec(function(err, users){
             if(err) {
-                req.flash("error", err.message);
-                res.redirect("back");
+              req.flash("error", err.message);
+              res.redirect("back");
             } else {
-                res.render("org-user/index", {users: users, organisation: organisation});        
+              res.locals.scripts.header.datatables = true;
+              res.locals.scripts.footer.datatables = true;
+              res.locals.scripts.footer.tinymce = true;
+              res.render("user/index", {users: users, organisation: organisation, userview: 'organisation'});        
+            }
+        });
+      }
+    });
+});
+
+//INDEX - list of bestuur users and admins
+router.get("/cards", middleware.isLoggedIn, function(req, res){
+    Organisation.findById(req.params.id, function(err, organisation){
+      if(err || !organisation){
+        res.flash('error', 'Probleem bij vinden van bestuur');
+        res.redirect('back')
+      } else {
+         User.find({"organisation": req.params.id})
+          .sort({'lastName': 'asc'})
+          .populate('school')
+          .exec(function(err, users){
+            if(err) {
+              req.flash("error", err.message);
+              res.redirect("back");
+            } else {
+              res.render("user/cards", {users: users, organisation: organisation, userview: 'organisation'});        
             }
         });
       }

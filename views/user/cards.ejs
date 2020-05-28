@@ -1,0 +1,33 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<%if(userview==="school"){ %>
+  <% include ../partials/school-header %>
+<%} else if(userview==="organisation"){%>
+  <% include ../partials/organisation-header %>
+<%}%>
+<% include ./header %>
+      
+      <%if(users.length===0){%>
+        <div class="ui placeholder segment">
+          <div class="ui icon header">
+            <i class="dont icon"></i>
+            Nog geen accounts
+          </div>
+        </div>
+      <%}%>
+      <div class="ui three doubling cards">
+        <!--make a card for each user-->
+        <% users.forEach(function(user, index){ %>
+          <%var schoolUser = userview==='school' ? true: false%>
+          <% include ../partials/user-card %>
+        <% }); %>
+       </div>
+
+
+<%if(userview==="school"){ %>
+  <% include ../partials/school-footer %>
+<%} else if(userview==="organisation"){%>
+  <% include ../partials/organisation-footer %>
+<%}%>
+<% include ../partials/footer %>

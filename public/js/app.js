@@ -119,8 +119,7 @@ $(document).ready(function() {
         searchParam = urlParams.get('type')
       }
 
-
-      $(".ui table").DataTable({
+      var dataTableSettings = {
         search: {
           search: searchParam
         },
@@ -155,9 +154,218 @@ $(document).ready(function() {
             "colvis": "Zichtbare kolommen"
           },
         }
-      });
+      };
+
+      if($("#selectableTable").length > 0){
+          
+          dataTableSettings.columnDefs = [ {
+              orderable: false,
+              className: 'select-checkbox',
+              targets:   0
+          } ];
+          
+          dataTableSettings.select = {
+              style:    'multi',
+              selector: 'td:first-child'
+          }
+
+          dataTableSettings.buttons.pop();
+
+          dataTableSettings.buttons.push({
+            extend: 'selectAll',
+            action: function(e, dt, node, config){
+              dt.rows( { search: 'applied' } ).select();
+            }
+          });
+
+          dataTableSettings.buttons.push('selectNone');
+
+          dataTableSettings.buttons.push({
+              extend: 'selected',
+              action: function ( e, dt, node, config ) {
+                  var rows = dt.rows( { selected: true } ).data();
+
+                  var emailArr = [];
+                  for(var i=0; i<rows.length; i++){
+                    emailArr.push(rows[i][2]);
+                  }
+
+                  var emailTxt = '';
+
+                  if(emailArr.length < 3){
+                    emailTxt = emailArr.join(', ');
+                  } else {
+                    emailTxt = emailArr.slice(0,3).join(', ') + ' en nog ' + (emailArr.length - 3).toString() + ' andere'
+                  }
+
+                  $('.emailAddressInfo').text(emailTxt);
+                  $('.numberOfEmailRespondents').text(rows.length);
+
+                  var invitationEmailSubject = 'Uitnodiging test ICT vaardigheden Pillars'
+
+                  var invitationEmailBody = 
+                  `<h4>Uitnodiging ICT vaardigheden test</h4>
+                  <p>De directie van jouw school heeft je uitgenodigd om een ICT vaardigheden test te doen op Pillars.
+                  We vragen je om in te loggen op de <a href="https://app.pillars.school/login">Pillars website</a>
+                  met jouw schoolaccount. Gebruik hiervoor de knoppen Google / Microsoft of stel een wachtwoord in.</p>
+                  <p></p>
+                  <p>Pillars helpt jouw school met het complexe vraagstuk rondom ICT en onderwijs.
+                  Een belangrijk onderdeel hiervan is het testen van de digitale vaardigheden van medewerkers op school.</p>
+                  <p></p>
+                  <p>Voor meer informatie, bekijk aub het <a href="https://youtu.be/CZd81ncn2oA">YouTube introductiefilmje Pillars</a>.</p>
+                  <p></p>
+                  <p>Met vriendelijke groeten,</p>
+                  <p></p>
+                  <p><strong>Team Pillars</strong></p>`
+
+                  var reminderEmailSubject = 'Herinnering test ICT vaardigheden Pillars'
+
+                  var reminderEmailBody = 
+                  `<h4>Herinnering ICT vaardigheden test</h4>
+                  <p>De directie van jouw school heeft je eerder uitgenodigd om een ICT vaardigheden test te doen op Pillars.
+                  We vragen je om in te loggen op de <a href="https://app.pillars.school/login">Pillars website</a>
+                  met jouw schoolaccount. Gebruik hiervoor de knoppen Google / Microsoft of stel een wachtwoord in.</p>
+                  <p></p>
+                  <p>Pillars helpt jouw school met het complexe vraagstuk rondom ICT en onderwijs.
+                  Een belangrijk onderdeel hiervan is het testen van de digitale vaardigheden van medewerkers op school.</p>
+                  <p></p>
+                  <p>Voor meer informatie, bekijk aub het <a href="https://youtu.be/CZd81ncn2oA">YouTube introductiefilmje Pillars</a>.</p>
+                  <p></p>
+                  <p>Met vriendelijke groeten,</p>
+                  <p></p>
+                  <p><strong>Team Pillars</strong></p>`
+
+                  var welcomeEmailSubject = 'Welkom bij Pillars!'
+
+                  var welcomeEmailBody = 
+                  `<h4>Welkom bij Pillars!</h4>
+                  <p>De directie van jouw school heeft je uitgenodigd om deel te nemen aan Pillars.
+                  We vragen je om in te loggen op de <a href="https://app.pillars.school/login">Pillars website</a>
+                  met jouw schoolaccount. Gebruik hiervoor de knoppen Google / Microsoft of stel een wachtwoord in.</p>
+                  <p></p>
+                  <p>Pillars helpt jouw school met het complexe vraagstuk rondom ICT en onderwijs.
+                  Een belangrijk onderdeel hiervan is het testen van de digitale vaardigheden van medewerkers op school.</p>
+                  <p></p>
+                  <p>Voor meer informatie, bekijk aub het <a href="https://youtu.be/CZd81ncn2oA">YouTube introductiefilmje Pillars</a>.</p>
+                  <p></p>
+                  <p>Met vriendelijke groeten,</p>
+                  <p></p>
+                  <p><strong>Team Pillars</strong></p>`
+
+                  var emailBody = invitationEmailBody;
+                  var emailSubject = invitationEmailSubject;
+                  
+                  $('textarea#emailBody').tinymce({
+                      script_url : 'https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=d4xdezp2zrecxro0s9vxbmnaah075az3ag0kutbsoj6c46m4',
+                      selector: 'textarea#emailSubject',  // change this value according to your HTML
+                      branding: false,
+                      menubar: false,
+                      plugins: "link",
+                      toolbar: "undo redo | styleselect | bold italic | link",
+                      setup : function(editor) {
+                        editor.on('init', function (e) {
+                          editor.setContent(invitationEmailBody);
+                        });
+                        editor.on("change", function(){
+                            emailBody = tinymce.activeEditor.getContent();
+                        });
+                      }
+                  });
+
+                  $('#emailSubject').val(invitationEmailSubject);
+
+                  $('#invitationEmailBtn').click(function(){
+                    $('#emailSubject').val(invitationEmailSubject)
+                    tinymce.activeEditor.setContent(invitationEmailBody);
+                  });
+
+                  $('#reminderEmailBtn').click(function(){
+                    $('#emailSubject').val(reminderEmailSubject)
+                    tinymce.activeEditor.setContent(reminderEmailBody);
+                  });
+
+                  $('#newAccountBtn').click(function(){
+                    $('#emailSubject').val(welcomeEmailSubject)
+                    tinymce.activeEditor.setContent(welcomeEmailBody);
+                  });
+
+                  $('#emptyEmailBtn').click(function(){
+                    $('#emailSubject').val('')
+                    tinymce.activeEditor.setContent('');
+                  });
+
+                  $('#compose-email-modal')
+                  .modal({
+                    allowMultiple: false,
+                    closable: true,
+                    onApprove : function() {
+                      emailSubject = $('#emailSubject').val();
+                      emailBody = tinymce.activeEditor.getContent();
+                      $('#emailSubjectConfirm').text(emailSubject);
+                      $('#emailBodyConfirm').html(emailBody);
+                      return true;
+                    }
+                  })
+                  .modal('show');
+
+                  $('#confirm-send-email-modal')
+                  .modal('attach events', '#btn-modal-1')
+                  .modal({
+                    closable: true,
+                    onApprove: function(){
+                      if(emailBody.length === 0 || emailSubject.length === 0 || emailArr.length === 0){
+                        alert('Geen ontvangers of onderwerp / bericht is leeg... Probeer het opnieuw');
+                      } else {
+                        console.log(emailArr);
+                        console.log(emailSubject);
+                        console.log(emailBody);
+                        $.ajax({
+                          url: '/api/emails',
+                          type: 'POST',
+                          contentType: 'application/json',
+                          data: JSON.stringify({
+                            emailarray: emailArr,
+                            emailsubject: emailSubject,
+                            emailbody: emailBody
+                          }),
+                          success: function(response){
+                            if(response.success){
+                              alert('Emails verstuurd!');
+                              return true;
+                            } else {
+                              alert('Fout bij het verzenden van emails ...' + response.message);
+                              return false;
+                            }
+                            
+                          },
+                          error: function(error){
+                            alert('Fout bij het verzenden van emails ...' + error.errorThrown);
+                            return false;
+                          }
+                        })
+                      }
+                    }
+                  })
+              }
+          });
+
+          dataTableSettings.language.buttons.selectAll = 'Selecteer alles';
+          dataTableSettings.language.buttons.selectNone = 'Deselecteer alles';
+          dataTableSettings.language.buttons.selected = 'Emailen';
+          dataTableSettings.language.select = {
+                rows: {
+                    _: "Je hebt %d rijen geselecteerd",
+                    0: "Klik op de checkbox om een rij te selecteren, of gebruik de knop 'Selecteer alles'",
+                    1: "Je hebt 1 rij geselecteerd"
+                }
+            }
+          
+      }
+
+      var table = $(".ui table").DataTable(dataTableSettings);
 
     }
+
 
 //===================================================
 //FORM VALIDATIONS ON THE ACCOUNT MANAGEMENT PAGE
