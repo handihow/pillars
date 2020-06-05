@@ -9,7 +9,11 @@
         src="<%=user.imageUrl %>">
   <%}%>
   <div class="content">
-    <%= user.firstName + ' ' + user.lastName %>
+    <% if(user.firstName && user.lastName){ %>
+      <%= user.firstName + ' ' + user.lastName %>
+    <% } else {%>
+      <%= user.username %>
+    <% } %>
   </div>
 </h2>
   <div class="ui divider"></div>
