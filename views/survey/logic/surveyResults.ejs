@@ -184,25 +184,32 @@
 		}
 
       	var surveyColumns = survey.getAllQuestions().map(function(q, i) {
-      	  var maxColumnsFromSurvey = surveyInfo.isPublic ? 4 : 1;
+      	  // var maxColumnsFromSurvey = surveyInfo.isPublic ? 4 : 1;
           return {
           	type: q.getType(),
           	choices: ['radiogroup','checkbox','dropdown'].includes(q.getType()) ? q.choices.map(c => c.text) : [],
           	values: ['radiogroup','checkbox','dropdown'].includes(q.getType()) ? q.choices.map(c => c.value) : [],
           	question: q,
             data: q.name,
-            sTitle: (q.title || "").trim(" ") || q.name,
-            bVisible: i > maxColumnsFromSurvey ? false : true,
+            tooltip: q.title ? q.title : q.name,
+            sTitle: (i+1).toString(),
+            className: 'dt-body-right',
+            // sTitle: (q.title || "").trim(" ") || q.name,
+            // bVisible: i > maxColumnsFromSurvey ? false : true,
             mRender: function(data, type, row) {
               survey.data = row;
-              var displayValue = q.displayValue;
-              if(displayValue === true || displayValue == "true"){
-              	return "Ja"
-              } else if(!displayValue || displayValue == "false"){
-              	return "Nee"
+              var value = q.value;
+              var text = ''
+              if(value === "true" || (typeof value === 'boolean' && value)){
+              	text = "100%"
+              } else if (value === "false" || typeof value === 'boolean') {
+                text = "0%"	
+              } else if(typeof value !== 'undefined') {
+              	text = (parseFloat(value) * 100).toString() + "%"
               } else {
-                return JSON.stringify(displayValue) || ""	
+              	text = "-"
               }
+              return "<div data-variation='very wide' data-tooltip='" + q.title + "'>" + text + "</div>"
             }
           };
         });
@@ -210,6 +217,21 @@
 	    var columns = standardColumns.concat(surveyColumns);
 
 	    var table = $("#resultsTable").DataTable({
+	    	rowCallback: function(row, data){
+	    		survey.getAllQuestions().forEach((q,i) => {
+	    			var cellValue = data[q.name];
+	    			var columnIndex = 5 + i;
+	    			if(cellValue === "true" || cellValue === "1" || cellValue === "0.75" || (typeof cellValue === 'boolean' && cellValue)){
+	    				$("td:eq(" + columnIndex + ")", row).addClass("positive");
+	    			} else if(cellValue === "false" || cellValue === "0" || cellValue === "0.25" || typeof cellValue === 'boolean'){
+	    				$("td:eq(" + columnIndex + ")", row).addClass("negative");
+	    			} else if(cellValue === "0.5"){
+	    				$("td:eq(" + columnIndex + ")", row).addClass("warning");
+	    			}
+	    		})
+	    		
+	    	},
+	    	pageLength: 50,
 	    	retrieve: true,
 	        columns: columns,
 	        data: results,

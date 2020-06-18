@@ -1,3 +1,7 @@
+.enable_horizontal_scroll{
+  overflow-x: auto;
+}
+
 
 #pillars-logo {
   width: 45px;
