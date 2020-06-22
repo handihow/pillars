@@ -8,17 +8,17 @@
 	<div class="ui divider"></div>
 	<div id="surveyData" hidden><%= JSON.stringify(surveyResult.result) %></div>
 <%} else {%>
-	<div class="ui container">
+	<div class="survey__container">
 <% } %>
-	<div id="surveyElement"></div>
-	<div id="surveyResult"></div>
+		<div id="surveyElement"></div>
+		<div id="surveyResult"></div>
 
-	<div id="surveyText" hidden><%= JSON.stringify(survey.survey)%></div>
-	<div id="surveyId" hidden><%= survey._id %></div>
-	<div id="isShowing" hidden><%= isShow %></div>
-	<div id="softwareText" hidden><%= JSON.stringify(software)%></div>
-	<div id="customCSS" hidden><%= JSON.stringify(customCSS)%></div>
-</div>
+		<div id="surveyText" hidden><%= JSON.stringify(survey.survey)%></div>
+		<div id="surveyId" hidden><%= survey._id %></div>
+		<div id="isShowing" hidden><%= isShow %></div>
+		<div id="softwareText" hidden><%= JSON.stringify(software)%></div>
+		<div id="customCSS" hidden><%= JSON.stringify(customCSS)%></div>
+	</div>
 
 <% if(isShow) { %>
 	<% include ../partials/user-footer%>

@@ -57,6 +57,7 @@ var retrievePasswordRoutes = require("./routes/user/retrieve-password");
 var indexRoutes = require("./routes/index");
 //ROUTES API CALLS
 var emailApiRoutes = require('./routes/api/emails');
+var chartVisibilityRoutes = require('./routes/api/chartvisibility');
 
 //DATABASE CONNECTION
 mongoose.connect(process.env.DATABASEURL, {retryWrites: false});
@@ -203,6 +204,7 @@ app.use("/organisations/:id/message", messageRoutes);
 app.use("/organisations/:id/survey", surveyOrganisationRoutes);
 //ROUTES TO API CALLS
 app.use("/api/emails", emailApiRoutes);
+app.use("/api/chartvisibility", chartVisibilityRoutes);
 //ROUTES RELATED TO PILLARS ADMIN
 app.use("/organisations", adminOrganisationRoutes);
 app.use("/admin/schools", adminSchoolRoutes);

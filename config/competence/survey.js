@@ -244,6 +244,40 @@ var competenceCategories = [
       }
     ]
   },
+  {
+    identifier: 'digitalSkillsStudents',
+    title: "Digitale Geletterdheid Leerlingen",
+    surveyOption: "pillars",
+    type: "imagepicker",
+    categories: [
+      {
+        name: "STPR",
+        title: "Open vragen interesses en profiel",
+        noScores: true
+      },
+      {
+        name: "RASC",
+        title: "Beoordeling van de school op digitaal gebied",
+        noScores: true
+      },
+      {
+        name: "DGIB",
+        title: "ICT Basisvaardigheden",
+      },
+      {
+        name: "DGIV",
+        title: "Informatievaardigheden",
+      },
+      {
+        name: "DGMW",
+        title: "Mediawijsheid",
+      },
+      {
+        name: "DGCT",
+        title: "Computational Thinking",
+      }
+    ],
+  }
 ];
 
 survey.competenceCategories = competenceCategories;
@@ -255,6 +289,7 @@ survey.calculateStatistics = function(survey, surveyResults){
 	var statistics = [];
 	var index = competenceCategories.findIndex(cat => cat.identifier == survey.competenceStandardKey);
   var isRubric = index > -1 && competenceCategories[index].identifier == 'rubric' ? true : false;
+  var isStudentSurvey = index > -1 && competenceCategories[index].identifier == 'digitalSkillsStudents' ? true : false;
   if(index>-1){
     var generalStatistic = {
       name: competenceCategories[index].identifier,
@@ -264,13 +299,15 @@ survey.calculateStatistics = function(survey, surveyResults){
     }
     statistics.push(generalStatistic);
 		competenceCategories[index].categories.forEach(function(category){
-			var newStatistic = {
-				name: category.name,
-				title: category.title,
-        subCategories: category.subCategories ? category.subCategories : [],
-				statistics: [],
-			}
-			statistics.push(newStatistic);
+      if(!category.noScores){
+        var newStatistic = {
+          name: category.name,
+          title: category.title,
+          subCategories: category.subCategories ? category.subCategories : [],
+          statistics: [],
+        }
+        statistics.push(newStatistic);
+      }
 		});
     if(isRubric){
       surveyResults.forEach(function(surveyResult){
@@ -290,7 +327,30 @@ survey.calculateStatistics = function(survey, surveyResults){
         var grandAverage = totalScore / 7;
         statistics[0].statistics.push(grandAverage);
       });
-
+    } else if (isStudentSurvey){
+      surveyResults.forEach(function(surveyResult){
+       statistics.forEach(function(stat, statIndex){
+         if(stat.noScores){ return; }
+         var questions = 0;
+         var total = 0;
+         Object.keys(surveyResult.result).forEach(function(key){
+            var value = surveyResult.result[key];
+            var transformedValue = parseFloat(value);
+            if(statIndex == 0 && !isNaN(transformedValue)) {
+               //this is the general statistics
+               questions += 1;
+               total += transformedValue;
+            }
+            var name = key.substring(0,key.indexOf("-"));
+            if(name == stat.name){
+               questions += 1;
+               total += transformedValue;            
+            }
+          });
+          var result = Math.round(total / questions * 100);
+          stat.statistics.push(result);
+       });
+      });
     } else {
       surveyResults.forEach(function(surveyResult){
        statistics.forEach(function(stat, statIndex){
@@ -325,6 +385,60 @@ survey.calculateStatistics = function(survey, surveyResults){
 	return statistics;
 }
 
+
+survey.digitalSkillsStudents = {
+ "locale": "nl",
+ "title": {
+  "nl": "Digitale Geletterdheid"
+ },
+ "description": {
+  "nl": "Pillars vragenlijst voor leerlingen"
+ },
+ "pages": [
+  {
+   "name": "wordprocessing",
+   "elements": [
+    {
+     "type": "imagepicker",
+     "name": "DGIB-2TKST",
+     "title": "Wat kun jij met een tekstverwerker (Word / Google Docs / Pages)?",
+     "choices": [
+      {
+       "value": "0",
+       "text": "Ik gebruik nooit een tekstverwerker",
+       "imageLink": "https://ucarecdn.com/385e7fb5-f000-4b2c-9a67-6c96e8efe7d8/IBIIWord_IBIIa.png"
+      },
+      {
+       "value": "0.33",
+       "text": "Ik kan alleen tekst schrijven",
+       "imageLink": "https://ucarecdn.com/b37807f6-2781-4c88-bc0a-0e1bf9be7b17/IBIIWord_IBIIb.png"
+      },
+      {
+       "value": "0.66",
+       "text": "Ik kan opgemaakte tekst schrijven (bijvoorbeeld onderstrepen, vet)",
+       "imageLink": "https://ucarecdn.com/d5bbc0a4-8438-4dac-b1db-8c9ffb703d51/IBIIWord_IBIIc.png"
+      },
+      {
+       "value": "1",
+       "text": "Ik kan een werkstuk maken met inhoudsopgave, tabellen en afbeeldingen",
+       "imageLink": "https://ucarecdn.com/2e30d016-2e4e-4b89-a8b2-13bb8cc6506a/IBIIWord_IBIId.png"
+      }
+     ],
+     "colCount": 2,
+     "imageHeight": 240,
+     "imageWidth": 320,
+     "showLabel": true
+    }
+   ],
+   "title": "Tekstverwerken",
+   "description": "Digitale Geletterdheid - ICT Basisvaardigheden"
+  }
+ ],
+ "showTitle": false,
+ "showPageTitles": false,
+ "showQuestionNumbers": "off",
+ "showProgressBar": "bottom"
+};
 
 survey.ictSkills = {
  "locale": "nl",

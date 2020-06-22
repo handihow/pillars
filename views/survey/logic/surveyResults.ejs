@@ -295,6 +295,24 @@
 	    var vispanelresults = result.map(r => r.result);
 	    
 	    var hasBooleanRadiogroupQuestions = false;
+
+	    const chartElementVisibility = surveyInfo.chartElementVisibility ? surveyInfo.chartElementVisibility : [];
+	    const chartVisibility = [];
+	    survey.getAllQuestions().forEach(function(q){
+	    	const questionIndex = chartElementVisibility.findIndex(ce => ce.name === q.name);
+		      if(questionIndex === -1){
+		          //this question was added
+		        chartVisibility.push({
+		          name: q.name,
+		          displayName: q.title ? q.title : q.name,
+		          visibility: 0,
+		          type: null
+		        })
+		      } else {
+		        chartVisibility.push(chartElementVisibility[questionIndex]);
+		      }
+	    })
+
 	    var normalizedData = vispanelresults.map(function(item) {
 		    survey.getAllQuestions().forEach(function(q) {
 		      if(q.getType()=='radiogroup'){
@@ -330,11 +348,43 @@
 	                    'rgba(18,172,19, 1)',
 	                ];
 
-		var visPanel = new SurveyAnalytics.VisualizationPanel(document.getElementById("resultCharts"), survey.getAllQuestions(), normalizedData, { allowDynamicLayout: false });
+		var visPanel = new SurveyAnalytics.VisualizationPanel(document.getElementById("resultCharts"), survey.getAllQuestions(), normalizedData, { allowDynamicLayout: false }, chartVisibility);
+
+
+		visPanel.showHeader = true;
+        visPanel.onVisibleElementsChanged.add((sender, options) => {
+          const elements = sender.getElements();
+          $.ajax({
+              url: '/api/chartvisibility/'+surveyInfo._id,
+              type: 'POST',
+              contentType: 'application/json',
+              data: JSON.stringify({
+                chartElementVisibility: elements
+              }),
+              success: function(response){
+                if(response.success){
+                  console.log('saved chart element visibility successfully')
+                  return true;
+                } else {
+                  alert('Fout bij het bewaren van zichtbaarheid van grafieken ...' + response.message);
+                  return false;
+                }
+                
+              },
+              error: function(error){
+                alert('Fout bij het bewaren van zichtbaarheid van grafieken ...' + error.errorThrown);
+                return false;
+              }
+            })
+        });
+
 
 		visPanel.render();
 
+		
+
 		if(surveyInfo.isCompetenceSurvey){
+
 			var statisticsString = $( '#statistics' ).text();
 
 			var statistics = JSON.parse(statisticsString || '[]')

@@ -151,15 +151,15 @@ var customCSS = {
 				"column": ""
 			},
 			"imagepicker": {
-				"root": "sv_imgsel",
-				"item": "sv_q_imgsel",
+				"root": "imagepicker__container",
+				"item": "imagepicker",
 				"itemChecked": "checked",
-				"itemInline": "sv_q_imagepicker_inline",
-				"label": "sv_q_imgsel_label",
-				"itemControl": "sv_q_imgsel_control_item",
-				"image": "sv_q_imgsel_image",
-				"itemText": "sv_q_imgsel_text",
-				"clearButton": "sv_q_radiogroup_clear"
+				"itemInline": "",
+				"label": "",
+				"itemControl": "",
+				"image": "ui fluid image",
+				"itemText": "",
+				"clearButton": "ui basic red button"
 			},
 			"rating": {
 				"root": "ui buttons",

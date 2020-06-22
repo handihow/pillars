@@ -21,7 +21,7 @@
           <th>Activatiecode</th>
           <th>Geactiveerd</th>
           <th>Bewerken</th>
-          <th>Verwijderen</th>
+          <!-- <th>Verwijderen</th> -->
         </tr>
       </thead>
       <tbody>
@@ -35,9 +35,7 @@
               <td><%=organisation.activationCode%></td>
               <td><%if(organisation.activated){%>Ja<%}else{%>Nee<%}%></td>
               <td><a href="/organisations/<%=organisation._id%>/edit" class="ui mini blue basic button">Bewerken</a></td>
-              <td><form id="delete" action="/organisations/<%= organisation._id %>?_method=DELETE" method="POST">
-                      <button class="ui mini red basic button">Verwijderen</button>
-                  </form></td>
+              
             </tr>
         <% }); %>
       </tbody>

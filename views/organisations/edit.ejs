@@ -45,5 +45,17 @@
           <div class="ui error message"></div>
         </form>
 
+        <div class="ui divider"></div>
+
+        <button class="ui red basic button" id="delete">Verwijderen</button>
+        <div class="ui hidden warning message">
+          <div class="header">Waarschuwing</div>
+          <p>Weet je zeker dat je dit bestuur wilt verwijderen? Dit kan niet worden hersteld.</p>
+          <button class="ui positive button" id="cancel">Cancel</button>
+          <form form id="delete" action="/organisations/<%= organisation._id %>?_method=DELETE" method="POST">
+            <button class="ui negative button">Verwijder Bestuur</button>
+          </form>
+        </div>
+
 <% include ../partials/admin-footer %>
 <% include ../partials/footer %>

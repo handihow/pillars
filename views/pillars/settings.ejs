@@ -24,7 +24,7 @@
       <div class="field">
       <label>Tijdrange voor gegevens</label>
       <select class="ui fluid dropdown" name="school[timeRange]">
-        <% [{value: 'ALL', label: 'Alle gegevens'},{value: '20192020', label: 'Gegevens van schooljaar 2019/2020'}, {value: '20182019', label: 'Gegevens van schooljaar 2018/2019'}, {value: '20172018', label: 'Gegevens van schooljaar 2017/2018'}].forEach(function(value){%>
+        <% [{value: 'ALL', label: 'Alle gegevens'},{value: '20202021', label: 'Gegevens van schooljaar 2020/2021'},{value: '20192020', label: 'Gegevens van schooljaar 2019/2020'}, {value: '20182019', label: 'Gegevens van schooljaar 2018/2019'}, {value: '20172018', label: 'Gegevens van schooljaar 2017/2018'}].forEach(function(value){%>
          <option value="<%=value.value%>" <%if(school.timeRange == value.value) { %> selected="" <% } %>><%=value.label%></option>
         <%})%>
       </select>

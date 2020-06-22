@@ -2,6 +2,32 @@
   overflow-x: auto;
 }
 
+.survey__container{
+  max-width: 700px;
+  margin: auto;
+}
+
+.imagepicker__container{
+  display: table;
+  width: 100%;
+  /*max-width: 800px;*/
+  border-spacing: 10px 10px;
+}
+
+.imagepicker {
+  display: inline-table;
+  width: 50%;
+  border-radius: 5px;
+}
+
+.imagepicker:hover, :focus {
+  background: #009CDE;
+}
+ 
+.imagepicker.checked {
+  background: #FFD700;
+  color: white;
+}
 
 #pillars-logo {
   width: 45px;
