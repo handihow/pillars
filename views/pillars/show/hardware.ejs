@@ -1,0 +1,79 @@
+<div class="ui horizontal divider">
+  Hardware
+</div>
+<%if(result.errors.length === 0){%>
+  <h3 class="ui header">Computers</h3>
+  <p><%= result.standard.hardware.computersPerStudent.isComputer.join(', ')%> devices worden meegeteld als computer.
+  De devices worden echter niet meegeteld als ze minder dan <%=result.standard.hardware.computersPerStudent.minRAM%> GB geheugen hebben,
+    of als ze ouder zijn dan <%=result.standard.hardware.computersPerStudent.maxYear%> jaar.
+  Het minimale aantal computers is vastgesteld op <strong><%=result.hardware.requiredComputers%></strong> op basis van <%= school.countStudents%> leerlingen maal 
+    <%=result.standard.hardware.computersPerStudent.standard%>.
+  Pillars heeft het totale aantal devices die voldoen aan de standaard op <%=school.name%> vastgesteld op <strong><%=result.hardware.goodComputers%></strong>.
+  <%if(result.hardware.missingComputers === 0){%>
+   Er zijn dus op dit moment voldoende computers aanwezig die voldoen aan de minimale eisen en de maximale score van 
+    <%=result.standard.hardware.computersPerStudent.maxScore%> is op dit onderdeel toegekend.</p>
+  <%} else {%>
+    Er ontbreken dus <strong><%=result.hardware.missingComputers%></strong> devices op <%=school.name%>. Wij raden aan om de ontbrekende devices aan te schaffen. Op dit moment zijn slechts <%=result.hardware.computersPerStudent.toFixed(1)%> van maximaal <%=result.standard.hardware.computersPerStudent.maxScore%> punten toegekend op dit onderdeel.</p> 
+  <%}%>
+  <h3 class="ui header">Digitale schoolborden</h3>
+  <%if(result.standard.hardware.digitalSchoolbordsPerClassroom.isTouchscreen === "1"){%>
+    <p>Digitale schoolborden worden alleen meegeteld als ze touchscreen functionaliteit hebben.
+  <%} else {%>
+    <p>
+  <%}%>
+  Het minimale aantal digitale schoolborden is vastgesteld op <strong><%=result.hardware.requiredDigitalSchoolbords%></strong> op basis van <%= school.countClassrooms%> klaslokalen maal 
+    <%=result.standard.hardware.digitalSchoolbordsPerClassroom.standard%>.
+  Pillars heeft het totale aantal digitale schoolborden die voldoen aan de standaard op <%=school.name%> vastgesteld op <strong><%=result.hardware.goodDigitalSchoolbords%></strong>.
+  <%if(result.hardware.missingDigitalSchoolbords === 0){%>
+   Er zijn dus voldoende digitale schoolborden aanwezig en de maximale score van 
+    <%=result.standard.hardware.digitalSchoolbordsPerClassroom.maxScore%> is op dit onderdeel toegekend.</p>
+  <%} else {%>
+    Er ontbreken dus <strong><%=result.hardware.missingDigitalSchoolbords%></strong> digitale schoolborden op <%=school.name%>. Wij raden aan om de ontbrekende apparaten aan te schaffen. Op dit moment zijn slechts 
+      <%=result.hardware.digitalSchoolbordsPerClassroom.toFixed(1)%> van maximaal <%=result.standard.hardware.digitalSchoolbordsPerClassroom.maxScore%> punten toegekend op dit onderdeel.</p> 
+  <%}%>
+  <h3 class="ui header">Netwerk</h3>
+  <p>Op het onderdeel netwerk zijn <%=result.standard.hardware.network.maxScore%> punt(en) te verdienen.
+    Deze score wordt behaald als bij de <a href="/schools/<%=school._id%>">algemene instellingen</a> van <%=school.name%> "Ja" is geantwoord op de vragen "School heeft goed en betrouwbaar bedraad internet" en "School heeft goed en betrouwbaar draadloos internet".
+    <%if(result.standard.hardware.network.maxScore == result.hardware.network){%>
+      Dit is het geval en de maximale score van <%=result.standard.hardware.network.maxScore%> is op dit onderdeel toegekend.
+    <%} else {%>
+      Dit is het niet geval en er zijn dus geen punten op dit onderdeel toegekend.
+    <%}%>
+  </p>
+  <h3 class="ui header">Draagbare computers</h3>
+  <p>Op het onderdeel draagbare computers zijn <%=result.standard.hardware.laptopsPerSchool.maxScore%> punt(en) te verdienen. 
+    <%if(Array.isArray(result.standard.hardware.laptopsPerSchool.isLaptop)){%>
+         <%= result.standard.hardware.laptopsPerSchool.isLaptop.join(', ')%> devices worden meegeteld als draagbare computer, mits deze devices minder dan <%=result.standard.hardware.laptopsPerSchool.maxYear%> jaar oud zijn. 
+    <%} else {%>
+        Bij de instellingen zijn geen devices geselecteerd die kunnen meetellen als draagbare computers. Hierdoor kunnen er mogelijk geen punten worden behaald op dit onderdeel.
+    <%}%>
+    Het streefaantal draagbare computers op <%=school.name%> is <%=result.standard.hardware.laptopsPerSchool.standard%>.
+  Pillars heeft het totale aantal devices die voldoen aan de standaard op <%=school.name%> vastgesteld op <strong><%=result.hardware.goodLaptops%></strong>.
+  <%if(result.hardware.missingLaptops === 0){%>
+   Er zijn dus op dit moment voldoende draagbare computers aanwezig die voldoen aan de minimale eisen en de maximale score van 
+    <%=result.standard.hardware.laptopsPerSchool.maxScore%> is op dit onderdeel toegekend.</p>
+  <%} else {%>
+    Er ontbreken dus <strong><%=result.hardware.missingLaptops%></strong> draagbare devices op <%=school.name%>. Wij raden aan om de ontbrekende draagbare computers aan te schaffen. Op dit moment zijn slechts <%=result.hardware.portableComputersPerSchool.toFixed(1)%> van maximaal <%=result.standard.hardware.laptopsPerSchool.maxScore%> punten toegekend op dit onderdeel.</p> 
+  <%}%>
+<%}%>
+<div class="ui stackable grid">
+  <div class="five wide column">
+    <div class="ui horizontal small statistics">
+      <% var hardwareStatistics = [{'id': 'computersPerStudent', 'label': 'Computers', 'color': 'red'},{'id': 'digitalSchoolbordsPerClassroom', 'label': 'Digitale schoolborden', 'color': 'blue'},{'id': 'network', 'label': 'Netwerk', 'color': 'yellow'},{'id': 'portableComputersPerSchool', 'label': 'Draagbare computers', 'color': ''}] %>
+      <%hardwareStatistics.forEach(function(hardwareStatistic){%>
+        <div class="<%=hardwareStatistic.color%> statistic">
+          <div class="value">
+            <%= result.hardware && result.hardware[hardwareStatistic.id]
+                  ? result.hardware[hardwareStatistic.id].toFixed(1).replace('.', ',') : '0,0'%>
+          </div>
+          <div class="label">
+            <%=hardwareStatistic.label%>
+          </div>
+        </div>
+      <%})%>        
+    </div>
+  </div>
+  <div class="eleven wide column">
+      <canvas id="hardware"></canvas>
+  </div>
+</div>

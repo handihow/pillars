@@ -2,6 +2,13 @@
   overflow-x: auto;
 }
 
+.pdf__page {
+  width: 2037px;
+  height: 1439px;
+  padding: 85px;
+  border: 1px solid black;
+}
+
 .survey__container{
   max-width: 700px;
   margin: auto;

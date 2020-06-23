@@ -1,0 +1,46 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+  <div id="result" data-value="<%=JSON.stringify(result)%>"></div>  
+  
+  <h2 class="ui center aligned icon header">
+    <i class="print icon"></i>
+    Rapport genereren
+  </h2>
+  <div class="ui container">
+    <p>Hieronder zie je het rapport dat wordt gegenereerd als PDF. Druk op de knop hieronder om de PDF te maken.</p>
+    <button class="ui primary large button" id="cmd">PDF maken</button>
+    <div class="ui indicating progress" data-value="1" data-total="6" id="pdf__progress">
+      <div class="bar"></div>
+      <div class="label">Even geduld ...</div>
+    </div>
+  </div>
+  <div class="ui divider"></div>
+
+  <div class="pdf-content enable_horizontal_scroll">
+      <div class="pdf__page">
+        <h2 class="ui header">
+          <%if(school.logo || school.uploadedLogo){%><img 
+                class="ui image" 
+                src="<%=school.uploadedLogo ? school.uploadedLogo : school.logo %>"><%}%>
+          <div class="content">
+            <%= school.name %>
+          </div>
+        </h2>
+        <% include ./show/total %> 
+      </div>
+      <div class="pdf__page">
+        <% include ./show/hardware %> 
+      </div>
+      <div class="pdf__page">
+        <% include ./show/software %> 
+      </div>
+      <div class="pdf__page">
+        <% include ./show/competence %>
+      </div>
+      <div class="pdf__page">
+        <% include ./show/management %>
+      </div>
+  </div>
+
+<% include ../partials/footer %>

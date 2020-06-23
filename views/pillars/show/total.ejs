@@ -1,0 +1,49 @@
+<!-- TOTAL SCORE -->
+  <% var generalStatistics = [{'id': 'hardware', 'label': 'Hardware', 'color': 'red'},{'id': 'software', 'label': 'Digitale leermiddelen', 'color': 'blue'},{'id': 'competence', 'label': 'Deskundigheid', 'color': 'yellow'},{'id': 'management', 'label': 'Organisatie', 'color': ''}]%>
+  <% var lowestSubject; var highestSubject; var lowestScore = 5; var highestScore = 0; var tmp; var difference;%>
+  <% generalStatistics.forEach(function(stat, i){
+     tmp = result.total[stat.id];
+     if (tmp < lowestScore) {
+       lowestScore = tmp;
+       lowestSubject = generalStatistics[i].label;
+     } else if (tmp > highestScore){
+        highestScore = tmp;
+        highestSubject = generalStatistics[i].label;
+     }
+     difference = highestScore - lowestScore;
+  })%>
+  <div class="ui horizontal divider">
+    Pillars Score
+  </div>
+  <h3 class="ui header">Basis van deze berekening</h3>
+  <p>Pillars heeft een score berekend voor <%=school.name%> op basis van de standaard die is ingesteld bij deze school, genaamd <strong><%=result.standard.name%></strong>. In deze standaard zijn telkens 5 punten te verdienen op de hoofdonderdelen Hardware, Digitale Leermiddelen, Deskundigheid en Organisatie. In deze standaard zijn veel verschillende instellingen opgenomen, zoals de te verdienen punten per onderwerp en de voorwaarden die gesteld worden aan bijvoorbeeld devices of digitale leermiddelen. Bij de <a href="/schools/<%=school._id%>/pillars/settings">instellingen</a> kun je de standaard bekijken en ook wijzigen.</p>
+   <h3 class="ui header">Interpretatie van resultaten</h3>
+  <p>Bij ieder onderdeel is er een uitleg van de behaalde score. Vervolgens staan de behaalde punten op ieder onderdeel aan de linkerkant van de grafiek.
+  De resultaten zijn grafisch op een polair vlakdiagram weergegeven. Op de cirkelas staat het percentage van het maximale aantal punten dat is behaald. In de taartpunt wordt het absolute aantal punten gepresenteerd, met tussen haakjes het maximale aantal punten.</p>
+  <h3 class="ui header">Score op hoofdonderdelen</h3>
+  <p>Het Vier in balans-model van Kennisnet laat zien hoe scholen optimaal rendement kunnen halen uit ict. Wanneer deze voorwaarden met elkaar in balans zijn, kunnen scholen de gewenste opbrengsten op het gebied van ict bereiken. Het is belangrijk om te streven naar goede scores op ieder afzonderlijk onderdeel, maar zeker ook om ervoor te zorgen dat er een goede balans is tussen de hoofdonderdelen. De laagste score heeft <%=school.name%> behaald op het onderdeel <%=lowestSubject%> (<%=lowestScore.toFixed(1).replace('.', ',')%> punten) en de hoogste score op het onderdeel <%=highestSubject%> (<%=highestScore.toFixed(1).replace('.', ',')%> punten).
+  <%if(difference>1){%>
+    Het verschil tussen het laagste en het hoogste onderdeel is meer dan een vol punt. Wij raden aan om snel in te zetten op verbetering van het onderdeel <%=lowestSubject%>. Je kunt aanknopingspunten hiervoor vinden in dit overzicht.</p>
+  <%} else {%>
+    Het verschil tussen het laagste en het hoogste onderdeel is minder dan een vol punt. Dit wijst op een redelijke balans tussen de hoofdonderdelen. Wij raden je aan om het rapport in detail door te lezen en verdere aanknopingspunten tot verbetering te ontdekken.</p>
+  <%}%>
+  <div class="ui stackable grid">
+    <div class="five wide column">
+      <div class="ui horizontal small statistics">
+        <%generalStatistics.forEach(function(generalStatistic){%>
+          <div class="<%=generalStatistic.color%> statistic">
+            <div class="value">
+              <%= result.total && result.total[generalStatistic.id]
+                    ? result.total[generalStatistic.id].toFixed(1).replace('.', ',') : '0,0'%>
+            </div>
+            <div class="label">
+              <%=generalStatistic.label%>
+            </div>
+          </div>
+        <%})%>            
+      </div>
+    </div>
+    <div class="eleven wide column">
+        <canvas id="total"></canvas>
+    </div>
+  </div>

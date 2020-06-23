@@ -1,31 +1,34 @@
 
 //load jQuery when document is ready
 $(document).ready(function() {
+    if($('#pdf__progress').length>0){
+        $('#pdf__progress').hide(); 
+    }
 
-    $('#cmd').click(function() {
-        var HTML_Width = $(".html-content").width();
-        var HTML_Height = $(".html-content").height();
-        var top_left_margin = 50;
-        var PDF_Width = HTML_Width + (top_left_margin * 2);
-        var PDF_Height = (PDF_Width * 1.7) + (top_left_margin * 2);
-        var canvas_image_width = HTML_Width;
-        var canvas_image_height = HTML_Height;
-
-        var totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
-
-        var htmlContent = $(".html-content")[0];
-        console.log(htmlContent);
-        html2canvas(htmlContent).then(function (canvas) {
-            var imgData = canvas.toDataURL("image/jpeg", 1.0);
-            var pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
-            pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
-            for (var i = 1; i <= totalPDFPages; i++) { 
-                pdf.addPage(PDF_Width, PDF_Height);
-                pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
-            }
-            pdf.save("Pillars Score Rapport.pdf");
+    $('#cmd').click(async function() {
+        $('#cmd').hide();
+        $('#pdf__progress').show();
+        var pdf = new jsPDF('l', 'mm', 'a4', true);
+        var pages = $(".pdf__page");
+        $('#pdf__progress').progress({
+          total: 6
         });
+        for (var i = 0; i < pages.length; i++) {
+          $('#pdf__progress').progress('increment');
+          var canvas = await html2canvas(pages[i]);
+          if(i>0){
+              pdf.addPage();
+          }
+          var imgData = canvas.toDataURL('image/png');
+          var imgProps= pdf.getImageProperties(imgData);
+          var pdfWidth = pdf.internal.pageSize.getWidth();
+          var pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+          pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight, undefined, 'FAST');
+        }
+        pdf.save("Pillars Score Rapport.pdf");
+        $('#pdf__progress').progress('increment');
     });
+
     
     var result = $('#result').attr('data-value')?JSON.parse($('#result').attr('data-value')):null;
 

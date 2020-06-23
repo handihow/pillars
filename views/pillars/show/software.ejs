@@ -1,0 +1,46 @@
+<div class="ui horizontal divider">
+  Digitale Leermiddelen
+</div>
+<% var primaryLabels = ["Rekenen", "Technisch lezen", "Begrijpend lezen", "Spelling", "Taal", "Toetsenbordvaardigheid", "Programmeren", "Mediawijsheid"];%>
+<% var secondaryLabels = ["Aardrijkskunde", "Biologie", "Duits", "Economie", "Engels", "Frans", "Geschiedenis",  
+         "Natuurkunde", "Nederlands", "Scheikunde", "Wiskunde"]%>
+<% var softwareColors = ['red', 'blue', 'yellow', '', 'green', 'orange', 'pink', 'grey'];%>
+<% var softwareStatistics = Object.keys(result.standard.software).map(function(key, i){
+        return {id: key, label: school.isSecondarySchool ? secondaryLabels[i] : primaryLabels[i], color: softwareColors[i]}
+      })%>
+<%if(!school.isSecondarySchool){%>
+  <%softwareStatistics.forEach(function(softwareStatistic){%>
+    <h3 class="ui header"><%=softwareStatistic.label%></h3>
+    <p>Voor het vak <%=softwareStatistic.label%> kunnen punten worden verdiend als er kwalitatief goede digitale leermiddelen zijn voor <%=result.standard.software[softwareStatistic.id].gradeLevels.join(', ')%> met functionaliteit voor <%=result.standard.software[softwareStatistic.id].functionalities.join(', ')%>.
+    <%if(result.software[softwareStatistic.id] > 0){%>
+      Dit is het geval, en daarom is de maximale score van <%=result.standard.software[softwareStatistic.id].maxScore%> toegekend.
+    <%} else {%>
+      Dit is niet het geval en daarom zijn er op dit onderdeel geen punten toegekend.
+    <%}%>
+     </p>
+  <%})%> 
+<%}%>
+<div class="ui stackable grid">
+  <div class="five wide column">
+    <div class="ui horizontal small statistics">
+      <%softwareStatistics.forEach(function(softwareStatistic){%>
+        <div class="<%=softwareStatistic.color%> statistic">
+          <div class="value">
+            <%= result.software && result.software[softwareStatistic.id]
+                  ? result.software[softwareStatistic.id].toFixed(1).replace('.', ',') : '0,0'%>
+          </div>
+          <div class="label">
+            <%=softwareStatistic.label%>
+          </div>
+        </div>
+      <%})%>        
+    </div>
+  </div>
+  <div class="eleven wide column">
+      <% if(school.isSecondarySchool) { %>
+        <canvas id="softwareSS"></canvas>
+      <%} else { %>
+        <canvas id="software"></canvas>
+      <% } %>
+  </div>
+</div>

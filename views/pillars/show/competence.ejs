@@ -1,0 +1,56 @@
+<div class="ui horizontal divider">
+  Deskundigheid
+</div>
+<%var competenceLabels = ["ICT Geletterdheid", "Pedagogisch Didactisch Handelen", "Werken in de schoolcontext", 
+                          "Persoonlijke Ontwikkeling", "Instumentele vaardigheden", "Informatievaardigheden", "Mediawijsheid"];
+  var competenceIds = ['ictSkills', 'pedagogicalDidacticalSkills', 'workInSchoolContext', 'personalDevelopment', 'instrumentalSkills',
+                          'informationSkills', 'mediaSkills'];
+  var competenceStatistics = [];
+  var competenceColors = ['red', 'blue', 'yellow', '', 'green', 'orange', 'pink', 'grey'];
+  var j = 0
+  Object.keys(result.standard.competence).forEach(function(key){
+      if(result.standard.competence[key].maxScore !== '0'){
+          let index = competenceIds.findIndex(cid => cid  === key);
+          if(index>-1){
+              competenceStatistics.push({id: key, label: competenceLabels[index], color: competenceColors[j]});
+              j++;
+          }
+      }
+  });
+%>
+<h3 class="ui header">Deskundigheidstests</h3>
+<p>Op de <%=school.name%> zijn deskundigheidstests afgenomen op de gebieden <%=competenceStatistics.map(cs => cs.label).join(', ')%>. 
+  Bij de <a href="/schools/<%=school._id%>/pillars/settings">instellingen</a> kan een tijdrange worden ingesteld die mogelijk van toepassing is op de berekening. 
+  <%if(school.timeRange ==='ALL'){%>
+    Op dit moment is er geen tijdrange geselecteerd en worden alle testresultaten (ook van eventueel reeds gearchiveerde tests) meegeteld.
+  <%} else {%>
+    Op dit moment is er een tijdrange van toepassing (<%=school.timeRange%>) en worden tests gefilterd op basis van deze tijdrange om de score te bepalen.
+  <%}%>
+  Voor een uitgebreide analyze van deskundigheidstests, verwijzen wij je naar het <a href="/schools/<%=school._id%>/competence">tabblad Deskundigheid</a>. Hier kun je iedere enquête uitvoerig analyzeren.
+</p>
+<%competenceStatistics.forEach(function(competenceStatistic){%>
+<h3 class="ui header"><%=competenceStatistic.label%></h3>
+<p>Op dit onderdeel is de maximale score <%=result.standard.competence[competenceStatistic.id].maxScore%>. Door het gemiddelde resultaat van alle deelnemers op het testonderdeel <%=competenceStatistic.label%> (in procenten) te vermenigvuldigen met de maximale score zijn er <%= result.competence && result.competence[competenceStatistic.id]
+                  ? result.competence[competenceStatistic.id].toFixed(1).replace('.', ',') : '0,0'%> punten toegekend.</p>
+<%})%>
+<div class="ui stackable grid">
+  <div class="five wide column">
+    <div class="ui horizontal small statistics">
+      <%competenceStatistics.forEach(function(competenceStatistic){%>
+        <div class="<%=competenceStatistic.color%> statistic">
+          <div class="value">
+            <%= result.competence && result.competence[competenceStatistic.id]
+                  ? result.competence[competenceStatistic.id].toFixed(1).replace('.', ',') : '0,0'%>
+          </div>
+          <div class="label">
+            <%=competenceStatistic.label%>
+          </div>
+        </div>
+      <%})%>        
+    </div>
+  </div>
+  <div class="eleven wide column">
+      <canvas id="competence"></canvas>
+  </div>
+</div>
+      
