@@ -28,7 +28,7 @@
     Het verschil tussen het laagste en het hoogste onderdeel is minder dan een vol punt. Dit wijst op een redelijke balans tussen de hoofdonderdelen. Wij raden je aan om het rapport in detail door te lezen en verdere aanknopingspunten tot verbetering te ontdekken.</p>
   <%}%>
   <div class="ui stackable grid">
-    <div class="five wide column">
+    <div class="<%=statColumnWidth%> wide column">
       <div class="ui horizontal small statistics">
         <%generalStatistics.forEach(function(generalStatistic){%>
           <div class="<%=generalStatistic.color%> statistic">
@@ -43,7 +43,7 @@
         <%})%>            
       </div>
     </div>
-    <div class="eleven wide column">
+    <div class="<%=imgColumnWidth%> wide column">
         <canvas id="total"></canvas>
     </div>
   </div>

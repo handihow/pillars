@@ -18,7 +18,7 @@
         <div class="two wide column">
           <h2 class="ui right aligned header">
             <a href="/schools/<%=school._id%>/pillars/pdf">
-            <i class="print icon"></i>
+            <i class="file pdf icon"></i>
             </a>
           </h2>
         </div>
@@ -41,7 +41,9 @@
         </div>
       <% } %>
       <!-- RESULT VARIABLE -->   
-      <div id="result" data-value="<%=JSON.stringify(result)%>"></div>   
+      <div id="result" data-value="<%=JSON.stringify(result)%>"></div>
+      <% var statColumnWidth = "five"%>
+      <% var imgColumnWidth = "eleven"%>
       <% include ./show/total %>
       <!--HARDWARE-->
       <% include ./show/hardware %>

@@ -57,7 +57,7 @@
   <%}%>
 <%}%>
 <div class="ui stackable grid">
-  <div class="five wide column">
+  <div class="<%=statColumnWidth%> wide column">
     <div class="ui horizontal small statistics">
       <% var hardwareStatistics = [{'id': 'computersPerStudent', 'label': 'Computers', 'color': 'red'},{'id': 'digitalSchoolbordsPerClassroom', 'label': 'Digitale schoolborden', 'color': 'blue'},{'id': 'network', 'label': 'Netwerk', 'color': 'yellow'},{'id': 'portableComputersPerSchool', 'label': 'Draagbare computers', 'color': ''}] %>
       <%hardwareStatistics.forEach(function(hardwareStatistic){%>
@@ -73,7 +73,7 @@
       <%})%>        
     </div>
   </div>
-  <div class="eleven wide column">
+  <div class="<%=imgColumnWidth%> wide column">
       <canvas id="hardware"></canvas>
   </div>
 </div>

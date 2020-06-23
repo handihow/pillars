@@ -6,7 +6,7 @@ $(document).ready(function() {
     }
 
     $('#cmd').click(async function() {
-        $('#cmd').hide();
+        $('.buttons').hide();
         $('#pdf__progress').show();
         var pdf = new jsPDF('l', 'mm', 'a4', true);
         var pages = $(".pdf__page");
@@ -27,6 +27,8 @@ $(document).ready(function() {
         }
         pdf.save("Pillars Score Rapport.pdf");
         $('#pdf__progress').progress('increment');
+        $('.buttons').show();
+         $('#pdf__progress').hide();
     });
 
     

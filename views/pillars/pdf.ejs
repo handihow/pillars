@@ -4,19 +4,23 @@
   <div id="result" data-value="<%=JSON.stringify(result)%>"></div>  
   
   <h2 class="ui center aligned icon header">
-    <i class="print icon"></i>
+    <i class="file pdf icon"></i>
     Rapport genereren
   </h2>
   <div class="ui container">
     <p>Hieronder zie je het rapport dat wordt gegenereerd als PDF. Druk op de knop hieronder om de PDF te maken.</p>
-    <button class="ui primary large button" id="cmd">PDF maken</button>
+    <div class="buttons">
+      <a class="ui secondary large button" href="/schools/<%=school._id%>/pillars">Terug</a>
+      <button class="ui primary large button" id="cmd">PDF maken</button>
+    </div>
     <div class="ui indicating progress" data-value="1" data-total="6" id="pdf__progress">
       <div class="bar"></div>
       <div class="label">Even geduld ...</div>
     </div>
   </div>
   <div class="ui divider"></div>
-
+  <% var statColumnWidth = "eight"%>
+  <% var imgColumnWidth = "eight"%>
   <div class="pdf-content enable_horizontal_scroll">
       <div class="pdf__page">
         <h2 class="ui header">

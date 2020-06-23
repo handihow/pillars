@@ -28,13 +28,17 @@
   <%}%>
   Voor een uitgebreide analyze van deskundigheidstests, verwijzen wij je naar het <a href="/schools/<%=school._id%>/competence">tabblad Deskundigheid</a>. Hier kun je iedere enquête uitvoerig analyzeren.
 </p>
+<div class="ui two column grid">
 <%competenceStatistics.forEach(function(competenceStatistic){%>
+<div class="column">
 <h3 class="ui header"><%=competenceStatistic.label%></h3>
 <p>Op dit onderdeel is de maximale score <%=result.standard.competence[competenceStatistic.id].maxScore%>. Door het gemiddelde resultaat van alle deelnemers op het testonderdeel <%=competenceStatistic.label%> (in procenten) te vermenigvuldigen met de maximale score zijn er <%= result.competence && result.competence[competenceStatistic.id]
                   ? result.competence[competenceStatistic.id].toFixed(1).replace('.', ',') : '0,0'%> punten toegekend.</p>
+</div>
 <%})%>
+</div>
 <div class="ui stackable grid">
-  <div class="five wide column">
+  <div class="<%=statColumnWidth%> wide column">
     <div class="ui horizontal small statistics">
       <%competenceStatistics.forEach(function(competenceStatistic){%>
         <div class="<%=competenceStatistic.color%> statistic">
@@ -49,7 +53,7 @@
       <%})%>        
     </div>
   </div>
-  <div class="eleven wide column">
+  <div class="<%=imgColumnWidth%> wide column">
       <canvas id="competence"></canvas>
   </div>
 </div>

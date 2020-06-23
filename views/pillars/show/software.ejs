@@ -8,20 +8,24 @@
 <% var softwareStatistics = Object.keys(result.standard.software).map(function(key, i){
         return {id: key, label: school.isSecondarySchool ? secondaryLabels[i] : primaryLabels[i], color: softwareColors[i]}
       })%>
+<div class="ui two column grid">
 <%if(!school.isSecondarySchool){%>
   <%softwareStatistics.forEach(function(softwareStatistic){%>
-    <h3 class="ui header"><%=softwareStatistic.label%></h3>
-    <p>Voor het vak <%=softwareStatistic.label%> kunnen punten worden verdiend als er kwalitatief goede digitale leermiddelen zijn voor <%=result.standard.software[softwareStatistic.id].gradeLevels.join(', ')%> met functionaliteit voor <%=result.standard.software[softwareStatistic.id].functionalities.join(', ')%>.
-    <%if(result.software[softwareStatistic.id] > 0){%>
-      Dit is het geval, en daarom is de maximale score van <%=result.standard.software[softwareStatistic.id].maxScore%> toegekend.
-    <%} else {%>
-      Dit is niet het geval en daarom zijn er op dit onderdeel geen punten toegekend.
-    <%}%>
-     </p>
-  <%})%> 
+      <div class="column">
+        <h3 class="ui header"><%=softwareStatistic.label%></h3>
+        <p>Voor het vak <%=softwareStatistic.label%> kunnen punten worden verdiend als er kwalitatief goede digitale leermiddelen zijn voor <%=result.standard.software[softwareStatistic.id].gradeLevels.join(', ')%> met functionaliteit voor <%=result.standard.software[softwareStatistic.id].functionalities.join(', ')%>.
+        <%if(result.software[softwareStatistic.id] > 0){%>
+          Dit is het geval, en daarom is de maximale score van <%=result.standard.software[softwareStatistic.id].maxScore%> toegekend.
+        <%} else {%>
+          Dit is niet het geval en daarom zijn er op dit onderdeel geen punten toegekend.
+        <%}%>
+         </p>
+        </div>
+    <%})%> 
 <%}%>
+</div>
 <div class="ui stackable grid">
-  <div class="five wide column">
+  <div class="<%=statColumnWidth%> wide column">
     <div class="ui horizontal small statistics">
       <%softwareStatistics.forEach(function(softwareStatistic){%>
         <div class="<%=softwareStatistic.color%> statistic">
@@ -36,7 +40,7 @@
       <%})%>        
     </div>
   </div>
-  <div class="eleven wide column">
+  <div class="<%=imgColumnWidth%> wide column">
       <% if(school.isSecondarySchool) { %>
         <canvas id="softwareSS"></canvas>
       <%} else { %>

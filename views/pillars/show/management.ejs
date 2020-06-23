@@ -1,48 +1,58 @@
 <div class="ui horizontal divider">
   Organisatie
 </div>
-<h3 class="ui header">Overeenstemming</h3>
-<p>
-  Op het onderdeel overeenstemming wordt het maximum aantal punten van <%=result.standard.management.agreement.maxScore%> toegekend, als op het <a href="/schools/<%=school._id%>/management">Tablad Organisatie</a> "Ja" is geantwoord op de vraag "Is er een gedeelde visie op ICT en Onderwijs op deze school?".
-  <%if(result.management.agreement === 0){%>
-    Dit is niet het geval, en daarom zijn er op dit onderdeel geen punten toegekend.
-  <%} else {%>
-    Dit is het geval, en dus is zijn er <%= result.management && result.management.agreement
-                  ? result.management.agreement.toFixed(1).replace('.', ',') : '0,0'%> punten toegekend.
-  <%}%>
-</p>
-<h3 class="ui header">Netwerkbeheer</h3>
-<p>
-  Op het onderdeel netwerkbeheer wordt het maximum aantal punten van <%=result.standard.management.network.maxScore%> toegekend, als op het <a href="/schools/<%=school._id%>/management">Tablad Organisatie</a> "Ja" is geantwoord op de drie vragen die betrekking hebben op het netwerkbeheer:
-  <ul>
-    <li>Functioneert het netwerk goed (bekabeld en ook dekkend draadloos)?</li>
-    <li>Worden aanpassing aan het netwerk naar tevredenheid gerealiseerd?</li>
-    <li>Worden netwerkincidenten naar tevredenheid opgelost?</li>
-  </ul>
-  <%if(result.management.network === 0){%>
-    Dit is niet het geval, en daarom zijn er op dit onderdeel geen punten toegekend.
-  <%} else {%>
-    Dit is het geval, en dus is zijn er <%= result.management && result.management.network
-                  ? result.management.network.toFixed(1).replace('.', ',') : '0,0'%> punten toegekend.
-  <%}%>
-</p>
+<div class="two column ui grid">
+  <div class="column">
+    <h3 class="ui header">Overeenstemming</h3>
+    <p>
+      Op het onderdeel overeenstemming wordt het maximum aantal punten van <%=result.standard.management.agreement.maxScore%> toegekend, als op het <a href="/schools/<%=school._id%>/management">Tablad Organisatie</a> "Ja" is geantwoord op de vraag "Is er een gedeelde visie op ICT en Onderwijs op deze school?".
+      <%if(result.management.agreement === 0){%>
+        Dit is niet het geval, en daarom zijn er op dit onderdeel geen punten toegekend.
+      <%} else {%>
+        Dit is het geval, en dus is zijn er <%= result.management && result.management.agreement
+                      ? result.management.agreement.toFixed(1).replace('.', ',') : '0,0'%> punten toegekend.
+      <%}%>
+    </p>
+  </div>
+  <div class="column">
+    <h3 class="ui header">Netwerkbeheer</h3>
+    <p>
+      Op het onderdeel netwerkbeheer wordt het maximum aantal punten van <%=result.standard.management.network.maxScore%> toegekend, als op het <a href="/schools/<%=school._id%>/management">Tablad Organisatie</a> "Ja" is geantwoord op de drie vragen die betrekking hebben op het netwerkbeheer:
+      <ul>
+        <li>Functioneert het netwerk goed (bekabeld en ook dekkend draadloos)?</li>
+        <li>Worden aanpassing aan het netwerk naar tevredenheid gerealiseerd?</li>
+        <li>Worden netwerkincidenten naar tevredenheid opgelost?</li>
+      </ul>
+      <%if(result.management.network === 0){%>
+        Dit is niet het geval, en daarom zijn er op dit onderdeel geen punten toegekend.
+      <%} else {%>
+        Dit is het geval, en dus is zijn er <%= result.management && result.management.network
+                      ? result.management.network.toFixed(1).replace('.', ',') : '0,0'%> punten toegekend.
+      <%}%>
+    </p>
+  </div>
 <% var personnelStatistics = [{'id': 'incidentReporter', 'label': 'Incidentmelder'},{'id': 'ictEducationalContentManager', 'label': 'Onderwijskundig ICTer'},{'id': 'ictPurchaser', 'label': 'Inkoper'},{'id': 'systemAdministrator', 'label': 'Systeembeheerder'}] %>
+
+
 <%personnelStatistics.forEach(function(personnelStatistic){%>
-  <h3 class="ui header"><%=personnelStatistic.label%></h3>
-  <p>
-    Het minimum aantal normjaartaakuren voor de <%=personnelStatistic.label%> is berekend op basis van <%=school.countStudents%> leerlingen op de <%=school.name%>. Het aantal uren voor het leerlingaantal t/m 200 is <%=result.standard.management[personnelStatistic.id].hoursPerYear%> uren en voor elke 100 leerlingen daarboven een extra <%=result.standard.management[personnelStatistic.id].additionalHoursPerYear%> uren. De maximale score op dit onderdeel is <%=result.standard.management[personnelStatistic.id].maxScore%> punten. Punten worden gedeeltelijk toegekend indien er een lager aantal uren beschikbaar is gesteld.
-    <%if(result.management[personnelStatistic.id] === 0){%>
-      Er zijn geen uren voor deze taak beschikbaar, en daarom zijn er geen punten gegeven op dit onderdeel.
-    <%} else if(result.management[personnelStatistic.id] == result.standard.management[personnelStatistic.id].maxScore) {%>
-      Er zijn voldoende uren voor deze taak beschikbaar, en daarom is het maximum aantal punten toegekend op dit onderdeel.
-    <%} else {%>
-      Er is slechts een deel van de uren beschikbaar voor deze taak, en daarom is er een gedeeltelijke score toegekend op dit onderdeel van <%= result.management && result.management[personnelStatistic.id]
-                  ? result.management[personnelStatistic.id].toFixed(1).replace('.', ',') : '0,0'%> .
-    <%}%>
-  </p>
+  <div class="column">
+    <h3 class="ui header"><%=personnelStatistic.label%></h3>
+    <p>
+      Het minimum aantal normjaartaakuren voor de <%=personnelStatistic.label%> is berekend op basis van <%=school.countStudents%> leerlingen op de <%=school.name%>. Het aantal uren voor het leerlingaantal t/m 200 is <%=result.standard.management[personnelStatistic.id].hoursPerYear%> uren en voor elke 100 leerlingen daarboven een extra <%=result.standard.management[personnelStatistic.id].additionalHoursPerYear%> uren. De maximale score op dit onderdeel is <%=result.standard.management[personnelStatistic.id].maxScore%> punten. Punten worden gedeeltelijk toegekend indien er een lager aantal uren beschikbaar is gesteld.
+      <%if(result.management[personnelStatistic.id] === 0){%>
+        Er zijn geen uren voor deze taak beschikbaar, en daarom zijn er geen punten gegeven op dit onderdeel.
+      <%} else if(result.management[personnelStatistic.id] == result.standard.management[personnelStatistic.id].maxScore) {%>
+        Er zijn voldoende uren voor deze taak beschikbaar, en daarom is het maximum aantal punten toegekend op dit onderdeel.
+      <%} else {%>
+        Er is slechts een deel van de uren beschikbaar voor deze taak, en daarom is er een gedeeltelijke score toegekend op dit onderdeel van <%= result.management && result.management[personnelStatistic.id]
+                    ? result.management[personnelStatistic.id].toFixed(1).replace('.', ',') : '0,0'%> .
+      <%}%>
+    </p>
+  </div>
 <%});%>
+</div>
 <div class="ui stackable grid">
-  <div class="five wide column">
+  <div class="<%=statColumnWidth%> wide column">
     <% var managementStatistics = [{'id': 'agreement', 'label': 'Overeenstemming', 'color': 'red'},{'id': 'network', 'label': 'Netwerkbeheer', 'color': 'blue'},{'id': 'incidentReporter', 'label': 'Incidentmelder', 'color': 'yellow'},{'id': 'ictEducationalContentManager', 'label': 'Onderwijskundig ICTer', 'color': ''},{'id': 'ictPurchaser', 'label': 'Inkoper', 'color': 'green'},{'id': 'systemAdministrator', 'label': 'Systeembeheerder', 'color': 'orange'}] %>
     <div class="ui horizontal small statistics">
       <%managementStatistics.forEach(function(managementStatistic){%>
@@ -58,7 +68,7 @@
       <%})%>        
     </div>
   </div>
-  <div class="eleven wide column">
+  <div class="<%=imgColumnWidth%> wide column">
       <canvas id="management"></canvas>
   </div>
 </div>
