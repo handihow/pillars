@@ -36,7 +36,13 @@
     <% users.forEach(function(user){ %>
     <tr>
       <td></td>
-      <td><a href="/user/<%=user._id%>">Bekijk</a></td>
+      <td>
+        <%if(user.publicProfile){%>
+          <a href="/user/<%=user._id%>">Bekijk</a>
+        <%} else {%>
+          Geen inzage
+        <%}%>
+      </td>
       <td><%= user.username %></td>
       <td><%= user.firstName ? user.firstName : user.username %></td>
       <td><%= user.lastName %></td>

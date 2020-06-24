@@ -99,9 +99,9 @@
         		returnedData.city = r.user ? r.user.school.map(s => s.city).join() : '-';
         	}
         	returnedData.date = r.createdAt ? r.createdAt.slice(0,10).split('-').reverse().join('/') : '-';
-        	returnedData.link = '<a href="/survey/' + r._id + '/result">Inzending</a>';
+        	returnedData.link = r.user.publicProfile ? '<a href="/survey/' + r._id + '/result">Inzending</a>' : 'Geen inzage';
         	if(surveyInfo.isCompetenceSurvey){
-        		returnedData.chart = r.user._id ? '<a href="/survey/' + r.survey + '/' + r.user._id + '">Grafiek</a>' : '-';	
+        		returnedData.chart = r.user._id && r.user.publicProfile ? '<a href="/survey/' + r.survey + '/' + r.user._id + '">Grafiek</a>' : 'Geen inzage';	
         	}
           return returnedData;
         });

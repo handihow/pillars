@@ -23,7 +23,7 @@
 </div>
 <div id='nonactive-content'>
   <div class="ui divider"></div>
-  <h3 class="ui header">Non-actieve tests</h3>
+  <h3 class="ui header">Gearchiveerde tests</h3>
   <div class="ui stackable grid">
     <%surveys.forEach(function(survey, index){%>
         <%if(!survey.isActiveCompetenceSurvey){ %>
@@ -34,7 +34,7 @@
   </div>
 </div>
 <div class="ui divider"></div>
-<input class="ui button" type='button' id='hideshow' value='Non-actieve tests'>
+<input class="ui button" type='button' id='hideshow' value='Gearchiveerde tests'>
 
 
 <div id="surveysInfo" hidden><%= JSON.stringify(surveys)%></div>
