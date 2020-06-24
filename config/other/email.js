@@ -7,7 +7,7 @@ email.cc = function(email, name, subject, html){
     const msg = {
       to: email,
       cc: "info@pillars.school",
-      from: 'notifications@pillars.school',
+      from: 'Pillars - voor optimale ict-resultaten <notifications@pillars.school>',
       subject: subject,
       html: html,
     };
@@ -17,7 +17,7 @@ email.cc = function(email, name, subject, html){
 email.nocc = function(email, name, subject, html){
     const msg = {
       to: email,
-      from: 'notifications@pillars.school',
+      from: 'Pillars - voor optimale ict-resultaten <notifications@pillars.school>',
       subject: subject,
       html: html,
     };
@@ -27,7 +27,7 @@ email.nocc = function(email, name, subject, html){
 email.invite = function(emails, subject, html){
   const msg = {
     to: emails,
-    from: 'notifications@pillars.school',
+    from: 'Pillars - voor optimale ict-resultaten <notifications@pillars.school>',
     templateId: 'd-171972866e6348c5910fdbb3dca8f3ea',
     dynamic_template_data: {
       emailBody: html,
