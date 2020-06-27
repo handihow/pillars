@@ -2,47 +2,93 @@
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
 <% include ../partials/user-header %>
-
-    <div class="ui centered header"><i class="flag checkered icon"></i>Klaar met Invullen</div>
+<%var name='Medewerker'; var compareName= user.role == 'sadmin' || user.role == 'suser' ? 'School' : 'Bestuur';%>
+    <div class="ui centered header"><i class="flag checkered icon"></i>Klaar met invullen</div>
     <div class="ui divider"></div>
     <div class="ui segment">
-        <h4 class="ui header inline">
-          Je bent klaar met invullen. Wat nu?
-        </h4>
-        <p>
-            Nu je klaar bent met invullen van de vragenlijsten is het tijd om te bekijken op welke vlakken je jezelf kunt verbeteren. Analyseer je resultaten eventueel verder door op de knop rechts te klikken. Je ziet dan resultaten per deelgebied met daarbij de verdeling van cijfers binnen jouw organisatie.
-        <p>
-        <%comparingEntity = user.role==='sadmin' || user.role==='suser' ? 'de school' : 'het bestuur'%>
-
+        <%if(!surveys || surveys.filter(s => s.isActiveCompetenceSurvey).length===0){%>
+          <div class="ui placeholder segment">
+            <div class="ui icon header">
+              <i class="dont icon"></i>
+              Nog geen resultaten
+            </div>
+          </div>
+        <%} else {%>
+          <h4 class="ui header inline">
+            Je bent klaar met invullen. Wat nu?
+          </h4>
+          <%comparingEntity = user.role==='sadmin' || user.role==='suser' ? 'de school' : 'het bestuur'%>
+          <p>Het is tijd om te bekijken op welke vlakken je jezelf kunt verbeteren. Analyseer hieronder je resultaten op de verschillende hoofdonderdelen. Je ziet een grafiek per hoofdonderdeel met daarin jouw score. Ook zie je hoeveel je afwijkt van de gemiddelde score door naar het rode of groene pijltje en getal onder jouw eigen score te kijken. Deze is rood als je lager scoort dan het gemiddelde, en groen als je hoger scoort dan het gemiddelde, en toont het verschil tussen jouw score en de score van <%=comparingEntity%>.</p>
+          <p>
+            Je kunt ook nog verder inzoomen op deelgebieden met daarbij de verdeling van cijfers binnen jouw organisatie. Onder de grafiek staat verdere uitleg en informatie over de resultaten. Je ziet aan de rechterkant steeds een blauwe knop. Als je hierop klikt, ga je op dat hoofdonderdeel dieper inzoomen op de resultaten. Je ziet dan jouw score per deelgebied ten opzichte van <%=comparingEntity%>.
+          </p>
+        <%}%>
         <div class="ui divider"></div>
-        <div class="ui relaxed divided list">
+
         <% surveys.forEach(function(survey, index){ %>
+
             <%if(survey.isActiveCompetenceSurvey){ %>
-            <%difference=Math.round(Math.abs(results[index]['average']-results[index]['comparingAverage']))%>
-            <%differenceStr=results[index]['average']>results[index]['comparingAverage'] ? 'hoger' : 'lager'%>
-                  <div class="item">
-                    <div class="content">
-                      <h5><%= survey.competenceStandardTitle %></h5>
-                      <div class="description">
-                        <div class="right floated content">
-                            <a class="ui mini blue circular icon button" data-content="Analyseer resultaten"
-                                href="/survey/<%=survey._id%>/<%=user._id%>">
-                              <i class="bar chart icon"></i>
-                            </a>
+              <div class="ui segments">
+                  <%difference=Math.round(Math.abs(results[index]['average']-results[index]['comparingAverage']))%>
+                  <%differenceStr=results[index]['average']>results[index]['comparingAverage'] ? 'hoger' : 'lager'%>
+                  <div class="ui segment">
+                      <div class="ui stackable grid">
+                        <div class="six wide column">
+                          <h3 class="ui header"><%= survey.competenceStandardTitle %></h3>
                         </div>
-                        <div>
-                            <%=survey.competenceStandardTitle%>: <strong> <%=results[index]['average']%> % </strong>.
-                            Dit is <%=results[index]['difference']%> % <%=results[index]['differenceStr']%> dan het gemiddelde van <%=comparingEntity%> 
-                            (<%=results[index]['comparingCount']%> tests).
+                        <div class="ten wide column">
+                          <%var resultsUrl = null%>
+                          <div id="<%=index%>"></div>
                         </div>
-                        <div class="ui small basic pointing <%=results[index]['autoColor']%> label">
-                            <%=results[index]['autoAdvice']%>
+                      </div>
+                  </div>
+                  <div class="ui segment">
+                    <div class="ui stackable grid">
+                      <div class="three wide column">
+                        <div class="ui small statistic <%=results[index]['autoColor']%>">
+                          <div class="value">
+                            <%=results[index]['average']%>%
+                          </div>
+                          <div class="label">
+                            gem. <%=Math.round(results[index]['comparingAverage'])%>% <%=compareName%>
+                          </div>
                         </div>
+                      </div>
+                      <div class="twelve wide column">
+                          Je hebt 
+                          <%if(results[index].id){%>
+                            <a href="/survey/<%=results[index].id%>/result">deze antwoorden</a> 
+                          <%} else {%>
+                            de test
+                          <%}%>
+                            ingezonden op <%=survey.createdAt.toJSON().slice(0,10).split('-').reverse().join('/')%>. 
+                          Jouw resultaat op onderdeel <%=survey.competenceStandardTitle%> is <strong><%=results[index]['average']%>%</strong>.
+                            Dit is <%=results[index]['difference']%>% <%=results[index]['differenceStr']%> dan het gemiddelde van <%=comparingEntity%> 
+                            (<%=results[index]['comparingCount']%> tests). <%=results[index]['autoAdvice']%>. Klik op de blauwe knop aan de rechterkant om de deelgebieden op dit testonderdeel te analyseren.
+                      </div>
+                    
+                      <div class="one wide column">
+                          <a class="ui mini blue circular icon button" data-content="Analyseer resultaten"
+                              href="/survey/<%=survey._id%>/<%=user._id%>">
+                            <i class="bar chart icon"></i>
+                          </a>
                       </div>
                     </div>
                   </div>
+                </div>
               <%}%>
         <%});%>
+        <div id='nonactive-content'>
+          <div class="ui divider"></div>
+          <h3 class="ui header">Eerdere tests</h3>
+          <div class="ui stackable grid">
+            <%surveys.forEach(function(survey, index){%>
+                <%if(!survey.isActiveCompetenceSurvey){ %>
+                  <%var resultsUrl = null%>
+                  <% include ../partials/competence-chart/competence-chart %>
+                <%}%>
+            <%})%>
+          </div>
         </div>
         <div class="ui divider"></div>
         <p>Je kunt verder met zelfstudie of het indienen van een hulpverzoek.</p>
@@ -52,7 +98,13 @@
         <a class="ui yellow button right" href="https://pillars.school/zelfhulp" target="_blank">Zelfstudie</a>
 	    <a class="ui red button right" href="https://goo.gl/forms/YqHFDAMVY6DDGjrC3" target="_blank">Gesprek aanvragen</a>
 	    <a class="ui blue button right" href="/user/<%=user._id%>/evaluation">Evaluaties</a>
+      <%if(surveys && surveys.filter(s => s.isActiveCompetenceSurvey).length<surveys.length){%>
+       <input class="ui button" type='button' id='hideshow' value='Gearchiveerde tests'>
+      <%}%>
     </div>
+
+<div id="surveysInfo" hidden><%= JSON.stringify(surveys)%></div>
+<div id="resultsInfo" hidden><%= JSON.stringify(results)%></div>
     
 <% include ../partials/user-footer%>        
 <% include ../partials/footer %>

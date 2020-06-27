@@ -387,58 +387,152 @@ survey.calculateStatistics = function(survey, surveyResults){
 
 
 survey.digitalSkillsStudents = {
- "locale": "nl",
- "title": {
+"locale": "nl",
+"title": {
   "nl": "Digitale Geletterdheid"
- },
- "description": {
+},
+"description": {
   "nl": "Pillars vragenlijst voor leerlingen"
- },
- "pages": [
+},
+"pages": [
   {
-   "name": "wordprocessing",
+   "name": "PDGL",
    "elements": [
     {
      "type": "imagepicker",
-     "name": "DGIB-2TKST",
+     "name": "1DGIB-APPA",
+     "title": {
+      "default": "Wat kun jij met een tekstverwerker (Word / Google Docs / Pages)?",
+      "nl": "Zou je kunnen uitleggen wat deze apparaten doen?"
+     },
+     "choices": [
+      {
+       "value": "0",
+       "text": {
+        "default": "Ik gebruik nooit een tekstverwerker",
+        "nl": "mobiele telefoon / tablet / computer / laptop"
+       },
+       "imageLink": "https://ucarecdn.com/be9f79ca-eaac-462d-ab92-8d76e48f137a/1DGINAPPA_A.png"
+      },
+      {
+       "value": "0.33",
+       "text": {
+        "default": "Ik kan alleen tekst schrijven",
+        "nl": "+ printer, beamer, wifi router, modem"
+       },
+       "imageLink": "https://ucarecdn.com/1d039d84-c07c-460a-9589-421f6d528955/1DGINAPPA_B.png"
+      },
+      {
+       "value": "0.66",
+       "text": {
+        "default": "Ik kan opgemaakte tekst schrijven (bijvoorbeeld onderstrepen, vet)",
+        "nl": " + LAN netwerk, access point, firewall "
+       },
+       "imageLink": "https://ucarecdn.com/bb3598b2-4b6f-4deb-a55d-b0a2b0f9dc76/1DGINAPPA_C.png"
+      },
+      {
+       "value": "1",
+       "text": {
+        "default": "Ik kan een werkstuk maken met inhoudsopgave, tabellen en afbeeldingen",
+        "nl": "+ server, processor, SSD, RAM"
+       },
+       "imageLink": "https://ucarecdn.com/a4b3ddf6-866e-4870-915a-4d80b3717555/1DGINAPPA_D.png"
+      }
+     ],
+     "colCount": 2,
+     "imageHeight": 240,
+     "imageWidth": 320
+    },
+    {
+     "type": "imagepicker",
+     "name": "question2",
      "title": "Wat kun jij met een tekstverwerker (Word / Google Docs / Pages)?",
      "choices": [
       {
        "value": "0",
        "text": "Ik gebruik nooit een tekstverwerker",
-       "imageLink": "https://ucarecdn.com/385e7fb5-f000-4b2c-9a67-6c96e8efe7d8/IBIIWord_IBIIa.png"
+       "imageLink": "https://ucarecdn.com/a74c9f28-d8bb-4efb-a0b2-0584d0c85591/2DGIBTKST_a.png"
       },
       {
        "value": "0.33",
        "text": "Ik kan alleen tekst schrijven",
-       "imageLink": "https://ucarecdn.com/b37807f6-2781-4c88-bc0a-0e1bf9be7b17/IBIIWord_IBIIb.png"
+       "imageLink": "https://ucarecdn.com/f2500b7a-55a0-4b51-9433-c998556cb4a5/2DGIBTKST_b.png"
       },
       {
        "value": "0.66",
        "text": "Ik kan opgemaakte tekst schrijven (bijvoorbeeld onderstrepen, vet)",
-       "imageLink": "https://ucarecdn.com/d5bbc0a4-8438-4dac-b1db-8c9ffb703d51/IBIIWord_IBIIc.png"
+       "imageLink": "https://ucarecdn.com/4e2b743e-3d5b-4f1a-8e07-4fd15d10317f/2DGIBTKST_c.png"
       },
       {
        "value": "1",
        "text": "Ik kan een werkstuk maken met inhoudsopgave, tabellen en afbeeldingen",
-       "imageLink": "https://ucarecdn.com/2e30d016-2e4e-4b89-a8b2-13bb8cc6506a/IBIIWord_IBIId.png"
+       "imageLink": "https://ucarecdn.com/54748d89-a1e1-4b7b-8465-44d9658e2a2d/2DGIBTKST_d.png"
       }
      ],
      "colCount": 2,
      "imageHeight": 240,
-     "imageWidth": 320,
-     "showLabel": true
+     "imageWidth": 320
+    },
+    {
+     "type": "imagepicker",
+     "name": "3DGIB-SPRDSH",
+     "title": {
+      "default": "Wat kun jij met een tekstverwerker (Word / Google Docs / Pages)?",
+      "nl": "Wat kun jij met een spreadsheet (Excel / Google sheets)?"
+     },
+     "choices": [
+     {
+       "value": "0",
+       "text": {
+        "default": "Ik gebruik nooit een tekstverwerker",
+        "nl": "Ik gebruik nooit een spreadsheet"
+       },
+       "imageLink": "https://ucarecdn.com/553704b9-b8e0-4cb8-b554-0bc04e3963d0/3DGIBSPRDSH_a.png"
+      },
+      {
+       "value": "0.33",
+       "text": {
+        "default": "Ik kan alleen tekst schrijven",
+        "nl": "Ik kan een lijst maken in een platte tabel"
+       },
+       "imageLink": "https://ucarecdn.com/ab138044-4eea-4ef4-aef3-3379702349e4/3DGIBSPRDSH_b.png"
+      },
+      {
+       "value": "0.66",
+       "text": {
+        "default": "Ik kan opgemaakte tekst schrijven (bijvoorbeeld onderstrepen, vet)",
+        "nl": "Ik kan nette tabel maken met kopjes en getallen, en formule SOM"
+       },
+       "imageLink": "https://ucarecdn.com/4a77e7c0-cca6-4d69-97f4-a6aeedb4bef3/3DGIBSPRDSH_c.png"
+      },
+      {
+       "value": "1",
+       "text": {
+        "default": "Ik kan een werkstuk maken met inhoudsopgave, tabellen en afbeeldingen",
+        "nl": "Ik kan eendraaitabel met grafiek, VLOOKUP"
+       },
+       "imageLink": "https://ucarecdn.com/501cd8b3-60e4-4990-90a2-b668e8adf0aa/3DGIBSPRDSH_d.png"
+      }
+     ],
+     "colCount": 2,
+     "imageHeight": 240,
+     "imageWidth": 320
     }
    ],
-   "title": "Tekstverwerken",
+   "title": {
+    "default": "Tekstverwerken",
+    "nl": "Pillars Leerlingen Vragenlijst"
+   },
    "description": "Digitale Geletterdheid - ICT Basisvaardigheden"
   }
- ],
- "showTitle": false,
- "showPageTitles": false,
- "showQuestionNumbers": "off",
- "showProgressBar": "bottom"
-};
+],
+"showTitle": false,
+"showPageTitles": false,
+"showQuestionNumbers": "off",
+"showProgressBar": "bottom",
+"questionsOnPageMode": "questionPerPage"
+}
+;
 
 survey.ictSkills = {
  "locale": "nl",

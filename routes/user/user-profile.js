@@ -21,17 +21,40 @@ router.get("/", middleware.isLoggedIn, function(req, res){
 });
 
 
-//SHOW ROUTE - READY WITH FILLING QUESTIONS PAGE
-router.get("/ready", middleware.isLoggedIn, function(req, res){
-  User.findById(req.params.id, function(err, user){
+router.get("/surveys", middleware.isLoggedIn, function(req, res){
+  User.findById(req.params.id).populate("organisation").exec(function(err, user){
     if(err || !user){
       req.flash("error", err);
       res.redirect("back");
     } else {
+      SurveyResult.find({"user": user._id, "isCompetenceSurvey": true})
+      .populate("survey")
+      .sort({"createdAt" : -1})
+      .exec(function(err, surveyResults){
+        if(err){
+          req.flash("error", "Onbekende fout: " + err.message);
+          res.redirect("back");
+        } else {
+          var existingSurveySurveyResults = surveyResults.filter(sr => sr.survey && sr.survey._id);
+          res.locals.scripts.footer.dashboard = true;
+          res.render("user/surveys", {surveyResults: existingSurveySurveyResults, user: user});
+        }
+      });
+    }
+  });
+});
+
+//SHOW ROUTE - READY WITH FILLING QUESTIONS PAGE
+router.get("/ready", middleware.isLoggedIn, function(req, res){
+  User.findById(req.params.id, function(err, user){
+    if(err || !user){
+      req.flash("error", "Medewerker niet gevonden.");
+      res.redirect("back");
+    } else {
       Survey.find({
-        "organisation": user.organisation, 
-        "isCompetenceSurvey": true
-      }, async function(err, surveys){
+            "organisation": user.organisation, 
+            "isCompetenceSurvey": true
+      }).sort({ name: 1 }).exec(async function(err, surveys){
         let results = [];
         let filledSurveys = [];
         await asyncForEach(surveys, async function(survey, index){
@@ -56,64 +79,6 @@ router.get("/ready", middleware.isLoggedIn, function(req, res){
 });
 
 
-router.get("/surveys", middleware.isLoggedIn, function(req, res){
-  User.findById(req.params.id).populate("organisation").exec(function(err, user){
-    if(err || !user){
-      req.flash("error", err);
-      res.redirect("back");
-    } else {
-      SurveyResult.find({"user": user._id, "isCompetenceSurvey": true})
-      .populate("survey")
-      .sort({"createdAt" : -1})
-      .exec(function(err, surveyResults){
-        if(err){
-          req.flash("error", "Onbekende fout: " + err.message);
-          res.redirect("back");
-        } else {
-          var existingSurveySurveyResults = surveyResults.filter(sr => sr.survey && sr.survey._id);
-          res.locals.scripts.footer.dashboard = true;
-          res.render("user/surveys", {surveyResults: existingSurveySurveyResults, user: user});
-        }
-      });
-    }
-  });
-});
-
-//SHOW ROUTE
-router.get("/competence", middleware.isLoggedIn, function(req, res){
-  User.findById(req.params.id)
-  .exec(function(err, user){
-    if(err ||!user){
-      req.flash("error", "Medewerker niet gevonden.");
-      res.redirect("back");
-    } else {
-      Survey.find({
-        "organisation": user.organisation, 
-        "isCompetenceSurvey": true
-      }, async function(err, surveys){
-        let results = [];
-        let filledSurveys = [];
-        await asyncForEach(surveys, async function(survey, index){
-           let result = await retrieveUserSurveyResults(survey, user);
-           if(result.count > 0){
-             results.push(result);
-             filledSurveys.push(survey);
-           }
-           if(index==surveys.length-1){
-            res.locals.scripts.header.plotly = true;
-            res.locals.scripts.footer.competence = true;
-            res.render("user/competence", {
-              user: user, 
-              surveys: filledSurveys, 
-              results: results
-            })
-          }
-        });   
-      })        
-    }
-  });
-});
-
 async function asyncForEach(array, callback) {
   for (let index = 0; index < array.length; index++) {
     await callback(array[index], index, array);
@@ -128,7 +93,8 @@ function retrieveUserSurveyResults(survey, user){
           average: 0,
           comparingAverage: 0,
           count: 0,
-          comparingCount: 0
+          comparingCount: 0,
+          id: null
         });
       } else {
         var organisationSurveyResults = surveyResults.filter(sr => sr.user && sr.user._id);
@@ -165,7 +131,8 @@ function retrieveUserSurveyResults(survey, user){
           difference: difference,
           differenceStr: differenceStr,
           autoAdvice: autoAdvice,
-          autoColor: autoColor
+          autoColor: autoColor,
+          id: userSurveyResults && userSurveyResults[0] ? userSurveyResults[0]._id : null
         });
        }
     })

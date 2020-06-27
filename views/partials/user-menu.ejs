@@ -14,19 +14,12 @@
     <i class="tasks icon"></i>
     <span class="hide-mobile">Tests</span>
   </a>
-  
-  <a class="vertical item <%if(url==="/user/"+user._id+"/competence") { %> active <% } %>" 
-      href="/user/<%= user._id%>/competence" 
-      data-content="Deskundigheid">
-    <i class="certificate icon"></i>
-    <span class="hide-mobile">Deskundigheid</span>
-  </a>
 
   <a class="vertical item <%if(url==="/user/"+user._id+"/ready") { %> active <% } %>" 
       href="/user/<%= user._id %>/ready" 
       data-content="Advies">
     <i class="flag checkered icon"></i>
-    <span class="hide-mobile">Advies</span>
+    <span class="hide-mobile">Resultaten</span>
   </a>
 
   <a class="vertical item <%if(url==="/user/"+user._id+"/evaluation") { %> active <% } %>" 
