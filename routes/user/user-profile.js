@@ -46,6 +46,14 @@ router.get("/surveys", middleware.isLoggedIn, function(req, res){
 
 //SHOW ROUTE - READY WITH FILLING QUESTIONS PAGE
 router.get("/ready", middleware.isLoggedIn, function(req, res){
+  getUserReport(req, res, 'ready');
+});
+
+router.get("/pdf", middleware.isLoggedIn, function(req, res){
+  getUserReport(req, res, 'pdf');
+});
+
+function getUserReport(req, res, type){
   User.findById(req.params.id, function(err, user){
     if(err || !user){
       req.flash("error", "Medewerker niet gevonden.");
@@ -66,7 +74,8 @@ router.get("/ready", middleware.isLoggedIn, function(req, res){
            if(index==surveys.length-1){
             res.locals.scripts.header.plotly = true;
             res.locals.scripts.footer.competence = true;
-            res.render("user/ready", {
+            res.locals.scripts.footer.pdf = true;
+            res.render("user/" + type, {
               user: user, 
               surveys: filledSurveys, 
               results: results
@@ -76,7 +85,7 @@ router.get("/ready", middleware.isLoggedIn, function(req, res){
       })        
     }
   });
-});
+}
 
 
 async function asyncForEach(array, callback) {

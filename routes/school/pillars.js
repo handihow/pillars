@@ -9,7 +9,16 @@ var calcs = require("../../config/competence/survey")
 
 //SHOW ROUTE
 router.get("/", middleware.isSchoolOwner, function(req, res){
-    School.findById(req.params.id)
+    showResultsPillars(req, res, 'show');
+});
+
+//SHOW ROUTE
+router.get("/pdf", middleware.isSchoolOwner, function(req, res){
+  showResultsPillars(req, res, 'pdf');
+});
+
+function showResultsPillars(req, res, page){
+  School.findById(req.params.id)
       .populate("hardware")
       .populate("software")
       .populate("standard")
@@ -62,11 +71,12 @@ router.get("/", middleware.isSchoolOwner, function(req, res){
             var result = score.calculate(school, filteredSurveyResults);
             res.locals.scripts.footer.chartjs = true;
             res.locals.scripts.footer.pillars = true;
-            res.render("pillars/show", {school: school, result: result}); 
+            res.locals.scripts.footer.pdf = true;
+            res.render("pillars/" + page, {school: school, result: result}); 
           });                  
       }
   });
-});
+}
 
 function filterHardwareForPillarsScore(school){
   if(school.timeRange == '20172018'){
@@ -83,67 +93,6 @@ function filterSoftwareForPillarsScore(school){
     return school.software;
   }
 }
-
-//SHOW ROUTE
-router.get("/pdf", middleware.isSchoolOwner, function(req, res){
-    School.findById(req.params.id)
-      .populate("hardware")
-      .populate("software")
-      .populate("standard")
-      .populate("users")
-      .exec(async function(err, school){
-      if(err ||!school){
-          req.flash("error", "School niet gevonden.");
-          res.redirect("back");
-      } else if(!school.standard){
-            //check if the school has standard set up
-            return res.redirect("/schools/"+school.id+"/pillars/settings");
-      } else {
-          //filter hardware
-          school.hardware = filterHardwareForPillarsScore(school);
-          school.software = filterSoftwareForPillarsScore(school);
-          SurveyResult.find({isCompetenceSurvey: true}).populate("survey").exec(function(err, surveyResults){
-            if(err){
-              req.flash("error", "Probleem bij het vinden van testresultaten");
-              return res.redirect("back");
-            }
-            let schoolSurveyResults = [];
-            school.users.forEach(function(user){
-              if(user && user._id){
-                var filteredResults = surveyResults.filter(sr => sr.user._id.equals(user._id) );
-                schoolSurveyResults = schoolSurveyResults.concat(filteredResults);  
-              }
-            });
-            let calculatedSurveyResults = [];
-            schoolSurveyResults.forEach(function(result){
-              if(result.score){
-                calculatedSurveyResults.push(result);  
-              } else {
-                var resultToBeAnalyzed = [];
-                resultToBeAnalyzed.push(result);
-                var statistics = calcs.calculateStatistics(result.survey, resultToBeAnalyzed);
-                result.score = statistics[0].statistics[0] / 100;
-                calculatedSurveyResults.push(result);
-              }
-            });
-            var filteredSurveyResults = [];
-            if(school.timeRange=="20172018"){
-              filteredSurveyResults = calculatedSurveyResults.filter(r => r.createdAt >= new Date(2017, 8, 1) && r.createdAt <= new Date(2018, 7, 31))
-            } else if(school.timeRange=="20182019"){
-              filteredSurveyResults = calculatedSurveyResults.filter(r => r.createdAt >= new Date(2018, 8, 1) && r.createdAt <= new Date(2019, 7, 31))
-            } else if(school.timeRange=="20192020"){
-              filteredSurveyResults = calculatedSurveyResults.filter(r => r.createdAt >= new Date(2019, 8, 1) && r.createdAt <= new Date(2020, 7, 31))
-            } else {
-              filteredSurveyResults = calculatedSurveyResults;
-            }
-            var result = score.calculate(school, filteredSurveyResults);
-            res.locals.scripts.footer.chartjs = true;
-            res.locals.scripts.footer.pillars = true;
-            res.render("pillars/pdf", {school: school, result: result}); 
-          });                  
-      }
-  });
-});
 
 //EDIT PILLARS INSTELLINGEN ROUTE
 router.get("/settings", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){

@@ -3,7 +3,32 @@
 <% include ../partials/flash-message %>
 <% include ../partials/user-header %>
 <%var name='Medewerker'; var compareName= user.role == 'sadmin' || user.role == 'suser' ? 'School' : 'Bestuur';%>
-    <div class="ui centered header"><i class="flag checkered icon"></i>Klaar met invullen</div>
+     <div class="ui grid">
+      <div class="fourteen wide column">
+        <h2 class="ui header">
+          <%if(user.imageUrl){%>
+              <img 
+                class="ui image" 
+                src="<%=user.imageUrl %>">
+          <%}%>
+          <div class="content">
+            <% if(user.firstName && user.lastName){ %>
+              <%= user.firstName + ' ' + user.lastName %>
+            <% } else {%>
+              <%= user.username %>
+            <% } %>
+          </div>
+        </h2>
+      </div>
+      <div class="two wide column">
+        <h2 class="ui right aligned header">
+          <a href="/user/<%=user._id%>/pdf">
+          <i class="file pdf icon"></i>
+          </a>
+        </h2>
+      </div>
+    </div>
+
     <div class="ui divider"></div>
     <div class="ui segment">
         <%if(!surveys || surveys.filter(s => s.isActiveCompetenceSurvey).length===0){%>

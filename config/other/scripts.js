@@ -30,7 +30,8 @@ var scripts = {
 			hardwareanalytics: false,
 			hardwaresettings: false,
 			softwareanalytics: false,
-			tinymce: false
+			tinymce: false,
+			pdf: false
 		}
 };
 

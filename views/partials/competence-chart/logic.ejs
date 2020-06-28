@@ -3,6 +3,36 @@
 		
 		$('#nonactive-content').hide();
 
+		if($('#pdf__progress').length>0){
+	        $('#pdf__progress').hide(); 
+	    }
+
+	    $('#cmd').click(async function() {
+	        $('.buttons').hide();
+	        $('#pdf__progress').show();
+	        var pdf = new jsPDF('l', 'mm', 'a4', true);
+	        var pages = $(".pdf__page");
+	        $('#pdf__progress').progress({
+	          total: 1
+	        });
+	        for (var i = 0; i < pages.length; i++) {
+	          $('#pdf__progress').progress('increment');
+	          var canvas = await html2canvas(pages[i]);
+	          if(i>0){
+	              pdf.addPage();
+	          }
+	          var imgData = canvas.toDataURL('image/png');
+	          var imgProps= pdf.getImageProperties(imgData);
+	          var pdfWidth = pdf.internal.pageSize.getWidth();
+	          var pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+	          pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight, undefined, 'FAST');
+	        }
+	        pdf.save("Pillars Medewerkers Score Rapport.pdf");
+	        $('#pdf__progress').progress('increment');
+	        $('.buttons').show();
+	         $('#pdf__progress').hide();
+	    });
+
 		var surveysInfo = $( '#surveysInfo' ).text();
 
 		var surveys = JSON.parse(surveysInfo || '[]');
