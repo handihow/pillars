@@ -98,6 +98,8 @@
 <% if(scripts.footer.securityIncident){ %>
 	<% include ../securityIncident/logic %>
 <% } %>
-
+<% if(scripts.footer.useranalytics) {%>
+	<% include ../user/analytics %>
+<% } %>
 </body>
 </html>

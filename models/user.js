@@ -38,7 +38,11 @@ var UserSchema = new mongoose.Schema({
   }],
   dateOfBirth: Date,
   gender: String,
-  gradeLevelGroup: String
+  gradeLevelGroup: String,
+  technologyAdoption: String,
+  hardwareAdoption: String,
+  softwarePreference: String,
+  hardwarePreference: String
 }, { usePushEach: true, timestamps: true });
 
 UserSchema.pre('save', function(next) {

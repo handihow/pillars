@@ -1,0 +1,30 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<%if(userview==="school"){ %>
+  <% include ../partials/school-header %>
+<%} else if(userview==="organisation"){%>
+  <% include ../partials/organisation-header %>
+<%}%>
+<% include ./header %>
+
+<%if(users.length===0){%>
+<div class="ui placeholder segment">
+  <div class="ui icon header">
+    <i class="dont icon"></i>
+    Nog geen accounts
+  </div>
+</div>
+<%}%>
+
+<div id="analysis__container">
+	<div id="surveyResult"></div>
+</div>
+<div id="data" hidden><%=JSON.stringify(users)%></div>
+
+<%if(userview==="school"){ %>
+  <% include ../partials/school-footer %>
+<%} else if(userview==="organisation"){%>
+  <% include ../partials/organisation-footer %>
+<%}%>
+<% include ../partials/footer %>

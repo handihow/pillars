@@ -31,7 +31,8 @@ var scripts = {
 			hardwaresettings: false,
 			softwareanalytics: false,
 			tinymce: false,
-			pdf: false
+			pdf: false,
+			useranalytics: false
 		}
 };
 

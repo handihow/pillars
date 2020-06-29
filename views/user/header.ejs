@@ -13,6 +13,11 @@
         data-content="Kaarten">
         <i class="th icon"></i>
     </a>
+    <a class="ui <%if(url===("/schools/"+school._id+"/user/charts")){ %> active <%}%> button" 
+        href="/schools/<%=school._id%>/user/charts"
+        data-content="Grafieken">
+        <i class="chart pie icon"></i>
+    </a>
   </div>
   <div class="ui dropdown item">
       <a class="ui icon button" data-content="Accounts toevoegen"><i class="add icon"></i></a>
@@ -35,6 +40,11 @@
         href="/organisations/<%=organisation._id%>/org-user/cards" 
         data-content="Kaarten">
         <i class="th icon"></i>
+    </a>
+    <a class="ui <%if(url===("/organisations/"+organisation._id+"/org-user/charts")){ %> active <%}%> button" 
+        href="/organisations/<%=organisation._id%>/org-user/charts"
+        data-content="Grafieken">
+        <i class="chart pie icon"></i>
     </a>
   </div>
   <div class="ui dropdown item">

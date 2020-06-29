@@ -74,6 +74,30 @@
         <h4 class="content">Schoolleiding heeft inzage profiel</h4>
         <div class="content"><% if(user.publicProfile) {%>Ja <%} else {%> Nee <%}%></div>
       </div>
+      <%var technologyAdoptionArray = [{id: '0', description: 'Achterblijver'}, {id: '1', description: 'Achterloper'}, {id: '2', description: 'Voorloper'}, {id: '3', description: "Pionier"}, {id: '4', description: 'Innovator'}]; var tindex = -1%>
+      <%if(user.technologyAdoption){tindex = technologyAdoptionArray.findIndex(t => t.id === user.technologyAdoption)}%>
+      <div class="four wide column">
+        <h4 class="content">Adoptie nieuwe digitale technologieën</h4>
+        <div class="content"><%=tindex > -1 ? technologyAdoptionArray[tindex].description : '-'%></div>
+      </div>
+      <%var hardwareAdoptionArray = [{id: '0', description: 'Achterblijver'}, {id: '1', description: 'Achterloper'}, {id: '2', description: 'Voorloper'}, {id: '3', description: "Pionier"}, {id: '4', description: 'Innovator'}]; var hindex = -1%>
+      <%if(user.hardwareAdoption){hindex = hardwareAdoptionArray.findIndex(h => h.id === user.hardwareAdoption)}%>
+      <div class="four wide column">
+        <h4 class="content">Adoptie nieuwe hardware</h4>
+        <div class="content"><%=hindex > -1 ? hardwareAdoptionArray[hindex].description : '-'%></div>
+      </div>
+      <%var softwareArray = [{id: 'microsoft', description: 'Microsoft Office365 (Word, Excel, Powerpoint)'}, {id: 'google', description: 'Google G-Suite (Docs, Sheets, Presentaties)'}, {id: 'apple', description: "Apple iWorks (Pages, Numbers, Keynote)"}]; var swindex = -1%>
+      <%if(user.softwarePreference){swindex = softwareArray.findIndex(h => h.id === user.softwarePreference)}%>
+      <div class="four wide column">
+        <h4 class="content">Voorkeur kantoortoepassingen</h4>
+        <div class="content"><%=swindex > -1 ? softwareArray[swindex].description : '-'%></div>
+      </div>
+      <%var hardwareArray = [{id: 'tablet', description: 'Tablet'}, {id: 'chromebook', description: 'Chromebook'}, {id: 'laptop', description: "Laptop"}, {id: 'desktop', description: 'Desktop'}]; var hwindex = -1%>
+      <%if(user.hardwarePreference){hwindex = hardwareArray.findIndex(h => h.id === user.hardwarePreference)}%>
+      <div class="four wide column">
+        <h4 class="content">Voorkeur schooldevice</h4>
+        <div class="content"><%=hwindex > -1 ? hardwareArray[hwindex].description : '-'%></div>
+      </div>
     </div>
     <% if(currentUser._id.equals(user._id)) { %>
       <div class="ui divider"></div>

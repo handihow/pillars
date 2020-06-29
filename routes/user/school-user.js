@@ -39,6 +39,22 @@ router.get("/cards", middleware.isSchoolOwner, function(req, res){
     });
 });
 
+//INDEX - charts of users of the school
+router.get("/charts", middleware.isSchoolOwner, function(req, res){
+    School.findById(req.params.id)
+    .populate({path: 'users', options: { sort: { 'lastName': 'asc' } } })
+    .exec(function(err, school){
+        if(err || !school) {
+            req.flash("error", "School niet gevonden");
+            res.redirect("back");
+        } else {
+          res.locals.scripts.header.surveyanalytics = true;
+          res.locals.scripts.footer.useranalytics = true;
+          res.render("user/charts", {school: school, users: school.users, userview: "school"});
+        }
+    });
+});
+
 
 //NEW - form to create new school user
 router.get("/new", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){

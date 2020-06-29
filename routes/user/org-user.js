@@ -54,6 +54,30 @@ router.get("/cards", middleware.isLoggedIn, function(req, res){
     });
 });
 
+//CHARTS OF USERS
+router.get("/charts", middleware.isLoggedIn, function(req, res){
+    Organisation.findById(req.params.id, function(err, organisation){
+      if(err || !organisation){
+        res.flash('error', 'Probleem bij vinden van bestuur');
+        res.redirect('back')
+      } else {
+        User.find({"organisation": req.params.id})
+          .sort({'lastName': 'asc'})
+          .populate('school')
+          .exec(function(err, users){
+            if(err) {
+              req.flash("error", err.message);
+              res.redirect("back");
+            } else {
+              res.locals.scripts.header.surveyanalytics = true;
+              res.locals.scripts.footer.useranalytics = true;
+              res.render("user/charts", {users: users, organisation: organisation, userview: 'organisation'});        
+            }
+        });
+      }
+    });
+});
+
 //NEW - form to create new bestuur (organisation) user
 router.get("/new", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
     Organisation.findById(req.params.id, function(err, organisation){

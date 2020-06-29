@@ -1,0 +1,207 @@
+<script>
+
+	Survey
+	    .StylesManager
+	    .applyTheme("default");
+
+	 var userForm = 
+		{
+		 "pages": [
+		  {
+		   "name": "page1",
+		   "elements": [
+		    {
+		     "type": "radiogroup",
+		     "name": "role",
+		     "title": "Gebruikersrol",
+		     "choices": [
+		      {
+		       "value": "suser",
+		       "text": "School medewerker"
+		      },
+		      {
+		       "value": "sadmin",
+		       "text": "School admin"
+		      },
+		      {
+		       "value": "buser",
+		       "text": "Bestuur medewerker"
+		      },
+		      {
+		       "value": "badmin",
+		       "text": "Bestuur admin"
+		      }
+		     ],
+		     "hasOther": true
+		    },
+		    {
+		     "type": "radiogroup",
+		     "name": "gender",
+		     "title": "Geslacht",
+		     "choices": [
+		      {
+		       "value": "M",
+		       "text": "Man"
+		      },
+		      {
+		       "value": "V",
+		       "text": "Vrouw"
+		      }
+		     ]
+		    },
+		    {
+		     "type": "radiogroup",
+		     "name": "gradeLevelGroup",
+		     "title": "Bouw",
+		     "choices": [
+		      "Onderbouw",
+		      "Middenbouw",
+		      "Bovenbouw"
+		     ]
+		    },
+		    {
+		     "type": "boolean",
+		     "name": "isTeacher",
+		     "title": "Heeft lesgevende taken?",
+		     "labelTrue": "Ja",
+		     "labelFalse": "Nee"
+		    },
+		    {
+		     "type": "boolean",
+		     "name": "publicProfile",
+		     "title": "Geeft schoolleiding inzage in profiel?",
+		     "labelTrue": "Ja",
+		     "labelFalse": "Nee"
+		    },
+		    {
+		     "type": "radiogroup",
+		     "name": "technologyAdoption",
+		     "title": "Adoptie nieuwe digitale technologieën",
+		     "choices": [
+		      {
+		       "value": "0",
+		       "text": "Achterblijver"
+		      },
+		      {
+		       "value": "1",
+		       "text": "Achterloper"
+		      },
+		      {
+		       "value": "2",
+		       "text": "Voorloper"
+		      },
+		      {
+		       "value": "3",
+		       "text": "Pionier"
+		      },
+		      {
+		       "value": "4",
+		       "text": "Innovator"
+		      }
+		     ]
+		    },
+		    {
+		     "type": "radiogroup",
+		     "name": "hardwareAdoption",
+		     "title": "Adoptie nieuwe hardware",
+		     "choices": [
+		      {
+		       "value": "0",
+		       "text": "Achterblijver"
+		      },
+		      {
+		       "value": "1",
+		       "text": "Achterloper"
+		      },
+		      {
+		       "value": "2",
+		       "text": "Voorloper"
+		      },
+		      {
+		       "value": "3",
+		       "text": "Pionier"
+		      },
+		      {
+		       "value": "4",
+		       "text": "Innovator"
+		      }
+		     ]
+		    },
+		    {
+		     "type": "radiogroup",
+		     "name": "softwarePreference",
+		     "title": "Voorkeur kantoortoepassingen",
+		     "choices": [
+		      {
+		       "value": "microsoft",
+		       "text": "Microsoft Office365 (Word, Excel, Powerpoint)"
+		      },
+		      {
+		       "value": "google",
+		       "text": "Google G-Suite (Docs, Sheets, Presentaties)"
+		      },
+		      {
+		       "value": "apple",
+		       "text": "Apple iWorks (Pages, Numbers, Keynote)"
+		      }
+		     ]
+		    },
+		    {
+		     "type": "radiogroup",
+		     "name": "hardwarePreference",
+		     "title": "Voorkeur schooldevice",
+		     "choices": [
+		      {
+		       "value": "tablet",
+		       "text": "Tablet"
+		      },
+		      {
+		       "value": "chromebook",
+		       "text": "Chromebook"
+		      },
+		      {
+		       "value": "laptop",
+		       "text": "Laptop"
+		      },
+		      {
+		       "value": "desktop",
+		       "text": "Desktop"
+		      }
+		     ]
+		    }
+		   ]
+		  }
+		 ]
+		}
+		
+	window.survey = new Survey.SurveyModel(userForm);
+
+	var dataString = $( '#data' ).text();
+
+	var data = JSON.parse(dataString || '[]');
+
+	var normalizedData = data.map(function(item) {
+	    survey.getAllQuestions().forEach(function(q) {
+	      if (typeof item[q.name] === 'undefined') {
+	        item[q.name] = "";
+	      }
+	    });
+	    return item;
+	  });
+	
+    SurveyAnalytics.SelectBasePlotly.types = ["bar", "pie", "doughnut"];
+
+    SurveyAnalytics.VisualizerBase.customColors = [
+                    '#009fe3',
+                    '#e30613',
+                    '#f9b233',
+                    '#000001',
+                    '#12ac13',
+                ];
+
+	var visPanel = new SurveyAnalytics.VisualizationPanel(document.getElementById("surveyResult"), survey.getAllQuestions(), normalizedData, { allowDynamicLayout: false });
+	visPanel.render();
+
+	window.dispatchEvent(new Event('resize'));
+
+</script>

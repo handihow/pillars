@@ -145,6 +145,82 @@
             </div>
           </div>
         </div>
+        <div class="two fields">
+          <%var technologyAdoptionArray = [{id: '0', description: 'Ik gebruik ze liever niet'}, {id: '1', description: 'Ik wacht liever even af voordat ik deze technologieën ga gebruiken'}, {id: '2', description: "Ik gebruik ze alleen als ik duidelijke voordelen zie en doe dit in hetzelfde tempo als mijn collega's"}, {id: '3', description: "Ik probeer nieuwe technologieën uit zodra ik een paar keer heb gehoord dat een nieuwe tool handig is"}, {id: '4', description: 'Ik volg alle ontwikkelingen, doe mee met testfases/ontwikkeling van tools, ik loop voorop in gebruik en help met het invoeren'}]%>
+          <div class="field">
+              <label>Welke beschrijving is het meest op jou van toepassing bij het gebruik van nieuwe digitale technologieën (applicaties, websites, digitale tools)?</label>
+              <div class="ui selection dropdown">
+                  <input type="hidden" name="user[technologyAdoption]" id="dropdown" value="<%=user.technologyAdoption%>">
+                  <div class="text"><%=user.technologyAdoption%></div>
+                  <i class="dropdown icon"></i>
+                  <div class="menu">
+                      <%technologyAdoptionArray.forEach(item => {%>
+                        <div class="item <%if(user.technologyAdoption===item.id){%>active<%}%>"
+                            data-value="<%=item.id%>"
+                          <% if(user.technologyAdoption===item.id){ %> selected="" <% } %> >
+                              <%=item.description%>
+                        </div>
+                      <%})%>
+                  </div>
+              </div>
+          </div>
+          <%var hardwareAdoptionArray = [{id: '0', description: 'Ik gebruik liever geen (nieuwe) hardware'}, {id: '1', description: 'Ik wacht liever even af voordat ik nieuwe hardware ga gebruiken'}, {id: '2', description: "Ik gebruik nieuwe hardware alleen als ik duidelijke voordelen zie en loop daarmee in de pas met de meeste van mijn collega's"}, {id: '3', description: "Ik gebruik vrij vaak nieuwe hardware en ik word enthousiast van nieuwe telefoons, tablets en computers"}, {id: '4', description: 'Ik sta vooraan in de rij als er nieuwe mobiele telefoons, tablets of computers uitgebracht worden en ik volg alle ontwikkelingen op dit gebied'}]%>
+          <div class="field">
+              <label>Welke beschrijving is het meest op jou van toepassing bij het gebruik van nieuwe hardware (mobiele telefoons, tablets, computers)?</label>
+              <div class="ui selection dropdown">
+                  <input type="hidden" name="user[hardwareAdoption]" id="dropdown" value="<%=user.hardwareAdoption%>">
+                  <div class="text"><%=user.hardwareAdoption%></div>
+                  <i class="dropdown icon"></i>
+                  <div class="menu">
+                      <%hardwareAdoptionArray.forEach(item => {%>
+                        <div class="item <%if(user.hardwareAdoption===item.id){%>active<%}%>"
+                            data-value="<%=item.id%>"
+                          <% if(user.hardwareAdoption===item.id){ %> selected="" <% } %> >
+                              <%=item.description%>
+                        </div>
+                      <%})%>
+                  </div>
+              </div>
+          </div>
+        </div>
+        <div class="two fields">
+          <%var softwareArray = [{id: 'microsoft', description: 'Microsoft Office365 (Word, Excel, Powerpoint)'}, {id: 'google', description: 'Google G-Suite (Docs, Sheets, Presentaties)'}, {id: 'apple', description: "Apple iWorks (Pages, Numbers, Keynote)"}]%>
+          <div class="field">
+              <label>Welke leverancier van standaard kantoortoepassingen heeft jouw voorkeur voor schoolwerk?</label>
+              <div class="ui selection dropdown">
+                  <input type="hidden" name="user[softwarePreference]" id="dropdown" value="<%=user.softwarePreference%>">
+                  <div class="text"><%=user.softwarePreference%></div>
+                  <i class="dropdown icon"></i>
+                  <div class="menu">
+                      <%softwareArray.forEach(item => {%>
+                        <div class="item <%if(user.softwarePreference===item.id){%>active<%}%>"
+                            data-value="<%=item.id%>"
+                          <% if(user.softwarePreference===item.id){ %> selected="" <% } %> >
+                              <%=item.description%>
+                        </div>
+                      <%})%>
+                  </div>
+              </div>
+          </div>
+          <%var hardwareArray = [{id: 'tablet', description: 'Tablet'}, {id: 'chromebook', description: 'Chromebook'}, {id: 'laptop', description: "Laptop"}, {id: 'desktop', description: 'Desktop'}]%>
+          <div class="field">
+              <label>Welk device heeft jouw voorkeur voor schoolwerk?</label>
+              <div class="ui selection dropdown">
+                  <input type="hidden" name="user[hardwarePreference]" id="dropdown" value="<%=user.hardwarePreference%>">
+                  <div class="text"><%=user.hardwarePreference%></div>
+                  <i class="dropdown icon"></i>
+                  <div class="menu">
+                      <%hardwareArray.forEach(item => {%>
+                        <div class="item <%if(user.hardwarePreference===item.id){%>active<%}%>"
+                            data-value="<%=item.id%>"
+                          <% if(user.hardwarePreference===item.id){ %> selected="" <% } %> >
+                              <%=item.description%>
+                        </div>
+                      <%})%>
+                  </div>
+              </div>
+          </div>
+        </div>
     <button class="ui negative button" type="button" onclick="goBack()">Annuleren</button>
     <button class="ui primary button" type="submit">Bewaren</button>
     <div class="ui error message"></div>
