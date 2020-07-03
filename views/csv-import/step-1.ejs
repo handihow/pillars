@@ -1,0 +1,70 @@
+
+
+  <h2 class="ui header">
+    Upload csv file
+    <div class="sub header">Voeg <%=header%> lijst toe aan <%= school.name %> via csv bestand</div>
+  </h2>
+  <h4>Instructies</h4>
+  <div class="ui accordion">
+    <div class="title">
+      <i class="dropdown icon"></i>
+      Welke gegevens kun je importeren?
+    </div>
+    <div class="content">
+      <div>Je kunt de volgende gegevens importeren:</div> 
+      <ul class="list">
+        <%columns.forEach(column => {%>
+          <li class="item"><strong><%=column.description%></strong> (<%=column.data%>)</li>
+        <%})%>
+      </ul>
+    </div>
+    <div class="title">
+      <i class="dropdown icon"></i>
+      Excel of csv?
+    </div>
+    <div class="content">Je kunt geen Excel lijst uploaden maar alleen csv: bewaar jouw lijst als csv</div>
+    <div class="title">
+      <i class="dropdown icon"></i>
+      Hoe moeten de gegevens aangeleverd worden?
+    </div>
+    <div class="content">
+      <div>Je kunt het template voor aanleveren van gegevens downloaden via deze link.
+      Je krijgt het beste resultaat als je het template zo volledig mogelijk aanlevert en inclusief kolomhoofden bij iedere kolom.
+      Geef aan of de eerste rij van de lijst kolomhoofden bevat (of niet).</div>
+    </div>
+    <div class="title">
+      <i class="dropdown icon"></i>
+      Wat moet ik doen als ik het csv bestand heb gemaakt?
+    </div>
+    <div class="content">Kies het csv bestand bij "Upload de file" en ga dan door naar stap 2. Je kunt daar de kolommen uit jouw spreadsheet matchen met de informatie die in Pillars kan worden opgeslagen voor hardware. Je kunt in stap 2 ook standaardwaarden instellen voor kolommen die niet in jouw gegevens voorkomen. Zo kun je bijvoorbeeld het jaar van aanschaf of type hardware invullen voor alle hardware, mits deze natuurlijk allemaal van hetzelfde jaar of type zijn.</div>
+  </div>
+  <div class="ui divider"></div>
+   <form class="ui form" id="step1Form">
+    <div class="two fields">
+      <div class="required field">
+          <label>Eerste rij van de lijst</label>
+          <div class="ui selection dropdown">
+              <input type="hidden" name="firstRow" id="firstRowHasHeaders" value="true" required>
+              <div class="text">Eerste rij</div>
+              <i class="dropdown icon"></i>
+              <div class="menu">
+                  <div class="item" data-value="true">Eerste rij bevat kolomhoofden</div>
+                  <div class="item" data-value="false">De lijst bevat geen kolomhoofden</div>
+              </div>
+            </div>
+        </div>
+        <div class="required field">
+          <label>Upload de file</label>
+          <input type="file" name="file" accept=".csv" required id="fileUploader"/>
+        </div>
+      </div>
+      <button class="ui primary right labeled icon button disabled" type="button" id="submitStep1">
+        <i class="right arrow icon"></i>
+        Volgende stap
+      </button>
+    <div class="ui error message"></div>
+  </form>
+  <div class="ui divider"></div>
+  
+   
+    

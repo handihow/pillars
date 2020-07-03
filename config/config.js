@@ -1,6 +1,7 @@
 //import hardware configuration files
 var types = require('./hardware/types'); //hardware types that can be tracked
 var hardwareStandards =  require('./hardware/standards'); //hardware Pillars standards
+var hardwareColumns = require('./hardware/columns'); //hardware columns
 //import software configuration files
 var functionality = require('./software/functionality'); //software functionality
 var ratings = require('./software/ratings'); //software ratings
@@ -32,6 +33,7 @@ config.hardware.computers = types.computers();
 config.hardware.laptops = types.laptops();
 config.hardware.all = types.all();
 config.hardware.standards = hardwareStandards;
+config.hardware.columns = hardwareColumns;
 
 //software
 config.software = {};

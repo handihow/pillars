@@ -2,6 +2,10 @@
   overflow-x: auto;
 }
 
+#csvTableContainer {
+  overflow-x: auto;
+}
+
 .pdf__page {
   width: 1410px;
   height: 1000px;

@@ -1,0 +1,223 @@
+<% include ../partials/header %>
+<% include ../partials/main-menu %>
+<% include ../partials/flash-message %>
+<% include ../partials/school-header %>
+<%- include('../' +header +'/header')  %>
+<div class="ui ordered steps">
+	<div class="step" id="stepper1">
+	  <div class="content">
+	    <div class="title">Upload file</div>
+	    <div class="description">Upload csv file met gegevens</div>
+	  </div>
+	</div>
+	<div class="step" id="stepper2">
+	  <div class="content">
+	    <div class="title">Selecteer kolommen</div>
+	    <div class="description">Selecteer bij welke kolom de gegevens horen</div>
+	  </div>
+	</div>
+	<div class="step" id="stepper3">
+	  <div class="content">
+	    <div class="title">Bevestig import</div>
+	    <div class="description">Bekijk de gegevens en importeer</div>
+	  </div>
+	</div>
+</div>
+
+<div id="step1"><% include ./step-1 %></div>
+<div id="step2"><% include ./step-2 %></div>
+<div id="step3"><% include ./step-3 %></div>
+
+<div id="columnData" hidden><%=JSON.stringify(columns)%></div>
+
+<% include ../partials/school-footer %>
+<% include ../partials/footer %>
+
+<script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.2.0/papaparse.min.js"></script>
+
+<script>
+
+  var step = 1;
+  var results = null;
+  var itemsHidden = true;
+  var itemsToBeImported = [];
+
+  function changeStepVisibility(step){
+  	//set the active class on the current step and remove possible completed / disabled from the classes
+  	$('#stepper'+step).addClass('active');
+  	$('#stepper'+step).removeClass('completed');
+  	$('#stepper'+step).removeClass('disabled');
+
+  	[1,2,3].forEach(number=> {
+  		$('#step'+number).addClass('hidden');
+  		$('#step'+number).removeClass('visible');
+  	});
+  	$('#step'+step).removeClass('hidden');
+  	$('#step'+step).addClass('visible');
+  	$('.hidden').hide();
+  	$('.visible').show();
+
+  	switch(step) {
+	  case 2:
+	  	//set the stepper 1 to completed and remove active
+	    $('#stepper1').addClass('completed');
+	    $('#stepper1').removeClass('active');
+	    //set the stepper 3 to disabled and remove active
+	    $('#stepper3').addClass('disabled');
+	    $('#stepper3').removeClass('active');
+	    
+	    break;
+	  case 3:
+	    //set the stepper 1 to completed and remove active
+	    $('#stepper1').addClass('completed');
+	    $('#stepper1').removeClass('active');
+	    //set the stepper 2 to completed and remove active
+	    $('#stepper2').addClass('completed');
+	    $('#stepper3').removeClass('active');
+	    break;
+	  default:
+	  	//set the steppers 2 and 3 to disabled and non-active
+	    $('#stepper2').addClass('disabled');
+	    $('#stepper3').addClass('disabled');
+	    $('#stepper2').removeClass('active');
+	    $('#stepper3').removeClass('active');
+	}
+  }
+
+  function showOrHideItems(boolean){
+  	if(boolean){
+  	  $('.hidden__item').hide();
+      $('.moreItems').show();
+      $('.lessItems').hide();
+  	} else {
+  	  $('.hidden__item').show();
+      $('.lessItems').show();
+      $('.moreItems').hide();
+  	}
+  }
+
+
+  $(document).ready(function() {
+
+  	var columnText = $('#columnData').text();
+  	var columnData = JSON.parse(columnText);
+
+  	changeStepVisibility(step);
+
+  	$('#fileUploader').change(function(){
+  		$('#submitStep1').removeClass('disabled');
+  	})
+
+  	$('#submitStep1').click(function(){
+  		$('#fileUploader').parse({
+			config: {
+			  header: true,
+		      skipEmptyLines: 'greedy',
+		      complete: function(r, file) {
+				results = r;
+				if(results.errors){
+					$('#errorMessage').removeClass('hidden');
+					results.errors.forEach(function(err){
+						$('#errorList').append('<li>' + err.message + '- err. code' + err.code +'</li>');
+					});
+				}
+				columnData.forEach(function(column){
+    				if(results.meta.fields){
+    				  var dropdownValues = [];
+    				  var dataIndex = results.meta.fields.findIndex(f => f.toLowerCase().includes(column.short.toLowerCase()));
+                      results.meta.fields.forEach((item, index) => {
+                      	dropdownValues.push({
+                  			name: item,
+                  			value: item,
+                  			selected: dataIndex === index
+                  		})
+                      });
+                      $('#'+column.id)
+                      .dropdown({
+                      	values: dropdownValues, 
+                      	clearable: true,
+                      	onChange: function(value, text, $selectedItem) {
+					      // custom action
+					      $('#'+column.id+'__firstRowData').text(value ? results.data[0][value] : '-');
+					    }});
+                    }
+				});
+				$('.number__rows').text(results.data.length);
+				var columnInfoText = 'verschillende kolommen';
+				if(results.meta.fields){
+					columnInfoText = 'de kolomhoofden ' + results.meta.fields.join(', ');
+				}
+				$('#columnInformation').text(columnInfoText);
+				step = 2;
+				changeStepVisibility(step);
+				showOrHideItems(itemsHidden);
+			  }
+		    },
+			before: function(file, inputElem)
+			{
+				var hasHeaderRow = $('#firstRowHasHeaders').val() === 'true' ? true : false;
+				return {
+					action: "continue",
+					reason: "All well",
+					config: {
+						header: hasHeaderRow,
+					}
+				}
+			}
+		});
+  	});
+
+  	$('#backToStep1').click(function(){
+  		step = 1;
+  		changeStepVisibility(step);
+  	});
+
+    $('.moreItems').click(function(){
+      itemsHidden = false;
+      showOrHideItems(itemsHidden);
+    })
+
+    $('.lessItems').click(function(){
+      itemsHidden = true;
+      showOrHideItems(itemsHidden);
+    })
+
+    $('#submitStep2').click(function(){
+      var formData = $('#step2Form').serializeArray();
+      results.data.forEach(function(row, rowIndex){
+      	var newItem = {};
+      	var tableColumnHtml = '';
+      	columnData.forEach(function(column, columnIndex){
+	      	if(results.meta.fields){
+	      		newItem[column.id] = row[formData[columnIndex*2].value] && row[formData[columnIndex*2].value].length > 0 ? row[formData[columnIndex*2].value] : formData[columnIndex*2+1].value ? formData[columnIndex*2+1].value : '';
+	      		var addedHidden = column.hidden ? 'class="hidden__item"' : '';
+	      		tableColumnHtml += '<td ' + addedHidden + '>' + newItem[column.id] + '</td>'
+	      	}
+	      })
+      	itemsToBeImported.push(newItem);
+      	if(rowIndex < 10){
+      		$('#csvTableBody').append('<tr>' + tableColumnHtml + '</tr>')
+      	}
+      });
+      step = 3;
+      changeStepVisibility(step);
+      showOrHideItems(itemsHidden);
+    })
+
+    $('#backToStep2').click(function(){
+    	step = 2;
+    	changeStepVisibility(step);
+    	$('#csvTableBody').empty();
+    	showOrHideItems(itemsHidden);
+    	itemsToBeImported = [];
+    });
+
+    $('#importData').click(function(){
+    	console.log(itemsToBeImported);
+    })
+
+
+  });
+
+  
+</script>

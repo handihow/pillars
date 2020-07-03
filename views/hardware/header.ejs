@@ -23,14 +23,14 @@
 </div>
 <% if(!(currentUser.role==="suser")) { %>
   <div class="ui icon buttons">
-    <a class="ui <%if(url===("/schools/"+school._id+"/hardware/bulk")){ %> active <%}%> button" 
-        href="/schools/<%=school._id%>/hardware/bulk"
+    <a class="ui <%if(url===("/schools/"+school._id+"/hardware/csv-import")){ %> active <%}%> button" 
+        href="/schools/<%=school._id%>/hardware/csv-import"
         data-content="Upload lijst met hardware">
         <i class="upload icon"></i>
     </a>
     <a class="ui <%if(url===("/schools/"+school._id+"/hardware/download")){ %> active <%}%> button" 
         href="/schools/<%=school._id%>/hardware/download"
-        data-content="Download lijst met hardware">
+        data-content="Download Excel format lijst hardware">
         <i class="download icon"></i>
     </a>
     <a class="ui <%if(url===("/schools/"+school._id+"/hardware/settings")){ %> active <%}%> button" 

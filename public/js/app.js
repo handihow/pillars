@@ -43,6 +43,12 @@ $(document).ready(function() {
       $('.ui.dropdown').dropdown();
     }
 
+    if($('.ui.accordion').length > 0){
+      $('.ui.accordion')
+        .accordion()
+      ;
+    }
+
     if($('.menu .item').length > 0){
       //activating the tabs menu;
       $('.menu .item')
@@ -111,7 +117,7 @@ $(document).ready(function() {
       });
     }
 
-    if($("#resultsTable").length == 0 && $(".ui table").length > 0 ) {
+    if($("#resultsTable").length == 0 && $('#csvTable').length == 0 && $(".ui table").length > 0 ) {
 
       var urlParams = new URLSearchParams(window.location.search);
       var searchParam = ""

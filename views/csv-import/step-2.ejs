@@ -1,0 +1,86 @@
+<div class="ui hidden red message" id="errorMessage">
+  Er zijn fouten gevonden bij het importeren van het csv bestand:
+  <ul id="errorList"></ul>
+</div>
+<h2 class="ui header">
+  Match de kolommen
+  <div class="sub header">De volgende kolommen zijn gevonden in jouw file. Selecteer bij welke gegevens deze horen.</div>
+</h2>
+<h4>Verder met inladen van <span class="number__rows"></span> rijen</h4>
+<div class="ui accordion">
+  <div class="title">
+    <i class="dropdown icon"></i>
+    Kolommen matchen?
+  </div>
+  <div class="content">
+    <p>Jouw gegevens bevatten <span class="number__rows"></span> rijen gegevens met <span id="columnInformation"></span>.</p> 
+    <p>In deze stap match je de kolommen uit jouw csv bestand met de gegevens die verwacht worden en kunnen worden geimporteerd. Niet alle gegevens hoeven te worden geimporteerd. Als een veld verplicht is, staat dat erbij. Ook staat er per informatieveld welke soort gegevens er verwacht worden.</p>
+    <p>Pillars tracht om de kolomhoofden uit jouw bestand automatisch te matchen met het juiste informatieveld. Daarom staat er bij sommige velden misschien al een kolomhoofd geselecteerd. Controleer dit goed voordat je naar de volgende stap gaat.</p>
+  </div>
+  <div class="title">
+    <i class="dropdown icon"></i>
+    Standaardwaarde?
+  </div>
+  <div class="content">
+  <p>Je kunt bij ieder invoerveld van <%=header%> een standaardwaarde instellen. Deze standaardwaarde wordt gebruikt bij elk veld dat anders leeg zou zijn geweest. De standaardwaarde overschrijft geen gegevens uit jouw csv bestand, maar kan deze wel aanvullen.</p>
+  <p>Verplichte velden hebben al een standaardwaarde. Je kunt deze waarde wijzigen. Het is altijd raadzaam om voor verplichte invoervelden een standaardwaarde in te stellen, zodat je niet het risico loopt dat de gegevens niet worden bewaard omdat een verplicht veld ontbreekt.</p>
+  </div>
+</div>
+<div class="ui divider"></div>
+<form class="ui form" id="step2Form">
+  <div class="ui four column doubling grid">
+    <div class="row">
+      <div class="column"><h4 class="ui header">Invoerveld</h4></div>
+      <div class="column"><h4 class="ui header">Kolom uit jouw tabel</h4></div>
+      <div class="column"><h4 class="ui header">Standaardwaarde</h4></div>
+      <div class="column"><h4 class="ui header">Eerste rij uit jouw tabel</h4></div>
+    </div>
+  <%columns.forEach(column => { %>
+      <div class="row <%if(column.hidden){%>hidden__item<%}%>">
+        <div class="column">
+          <span data-tooltip="<%=column.data%> <%if(column.unit){%>in <%=column.unit%><%}%>"><i class="info circle icon"></i></span>
+          <%=column.description%>
+          <%if(column.required){%><span data-tooltip="Verplicht veld"><i class="red exclamation circle icon"></i></span><%} else if(column.conditionallyRequired){%><span data-tooltip="Verplicht voor <%=column.condition%>"><i class="yellow exclamation circle icon"></i></span><%}%>
+        </div> 
+        <div class="column">
+          <div class="ui fluid selection dropdown" id="<%=column.id%>">
+            <input type="hidden" name="<%=column.id%>__input">
+            <i class="dropdown icon"></i>
+            <div class="default text">Niet importeren</div>
+            <div class="menu"></div>
+          </div>
+        </div>
+        <div class="column">
+          <%if(column.hasStandardValue && column.standardValueFieldType === 'select'){%>
+            <div class="ui fluid selection dropdown">
+                <input type="hidden" name="<%=column.id%>__standardvalue" id="dropdown" value="<%=column.standardValue%>">
+                <div class="text">Selecteer standaardwaarde</div>
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                    <%column.standardValueOptions.forEach(item => {%>
+                      <div class="item" data-value="<%=item%>"><%=item%></div>
+                    <%})%>
+                </div>
+            </div>
+          <%} else if(column.hasStandardValue && column.standardValueFieldType === 'input'){%>
+            <input type="text" name="<%=column.id%>__standardvalue" value="<%=column.standardValue%>">
+          <%} else {%>
+            <input type="text" name="<%=column.id%>__standardvalue" placeholder="Standaard waarde">
+          <%}%>
+        </div>
+        <div class="column" id="<%=column.id%>__firstRowData"></div>
+      </div>
+  <%}) %>
+  </div>
+  <div class="ui divider"></div>
+  <div class="ui buttons">
+    <button class="ui left labeled icon button" id="backToStep1" type="button">
+      <i class="left arrow icon"></i>Vorige stap </button>
+    <button class="ui button moreItems" type="button">Toon meer velden</button>
+    <button class="ui button lessItems" type="button">Toon minder velden</button>
+    <button class="ui primary right labeled icon button" type="button" id="submitStep2">
+      <i class="right arrow icon"></i>
+      Volgende stap
+    </button>
+  </div>
+</form>

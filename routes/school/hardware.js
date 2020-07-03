@@ -4,8 +4,7 @@ var School = require("../../models/school");
 var Hardware = require("../../models/hardware");
 var config = require("../../config/config");
 var middleware = require("../../middleware");
-var csv = require("fast-csv");
-var json2csv = require("json2csv");
+var Papa = require('papaparse')
 var score = require("../../config/score");
 var mongoose = require("mongoose");
 var path = require('path');
@@ -147,40 +146,6 @@ router.get("/settings", middleware.isSchoolOwner, function(req, res){
  });
 });
 
-//DOWNLOAD ROUTE HARDWARE OVERVIEW SCHOLEN
-router.get("/download", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
-  School.findById(req.params.id)
-  .populate("hardware")
-  .exec(function(err, school){
-    if(err || !school) {
-      req.flash("error", err.message);
-      res.redirect("back");
-    } else {
-      var hardwareList = [];
-      school.hardware.forEach(function(hardware){
-        hardware.school = school.name;
-        hardwareList.push(hardware);
-      });
-      var fields = ['school', 'type', 'name', 'brand', 'model', 'serialTag', 
-      'processor', 'memory', 'deploymentYear','numberWorkPlacesMultipoint',
-      'isTouchscreenDigibord', 'screensizeDigibord', 'supplier', 'warranty'];
-      var fieldNames = ['School', 'Type', 'Naam', 'Merk', 'Model', 'Serial/Tag', 
-      'Processor', 'Werkgeheugen (GB)', 'Jaar ingebruikname', 'Aantal werkplekken (Multipoint)',
-      'is Touchscreen', 'Schermgrootte', 'Leverancier', 'Garantievorm'];
-      json2csv({ data: hardwareList, fields: fields, fieldNames: fieldNames }, function(err, csv) {
-        if(err){
-          req.flash("error", err.message);
-          res.redirect("back");
-        } else {
-          res.setHeader('Hardware-download', 'attachment; filename=hardware.csv');
-          res.set('Content-Type', 'text/csv');
-          res.status(200).send(csv);
-        }
-      });
-    }
-  });
-});
-
 //NEW - form to create new hardware
 router.get("/new/:mode", middleware.isSchoolOwner, function(req, res){
   School.findById(req.params.id, function(err, school){
@@ -198,13 +163,13 @@ router.get("/new/:mode", middleware.isSchoolOwner, function(req, res){
 });
 
 //BULK NEW - form to upload CSV FILE with hardware
-router.get("/bulk", middleware.isSchoolOwner, function(req, res){
+router.get("/csv-import", middleware.isSchoolOwner, function(req, res){
   School.findById(req.params.id, function(err, school){
     if(err || !school) {
       req.flash("error", "School niet gevonden");
       res.redirect("/schools");
     } else {
-      res.render("hardware/bulkupload", {school: school});        
+      res.render("csv-import/main", {school: school, columns: config.hardware.columns, header: 'hardware'});        
     }
   });
 });
@@ -228,44 +193,8 @@ router.get("/:hardware_id", middleware.isSchoolOwner, function(req, res){
  });
 });
 
-//BULK NEW - accepts file and renders the form to create new hardware in list
-router.post("/bulk", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
-  let delimiter = req.body.separation;
-  School.findById(req.params.id, function(err, school){
-    if(err || !school){
-      req.flash("error", "School niet gevonden");
-      res.redirect("back");
-    } else if (!req.files) {
-      req.flash("error", "Geen file geupload");
-      res.redirect("back");
-    } else if(req.files.file && req.files.file.name && path.extname(req.files.file.name) !== '.csv'){
-      req.flash("error", "Alleen csv files toegestaan.");
-      res.redirect("back");
-    } else {
-      var hardwareFile = req.files.file;
-      var hardware = [];
-      csv
-      .fromString(hardwareFile.data.toString(), {
-        headers: true,
-        ignoreEmpty: true,
-        delimiter: delimiter
-      })
-      .on("data", function(data){
-        hardware.push(data);
-      })
-      .on('error', error => {
-        req.flash("error", "Probleem bij uploaden file " + error);
-        return res.redirect("back");
-      })
-      .on("end", function(){
-        res.render("hardware/bulkupload2", {school: school, hardware: hardware});
-      });
-    }
-  });
-});
-
 //CREATE - creates new hardware in the database and links it to school from the bulk upload
-router.post("/bulk2", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
+router.post("/csv-import", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
  var newHardware = []
    //store all hardware from csv in the newHardware array
    req.body.hardware.forEach(function(hardware, i, a){

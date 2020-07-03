@@ -1,0 +1,53 @@
+<h2 class="ui header">
+  Controleer de gegevens
+  <div class="sub header">Controleer de gegevens in de tabel en ga eventueel terug naar een vorige stap</div>
+</h2>
+<h4>Verder met inladen van <span class="number__rows"></span> rijen</h4>
+<div class="ui accordion">
+  <div class="title">
+    <i class="dropdown icon"></i>
+    Gegevens controleren?
+  </div>
+  <div class="content">
+    <p>Jouw gegevens bevatten <span class="number__rows"></span> rijen gegevens die zijn gematcht met invoervelden van <%=header%>. Wellicht heb je ook standaardwaarden voor bepaalde invoervelden insteld.</p> 
+    <p>In de tabel hieronder zie je hoe de gegevens uiteindelijk in Pillars opgenomen worden. Is dit niet het resultaat dat je verwachtte? Ga dan terug naar de vorige stap en controleer daar alle gegevens.</p>
+    <p>Als je tevreden bent met de tabel, dan kun je de gegevens definitief importeren.</p>
+  </div>
+  <div class="title">
+    <i class="dropdown icon"></i>
+    Maar maximaal 10 rijen?
+  </div>
+  <div class="content">
+  <p>Ik heb een bestand met veel meer rijen. Toch zie ik maar maximaal 10 rijen. Hoe kan dat?</p>
+  <p>Geen zorgen. We hebben <span class="number__rows"></span> rijen gegevens gevonden in de file. Deze gegevens worden allemaal geimporteerd. Echter, om deze pagina overzichtelijk te houden, laten we alleen de eerste 10 rijen zien. Je kunt met de eerste 10 rijen prima controleren of de import succesvol wordt.</p>
+  </div>
+</div>
+<div class="ui divider"></div>
+
+<div id="csvTableContainer">
+  <table class="ui celled small table" id="csvTable">
+      <thead>
+        <tr>
+          <%columns.forEach(column => { %>
+            <th class="<%if(column.hidden){%>hidden__item<%}%>"><%=column.description%></th>
+          <% }) %>
+        </tr>
+      </thead>
+      <tbody id="csvTableBody"></tbody>
+  </table>
+</div>
+<div class="ui divider"></div>
+<div class="ui buttons">
+  <button class="ui left labeled icon button" id="backToStep2" type="button">
+    <i class="left arrow icon"></i>Vorige stap </button>
+  <button class="ui button moreItems" type="button">Toon meer kolommen</button>
+  <button class="ui button lessItems" type="button">Toon minder kolommen</button>
+  <button class="ui primary right labeled icon button" type="button" id="importData">
+    <i class="right arrow icon"></i>
+    Importeer gegevens
+  </button>
+</div>
+
+
+
+
