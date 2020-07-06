@@ -1,8 +1,15 @@
 <% include ../partials/header %>
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
-<% include ../partials/school-header %>
-<%- include('../' +header +'/header')  %>
+
+<%if(typeof school !== 'undefined'){%>
+  <% include ../partials/school-header %>
+  <%- include('../' +header +'/header')  %>
+<%} else if(typeof organisation !== 'undefined'){%>
+  <% include ../partials/organisation-header %>
+  <%- include('../overview/' + header +'-header')  %>
+<%}%>
+
 <div class="ui ordered steps">
 	<div class="step" id="stepper1">
 	  <div class="content">
@@ -38,7 +45,14 @@
   </div>
 </div>
 
-<% include ../partials/school-footer %>
+<div id="organisationData" hidden><%=typeof organisation !== 'undefined' ? 'true' : 'false'%></div>
+
+<%if(typeof school !== 'undefined'){%>
+  <% include ../partials/school-footer %>
+<%} else if(typeof organisation !== 'undefined'){%>
+  <% include ../partials/organisation-footer %>
+<%}%>
+
 <% include ../partials/footer %>
 
 <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.2.0/papaparse.min.js"></script>
@@ -109,6 +123,9 @@
 
   	var columnText = $('#columnData').text();
   	var columnData = JSON.parse(columnText);
+
+    var hasOrganisationText = $('#organisationData').text();
+    var hasOrganisation = hasOrganisationText === "true" ? true : false;
 
   	$('.clearable.ui.selection.dropdown')
 	  .dropdown({

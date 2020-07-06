@@ -16,7 +16,7 @@
 
 <div class="ui relaxed divided list">
 	<div class="item">
-		<% if(currentUser.firstName && currentUser.lastName){%>
+		<% if(currentUser.firstName && currentUser.lastName && currentUser.firstName.length > 0 && currentUser.lastName.length > 0){%>
 	  		<i class="check green icon"></i>
         <div class="content">
           Voornaam en achternaam ingevuld
@@ -53,6 +53,25 @@
         </div>
     <%}%>
   </div>
+  <div class="item">
+    <% if(currentUser.technologyAdoption && currentUser.technologyAdoption.length > 0 && currentUser.softwarePreference && currentUser.softwarePreference.length > 0){%>
+        <i class="check green icon"></i>
+        <div class="content">
+          Voorkeuren en adoptieprofiel ingevuld
+          <div class="description">
+            <a href="/user/<%=currentUser._id%>">Bekijk je profiel</a>
+          </div>
+        </div>
+    <%} else {%>
+        <i class="edit outline icon"></i>
+        <div class="content">
+          Voorkeuren en adoptieprofiel helpen bij het maken beslissingen over hardware & digitale leermiddelen. 
+          <div class="description">
+            <a href="/user/<%=currentUser._id%>/edit">Bewerk je profiel</a> als je deze informatie wilt invullen. Dit is optioneel.
+          </div> 
+        </div>
+    <%}%>
+  </div>
 </div>
 
 
@@ -67,7 +86,10 @@
     <p>Bij het invullen van deskundigheidstests worden automatisch je naam en email adres gedeeld met de schoolleiding. Als je hiertegen bezwaar hebt, geef dit dan aub door aan jouw directie.</p>
 
     <h4>Profielinformatie</h4>
-    <p>Op jouw profiel worden gegevens gevraagd betreffende bijvoorbeeld jouw functie, jouw algemene taak binnen de school (onderwijzend of ondersteuned) en je leeftijd. Deze gegevens zijn nuttig bij het analyseren van de deskundigheidstests. Je kunt op jouw profielpagina deze gegevens invullen en ook aangeven of je deze gegevens wilt delen.</p>
+    <p>Op jouw profiel worden gegevens gevraagd betreffende bijvoorbeeld jouw functie, jouw algemene taak binnen de school (onderwijzend of ondersteuned) en je leeftijd. Deze gegevens zijn nuttig bij het analyseren van de deskundigheidstests. Je kunt op jouw profielpagina deze gegevens invullen en ook aangeven of je deze gegevens wilt delen met de schoolleiding.</p>
+
+    <h4>Voorkeuren en adoptieprofiel</h4>
+    <p>Op jouw profiel worden nu jouw voorkeuren gevraagd voor software van algemene kantoortoepassingen (bijvoorbeeld Microsoft Office) en devices (bijvoorbeeld laptop). Ook vragen we of je graag met nieuwe digitale leermiddelen en hardware devices werkt of iets afwachtender bent met het uitproberen van nieuwe dingen. Jouw antwoorden zijn niet goed of slecht, maar het helpen wel bij het bepalen van toekomstig beleid en het analyzeren van enquêtes. Het invullen van deze informatie is optioneel.</p>
 
   </div>
   <div class="actions">

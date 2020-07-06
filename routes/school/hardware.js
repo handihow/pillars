@@ -142,8 +142,7 @@ router.get("/settings", middleware.isSchoolOwner, function(req, res){
      req.flash("error", "School niet gevonden.");
      res.redirect("/schools");
    } else {
-     res.locals.scripts.footer.hardwaresettings = true;
-     res.render("hardware/settings", {school: school});
+     res.render("hardware/settings", {school: school, settings: config.hardware.types});
    }
  });
 });

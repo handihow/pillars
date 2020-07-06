@@ -1,15 +1,33 @@
 <% include ../partials/header %>
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
-<% include ../partials/school-header %>
-<%- include('../' +header +'/header')  %>
+<%if(typeof school !== 'undefined'){%>
+  <% include ../partials/school-header %>
+  <%- include('../' +header +'/header')  %>
+<%} else if(typeof organisation !== 'undefined'){%>
+  <% include ../partials/organisation-header %>
+  <%- include('../overview/' + header +'-header')  %>
+<%}%>
 
 <div class="ui segment">
+
+  <div class="ui placeholder segment" id="loader">
+    <div class="ui active inverted dimmer">
+      <div class="ui text loader">Laden..</div>
+    </div>
+    <p></p>
+  </div>
+  <div class="ui visible info message">
+    <p><strong>Tip!</strong> Je kunt nu de tabel bewerken als een spreadsheet, dus direct in de cellen! Ook kun je meerdere rijen selecteren en dan invulvelden voor alle rijen tegelijk updaten.</p>
+  </div>
   <div id="tableContainer">
     <table class="ui celled small table" id="dynamicTable">
         <thead>
           <tr>
             <th></th>
+            <%if(typeof organisation !== 'undefined'){%>
+              <th></th>
+            <%}%>
             <%columns.forEach(column => { %>
               <th></th>
             <% }) %>
@@ -25,8 +43,13 @@
 <div id="itemsData" hidden><%=JSON.stringify(items)%></div>
 <div id="warningRowData" hidden><%=JSON.stringify(hasWarningRow)%></div>
 <div id="headerData" hidden><%=header%></div>
+<div id="organisationData" hidden><%=typeof organisation !== 'undefined' ? 'true' : 'false'%></div>
 
-<% include ../partials/school-footer %>
+<%if(typeof school !== 'undefined'){%>
+  <% include ../partials/school-footer %>
+<%} else if(typeof organisation !== 'undefined'){%>
+  <% include ../partials/organisation-footer %>
+<%}%>
 <% include ../partials/footer %>
 
 <script>
@@ -44,6 +67,9 @@
     var hasWarningRowText = $('#warningRowData').text();
     var hasWarningRow = hasWarningRowText === "true" ? true : false;
 
+    var hasOrganisationText = $('#organisationData').text();
+    var hasOrganisation = hasOrganisationText === "true" ? true : false;
+
     var header = $('#headerData').text();
 
     var urlParams = new URLSearchParams(window.location.search);
@@ -58,7 +84,22 @@
         className: 'select-checkbox',
         orderable: false
     }];
+
     var fields = [];
+
+    if(hasOrganisation){
+      tableColumns.push({
+        data: 'schoolName',
+        sTitle: 'Instellingsnaam',
+        className: 'disabled',
+        bVisible: true
+      });
+      fields.push({
+        label: 'Instellingsnaam',
+        name: 'schoolName',
+        type: "readonly"
+      })
+    }
     
     columnData.forEach(function(column){
       tableColumns.push({
@@ -92,7 +133,8 @@
     if(hasWarningRow){
       tableColumns.push({
         data: 'warning',
-        sTitle: 'Waarschuwing'
+        sTitle: 'Waarschuwing',
+        className: 'disabled',
       });
       fields.push({
         label: 'Waarschuwing',
@@ -215,6 +257,8 @@
         columns: tableColumns,
         data: itemsData,
      });
+
+    $('#loader').hide();
 
   });
 

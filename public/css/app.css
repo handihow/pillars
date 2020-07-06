@@ -1,3 +1,15 @@
+.DTE_Inline.ui.form input {
+    border: none;
+    background-color: transparent;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 90%;
+}
+
+.DTE_Inline.ui.form input:focus {
+    outline: none;
+    background-color: transparent;
+}
 
 .enable_horizontal_scroll{
   overflow-x: auto;

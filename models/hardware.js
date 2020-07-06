@@ -30,7 +30,8 @@ var hardwareSchema = mongoose.Schema (
         school: {
               type:   mongoose.Schema.Types.ObjectId,
               ref: "School"
-            }
+            },
+        schoolName: {type: String, default: ''}
     }, { usePushEach: true }
 );
 

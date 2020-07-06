@@ -1,6 +1,6 @@
 <div class="card">
   <div class="content">
-    <div class="header"><%= user.firstName ? user.firstName : user.username %> <%=user.lastName %></div>
+    <div class="header"><%= user.firstName && user.firstName.length > 0 ? user.firstName : user.username %> <%=user.lastName %></div>
     <div class="meta user-info <%=index%>">
       <span>
           <%if(user.updatedAt){%>

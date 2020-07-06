@@ -28,7 +28,6 @@ var scripts = {
 			competence: false,
 			securityIncident: false,
 			hardwareanalytics: false,
-			hardwaresettings: false,
 			softwareanalytics: false,
 			tinymce: false,
 			pdf: false,

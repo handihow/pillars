@@ -83,6 +83,7 @@ router.get("/hardware/list", middleware.isAuthenticatedBadmin, function(req, res
                     req.flash("error", err.message);
                     res.redirect("back");
                 } else {
+                    var items = [];
                     schools.forEach(function(school){
                         school.hardware.forEach(function(hardware){
                             if(school.standard){
@@ -95,12 +96,21 @@ router.get("/hardware/list", middleware.isAuthenticatedBadmin, function(req, res
                                 hardware.isDepreciated = true;
                                 hardware.warning = "Apparaat is te oud";
                             }
+                            hardware.schoolName = school.name;
+                            items.push(hardware);
                         }
                     });
                     });
                     res.locals.scripts.header.datatables = true;
                     res.locals.scripts.footer.datatables = true;
-                    res.render("overview/hardware-list", {schools: schools, organisation: organisation});         
+                    res.render("table-view/index", {
+                        schools: schools, 
+                        organisation: organisation,
+                        items: items, 
+                        columns: config.hardware.columns,
+                        header: 'hardware',
+                        hasWarningRow: true
+                    });         
                 }
             })
         };
