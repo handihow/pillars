@@ -4,7 +4,7 @@
 </div>
 <h2 class="ui header">
   Match de kolommen
-  <div class="sub header">De volgende kolommen zijn gevonden in jouw file. Selecteer bij welke gegevens deze horen.</div>
+  <div class="sub header">Er zijn kolommen zijn gevonden in jouw file. Selecteer bij welke gegevens deze horen.</div>
 </h2>
 <h4>Verder met inladen van <span class="number__rows"></span> rijen</h4>
 <div class="ui accordion">
@@ -52,7 +52,7 @@
         </div>
         <div class="column">
           <%if(column.hasStandardValue && column.standardValueFieldType === 'select'){%>
-            <div class="ui fluid selection dropdown">
+            <div class="ui fluid clearable selection dropdown">
                 <input type="hidden" name="<%=column.id%>__standardvalue" id="dropdown" value="<%=column.standardValue%>">
                 <div class="text">Selecteer standaardwaarde</div>
                 <i class="dropdown icon"></i>

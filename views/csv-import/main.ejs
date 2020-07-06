@@ -29,6 +29,14 @@
 <div id="step3"><% include ./step-3 %></div>
 
 <div id="columnData" hidden><%=JSON.stringify(columns)%></div>
+<div class="ui modal" id="successHandler">
+  <div class="header">Resultaat csv import</div>
+  <div class="content" id="successHandler__content"></div>
+  <div class="actions">
+    <div class="ui approve button">Naar <%=header%></div>
+    <div class="ui cancel button" id="successHandler__cancel">Probeer nogmaals</div>
+  </div>
+</div>
 
 <% include ../partials/school-footer %>
 <% include ../partials/footer %>
@@ -102,6 +110,12 @@
   	var columnText = $('#columnData').text();
   	var columnData = JSON.parse(columnText);
 
+  	$('.clearable.ui.selection.dropdown')
+	  .dropdown({
+	    clearable: true
+	  })
+	;
+
   	changeStepVisibility(step);
 
   	$('#fileUploader').change(function(){
@@ -114,16 +128,18 @@
 			  header: true,
 		      skipEmptyLines: 'greedy',
 		      complete: function(r, file) {
+		      	console.log(r);
 				results = r;
-				if(results.errors){
+				if(results.errors && results.errors.length>0){
 					$('#errorMessage').removeClass('hidden');
+					$('#errorMessage').addClass('visible');
 					results.errors.forEach(function(err){
 						$('#errorList').append('<li>' + err.message + '- err. code' + err.code +'</li>');
 					});
 				}
 				columnData.forEach(function(column){
+    				var dropdownValues = [];
     				if(results.meta.fields){
-    				  var dropdownValues = [];
     				  var dataIndex = results.meta.fields.findIndex(f => f.toLowerCase().includes(column.short.toLowerCase()));
                       results.meta.fields.forEach((item, index) => {
                       	dropdownValues.push({
@@ -132,7 +148,15 @@
                   			selected: dataIndex === index
                   		})
                       });
-                      $('#'+column.id)
+                    } else {
+                       results.data[0].forEach((item, index) => {
+                      	dropdownValues.push({
+                  			name: 'Kolom ' + String.fromCharCode(index+65),
+                  			value: index,
+                  		})
+                      });
+                    }
+                    $('#'+column.id)
                       .dropdown({
                       	values: dropdownValues, 
                       	clearable: true,
@@ -140,7 +164,6 @@
 					      // custom action
 					      $('#'+column.id+'__firstRowData').text(value ? results.data[0][value] : '-');
 					    }});
-                    }
 				});
 				$('.number__rows').text(results.data.length);
 				var columnInfoText = 'verschillende kolommen';
@@ -188,11 +211,11 @@
       	var newItem = {};
       	var tableColumnHtml = '';
       	columnData.forEach(function(column, columnIndex){
-	      	if(results.meta.fields){
-	      		newItem[column.id] = row[formData[columnIndex*2].value] && row[formData[columnIndex*2].value].length > 0 ? row[formData[columnIndex*2].value] : formData[columnIndex*2+1].value ? formData[columnIndex*2+1].value : '';
-	      		var addedHidden = column.hidden ? 'class="hidden__item"' : '';
-	      		tableColumnHtml += '<td ' + addedHidden + '>' + newItem[column.id] + '</td>'
-	      	}
+	      	newItem[column.id] = row[formData[columnIndex*2].value] && row[formData[columnIndex*2].value].length > 0 ? row[formData[columnIndex*2].value] : formData[columnIndex*2+1].value ? formData[columnIndex*2+1].value : '';
+	      	var addedHidden = column.hidden ? '" hidden__item"' : '';
+      		var addedNegative = column.required && newItem[column.id].length === 0 ? '" negative"' : ''; 
+      		var addedWarning = column.conditionallyRequired && newItem[column.id].length === 0 ? '" warning"' : ''; 
+      		tableColumnHtml += '<td class=' + addedHidden + addedNegative + addedWarning + '>' + newItem[column.id] + '</td>'
 	      })
       	itemsToBeImported.push(newItem);
       	if(rowIndex < 10){
@@ -213,7 +236,31 @@
     });
 
     $('#importData').click(function(){
-    	console.log(itemsToBeImported);
+    	$.ajax({
+    		url: "/schools/<%=school._id%>/<%=header%>/csv-import",
+    		type: 'post',
+    		dataType: 'json',
+    		data: {
+    			items: JSON.stringify(itemsToBeImported)
+    		},
+    		success: function(data){
+    			if(data.success){
+    				$('#successHandler__cancel').hide();
+    				$('#successHandler__content').append("<p>Gelukt! " + data.message + " Ga verder om je gegevens te bekijken.</p>");
+    			} else {
+    				$('#successHandler__content').append("<p>Er ging iets mis... " + data.message + ". Ga verder om de import wizard af te sluiten. Probeer nogmaals als je in de wizard wilt blijven.</p>");
+    			}
+    			$('#successHandler').modal({
+    				closable: false,
+    				onDeny: function(){
+    					$('#successHandler').modal('hide');
+    				},
+    				onApprove: function(){
+    				    window.location.href = "/schools/<%=school._id%>/<%=header%>";
+    				}
+    			}).modal('show');
+    		}
+    	})
     })
 
 

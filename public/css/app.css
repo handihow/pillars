@@ -1,8 +1,9 @@
+
 .enable_horizontal_scroll{
   overflow-x: auto;
 }
 
-#csvTableContainer {
+#tableContainer {
   overflow-x: auto;
 }
 

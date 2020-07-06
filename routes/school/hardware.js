@@ -35,13 +35,15 @@ router.get("/list", middleware.isLoggedIn, function(req, res){
       res.redirect("back");
     } else {
       calculateHardwareStatus(school);
-      res.locals.scripts.header.surveyjs = true;
-      res.locals.scripts.footer.surveyjs = true;
-      res.locals.scripts.footer.surveyOptions = true;
-      res.locals.scripts.footer.hardware = true;
       res.locals.scripts.header.datatables = true;
       res.locals.scripts.footer.datatables = true;
-      res.render("hardware/index-list", {school: school, mode: 'inline', formsCSS: config.formsCSS});        
+      res.render("table-view/index", {
+        school: school, 
+        items: school.hardware, 
+        columns: config.hardware.columns,
+        header: 'hardware',
+        hasWarningRow: true
+      });        
     }
   });
 });
@@ -169,7 +171,12 @@ router.get("/csv-import", middleware.isSchoolOwner, function(req, res){
       req.flash("error", "School niet gevonden");
       res.redirect("/schools");
     } else {
-      res.render("csv-import/main", {school: school, columns: config.hardware.columns, header: 'hardware'});        
+      res.render("csv-import/main", {
+        school: school, 
+        columns: config.hardware.columns, 
+        header: 'hardware',
+        link: 'https://pillars.school/wp-content/uploads/2020/07/Pillars-csv-import-model-voor-hardware.xlsx'
+      });        
     }
   });
 });
@@ -195,23 +202,24 @@ router.get("/:hardware_id", middleware.isSchoolOwner, function(req, res){
 
 //CREATE - creates new hardware in the database and links it to school from the bulk upload
 router.post("/csv-import", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
- var newHardware = []
+   var newHardwareItems = JSON.parse(req.body.items);
+   var newHardware = [];
    //store all hardware from csv in the newHardware array
-   req.body.hardware.forEach(function(hardware, i, a){
+   newHardwareItems.forEach(function(hardware, i, a){
     if(!hardware.type){hardware.type="Desktop"}
-      hardware.owner = req.user._id;
+    hardware.owner = req.user._id;
+    hardware.school = req.params.id;
     newHardware.push(hardware);
   });
    //store the newHardware array to the database
    Hardware.collection.insert(newHardware, function(err, result){
     if(err){
-      req.flash("error", err.message)
+      res.json({success: false, message: err.message});
     } else {
       //find the school
       School.findById(req.params.id, function(err, school){
        if(err) {
-         req.flash("error", "School niet gevonden");
-         res.redirect("back");
+         res.json({success: false, message: "School niet gevonden"});
        } else {
             //store the ids of the hardware in an array
             var hardwareIds = result.ops.map(function(o){return String(o._id)});
@@ -222,11 +230,9 @@ router.post("/csv-import", middleware.isNotDemoAccount, middleware.isSchoolOwner
             //then save the school
             school.save(function(err){
               if(err){
-                req.flash("error", err.message);
-                res.redirect("back");
+                res.json({success: false, message: err.message});
               } else {
-                req.flash("success", "Hardware succesvol toegevoegd!");
-                res.redirect("/schools/"+school._id+"/hardware");
+                res.json({success: true, message: "Hardware succesvol toegevoegd!"});                
               }
             });
           }

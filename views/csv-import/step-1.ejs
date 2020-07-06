@@ -11,26 +11,32 @@
       Welke gegevens kun je importeren?
     </div>
     <div class="content">
-      <div>Je kunt de volgende gegevens importeren:</div> 
+      <p>Je kunt de volgende gegevens importeren:</p> 
       <ul class="list">
         <%columns.forEach(column => {%>
           <li class="item"><strong><%=column.description%></strong> (<%=column.data%>)</li>
         <%})%>
       </ul>
+      <p>Je kunt Excel gebruiken voor het samenstellen van de lijst <%=header%>. Het template voor aanleveren van gegevens downloaden via <a href="<%=link%>" target=_blank>deze link</a>. In het template staan alle velden die je kunt importeren als kolomhoofden.
     </div>
     <div class="title">
       <i class="dropdown icon"></i>
       Excel of csv?
     </div>
-    <div class="content">Je kunt geen Excel lijst uploaden maar alleen csv: bewaar jouw lijst als csv</div>
+    <div class="content">
+      <p>Je kunt geen Excel lijst uploaden maar alleen csv: bewaar jouw lijst als csv.</p>
+      <p>Je kunt wel Excel gebruiken voor het samenstellen van de lijst <%=header%>. Het template voor aanleveren van gegevens downloaden via <a href="<%=link%>" target=_blank>deze link</a>.
+      <p>Als je klaar bent met het invullen van het Excel template, kun je het bestand exporteren als csv bestand en uploaden via deze csv wizard.</p>
+    </div>
     <div class="title">
       <i class="dropdown icon"></i>
       Hoe moeten de gegevens aangeleverd worden?
     </div>
     <div class="content">
-      <div>Je kunt het template voor aanleveren van gegevens downloaden via deze link.
+      <p>Je kunt het template voor aanleveren van gegevens downloaden via <a href="<%=link%>" target=_blank>deze link</a>.
       Je krijgt het beste resultaat als je het template zo volledig mogelijk aanlevert en inclusief kolomhoofden bij iedere kolom.
-      Geef aan of de eerste rij van de lijst kolomhoofden bevat (of niet).</div>
+      Geef aan of de eerste rij van de lijst kolomhoofden bevat (of niet).</p>
+      <p>Als je klaar bent met het invullen van het Excel template, kun je het bestand exporteren als csv bestand en uploaden via deze csv wizard.</p>
     </div>
     <div class="title">
       <i class="dropdown icon"></i>

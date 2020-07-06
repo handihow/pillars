@@ -21,15 +21,26 @@
   <p>Ik heb een bestand met veel meer rijen. Toch zie ik maar maximaal 10 rijen. Hoe kan dat?</p>
   <p>Geen zorgen. We hebben <span class="number__rows"></span> rijen gegevens gevonden in de file. Deze gegevens worden allemaal geimporteerd. Echter, om deze pagina overzichtelijk te houden, laten we alleen de eerste 10 rijen zien. Je kunt met de eerste 10 rijen prima controleren of de import succesvol wordt.</p>
   </div>
+  <div class="title">
+    <i class="dropdown icon"></i>
+    Gekleurde cellen?
+  </div>
+  <div class="content">
+  <p>Verplichte velden die leeg zijn, worden deze rood gekleurd. Dit zal tot problemen leiden bij de definitieve import.</p>
+  <p>Velden die conditioneel verplicht zijn, en zijn leeggelaten, worden deze oranje gekleurd. Dit hoeft niet altijd tot problemen te leiden. Controleer deze velden goed.</p>
+  </div>
 </div>
 <div class="ui divider"></div>
 
-<div id="csvTableContainer">
-  <table class="ui celled small table" id="csvTable">
+<div id="tableContainer">
+  <table class="ui celled small table" id="dynamicTable">
       <thead>
         <tr>
           <%columns.forEach(column => { %>
-            <th class="<%if(column.hidden){%>hidden__item<%}%>"><%=column.description%></th>
+            <th class="<%if(column.hidden){%>hidden__item<%}%>">
+              <%if(column.required){%><span data-tooltip="Verplicht veld" data-position="bottom left"><i class="red exclamation circle icon"></i></span><%} else if(column.conditionallyRequired){%><span data-tooltip="Verplicht voor <%=column.condition%>" data-position="bottom left"><i class="yellow exclamation circle icon"></i></span><%}%>
+              <%=column.description%>
+            </th>
           <% }) %>
         </tr>
       </thead>

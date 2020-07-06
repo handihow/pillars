@@ -58,9 +58,15 @@ var indexRoutes = require("./routes/index");
 //ROUTES API CALLS
 var emailApiRoutes = require('./routes/api/emails');
 var chartVisibilityRoutes = require('./routes/api/chartvisibility');
+var tableEditorRoutes = require("./routes/api/tableeditor");
 
 //DATABASE CONNECTION
-mongoose.connect(process.env.DATABASEURL, {retryWrites: false});
+mongoose.connect(process.env.DATABASEURL, {
+  retryWrites: false, 
+  useFindAndModify: false,
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 //APP CONFIG
 app.set("view engine", "ejs");
@@ -205,6 +211,7 @@ app.use("/organisations/:id/survey", surveyOrganisationRoutes);
 //ROUTES TO API CALLS
 app.use("/api/emails", emailApiRoutes);
 app.use("/api/chartvisibility", chartVisibilityRoutes);
+app.use("/api/tableeditor", tableEditorRoutes);
 //ROUTES RELATED TO PILLARS ADMIN
 app.use("/organisations", adminOrganisationRoutes);
 app.use("/admin/schools", adminSchoolRoutes);

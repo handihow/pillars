@@ -117,7 +117,7 @@ $(document).ready(function() {
       });
     }
 
-    if($("#resultsTable").length == 0 && $('#csvTable').length == 0 && $(".ui table").length > 0 ) {
+    if($("#resultsTable").length == 0 && $('#dynamicTable').length == 0 && $(".ui table").length > 0 ) {
 
       var urlParams = new URLSearchParams(window.location.search);
       var searchParam = ""

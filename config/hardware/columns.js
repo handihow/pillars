@@ -65,7 +65,7 @@ var columns = [
 	{
 		id: 'deploymentYear', 
 		description: 'Jaar ingebruikname',
-		short: "Jaar ingebruikname",
+		short: "Jaar",
 		data: "geheel getal",
 		hidden: false,
 		required: true,
@@ -73,6 +73,17 @@ var columns = [
 		standardValueFieldType: 'input',
 		standardValue: new Date().getFullYear().toString(),
 	}, 
+	{
+		id: 'operatingSystem', 
+		description: 'Besturingssysteem',
+		short: "Besturingssysteem",
+		data: "tekstveld",
+		hidden: true,
+		hasStandardValue: true,
+		standardValueFieldType: 'select',
+		standardValue: '-',
+		standardValueOptions: ['Microsoft Windows', 'Apple iOS', "Google's Android OS", "Apple macOS", "Chrome OS", "Linux Operating System", "-", "Anders, nl."]
+	},
 	{
 		id: 'supplier', 
 		description: 'Leverancier',
@@ -105,7 +116,7 @@ var columns = [
 	{
 		id: 'depreciationPeriod', 
 		description: 'Afschrijvingsperiode',
-		short: "Afschrijvingsperiode",
+		short: "Afschrijving",
 		data: "geheel getal",
 		unit: 'jaar',
 		hidden: false,
@@ -128,16 +139,31 @@ var columns = [
 		description: 'Is touchscreen digibord',
 		short: 'Touchscreen',
 		data: 'ja/nee',
-		hidden: true
+		hidden: true,
+		hasStandardValue: true,
+		standardValueFieldType: 'select',
+		standardValue: 'false',
+		standardValueOptions: ['true', 'false']
 	},
 	{
 		id: 'screensizeDigibord',
 		description: 'Scherm diagonaal digibord',
-		short: "Schermafmeting",
+		short: "Scherm diagonaal",
 		data: 'geheel getal',
 		unit: 'inch',
 		hidden: true
-	}
+	},
+	{
+		id: 'functionsAs', 
+		description: 'Functie device',
+		short: "Functie device",
+		data: "tekstveld",
+		hidden: true,
+		hasStandardValue: true,
+		standardValueFieldType: 'select',
+		standardValue: 'Leerling device',
+		standardValueOptions: ['Leerling device', 'Medewerker device', "Directie device"]
+	},
 ];
 
 module.exports = columns;
