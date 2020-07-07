@@ -180,25 +180,6 @@ router.get("/csv-import", middleware.isSchoolOwner, function(req, res){
   });
 });
 
-//SHOW individual hardware records
-router.get("/:hardware_id", middleware.isSchoolOwner, function(req, res){
- School.findById(req.params.id).populate("hardware").exec(function(err, school){
-   if(err || !school){
-     req.flash("error", "School niet gevonden");
-     res.redirect("back");
-   } else {
-     Hardware.findById(req.params.hardware_id).exec(function(err, hardware){
-       if(err || !hardware){
-         req.flash("error", "Hardware niet gevonden");
-         res.redirect("back");
-       } else {
-         res.render("hardware/show", {hardware: hardware, school: school});
-       }
-     });
-   }
- });
-});
-
 //CREATE - creates new hardware in the database and links it to school from the bulk upload
 router.post("/csv-import", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
    var newHardwareItems = JSON.parse(req.body.items);
@@ -366,99 +347,5 @@ router.put("/settings", middleware.isNotDemoAccount, middleware.isSchoolOwner, f
  });
 });
 
-//EDIT displays a form to edit hardware record
-router.get("/:hardware_id/edit", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req,res){
- School.findById(req.params.id, function(err, school){
-   if(err || !school){
-     req.flash("error", "School niet gevonden");
-     res.redirect("back");
-   } else {
-     Hardware.findById(req.params.hardware_id, function(err, hardware){
-       if(err || !hardware){
-         req.flash("error", "Hardware niet gevonden");
-         res.redirect("back");
-       } else {
-         res.locals.scripts.header.surveyjs = true;
-         res.locals.scripts.footer.surveyjs = true;
-         res.locals.scripts.footer.surveyOptions = true;
-         res.locals.scripts.footer.hardware = true;
-         res.render("hardware/edit", {hardware: hardware, school: school, mode: 'long', formsCSS: config.formsCSS});
-       }
-     });
-   }
- });
-});
-
-//UPDATE route to store edited hardware to database
-router.post("/:hardware_id", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
- var hardware = JSON.parse(req.body.result);
- if(hardware.warning){
-   delete hardware.warning;
- }
- if(hardware.isDepreciated){
-   delete hardware.isDepreciated;
- }
- Hardware.findByIdAndUpdate(req.params.hardware_id, hardware, function(err, hardware){
-   if(err || !hardware){
-     res.contentType('json');
-     res.send({ 
-        success: false, 
-        error: 'Foutmelding: hardware niet geupdated. Server geeft fout: ' + err.message 
-      });
-   } else {
-     req.flash("success", "Hardware succesvol geupdated!");
-     res.contentType('json');
-     res.send({ 
-          success: true
-        }); 
-   }
- }); 
-});
-
-//DESTROY route to delete hardware from database
-router.delete("/delete-all", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
-  School.findById(req.params.id, function(err, school){
-    if(err || !school) {
-      req.flash("error", "School niet gevonden");
-      res.redirect("back");
-    } else {
-      var promises = [];
-      for (var i = 0; i < school.hardware; i++) {
-        promises.push(new Promise(function(resolve, reject) {
-            Hardware.findByIdAndRemove(school.hardware[i], function(err){
-             if(err){
-               reject(err);
-             } else {
-               resolve(true);
-             }
-           });
-        }));
-      }
-      Promise.all(promises)
-      .then( _ => {
-         school.hardware = [];
-         school.save();
-         req.flash("success", "Alle hardware verwijderd");
-         res.redirect("/schools/" + req.params.id + "/hardware/");
-      }, err => {
-         req.flash("error", "Probleem bij verwijderen hardware " + err && err.message ? err.message : '');
-         res.redirect("back");
-      });
-    }
-  }); 
-});
-
-//DESTROY route to delete hardware from database
-router.delete("/:hardware_id", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
- Hardware.findByIdAndRemove(req.params.hardware_id, function(err){
-   if(err){
-     req.flash("error", "Hardware niet gevonden");
-     res.redirect("back");
-   } else {
-     req.flash("success", "Hardware verwijderd");
-     res.redirect("/schools/" + req.params.id + "/hardware/");
-   }
- }); 
-});
 
 module.exports = router;

@@ -18,12 +18,13 @@
     <p></p>
   </div>
   <div class="ui visible info message">
-    <p><strong>Tip!</strong> Je kunt nu de tabel bewerken als een spreadsheet, dus direct in de cellen! Ook kun je meerdere rijen selecteren en dan invulvelden voor alle rijen tegelijk updaten.</p>
+    <p><strong>Tip!</strong> Je kunt nu de tabel bewerken als een spreadsheet, dus direct in de cellen! Ook kun je meerdere rijen selecteren en dan invulvelden voor alle rijen tegelijk updaten. Bij 'zichtbare kolommen' kun je nog meer kolommen in de tabel tonen.</p>
   </div>
   <div id="tableContainer">
     <table class="ui celled small table" id="dynamicTable">
         <thead>
           <tr>
+            <th></th>
             <th></th>
             <%if(typeof organisation !== 'undefined'){%>
               <th></th>
@@ -61,8 +62,16 @@
     var columnText = $('#columnData').text();
     var columnData = JSON.parse(columnText);
 
+    var header = $('#headerData').text();
+
     var itemsText = $('#itemsData').text();
     var itemsData = JSON.parse(itemsText);
+
+    itemsData.forEach(function(item){
+        item.link = '<a href="/' + header + '/' + item._id + '">Bekijk</a>'
+    })
+
+    console.log(itemsData);
 
     var hasWarningRowText = $('#warningRowData').text();
     var hasWarningRow = hasWarningRowText === "true" ? true : false;
@@ -70,22 +79,33 @@
     var hasOrganisationText = $('#organisationData').text();
     var hasOrganisation = hasOrganisationText === "true" ? true : false;
 
-    var header = $('#headerData').text();
-
     var urlParams = new URLSearchParams(window.location.search);
     var searchParam = ""
     if(urlParams.has('type')){
       searchParam = urlParams.get('type')
     }
 
-    var tableColumns = [{
-        data: null,
-        defaultContent: '',
-        className: 'select-checkbox',
-        orderable: false
-    }];
+    var tableColumns = [
+      {
+          data: null,
+          defaultContent: '',
+          className: 'select-checkbox',
+          orderable: false
+      },
+      {
+          data: 'link',
+          sTitle: 'Record',
+          className: 'selectable',
+          orderable: false,
+          bVisible: true
+      }
+    ];
 
-    var fields = [];
+    var fields = [{
+      label: 'Bekijk',
+      name: 'link',
+      type: 'readonly'
+    }];
 
     if(hasOrganisation){
       tableColumns.push({
@@ -146,6 +166,12 @@
     editor = new $.fn.dataTable.Editor( {
         table: "#dynamicTable",
         idSrc:  '_id',
+        ajax: {
+          url: '/api/tableeditor',
+          data: {
+            collectionId: header
+          }
+        },
         fields: fields,
         i18n: {
             edit: {
@@ -174,16 +200,6 @@
         editor.inline( this, {
           onBlur: 'submit'
         } );
-    });
-
-    editor.on('preSubmit', function(e, data, action){
-          data.collectionId = header;
-          console.log(action);
-          $.ajax({
-            url: '/api/tableeditor',
-            type: action === 'edit' ? 'PUT' : 'DELETE',
-            data: data
-          })
     });
 
     var dataTableSettings = {
