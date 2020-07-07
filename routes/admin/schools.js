@@ -40,19 +40,54 @@ router.post("/new", middleware.isPadmin, function(req, res){
   let zoekveld = req.body.zoekveld; 
   var url;
   var secondarySchool;
-  if(zoekcriterium==0){
-    url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=36dc8898-d47d-45d4-91bf-b4c3354b0f7a&q=" +
-    zoekveld;
-    secondarySchool = false;
-  } else if(zoekcriterium==1) {
-    url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=0ef58768-45a0-4c0a-8b4e-a4e11e8bb6eb&q=" +
-    zoekveld;
-    secondarySchool = true;
-  } else {
-    url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=ad50c90b-6a1c-4702-83db-30285ff02482&q=" +
-    zoekveld;
-    secondarySchool = false;
-  }
+  var packageId;
+  var packageIndex;
+  request('https://onderwijsdata.duo.nl/api/3/action/package_list', function(error, response, body){
+    if(!error && response.statusCode == 200){
+      var responseBody = JSON.parse(body);
+      if(zoekcriterium==0){
+        packageIndex = responseBody.result.findIndex(r => r.toLowerCase().includes('adres') && r.toLowerCase().includes('bo'));
+        secondarySchool = false;
+      } else if(zoekcriterium==1) {
+        packageIndex = responseBody.result.findIndex(r => r.toLowerCase().includes('adres') && r.toLowerCase().includes('vo'));
+        secondarySchool = true;
+      } else {
+        packageIndex = responseBody.result.findIndex(r => r.toLowerCase().includes('adres') && r.toLowerCase().includes('so'));
+        secondarySchool = false;
+      }
+      if(packageIndex > -1){
+         request('https://onderwijsdata.duo.nl/api/3/action/package_show?id='+ responseBody.result[packageIndex], function(error, response, body){
+          if(!error && response.statusCode == 200){
+            var packageResponseBody = JSON.parse(body);
+            if(packageResponseBody.result && packageResponseBody.result.resources && Array.isArray(packageResponseBody.result.resources)){
+              var resourceIndex = packageResponseBody.result.resources.findIndex(resource => resource.name.toLowerCase().includes('vestigingen'));
+              if(resourceIndex > -1){
+                url = "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=" + packageResponseBody.result.resources[resourceIndex].id + "&q=" +
+                zoekveld;
+                console.log(url);
+                findSchoolInformation(url, secondarySchool, req, res);
+              } else {
+                req.flash("error", "Geen resource gevonden met de zoekterm 'vestigingen' gevonden");
+                res.redirect("back");
+              }
+            }
+          } else {
+            req.flash("error", "Probleem bij het aanroepen van package met id " + responseBody.result[packageIndex] + '. Error is ' + error);
+            res.redirect("back");
+          }
+        })
+      } else {
+        req.flash("error", "Geen package gevonden op de DUO API");
+        res.redirect("back");
+      }
+    } else {
+      req.flash("error", "Probleem bij het aanroepen van DUO API om package ids te zoeken. Error is " + error);
+      res.redirect("back");
+    }
+  });
+});
+
+function findSchoolInformation(url, secondarySchool, req, res){
   request(url, function (error, response, body) {
     if(!error && response.statusCode == 200){
       var schools = JSON.parse(body).result.records;
@@ -75,7 +110,7 @@ router.post("/new", middleware.isPadmin, function(req, res){
       res.redirect("back");
     }
   });
-});
+}
 
 //CREATE ROUTE
 router.post("/", middleware.isPadmin, function(req, res){
