@@ -35,9 +35,11 @@
           <td><%=results[i].total.software.toFixed(2)%></td>
           <td><%=results[i].total.competence.toFixed(2)%></td>
           <td><%=results[i].total.management.toFixed(2)%></td>
-          <td><a class="ui mini primary basic button" href="/schools/<%=school._id%>/pillars">Bekijk</a></td>
-          <td><a class="ui mini positive basic button" href="<%=results[i].link%>" 
-                <%if(results[i].link!=="#"){%>target="_blank"<%}%>>Rapport</a></td>
+          <td class="selectable">
+            <a href="/schools/<%=school._id%>/pillars">Bekijk</a></td>
+          <td class="selectable">
+            <a href="/schools/<%=school._id%>/pillars/pdf">Rapport</a>
+          </td>
         </tr>
     <% }) %>
   </tbody>

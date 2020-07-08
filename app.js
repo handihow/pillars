@@ -61,6 +61,7 @@ var indexRoutes = require("./routes/index");
 var emailApiRoutes = require('./routes/api/emails');
 var chartVisibilityRoutes = require('./routes/api/chartvisibility');
 var tableEditorRoutes = require("./routes/api/tableeditor");
+var hardwareBudgetRoutes = require("./routes/api/hardwarebudget");
 
 //DATABASE CONNECTION
 mongoose.connect(process.env.DATABASEURL, {
@@ -217,6 +218,7 @@ app.use("/organisations/:id/survey", surveyOrganisationRoutes);
 app.use("/api/emails", emailApiRoutes);
 app.use("/api/chartvisibility", chartVisibilityRoutes);
 app.use("/api/tableeditor", tableEditorRoutes);
+app.use("/api/hardwarebudget", hardwareBudgetRoutes);
 //ROUTES RELATED TO PILLARS ADMIN
 app.use("/organisations", adminOrganisationRoutes);
 app.use("/admin/schools", adminSchoolRoutes);

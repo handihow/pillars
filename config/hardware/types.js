@@ -7,7 +7,8 @@ types.types = [
             track: true,
             isComputer: true,
             isLaptop: false,
-            isAll: true
+            isAll: true, 
+            defaultPrice: 520
         },
         {
             singular: "Multipoint computer",
@@ -15,7 +16,8 @@ types.types = [
             track: true,
             isComputer: true,
             isLaptop: false,
-            isAll: true
+            isAll: true,
+            defaultPrice: 1040
         },
         {
             singular: "Laptop",
@@ -23,7 +25,8 @@ types.types = [
             track: true,
             isComputer: true,
             isLaptop: true,
-            isAll: true
+            isAll: true,
+            defaultPrice: 520
         },
         {
             singular: "Digitaal schoolbord",
@@ -31,7 +34,8 @@ types.types = [
             track: true,
             isComputer: false,
             isLaptop: false,
-            isAll: false
+            isAll: false,
+            defaultPrice: 3550
         },
         {
             singular: "Tablet",
@@ -39,7 +43,8 @@ types.types = [
             track: true,
             isComputer: false,
             isLaptop: false,
-            isAll: true
+            isAll: true,
+            defaultPrice: 360
         },
         {
             singular: "Chromebook",
@@ -47,7 +52,8 @@ types.types = [
             track: true,
             isComputer: false,
             isLaptop: false,
-            isAll: true
+            isAll: true,
+            defaultPrice: 250
         },
         {
             singular: "Telefoon",
@@ -55,7 +61,8 @@ types.types = [
             track: false,
             isComputer: false,
             isLaptop: false,
-            isAll: false
+            isAll: false,
+            defaultPrice: 450
         },
         {
             singular: "Kopieermachine",
@@ -63,7 +70,8 @@ types.types = [
             track: false,
             isComputer: false,
             isLaptop: false,
-            isAll: false
+            isAll: false,
+            defaultPrice: 800
         },
         {
             singular: "Printer",
@@ -71,7 +79,8 @@ types.types = [
             track: false,
             isComputer: false,
             isLaptop: false,
-            isAll: false
+            isAll: false,
+            defaultPrice: 430
         },
         {
             singular: "Access Point",
@@ -79,7 +88,8 @@ types.types = [
             track: false,
             isComputer: false,
             isLaptop: false,
-            isAll: false
+            isAll: false,
+            defaultPrice: 230
         },
         {
             singular: "Robotica",
@@ -87,7 +97,8 @@ types.types = [
             track: false,
             isComputer: false,
             isLaptop: false,
-            isAll: false
+            isAll: false,
+            defaultPrice: 6000
         },
         {
             singular: "Beamer",
@@ -95,7 +106,8 @@ types.types = [
             track: false,
             isComputer: false,
             isLaptop: false,
-            isAll: false
+            isAll: false,
+            defaultPrice: 510
         },
         {
             singular: "Monitor",
@@ -103,7 +115,8 @@ types.types = [
             track: false,
             isComputer: false,
             isLaptop: false,
-            isAll: false
+            isAll: false,
+            defaultPrice: 290
         },
         {
             singular: "Switch",
@@ -111,7 +124,8 @@ types.types = [
             track: false,
             isComputer: false,
             isLaptop: false,
-            isAll: false
+            isAll: false,
+            defaultPrice: 35
         },
         {
             singular: "Server",
@@ -119,7 +133,8 @@ types.types = [
             track: false,
             isComputer: false,
             isLaptop: false,
-            isAll: false
+            isAll: false,
+            defaultPrice: 2900
         },
         {
             singular: "Koptelefoon",
@@ -127,7 +142,8 @@ types.types = [
             track: false,
             isComputer: false,
             isLaptop: false,
-            isAll: false
+            isAll: false,
+            defaultPrice: 90
         },
         {
             singular: "Geluidsinstallatie",
@@ -135,7 +151,8 @@ types.types = [
             track: false,
             isComputer: false,
             isLaptop: false,
-            isAll: false
+            isAll: false,
+            defaultPrice: 550
         }
 ];
 

@@ -15,140 +15,290 @@
     <%})%>
     </ul>
   </div>
+<% } else { %>
+  <h2 class="ui header">
+    Vijfjarenplan hardware <%=school.name%>
+  </h2>
+  <p>Je ziet hieronder het aantal ontbrekende apparaten in de komende 5 jaar. Bij deze aantallen is geen rekening gehouden met nieuwe aankopen. <%= Array.isArray(result.standard.hardware.computersPerStudent.isComputer) ? result.standard.hardware.computersPerStudent.isComputer.join(', ') : result.standard.hardware.computersPerStudent.isComputer %> devices worden meegeteld als <strong>computer</strong>. <%= Array.isArray(result.standard.hardware.laptopsPerSchool.isLaptop) ? result.standard.hardware.laptopsPerSchool.isLaptop.join(', ') : result.standard.hardware.laptopsPerSchool.isLaptop%> devices worden meegeteld als <strong>laptop</strong>. Een laptop kan ook meetellen als computer. Dat is afhankelijk van de instelling per schoolbestuur.</p>
+    <p>Je kunt nu op basis van deze aantallen een hardware inkoopplanning maken met behulp van de tabel. Hierin kun je per jaar invoeren hoeveel apparaten je wilt gaan aanschaffen. Je kunt de nieuwprijs aanpassen.</p>
+  <div class="ui divider"></div>
+  <div class="ui three column stackable grid">
+    <div class="column">
+       <h2 class="ui header">
+        <i class="desktop icon"></i>
+        <div class="content">
+          Computers
+        </div>
+      </h2>
+      <div class="ui tiny five statistics">
+        <%result.hardware.missingComputers.forEach(function(number, index){%>
+          <div class="statistic <%=number === 0 ? 'green' : 'red'%>">
+            <div class="value">
+              <%if(index === 0){%>
+                <%=number%>
+              <%} else {%>
+                + <%=number - result.hardware.missingComputers[index-1]%>
+              <%}%>
+            </div>
+            <div class="label">
+              <%=new Date().getFullYear() + index%>
+            </div>
+          </div>
+        <%})%>
+      </div>
+    </div>
+    <div class="column">
+      <h2 class="ui header">
+        <i class="tv icon"></i>
+        <div class="content">
+          Digitale schoolborden
+        </div>
+      </h2>
+      <div class="ui tiny five statistics">
+        <%result.hardware.missingDigitalSchoolbords.forEach(function(number, index){%>
+          <div class="statistic <%=number === 0 ? 'green' : 'red'%>">
+            <div class="value">
+              <%if(index === 0){%>
+                <%=number%>
+              <%} else {%>
+                + <%=number - result.hardware.missingDigitalSchoolbords[index-1]%>
+              <%}%>
+            </div>
+            <div class="label">
+              <%=new Date().getFullYear() + index%>
+            </div>
+          </div>
+        <%})%>
+      </div>
+    </div>
+    <div class="column">
+      <h2 class="ui header">
+      <i class="laptop icon"></i>
+      <div class="content">
+        Laptops
+        </div>
+      </h2>
+      <div class="ui tiny five statistics">
+        <%result.hardware.missingLaptops.forEach(function(number, index){%>
+          <div class="statistic <%=number === 0 ? 'green' : 'red'%>">
+            <div class="value">
+              <%if(index === 0){%>
+                <%=number%>
+              <%} else {%>
+                + <%=number - result.hardware.missingLaptops[index-1]%>
+              <%}%>
+            </div>
+            <div class="label">
+              <%=new Date().getFullYear() + index%>
+            </div>
+          </div>
+        <%})%>
+      </div>
+  </div>
+  <table class="ui nine column blue table" id="dynamicTable" width="100%">
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <%[0,1,2,3,4].forEach(index => { %>
+            <th></th>
+          <% }) %>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="dynamicTableBody"></tbody>
+  </table>
+
 <% } %>
-
-<h2 class="ui header">
-  <i class="desktop icon"></i>
-  <div class="content">
-    Computers
-    <div class="sub header">Budget op basis van 520 euro per computer</div>
-  </div>
-</h2>
-<div class="ui small statistics">
-  <div class="statistic">
-    <div class="value">
-      <%=result.hardware.goodComputers%>
-    </div>
-    <div class="label">
-      Goed
-    </div>
-  </div>
-  <div class="statistic">
-    <div class="value">
-      <%=result.hardware.requiredComputers%>
-    </div>
-    <div class="label">
-      Norm
-    </div>
-  </div>
-  <div class="statistic">
-    <div class="value">
-      <%=result.hardware.missingComputers%>
-    </div>
-    <div class="label">
-      Ontbrekend
-    </div>
-  </div>
-  <div class="statistic">
-    <div class="value">
-      <i class="euro sign icon"></i> <%=(result.hardware.missingComputers * 520).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")%>
-    </div>
-    <div class="label">
-      Budget
-    </div>
-  </div>
-</div>
-
-<div class="ui divider"></div>
-
-<h2 class="ui header">
-  <i class="tv icon"></i>
-  <div class="content">
-    Digitale schoolborden
-    <div class="sub header">Budget op basis van 3550 euro per digitaal schoolbord</div>
-  </div>
-</h2>
-<div class="ui small statistics">
-  <div class="statistic">
-    <div class="value">
-      <%=result.hardware.goodDigitalSchoolbords%>
-    </div>
-    <div class="label">
-      Goed
-    </div>
-  </div>
-  <div class="statistic">
-    <div class="value">
-      <%=result.hardware.requiredDigitalSchoolbords%>
-    </div>
-    <div class="label">
-      Norm
-    </div>
-  </div>
-  <div class="statistic">
-    <div class="value">
-      <%=result.hardware.missingDigitalSchoolbords%>
-    </div>
-    <div class="label">
-      Ontbrekend
-    </div>
-  </div>
-  <div class="statistic">
-    <div class="value">
-      <i class="euro sign icon"></i> <%=(result.hardware.missingDigitalSchoolbords * 3550).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")%>
-    </div>
-    <div class="label">
-      Budget
-    </div>
-  </div>
-</div>
-
-<div class="ui divider"></div>
-
-<h2 class="ui header">
-  <i class="laptop icon"></i>
-  <div class="content">
-    Laptops
-    <div class="sub header">Budget op basis van 520 euro per laptop</div>
-  </div>
-</h2>
-<div class="ui small statistics">
-  <div class="statistic">
-    <div class="value">
-      <%=result.hardware.goodLaptops%>
-    </div>
-    <div class="label">
-      Goed
-    </div>
-  </div>
-  <div class="statistic">
-    <div class="value">
-      <%=result.hardware.requiredLaptops%>
-    </div>
-    <div class="label">
-      Norm
-    </div>
-  </div>
-  <div class="statistic">
-    <div class="value">
-      <%=result.hardware.missingLaptops%>
-    </div>
-    <div class="label">
-      Ontbrekend
-    </div>
-  </div>
-  <div class="statistic">
-    <div class="value">
-      <i class="euro sign icon"></i> <%=(result.hardware.missingLaptops * 520).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")%>
-    </div>
-    <div class="label">
-      Budget
-    </div>
-  </div>
-</div>
-
-
-
+<div id="resultData" hidden><%=JSON.stringify(result)%></div>
+<div id="trackedHardwareData" hidden><%=JSON.stringify(trackedHardware)%></div>
+<div id="schoolData" hidden><%=school._id%></div>
 <% include ../partials/school-footer %>
 <% include ../partials/footer %>
+
+
+<script>
+
+  $(document).ready(function() {
+
+    var resultText = $('#resultData').text();
+    var resultData = JSON.parse(resultText);
+
+    console.log(resultData);
+
+    var trackedHardwareText = $('#trackedHardwareData').text();
+    var trackedHardwareData = JSON.parse(trackedHardwareText);
+
+    var schoolId = $('#schoolData').text();
+
+    console.log(trackedHardwareData);
+
+    var tableColumns = [
+      {
+         'targets': 0,
+         'checkboxes': {
+            'selectRow': true
+         },
+         data: '_id'
+      },
+      {
+        data: 'type',
+        sTitle: 'Type'
+      },
+      {
+        data: 'price',
+        sTitle: 'Nieuwprijs (€)',
+      }
+    ];
+
+    var fields = [
+      {
+        label: 'Type',
+        name: 'type',
+        type:  "select",
+        options: trackedHardwareData.map(h => h.singular)
+      },
+      {
+        label: 'Nieuwprijs',
+        name: 'price',
+        type: "text"
+      }
+    ];
+
+    [0,1,2,3,4].forEach(index => {
+      var title = (new Date().getFullYear() + index).toString();
+      tableColumns.push({
+        data: title,
+        sTitle: title,
+        className: 'sum'
+      });
+      fields.push({
+        label: 'Nieuwe apparaten in ' + title,
+        name: title,
+        type: 'text'
+      })
+    })
+    tableColumns.push({
+      data: null,
+      sTitle: 'Totaal (€)',
+      className: 'sum right aligned',
+      render: function ( data, type, row ) {
+        var totalPrice = 0;
+        [0,1,2,3,4].forEach(index => {
+          var year = (new Date().getFullYear() + index).toString();
+          totalPrice += data[year] * data.price;
+        })
+        return '<strong>€ ' + totalPrice + '</strong>';
+      }
+    });
+
+    editor = new $.fn.dataTable.Editor( {
+        table: "#dynamicTable",
+        idSrc:  '_id',
+        ajax: '/api/hardwarebudget',
+        fields: fields,
+        i18n: {
+            create: {
+                button: "Voeg toe",
+                title:  "Item toevoegen",
+                submit: "Bewaar"
+            },
+            edit: {
+                button: "Bewerk",
+                title:  "Item bewerken",
+                submit: "Bewaar"
+            },
+            remove: {
+                button: "Verwijder",
+                title:  "Item verwijderen",
+                submit: "Definitief verwijderen",
+                confirm: {
+                    _: "Wilt %d rijen definitief verwijderen?",
+                    1: "Wil je 1 rij definitief verwijderen?"
+                }
+            },
+            error: {
+                system: "Er is een fout opgetreden. Neem contact op met de admin."
+            }
+        }
+    } );
+
+    $('#dynamicTable')
+    .on( 'click', 'tbody td:not(:first-child)', function (e) {
+        editor.inline( this, {
+          onBlur: 'submit'
+        } );
+    });
+
+    var dataTableSettings = {
+      paging: false,
+      searching: false,
+      select: {
+          style:    'multi',
+          selector: 'td:first-child'
+      },
+      keys: {
+          columns: ':not(:first-child)',
+          editor:  editor
+      },
+      'order': [[1, 'asc']],
+      buttons: [ 
+        { extend: "create",   editor: editor },       
+        { extend: "edit",   editor: editor },
+        { extend: "remove", editor: editor },
+        'excel',
+      ],
+      dom: 'Bfrtip',
+      "language": {
+        "sProcessing": "Bezig...",
+        "sLengthMenu": "_MENU_ resultaten weergeven",
+        "sZeroRecords": "Geen resultaten gevonden",
+        "sInfo": "_START_ tot _END_ van _TOTAL_ resultaten",
+        "sInfoEmpty": "Geen resultaten om weer te geven",
+        "sInfoFiltered": " (gefilterd uit _MAX_ resultaten)",
+        "sInfoPostFix": "",
+        "sSearch": "Zoeken:",
+        "sEmptyTable": "Geen resultaten aanwezig in de tabel",
+        "sInfoThousands": ".",
+        "sLoadingRecords": "Een moment geduld aub - bezig met laden...",
+        "oPaginate": {
+          "sFirst": "Eerste",
+          "sLast": "Laatste",
+          "sNext": "Volgende",
+          "sPrevious": "Vorige"
+        },
+        "oAria": {
+          "sSortAscending":  ": activeer om kolom oplopend te sorteren",
+          "sSortDescending": ": activeer om kolom aflopend te sorteren"
+        }
+      }
+    };
+
+    var table = $("#dynamicTable").DataTable({
+        ...dataTableSettings,
+        columns: tableColumns,
+        fields: fields,
+        ajax: {
+          url: '/api/hardwarebudget',
+          data: {
+            schoolId: schoolId
+          }
+        }
+     });
+
+    // table.columns( '.sum' ).every( function () {
+    //   console.log(this.data());
+    //     // var sum = this
+    //     //     .data()
+    //     //     .reduce( function (a,b) {
+    //     //         return a + b;
+    //     //     } );
+     
+    //     // $(el).html( 'Sum: '+sum );
+    // } );
+
+  });
+</script>
+
 

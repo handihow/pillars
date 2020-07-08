@@ -6,6 +6,7 @@ var config = require("../../config/config");
 var middleware = require("../../middleware");
 var Papa = require('papaparse')
 var score = require("../../config/score");
+var hardwareScore = require("../../config/hardware/score");
 var mongoose = require("mongoose");
 var path = require('path');
 
@@ -21,8 +22,10 @@ router.get("/", middleware.isLoggedIn, function(req, res){
       req.flash("error", "School niet gevonden");
       res.redirect("back");
     } else {
-      let trackedHardware = calculateHardwareStatus(school);
-      res.render("hardware/index", {school: school, trackedHardware: trackedHardware});        
+      let trackedHardware = hardwareScore.calculateHardwareStatus(school);
+      var result = score.calculate(school, [], true);
+      res.locals.scripts.footer.chartjs = true;
+      res.render("hardware/index", {school: school, trackedHardware: trackedHardware, result: result});        
     }
   });
 });
@@ -34,7 +37,7 @@ router.get("/list", middleware.isLoggedIn, function(req, res){
       req.flash("error", "School niet gevonden");
       res.redirect("back");
     } else {
-      calculateHardwareStatus(school);
+      hardwareScore.calculateHardwareStatus(school);
       res.locals.scripts.header.datatables = true;
       res.locals.scripts.footer.datatables = true;
       res.render("table-view/index", {
@@ -47,50 +50,6 @@ router.get("/list", middleware.isLoggedIn, function(req, res){
     }
   });
 });
-
-function calculateHardwareStatus(school){
-  let trackedHardware = school.settings.hardware.filter(h => h.track);
-  trackedHardware.forEach(type => {
-    type.count = 0;
-    type.countLowSpecifications = 0;
-    type.countDepreciated = 0;
-    type.countDepreciatedNextYear = 0;
-  });
-  school.hardware.forEach(function(hardware){
-    let index = trackedHardware.findIndex(h => h.singular === hardware.type);
-    if(index>-1){
-       if(hardware.type==="Multipoint computer" && !isNaN(hardware.numberWorkPlacesMultipoint)){
-          trackedHardware[index].count += hardware.numberWorkPlacesMultipoint;
-        } else {
-          trackedHardware[index].count += 1;
-        }
-    }
-    
-    //set warnings and calculate the number of devices out of spec
-    if(school.standard && index>-1){
-      if(school.standard.hardware.computersPerStudent.isComputer.includes(hardware.type) && 
-              hardware.memory < school.standard.hardware.computersPerStudent.minRAM){
-          hardware.isDepreciated = true;
-          hardware.warning = "Te weinig werkgeheugen";
-          trackedHardware[index].countLowSpecifications += 1;
-      } else if(!school.standard.hardware.computersPerStudent.isComputer.includes(hardware.type) && 
-              hardware.deploymentYear < (new Date()).getFullYear() - school.standard.hardware.computersPerStudent.maxYear) {
-          hardware.isDepreciated = true;
-          hardware.warning = "Apparaat is te oud";
-          trackedHardware[index].countDepreciated += 1;
-      } else if(!school.standard.hardware.computersPerStudent.isComputer.includes(hardware.type) && 
-              hardware.deploymentYear < (new Date()).getFullYear() - school.standard.hardware.computersPerStudent.maxYear - 1) {
-          hardware.isDepreciated = true;
-          hardware.warning = "Apparaat is volgend jaar afgeschreven";
-          trackedHardware[index].countDepreciatedNextYear += 1;
-      } else if(hardware.type==="Multipoint computer" && !hardware.numberWorkPlacesMultipoint){
-        hardware.isDepreciated = true;
-        hardware.warning = "Aantal werkplekken multipoint is niet gedefinieerd";
-      }
-    }
-  });
-  return trackedHardware;
-}
 
 //BUDGET - shows how much budget needs to be spent to get hardware in order
 router.get("/budget", middleware.isLoggedIn, function(req, res){
@@ -106,16 +65,11 @@ router.get("/budget", middleware.isLoggedIn, function(req, res){
           if(!school.standard){
             return res.redirect("/schools/"+school.id+"/pillars/settings");
           }
-          school.hardware.forEach(function(hardware){
-              if(hardware.deploymentYear && hardware.depreciationPeriod 
-                    && (hardware.deploymentYear + hardware.depreciationPeriod < new Date().getFullYear() )){
-                  hardware.isDepreciated = true;
-              }
-          })
           var result = score.calculate(school, [], true);
+          let trackedHardware = hardwareScore.calculateHardwareStatus(school);
           res.locals.scripts.header.datatables = true;
           res.locals.scripts.footer.datatables = true;
-          res.render("hardware/budget", {school: school, result: result});            
+          res.render("hardware/budget", {school: school, result: result, trackedHardware: trackedHardware});            
       }
   });
 });
@@ -127,7 +81,7 @@ router.get("/charts", middleware.isLoggedIn, function(req, res){
       req.flash("error", "School niet gevonden");
       res.redirect("back");
     } else {
-      calculateHardwareStatus(school);
+      hardwareScore.calculateHardwareStatus(school);
       res.locals.scripts.header.surveyanalytics = true;
       res.locals.scripts.footer.hardwareanalytics = true;
       res.render("hardware/charts", {school: school});        

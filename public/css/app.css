@@ -1,3 +1,6 @@
+.ui.progress:last-child{
+  margin-top: 20px !important;
+}
 
 .DTE_Inline.ui.form input {
     border: none;

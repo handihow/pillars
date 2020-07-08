@@ -22,10 +22,10 @@
   </div>
   <div id="tableContainer">
     
-    <table class="ui celled small table" id="dynamicTable">
+    <table class="ui celled small blue table" id="dynamicTable">
         <thead>
           <tr>
-            <th><input type="checkbox" class="selectAll" name="selectAll"></th>
+            <th></th>
             <th></th>
             <%if(typeof organisation !== 'undefined'){%>
               <th></th>
@@ -68,10 +68,12 @@
     var itemsText = $('#itemsData').text();
     var itemsData = JSON.parse(itemsText);
 
-    console.log(itemsData);
-
     var hasWarningRowText = $('#warningRowData').text();
     var hasWarningRow = hasWarningRowText === "true" ? true : false;
+    var warningRowIndex = 0;
+    if(hasWarningRow){
+      warningRowIndex = columnData.findIndex(c => c.id === 'warning');
+    }
 
     var hasOrganisationText = $('#organisationData').text();
     var hasOrganisation = hasOrganisationText === "true" ? true : false;
@@ -84,10 +86,11 @@
 
     var tableColumns = [
       {
-          data: null,
-          defaultContent: '',
-          className: 'select-checkbox',
-          orderable: false,
+         'targets': 0,
+         'checkboxes': {
+            'selectRow': true
+         },
+         data: '_id'
       },
       {
           data: null,
@@ -211,6 +214,7 @@
           columns: ':not(:first-child)',
           editor:  editor
       },
+      'order': [[2, 'asc']],
       buttons: [        
         { extend: "edit",   editor: editor },
         { extend: "remove", editor: editor },
@@ -257,20 +261,35 @@
         ...dataTableSettings,
         rowCallback: function(row, data){
           if(data.warning && data.warning.length>0){
-            $(row).addClass("negative");
+            if(data.warning === 'Apparaat is volgend jaar afgeschreven'){
+              $("td:eq(" + warningRowIndex + ")",row).addClass("warning");
+            } else {
+              $("td:eq(" + warningRowIndex + ")",row).addClass("negative");
+            }
           }
         },
         columns: tableColumns,
         data: itemsData,
      });
 
-    $(".selectAll").on( "click", function(e) {
-      if ($(this).is( ":checked" )) {
-          table.rows().select();        
-      } else {
-          table.rows().deselect(); 
-      }
-  });
+
+    table.on("click", "th.select-checkbox", function() {
+        if ($("th.select-checkbox").hasClass("selected")) {
+            table.rows().deselect();
+            $("th.select-checkbox").removeClass("selected");
+        } else {
+            table.rows().select();
+            $("th.select-checkbox").addClass("selected");
+        }
+    }).on("select deselect", function() {
+        if (table.rows({
+                selected: true
+            }).count() !== table.rows().count()) {
+            $("th.select-checkbox").removeClass("selected");
+        } else {
+            $("th.select-checkbox").addClass("selected");
+        }
+    });
 
     $('#loader').hide();
 

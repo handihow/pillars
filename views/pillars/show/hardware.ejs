@@ -8,12 +8,12 @@
     of als ze ouder zijn dan <%=result.standard.hardware.computersPerStudent.maxYear%> jaar.
   Het minimale aantal computers is vastgesteld op <strong><%=result.hardware.requiredComputers%></strong> op basis van <%= school.countStudents%> leerlingen maal 
     <%=result.standard.hardware.computersPerStudent.standard%>.
-  Pillars heeft het totale aantal devices die voldoen aan de standaard op <%=school.name%> vastgesteld op <strong><%=result.hardware.goodComputers%></strong>.
-  <%if(result.hardware.missingComputers === 0){%>
+  Pillars heeft het totale aantal devices die voldoen aan de standaard op <%=school.name%> vastgesteld op <strong><%=result.hardware.goodComputers[0]%></strong>.
+  <%if(result.hardware.missingComputers[0] === 0){%>
    Er zijn dus op dit moment voldoende computers aanwezig die voldoen aan de minimale eisen en de maximale score van 
     <%=result.standard.hardware.computersPerStudent.maxScore%> is op dit onderdeel toegekend.</p>
   <%} else {%>
-    Er ontbreken dus <strong><%=result.hardware.missingComputers%></strong> devices op <%=school.name%>. Wij raden aan om de ontbrekende devices aan te schaffen. Op dit moment zijn slechts <%=result.hardware.computersPerStudent.toFixed(1)%> van maximaal <%=result.standard.hardware.computersPerStudent.maxScore%> punten toegekend op dit onderdeel.</p> 
+    Er ontbreken dus <strong><%=result.hardware.missingComputers[0]%></strong> devices op <%=school.name%>. Wij raden aan om de ontbrekende devices aan te schaffen. Op dit moment zijn slechts <%=result.hardware.computersPerStudent.toFixed(1)%> van maximaal <%=result.standard.hardware.computersPerStudent.maxScore%> punten toegekend op dit onderdeel.</p> 
   <%}%>
   <h3 class="ui header">Digitale schoolborden</h3>
   <%if(result.standard.hardware.digitalSchoolbordsPerClassroom.isTouchscreen === "1"){%>
@@ -23,12 +23,12 @@
   <%}%>
   Het minimale aantal digitale schoolborden is vastgesteld op <strong><%=result.hardware.requiredDigitalSchoolbords%></strong> op basis van <%= school.countClassrooms%> klaslokalen maal 
     <%=result.standard.hardware.digitalSchoolbordsPerClassroom.standard%>.
-  Pillars heeft het totale aantal digitale schoolborden die voldoen aan de standaard op <%=school.name%> vastgesteld op <strong><%=result.hardware.goodDigitalSchoolbords%></strong>.
-  <%if(result.hardware.missingDigitalSchoolbords === 0){%>
+  Pillars heeft het totale aantal digitale schoolborden die voldoen aan de standaard op <%=school.name%> vastgesteld op <strong><%=result.hardware.goodDigitalSchoolbords[0]%></strong>.
+  <%if(result.hardware.missingDigitalSchoolbords[0] === 0){%>
    Er zijn dus voldoende digitale schoolborden aanwezig en de maximale score van 
     <%=result.standard.hardware.digitalSchoolbordsPerClassroom.maxScore%> is op dit onderdeel toegekend.</p>
   <%} else {%>
-    Er ontbreken dus <strong><%=result.hardware.missingDigitalSchoolbords%></strong> digitale schoolborden op <%=school.name%>. Wij raden aan om de ontbrekende apparaten aan te schaffen. Op dit moment zijn slechts 
+    Er ontbreken dus <strong><%=result.hardware.missingDigitalSchoolbords[0]%></strong> digitale schoolborden op <%=school.name%>. Wij raden aan om de ontbrekende apparaten aan te schaffen. Op dit moment zijn slechts 
       <%=result.hardware.digitalSchoolbordsPerClassroom.toFixed(1)%> van maximaal <%=result.standard.hardware.digitalSchoolbordsPerClassroom.maxScore%> punten toegekend op dit onderdeel.</p> 
   <%}%>
   <h3 class="ui header">Netwerk</h3>
@@ -48,12 +48,12 @@
         Bij de instellingen zijn geen devices geselecteerd die kunnen meetellen als draagbare computers. Hierdoor kunnen er mogelijk geen punten worden behaald op dit onderdeel.
     <%}%>
     Het streefaantal draagbare computers op <%=school.name%> is <%=result.standard.hardware.laptopsPerSchool.standard%>.
-  Pillars heeft het totale aantal devices die voldoen aan de standaard op <%=school.name%> vastgesteld op <strong><%=result.hardware.goodLaptops%></strong>.
-  <%if(result.hardware.missingLaptops === 0){%>
+  Pillars heeft het totale aantal devices die voldoen aan de standaard op <%=school.name%> vastgesteld op <strong><%=result.hardware.goodLaptops[0]%></strong>.
+  <%if(result.hardware.missingLaptops[0] === 0){%>
    Er zijn dus op dit moment voldoende draagbare computers aanwezig die voldoen aan de minimale eisen en de maximale score van 
     <%=result.standard.hardware.laptopsPerSchool.maxScore%> is op dit onderdeel toegekend.</p>
   <%} else {%>
-    Er ontbreken dus <strong><%=result.hardware.missingLaptops%></strong> draagbare devices op <%=school.name%>. Wij raden aan om de ontbrekende draagbare computers aan te schaffen. Op dit moment zijn slechts <%=result.hardware.portableComputersPerSchool.toFixed(1)%> van maximaal <%=result.standard.hardware.laptopsPerSchool.maxScore%> punten toegekend op dit onderdeel.</p> 
+    Er ontbreken dus <strong><%=result.hardware.missingLaptops[0]%></strong> draagbare devices op <%=school.name%>. Wij raden aan om de ontbrekende draagbare computers aan te schaffen. Op dit moment zijn slechts <%=result.hardware.portableComputersPerSchool.toFixed(1)%> van maximaal <%=result.standard.hardware.laptopsPerSchool.maxScore%> punten toegekend op dit onderdeel.</p> 
   <%}%>
 <%}%>
 <div class="ui stackable grid">

@@ -4,50 +4,245 @@
 <% include ../partials/school-header %>
 
 <% include ./header %>
+<% if(result.errors && result.errors.length === 0) { %>
+  <div class="ui three column stackable grid">
+    <div class="column">
+       <h2 class="ui header">
+        <i class="desktop icon"></i>
+        <div class="content">
+          Computers
+        </div>
+      </h2>
+      <div class="ui tiny three statistics">
+        <div class="statistic">
+          <div class="value">
+            <%=result.hardware.goodComputers[0]%>
+          </div>
+          <div class="label">
+            Goed
+          </div>
+        </div>
+        <div class="statistic">
+          <div class="value">
+            <%=result.hardware.requiredComputers%>
+          </div>
+          <div class="label">
+            Norm
+          </div>
+        </div>
+        <div class="statistic <%=result.hardware.missingComputers[0] > 0 ? 'red' : 'green'%>">
+          <div class="value">
+            <%=result.hardware.missingComputers[0]%>
+          </div>
+          <div class="label">
+            Ontbrekend
+          </div>
+        </div>
+      </div>
+      <div class="ui small indicating progress" data-value="15" data-total="100" id="computersProgress">
+        <div class="bar"></div>
+        <div class="label">Computers</div>
+      </div>
+    </div>
+    <div class="column">
+      <h2 class="ui header">
+        <i class="tv icon"></i>
+        <div class="content">
+          Digitale schoolborden
+        </div>
+      </h2>
+      <div class="ui tiny three statistics">
+        <div class="statistic">
+          <div class="value">
+            <%=result.hardware.goodDigitalSchoolbords[0]%>
+          </div>
+          <div class="label">
+            Goed
+          </div>
+        </div>
+        <div class="statistic ">
+          <div class="value">
+            <%=result.hardware.requiredDigitalSchoolbords%>
+          </div>
+          <div class="label">
+            Norm
+          </div>
+        </div>
+        <div class="statistic <%=result.hardware.missingDigitalSchoolbords[0] > 0 ? 'red' : 'green'%>">
+          <div class="value">
+            <%=result.hardware.missingDigitalSchoolbords[0]%>
+          </div>
+          <div class="label">
+            Ontbrekend
+          </div>
+        </div>
+      </div>
+      <div class="ui small indicating progress" data-value="15" data-total="100" id="digitalSchoolbordsProgress">
+        <div class="bar"></div>
+        <div class="label">Digitale schoolborden</div>
+      </div>
+    </div>
+    <div class="column">
+      <h2 class="ui header">
+    <i class="laptop icon"></i>
+    <div class="content">
+      Laptops
+      </div>
+    </h2>
+    <div class="ui tiny three statistics">
+      <div class="statistic">
+        <div class="value">
+          <%=result.hardware.goodLaptops[0]%>
+        </div>
+        <div class="label">
+          Goed
+        </div>
+      </div>
+      <div class="statistic">
+        <div class="value">
+          <%=result.hardware.requiredLaptops%>
+        </div>
+        <div class="label">
+          Norm
+        </div>
+      </div>
+      <div class="statistic <%=result.hardware.missingLaptops[0] > 0 ? 'red' : 'green'%>">
+        <div class="value">
+          <%=result.hardware.missingLaptops[0]%>
+        </div>
+        <div class="label">
+          Ontbrekend
+        </div>
+      </div>
+    </div>
+    <div class="ui small indicating progress" data-value="15" data-total="100" id="laptopsProgress">
+        <div class="bar"></div>
+        <div class="label">Laptops</div>
+      </div>
+    </div>
+  </div>
+<% } %>
+<div class="ui divider"></div>
 
 <div class="ui three doubling cards">
   <!--make a card for each type of hardware-->
   <% trackedHardware.forEach(function(type){ %>
   <div class="ui card">
     <div class="content">
-      <div class="header"><%=type.plural%></div>
+      <div class="header"><%= type.count %> <%=type.plural%></div>
     </div>
     <div class="content">
-      <h4 class="ui sub header">
-        Totaal aantal apparaten: <%= type.count %>
-      </h4>
-      <div class="ui small feed">
-        <div class="event">
-          <div class="content">
-            <div class="summary">
-               Te weinig geheugen: <%= type.countLowSpecifications%>
-            </div>
-          </div>
+      <%if(type.count > 0){%>
+          <canvas id="<%=type.singular.replace(/\s+/g, '-').toLowerCase()%>"></canvas>
         </div>
-        <div class="event">
-          <div class="content">
-            <div class="summary">
-               Te oud: <%= type.countDepreciated%>
-            </div>
-          </div>
+        <div class="extra content">
+          <a class="ui button <%if(type.count===0){%> disabled <%}%>" href="/schools/<%=school._id%>/hardware/list/?type=<%=type.singular%>">Bekijk lijst</a>
         </div>
-        <div class="event">
-          <div class="content">
-            <div class="summary">
-               Volgend jaar te oud: <%= type.countDepreciatedNextYear%>
-            </div>
+      <%} else {%>
+        <div class="ui placeholder segment">
+          <div class="ui icon header">
+            <i class="dont icon"></i>
+            Nog geen <%=type.plural%>
           </div>
+          <a class="ui primary button" href="/schools/<%=school._id%>/hardware/new/long?type=<%=type.singular%>">Voeg Toe</a>
         </div>
       </div>
-    </div>
-    <div class="extra content">
-      <a class="ui button <%if(type.count===0){%> disabled <%}%>" href="/schools/<%=school._id%>/hardware/list/?type=<%=type.singular%>">Bekijk lijst</a>
-    </div>
+      <%}%>
   </div>
   <% }); %>
 </div>
-
+<div id="resultData" hidden><%=JSON.stringify(result)%></div>
+<div id="trackedHardwareData" hidden><%=JSON.stringify(trackedHardware)%></div>
 
 <% include ../partials/school-footer %>
 <% include ../partials/footer %>
+
+<script>
+
+  $(document).ready(function() {
+
+    var resultText = $('#resultData').text();
+    var resultData = JSON.parse(resultText);
+    console.log(resultData);
+    var trackedHardwareText = $('#trackedHardwareData').text();
+    var trackedHardwareData = JSON.parse(trackedHardwareText);
+    console.log(trackedHardwareData);
+
+    var computerProgress = resultData.hardware.missingComputers[0] === 0 ? 100 : resultData.hardware.goodComputers[0] / resultData.hardware.requiredComputers * 100;
+
+    var dsProgress = resultData.hardware.missingDigitalSchoolbords[0] === 0 ? 100 : resultData.hardware.goodDigitalSchoolbords[0] / resultData.hardware.requiredDigitalSchoolbords * 100;
+
+    var laptopProgress = resultData.hardware.missingLaptops[0] === 0 ? 100 : resultData.hardware.goodLaptops[0] / resultData.hardware.requiredLaptops * 100;
+
+    $('#computersProgress').progress({
+      percent: computerProgress,
+      text: {
+        active: 'Computers {percent}%',
+        success: 'Computers compleet'
+      }
+    });
+
+    $('#digitalSchoolbordsProgress').progress({
+      percent: dsProgress,
+      text: {
+        active: 'Digitale schoolborden {percent}%',
+        success: 'Digitale schoolborden compleet'
+      }
+    });
+
+    $('#laptopsProgress').progress({
+      percent: laptopProgress,
+      text: {
+        active: 'Laptops {percent}%',
+        success: 'Laptops compleet'
+      }
+    });
+
+     var backgroundColors = [
+                    'rgba(0,159,227, 0.7)',
+                    'rgba(227,6,19, 0.7)',
+                    'rgba(249,178,51, 0.7)'
+                ];
+    var borderColors = [   
+                    'rgba(0,159,227, 1)',
+                    'rgba(227,6,19,1)',
+                    'rgba(249,178,51, 1)'
+                ];
+
+   var pieCharts = {};
+   trackedHardwareData.forEach(function(hardwareType,i){
+    if(hardwareType.count > 0){
+      var ctx = $('#' + hardwareType.singular.replace(/\s+/g, '-').toLowerCase());
+      var old = hardwareType.countDepreciated;
+      var low = hardwareType.countLowSpecifications;
+      var good = hardwareType.count - old - low;
+      var data = [good, old];
+      var labels = [
+            'In orde',
+            'Te oud'
+        ];
+      if(hardwareType.hasMemoryCriterium){
+        data.push(low);
+        labels.push('Te weinig geheugen')
+      }
+      var data = {
+          datasets: [{
+              data: data,
+              backgroundColor: backgroundColors,
+              borderColor: borderColors
+          }],
+          // These labels appear in the legend and in the tooltips when hovering different arcs
+          labels: labels
+      };
+      pieCharts[i] = new Chart(ctx, {
+          type: 'pie',
+          data: data,
+      });
+    }
+   });
+
+   
+
+  });
+</script>
 

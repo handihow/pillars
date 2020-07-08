@@ -10,7 +10,7 @@
   <div class="ui container">
     <p>Hieronder zie je het rapport dat wordt gegenereerd als PDF. Druk op de knop hieronder om de PDF te maken.</p>
     <div class="buttons">
-      <a class="ui secondary large button" href="/schools/<%=school._id%>/pillars">Terug</a>
+      <button class="ui secondary large button" onclick="goBack()">Terug</button>
       <button class="ui primary large button" id="cmd">PDF maken</button>
     </div>
     <div class="ui indicating progress" data-value="1" data-total="6" id="pdf__progress">

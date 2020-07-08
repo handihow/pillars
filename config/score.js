@@ -19,18 +19,18 @@ score.calculate = function(school, surveyResults, onlyHardware) {
             management: 0
         },
         hardware: {
-            goodComputers: 0,
+            goodComputers: [0,0,0,0,0],
             requiredComputers: 0,
-            missingComputers: 0,
+            missingComputers: [0,0,0,0,0],
             computersPerStudent: 0,
-            goodDigitalSchoolbords: 0,
+            goodDigitalSchoolbords: [0,0,0,0,0],
             requiredDigitalSchoolbords: 0,
-            missingDigitalSchoolbords: 0,
+            missingDigitalSchoolbords: [0,0,0,0,0],
             digitalSchoolbordsPerClassroom: 0,
             network: 0,
-            goodLaptops: 0,
+            goodLaptops: [0,0,0,0,0],
             requiredLaptops: 0,
-            missingLaptops: 0,
+            missingLaptops: [0,0,0,0,0],
             portableComputersPerSchool: 0
         },
         software: {
