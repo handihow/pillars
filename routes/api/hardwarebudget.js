@@ -38,13 +38,22 @@ function createHardwareBudget(schoolId, trackedHardware, result){
 				var missingLaptops = result.hardware.missingLaptops[4];
 				var missingDigitalSchoolbords = result.hardware.missingDigitalSchoolbords[4];
 				var newLaptops = Math.max(missingComputers, missingLaptops);
+				
+				console.log(missingDigitalSchoolbords);
+				console.log(newLaptops);
 
 				//calculate the advised quantities per year
 				var quotientDigitalSchoolbords = Math.floor(missingDigitalSchoolbords/5);
 				var remainderDigitalSchoolbords = missingDigitalSchoolbords % 5;
 
+				console.log(quotientDigitalSchoolbords);
+				console.log(remainderDigitalSchoolbords);
+
 				var quotientLaptops = Math.floor(newLaptops/5);
 				var remainderLaptops = newLaptops % 5;
+
+				console.log(quotientLaptops);
+				console.log(remainderLaptops);
 
 				trackedHardware.forEach(hardware => {
 					var newBudgetLine = {
@@ -56,15 +65,21 @@ function createHardwareBudget(schoolId, trackedHardware, result){
 						var year = (new Date().getFullYear() + index).toString();
 						var advisedQuantity = 0;
 						if(hardware.singular === 'Digitaal schoolbord'){
-							advisedQuantity = quotientDigitalSchoolbords === 0 ? 0 : Math.floor(missingDigitalSchoolbords / quotientDigitalSchoolbords);
+							advisedQuantity = quotientDigitalSchoolbords;
 							if(index === 0){
 								advisedQuantity += remainderDigitalSchoolbords;
 							}
+							console.log('digitaal schoolbord');
+							console.log(year);
+							console.log(advisedQuantity);
 						} else if(hardware.singular === 'Laptop'){
-							advisedQuantity = quotientLaptops === 0 ? 0 : Math.floor(newLaptops / quotientLaptops);
+							advisedQuantity = quotientLaptops;
 							if(index === 0){
 								advisedQuantity += remainderLaptops;
 							}
+							console.log('laptop');
+							console.log(year);
+							console.log(advisedQuantity);
 						}
 						newBudgetLine[year] = advisedQuantity;
 					});
