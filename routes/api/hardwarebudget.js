@@ -7,6 +7,7 @@ var School = require("../../models/school");
 var score = require("../../config/score");
 var hardwareScore = require("../../config/hardware/score");
 
+
 router.get('/', function(req, res){
 	var schoolId = req.query.schoolId;
 	HardwareBudget.find({school: mongoose.Types.ObjectId(schoolId)}, async function(err, budgetLines){
@@ -33,6 +34,18 @@ function createHardwareBudget(schoolId, trackedHardware, result){
 		      	let trackedHardware = hardwareScore.calculateHardwareStatus(school);
 		      	var result = score.calculate(school, [], true);
 		      	const newBudgetLines = [];
+		      	var missingComputers = result.hardware.missingComputers [4];
+				var missingLaptops = result.hardware.missingLaptops[4];
+				var missingDigitalSchoolbords = result.hardware.missingDigitalSchoolbords[4];
+				var newLaptops = Math.max(missingComputers, missingLaptops);
+
+				//calculate the advised quantities per year
+				var quotientDigitalSchoolbords = Math.floor(missingDigitalSchoolbords/5);
+				var remainderDigitalSchoolbords = missingDigitalSchoolbords % 5;
+
+				var quotientLaptops = Math.floor(newLaptops/5);
+				var remainderLaptops = newLaptops % 5;
+
 				trackedHardware.forEach(hardware => {
 					var newBudgetLine = {
 						type: hardware.singular,
@@ -41,23 +54,17 @@ function createHardwareBudget(schoolId, trackedHardware, result){
 					};
 					[0,1,2,3,4].forEach(index => {
 						var year = (new Date().getFullYear() + index).toString();
-						var missingComputers; var missingDigitalSchoolbords; var missingLaptops
-						if(index === 0){
-							missingComputers = result.hardware.missingComputers[index];
-							missingDigitalSchoolbords = result.hardware.missingDigitalSchoolbords[index];
-							missingLaptops = result.hardware.missingLaptops[index];	
-						} else {
-							missingComputers = result.hardware.missingComputers[index] - result.hardware.missingComputers[index - 1];
-							missingDigitalSchoolbords = result.hardware.missingDigitalSchoolbords[index] - result.hardware.missingDigitalSchoolbords[index - 1];
-							missingLaptops = result.hardware.missingLaptops[index] - result.hardware.missingLaptops[index - 1];
-						}
-						var newLaptops = Math.max(missingComputers, missingLaptops);
-						
 						var advisedQuantity = 0;
 						if(hardware.singular === 'Digitaal schoolbord'){
-							advisedQuantity = missingDigitalSchoolbords;
+							advisedQuantity = quotientDigitalSchoolbords === 0 ? 0 : Math.floor(missingDigitalSchoolbords / quotientDigitalSchoolbords);
+							if(index === 0){
+								advisedQuantity += remainderDigitalSchoolbords;
+							}
 						} else if(hardware.singular === 'Laptop'){
-							advisedQuantity = newLaptops;
+							advisedQuantity = quotientLaptops === 0 ? 0 : Math.floor(newLaptops / quotientLaptops);
+							if(index === 0){
+								advisedQuantity += remainderLaptops;
+							}
 						}
 						newBudgetLine[year] = advisedQuantity;
 					});

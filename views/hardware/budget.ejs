@@ -20,7 +20,7 @@
     Vijfjarenplan hardware <%=school.name%>
   </h2>
   <p>Je ziet hieronder het aantal ontbrekende apparaten in de komende 5 jaar. Bij deze aantallen is geen rekening gehouden met nieuwe aankopen. <%= Array.isArray(result.standard.hardware.computersPerStudent.isComputer) ? result.standard.hardware.computersPerStudent.isComputer.join(', ') : result.standard.hardware.computersPerStudent.isComputer %> devices worden meegeteld als <strong>computer</strong>. <%= Array.isArray(result.standard.hardware.laptopsPerSchool.isLaptop) ? result.standard.hardware.laptopsPerSchool.isLaptop.join(', ') : result.standard.hardware.laptopsPerSchool.isLaptop%> devices worden meegeteld als <strong>laptop</strong>. Een laptop kan ook meetellen als computer. Dat is afhankelijk van de instelling per schoolbestuur.</p>
-    <p>Je kunt nu op basis van deze aantallen een hardware inkoopplanning maken met behulp van de tabel. Hierin kun je per jaar invoeren hoeveel apparaten je wilt gaan aanschaffen. Je kunt de nieuwprijs aanpassen.</p>
+    <p>Je kunt nu op basis van deze aantallen een hardware inkoopplanning maken met behulp van de tabel. Hierin kun je per jaar invoeren hoeveel apparaten je wilt gaan aanschaffen. Je kunt de nieuwprijs aanpassen. In eerste instantie wordt de tabel gevuld met ontbrekende computers & laptops over 5 jaar verspreid en aangekocht als laptop, zodat je twee vliegen in 1 klap slaat. Ontbrekende digitale schoolborden worden ook verspreid over 5 jaar. Bij ongelijke deling over 5 jaar wordt het restant bij het eerste jaar opgeteld.</p>
   <div class="ui divider"></div>
   <div class="ui three column stackable grid">
     <div class="column">
@@ -108,6 +108,17 @@
         </tr>
       </thead>
       <tbody id="dynamicTableBody"></tbody>
+      <tfoot>
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <%[0,1,2,3,4].forEach(index => { %>
+            <th></th>
+          <% }) %>
+          <th></th>
+        </tr>
+      </tfoot>
   </table>
 
 <% } %>
@@ -149,6 +160,7 @@
       {
         data: 'price',
         sTitle: 'Nieuwprijs (€)',
+        className: 'right aligned',
       }
     ];
 
@@ -171,7 +183,7 @@
       tableColumns.push({
         data: title,
         sTitle: title,
-        className: 'sum'
+        className: 'right aligned'
       });
       fields.push({
         label: 'Nieuwe apparaten in ' + title,
@@ -182,7 +194,7 @@
     tableColumns.push({
       data: null,
       sTitle: 'Totaal (€)',
-      className: 'sum right aligned',
+      className: 'right aligned',
       render: function ( data, type, row ) {
         var totalPrice = 0;
         [0,1,2,3,4].forEach(index => {
@@ -284,20 +296,33 @@
           data: {
             schoolId: schoolId
           }
+        },
+        footerCallback: function(row, data, start, end, display) {
+          var api = this.api(), data;
+
+          // Remove the formatting to get integer data for summation
+          var intVal = function ( i ) {
+              return typeof i === 'string' ?
+                  i.replace(/[\$,]/g, '')*1 :
+                  typeof i === 'number' ?
+                      i : 0;
+          };
+          
+          var prices = api.column(2).data().map(function(a){ return intVal(a)});
+          var grandTotal = 0;
+          [3,4,5,6,7].forEach((column, index) => {
+            var quantities = api.column(column).data().map(function(a){ return intVal(a)});
+            var total = 0
+            for(var i=0; i< prices.length; i++) {
+                total += prices[i]*quantities[i];
+            }
+            grandTotal += total;
+            //alert(sum);
+            $( api.column( column ).footer() ).html('<strong>€ ' + total + '</strong>')
+          });
+          $( api.column( 8 ).footer() ).html('<strong>€ ' + grandTotal + '</strong>')
         }
      });
-
-    // table.columns( '.sum' ).every( function () {
-    //   console.log(this.data());
-    //     // var sum = this
-    //     //     .data()
-    //     //     .reduce( function (a,b) {
-    //     //         return a + b;
-    //     //     } );
-     
-    //     // $(el).html( 'Sum: '+sum );
-    // } );
-
   });
 </script>
 
