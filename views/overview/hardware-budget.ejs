@@ -2,149 +2,266 @@
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
 <% include ../partials/organisation-header %>
-
-    <% include ./hardware-header %>
+<% include ./hardware-header %>
     
-    <% if(schoolsWithoutStandards.length>0) { %>
-      <div class="ui red message">
-        De volgende scholen hebben geen ingestelde standaard en zijn niet meegenomen in de berekening:
-        <ul>
-        <%schoolsWithoutStandards.forEach(function(school){%>
-          <li><%=school%></li>
-        <%})%>
-        </ul>
-      </div>
-    <% } %>
+<table id="dynamicTable" class="ui celled table" style="width:100%">
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <%[0,1,2,3,4].forEach(index => { %>
+          <th></th>
+        <% }) %>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="dynamicTableBody"></tbody>
+    <tfoot>
+      <tr>
+        <th colspan="4"><strong>Alle hardware:</strong></th>
+        <%[0,1,2,3,4].forEach(index => { %>
+          <th></th>
+        <% }) %>
+        <th></th>
+      </tr>
+    </tfoot>
+</table>
 
-    <h2 class="ui header">
-      <i class="desktop icon"></i>
-      <div class="content">
-        Computers
-        <div class="sub header">Budget op basis van 520 euro per computer</div>
-      </div>
-    </h2>
-    <div class="ui small statistics">
-      <div class="statistic">
-        <div class="value">
-          <%=goodComputers[0]%>
-        </div>
-        <div class="label">
-          Goed
-        </div>
-      </div>
-      <div class="statistic">
-        <div class="value">
-          <%=requiredComputers%>
-        </div>
-        <div class="label">
-          Norm
-        </div>
-      </div>
-      <div class="statistic">
-        <div class="value">
-          <%=missingComputers[0]%>
-        </div>
-        <div class="label">
-          Ontbrekend
-        </div>
-      </div>
-      <div class="statistic">
-        <div class="value">
-          <i class="euro sign icon"></i> <%=(missingComputers[0] * 520).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")%>
-        </div>
-        <div class="label">
-          Budget
-        </div>
-      </div>
-    </div>
-
-    <div class="ui divider"></div>
-
-    <h2 class="ui header">
-      <i class="tv icon"></i>
-      <div class="content">
-        Digitale schoolborden
-        <div class="sub header">Budget op basis van 3550 euro per digitaal schoolbord</div>
-      </div>
-    </h2>
-    <div class="ui small statistics">
-      <div class="statistic">
-        <div class="value">
-          <%=goodDigitalSchoolbords[0]%>
-        </div>
-        <div class="label">
-          Goed
-        </div>
-      </div>
-      <div class="statistic">
-        <div class="value">
-          <%=requiredDigitalSchoolbords%>
-        </div>
-        <div class="label">
-          Norm
-        </div>
-      </div>
-      <div class="statistic">
-        <div class="value">
-          <%=missingDigitalSchoolbords[0]%>
-        </div>
-        <div class="label">
-          Ontbrekend
-        </div>
-      </div>
-      <div class="statistic">
-        <div class="value">
-          <i class="euro sign icon"></i> <%=(missingDigitalSchoolbords[0] * 3550).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")%>
-        </div>
-        <div class="label">
-          Budget
-        </div>
-      </div>
-    </div>
-
-    <div class="ui divider"></div>
-
-    <h2 class="ui header">
-      <i class="laptop icon"></i>
-      <div class="content">
-        Laptops
-        <div class="sub header">Budget op basis van 520 euro per laptop</div>
-      </div>
-    </h2>
-    <div class="ui small statistics">
-      <div class="statistic">
-        <div class="value">
-          <%=goodLaptops[0]%>
-        </div>
-        <div class="label">
-          Goed
-        </div>
-      </div>
-      <div class="statistic">
-        <div class="value">
-          <%=requiredLaptops%>
-        </div>
-        <div class="label">
-          Norm
-        </div>
-      </div>
-      <div class="statistic">
-        <div class="value">
-          <%=missingLaptops[0]%>
-        </div>
-        <div class="label">
-          Ontbrekend
-        </div>
-      </div>
-      <div class="statistic">
-        <div class="value">
-          <i class="euro sign icon"></i> <%=(missingLaptops[0] * 520).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")%>
-        </div>
-        <div class="label">
-          Budget
-        </div>
-      </div>
-    </div>
+<div id="trackedHardwareData" hidden><%=JSON.stringify(trackedHardware)%></div>
+<div id="organisationData" hidden><%=organisation._id%></div>
 
 <% include ../partials/organisation-footer %>
 <% include ../partials/footer %>
+
+<script>
+
+  // Remove the formatting to get integer data for summation
+  var intVal = function ( i ) {
+      return typeof i === 'string' ?
+          i.replace(/[\$,]/g, '')*1 :
+          typeof i === 'number' ?
+              i : 0;
+  };
+
+  $(document).ready(function() {
+
+    var trackedHardwareText = $('#trackedHardwareData').text();
+    var trackedHardwareData = JSON.parse(trackedHardwareText);
+
+    var organisationId = $('#organisationData').text();
+
+    var tableColumns = [
+      {
+         'targets': 0,
+         'checkboxes': {
+            'selectRow': true
+         },
+         data: '_id'
+      },
+      {
+        data: 'school.name',
+        sTitle: 'School'
+      },
+      {
+        data: 'type',
+        sTitle: 'Type'
+      },
+      {
+        data: 'price',
+        sTitle: 'Nieuwprijs (€)',
+        className: 'right aligned',
+      }
+    ];
+
+    var fields = [
+      {
+        label: 'School',
+        name: 'school.name',
+        type: 'readonly'
+      },
+      {
+        label: 'Type',
+        name: 'type',
+        type:  "select",
+        options: trackedHardwareData.map(h => h.singular).concat(['Installatie', 'Onderhoud', 'Support'])
+      },
+      {
+        label: 'Nieuwprijs',
+        name: 'price',
+        type: "text"
+      }
+    ];
+
+    [0,1,2,3,4].forEach(index => {
+      var title = (new Date().getFullYear() + index).toString();
+      tableColumns.push({
+        data: title,
+        sTitle: title,
+        className: 'right aligned'
+      });
+      fields.push({
+        label: 'Nieuwe apparaten in ' + title,
+        name: title,
+        type: 'text'
+      })
+    })
+    tableColumns.push({
+      data: null,
+      sTitle: 'Totaal (€)',
+      className: 'right aligned',
+      render: function ( data, type, row ) {
+        var totalPrice = 0;
+        [0,1,2,3,4].forEach(index => {
+          var year = (new Date().getFullYear() + index).toString();
+          totalPrice += data[year] * data.price;
+        })
+        return '<strong>€ ' + totalPrice + '</strong>';
+      }
+    });
+
+    editor = new $.fn.dataTable.Editor( {
+        table: "#dynamicTable",
+        idSrc:  '_id',
+        ajax: {
+          url: '/api/hardwarebudget',
+          data: {
+            organisationId: organisationId
+          }
+        },
+        fields: fields,
+        i18n: {
+            create: {
+                button: "Voeg toe",
+                title:  "Item toevoegen",
+                submit: "Bewaar"
+            },
+            edit: {
+                button: "Bewerk",
+                title:  "Item bewerken",
+                submit: "Bewaar"
+            },
+            remove: {
+                button: "Verwijder",
+                title:  "Item verwijderen",
+                submit: "Definitief verwijderen",
+                confirm: {
+                    _: "Wilt %d rijen definitief verwijderen?",
+                    1: "Wil je 1 rij definitief verwijderen?"
+                }
+            },
+            error: {
+                system: "Er is een fout opgetreden. Neem contact op met de admin."
+            }
+        }
+    } );
+
+    $('#dynamicTable')
+    .on( 'click', 'tbody td:not(:first-child)', function (e) {
+        editor.inline( this, {
+          onBlur: 'submit'
+        } );
+    });
+
+    var dataTableSettings = {
+      paging: false,
+      searching: false,
+      select: {
+          style:    'multi',
+          selector: 'td:first-child'
+      },
+      keys: {
+          columns: ':not(:first-child)',
+          editor:  editor
+      },
+      rowGroup: {
+        startRender: null,
+        endRender: function ( rows, group ) {
+            var countHardwareYears = [];
+            var grandTotal = 0;
+            [0,1,2,3,4].forEach(index => {
+              var year = (new Date().getFullYear() + index).toString()
+              var countInfo = rows.data().pluck(year);
+              var priceInfo = rows.data().pluck('price');
+              var total = 0;
+              for(var i=0; i< countInfo.length; i++) {
+                  total += priceInfo[i]*countInfo[i];
+              }
+              countHardwareYears.push(total);
+              grandTotal += total;
+            });
+
+            return $('<tr/>')
+                .append( '<td colspan="4">Totalen voor '+group+'</td>' )
+                .append( '<td class="right aligned">€ '+countHardwareYears[0].toFixed(0)+'</td>' )
+                .append( '<td class="right aligned">€ '+countHardwareYears[1].toFixed(0)+'</td>' )
+                .append( '<td class="right aligned">€ '+countHardwareYears[2].toFixed(0)+'</td>' )
+                .append( '<td class="right aligned">€ '+countHardwareYears[3].toFixed(0)+'</td>' )
+                .append( '<td class="right aligned">€ '+countHardwareYears[4].toFixed(0)+'</td>' )
+                .append( '<td class="right aligned">€ '+grandTotal+'</td>' );
+        },
+          dataSrc: 'type'
+      },
+      'order': [[2, 'asc']],
+      buttons: [ 
+        { extend: "edit",   editor: editor },
+        { extend: "remove", editor: editor },
+        'excel',
+      ],
+      dom: 'Bfrtip',
+      "language": {
+        "sProcessing": "Bezig...",
+        "sLengthMenu": "_MENU_ resultaten weergeven",
+        "sZeroRecords": "Geen resultaten gevonden",
+        "sInfo": "_START_ tot _END_ van _TOTAL_ resultaten",
+        "sInfoEmpty": "Geen resultaten om weer te geven",
+        "sInfoFiltered": " (gefilterd uit _MAX_ resultaten)",
+        "sInfoPostFix": "",
+        "sSearch": "Zoeken:",
+        "sEmptyTable": "Geen resultaten aanwezig in de tabel",
+        "sInfoThousands": ".",
+        "sLoadingRecords": "Een moment geduld aub - bezig met laden...",
+        "oPaginate": {
+          "sFirst": "Eerste",
+          "sLast": "Laatste",
+          "sNext": "Volgende",
+          "sPrevious": "Vorige"
+        },
+        "oAria": {
+          "sSortAscending":  ": activeer om kolom oplopend te sorteren",
+          "sSortDescending": ": activeer om kolom aflopend te sorteren"
+        }
+      }
+    };
+
+    var table = $("#dynamicTable").DataTable({
+        ...dataTableSettings,
+        columns: tableColumns,
+        fields: fields,
+        ajax: {
+          url: '/api/hardwarebudget/overview',
+          data: {
+            organisationId: organisationId
+          }
+        },
+        footerCallback: function(row, data, start, end, display) {
+          var api = this.api(), data;
+          
+          var prices = api.column(3).data().map(function(a){ return intVal(a)});
+          var grandTotal = 0;
+          [4,5,6,7,8].forEach((column, index) => {
+            var quantities = api.column(column).data().map(function(a){ return intVal(a)});
+            var total = 0
+            for(var i=0; i< prices.length; i++) {
+                total += prices[i]*quantities[i];
+            }
+            grandTotal += total;
+            //alert(sum);
+            $( api.column( column ).footer() ).html('<strong>€ ' + total + '</strong>')
+          });
+          $( api.column( 9 ).footer() ).html('<strong>€ ' + grandTotal + '</strong>')
+        }
+     });
+  });
+</script>

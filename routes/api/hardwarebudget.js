@@ -12,7 +12,6 @@ router.get('/', function(req, res){
 	var schoolId = req.query.schoolId;
 	HardwareBudget.find({school: mongoose.Types.ObjectId(schoolId)}, async function(err, budgetLines){
 		if(err || !budgetLines || budgetLines.length === 0){
-			console.log('no budget lines found');
 			var firstTimeBudgetLines = await createHardwareBudget(schoolId);
 			res.json({
 				data: firstTimeBudgetLines
@@ -21,6 +20,32 @@ router.get('/', function(req, res){
 			res.json({
 				data: budgetLines
 			});
+		}
+	})
+})
+
+router.get('/overview', function(req, res){
+	var organisationId = req.query.organisationId;
+	console.log(organisationId);
+	School.find({organisation: mongoose.Types.ObjectId(organisationId)}, function(err, schools){
+		if(err || !schools || schools.length === 0){
+			res.json({
+				error: 'Geen scholen gevonden'
+			})
+		} else {
+			console.log(schools);
+			HardwareBudget.find({school: {$in : schools.map(s => s._id)}})
+			.populate('school').exec(function(err, budgetLines){
+				if(err){
+					res.json({
+						error: err && err.message ? err.message : "Er ging iets mis..."
+					});
+				} else {
+					res.json({
+						data: budgetLines
+					});
+				}
+			})
 		}
 	})
 })
@@ -105,6 +130,21 @@ router.post("/", function(req, res){
 		deleteRecords(req, res, dataArray, error);
 	} else if (req.body.action === 'edit') {
 		updateRecords(req, res, dataArray, results, error);
+	} else {
+		var newRecords = Object.keys(req.body.data).map(function(key){ return {...req.body.data[key], school: req.body.schoolId}});
+		//adding hardware budget lines
+		HardwareBudget.insertMany(newRecords)
+				    .then(function (docs) {
+				        res.json({
+							data: docs,
+						});
+				    })
+				    .catch(function(error){
+				    	res.json({
+							data: [],
+							error: error && error.message ? error.message : 'Er ging iets mis...'
+						});
+				    })
 	}
 });
 
@@ -123,7 +163,8 @@ async function updateRecords(req, res, dataArray, results, error){
 function updateRecord(record){
 	return new Promise(function(resolve, reject){
 		try{
-			HardwareBudget.findOneAndUpdate({_id: mongoose.Types.ObjectId(record.id) }, record, {returnOriginal : false}, function(err, doc){
+			HardwareBudget.findOneAndUpdate({_id: mongoose.Types.ObjectId(record.id) }, record, {returnOriginal : false})
+			.populate('school').exec(function(err, doc){
 				if(err || !doc){
 					resolve('Probleem bij updaten van record');
 				} else {

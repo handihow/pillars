@@ -133,21 +133,25 @@
     </div>
     <div class="content">
       <%if(type.count > 0){%>
-          <canvas id="<%=type.singular.replace(/\s+/g, '-').toLowerCase()%>"></canvas>
-        </div>
-        <div class="extra content">
-          <a class="ui button <%if(type.count===0){%> disabled <%}%>" href="/schools/<%=school._id%>/hardware/list/?type=<%=type.singular%>">Bekijk lijst</a>
-        </div>
+        <canvas id="<%=type.singular.replace(/\s+/g, '-').toLowerCase()%>"></canvas>
       <%} else {%>
-        <div class="ui placeholder segment">
-          <div class="ui icon header">
-            <i class="dont icon"></i>
-            Nog geen <%=type.plural%>
-          </div>
-          <a class="ui primary button" href="/schools/<%=school._id%>/hardware/new/long?type=<%=type.singular%>">Voeg Toe</a>
+      <div class="ui placeholder">
+        <div class="image"></div>
+        <div class="paragraph">
+          <div class="line"></div>
+          <div class="line"></div>
+          <div class="line"></div>
         </div>
       </div>
       <%}%>
+      </div>
+      <div class="extra content">
+      <%if(type.count > 0){%>
+          <a class="ui button <%if(type.count===0){%> disabled <%}%>" href="/schools/<%=school._id%>/hardware/list/?type=<%=type.singular%>">Bekijk lijst</a>
+          
+      <%} %>
+      <a class="ui primary button" href="/schools/<%=school._id%>/hardware/new/long?type=<%=type.singular%>">Voeg Toe</a>
+      </div>
   </div>
   <% }); %>
 </div>
@@ -237,6 +241,11 @@
       pieCharts[i] = new Chart(ctx, {
           type: 'pie',
           data: data,
+          options: {
+            legend: {
+              position: 'left'
+            }
+          }
       });
     }
    });

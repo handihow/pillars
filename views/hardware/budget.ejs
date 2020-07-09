@@ -95,7 +95,7 @@
         <%})%>
       </div>
   </div>
-  <table class="ui nine column blue table" id="dynamicTable" width="100%">
+  <table id="dynamicTable" class="ui celled table" style="width:100%">
       <thead>
         <tr>
           <th></th>
@@ -136,14 +136,10 @@
     var resultText = $('#resultData').text();
     var resultData = JSON.parse(resultText);
 
-    console.log(resultData);
-
     var trackedHardwareText = $('#trackedHardwareData').text();
     var trackedHardwareData = JSON.parse(trackedHardwareText);
 
     var schoolId = $('#schoolData').text();
-
-    console.log(trackedHardwareData);
 
     var tableColumns = [
       {
@@ -169,7 +165,7 @@
         label: 'Type',
         name: 'type',
         type:  "select",
-        options: trackedHardwareData.map(h => h.singular)
+        options: trackedHardwareData.map(h => h.singular).concat(['Installatie', 'Onderhoud', 'Support'])
       },
       {
         label: 'Nieuwprijs',
@@ -208,7 +204,12 @@
     editor = new $.fn.dataTable.Editor( {
         table: "#dynamicTable",
         idSrc:  '_id',
-        ajax: '/api/hardwarebudget',
+        ajax: {
+          url: '/api/hardwarebudget',
+          data: {
+            schoolId: schoolId
+          }
+        },
         fields: fields,
         i18n: {
             create: {
