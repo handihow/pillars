@@ -11,6 +11,7 @@ var calcs = require("../../config/competence/survey");
 var _ = require("lodash");
 var Organisation = require("../../models/organisation");
 var Statistic = require("../../models/statistic");
+var hardwareScore = require("../../config/hardware/score");
 
 router.get("/schools", middleware.isAuthenticatedBadmin, function(req, res){
     Organisation.findById(req.params.id, function(err, organisation){
@@ -36,7 +37,6 @@ router.get("/schools", middleware.isAuthenticatedBadmin, function(req, res){
     });
 });
 
-
 //SHOW ROUTE HARDWARE OVERVIEW SCHOLEN
 router.get("/hardware", middleware.isAuthenticatedBadmin, function(req, res){
     Organisation.findById(req.params.id, function(err, organisation){
@@ -55,9 +55,40 @@ router.get("/hardware", middleware.isAuthenticatedBadmin, function(req, res){
                     req.flash("error", err.message);
                     res.redirect("back");
                 } else {
-                    res.render("overview/hardware", {schools: schools, config: config, organisation: organisation});         
+                    var trackedHardwares = []; var results = [];
+                    schools.forEach((school, index) => {
+                       var trackedHardware = hardwareScore.calculateHardwareStatus(school);
+                       trackedHardwares.push(JSON.parse(JSON.stringify(trackedHardware)));
+                    });
+                    var combinedTracked = [];
+                    config.hardware.types.forEach(function(hardwareType){
+                        hardwareType.count = 0;
+                        hardwareType.countLowSpecifications = 0;
+                        hardwareType.countDepreciated = 0;
+                        hardwareType.countDepreciatedNextYear = 0;
+                        hardwareType.hasMemoryCriterium = false;
+                        trackedHardwares.forEach(function(tracked){
+                            var schoolTracked = JSON.parse(JSON.stringify(tracked));
+                            var trackedIndex = schoolTracked.findIndex(hw => hw.singular == hardwareType.singular);
+                            if(trackedIndex>-1){
+                                hardwareType.count += schoolTracked[trackedIndex].count;
+                                hardwareType.countLowSpecifications += schoolTracked[trackedIndex].countLowSpecifications;
+                                hardwareType.countDepreciated += schoolTracked[trackedIndex].countDepreciated;
+                                if(schoolTracked[trackedIndex].hasMemoryCriterium){
+                                    hardwareType.hasMemoryCriterium = true;    
+                                }
+                            }
+                        });
+                        combinedTracked.push(hardwareType);
+                    });
+                    res.locals.scripts.footer.chartjs = true;
+                    res.render("hardware/index", {
+                        schools: schools, 
+                        config: config, 
+                        organisation: organisation, 
+                        trackedHardware: combinedTracked
+                    });         
                 }
-
             }); 
         };
     });

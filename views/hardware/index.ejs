@@ -1,10 +1,15 @@
 <% include ../partials/header %>
 <% include ../partials/main-menu %>
 <% include ../partials/flash-message %>
-<% include ../partials/school-header %>
+<%if(typeof school !== 'undefined'){%>
+  <% include ../partials/school-header %>
+  <% include ./header  %>
+<%} else if(typeof organisation !== 'undefined'){%>
+  <% include ../partials/organisation-header %>
+  <%- include('../overview/hardware-header')  %>
+<%}%>
 
-<% include ./header %>
-<% if(result.errors && result.errors.length === 0) { %>
+<% if(typeof result !=="undefined" && result.errors && result.errors.length === 0) { %>
   <div class="ui three column stackable grid">
     <div class="column">
        <h2 class="ui header">
@@ -146,19 +151,29 @@
       <%}%>
       </div>
       <div class="extra content">
-      <%if(type.count > 0){%>
-          <a class="ui button <%if(type.count===0){%> disabled <%}%>" href="/schools/<%=school._id%>/hardware/list/?type=<%=type.singular%>">Bekijk lijst</a>
-          
-      <%} %>
-      <a class="ui primary button" href="/schools/<%=school._id%>/hardware/new/long?type=<%=type.singular%>">Voeg Toe</a>
+      <%if(typeof school !=='undefined'){%>  
+        <%if(type.count > 0){%>
+            <a class="ui button <%if(type.count===0){%> disabled <%}%>" href="/schools/<%=school._id%>/hardware/list/?type=<%=type.singular%>">Bekijk lijst</a>      
+        <%} %>
+        <a class="ui primary button" href="/schools/<%=school._id%>/hardware/new/long?type=<%=type.singular%>">Voeg Toe</a>
+      <%} else {%>
+        <%if(type.count > 0){%>
+            <a class="ui button <%if(type.count===0){%> disabled <%}%>" href="/organisations/<%=organisation._id%>/overview/hardware/list/?type=<%=type.singular%>">Bekijk lijst</a>      
+        <%} %>
+      <%}%>
       </div>
   </div>
   <% }); %>
 </div>
-<div id="resultData" hidden><%=JSON.stringify(result)%></div>
+<%if(typeof school !=='undefined'){%>  
+  <div id="resultData" hidden><%=JSON.stringify(result)%></div>
+<%}%>
 <div id="trackedHardwareData" hidden><%=JSON.stringify(trackedHardware)%></div>
-
-<% include ../partials/school-footer %>
+<%if(typeof school !== 'undefined'){%>
+  <% include ../partials/school-footer %>
+<%} else if(typeof organisation !== 'undefined'){%>
+  <% include ../partials/organisation-footer %>
+<%}%>
 <% include ../partials/footer %>
 
 <script>
@@ -166,43 +181,47 @@
   $(document).ready(function() {
 
     var resultText = $('#resultData').text();
-    var resultData = JSON.parse(resultText);
-    console.log(resultData);
+    if(resultText && resultText.length > 0){
+      var resultData = JSON.parse(resultText);
+
+      var computerProgress = resultData.hardware.missingComputers[0] === 0 ? 100 : resultData.hardware.goodComputers[0] / resultData.hardware.requiredComputers * 100;
+
+      var dsProgress = resultData.hardware.missingDigitalSchoolbords[0] === 0 ? 100 : resultData.hardware.goodDigitalSchoolbords[0] / resultData.hardware.requiredDigitalSchoolbords * 100;
+
+      var laptopProgress = resultData.hardware.missingLaptops[0] === 0 ? 100 : resultData.hardware.goodLaptops[0] / resultData.hardware.requiredLaptops * 100;
+
+      $('#computersProgress').progress({
+        percent: computerProgress,
+        text: {
+          active: 'Computers {percent}%',
+          success: 'Computers compleet'
+        }
+      });
+
+      $('#digitalSchoolbordsProgress').progress({
+        percent: dsProgress,
+        text: {
+          active: 'Digitale schoolborden {percent}%',
+          success: 'Digitale schoolborden compleet'
+        }
+      });
+
+      $('#laptopsProgress').progress({
+        percent: laptopProgress,
+        text: {
+          active: 'Laptops {percent}%',
+          success: 'Laptops compleet'
+        }
+      });
+
+    }
+    
+
     var trackedHardwareText = $('#trackedHardwareData').text();
     var trackedHardwareData = JSON.parse(trackedHardwareText);
     console.log(trackedHardwareData);
 
-    var computerProgress = resultData.hardware.missingComputers[0] === 0 ? 100 : resultData.hardware.goodComputers[0] / resultData.hardware.requiredComputers * 100;
-
-    var dsProgress = resultData.hardware.missingDigitalSchoolbords[0] === 0 ? 100 : resultData.hardware.goodDigitalSchoolbords[0] / resultData.hardware.requiredDigitalSchoolbords * 100;
-
-    var laptopProgress = resultData.hardware.missingLaptops[0] === 0 ? 100 : resultData.hardware.goodLaptops[0] / resultData.hardware.requiredLaptops * 100;
-
-    $('#computersProgress').progress({
-      percent: computerProgress,
-      text: {
-        active: 'Computers {percent}%',
-        success: 'Computers compleet'
-      }
-    });
-
-    $('#digitalSchoolbordsProgress').progress({
-      percent: dsProgress,
-      text: {
-        active: 'Digitale schoolborden {percent}%',
-        success: 'Digitale schoolborden compleet'
-      }
-    });
-
-    $('#laptopsProgress').progress({
-      percent: laptopProgress,
-      text: {
-        active: 'Laptops {percent}%',
-        success: 'Laptops compleet'
-      }
-    });
-
-     var backgroundColors = [
+    var backgroundColors = [
                     'rgba(0,159,227, 0.7)',
                     'rgba(227,6,19, 0.7)',
                     'rgba(249,178,51, 0.7)'
@@ -239,7 +258,7 @@
           labels: labels
       };
       pieCharts[i] = new Chart(ctx, {
-          type: 'pie',
+          type: 'doughnut',
           data: data,
           options: {
             legend: {
