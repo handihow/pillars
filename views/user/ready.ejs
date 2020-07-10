@@ -72,7 +72,7 @@
                       <div class="three wide column">
                         <div class="ui small statistic <%=results[index]['autoColor']%>">
                           <div class="value">
-                            <%=results[index]['average']%>%
+                            <%=Math.round(results[index]['average'])%>%
                           </div>
                           <div class="label">
                             gem. <%=Math.round(results[index]['comparingAverage'])%>% <%=compareName%>
@@ -87,7 +87,7 @@
                             de test
                           <%}%>
                             ingezonden op <%=survey.createdAt.toJSON().slice(0,10).split('-').reverse().join('/')%>. 
-                          Jouw resultaat op onderdeel <%=survey.competenceStandardTitle%> is <strong><%=results[index]['average']%>%</strong>.
+                          Jouw resultaat op onderdeel <%=survey.competenceStandardTitle%> is <strong><%=Math.round(results[index]['average'])%>%</strong>.
                             Dit is <%=results[index]['difference']%>% <%=results[index]['differenceStr']%> dan het gemiddelde van <%=comparingEntity%> 
                             (<%=results[index]['comparingCount']%> tests). <%=results[index]['autoAdvice']%>. Klik op de blauwe knop aan de rechterkant om de deelgebieden op dit testonderdeel te analyseren.
                       </div>

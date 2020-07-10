@@ -9,7 +9,9 @@
 
 <div class="ui container">
     <h2 class="ui center aligned header">
-      <%if(organisation.logo){%><img class="ui image"  src="<%=organisation.logo%>"><%}%>
+      <%if(organisation.logo){%>
+          <img class="ui image"  src="<%=organisation.logo%>">
+      <%}%>
       <div class="content">Scholen</div>
     </h2>
     <!--divider and then all cards for schools-->
@@ -24,7 +26,7 @@
       </div>
     <%}%>
     <!--cards with schools-->
-    <div class="ui three doubling cards">
+    <div class="ui three stackable cards">
       <% schools.forEach(function(school){ %>
         <% include ../partials/school-card %>
       <% }); %>

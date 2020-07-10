@@ -1,23 +1,24 @@
 <a class="ui card" href="/schools/<%=school._id%>">
-
+  <div class="ui top attached progress" data-percent="<%= Math.ceil(((school.countStudents ? 1 : 0) + ((school.hardware && school.hardware.length>0) ? 1 : 0) + ((school.software && school.software.length>0) ? 1 : 0) + ((school.surveyResults && school.surveyResults.length>0) ? 1 : 0) + (school.management.roles[0].hours>0 ? 1 : 0) + ((school.users && school.users.length>0) ? 1 : 0)) / 0.06) %>">
+    <div class="bar"></div>
+  </div>
   <div class="content">
-    <%if(school.logo || school.uploadedLogo){%><img 
-        class="right floated tiny ui image" 
-        src="<%=school.uploadedLogo ? school.uploadedLogo : school.logo %>"><%}%>
     <div class="header"><%= school.name %></div>
-    <div class="description">
-      <p>BRIN: <%= school.schoolIdNumber %></p>
-      <span class="right floated">
+     <%if(school.logo || school.uploadedLogo){%><img 
+        class="right floated mini ui image"
+        src="<%=school.uploadedLogo ? school.uploadedLogo : school.logo %>"><%}%>
+    <div class="meta">
+      <span class="date">
         <%if(school.updatedAt){%>
             <%= school.updatedAt.toJSON().slice(0,10).split('-').reverse().join('/')%>
-        <%}%>  
-      </span>
-      <span>
-        <%= school.city %>
+        <%}%> 
       </span>
     </div>
+    <div class="description">
+        <%= school.city %>
+    </div>
   </div>
-  <div class="ui bottom attached progress" data-percent="<%= Math.ceil(((school.countStudents ? 1 : 0) + ((school.hardware && school.hardware.length>0) ? 1 : 0) + ((school.software && school.software.length>0) ? 1 : 0) + ((school.surveyResults && school.surveyResults.length>0) ? 1 : 0) + (school.management.roles[0].hours>0 ? 1 : 0) + ((school.users && school.users.length>0) ? 1 : 0)) / 0.06) %>">
-    <div class="bar"></div>
+  <div class="extra content">
+    BRIN: <%= school.schoolIdNumber %>
   </div>
 </a>

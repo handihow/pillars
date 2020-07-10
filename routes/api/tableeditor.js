@@ -3,6 +3,7 @@ var router = express.Router();
 var config = require("../../config/config");
 var mongoose = require("mongoose");
 
+
 router.post("/", function(req, res){
 	var dataArray = Object.keys(req.body.data).map(function(key){return {...req.body.data[key], id: key}});
 	var collectionName = require(`../../models/${req.body.collectionId}`)
