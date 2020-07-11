@@ -23,32 +23,6 @@
 
         <script src="https://unpkg.com/sortablejs@1.7.0/Sortable.js"></script>
 
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-
-        <script src="https://unpkg.com/nouislider@9.2.0/distribute/nouislider.js"></script>
-        <script src="https://unpkg.com/wnumb@1.1.0"></script>
-        <link href="https://unpkg.com/nouislider@9.2.0/distribute/nouislider.min.css" rel="stylesheet"/>
-
-        <script src="https://unpkg.com/signature_pad@2.2.0/dist/signature_pad.min.js"></script>
-
-        <script src="https://unpkg.com/inputmask@5.0.3/dist/inputmask.js"></script>
-
-        <script src="https://cdn.ckeditor.com/4.7.3/standard/ckeditor.js"></script>
-
-        <script src="https://unpkg.com/jquery-bar-rating"></script>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"/>
-        <!-- Themes -->
-        <link rel="stylesheet" href="https://unpkg.com/jquery-bar-rating@1.2.2/dist/themes/bars-1to10.css"/>
-        <link rel="stylesheet" href="https://unpkg.com/jquery-bar-rating@1.2.2/dist/themes/bars-movie.css"/>
-        <link rel="stylesheet" href="https://unpkg.com/jquery-bar-rating@1.2.2/dist/themes/bars-pill.css"/>
-        <link rel="stylesheet" href="https://unpkg.com/jquery-bar-rating@1.2.2/dist/themes/bars-reversed.css"/>
-        <link rel="stylesheet" href="https://unpkg.com/jquery-bar-rating@1.2.2/dist/themes/bars-horizontal.css"/>
-        <link rel="stylesheet" href="https://unpkg.com/jquery-bar-rating@1.2.2/dist/themes/fontawesome-stars.css"/>
-        <link rel="stylesheet" href="https://unpkg.com/jquery-bar-rating@1.2.2/dist/themes/css-stars.css"/>
-        <link rel="stylesheet" href="https://unpkg.com/jquery-bar-rating@1.2.2/dist/themes/fontawesome-stars-o.css"/>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
         <script src="https://surveyjs.azureedge.net/1.7.19/surveyjs-widgets.js"></script>
 
     </head>
@@ -59,12 +33,10 @@
         </div>
 
         <script type="text/javascript">
-            SurveyCreator
-                .StylesManager
-                .applyTheme("modern");
 
             var options = {
-                showLogicTab: true
+                showLogicTab: true,
+                questionTypes: ["text", "checkbox", "radiogroup", "dropdown", "imagepicker", "matrix", "matrixdropdown", "expression", "image", "html", "rating"]
             };
             var creator = new SurveyCreator.SurveyCreator("creatorElement", options);
             creator.text = window.localStorage.getItem("digitalskillssurvey") || "";
