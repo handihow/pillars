@@ -6,19 +6,18 @@
     <div class="header"><%= school.name %></div>
      <%if(school.logo || school.uploadedLogo){%><img 
         class="right floated mini ui image"
-        src="<%=school.uploadedLogo ? school.uploadedLogo : school.logo %>"><%}%>
+        src="<%=school.uploadedLogo ? school.uploadedLogo : school.logo %>"
+        onerror="this.onerror=null;this.src='https://via.placeholder.com/150';"><%}%>
     <div class="meta">
-      <span class="date">
-        <%if(school.updatedAt){%>
-            <%= school.updatedAt.toJSON().slice(0,10).split('-').reverse().join('/')%>
-        <%}%> 
-      </span>
-    </div>
-    <div class="description">
-        <%= school.city %>
+       <%= school.city %>
     </div>
   </div>
   <div class="extra content">
-    BRIN: <%= school.schoolIdNumber %>
+    <span class="date">
+      <i class="calendar check outline icon"></i>
+      <%if(school.updatedAt){%>
+          <%= school.updatedAt.toJSON().slice(0,10).split('-').reverse().join('/')%>
+      <%}%> 
+    </span>
   </div>
 </a>
