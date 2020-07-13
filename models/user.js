@@ -38,7 +38,7 @@ var UserSchema = new mongoose.Schema({
   }],
   dateOfBirth: Date,
   gender: String,
-  gradeLevelGroup: String,
+  gradeLevelGroup: [String],
   technologyAdoption: String,
   hardwareAdoption: String,
   softwarePreference: String,

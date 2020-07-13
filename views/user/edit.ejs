@@ -43,29 +43,13 @@
               <input type="text" name="user[job]" value="<%=user.job%>" id="user[job]">
           </div>
           <div class="field">
-              <label>Bouw</label>
-              <div class="ui selection dropdown">
-                  <input type="hidden" name="user[gradeLevelGroup]" id="dropdown" value="<%=user.gradeLevelGroup%>">
-                  <div class="text"><%=user.gradeLevelGroup%></div>
-                  <i class="dropdown icon"></i>
-                  <div class="menu">
-                        <div class="item <%if(user.gradeLevelGroup==="Onderbouw"){%>active<%}%>"
-                            data-value="Onderbouw"
-                          <% if(user.gradeLevelGroup==="Onderbouw"){ %> selected="" <% } %> >
-                              Onderbouw
-                        </div>
-                        <div class="item <%if(user.gradeLevelGroup==="Middenbouw"){%>active<%}%>"
-                            data-value="Middenbouw"
-                          <% if(user.gradeLevelGroup==="Middenbouw"){ %> selected="" <% } %> >
-                              Middenbouw
-                        </div>
-                        <div class="item <%if(user.gradeLevelGroup==="Bovenbouw"){%>active<%}%>"
-                            data-value="Bovenbouw"
-                          <% if(user.gradeLevelGroup==="Bovenbouw"){ %> selected="" <% } %> >
-                              Bovenbouw
-                        </div>
-                  </div>
-              </div>
+            <label>Bouw</label>
+              <select multiple="" name="user[gradeLevelGroup]" class="ui dropdown">
+                <option value="">Selecteer bouw</option>
+                <% ['Onderbouw', 'Middenbouw', 'Bovenbouw'].forEach(function(gradeLevel) { %>
+                <option value="<%=gradeLevel%>" <%if(user.gradeLevelGroup.includes(gradeLevel)) { %> selected="" <% } %>><%=gradeLevel%></option>
+                <% }) %>
+            </select>
           </div>
         </div>
         <div class="two fields">

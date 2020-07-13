@@ -23,6 +23,7 @@ var processingActivity = require('./other/processingActivity'); //processing act
 var inspectionResults = require('./other/inspectionResults'); //school inspection results
 var organisationSettings = require('./other/organisationSettings'); //organisation settings
 var formsCSS = require('./other/formsCSS'); //custom css for forms in the application
+var forms = require('./other/form'); //form column information
 
 //Definition of config variable
 var config = {};
@@ -61,6 +62,7 @@ config.processingActivity = processingActivity;
 config.inspectionResults = inspectionResults;
 config.organisationSettings = organisationSettings;
 config.formsCSS = formsCSS;
+config.forms = forms;
 
 config.currentSchoolYear = "2019/2020"
 

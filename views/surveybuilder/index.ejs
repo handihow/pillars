@@ -32,22 +32,59 @@
             <div id="creatorElement"></div>
         </div>
 
+        <div id="formData" hidden><%=JSON.stringify(form)%></div>
+
         <script type="text/javascript">
+
+            var formText = $('#formData').text();
+            var formData = JSON.parse(formText);
+            console.log(formData);
 
             var options = {
                 showLogicTab: true,
                 questionTypes: ["text", "checkbox", "radiogroup", "dropdown", "imagepicker", "matrix", "matrixdropdown", "expression", "image", "html", "rating"]
             };
             var creator = new SurveyCreator.SurveyCreator("creatorElement", options);
-            creator.text = window.localStorage.getItem("digitalskillssurvey") || "";
+            creator.text = formData.text || "";
             creator.showToolbox = "right";
             creator.showPropertyGrid = "right";
             creator.haveCommercialLicense = true;
             creator.rightContainerActiveItem("toolbox");
             creator.isAutoSave = true;
+            creator
+            .toolbarItems
+            .push({
+                id: "go-back",
+                visible: true,
+                title: "Sluiten",
+                action: function () {
+                    window.history.back();
+                }
+            });
             creator.saveSurveyFunc = function(saveNo, callback) {
                 //Save the survey definition into a local storage
-                window.localStorage.setItem("digitalskillssurvey", creator.text);
+                $.ajax({
+                  url: '/form/' + formData._id,
+                  type: 'POST',
+                  contentType: 'application/json',
+                  data: JSON.stringify({
+                    text: creator.text
+                  }),
+                  success: function(response){
+                    if(response.success){
+                      return true;
+                    } else {
+                      alert('Fout bij het opslaan van vragenlijst ...' + response.message);
+                      return false;
+                    }
+                    
+                  },
+                  error: function(error){
+                    console.log(error);
+                    alert('Fout bij het opslaan van vragenlijst ...' + error.message);
+                    return false;
+                  }
+                })
             };
         </script>
 

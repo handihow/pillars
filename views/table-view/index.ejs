@@ -7,18 +7,16 @@
 <%} else if(typeof organisation !== 'undefined'){%>
   <% include ../partials/organisation-header %>
   <%- include('../overview/' + header +'-header')  %>
+<%} else {%>
+  <% include ../partials/admin-header %>
 <%}%>
 
-<div class="ui segment">
 
   <div class="ui placeholder segment" id="loader">
     <div class="ui active inverted dimmer">
       <div class="ui text loader">Laden..</div>
     </div>
     <p></p>
-  </div>
-  <div class="ui visible info message">
-    <p><strong>Tip!</strong> Je kunt nu de tabel bewerken als een spreadsheet, dus direct in de cellen! Ook kun je meerdere rijen selecteren en dan invulvelden voor alle rijen tegelijk updaten. Bij 'zichtbare kolommen' kun je nog meer kolommen in de tabel tonen.</p>
   </div>
   <div id="tableContainer">
     
@@ -39,11 +37,11 @@
         <tbody id="dynamicTableBody"></tbody>
     </table>
   </div>
-</div>
 
 <div id="columnData" hidden><%=JSON.stringify(columns)%></div>
 <div id="itemsData" hidden><%=JSON.stringify(items)%></div>
-<div id="warningRowData" hidden><%=JSON.stringify(hasWarningRow)%></div>
+<div id="warningRowData" hidden><%=hasWarningRow !== 'undefined' && hasWarningRow ? 'true' : 'false'%></div>
+<div id="allowNewEntriesData" hidden><%= typeof allowNewEntries !== 'undefined' && allowNewEntries ? 'true' : 'false'%></div>
 <div id="headerData" hidden><%=header%></div>
 <div id="organisationData" hidden><%=typeof organisation !== 'undefined' ? 'true' : 'false'%></div>
 
@@ -51,6 +49,8 @@
   <% include ../partials/school-footer %>
 <%} else if(typeof organisation !== 'undefined'){%>
   <% include ../partials/organisation-footer %>
+<%} else {%>
+  <% include ../partials/admin-footer %>
 <%}%>
 <% include ../partials/footer %>
 
@@ -74,6 +74,9 @@
     if(hasWarningRow){
       warningRowIndex = columnData.findIndex(c => c.id === 'warning');
     }
+
+    var allowNewEntriesText = $('#allowNewEntriesData').text();
+    var allowNewEntries = allowNewEntriesText === "true" ? true : false;
 
     var hasOrganisationText = $('#organisationData').text();
     var hasOrganisation = hasOrganisationText === "true" ? true : false;
@@ -173,6 +176,11 @@
         },
         fields: fields,
         i18n: {
+            create: {
+                button: "Voeg toe",
+                title:  "Item toevoegen",
+                submit: "Bewaar"
+            },
             edit: {
                 button: "Bewerk",
                 title:  "Item bewerken",
@@ -201,6 +209,19 @@
         } );
     });
 
+    var buttons = [        
+        { extend: "edit",   editor: editor },
+        { extend: "remove", editor: editor },
+        'colvis',
+        'excel',
+      ];
+    if(allowNewEntries){
+      buttons.unshift({
+        extend: 'create', editor: editor
+      })
+    }
+
+
     var dataTableSettings = {
       search: {
         search: searchParam
@@ -215,12 +236,7 @@
           editor:  editor
       },
       'order': [[2, 'asc']],
-      buttons: [        
-        { extend: "edit",   editor: editor },
-        { extend: "remove", editor: editor },
-        'colvis',
-        'excel',
-      ],
+      buttons: buttons,
       dom: 'Bfrtip',
       "language": {
         "sProcessing": "Bezig...",

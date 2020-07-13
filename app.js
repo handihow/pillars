@@ -18,6 +18,7 @@ var Organisation = require("./models/organisation");
 //REQUIRING ROUTES
 //ROUTES RELATED TO MODELS
 var hardwareModelRoutes = require('./routes/hardware/hardware');
+var formModelRoutes = require('./routes/forms/forms');
 // //ROUTES RELATED TO SCHOOLS
 var schoolRoutes = require("./routes/school/schools");
 var hardwareRoutes = require("./routes/school/hardware");
@@ -185,7 +186,7 @@ app.use(function(req, res, next){
 //USE ROUTES
 //ROUTES RELATED TO MODELS
 app.use("/hardware/:id", hardwareModelRoutes);
-
+app.use("/form/:id", formModelRoutes);
 //ROUTES RELATED TO SCHOOLS
 app.use("/schools", schoolRoutes);
 app.use("/schools/:id/hardware", hardwareRoutes);

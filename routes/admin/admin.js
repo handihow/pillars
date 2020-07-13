@@ -5,6 +5,9 @@ var middleware = require("../../middleware");
 var User = require("../../models/user");
 var Organisation = require("../../models/organisation");
 var Standard = require("../../models/standard");
+var Form = require('../../models/form');
+var config = require("../../config/config");
+
 
 //show route
 router.get("/", middleware.isPadmin, function(req, res){
@@ -23,10 +26,36 @@ router.get("/", middleware.isPadmin, function(req, res){
             req.flash("error", err.message);
             return res.redirect("back");
           }
-          res.render("admin/dashboard", { organisationCount: organisationCount, schoolCount: schoolCount, userCount: userCount });
+          Form.countDocuments({}).exec((err, formCount) => {
+          if (err) {
+              req.flash("error", err.message);
+              return res.redirect("back");
+            }
+            res.render("admin/dashboard", { organisationCount: organisationCount, schoolCount: schoolCount, userCount: userCount, formCount: formCount });
+          });
         });
       });
   });   
+});
+
+//get list of forms
+router.get("/forms", middleware.isPadmin, function(req,res){
+  Form.find(function(err, forms){
+    if(err){
+      req.flash("error", err.message);
+      res.redirect("back");
+    } else {
+      res.locals.scripts.header.datatables = true;
+      res.locals.scripts.footer.datatables = true;
+      res.render("table-view/index", {
+        items: forms, 
+        columns: config.forms,
+        header: 'form',
+        hasWarningRow: false,
+        allowNewEntries: true
+      });     
+    }
+  })
 });
 
 module.exports = router;

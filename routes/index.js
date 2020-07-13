@@ -95,8 +95,5 @@ router.get("/stepper", middleware.isLoggedIn, function(req, res){
     });  
 });
 
-router.get("/surveybuilder", middleware.isLoggedIn, function(req,res){
-  res.render("surveybuilder/index");
-})
 
 module.exports = router;

@@ -11,8 +11,22 @@ router.post("/", function(req, res){
 	var error;
 	if(req.body.action === 'edit'){
 		updateRecords(req, res, dataArray, collectionName, results, error);
-	} else {
+	} else if(req.body.action === 'remove') {
 		deleteRecords(req, res, dataArray, collectionName, error);
+	} else {
+		var newRecords = Object.keys(req.body.data).map(function(key){ return {...req.body.data[key]}});
+		collectionName.insertMany(newRecords)
+				    .then(function (docs) {
+				        res.json({
+							data: docs,
+						});
+				    })
+				    .catch(function(error){
+				    	res.json({
+							data: [],
+							error: error && error.message ? error.message : 'Er ging iets mis...'
+						});
+				    })
 	}
 })
 
