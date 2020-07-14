@@ -71,7 +71,6 @@
 
             var formText = $('#formData').text();
             var formData = JSON.parse(formText);
-            console.log(formData);
 
             var options = {
                 showLogicTab: true,
@@ -91,7 +90,7 @@
                 visible: true,
                 title: "Sluiten",
                 action: function () {
-                    window.history.back();
+                    window.location.href = '/admin/forms';                
                 }
             });
             creator.saveSurveyFunc = function(saveNo, callback) {
@@ -101,7 +100,8 @@
                   type: 'POST',
                   contentType: 'application/json',
                   data: JSON.stringify({
-                    text: creator.text
+                    text: creator.text,
+                    id: formData._id
                   }),
                   success: function(response){
                     if(response.success){

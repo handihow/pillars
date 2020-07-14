@@ -26,14 +26,12 @@ router.get('/', function(req, res){
 
 router.get('/overview', function(req, res){
 	var organisationId = req.query.organisationId;
-	console.log(organisationId);
 	School.find({organisation: mongoose.Types.ObjectId(organisationId)}, function(err, schools){
 		if(err || !schools || schools.length === 0){
 			res.json({
 				error: 'Geen scholen gevonden'
 			})
 		} else {
-			console.log(schools);
 			HardwareBudget.find({school: {$in : schools.map(s => s._id)}})
 			.populate('school').exec(function(err, budgetLines){
 				if(err){
