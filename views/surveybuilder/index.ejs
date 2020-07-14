@@ -69,12 +69,127 @@
                 .StylesManager
                 .applyTheme("bootstrap");
 
+            var customSurveyProperties =  
+            [
+              {
+                identifier: 'isprofilequestion',
+                title: 'Is profielvraag',
+                type: 'boolean',
+                default: false,
+                dependsOn: null
+              },
+              {
+                identifier: 'istestquestion',
+                title: 'Is onderdeel van test',
+                type: 'boolean',
+                default: false,
+                dependsOn: null
+              },
+              {
+                identifier: 'subject',
+                title: 'Onderdeel',
+                type: 'choices',
+                dependsOn: 'istestquestion',
+                choices: [
+                    {value: 'DG', text: 'Digitale geletterdheid'}, 
+                    {value: 'PDH', text: 'Pedagogisch didactisch handelen'}, 
+                    {value: 'PO', text: 'Persoonlijke ontwikkeling'},
+                    {value: 'WSC', text: 'Werken in de schoolcontext'}
+                ]
+              }, 
+              { 
+                identifier: 'topic',
+                title: 'Subonderdeel',
+                type: 'choices',
+                dependsOn: 'subject',
+                choices: function(obj){
+                    var availableChoices = [
+                        {parent: 'DG', value: 'IB', text: 'ICT basisvaardigheden'},
+                        {parent: 'DG', value: 'MW', text: 'Mediawijsheid'},
+                        {parent: 'DG', value: 'IV', text: 'Informatievaardigheden'},
+                        {parent: 'DG', value: 'CT', text: 'Computational Thinking'}
+                    ]
+                    var entity = !!obj
+                        ? obj.subject
+                        : null;
+                    //If targetEntity is empty then return the empty array
+                    if (!entity) {
+                        return [];
+                    } else {
+                        var choices = [];
+                        availableChoices.forEach(function(ac){
+                            if(ac.parent === entity){
+                                choices.push({
+                                    value: ac.value,
+                                    text: ac.text
+                                })
+                            }
+                        })
+                        return choices;
+                    }
+                }
+              },
+              {
+                identifier: 'maxscore',
+                title: 'Maximum score',
+                type: 'number',
+                default: 100,
+                dependsOn: 'istestquestion'
+              },
+              {
+                identifier: 'minscore',
+                title: 'Min score vaardig',
+                type: 'number',
+                dependsOn: 'istestquestion',
+              }
+            ];
+            customSurveyProperties.forEach(property => {
+              if(property.type === 'choices'){
+                //It uses rest full service and choicesCallback function to tell property editor that choices are loaded from the web
+                Survey.Serializer.addProperty('question', { 
+                  name: property.identifier, 
+                  title: property.title,
+                  dependsOn: property.dependsOn,
+                  visibleIf: function(obj){
+                    if(property.dependsOn && !obj[property.dependsOn]){
+                      return false;
+                    } else {
+                      return true;
+                    }
+                  },
+                  choices: property.choices                
+                });
+              } else {
+                Survey.Serializer.addProperty('question', { 
+                  name: property.identifier, 
+                  type: property.type, 
+                  default: property.default,
+                  dependsOn: property.dependsOn,
+                  visibleIf: function(obj){
+                    if(property.dependsOn && !obj[property.dependsOn]){
+                      return false;
+                    } else {
+                      return true;
+                    }
+                  }
+                 });
+              }
+              SurveyCreator
+                .SurveyQuestionEditorDefinition
+                .definition['question']
+                .properties.push({name: property.identifier, title: property.title, tab: "PODD instellingen"}); //does not work  
+              SurveyCreator['localization'].getLocale('').p[property.identifier] = property.title;
+            });
+
+            // add score value to each itemvalue (matrix, select, dropdown)
+            Survey.Serializer.addProperty('itemvalue', {name: 'score', type: 'number'});
+
             var formText = $('#formData').text();
             var formData = JSON.parse(formText);
 
             var options = {
                 showLogicTab: true,
-                questionTypes: ["text", "checkbox", "radiogroup", "dropdown", "imagepicker", "matrix", "matrixdropdown", "expression", "image", "html", "rating"]
+                questionTypes: ["text", "boolean", "checkbox", "radiogroup", "dropdown", "imagepicker", "matrix", "matrixdropdown", "expression", "image", "html", "rating"]
             };
             var creator = new SurveyCreator.SurveyCreator("creatorElement", options);
             creator.text = formData.text || "";
@@ -119,6 +234,7 @@
                   }
                 })
             };
+
         </script>
 
     </body>
