@@ -46,7 +46,7 @@
 		var comparingAverages = results.map(r => r.comparingAverage);
 
 		surveys.forEach(function(survey, index){
-			if(averages[index]){
+			if(averages[index] && $('#'+index.toString()).length>0){
 				var data = [
 				  {
 				    type: "indicator",

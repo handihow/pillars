@@ -19,8 +19,7 @@
   </div>
   <div class="ui divider"></div>
   <%var pageStarter = 0%>
-  <% surveys.forEach(function(survey, index){ %>
-      <%if(survey.isActiveCompetenceSurvey){ %>
+  <% surveys.filter(s => s.isActiveCompetenceSurvey).forEach(function(survey, index){ %>
           <%if(pageStarter === 0){%>
           <div class="pdf__page enable_horizontal_scroll"> 
             <h2 class="ui header">
@@ -65,7 +64,6 @@
             </div>  
           <%}%>
           <%if(index%4===0 && index!==0){pageStarter = 0} else {pageStarter++}%>
-      <%}%>
   <%});%>
   
 
