@@ -12,7 +12,7 @@ router.get("/", middleware.isLoggedIn, function(req, res){
       req.flash("error", err.message);
       res.redirect("back");
     } else {
-      res.render("organisationSettings/index", {organisation: organisation});         
+      res.render("organisationSettings/index", {organisation: organisation, labels: config.organisationSettingTopics});         
     }
   });
 });
@@ -26,7 +26,7 @@ router.post("/", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, 
       res.redirect("back");
     } else {
       var updatedSettings = {};
-      Object.keys(organisation.settings).forEach(function(setting){
+      Object.keys(config.organisationSettingTopics).forEach(function(setting){
         if(req.body[setting].includes("on")){
           updatedSettings[setting] = true;
         } else {

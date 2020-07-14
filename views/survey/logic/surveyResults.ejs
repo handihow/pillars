@@ -284,8 +284,10 @@
 	                    } );
 	 
 	                column.data().unique().sort().each( function ( d, j ) {
-	                	if(d && d.length>0){
+	                	if(d && typeof d==='string' && d.length>0){
 	                		select.append('<option value="' + d + '">' + d.substr(0,30) + '</option>')
+	                	} else if(d && Array.isArray(d)){
+	                		select.append('<option value="' + d.join(',') + '">' + d.join(',') + '</option>')
 	                	}
 	                } );
 	            } );

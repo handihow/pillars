@@ -9,23 +9,12 @@
     </h2>
 
     <div class="ui info message">
-      Je kunt modules aan en uitzetten, en je schakelt hiermee opties (knoppen) aan en uit in het top menu en het zij-menu bij scholen. 
-  </div>
-    
-    <% var labels = {
-        messages: "Module Berichten / Informatie",
-        privacy: "Module Algemene Verordering Gegevensbescherming",
-        hardware: "Module Hardware",
-        software: "Module (Digitale) Leermiddelen",
-        competence: "Module Deskundigheid",
-        management: "Module Organisatie",
-        pillars: "Module Pillars Berekening",
-        evaluations: "Module Evaluatie"
-      }; %>
+      Je kunt modules aan en uitzetten, en je schakelt hiermee opties (knoppen) aan en uit in het top menu en het zij-menu bij bestuur, scholen en medewerkers. 
+     </div>
 
     <!--divider and then all cards for question lists-->
     <form class="ui form" action="/organisations/<%=organisation._id%>/organisationSettings" method="POST">
-      <% Object.keys(organisationSettings).forEach(function(setting){ %>
+      <% Object.keys(labels).forEach(function(setting){ %>
           <div class="two fields">
             <div class="field">
               <div class="ui toggle checkbox">

@@ -20,34 +20,39 @@
     <i class="users icon" ></i>
     <span class="hide-mobile">Accounts</span>
   </a>
-
+  <% if(organisation.settings.hardware){ %>
   <a class="vertical item <%if(url.includes("/organisations/"+organisation._id+'/overview/hardware')) { %> active <% } %>" 
       href="/organisations/<%= organisation._id %>/overview/hardware" 
       data-content="Hardware">
     <i class="desktop icon" ></i>
     <span class="hide-mobile">Hardware</span>
   </a>
-
+  <%}%>
+  <% if(organisation.settings.software){ %>
   <a class="vertical item <%if(url.includes("/organisations/"+organisation._id+'/overview/software')) { %> active <% } %>" 
       href="/organisations/<%= organisation._id %>/overview/software" 
       data-content="Digitale leermiddelen">
     <i class="tablet alternate icon" ></i>
     <span class="hide-mobile">Digitale leermiddelen</span>
   </a>
-
+  <%}%>
+  <% if(organisation.settings.competence){ %>
   <a class="vertical item <%if(url.includes("/organisations/"+organisation._id+'/overview/competence')) { %> active <% } %>" 
       href="/organisations/<%= organisation._id %>/overview/competence" 
       data-content="Deskundigheid">
     <i class="certificate icon" ></i>
     <span class="hide-mobile">Deskundigheid</span>
   </a>
+  <%}%>
 
+  <% if(organisation.settings.pillars){ %>
   <a class="vertical item <%if(url.includes('/organisations/'+organisation._id+'/overview/pillars') 
         || url.includes('/organisations/'+organisation._id+'/overview/schools')) { %> active <% } %>" 
     href="/organisations/<%= organisation._id %>/overview/pillars/" data-content="Overzichten">
     <i class="chart bar icon"></i>
     <span class="hide-mobile">Overzichten</span>
   </a>
+  <%}%>
 
   <a class="vertical item <%if(url.includes('/organisations/'+organisation._id+'/survey/')) { %> active <% } %>" 
     href="/organisations/<%= organisation._id %>/survey/" data-content="Enquetes">

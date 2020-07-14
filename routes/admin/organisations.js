@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router({mergeParams: true});
 var middleware = require("../../middleware");
 var Organisation = require("../../models/organisation");
+var config = require("../../config/config");
 
 //get list of organisations
 router.get("/", middleware.isPadmin, function(req,res){
@@ -44,7 +45,7 @@ router.get('/:id', middleware.isLoggedIn, function(req, res){
       req.flash("error", "Organisatie niet gevonden.");
       res.redirect("back");
     } else {
-      res.render("organisations/show", {organisation: organisation});
+      res.render("organisations/show", {organisation: organisation, labels: config.organisationSettingTopics});
     }
   })
 })

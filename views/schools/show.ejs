@@ -88,7 +88,11 @@
       <div class="content"> 
         <ul>
         <%schoolAdmins.forEach(function(admin){%>
-          <li><%=admin.firstName%> <%=admin.lastName%></li>
+          <%if(admin.firstName && admin.lastName){%>
+            <li><%=admin.firstName%> <%=admin.lastName%></li>
+          <%} else {%>
+            <li><%=admin.username%></li>
+          <%}%>
         <%})%>
         </ul>
       </div>

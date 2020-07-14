@@ -60,7 +60,8 @@ config.email = email;
 config.scripts = scripts;
 config.processingActivity = processingActivity;
 config.inspectionResults = inspectionResults;
-config.organisationSettings = organisationSettings;
+config.organisationSettings = organisationSettings.standard;
+config.organisationSettingTopics = organisationSettings.topics;
 config.formsCSS = formsCSS;
 config.forms = forms;
 
