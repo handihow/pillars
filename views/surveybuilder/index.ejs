@@ -24,6 +24,7 @@
         <script src="https://unpkg.com/sortablejs@1.7.0/Sortable.js"></script>
 
         <script src="https://surveyjs.azureedge.net/1.7.19/surveyjs-widgets.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.2.0/papaparse.min.js"></script>
 
     </head>
     <body>
@@ -107,7 +108,15 @@
                         {parent: 'DG', value: 'IB', text: 'ICT basisvaardigheden'},
                         {parent: 'DG', value: 'MW', text: 'Mediawijsheid'},
                         {parent: 'DG', value: 'IV', text: 'Informatievaardigheden'},
-                        {parent: 'DG', value: 'CT', text: 'Computational Thinking'}
+                        {parent: 'DG', value: 'CT', text: 'Computational Thinking'},
+                        {parent: 'PDH', value: 'IG', text: 'Instructie geven'},
+                        {parent: 'PDH', value: 'LTNL', text: 'Laten leren'},
+                        {parent: 'PDH', value: 'TTSN', text: 'Toetsen'},
+                        {parent: 'PO', value: 'OVVG', text: 'Ontwikkelingen volgen in vakgebied'},
+                        {parent: 'PO', value: 'DVE', text: 'Delen van ervaringen'},
+                        {parent: 'WSC', value: 'RE', text: 'Registreren'},
+                        {parent: 'WSC', value: 'VEV', text: 'Volgen en verantwoorden'},
+                        {parent: 'WSC', value: 'COM', text: 'Communiceren'}
                     ]
                     var entity = !!obj
                         ? obj.subject
@@ -201,6 +210,16 @@
             creator
             .toolbarItems
             .push({
+                id: 'csv-export',
+                visible: true,
+                title: 'Download',
+                action: function(){
+                    createCSV();
+                }
+            })
+            creator
+            .toolbarItems
+            .push({
                 id: "go-back",
                 visible: true,
                 title: "Sluiten",
@@ -208,6 +227,7 @@
                     window.location.href = '/admin/forms';                
                 }
             });
+
             creator.saveSurveyFunc = function(saveNo, callback) {
                 //Save the survey definition into a local storage
                 $.ajax({
@@ -234,6 +254,89 @@
                   }
                 })
             };
+
+            createCSV = function(){
+                var surveyModel = new Survey.Model(formData.text);
+                try {
+                  var questions = [];
+                  surveyModel
+                    .getAllQuestions()
+                    .forEach((q) => {
+                      var choices = [];
+                      switch (q.getType()) {
+                        case "checkbox":
+                        case "radiogroup":
+                        case "dropdown":
+                        case "imagepicker":
+                          q.choices.map(c => choices.push({value: c.value, title: c.text, score: c.score ? c.score : null}));
+                          break;
+                        case "rating":
+                          if(q.rateValues.length>0){
+                            q.rateValues.map(rv => choices.push({value: rv.value, title: rv.title, score: rv.score ? rv.score : null}));
+                          } else {
+                            choices.push({value: q.rateMin ? q.rateMin : 1, title: q.minRateDescription ? q.minRateDescription : 'Minimum', score: null})
+                            choices.push({value: q.rateStep ? q.rateStep : 1, title: 'Stap', score: null})
+                            choices.push({value: q.rateMax ? q.rateMax : 5, title: q.maxRateDescription ? q.maxRateDescription : 'Maximum', score: null})
+                          }
+                          break;
+                        case "matrix":
+                          q.rows.map(r => {
+                            let columnScores = q.columns.map(c => c.score ? c.score : null);
+                            choices.push({value: r.value, title: r.text, score: columnScores});
+                          });
+                          break;
+                        default:
+                          console.log(q.getType() + ' is not part of calculation matrix');
+                      }
+                      let choicesStr = "";
+                      let choicesLabelStr = "";
+                      choices.map(c => {
+                        let score = c.score ? c.score : '-';
+                        choicesStr += c.title + "(" + score + "), ";
+                        choicesLabelStr += c.value + "(" + score + "), ";
+                      });
+                      var question = {
+                        'ID': q.name,
+                        'Zichtbaar': q.isVisible && q.isParentVisible ? 'ja' : 'nee',
+                        'Pagina': q.parent.name,
+                        'Vraag': q.title,
+                        'Type': q.getType(),
+                        'Profielvraag': q.isprofilequestion ? 'ja' : 'nee',
+                        'Testvraag': q.istestquestion ? 'ja' : 'nee',
+                        'Onderdeel': q.subject ? q.subject : '-',
+                        'Subonderdeel': q.topic ? q.topic : '-',
+                        'Min score': q.minscore ? q.minscore : '-',
+                        'Max score' : q.maxscore ? q.maxscore : '-',
+                        'Keuzes': choicesStr,
+                        'Keuze labels': choicesLabelStr
+                      }
+                      questions.push(question);
+                    });
+
+                    var csvContent = Papa.unparse(questions, {
+                        delimiter: ";",
+                        columns: ['ID', 'Vraag', 'Zichtbaar', 'Pagina', 'Type', 'Profielvraag', 'Testvraag', 'Onderdeel', 'Subonderdeel', 'Min score', 'Max score', 'Keuzes', 'Keuze labels']
+                    });
+                    var csvData = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
+                    var csvURL =  null;
+                    if (navigator.msSaveBlob)
+                    {
+                        csvURL = navigator.msSaveBlob(csvData, 'download.csv');
+                    }
+                    else
+                    {
+                        csvURL = window.URL.createObjectURL(csvData);
+                    }
+
+                    var tempLink = document.createElement('a');
+                    tempLink.href = csvURL;
+                    tempLink.setAttribute('download', 'download.csv');
+                    tempLink.click();
+                } catch (err) {
+                  console.log(err);
+                }
+            }
+
 
         </script>
 
