@@ -12,6 +12,7 @@
 	        $('#pdf__progress').show();
 	        var pdf = new jsPDF('l', 'mm', 'a4', true);
 	        var pages = $(".pdf__page");
+	        console.log(pages.length);
 	        $('#pdf__progress').progress({
 	          total: 1
 	        });

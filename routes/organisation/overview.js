@@ -385,6 +385,32 @@ router.get("/competence", middleware.isAuthenticatedBadmin, function(req, res){
   });
 });
 
+//SHOW ROUTE COMPETENCE SUMMARY ORGANISATION
+router.get("/podd", middleware.isAuthenticatedBadmin, function(req, res){
+  Organisation.findById(req.params.id)
+  .exec(function(err, organisation){
+    if(err ||!organisation){
+      req.flash("error", "Bestuur niet gevonden.");
+      res.redirect("back");
+    } else {
+      Survey.findOne({
+        "organisation": organisation._id, 
+        "isPODDSurvey": true
+      }, async function(err, survey){
+        let results = await retrieveOrganisationSurveyResults(survey, organisation);
+        if(index==surveys.length-1){
+            res.locals.scripts.header.chartjs = true;
+            res.render("overview/podd", {
+              organisation: organisation, 
+              survey: survey, 
+              results: results
+            })
+          }
+      })        
+    }
+  });
+});
+
 async function asyncForEach(array, callback) {
   for (let index = 0; index < array.length; index++) {
     await callback(array[index], index, array);
