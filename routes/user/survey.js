@@ -42,7 +42,15 @@ router.get("/:sid/private", middleware.isLoggedIn, function(req, res){
           res.locals.scripts.footer.surveyjs = true;
           res.locals.scripts.footer.surveyOptions = true;
           res.locals.scripts.footer.surveyPrivate = true;
-          res.render("survey/private", {survey: survey, software: software, isShow: false, customCSS: config.competence.customCSS});            
+          var categories = survey.competenceStandardKey ? 
+            config.competence.survey.competenceCategories.find(c => c.identifier === survey.competenceStandardKey).categories : 
+            [];
+          res.render("survey/fullscreen", {
+            survey: survey, 
+            software: software, 
+            isShow: false, 
+            categories: categories
+          });            
         }
     });
 });
@@ -86,6 +94,7 @@ router.post("/:sid/private", middleware.isLoggedIn, function(req, res){
                 let surveyResult = SurveyResult({
                   survey: survey._id,
                   result: JSON.parse(req.body.result),
+                  score: req.body.score,
                   organisation: req.user.organisation,
                   user: user._id,
                   isCompetenceSurvey: survey.isCompetenceSurvey ? true : false,
@@ -169,11 +178,15 @@ router.get("/:sid/result", function(req, res){
           res.locals.scripts.header.surveyjs = true;
           res.locals.scripts.footer.surveyjs = true;
           res.locals.scripts.footer.surveyPrivate = true;
-          res.render("survey/private", {
+          var categories = competenceStandardKey ? 
+            config.competence.survey.competenceCategories.find(c => c.identifier === competenceStandardKey).categories : 
+            [];
+          res.render("survey/fullscreen", {
             surveyResult: surveyResult, 
             user: surveyResult.user, 
             isShow: true, 
             survey: surveyResult.survey, 
+            categories: categories,
             software: {},
             customCSS: config.competence.customCSS
           });            

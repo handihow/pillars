@@ -41,9 +41,12 @@ function handleShowRoute(req, res, limit){
           req.flash("error", "Enquête niet gevonden.");
           return res.redirect("back");
         }
-        var surveyDefinition = survey.competenceStandardKey ?
-          config.competence.survey[survey.competenceStandardKey] :
-          config.software.survey[survey.softwareStandardKey];
+        var surveyDefinition;
+        if(survey.competenceStandardKey){
+          surveyDefinition = config.competence.survey[survey.competenceStandardKey]; 
+        } else {
+          surveyDefinition = config.software.survey[survey.softwareStandardKey];
+        }
         if(!surveyDefinition){
           req.flash("error", "Geen definitie gevonden van deze vragenlijst");
           return res.redirect("back");
@@ -110,7 +113,7 @@ router.get("/:sid/competence", middleware.isNotDemoAccount, middleware.isAuthent
     isCompetenceSurvey: true,
     competenceStandardKey: standard.identifier,
     competenceStandardTitle: standard.title,
-    surveyOption: standard.surveyOption
+    surveyOption: standard.surveyOption,
   }, function(err, survey){
             if(err || !survey){
                 req.flash("error", "Er is iets misgegaan. Probeer enquête opnieuw te maken. Error: " + err.message);

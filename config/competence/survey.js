@@ -245,36 +245,82 @@ var competenceCategories = [
     ]
   },
   {
-    identifier: 'digitalSkillsStudents',
-    title: "Digitale Geletterdheid Leerlingen",
-    surveyOption: "pillars",
-    type: "imagepicker",
+    identifier: 'podd',
+    title: "Pillars Overzicht Digitale Deskundigheid",
+    surveyOption: "podd",
+    type: 'miscellaneous',
     categories: [
       {
-        name: "STPR",
-        title: "Open vragen interesses en profiel",
-        noScores: true
+        name: "IB",
+        title: "ICT basisvaardigheden",
+        parent: "DG",
+        parentTitle: "Digitale Geletterdheid"
       },
       {
-        name: "RASC",
-        title: "Beoordeling van de school op digitaal gebied",
-        noScores: true
-      },
-      {
-        name: "DGIB",
-        title: "ICT Basisvaardigheden",
-      },
-      {
-        name: "DGIV",
-        title: "Informatievaardigheden",
-      },
-      {
-        name: "DGMW",
+        name: "MW",
         title: "Mediawijsheid",
+        parent: "DG",
+        parentTitle: "Digitale Geletterdheid"
       },
       {
-        name: "DGCT",
+        name: "IV",
+        title: "Informatievaardigheden",
+        parent: "DG",
+        parentTitle: "Digitale Geletterdheid"
+      },
+      {
+        name: "CT",
         title: "Computational Thinking",
+        parent: "DG",
+        parentTitle: "Digitale Geletterdheid"
+      },
+      {
+        name: "IG",
+        title: "Instructie geven",
+        parent: "PDH",
+        parentTitle: "Pedagogisch Didactisch Handelen"
+      },
+      {
+        name: "LTNL",
+        title: "Laten leren",
+        parent: "PDH",
+        parentTitle: "Pedagogisch Didactisch Handelen"
+      },
+      {
+        name: "TTSN",
+        title: "Toetsen",
+        parent: "PDH",
+        parentTitle: "Pedagogisch Didactisch Handelen"
+      },
+      {
+        name: "OVVG",
+        title: "Ontwikkelingen volgen in vakgebied",
+        parent: "PO",
+        parentTitle: "Persoonlijke Ontwikkeling"
+      },
+      {
+        name: "DVE",
+        title: "Delen van ervaringen",
+        parent: "PO",
+        parentTitle: "Persoonlijke Ontwikkeling"
+      },
+      {
+        name: "RE",
+        title: "Registreren",
+        parent: "WSC",
+        parentTitle: "Werken in de schoolcontext"
+      },
+      {
+        name: "VEV",
+        title: "Volgen en verantwoorden",
+        parent: "WSC",
+        parentTitle: "Werken in de schoolcontext"
+      },
+      {
+        name: "COM",
+        title: "Communiceren",
+        parent: "WSC",
+        parentTitle: "Werken in de schoolcontext"
       }
     ],
   }
@@ -289,7 +335,6 @@ survey.calculateStatistics = function(survey, surveyResults){
 	var statistics = [];
 	var index = competenceCategories.findIndex(cat => cat.identifier == survey.competenceStandardKey);
   var isRubric = index > -1 && competenceCategories[index].identifier == 'rubric' ? true : false;
-  var isStudentSurvey = index > -1 && competenceCategories[index].identifier == 'digitalSkillsStudents' ? true : false;
   if(index>-1){
     var generalStatistic = {
       name: competenceCategories[index].identifier,
@@ -327,218 +372,57 @@ survey.calculateStatistics = function(survey, surveyResults){
         var grandAverage = totalScore / 7;
         statistics[0].statistics.push(grandAverage);
       });
-    } else if (isStudentSurvey){
-      surveyResults.forEach(function(surveyResult){
-       statistics.forEach(function(stat, statIndex){
-         if(stat.noScores){ return; }
-         var questions = 0;
-         var total = 0;
-         Object.keys(surveyResult.result).forEach(function(key){
-            var value = surveyResult.result[key];
-            var transformedValue = parseFloat(value);
-            if(statIndex == 0 && !isNaN(transformedValue)) {
-               //this is the general statistics
-               questions += 1;
-               total += transformedValue;
-            }
-            var name = key.substring(0,key.indexOf("-"));
-            if(name == stat.name){
-               questions += 1;
-               total += transformedValue;            
-            }
-          });
-          var result = Math.round(total / questions * 100);
-          stat.statistics.push(result);
-       });
-      });
     } else {
       surveyResults.forEach(function(surveyResult){
-       statistics.forEach(function(stat, statIndex){
-         var questions = 0;
-         var total = 0;
-         Object.keys(surveyResult.result).forEach(function(key){
-            var value = surveyResult.result[key];
-            if(typeof value == 'string' && (value == "true" || value == "false")){
-              transformedValue = value == "true" ? 1 : 0;
-            } else if(typeof value == 'string'){
-              transformedValue = parseFloat(value);
-            } else if(typeof value == 'boolean'){
-              transformedValue = value ? 1 : 0;
-            }
-            if(statIndex == 0 && !isNaN(transformedValue)) {
-               //this is the general statistics
-               questions += 1;
-               total += transformedValue;
-            }
-            var name = key.substring(0,key.indexOf("-"));
-            if(name == stat.name){
-               questions += 1;
-               total += transformedValue;            
-            }
+        if(surveyResult.statistics){
+          statistics.forEach(function(stat){
+            stat.statistics.push(surveyResult.statistics[stat.name] ? surveyResult.statistics[stat.name] : 0);
           });
-          var result = Math.round(total / questions * 100);
-          stat.statistics.push(result);
-       });
+        } else {
+          statistics.forEach(function(stat, statIndex){
+           var questions = 0;
+           var total = 0;
+           Object.keys(surveyResult.result).forEach(function(key){
+              var value = surveyResult.result[key];
+              if(typeof value == 'string' && (value == "true" || value == "false")){
+                transformedValue = value == "true" ? 1 : 0;
+              } else if(typeof value == 'string'){
+                transformedValue = parseFloat(value);
+              } else if(typeof value == 'boolean'){
+                transformedValue = value ? 1 : 0;
+              }
+              if(statIndex == 0 && !isNaN(transformedValue)) {
+                 //this is the general statistics
+                 questions += 1;
+                 total += transformedValue;
+              }
+              var name = key.substring(0,key.indexOf("-"));
+              if(name == stat.name){
+                 questions += 1;
+                 total += transformedValue;            
+              }
+            });
+            var result = Math.round(total / questions * 100);
+            stat.statistics.push(result);
+         });
+        }
       });
     }
 	} 
 	return statistics;
 }
 
-
-survey.digitalSkillsStudents = {
-"locale": "nl",
-"title": {
-  "nl": "Digitale Geletterdheid"
-},
-"description": {
-  "nl": "Pillars vragenlijst voor leerlingen"
-},
-"pages": [
-  {
-   "name": "PDGL",
-   "elements": [
-    {
-     "type": "imagepicker",
-     "name": "1DGIB-APPA",
-     "title": {
-      "default": "Wat kun jij met een tekstverwerker (Word / Google Docs / Pages)?",
-      "nl": "Zou je kunnen uitleggen wat deze apparaten doen?"
-     },
-     "choices": [
-      {
-       "value": "0",
-       "text": {
-        "default": "Ik gebruik nooit een tekstverwerker",
-        "nl": "mobiele telefoon / tablet / computer / laptop"
-       },
-       "imageLink": "https://ucarecdn.com/be9f79ca-eaac-462d-ab92-8d76e48f137a/1DGINAPPA_A.png"
-      },
-      {
-       "value": "0.33",
-       "text": {
-        "default": "Ik kan alleen tekst schrijven",
-        "nl": "+ printer, beamer, wifi router, modem"
-       },
-       "imageLink": "https://ucarecdn.com/1d039d84-c07c-460a-9589-421f6d528955/1DGINAPPA_B.png"
-      },
-      {
-       "value": "0.66",
-       "text": {
-        "default": "Ik kan opgemaakte tekst schrijven (bijvoorbeeld onderstrepen, vet)",
-        "nl": " + LAN netwerk, access point, firewall "
-       },
-       "imageLink": "https://ucarecdn.com/bb3598b2-4b6f-4deb-a55d-b0a2b0f9dc76/1DGINAPPA_C.png"
-      },
-      {
-       "value": "1",
-       "text": {
-        "default": "Ik kan een werkstuk maken met inhoudsopgave, tabellen en afbeeldingen",
-        "nl": "+ server, processor, SSD, RAM"
-       },
-       "imageLink": "https://ucarecdn.com/a4b3ddf6-866e-4870-915a-4d80b3717555/1DGINAPPA_D.png"
-      }
-     ],
-     "colCount": 2,
-     "imageHeight": 240,
-     "imageWidth": 320
-    },
-    {
-     "type": "imagepicker",
-     "name": "question2",
-     "title": "Wat kun jij met een tekstverwerker (Word / Google Docs / Pages)?",
-     "choices": [
-      {
-       "value": "0",
-       "text": "Ik gebruik nooit een tekstverwerker",
-       "imageLink": "https://ucarecdn.com/a74c9f28-d8bb-4efb-a0b2-0584d0c85591/2DGIBTKST_a.png"
-      },
-      {
-       "value": "0.33",
-       "text": "Ik kan alleen tekst schrijven",
-       "imageLink": "https://ucarecdn.com/f2500b7a-55a0-4b51-9433-c998556cb4a5/2DGIBTKST_b.png"
-      },
-      {
-       "value": "0.66",
-       "text": "Ik kan opgemaakte tekst schrijven (bijvoorbeeld onderstrepen, vet)",
-       "imageLink": "https://ucarecdn.com/4e2b743e-3d5b-4f1a-8e07-4fd15d10317f/2DGIBTKST_c.png"
-      },
-      {
-       "value": "1",
-       "text": "Ik kan een werkstuk maken met inhoudsopgave, tabellen en afbeeldingen",
-       "imageLink": "https://ucarecdn.com/54748d89-a1e1-4b7b-8465-44d9658e2a2d/2DGIBTKST_d.png"
-      }
-     ],
-     "colCount": 2,
-     "imageHeight": 240,
-     "imageWidth": 320
-    },
-    {
-     "type": "imagepicker",
-     "name": "3DGIB-SPRDSH",
-     "title": {
-      "default": "Wat kun jij met een tekstverwerker (Word / Google Docs / Pages)?",
-      "nl": "Wat kun jij met een spreadsheet (Excel / Google sheets)?"
-     },
-     "choices": [
-     {
-       "value": "0",
-       "text": {
-        "default": "Ik gebruik nooit een tekstverwerker",
-        "nl": "Ik gebruik nooit een spreadsheet"
-       },
-       "imageLink": "https://ucarecdn.com/553704b9-b8e0-4cb8-b554-0bc04e3963d0/3DGIBSPRDSH_a.png"
-      },
-      {
-       "value": "0.33",
-       "text": {
-        "default": "Ik kan alleen tekst schrijven",
-        "nl": "Ik kan een lijst maken in een platte tabel"
-       },
-       "imageLink": "https://ucarecdn.com/ab138044-4eea-4ef4-aef3-3379702349e4/3DGIBSPRDSH_b.png"
-      },
-      {
-       "value": "0.66",
-       "text": {
-        "default": "Ik kan opgemaakte tekst schrijven (bijvoorbeeld onderstrepen, vet)",
-        "nl": "Ik kan nette tabel maken met kopjes en getallen, en formule SOM"
-       },
-       "imageLink": "https://ucarecdn.com/4a77e7c0-cca6-4d69-97f4-a6aeedb4bef3/3DGIBSPRDSH_c.png"
-      },
-      {
-       "value": "1",
-       "text": {
-        "default": "Ik kan een werkstuk maken met inhoudsopgave, tabellen en afbeeldingen",
-        "nl": "Ik kan eendraaitabel met grafiek, VLOOKUP"
-       },
-       "imageLink": "https://ucarecdn.com/501cd8b3-60e4-4990-90a2-b668e8adf0aa/3DGIBSPRDSH_d.png"
-      }
-     ],
-     "colCount": 2,
-     "imageHeight": 240,
-     "imageWidth": 320
-    }
-   ],
-   "title": {
-    "default": "Tekstverwerken",
-    "nl": "Pillars Leerlingen Vragenlijst"
-   },
-   "description": "Digitale Geletterdheid - ICT Basisvaardigheden"
-  }
-],
-"showTitle": false,
-"showPageTitles": false,
-"showQuestionNumbers": "off",
-"showProgressBar": "bottom",
-"questionsOnPageMode": "questionPerPage"
-}
-;
-
 survey.ictSkills = {
  "locale": "nl",
  "title": {
   "nl": "ICT Geletterdheid"
  },
+ "logo": {
+  "nl": "http://pillars.school/wp-content/uploads/2017/06/cropped-pillars-logo2.png"
+ },
+ "logoWidth": 100,
+ "logoHeight": 100,
+ "logoPosition": "right",
  "pages": [
   {
    "name": "basicSkills1",
@@ -1433,7 +1317,7 @@ survey.ictSkills = {
    }
   }
  ],
- "showTitle": false,
+ "showTitle": true,
  "showQuestionNumbers": "off",
  "showProgressBar": "bottom",
  "requiredText": ""
@@ -1444,6 +1328,12 @@ survey.pedagogicalDidacticalSkills = {
  "title": {
   "nl": "Pedagogisch Didactisch Handelen"
  },
+ "logo": {
+  "nl": "http://pillars.school/wp-content/uploads/2017/06/cropped-pillars-logo2.png"
+ },
+ "logoWidth": 100,
+ "logoHeight": 100,
+ "logoPosition": "right",
  "pages": [
   {
    "name": "instructing1",
@@ -1914,7 +1804,7 @@ survey.pedagogicalDidacticalSkills = {
    }
   }
  ],
- "showTitle": false,
+ "showTitle": true,
  "showQuestionNumbers": "off",
  "showProgressBar": "bottom"
 };
@@ -1924,6 +1814,12 @@ survey.workInSchoolContext = {
  "title": {
   "nl": "Werken in de schoolcontext"
  },
+ "logo": {
+  "nl": "http://pillars.school/wp-content/uploads/2017/06/cropped-pillars-logo2.png"
+ },
+ "logoWidth": 100,
+ "logoHeight": 100,
+ "logoPosition": "right",
  "pages": [
   {
    "name": "registration1",
@@ -2194,7 +2090,7 @@ survey.workInSchoolContext = {
    }
   }
  ],
- "showTitle": false,
+ "showTitle": true,
  "showQuestionNumbers": "off",
  "showProgressBar": "bottom"
 };
@@ -2204,6 +2100,12 @@ survey.personalDevelopment = {
  "title": {
   "nl": "Persoonlijke Ontwikkeling"
  },
+ "logo": {
+  "nl": "http://pillars.school/wp-content/uploads/2017/06/cropped-pillars-logo2.png"
+ },
+ "logoWidth": 100,
+ "logoHeight": 100,
+ "logoPosition": "right",
  "pages": [
   {
    "name": "developing1",
@@ -2414,7 +2316,7 @@ survey.personalDevelopment = {
    }
   }
  ],
- "showTitle": false,
+ "showTitle": true,
  "showQuestionNumbers": "off",
  "showProgressBar": "bottom"
 };
@@ -2424,6 +2326,12 @@ survey.instrumentalSkills = {
  "title": {
   "nl": "Instrumentele vaardigheden"
  },
+ "logo": {
+  "nl": "http://pillars.school/wp-content/uploads/2017/06/cropped-pillars-logo2.png"
+ },
+ "logoWidth": 100,
+ "logoHeight": 100,
+ "logoPosition": "right",
  "pages": [
   {
    "name": "ictKnowledge1",
@@ -3938,7 +3846,7 @@ survey.instrumentalSkills = {
    }
   }
  ],
- "showTitle": false,
+ "showTitle": true,
  "showQuestionNumbers": "off",
  "showProgressBar": "bottom"
 };
@@ -3948,6 +3856,12 @@ survey.instrumentalSkills = {
  "title": {
   "nl": "Informatievaardigheden"
  },
+ "logo": {
+  "nl": "http://pillars.school/wp-content/uploads/2017/06/cropped-pillars-logo2.png"
+ },
+ "logoWidth": 100,
+ "logoHeight": 100,
+ "logoPosition": "right",
  "pages": [
   {
    "name": "searchInformation1",
@@ -4574,7 +4488,7 @@ survey.instrumentalSkills = {
    }
   }
  ],
- "showTitle": false,
+ "showTitle": true,
  "showQuestionNumbers": "off",
  "showProgressBar": "bottom"
 };
@@ -4584,6 +4498,12 @@ survey.mediaSkills = {
  "title": {
   "nl": "Mediavaardigheden"
  },
+ "logo": {
+  "nl": "http://pillars.school/wp-content/uploads/2017/06/cropped-pillars-logo2.png"
+ },
+ "logoWidth": 100,
+ "logoHeight": 100,
+ "logoPosition": "right",
  "pages": [
   {
    "name": "personalSkills1",
@@ -5026,7 +4946,7 @@ survey.mediaSkills = {
    }
   }
  ],
- "showTitle": false,
+ "showTitle": true,
  "showQuestionNumbers": "off",
  "showProgressBar": "bottom"
 };
@@ -5832,7 +5752,7 @@ survey.assessmentForm = {
    }
   }
  ],
- "showTitle": false
+ "showTitle": true
 }
 
 survey.rubric = {
@@ -7301,8 +7221,3398 @@ survey.rubric = {
    }
   }
  ],
- "showTitle": false,
+ "showTitle": true,
  "showQuestionNumbers": "off"
+};
+
+survey.podd = {
+ "locale": "nl",
+ "title": {
+  "nl": "PODD"
+ },
+ "description": {
+  "nl": "Pillars Overzicht Digitale Deskundigheid"
+ },
+ "logo": {
+  "nl": "http://pillars.school/wp-content/uploads/2017/06/cropped-pillars-logo2.png"
+ },
+ "logoWidth": 100,
+ "logoHeight": 100,
+ "logoPosition": "right",
+ "pages": [
+  {
+   "name": "Profile",
+   "elements": [
+    {
+     "type": "text",
+     "name": "firstName",
+     "title": {
+      "nl": "Voornaam"
+     },
+     "isRequired": true,
+     "isprofilequestion": true
+    },
+    {
+     "type": "text",
+     "name": "lastName",
+     "startWithNewLine": false,
+     "title": {
+      "nl": "Achternaam"
+     },
+     "isRequired": true,
+     "isprofilequestion": true
+    },
+    {
+     "type": "text",
+     "name": "username",
+     "title": {
+      "nl": "Email"
+     },
+     "isRequired": true,
+     "isprofilequestion": true,
+     "inputType": "email"
+    },
+    {
+     "type": "text",
+     "name": "job",
+     "startWithNewLine": false,
+     "title": {
+      "nl": "Functie"
+     },
+     "isRequired": true,
+     "isprofilequestion": true
+    },
+    {
+     "type": "boolean",
+     "name": "isSecondarySchool",
+     "title": {
+      "nl": "Type onderwijs?"
+     },
+     "defaultValue": "false",
+     "isRequired": true,
+     "labelTrue": {
+      "nl": "Middelbare school"
+     },
+     "labelFalse": {
+      "nl": "Basisschool"
+     },
+     "valueTrue": "Middelbaar",
+     "valueFalse": "Basis"
+    },
+    {
+     "type": "boolean",
+     "name": "isTeacher",
+     "startWithNewLine": false,
+     "title": {
+      "nl": "Heb jij lesgevende taken?"
+     },
+     "isRequired": true,
+     "isprofilequestion": true,
+     "labelTrue": {
+      "nl": "Ja"
+     },
+     "labelFalse": {
+      "nl": "Nee"
+     }
+    },
+    {
+     "type": "boolean",
+     "name": "publicProfile",
+     "title": {
+      "nl": "Ik geef schoolleiding inzage in mijn testresultaten en profielinformatie"
+     },
+     "description": {
+      "nl": "Geen toestemming betekent dat de schoolleiding geen inzage heeft in jouw individuele testresultaten en profiel. Resultaten tellen wel mee voor totale score school/bestuur."
+     },
+     "defaultValue": "true",
+     "isRequired": true,
+     "isprofilequestion": true,
+     "labelTrue": {
+      "nl": "Ja"
+     },
+     "labelFalse": {
+      "nl": "Nee"
+     }
+    },
+    {
+     "type": "boolean",
+     "name": "additionalInfo",
+     "startWithNewLine": false,
+     "title": {
+      "nl": "Extra informatie geven over jezelf"
+     },
+     "description": {
+      "nl": "Je kunt extra informatie geven over jezelf en je voorkeuren. Dit kan de schoolleiding helpen om de resultaten te analyzeren."
+     },
+     "defaultValue": "true",
+     "isRequired": true,
+     "labelTrue": {
+      "nl": "Ja"
+     },
+     "labelFalse": {
+      "nl": "Nee"
+     }
+    }
+   ],
+   "title": {
+    "nl": "Profielvragen"
+   },
+   "description": {
+    "nl": "Profielvragen worden automatisch bijgewerkt bij bestaand account"
+   }
+  },
+  {
+   "name": "ExtraInfo",
+   "elements": [
+    {
+     "type": "checkbox",
+     "name": "gradeLevelGroup",
+     "title": {
+      "nl": "Bouw"
+     },
+     "isprofilequestion": true,
+     "choices": [
+      "Onderbouw",
+      "Middenbouw",
+      "Bovenbouw"
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "gender",
+     "startWithNewLine": false,
+     "title": {
+      "nl": "Geslacht"
+     },
+     "isprofilequestion": true,
+     "choices": [
+      {
+       "value": "M",
+       "text": {
+        "nl": "Man"
+       }
+      },
+      {
+       "value": "V",
+       "text": {
+        "nl": "Vrouw"
+       }
+      },
+      {
+       "value": "GN",
+       "text": {
+        "nl": "Genderneutraal"
+       }
+      }
+     ]
+    },
+    {
+     "type": "datepicker",
+     "name": "dateOfBirth",
+     "startWithNewLine": false,
+     "title": {
+      "nl": "Geboortedatum"
+     },
+     "isprofilequestion": true
+    },
+    {
+     "type": "dropdown",
+     "name": "technologyAdoption",
+     "title": {
+      "nl": "Digitale technologieën"
+     },
+     "description": {
+      "nl": "Welke beschrijving is het meest op jou van toepassing bij het gebruik van nieuwe digitale technologieën (applicaties, websites, digitale tools)?"
+     },
+     "isprofilequestion": true,
+     "choices": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Ik gebruik ze liever niet"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Ik wacht liever even af voordat ik deze technologieën ga gebruiken"
+       }
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Ik gebruik ze alleen als ik duidelijke voordelen zie en doe dit in hetzelfde tempo als mijn collega's"
+       }
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Ik probeer nieuwe technologieën uit zodra ik een paar keer heb gehoord dat een nieuwe tool handig is"
+       }
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Ik volg alle ontwikkelingen, doe mee met testfases/ontwikkeling van tools, ik loop voorop in gebruik en help met het invoeren"
+       }
+      }
+     ]
+    },
+    {
+     "type": "dropdown",
+     "name": "hardwareAdoption",
+     "title": {
+      "nl": "Nieuwe hardware"
+     },
+     "description": {
+      "nl": "Welke beschrijving is het meest op jou van toepassing bij het gebruik van nieuwe hardware (mobiele telefoons, tablets, computers)?"
+     },
+     "isprofilequestion": true,
+     "choices": [
+      {
+       "value": "0",
+       "text": {
+        "nl": "Ik gebruik liever geen (nieuwe) hardware"
+       }
+      },
+      {
+       "value": "1",
+       "text": {
+        "nl": "Ik wacht liever even af voordat ik nieuwe hardware ga gebruiken"
+       }
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Ik gebruik nieuwe hardware alleen als ik duidelijke voordelen zie en loop daarmee in de pas met de meeste van mijn collega's"
+       }
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Ik gebruik vrij vaak nieuwe hardware en ik word enthousiast van nieuwe telefoons, tablets en computers"
+       }
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Ik sta vooraan in de rij als er nieuwe mobiele telefoons, tablets of computers uitgebracht worden en ik volg alle ontwikkelingen op dit gebied"
+       }
+      }
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "softwarePreference",
+     "title": {
+      "nl": "Voorkeur standaard kantoortoepassingen"
+     },
+     "description": {
+      "nl": "Welke leverancier van standaard kantoortoepassingen heeft jouw voorkeur voor schoolwerk?"
+     },
+     "isprofilequestion": true,
+     "choices": [
+      {
+       "value": "microsoft",
+       "text": {
+        "nl": "Microsoft Office365 (Word, Excel, Powerpoint)"
+       }
+      },
+      {
+       "value": "google",
+       "text": {
+        "nl": "Google G-Suite (Docs, Sheets, Presentaties)"
+       }
+      },
+      {
+       "value": "apple",
+       "text": {
+        "nl": "Apple iWorks (Pages, Numbers, Keynote)"
+       }
+      }
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "hardwarePreference",
+     "title": {
+      "nl": "Voorkeur school device"
+     },
+     "description": {
+      "nl": "Welk device heeft jouw voorkeur voor schoolwerk?"
+     },
+     "isprofilequestion": true,
+     "choices": [
+      {
+       "value": "tablet",
+       "text": {
+        "nl": "Tablet"
+       }
+      },
+      {
+       "value": "chromebook",
+       "text": {
+        "nl": "Chromebook"
+       }
+      },
+      {
+       "value": "laptop",
+       "text": {
+        "nl": "Laptop"
+       }
+      },
+      {
+       "value": "desktop",
+       "text": {
+        "nl": "Desktop"
+       }
+      }
+     ]
+    }
+   ],
+   "visibleIf": "{additionalInfo} = true",
+   "title": {
+    "nl": "Extra informatie"
+   }
+  },
+  {
+   "name": "DGIB1",
+   "elements": [
+    {
+     "type": "imagepicker",
+     "name": "1DGIB-APPA",
+     "title": {
+      "default": "Wat kun jij met een tekstverwerker (Word / Google Docs / Pages)?",
+      "nl": "Weet je wat deze apparaten doen en kun je ermee werken?"
+     },
+     "isRequired": true,
+     "istestquestion": true,
+     "subject": "DG",
+     "topic": "IB",
+     "minscore": 50,
+     "choices": [
+      {
+       "value": "1",
+       "text": {
+        "default": "Ik gebruik nooit een tekstverwerker",
+        "nl": "mobiele telefoon, tablet, computer, laptop"
+       },
+       "score": 25,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1DGIN-APPA_A.png"
+      },
+      {
+       "value": "2",
+       "text": {
+        "default": "Ik kan alleen tekst schrijven",
+        "nl": "+ printer, digibord, beamer, wifi router, modem"
+       },
+       "score": 50,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1DGIB-APPAv2_b-nieuw.png"
+      },
+      {
+       "value": "3",
+       "text": {
+        "default": "Ik kan opgemaakte tekst schrijven (bijvoorbeeld onderstrepen, vet)",
+        "nl": "+ LAN netwerk, access point, firewall "
+       },
+       "score": 75,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1DGIN-APPA_C.png"
+      },
+      {
+       "value": "4",
+       "text": {
+        "default": "Ik kan een werkstuk maken met inhoudsopgave, tabellen en afbeeldingen",
+        "nl": "+ server, processor, SSD, RAM"
+       },
+       "score": 100,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1DGIN-APPA_D.png"
+      }
+     ],
+     "colCount": 2,
+     "imageHeight": 240,
+     "imageWidth": 320,
+     "showLabel": true
+    }
+   ],
+   "title": {
+    "nl": "ICT basisvaardigheden (1/9)"
+   },
+   "description": {
+    "nl": "Digitale Geletterdheid"
+   }
+  },
+  {
+   "name": "DGIB2",
+   "elements": [
+    {
+     "type": "imagepicker",
+     "name": "2DGIB-TKST",
+     "title": "Wat kun jij met een tekstverwerker (Word / Google Docs / Pages)?",
+     "isRequired": true,
+     "istestquestion": true,
+     "subject": "DG",
+     "topic": "IB",
+     "minscore": 75,
+     "choices": [
+      {
+       "value": "1",
+       "text": "Ik gebruik nooit een tekstverwerker",
+       "score": 0,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/2DGIB-TKST_a.png"
+      },
+      {
+       "value": "2",
+       "text": "Ik kan alleen tekst schrijven",
+       "score": 50,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/2DGIB-TKST_b.png"
+      },
+      {
+       "value": "3",
+       "text": {
+        "default": "Ik kan opgemaakte tekst schrijven (bijvoorbeeld onderstrepen, vet)",
+        "nl": "Opgemaakte tekst schrijven (onderstreept, vet)"
+       },
+       "score": 75,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/2DGIB-TKST_c.png"
+      },
+      {
+       "value": "4",
+       "text": {
+        "default": "Ik kan een werkstuk maken met inhoudsopgave, tabellen en afbeeldingen",
+        "nl": "Werkstuk maken (inhoudsopgave, tabel, afbeeldingen)"
+       },
+       "score": 100,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/2DGIB-TKST_d.png"
+      }
+     ],
+     "colCount": 2,
+     "imageHeight": 240,
+     "imageWidth": 320,
+     "showLabel": true
+    }
+   ],
+   "title": {
+    "nl": "ICT basisvaardigheden (2/9)"
+   },
+   "description": {
+    "nl": "Digitale Geletterdheid"
+   }
+  },
+  {
+   "name": "DGIB3",
+   "elements": [
+    {
+     "type": "imagepicker",
+     "name": "3DGIB-SPRDSH",
+     "title": {
+      "default": "Wat kun jij met een tekstverwerker (Word / Google Docs / Pages)?",
+      "nl": "Wat kun jij met een spreadsheet (Excel / Google sheets / Numbers)?"
+     },
+     "isRequired": true,
+     "istestquestion": true,
+     "subject": "DG",
+     "topic": "IB",
+     "minscore": 50,
+     "choices": [
+      {
+       "value": "1",
+       "text": {
+        "default": "Ik gebruik nooit een tekstverwerker",
+        "nl": "Ik gebruik nooit een spreadsheet"
+       },
+       "score": 0,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/3DGIB-SPRDSH_a.png"
+      },
+      {
+       "value": "2",
+       "text": {
+        "default": "Ik kan alleen tekst schrijven",
+        "nl": "Ik kan een lijst maken in een platte tabel"
+       },
+       "score": 50,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/3DGIB-SPRDSH_b.png"
+      },
+      {
+       "value": "3",
+       "text": {
+        "default": "Ik kan opgemaakte tekst schrijven (bijvoorbeeld onderstrepen, vet)",
+        "nl": "Nette tabel met kopjes, getallen, formule SOM"
+       },
+       "score": 75,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/3DGIB-SPRDSH_c.png"
+      },
+      {
+       "value": "4",
+       "text": {
+        "default": "Ik kan een werkstuk maken met inhoudsopgave, tabellen en afbeeldingen",
+        "nl": "Ik kan een draaitabel met grafiek, VLOOKUP"
+       },
+       "score": 100,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/3DGIB-SPRDSH_d.png"
+      }
+     ],
+     "colCount": 2,
+     "imageHeight": 240,
+     "imageWidth": 320,
+     "showLabel": true
+    }
+   ],
+   "title": {
+    "nl": "ICT basisvaardigheden (3/9)"
+   },
+   "description": {
+    "nl": "Digitale Geletterdheid"
+   }
+  },
+  {
+   "name": "DGIB4",
+   "elements": [
+    {
+     "type": "imagepicker",
+     "name": "4DGIB-PRES",
+     "title": {
+      "default": "Wat kun jij met een tekstverwerker (Word / Google Docs / Pages)?",
+      "nl": "Wat kun jij met een presentatie (Powerpoint / Google presentaties / Prezi)?"
+     },
+     "isRequired": true,
+     "istestquestion": true,
+     "subject": "DG",
+     "topic": "IB",
+     "minscore": 75,
+     "choices": [
+      {
+       "value": "1",
+       "text": {
+        "default": "Ik gebruik nooit een tekstverwerker",
+        "nl": "ik gebruik nooit presentatie software"
+       },
+       "score": 0,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/4DGIB-PRES_a.png"
+      },
+      {
+       "value": "2",
+       "text": {
+        "default": "Ik kan alleen tekst schrijven",
+        "nl": "Ik kan een presentatie maken met diverse dia's met tekst"
+       },
+       "score": 50,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/4DGIB-PRES_b.png"
+      },
+      {
+       "value": "3",
+       "text": {
+        "default": "Ik kan opgemaakte tekst schrijven (bijvoorbeeld onderstrepen, vet)",
+        "nl": "Presentatie met diverse dia's met tekst, foto's en filmpjes"
+       },
+       "score": 75,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/4DGIB-PRES_c.png"
+      },
+      {
+       "value": "4",
+       "text": {
+        "default": "Ik kan een werkstuk maken met inhoudsopgave, tabellen en afbeeldingen",
+        "nl": "Presentatie met overgangen, thema's en animaties"
+       },
+       "score": 100,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/4DGIB-PRES_d.png"
+      }
+     ],
+     "colCount": 2,
+     "imageHeight": 240,
+     "imageWidth": 320,
+     "showLabel": true
+    }
+   ],
+   "title": {
+    "nl": "ICT basisvaardigheden (4/9)"
+   },
+   "description": {
+    "nl": "Digitale Geletterdheid"
+   }
+  },
+  {
+   "name": "DGIB5",
+   "elements": [
+    {
+     "type": "imagepicker",
+     "name": "5DGIB-DOCS",
+     "title": {
+      "default": "Wat kun jij met een tekstverwerker (Word / Google Docs / Pages)?",
+      "nl": "Hoe goed kun jij documenten opslaan en delen?\n"
+     },
+     "isRequired": true,
+     "istestquestion": true,
+     "subject": "DG",
+     "topic": "IB",
+     "minscore": 75,
+     "choices": [
+      {
+       "value": "1",
+       "text": {
+        "default": "Ik gebruik nooit een tekstverwerker",
+        "nl": "Ik sla niets digitaal op"
+       },
+       "score": 0,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/5DGIB-DOCS_a.png"
+      },
+      {
+       "value": "2",
+       "text": {
+        "default": "Ik kan alleen tekst schrijven",
+        "nl": "Opslaan op de computer en documenten delen via email"
+       },
+       "score": 50,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/5DGIB-DOCS_b.png"
+      },
+      {
+       "value": "3",
+       "text": {
+        "default": "Ik kan opgemaakte tekst schrijven (bijvoorbeeld onderstrepen, vet)",
+        "nl": "+ Opslaan in de cloud en delen, mappenstructuur maken"
+       },
+       "score": 75,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/5DGIB-DOCS_c.png"
+      },
+      {
+       "value": "4",
+       "text": {
+        "default": "Ik kan een werkstuk maken met inhoudsopgave, tabellen en afbeeldingen",
+        "nl": "+ Toegang verlenen, samenwerken, versies beheren"
+       },
+       "score": 100,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/5DGIB-DOCS_d.png"
+      }
+     ],
+     "colCount": 2,
+     "imageHeight": 240,
+     "imageWidth": 320,
+     "showLabel": true
+    }
+   ],
+   "title": {
+    "nl": "ICT basisvaardigheden (5/9)"
+   },
+   "description": {
+    "nl": "Digitale Geletterdheid"
+   }
+  },
+  {
+   "name": "DGIB6",
+   "elements": [
+    {
+     "type": "imagepicker",
+     "name": "6DGIB-WWW",
+     "title": {
+      "default": "Wat kun jij met een tekstverwerker (Word / Google Docs / Pages)?",
+      "nl": "Wat weet jij van het World Wide Web?\n"
+     },
+     "isRequired": true,
+     "istestquestion": true,
+     "subject": "DG",
+     "topic": "IB",
+     "minscore": 50,
+     "choices": [
+      {
+       "value": "1",
+       "text": {
+        "default": "Ik gebruik nooit een tekstverwerker",
+        "nl": "Ik kan een internetbrowser gebruiken"
+       },
+       "score": 25,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/6DGIB-WWW_a.png"
+      },
+      {
+       "value": "2",
+       "text": {
+        "default": "Ik kan alleen tekst schrijven",
+        "nl": "Ik weet dat het een wereldwijd netwerk van computers is"
+       },
+       "score": 50,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/6DGIB-WWW_b.png"
+      },
+      {
+       "value": "3",
+       "text": {
+        "default": "Ik kan opgemaakte tekst schrijven (bijvoorbeeld onderstrepen, vet)",
+        "nl": "+ Bekend met IP adressen, website maken (Wordpress)"
+       },
+       "score": 75,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/6DGIB-WWW_c.png"
+      },
+      {
+       "value": "4",
+       "text": {
+        "default": "Ik kan een werkstuk maken met inhoudsopgave, tabellen en afbeeldingen",
+        "nl": "+ Ik kan programmeren (Javascript/CSS/HTML)"
+       },
+       "score": 100,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/6DGIB-WWW_d.png"
+      }
+     ],
+     "colCount": 2,
+     "imageHeight": 240,
+     "imageWidth": 320,
+     "showLabel": true
+    }
+   ],
+   "title": {
+    "nl": "ICT basisvaardigheden (6/9)"
+   },
+   "description": {
+    "nl": "Digitale Geletterdheid"
+   }
+  },
+  {
+   "name": "DGIB7",
+   "elements": [
+    {
+     "type": "imagepicker",
+     "name": "7DGIB-VID",
+     "title": {
+      "default": "Wat kun jij met een tekstverwerker (Word / Google Docs / Pages)?",
+      "nl": "\nWat kun jij met beeld en videomateriaal?\n"
+     },
+     "isRequired": true,
+     "istestquestion": true,
+     "subject": "DG",
+     "topic": "IB",
+     "minscore": 25,
+     "choices": [
+      {
+       "value": "1",
+       "text": {
+        "default": "Ik gebruik nooit een tekstverwerker",
+        "nl": "Ik kan foto's en filmpjes maken op mijn mobiel"
+       },
+       "score": 25,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/7DGIB-VID_a.png"
+      },
+      {
+       "value": "2",
+       "text": {
+        "default": "Ik kan alleen tekst schrijven",
+        "nl": "Foto's bewerken met apps zoals Snapchat, Insta, TikTok"
+       },
+       "score": 50,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/7DGIB-VID_b.png"
+      },
+      {
+       "value": "3",
+       "text": {
+        "default": "Ik kan opgemaakte tekst schrijven (bijvoorbeeld onderstrepen, vet)",
+        "nl": "+ Korte video’s maken met iMovie, video-apps"
+       },
+       "score": 75,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/7DGIB-VID_c.png"
+      },
+      {
+       "value": "4",
+       "text": {
+        "default": "Ik kan een werkstuk maken met inhoudsopgave, tabellen en afbeeldingen",
+        "nl": "+ Video's editen, met geluid, publiceren op YouTube"
+       },
+       "score": 100,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/7DGIB-VID_d.png"
+      }
+     ],
+     "colCount": 2,
+     "imageHeight": 240,
+     "imageWidth": 320,
+     "showLabel": true
+    }
+   ],
+   "title": {
+    "nl": "ICT basisvaardigheden (7/9)"
+   },
+   "description": {
+    "nl": "Digitale Geletterdheid"
+   }
+  },
+  {
+   "name": "DGIB8",
+   "elements": [
+    {
+     "type": "imagepicker",
+     "name": "8DGIB-EML",
+     "title": {
+      "default": "Wat kun jij met een tekstverwerker (Word / Google Docs / Pages)?",
+      "nl": "\nHoe goed kun je omgaan met email?\n\n"
+     },
+     "isRequired": true,
+     "istestquestion": true,
+     "subject": "DG",
+     "topic": "IB",
+     "minscore": 75,
+     "choices": [
+      {
+       "value": "1",
+       "text": {
+        "default": "Ik gebruik nooit een tekstverwerker",
+        "nl": "Ik kan emails lezen, opstellen en verzenden"
+       },
+       "score": 25,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/8DGIB-EML_a.png"
+      },
+      {
+       "value": "2",
+       "text": {
+        "default": "Ik kan alleen tekst schrijven",
+        "nl": "Bijlagen toevoegen, omgaan met CC en BCC "
+       },
+       "score": 50,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/8DGIB-EML_b.png"
+      },
+      {
+       "value": "3",
+       "text": {
+        "default": "Ik kan opgemaakte tekst schrijven (bijvoorbeeld onderstrepen, vet)",
+        "nl": "+ Berichten in mappen, handtekening instellen"
+       },
+       "score": 75,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/8DGIB-EML_c.png"
+      },
+      {
+       "value": "4",
+       "text": {
+        "default": "Ik kan een werkstuk maken met inhoudsopgave, tabellen en afbeeldingen",
+        "nl": "+ Mail merge maken, mailings verzorgen (MailChimp) "
+       },
+       "score": 100,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/8DGIB-EML_d.png"
+      }
+     ],
+     "colCount": 2,
+     "imageHeight": 240,
+     "imageWidth": 320,
+     "showLabel": true
+    }
+   ],
+   "title": {
+    "nl": "ICT basisvaardigheden (8/9)"
+   },
+   "description": {
+    "nl": "Digitale Geletterdheid"
+   }
+  },
+  {
+   "name": "DGIB9",
+   "elements": [
+    {
+     "type": "imagepicker",
+     "name": "9DGIB-VCONF",
+     "title": {
+      "default": "Wat kun jij met een tekstverwerker (Word / Google Docs / Pages)?",
+      "nl": "Hoe goed kun je omgaan met video conference programma's zoals Zoom, Teams en Google Meet?\n"
+     },
+     "isRequired": true,
+     "istestquestion": true,
+     "subject": "DG",
+     "topic": "IB",
+     "minscore": 75,
+     "choices": [
+      {
+       "value": "1",
+       "text": {
+        "default": "Ik gebruik nooit een tekstverwerker",
+        "nl": "Ik kan hier niet mee werken"
+       },
+       "score": 25,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/9DGIB-VCONF_a.png"
+      },
+      {
+       "value": "2",
+       "text": {
+        "default": "Ik kan alleen tekst schrijven",
+        "nl": "Conference bijwonen, starten, uitnodigingen sturen"
+       },
+       "score": 50,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/join.png"
+      },
+      {
+       "value": "3",
+       "text": {
+        "default": "Ik kan opgemaakte tekst schrijven (bijvoorbeeld onderstrepen, vet)",
+        "nl": "Weergeven in grid view, scherm delen tijdens de call"
+       },
+       "score": 75,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/9DGIB-VCONF_c.png"
+      },
+      {
+       "value": "4",
+       "text": {
+        "default": "Ik kan een werkstuk maken met inhoudsopgave, tabellen en afbeeldingen",
+        "nl": "Call opnemen, automatisch deelnemers registreren"
+       },
+       "score": 100,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/9DGIB-VCONF_d.png"
+      }
+     ],
+     "colCount": 2,
+     "imageHeight": 240,
+     "imageWidth": 320,
+     "showLabel": true
+    }
+   ],
+   "title": {
+    "nl": "ICT basisvaardigheden (9/9)"
+   },
+   "description": {
+    "nl": "Digitale Geletterdheid"
+   }
+  },
+  {
+   "name": "DGMW",
+   "elements": [
+    {
+     "type": "imagepicker",
+     "name": "1DGMW-SCLMD",
+     "title": {
+      "default": "Wat kun jij met een tekstverwerker (Word / Google Docs / Pages)?",
+      "nl": "Ik gebruik de volgende social media kanalen"
+     },
+     "isRequired": true,
+     "istestquestion": true,
+     "subject": "DG",
+     "topic": "MW",
+     "minscore": 40,
+     "choices": [
+      {
+       "value": "1",
+       "text": {
+        "default": "Ik gebruik nooit een tekstverwerker",
+        "nl": "Facebook"
+       },
+       "score": 10,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1DGMW-SOCIALMD_a.png"
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Instagram"
+       },
+       "score": 10,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1DGMW-SOCIALMD_b.png"
+      },
+      {
+       "value": "3",
+       "text": {
+        "default": "Ik kan opgemaakte tekst schrijven (bijvoorbeeld onderstrepen, vet)",
+        "nl": "LinkedIn"
+       },
+       "score": 10,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1DGMW-SOCIALMD_c.png"
+      },
+      {
+       "value": "4",
+       "text": {
+        "default": "Ik kan een werkstuk maken met inhoudsopgave, tabellen en afbeeldingen",
+        "nl": "YouTube"
+       },
+       "score": 10,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1DGMW-SOCIALMD_d.png"
+      },
+      {
+       "value": "5",
+       "text": {
+        "nl": "website school"
+       },
+       "score": 20,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1DGMW-SOCIALMD_e.png"
+      },
+      {
+       "value": "6",
+       "text": {
+        "nl": "Snapchat"
+       },
+       "score": 10,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1DGMW-SOCIALMD_f.png"
+      },
+      {
+       "value": "7",
+       "text": {
+        "nl": "WhatsApp"
+       },
+       "score": 10,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1DGMW-SOCIALMD_g.png"
+      },
+      {
+       "value": "8",
+       "text": {
+        "nl": "TikTok"
+       },
+       "score": 10,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1DGMW-SOCIALMD_h.png"
+      },
+      {
+       "value": "9",
+       "text": {
+        "nl": "Twitter"
+       },
+       "score": 10,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1DGMW-SOCIALMD_i.png"
+      },
+      {
+       "value": "10",
+       "text": {
+        "nl": "Geen"
+       },
+       "score": 0,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1DGMW-SOCIALMD_j.png"
+      }
+     ],
+     "colCount": 4,
+     "imageFit": "cover",
+     "imageWidth": 150,
+     "showLabel": true,
+     "multiSelect": true
+    },
+    {
+     "type": "checkbox",
+     "name": "2DGMW-BERN",
+     "title": {
+      "nl": "Hoe beoordeel jij de berichten op jouw social media feeds? Klik 4 goede antwoorden aan.\n"
+     },
+     "correctAnswer": [
+      "1",
+      "2",
+      "4",
+      "3"
+     ],
+     "isRequired": true,
+     "validators": [
+      {
+       "type": "answercount",
+       "text": {
+        "nl": "Je moet 4 antwoorden kiezen"
+       },
+       "minCount": 4,
+       "maxCount": 4
+      }
+     ],
+     "istestquestion": true,
+     "subject": "DG",
+     "topic": "MW",
+     "minscore": 50,
+     "choices": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Ik kijk naar het doel van de informatie (informatie, advententie, entertainment enz)"
+       },
+       "score": 25
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Ik kijk naar de intenties achter het bericht (feiten, opinie of propaganda)"
+       },
+       "score": 25
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Ik kijk naar de objectiviteit en onpartijdigheid van de informatie"
+       },
+       "score": 25
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Ik kijk of er politieke, ideologische, religieuze of persoonlijke meningen worden verkondigd"
+       },
+       "score": 25
+      },
+      {
+       "value": "5",
+       "text": {
+        "nl": "Ik kijk of het bericht van een groot en bekend bedrijf, of een bekend persoon komt"
+       },
+       "score": -25
+      },
+      {
+       "value": "6",
+       "text": {
+        "nl": "Ik kijk naar het aantal volgers van het bedrijf of de persoon die het bericht heeft gepost"
+       },
+       "score": -25
+      }
+     ],
+     "choicesOrder": "random"
+    },
+    {
+     "type": "checkbox",
+     "name": "3DGMW-RISC",
+     "visibleIf": "{isTeacher} = true",
+     "title": {
+      "nl": "Hoe bespreek je de risico's van sociale media met jouw leerlingen? Klik 4 goede antwoorden aan."
+     },
+     "correctAnswer": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "isRequired": true,
+     "validators": [
+      {
+       "type": "answercount",
+       "text": {
+        "nl": "Je moet 4 antwoorden kiezen"
+       },
+       "minCount": 4,
+       "maxCount": 4
+      }
+     ],
+     "istestquestion": true,
+     "subject": "DG",
+     "topic": "MW",
+     "minscore": 50,
+     "choices": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Ik verdiep me  in de sociale media waar mijn leerlingen het meest actief zijn"
+       },
+       "score": 25
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Ik waak over het online gedrag van mijn leerlingen in klasgerelateerde appgroepen"
+       },
+       "score": 25
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Ik laat mijn leerlingen reflecteren op het gedrag van anderen op sociale media "
+       },
+       "score": 25
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Ik reageer op veranderingen  door social media posts  in de dynamiek van de klas"
+       },
+       "score": 25
+      },
+      {
+       "value": "5",
+       "text": {
+        "nl": "Ik voel me als leraar niet verantwoordelijk voor het social media gedrag van mijn leerlingen"
+       },
+       "score": -25
+      },
+      {
+       "value": "6",
+       "text": {
+        "nl": "Ik laat leerlingen zelf met vragen of hulpvragen komen met betrekking tot social media"
+       },
+       "score": -25
+      }
+     ],
+     "choicesOrder": "random"
+    },
+    {
+     "type": "checkbox",
+     "name": "4DGMW-GGVNS",
+     "title": {
+      "nl": "Wat is van belang bij het ontvangen en verzenden van gegevens via email en social media.  Klik 4 goede antwoorden aan.\n"
+     },
+     "correctAnswer": [
+      "1",
+      "3",
+      "2",
+      "4"
+     ],
+     "isRequired": true,
+     "validators": [
+      {
+       "type": "answercount",
+       "text": {
+        "nl": "Je moet 4 antwoorden kiezen"
+       },
+       "minCount": 4,
+       "maxCount": 4
+      }
+     ],
+     "istestquestion": true,
+     "subject": "DG",
+     "topic": "MW",
+     "minscore": 50,
+     "choices": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Terughoudend zijn met delen van persoonlijke gegevens "
+       },
+       "score": 25
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Letten op online pesten"
+       },
+       "score": 25
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Verantwoordelijk zijn voor informatie die je stuurt of doorstuurt"
+       },
+       "score": 25
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Voorzichtig omgaan met bijlagen en hyperlinks in emails"
+       },
+       "score": 25
+      },
+      {
+       "value": "5",
+       "text": {
+        "nl": "Bijlagen of hyperlinks in emails van bekenden kan ik altijd openen"
+       },
+       "score": -25
+      },
+      {
+       "value": "6",
+       "text": {
+        "nl": "Mijn mailbox staat altijd open"
+       },
+       "score": -25
+      }
+     ],
+     "choicesOrder": "random"
+    },
+    {
+     "type": "checkbox",
+     "name": "5DGMW-VEILG",
+     "title": {
+      "nl": "Welke factoren zijn volgens jou van belang bij veilig online gedrag? Klik 4 goede antwoorden aan.\n"
+     },
+     "correctAnswer": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "isRequired": true,
+     "validators": [
+      {
+       "type": "answercount",
+       "text": {
+        "nl": "Je moet 4 antwoorden kiezen"
+       },
+       "minCount": 4,
+       "maxCount": 4
+      }
+     ],
+     "istestquestion": true,
+     "subject": "DG",
+     "topic": "MW",
+     "minscore": 50,
+     "choices": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Ik maak sterke wachtwoorden en deel deze niet"
+       },
+       "score": 25
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Ik beveilig belangrijke bestanden"
+       },
+       "score": 25
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Ik installeer beveiligingssoftware "
+       },
+       "score": 25
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Ik zorg dat ik mijn computer vergrendel als ik er niet ben"
+       },
+       "score": 25
+      },
+      {
+       "value": "5",
+       "text": {
+        "nl": "Ik download software die ik nodig heb"
+       },
+       "score": -25
+      },
+      {
+       "value": "6",
+       "text": {
+        "nl": "Pop-ups sta ik altijd toe"
+       },
+       "score": -25
+      }
+     ],
+     "choicesOrder": "random"
+    }
+   ],
+   "title": {
+    "nl": "Mediawijsheid"
+   },
+   "description": {
+    "nl": "Digitale Geletterdheid"
+   }
+  },
+  {
+   "name": "DGIV",
+   "elements": [
+    {
+     "type": "html",
+     "name": "DGIV-info",
+     "html": {
+      "nl": "<h2><strong>De beste artiest van dit decennium</strong></h2><br>\n\n<p><strong>Stel, er wordt jou gevraagd om te onderzoeken wie de beste artiest van dit decennium (2010-2020) is.</strong></p>\n<p><strong>Je moet dit op een zo objectief mogelijke manier doen en hier verslag van uitbrengen.</strong> </p>\n \n"
+     }
+    },
+    {
+     "type": "image",
+     "name": "DGIV-ARTIST",
+     "startWithNewLine": false,
+     "imageLink": "https://pillars.school/wp-content/uploads/2020/07/artist-1838653_1920.jpg",
+     "imageHeight": 400,
+     "imageWidth": 533
+    },
+    {
+     "type": "checkbox",
+     "name": "1DGIV-ONDZK",
+     "title": {
+      "nl": "Hoe begin jij met het onderzoek van de beste artiest kiezen?  Klik 4 goede antwoorden aan.\n"
+     },
+     "correctAnswer": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "isRequired": true,
+     "validators": [
+      {
+       "type": "answercount",
+       "text": {
+        "nl": "Je moet 4 antwoorden kiezen"
+       },
+       "minCount": 4,
+       "maxCount": 4
+      }
+     ],
+     "istestquestion": true,
+     "subject": "DG",
+     "topic": "IV",
+     "minscore": 50,
+     "choices": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Ik ga brainstormen en een mindmap of woordenweb maken"
+       },
+       "score": 25
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Ik splits de hoofdvraag op in deelvragen en ga die onderzoeken"
+       },
+       "score": 25
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Ik maak een indeling in hoofdstukken "
+       },
+       "score": 25
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Ik ga nadenken over betrouwbare bronnen van informatie"
+       },
+       "score": 25
+      },
+      {
+       "value": "5",
+       "text": {
+        "nl": "Ik ga direct beginnen met Googelen"
+       },
+       "score": -25
+      },
+      {
+       "value": "6",
+       "text": {
+        "nl": "Ik maak een mooie diapresentatie"
+       },
+       "score": -25
+      }
+     ],
+     "choicesOrder": "random"
+    },
+    {
+     "type": "checkbox",
+     "name": "2DGIV-ZKN",
+     "title": {
+      "nl": "Wat zijn volgens jou goede zoekstrategieën? Klik 4 goede antwoorden aan.\n"
+     },
+     "correctAnswer": [
+      "2",
+      "1",
+      "3",
+      "4"
+     ],
+     "isRequired": true,
+     "validators": [
+      {
+       "type": "answercount",
+       "text": {
+        "nl": "Je moet 4 antwoorden kiezen"
+       },
+       "minCount": 4,
+       "maxCount": 4
+      }
+     ],
+     "istestquestion": true,
+     "subject": "DG",
+     "topic": "IV",
+     "minscore": 50,
+     "choices": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Ik baken mijn zoekvraag duidelijk af."
+       },
+       "score": 25
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Als ik te weinig  informatie vind, vul ik de zoekwoorden aan met synoniemen en vertalingen."
+       },
+       "score": 25
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Ik zet woorden die bij elkaar horen tussen aanhalingstekens."
+       },
+       "score": 25
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Ik gebruik 'and' en 'or' om zoektermen te combineren of uit te sluiten."
+       },
+       "score": 25
+      },
+      {
+       "value": "5",
+       "text": {
+        "nl": "Ik klik in Google steeds door naar andere sites die interessant zijn."
+       },
+       "score": -25
+      },
+      {
+       "value": "6",
+       "text": {
+        "nl": "Ik begin met zoeken in wetenschappelijke databases. "
+       },
+       "score": -25
+      }
+     ],
+     "choicesOrder": "random"
+    },
+    {
+     "type": "checkbox",
+     "name": "3DGIV-ACT",
+     "title": {
+      "nl": "Hoe beoordeel jij de actualiteit van de informatie?  Klik 4 goede antwoorden aan.\n\n"
+     },
+     "correctAnswer": [
+      "1",
+      "2",
+      "4",
+      "3"
+     ],
+     "isRequired": true,
+     "validators": [
+      {
+       "type": "answercount",
+       "text": {
+        "nl": "Je moet 4 antwoorden kiezen"
+       },
+       "minCount": 4,
+       "maxCount": 4
+      }
+     ],
+     "istestquestion": true,
+     "subject": "DG",
+     "topic": "IV",
+     "minscore": 50,
+     "choices": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Ik kijk naar de publicatiedatum van het artikel"
+       },
+       "score": 25
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Ik kijk naar de publicatiedatum van de bronnen waarnaar verwezen wordt"
+       },
+       "score": 25
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Ik zoek wanneer het artikel of de website is bijgewerkt"
+       },
+       "score": 25
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Ik bekijk of het onderwerp  sterk in ontwikkeling is of niet"
+       },
+       "score": 25
+      },
+      {
+       "value": "5",
+       "text": {
+        "nl": "Ik ga na of het artikel vaak is  gelezen en veel comments heeft"
+       },
+       "score": -25
+      },
+      {
+       "value": "6",
+       "text": {
+        "nl": "Ik gebruik artikelen die bovenaan in mijn Google zoekresultaten staan"
+       },
+       "score": -25
+      }
+     ],
+     "choicesOrder": "random"
+    },
+    {
+     "type": "checkbox",
+     "name": "4DGIV-BTRWBR",
+     "title": {
+      "nl": "Hoe beoordeel jij de betrouwbaarheid van informatie? Klik 4 goede antwoorden aan.\n"
+     },
+     "correctAnswer": [
+      "1",
+      "2",
+      "4",
+      "3"
+     ],
+     "isRequired": true,
+     "validators": [
+      {
+       "type": "answercount",
+       "text": {
+        "nl": "Je moet 4 antwoorden kiezen"
+       },
+       "minCount": 4,
+       "maxCount": 4
+      }
+     ],
+     "istestquestion": true,
+     "subject": "DG",
+     "topic": "IV",
+     "minscore": 50,
+     "choices": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Ik kijk naar de autoriteit die de informatie heeft geschreven"
+       },
+       "score": 25
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Ik bekijk de actualiteit van de informatie"
+       },
+       "score": 25
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Ik kijk hoe objectief de informatie is geschreven"
+       },
+       "score": 25
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Ik kijk of de informatie nauwkeurig is of dat er typfouten in zitten"
+       },
+       "score": 25
+      },
+      {
+       "value": "5",
+       "text": {
+        "nl": "Ik kijk hoe hoog de informatie staat in mijn zoekresultaten "
+       },
+       "score": -25
+      },
+      {
+       "value": "6",
+       "text": {
+        "nl": "Ik kijk of de website er professioneel uitziet"
+       },
+       "score": -25
+      }
+     ],
+     "choicesOrder": "random"
+    },
+    {
+     "type": "checkbox",
+     "name": "5DGIV-BRON",
+     "title": {
+      "nl": "Als je een bronnenlijst bij je onderzoek maakt, welke gegevens vermeld je dan altijd? Klik 4 goede antwoorden aan.\n"
+     },
+     "correctAnswer": [
+      "1",
+      "2",
+      "4",
+      "3"
+     ],
+     "isRequired": true,
+     "validators": [
+      {
+       "type": "answercount",
+       "text": {
+        "nl": "Je moet 4 antwoorden kiezen"
+       },
+       "minCount": 4,
+       "maxCount": 4
+      }
+     ],
+     "istestquestion": true,
+     "subject": "DG",
+     "topic": "IV",
+     "minscore": 50,
+     "choices": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Auteur of organisatie"
+       },
+       "score": 25
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Titel"
+       },
+       "score": 25
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Jaartal"
+       },
+       "score": 25
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Plaats"
+       },
+       "score": 25
+      },
+      {
+       "value": "5",
+       "text": {
+        "nl": "Een bronnenlijst is niet verplicht "
+       },
+       "score": -25
+      },
+      {
+       "value": "6",
+       "text": {
+        "nl": "ISBN "
+       },
+       "score": -25
+      }
+     ],
+     "choicesOrder": "random"
+    }
+   ],
+   "title": {
+    "default": "Tekstverwerken",
+    "nl": "Informatievaardigheden"
+   },
+   "description": {
+    "default": "Digitale Geletterdheid - ICT Basisvaardigheden",
+    "nl": "Digitale Geletterdheid"
+   }
+  },
+  {
+   "name": "DGCT",
+   "elements": [
+    {
+     "type": "checkbox",
+     "name": "1DGCT-GGVNS",
+     "title": {
+      "nl": "Welke gegevens vind jij belangrijk om te verzamelen om de beste artiest van dit decennium te vinden? Klik 4 goede antwoorden aan.\n"
+     },
+     "correctAnswer": [
+      "1",
+      "2",
+      "4",
+      "3"
+     ],
+     "isRequired": true,
+     "validators": [
+      {
+       "type": "answercount",
+       "text": {
+        "nl": "Je moet 4 antwoorden kiezen"
+       },
+       "minCount": 4,
+       "maxCount": 4
+      }
+     ],
+     "istestquestion": true,
+     "subject": "DG",
+     "topic": "CT",
+     "minscore": 50,
+     "choices": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Aantal keer gedraaid op Spotify"
+       },
+       "score": 25
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Aantal nummer 1 hits "
+       },
+       "score": 25
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Aantal jaren actief als topartiest "
+       },
+       "score": 25
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Aantal views op YouTube "
+       },
+       "score": 25
+      },
+      {
+       "value": "5",
+       "text": {
+        "nl": "Geboortedatum"
+       },
+       "score": -25
+      },
+      {
+       "value": "6",
+       "text": {
+        "nl": "Artiest staat bovenaan Google zoekresultaten"
+       },
+       "score": -25
+      }
+     ],
+     "choicesOrder": "random"
+    },
+    {
+     "type": "checkbox",
+     "name": "2DGCT-ANLS",
+     "title": {
+      "nl": "Wat zou jij doen om de verzamelde gegevens te analyseren? Klik 4 goede antwoorden aan. \n"
+     },
+     "correctAnswer": [
+      "1",
+      "2",
+      "4",
+      "3"
+     ],
+     "isRequired": true,
+     "validators": [
+      {
+       "type": "answercount",
+       "text": {
+        "nl": "Je moet 4 antwoorden kiezen"
+       },
+       "minCount": 4,
+       "maxCount": 4
+      }
+     ],
+     "istestquestion": true,
+     "subject": "DG",
+     "topic": "CT",
+     "minscore": 50,
+     "choices": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Artiesten sorteren op aantal keer gedraaid op Spotify "
+       },
+       "score": 25
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Een overzicht maken van aantal  nummer 1 hits per artiest"
+       },
+       "score": 25
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Een overzicht maken van het aantal jaren actief als artiest"
+       },
+       "score": 25
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Een overzicht maken van aantal views op YouTube per artiest"
+       },
+       "score": 25
+      },
+      {
+       "value": "5",
+       "text": {
+        "nl": "Overzicht maken van artiesten die vooral actief zijn geweest in Nederland"
+       },
+       "score": -25
+      },
+      {
+       "value": "6",
+       "text": {
+        "nl": "Een overzicht maken van aantal artiesten per leeftijdscategorie (20-25, 25-30, 30-35)"
+       },
+       "score": -25
+      }
+     ],
+     "choicesOrder": "random"
+    },
+    {
+     "type": "sortablelist",
+     "name": "3DGCT-AUT",
+     "title": {
+      "nl": "Stel dat het aantal nummer 1 hits het belangrijkste is, gevolgd door het aantal YouTube views. Welke stappen moet de computer zetten om een lijst te maken van beste naar slechtste artiest? Zet de 5 goede stappen in de juiste volgorde.\n"
+     },
+     "correctAnswer": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5"
+     ],
+     "isRequired": true,
+     "validators": [
+      {
+       "type": "answercount",
+       "text": {
+        "nl": "Sleep 5 goede stappen in de juiste volgorde"
+       },
+       "minCount": 5,
+       "maxCount": 5
+      }
+     ],
+     "istestquestion": true,
+     "subject": "DG",
+     "topic": "CT",
+     "minscore": 50,
+     "choices": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Maak een complete lijst met artiest namen, aantal nummer 1 hits, en aantal YouTube views"
+       },
+       "score": 20
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Laat de computer iedere artiest van de lijst checken (loop / herhalende taak)"
+       },
+       "score": 20
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Laat de computer het aantal nummer 1 hits controleren"
+       },
+       "score": 20
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Laat de computer het aantal YouTube views controleren"
+       },
+       "score": 20
+      },
+      {
+       "value": "5",
+       "text": {
+        "nl": "Laat de computer een lijst uitprinten van de beste naar de slechtste artiest"
+       },
+       "score": 20
+      },
+      {
+       "value": "6",
+       "text": {
+        "nl": "Laat de computer de lijst artiesten sorteren op alfabet "
+       },
+       "score": -30
+      },
+      {
+       "value": "7",
+       "text": {
+        "nl": "Laat de computer het aantal verkochte platen controleren"
+       },
+       "score": -30
+      }
+     ],
+     "choicesOrder": "random"
+    },
+    {
+     "type": "radiogroup",
+     "name": "4DGCT-ALG",
+     "title": {
+      "nl": "Kun jij computer code schrijven?\n\n"
+     },
+     "isRequired": true,
+     "istestquestion": true,
+     "subject": "DG",
+     "topic": "CT",
+     "minscore": 0,
+     "choices": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Nee dat kan ik niet"
+       },
+       "score": 0
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Ik kan formules maken in Excel en daarmee veel automatiseren"
+       },
+       "score": 50
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Ik snap eenvoudige programmeerprincipes en kan code schrijven met Scratch, Blockly, Beebot of Microbit"
+       },
+       "score": 75
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Ik kan programmeren, bijvoorbeeld met Python of Javascript"
+       },
+       "score": 100
+      }
+     ]
+    },
+    {
+     "type": "checkbox",
+     "name": "5DGCT-ONDWS",
+     "visibleIf": "{isTeacher} = true",
+     "title": {
+      "nl": "Selecteer de onderwerpen waar aandacht aan besteedt wordt in de les\n"
+     },
+     "isRequired": true,
+     "istestquestion": true,
+     "subject": "DG",
+     "topic": "CT",
+     "minscore": 0,
+     "choices": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Problemen opdelen in kleine stapjes, denken in stapjes"
+       },
+       "score": 25
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Filteren van informatie "
+       },
+       "score": 25
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Patronen herkennen"
+       },
+       "score": 25
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Algoritmes programmeren (Scratch, Microbit, Python)"
+       },
+       "score": 25
+      },
+      {
+       "value": "5",
+       "text": {
+        "nl": "Geen van bovenstaande opties"
+       },
+       "score": 0
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Computational Thinking"
+   },
+   "description": {
+    "nl": "Digitale Geletterdheid"
+   }
+  },
+  {
+   "name": "PDHIG",
+   "elements": [
+    {
+     "type": "imagepicker",
+     "name": "1PDHIG-FDBCKTLS",
+     "visibleIf": "{isTeacher} = true",
+     "title": {
+      "nl": "Geef aan welke online feedback tools je gebruikt tijdens de lessen.\n"
+     },
+     "isRequired": true,
+     "subject": "PDH",
+     "topic": "IG",
+     "hasComment": true,
+     "choices": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Kahoot!"
+       },
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1PDHIG-FDBCKTLS_a.png"
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Padlet"
+       },
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1PDHIG-FDBCKTLS_c.png"
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Mentimeter"
+       },
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1PDHIG-FDBCKTLS_e.png"
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Plickers"
+       },
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1PDHIG-FDBCKTLS_g.png"
+      },
+      {
+       "value": "5",
+       "text": {
+        "nl": "Socrative"
+       },
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1PDHIG-FDBCKTLS_i-09.png"
+      },
+      {
+       "value": "6",
+       "text": {
+        "nl": "Quizziz"
+       },
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1PDHIG-FDBCKTLS_b.png"
+      },
+      {
+       "value": "7",
+       "text": {
+        "nl": "Quizlet"
+       },
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1PDHIG-FDBCKTLS_d.png"
+      },
+      {
+       "value": "8",
+       "text": {
+        "nl": "Nearpod"
+       },
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1PDHIG-FDBCKTLS_f.png"
+      },
+      {
+       "value": "9",
+       "text": {
+        "nl": "Snappet"
+       },
+       "visibleIf": "{isSecondarySchool} = 'Basis'",
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1PDHIG-FDBCKTLS_h.png"
+      },
+      {
+       "value": "10",
+       "text": {
+        "nl": "Gynzy"
+       },
+       "visibleIf": "{isSecondarySchool} = 'Basis'",
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1PDHIG-FDBCKTLS_i-10.png"
+      },
+      {
+       "value": "11",
+       "text": {
+        "nl": "Bingel"
+       },
+       "visibleIf": "{isSecondarySchool} = 'Basis'",
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1PDHIG-FDBCKTLS_j.png"
+      },
+      {
+       "value": "14",
+       "text": {
+        "nl": "GoFormative"
+       },
+       "visibleIf": "{isSecondarySchool} = 'Middelbaar'",
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1PDHIG-FDBCKTLS_j-14.png"
+      },
+      {
+       "value": "15",
+       "text": {
+        "nl": "Google Forms"
+       },
+       "visibleIf": "{isSecondarySchool} = 'Middelbaar'",
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1PDHIG-FDBCKTLS_k-2.png"
+      },
+      {
+       "value": "16",
+       "text": {
+        "nl": "Learnbeat"
+       },
+       "visibleIf": "{isSecondarySchool} = 'Middelbaar'",
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1PDHIG-FDBCKTLS_l-1.png"
+      },
+      {
+       "value": "12",
+       "text": {
+        "nl": "Online lesmethode"
+       },
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1PDHIG-FDBCKTLS_k.png"
+      }
+     ],
+     "colCount": 3,
+     "showLabel": true,
+     "multiSelect": true
+    },
+    {
+     "type": "radiogroup",
+     "name": "2PDHIG-TLSLES",
+     "visibleIf": "{isTeacher} = true",
+     "title": {
+      "nl": "Hoe vaak zet je deze tools in tijdens je les?\n"
+     },
+     "isRequired": true,
+     "istestquestion": true,
+     "subject": "PDH",
+     "topic": "IG",
+     "minscore": 50,
+     "choices": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Ik gebruik deze tools (bijna) nooit  in mijn les"
+       },
+       "score": 0
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Ik gebruik deze tools elke maand  in mijn les"
+       },
+       "score": 50
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Ik gebruik deze tools wekelijks in mijn les"
+       },
+       "score": 75
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Ik gebruik deze tools dagelijks  in mijn les"
+       },
+       "score": 100
+      }
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "3PDHIG-VIDCONF",
+     "visibleIf": "{isTeacher} = true",
+     "title": {
+      "nl": "Kun je video conferencing apps zoals Zoom, Teams en Google Meet effectief inzetten om instructie te geven?\n"
+     },
+     "isRequired": true,
+     "istestquestion": true,
+     "subject": "PDH",
+     "topic": "IG",
+     "minscore": 75,
+     "choices": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Ik kan geen instructie geven via videoconferencing"
+       },
+       "score": 0
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Ik kan online lesgeven maar vind het wel erg lastig"
+       },
+       "score": 50
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Ik kan prima online lessen geven"
+       },
+       "score": 75
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Ik kan uitstekende online lessen verzorgen"
+       },
+       "score": 100
+      }
+     ]
+    }
+   ],
+   "visibleIf": "{isTeacher} = true",
+   "title": {
+    "nl": "Instructie Geven"
+   },
+   "description": {
+    "nl": "Pedagogisch Didactisch Handelen "
+   }
+  },
+  {
+   "name": "PDHLTNL",
+   "elements": [
+    {
+     "type": "matrix",
+     "name": "1PDHLTNL-DGTL",
+     "visibleIf": "{isTeacher} = true",
+     "minWidth": "150px",
+     "title": {
+      "nl": "Hoe goed kun jij leerlingen laten leren met digitale leermiddelen?\n"
+     },
+     "description": {
+      "nl": "O = Onvoldoende, M = Matig, V = Voldoende, G = Goed"
+     },
+     "isRequired": true,
+     "istestquestion": true,
+     "subject": "PDH",
+     "topic": "LTNL",
+     "maxscore": 120,
+     "minscore": 60,
+     "columns": [
+      {
+       "value": "O",
+       "score": 0
+      },
+      {
+       "value": "M",
+       "score": 4
+      },
+      {
+       "value": "V",
+       "score": 7
+      },
+      {
+       "value": "G",
+       "score": 10
+      }
+     ],
+     "rows": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Ik kan leerlingen laten werken met de educatieve software die op school beschikbaar is "
+       },
+       "score": 1
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Ik kan apps downloaden, installeren, beoordelen en verwijderen"
+       },
+       "score": 1
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Als we op school een nieuwe digitale methode krijgen kan ik deze snel in mijn lessen gebruiken "
+       },
+       "score": 1
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Ik ben in staat om met behulp van digitale leermiddelen te differentiëren tussen leerlingen in de klas"
+       },
+       "score": 1
+      },
+      {
+       "value": "5",
+       "text": {
+        "nl": "Op onze school kunnen leerlingen bv dyslectie of leerstoornissen), gebruikmaken van ondersteunende technologieën"
+       },
+       "score": 1
+      },
+      {
+       "value": "6",
+       "text": {
+        "nl": "Ik kan gebruik maken van onlinebibliotheken of -databanken met onderwijs- en leermateriaal"
+       },
+       "score": 1
+      },
+      {
+       "value": "7",
+       "text": {
+        "nl": "Ik gebruik digitale technologieën om mijn lessen te laten aansluiten bij de individuele behoeften van leerlingen"
+       },
+       "score": 1
+      },
+      {
+       "value": "8",
+       "text": {
+        "nl": "Ik gebruik digitale technologieën om de creativiteit van leerlingen aan te wakkeren"
+       },
+       "score": 1
+      },
+      {
+       "value": "9",
+       "text": {
+        "nl": "Ik gebruik digitale technologieën ter ondersteuning van de samenwerking tussen leerlingen"
+       },
+       "score": 1
+      },
+      {
+       "value": "10",
+       "text": {
+        "nl": "Ik betrek leerlingen bij het gebruik van digitale technologieën in vakoverschrijdende projecten"
+       },
+       "score": 1
+      },
+      {
+       "value": "11",
+       "text": {
+        "nl": "Ik bied leerlingen de mogelijkheid om met behulp van digitale technologieën hun eigen leerproces te documenteren"
+       },
+       "score": 1
+      },
+      {
+       "value": "12",
+       "text": {
+        "nl": "Ik gebruik digitale gegevens over individuele leerlingen om hun leerervaringen te verbeteren"
+       },
+       "score": 1
+      }
+     ]
+    }
+   ],
+   "visibleIf": "{isTeacher} = true",
+   "title": {
+    "nl": "Laten Leren"
+   },
+   "description": {
+    "nl": "Pedagogisch didactisch handelen"
+   }
+  },
+  {
+   "name": "PDHTTSN",
+   "elements": [
+    {
+     "type": "imagepicker",
+     "name": "1PDHTTSN-TTSN",
+     "visibleIf": "{isTeacher} = true",
+     "title": {
+      "nl": "Voor digitaal toetsen maak ik het liefst gebruik van de volgende tools voor digitaal toetsen.\n"
+     },
+     "isRequired": true,
+     "istestquestion": true,
+     "subject": "PDH",
+     "topic": "TTSN",
+     "minscore": 25,
+     "hasComment": true,
+     "choices": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "GoFormative"
+       },
+       "visibleIf": "{isSecondarySchool} = 'Middelbaar'",
+       "score": 25,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/2PDHLL-TTSN_d.png"
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Google Forms"
+       },
+       "visibleIf": "{isSecondarySchool} = 'Middelbaar'",
+       "score": 25,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/2PDHLL-TTSN_c.png"
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Exam.net"
+       },
+       "visibleIf": "{isSecondarySchool} = 'Middelbaar'",
+       "score": 25,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/2PDHLL-TTSN_b.png"
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Learnbeat"
+       },
+       "visibleIf": "{isSecondarySchool} = 'Middelbaar'",
+       "score": 25,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1PDHIG-FDBCKTLS_l-1.png"
+      },
+      {
+       "value": "5",
+       "text": {
+        "nl": "Cito"
+       },
+       "visibleIf": "{isSecondarySchool} = 'Basis'",
+       "score": 25,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1WSCRE-LLSYST_e.png"
+      },
+      {
+       "value": "7",
+       "text": {
+        "nl": "Sanppet"
+       },
+       "visibleIf": "{isSecondarySchool} = 'Basis'",
+       "score": 25,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1PDHIG-FDBCKTLS_h.png"
+      },
+      {
+       "value": "8",
+       "text": {
+        "nl": "Gynze"
+       },
+       "visibleIf": "{isSecondarySchool} = 'Basis'",
+       "score": 25,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1PDHIG-FDBCKTLS_i-10.png"
+      },
+      {
+       "value": "9",
+       "text": {
+        "nl": "Bingel"
+       },
+       "visibleIf": "{isSecondarySchool} = 'Basis'",
+       "score": 25,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1PDHIG-FDBCKTLS_j.png"
+      },
+      {
+       "value": "10",
+       "text": {
+        "nl": "Geen"
+       },
+       "score": 0,
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/2PDHLL-TTSN_f-04.png"
+      }
+     ],
+     "multiSelect": true
+    },
+    {
+     "type": "matrix",
+     "name": "2PDHTTSN-DGTL",
+     "visibleIf": "{isTeacher} = true",
+     "title": {
+      "nl": "Hoe goed kun jij digitaal toetsen afnemen?"
+     },
+     "description": {
+      "nl": "O=Onvoldoende, M=Matig, V=Voldoende, G=Goed"
+     },
+     "isRequired": true,
+     "istestquestion": true,
+     "subject": "PDH",
+     "topic": "TTSN",
+     "maxscore": 90,
+     "minscore": 40,
+     "columns": [
+      {
+       "value": "O",
+       "score": 0
+      },
+      {
+       "value": "M",
+       "score": 4
+      },
+      {
+       "value": "V",
+       "score": 7
+      },
+      {
+       "value": "G",
+       "score": 10
+      }
+     ],
+     "rows": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Ik kan met behulp van digitale leermiddelen toetsen afnemen en de resultaten analyseren"
+       },
+       "score": 1
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Ik ben in staat om zelf digitale toetsen te maken (bijvoorbeeld met behulp van Google formulieren)"
+       },
+       "score": 1
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Ik kan de leerdoelen per leerling aanpassen met behulp van de resultaten van digitale toetsen"
+       },
+       "score": 1
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Ik kan toetsen op maat aanbieden (adaptieve toets) met behulp van digitale leermiddelen"
+       },
+       "score": 1
+      },
+      {
+       "value": "5",
+       "text": {
+        "nl": "Onze directie ondersteunt mij bij het gebruik van digitale technologieën voor evaluaties"
+       },
+       "score": 1
+      },
+      {
+       "value": "6",
+       "text": {
+        "nl": "Ik gebruik digitale technologieën om de vaardigheden van de leerlingen te evalueren"
+       },
+       "score": 1
+      },
+      {
+       "value": "7",
+       "text": {
+        "nl": "Ik gebruik digitale technologieën om de leerlingen tijdig feedback te geven"
+       },
+       "score": 1
+      },
+      {
+       "value": "8",
+       "text": {
+        "nl": "Ik gebruik digitale technologieën om leerlingen toe te laten zelf te reflecteren op hun leerproces"
+       },
+       "score": 1
+      },
+      {
+       "value": "9",
+       "text": {
+        "nl": "Ik gebruik digitale technologieën om leerlingen elkaars werk te laten beoordelen"
+       },
+       "score": 1
+      }
+     ]
+    }
+   ],
+   "visibleIf": "{isTeacher} = true",
+   "title": {
+    "nl": "Toetsen"
+   },
+   "description": {
+    "nl": "Pedagogisch DIdactisch Handelen "
+   }
+  },
+  {
+   "name": "POOVVG",
+   "elements": [
+    {
+     "type": "matrix",
+     "name": "1POOVVG-PO",
+     "visibleIf": "{isTeacher} = true",
+     "title": {
+      "nl": "Welke beschrijving is het meest op jou van toepassing in verband met het volgen van ontwikkelingen?\n"
+     },
+     "description": {
+      "nl": "N=Nee, S=Soms, R=Regelmatig, V=Vaak"
+     },
+     "isRequired": true,
+     "istestquestion": true,
+     "subject": "PO",
+     "topic": "OVVG",
+     "maxscore": 70,
+     "minscore": 35,
+     "columns": [
+      {
+       "value": "N",
+       "score": 0
+      },
+      {
+       "value": "S",
+       "score": 4
+      },
+      {
+       "value": "R",
+       "score": 7
+      },
+      {
+       "value": "V",
+       "score": 10
+      }
+     ],
+     "rows": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Ik ben actief op zoek naar nieuwe educatieve toepassingen en zet deze in binnen het onderwijs "
+       },
+       "score": 1
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Ik volg onderwijs gerelateerde thema's online (bijvoorbeeld via een interessegroep op LinkedIn of via nieuwsbrieven)"
+       },
+       "score": 1
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Ik ben door middel van discussie, toevoegingen, e.d. bij minimaal 1 online thema over onderwijs online betrokken"
+       },
+       "score": 1
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Ik ben van minimaal 1 online thema over onderwijs de moderator (= beheerder van het forum of onderwerp)"
+       },
+       "score": 1
+      },
+      {
+       "value": "5",
+       "text": {
+        "nl": "Ik volg de ontwikkelingen in mijn vakgebied op Kennnisnet, PO- of VO-Raad"
+       },
+       "score": 1
+      },
+      {
+       "value": "6",
+       "text": {
+        "nl": "Onze directie overlegt met ons over onze behoefte aan nascholing in het lesgeven met digitale technologieën"
+       },
+       "score": 1
+      },
+      {
+       "value": "7",
+       "text": {
+        "nl": "Ik heb mogelijkheden om deel te nemen aan nascholing in het onderwijzen en leren met digitale technologieën"
+       },
+       "score": 1
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Ontwikkelingen volgen in vakgebied"
+   },
+   "description": {
+    "nl": "Persoonlijke ontwikkeling"
+   }
+  },
+  {
+   "name": "PODVE",
+   "elements": [
+    {
+     "type": "matrix",
+     "name": "1PODVE-DLN",
+     "visibleIf": "{isTeacher} = true",
+     "title": {
+      "nl": "Welke beschrijving is het meest op jou van toepassing in verband met het delen van ervaring?\n"
+     },
+     "description": {
+      "nl": "N=Nee, S=Soms, R=Regelmatig, V=Vaak"
+     },
+     "isRequired": true,
+     "istestquestion": true,
+     "subject": "PO",
+     "topic": "DVE",
+     "minscore": 50,
+     "columns": [
+      {
+       "value": "N",
+       "score": 0
+      },
+      {
+       "value": "S",
+       "score": 4
+      },
+      {
+       "value": "R",
+       "score": 7
+      },
+      {
+       "value": "V",
+       "score": 10
+      }
+     ],
+     "rows": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Ik deel mijn eigen ervaringen (bijvoorbeeld via een blog of bijeenkomst) en inspireer zo collega’s en vakgenoten"
+       },
+       "score": 2
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Ik deel wel eens digitale content die ik zelf heb gemaakt voor in mijn lessen met collega's (bv op wikiwijs)"
+       },
+       "score": 2
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Ik ben aangesloten bij een vereniging, waarbij ik kennis deel met vakgenoten"
+       },
+       "score": 2
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Ik ga regelmatig naar conferenties of bijeenkomsten om kennis en ervaring te delen met vakgenoten"
+       },
+       "score": 2
+      },
+      {
+       "value": "5",
+       "text": {
+        "nl": "Onze directie moedigt ons aan om ervaringen omtrent lesgeven met digitale technologieën met anderen in de school te delen"
+       },
+       "score": 2
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Delen van ervaringen"
+   },
+   "description": {
+    "nl": "Persoonlijke Ontwikkeling"
+   }
+  },
+  {
+   "name": "WSCRE",
+   "elements": [
+    {
+     "type": "imagepicker",
+     "name": "1WSCRE-LLSYST",
+     "visibleIf": "{isTeacher} = true",
+     "title": {
+      "nl": "Welk systeem gebruik je voor het volgen van leerlingen?\n"
+     },
+     "isRequired": true,
+     "hasComment": true,
+     "choices": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Esis"
+       },
+       "visibleIf": "{isSecondarySchool} = 'Basis'",
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1WSCRE-LLSYST_a.png"
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Parnassys"
+       },
+       "visibleIf": "{isSecondarySchool} = 'Basis'",
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1WSCRE-LLSYST_c.png"
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Cito"
+       },
+       "visibleIf": "{isSecondarySchool} = 'Basis'",
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1WSCRE-LLSYST_e.png"
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "IEP"
+       },
+       "visibleIf": "{isSecondarySchool} = 'Basis'",
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1WSCRE-LLSYST_g.png"
+      },
+      {
+       "value": "5",
+       "text": {
+        "nl": "Boom"
+       },
+       "visibleIf": "{isSecondarySchool} = 'Basis'",
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1WSCRE-LLSYST_i.png"
+      },
+      {
+       "value": "6",
+       "text": {
+        "nl": "Dia"
+       },
+       "visibleIf": "{isSecondarySchool} = 'Basis'",
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1WSCRE-LLSYST_b.png"
+      },
+      {
+       "value": "7",
+       "text": {
+        "nl": "Magister"
+       },
+       "visibleIf": "{isSecondarySchool} = 'Middelbaar'",
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1WSCRE-LLSYST_d.png"
+      },
+      {
+       "value": "8",
+       "text": {
+        "nl": "Somtoday"
+       },
+       "visibleIf": "{isSecondarySchool} = 'Middelbaar'",
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1WSCRE-LLSYST_f.png"
+      },
+      {
+       "value": "9",
+       "text": {
+        "nl": "Geen"
+       },
+       "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1WSCRE-LLSYST_h.png"
+      }
+     ],
+     "showLabel": true
+    },
+    {
+     "type": "matrix",
+     "name": "2WSCRE-SYSTKNNS",
+     "visibleIf": "{1WSCRE-LLSYST} notempty and {1WSCRE-LLSYST} <> 9",
+     "title": {
+      "nl": "In {1WSCRE-LLSYST} kan ik "
+     },
+     "description": {
+      "nl": "O=Onvoldoende, M=Matig, V=Voldoende, G=Goed"
+     },
+     "isRequired": true,
+     "istestquestion": true,
+     "subject": "WSC",
+     "topic": "RE",
+     "maxscore": 80,
+     "minscore": 40,
+     "columns": [
+      {
+       "value": "O",
+       "score": 0
+      },
+      {
+       "value": "M",
+       "score": 4
+      },
+      {
+       "value": "V",
+       "score": 7
+      },
+      {
+       "value": "G",
+       "score": 10
+      }
+     ],
+     "rows": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "een absentie en cijferregistratie invoeren"
+       },
+       "score": 2
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "dossiers aanleggen van leerlingen en deze gegevens met collegas delen"
+       },
+       "score": 2
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "een leerlingenrapport maken "
+       },
+       "score": 2
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "resultaten van leerlingen analyseren en interpreteren"
+       },
+       "score": 2
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Registreren"
+   },
+   "description": {
+    "nl": "Werken in de schoolcontext"
+   }
+  },
+  {
+   "name": "WSCVEV",
+   "elements": [
+    {
+     "type": "matrix",
+     "name": "WSCVEV-VOLG",
+     "visibleIf": "{1WSCRE-LLSYST} notempty and {1WSCRE-LLSYST} <> 9",
+     "title": {
+      "nl": "In {1WSCRE-LLSYST} kan ik \n\n\n"
+     },
+     "description": {
+      "nl": "O=Onvoldoende, M=Matig, V=Voldoende, G=Goed"
+     },
+     "isRequired": true,
+     "istestquestion": true,
+     "subject": "WSC",
+     "topic": "VEV",
+     "maxscore": 80,
+     "minscore": 40,
+     "columns": [
+      {
+       "value": "O",
+       "score": 0
+      },
+      {
+       "value": "M",
+       "score": 4
+      },
+      {
+       "value": "V",
+       "score": 7
+      },
+      {
+       "value": "G",
+       "score": 10
+      }
+     ],
+     "rows": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "een handelings of groepsplan opstellen "
+       },
+       "visibleIf": "{isSecondarySchool} = 'Basis'",
+       "score": 2
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "een studiewijzer maken "
+       },
+       "visibleIf": "{isSecondarySchool} = 'Middelbaar'",
+       "score": 2
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "leerlingen laten werken op eigen niveau en tempo"
+       },
+       "score": 2
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "opdrachten klaarzetten voor leerlingen"
+       },
+       "score": 2
+      },
+      {
+       "value": "5",
+       "text": {
+        "nl": "plagiaatcontrole uitvoeren"
+       },
+       "visibleIf": "{isSecondarySchool} = 'Middelbaar'",
+       "score": 2
+      },
+      {
+       "value": "6",
+       "text": {
+        "nl": "digitale toetsen afnemen"
+       },
+       "visibleIf": "{isSecondarySchool} = 'Basis'",
+       "score": 2
+      }
+     ]
+    }
+   ],
+   "visibleIf": "{isTeacher} = true",
+   "title": {
+    "nl": "Volgen en verantwoorden"
+   },
+   "description": {
+    "nl": "Werken in de schoolcontext"
+   }
+  },
+  {
+   "name": "WSCCOM",
+   "elements": [
+    {
+     "type": "matrix",
+     "name": "WCSCOM-COM",
+     "title": {
+      "nl": "Hoe goed communiceer jij?"
+     },
+     "description": {
+      "nl": "O = Onvoldoende, M = Matig, V = Voldoende, G = Goed"
+     },
+     "isRequired": true,
+     "istestquestion": true,
+     "subject": "WSC",
+     "topic": "COM",
+     "minscore": 50,
+     "columns": [
+      {
+       "value": "O",
+       "score": 0
+      },
+      {
+       "value": "M",
+       "score": 4
+      },
+      {
+       "value": "V",
+       "score": 7
+      },
+      {
+       "value": "G",
+       "score": 10
+      }
+     ],
+     "rows": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Effectief communiceren met leerlingen"
+       },
+       "score": 2
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Informatie uitwisselen met ouders"
+       },
+       "score": 2
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Binnen- en buitenschools leren afstemmen (bijvoorbeeld opdrachten, excursies, stages)"
+       },
+       "score": 2
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Doelmatig contact binnen het team"
+       },
+       "score": 2
+      },
+      {
+       "value": "5",
+       "text": {
+        "nl": "Effectief communiceren met de schoolleiding"
+       },
+       "score": 2
+      }
+     ]
+    }
+   ],
+   "title": {
+    "nl": "Communiceren"
+   },
+   "description": {
+    "nl": "Werken in de schoolcontext"
+   }
+  },
+  {
+   "name": "ADVISE",
+   "elements": [
+    {
+     "type": "html",
+     "name": "advice"
+    }
+   ],
+   "title": {
+    "nl": "Aandachtspunten"
+   }
+  },
+  {
+   "name": "ACTIONS",
+   "elements": [
+    {
+     "type": "matrix",
+     "name": "actionPlan",
+     "title": {
+      "nl": "Wil je je verder ontwikkelen op de volgende onderdelen?"
+     },
+     "description": {
+      "nl": "J = Ja, N = Nee, T = Twijfel, L = Later"
+     },
+     "columns": [
+      "J",
+      "N",
+      "T",
+      "L"
+     ],
+     "rows": [
+      {
+       "value": "IB",
+       "text": {
+        "nl": "Digitale Geletterdheid - ICT basisvaardigheden"
+       }
+      },
+      {
+       "value": "MW",
+       "text": {
+        "nl": "Digitale Geletterdheid - Mediawijsheid"
+       }
+      },
+      {
+       "value": "IV",
+       "text": {
+        "nl": "Digitale Geletterdheid - Informatievaardigheden"
+       }
+      },
+      {
+       "value": "CT",
+       "text": {
+        "nl": "Digitale Geletterdheid - Computational Thinking"
+       }
+      },
+      {
+       "value": "IG",
+       "text": {
+        "nl": "Pedagogisch didactisch handelen - Instructie geven"
+       },
+       "visibleIf": "{isTeacher} = true"
+      },
+      {
+       "value": "LTNL",
+       "text": {
+        "nl": "Pedagogisch didactisch handelen - Laten leren"
+       },
+       "visibleIf": "{isTeacher} = true"
+      },
+      {
+       "value": "TTSN",
+       "text": {
+        "nl": "Pedagogisch didactisch handelen - Toetsen"
+       },
+       "visibleIf": "{isTeacher} = true"
+      },
+      {
+       "value": "OVVG",
+       "text": {
+        "nl": "Persoonlijke ontwikkeling - Ontwikkelingen volgen in vakgebied"
+       }
+      },
+      {
+       "value": "DVE",
+       "text": {
+        "nl": "Persoonlijke ontwikkeling - Delen van ervaringen"
+       }
+      },
+      {
+       "value": "RE",
+       "text": {
+        "nl": "Werken in de schoolcontext - Registreren"
+       },
+       "visibleIf": "{isTeacher} = true"
+      },
+      {
+       "value": "VEV",
+       "text": {
+        "nl": "Werken in de schoolcontext - Volgen en verantwoorden"
+       },
+       "visibleIf": "{isTeacher} = true"
+      },
+      {
+       "value": "COM",
+       "text": {
+        "nl": "Werken in de schoolcontext - Communiceren"
+       },
+       "visibleIf": "{isTeacher} = true"
+      }
+     ]
+    },
+    {
+     "type": "comment",
+     "name": "commentActionPlan",
+     "title": {
+      "nl": "Opmerkingen actieplan"
+     },
+     "description": {
+      "nl": "Je kunt hier opmerkingen / ideeën plaatsen over jouw actieplan"
+     }
+    }
+   ],
+   "title": {
+    "nl": "Actieplan"
+   }
+  },
+  {
+   "name": "FEEDBACK",
+   "elements": [
+    {
+     "type": "matrix",
+     "name": "feedbackSchool",
+     "visibleIf": "{isTeacher} = true",
+     "title": {
+      "nl": "Beoordeel jouw school op digitaal gebied. Bij ons op school is/zijn er:\n"
+     },
+     "description": {
+      "nl": "O = Onvoldoende, M = Matig, V = Voldoende, G = Goed"
+     },
+     "isRequired": true,
+     "subject": "WSC",
+     "topic": "DVE",
+     "columns": [
+      "O",
+      "M",
+      "V",
+      "G"
+     ],
+     "rows": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Hardware (laptop, desktop, tablet enz)"
+       }
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Digitale leermiddelen"
+       }
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Internet"
+       }
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Wifi"
+       }
+      },
+      {
+       "value": "5",
+       "text": {
+        "nl": "Technische ondersteuning/hulp "
+       }
+      },
+      {
+       "value": "6",
+       "text": {
+        "nl": "Aandacht /tijd van leraren voor digitale technologieën"
+       }
+      },
+      {
+       "value": "7",
+       "text": {
+        "nl": "Digitale kennis leraren"
+       }
+      },
+      {
+       "value": "8",
+       "text": {
+        "nl": "Digitale kennis leerlingen"
+       }
+      }
+     ]
+    },
+    {
+     "type": "comment",
+     "name": "feedbackCommentSchool",
+     "title": {
+      "nl": "Jouw feedback op digitaal gebied op school"
+     },
+     "description": {
+      "nl": "Geef aub aan hoe de school zich op digitaal gebied kan verbeteren"
+     }
+    },
+    {
+     "type": "rating",
+     "name": "ratingPillars",
+     "title": {
+      "nl": "Beoordeling Pillars Overzicht Deskundigheid"
+     },
+     "description": {
+      "nl": "Beoordeel deze tool met een cijfer tussen de 1 en 10"
+     },
+     "rateMax": 10
+    },
+    {
+     "type": "comment",
+     "name": "feedbackCommentPillars",
+     "title": {
+      "nl": "Jouw feedback op Pillars tool"
+     },
+     "description": {
+      "nl": "Geef aub aan hoe deze tool kan worden verbeterd"
+     }
+    }
+   ],
+   "title": {
+    "nl": "Feedback geven"
+   }
+  }
+ ],
+ "showPageTitles": false,
+ "showQuestionNumbers": "off",
+ "showProgressBar": "bottom"
 };
 
 module.exports = survey;

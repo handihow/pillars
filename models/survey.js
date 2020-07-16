@@ -16,10 +16,6 @@ var surveySchema = mongoose.Schema (
               type: mongoose.Schema.Types.ObjectId,
               ref: "User"
         },
-        form: {                                 
-              type: mongoose.Schema.Types.ObjectId,
-              ref: "Form"
-        },
         isValidForAllOrganisation: Boolean,
         isPublic: {type: Boolean, default: false},
         isCompetenceSurvey: {type: Boolean, default: false},
@@ -30,7 +26,6 @@ var surveySchema = mongoose.Schema (
         softwareStandardTitle: String,
         isActiveCompetenceSurvey: {type: Boolean, default: false},
         isActiveSoftwareSurvey: {type: Boolean, default: false},
-        isPODDSurvey: {type: Boolean, default: false},
         minimumLevel: {type: Number, default: 50},
         highLevel: {type: Number, default: 75},
         surveyOption: String,

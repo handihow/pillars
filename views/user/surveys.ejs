@@ -25,7 +25,7 @@
 	              <i class="bar chart icon"></i>
 	            </a>
 	        </div>
-	          <%=user.firstName%> heeft <a 
+	          <%=user.firstName%> heeft <a target=_blank
 	      			href="/survey/<%=surveyResult._id%>/result">deze antwoorden</a> 
 	      			ingezonden op <%=surveyResult.createdAt.toJSON().slice(0,10).split('-').reverse().join('/')%>  
 	      </div>

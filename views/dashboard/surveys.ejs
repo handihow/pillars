@@ -40,12 +40,12 @@
               <i class="bar chart icon"></i>
             </a>
           </div>
-          Je hebt <a 
+          Je hebt <a target=_blank
       			href="/survey/<%=surveyResults[index]._id%>/result">deze antwoorden</a> 
       			ingezonden op <%=surveyResults[index].createdAt.toJSON().slice(0,10).split('-').reverse().join('/')%>
             
       	<%} else {%>
-      		<a href="/survey/<%=survey._id%>/private">Doe nu de test!</a>
+      		<a href="/survey/<%=survey._id%>/private" target=_blank>Doe nu de test!</a>
       	<% } %>
       </div>
     </div>

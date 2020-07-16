@@ -13,6 +13,8 @@ var surveyResultSchema = mongoose.Schema (
           },
         result: {type: {}, required: true},
         score: Number,
+        statistics: {},
+        flags: {},
         isCompetenceSurvey: Boolean,
         competenceStandardKey: String,
         competenceStandardTitle: String,
@@ -36,7 +38,7 @@ var surveyResultSchema = mongoose.Schema (
 
 surveyResultSchema.pre('save', function(next) {
   var surveyResultToBeSaved = this;
-  if(surveyResultToBeSaved.isCompetenceSurvey){
+  if(surveyResultToBeSaved.isCompetenceSurvey || surveyResultToBeSaved.score){
     var result = [];
     result.push(surveyResultToBeSaved);
     Survey.findById(surveyResultToBeSaved.survey, function(err, survey){

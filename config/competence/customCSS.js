@@ -17,7 +17,7 @@ var customCSS = {
 			"progressBar": "bar",
 			"progressTextUnderBar": "label",
 			"page": {
-				"root": "",
+				"root": "ui padded raised yellow segment animated fadeIn slow",
 				"title": "",
 				"description": ""
 			},
@@ -25,7 +25,7 @@ var customCSS = {
 			"pageDescription": "ui sub header",
 			"row": "fields",
 			"question": {
-				"mainRoot": "ui padded raised yellow segment animated fadeIn slow",
+				"mainRoot": "",
 				"flowRoot": "sv_q_flow sv_qstn",
 				"header": "question-header",
 				"headerLeft": "title-left",

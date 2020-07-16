@@ -97,7 +97,7 @@ async function asyncForEach(array, callback) {
 function retrieveUserSurveyResults(survey, user){
   return new Promise(function(resolve, reject) {
     SurveyResult.find({"survey": survey._id}).populate('user').exec(function(err, surveyResults){
-      if(err){
+      if(err || surveyResults.length === 0){
         return resolve({
           average: 0,
           comparingAverage: 0,

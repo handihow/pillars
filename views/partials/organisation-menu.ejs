@@ -36,14 +36,6 @@
     <span class="hide-mobile">Digitale leermiddelen</span>
   </a>
   <%}%>
-  <% if(organisation.settings.competenceNew){ %>
-  <a class="vertical item <%if(url.includes("/organisations/"+organisation._id+'/overview/podd')) { %> active <% } %>" 
-      href="/organisations/<%= organisation._id %>/overview/podd" 
-      data-content="Deskundigheid">
-    <i class="certificate icon" ></i>
-    <span class="hide-mobile">Deskundigheid</span>
-  </a>
-  <%}%>
   <% if(organisation.settings.competence){ %>
   <a class="vertical item <%if(url.includes("/organisations/"+organisation._id+'/overview/competence')) { %> active <% } %>" 
       href="/organisations/<%= organisation._id %>/overview/competence" 

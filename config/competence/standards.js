@@ -67,7 +67,7 @@ standards.rubric = {
 }
 
 //STANDARD 13 - DIGITAL SKILLS STUDENTS
-standards.digitalSkillsStudents = {
+standards.podd = {
 	maxScore: 0
 }
 
