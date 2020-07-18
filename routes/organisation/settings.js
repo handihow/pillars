@@ -17,7 +17,6 @@ router.get("/", middleware.isLoggedIn, function(req, res){
   });
 });
 
-
 //UPDATE route to store edited profile questions to database
 router.post("/", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
   Organisation.findById(req.params.id, function(err, organisation){

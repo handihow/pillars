@@ -23,7 +23,16 @@
     </a>
   <% } %>
   <% if(currentUser.role ==="badmin" || currentUser.role==="sadmin" || currentUser.role=== "buser" || currentUser.role==="padmin") { %>
-  <% if(organisationSettings.competence){ %>
+  <% if(organisationSettings.competenceNew){ %>
+    <a class="vertical item <%if(url.includes("/schools/"+school._id+"/podd")) { %> active <% } %>" 
+        href="/schools/<%= school._id %>/podd" 
+        data-content="Pillars Overzicht Digitale Deskundigheid">
+      
+      <i class="certificate icon"></i>
+      <span class="hide-mobile">Overzicht Digitale Deskundigheid</span>
+    </a>
+  <% } %>
+  <%if(organisationSettings.competence){ %>
     <a class="vertical item <%if(url.includes("/schools/"+school._id+"/competence")) { %> active <% } %>" 
         href="/schools/<%= school._id %>/competence" 
         data-content="Deskundigheid">

@@ -10,7 +10,9 @@
         <script src="https://surveyjs.azureedge.net/1.7.20/survey.pdf.js"></script>
         <script src="https://unpkg.com/sortablejs@1.7.0/Sortable.js"></script>
         <script src="https://surveyjs.azureedge.net/1.7.20/surveyjs-widgets.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.2.0/papaparse.min.js"></script>
         <link href="https://surveyjs.azureedge.net/1.7.20/survey.css" type="text/css" rel="stylesheet"/>
+        
         <style>
             table {
                 font-size: unset;
@@ -44,8 +46,24 @@
                 line-height: 1em;
                 border-radius: .28571429rem;
             }
+            .survey__button
+            {
+                font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+                margin: 0 .25em 0 0;
+                padding: .78571429em 1.5em .78571429em;
+                line-height: 1em;
+                border-radius: .28571429rem;
+                font-size: 0.85em;
+                font-weight: bold;
+                border: none;
+                min-width: 100px;
+                cursor: pointer;
+                color: white;
+                background-color: rgb(0, 159, 227);
+            }
             .sjs-sortablejs-item{
                 background-color: #009FE3 !important;
+                cursor: move;
             }
 
         </style>
@@ -54,8 +72,8 @@
 
         <div id="surveyElementContainer">
             <%if(isShow){%>
-                <button onclick="saveSurveyToPdf()" style="margin:10px">Download PDF</button>
-                <button type="button" 
+                <button class="survey__button" onclick="saveSurveyToPdf()" style="margin:10px">Download PDF</button>
+                <button class="survey__button" type="button" 
                     onclick="window.open('', '_self', ''); window.close();">Sluiten</button>
                 <div id="surveyData" hidden><%= JSON.stringify(surveyResult.result) %></div>
             <%}%>
@@ -251,9 +269,9 @@
                     survey.getAllQuestions().forEach(function(q) {
                       if (surveyData[q.name] === undefined) {
                         normalizedData[q.name] = "";
-                      } else if(surveyData[q.name] === true) {
+                      } else if(surveyData[q.name] === true && surveyKey !== 'podd') {
                         normalizedData[q.name] = "true"
-                      } else if(surveyData[q.name] === false) {
+                      } else if(surveyData[q.name] === false && surveyKey !== 'podd') {
                         normalizedData[q.name] = "false"
                       } else {
                         normalizedData[q.name] = surveyData[q.name];
@@ -328,7 +346,8 @@
                 }, 10000);
 
                 var score = 0;
-                var scores;var flags;var questionScores;var numberQuestions; var numberWrongAnswered;
+                var scores;var flags;var questionScores;
+                var questionResults = [];
 
                 survey
                 .onComplete
@@ -342,29 +361,28 @@
                         };
                      if(surveyKey === 'podd'){
                         data.score = score;
-                        data.scores = scores;
-                        data.flags = flags;
-                        data.questionScores = questionScores;
+                        data.statistics = JSON.stringify(scores);
+                        data.flags = JSON.stringify(flags);
+                        data.questionScores = JSON.stringify(questionScores);
                      }
-                    console.log(data);
-                    //  $.ajax({
-                    //     url: window.location.origin + "/survey/" + surveyId + "/private",
-                    //     type: "POST",
-                    //     data: data,
-                    //     success: function (data) {
-                    //         if(data.success){
-                    //             document
-                    //             .querySelector('#surveyResult')
-                    //             .innerHTML = "<a href='" + window.location.origin + "/survey/" 
-                    //                             + data.surveyResultId +  "/result'>Bekijk je inzending</a>";
-                    //         } else {
-                    //             alert(data.error);
-                    //         }
-                    //     },
-                    //     error: function(err) {
-                    //         alert('Er ging iets mis');
-                    //     }
-                    // });
+                     $.ajax({
+                        url: window.location.origin + "/survey/" + surveyId + "/private",
+                        type: "POST",
+                        data: data,
+                        success: function (data) {
+                            if(data.success){
+                                document
+                                .querySelector('#surveyResult')
+                                .innerHTML = "<a href='" + window.location.origin + "/survey/" 
+                                                + data.surveyResultId +  "/result'>Bekijk je inzending</a>";
+                            } else {
+                                alert(data.error);
+                            }
+                        },
+                        error: function(err) {
+                            alert('Er ging iets mis');
+                        }
+                    });
 
                 });
 
@@ -400,6 +418,13 @@
                           }
                         });
                         break;
+                      case "sortablelist":
+                        q.choices.map(c => score += q.value.includes(c.value) ? c.score : 0 );
+                        if(!JSON.stringify(q.choices)==JSON.stringify(q.correctAnswer)){
+                            //not the correct order you get only 50% of score
+                            score = score * 0.5;
+                        }
+                        break;
                       default:
                         console.log(questionType + ' is not part of calculation matrix');
                         break;
@@ -407,15 +432,39 @@
                   return score;
                 }
 
+                createCSV = function(){
+                    var csvContent = Papa.unparse(questionResults, {
+                        delimiter: ";",
+                        columns: ['ID', 'Vraag', 'Onderdeel', 'Min score', 'Max score', 'Score', 'Advies']
+                    });
+                    var csvData = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
+                    var csvURL =  null;
+                    if (navigator.msSaveBlob)
+                    {
+                        csvURL = navigator.msSaveBlob(csvData, 'overzichtpillars.csv');
+                    }
+                    else
+                    {
+                        csvURL = window.URL.createObjectURL(csvData);
+                    }
+
+                    var tempLink = document.createElement('a');
+                    tempLink.href = csvURL;
+                    tempLink.setAttribute('download', 'overzichtpillars.csv');
+                    tempLink.click();
+                }
+
                 if(surveyKey==='podd'){
                     survey.onCurrentPageChanging.add(function(sender){
                         if(survey.currentPage.name === 'WSCCOM'){
                             survey.showPrevButton = false;
+                            var numberQuestions = {}; 
+                            var numberWrongAnswered = {};
+                            var grandTotal = 0;
+                            var grandTotalQuestions = 0;
                             scores = {};
                             flags = {};
                             questionScores = {};
-                            numberQuestions = {}; 
-                            numberWrongAnswered = {};
                             var html = `
                                 <h2>Jouw Overzicht Digitale Deskundigheid</h2>
                                 <p>We hebben jouw antwoorden geanalyseerd op verschillende deelgebieden.</p>
@@ -432,9 +481,21 @@
                                 if(categoryQuestions.length>0){
                                     categoryQuestions.forEach(function(question){
                                         var result = calculateQuestionScore(question);
-                                        questionScores[question.name] = Math.round(result/question.maxscore*100);
-                                        total += result/question.maxscore;
+                                        var percent = result/question.maxscore;
+                                        questionResults.push({
+                                            'ID': question.name,
+                                            'Vraag': question.fullTitle,
+                                            'Onderdeel': cat.title,
+                                            'Min score': question.minscore,
+                                            'Max score': question.maxscore,
+                                            'Score': result,
+                                            'Advies': result < question.minscore ? 'Score te laag' : 'Vaardig'
+                                        });
+                                        questionScores[question.name] = Math.round(percent*100);
+                                        total += percent;
+                                        grandTotal += percent;
                                         questions ++;
+                                        grandTotalQuestions ++;
                                         if(result < question.minscore){
                                             flag = true;
                                             numberWrongAnswered[cat.name] ++;
@@ -462,15 +523,20 @@
                             html += `
                                 <h4>Hulpmiddel, geen test!</h4>
                                 <p>Dit overzicht geeft inzicht in deelgebieden waar je jezelf in kunt verbeteren. Je hebt het niet goed of fout gedaan. Je krijgt na deze test nog uitgebreid de kans om jouw antwoorden te analyzeren.</p>
+                                <button class="survey__button" onclick="createCSV()" style="margin:10px">Download Resultaten</button>
                             `;
                             var adviceQuestion = survey.getQuestionByName('advice');
                             adviceQuestion.html = html;
+                            score = grandTotalQuestions === 0 ? 0 : Math.round(grandTotal / grandTotalQuestions * 100) / 100;
                         }
                     })
                 }
 
-                
+
+            
+            
         </script>
+            
 
     </body>
 </html>

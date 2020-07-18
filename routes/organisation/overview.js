@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router({mergeParams: true});
 var School = require("../../models/school");
 var Survey = require("../../models/survey");
+var User = require("../../models/user");
 var SurveyResult = require("../../models/surveyResult");
 var middleware = require("../../middleware");
 var json2csv = require("json2csv");
@@ -12,6 +13,7 @@ var _ = require("lodash");
 var Organisation = require("../../models/organisation");
 var Statistic = require("../../models/statistic");
 var hardwareScore = require("../../config/hardware/score");
+var moment = require("moment");
 
 router.get("/schools", middleware.isAuthenticatedBadmin, function(req, res){
     Organisation.findById(req.params.id, function(err, organisation){
@@ -394,7 +396,7 @@ async function asyncForEach(array, callback) {
 function retrieveOrganisationSurveyResults(survey, organisation){
   return new Promise(function(resolve, reject) {
     SurveyResult.find({"survey": survey._id}).populate('user').exec(async function(err, surveyResults){
-      if(err){
+      if(err || surveyResults.length === 0){
         return resolve({
           average: 0,
           comparingAverage: 0,
@@ -404,6 +406,7 @@ function retrieveOrganisationSurveyResults(survey, organisation){
       } else {
         var organisationSurveyResults = surveyResults.filter(sr => sr.user && sr.user._id);
         var organisationStatistics = config.competence.survey.calculateStatistics(survey, organisationSurveyResults);
+        console.log(organisationStatistics);
         var statistic = await retrieveGlobalStatistic(survey.competenceStandardKey);
         return resolve({
           average: _.mean(organisationStatistics[0].statistics),
@@ -415,6 +418,70 @@ function retrieveOrganisationSurveyResults(survey, organisation){
     })
   });
 }
+
+router.get("/podd", middleware.isAuthenticatedBadmin, function(req, res){
+   Organisation.findById(req.params.id)
+  .exec(function(err, organisation){
+    if(err ||!organisation){
+      req.flash("error", "Bestuur niet gevonden.");
+      res.redirect("back");
+    } else {
+        User.find({
+            "organisation": organisation._id
+        }, function(err, users){
+            if(err){
+                req.flash("error", "Medewerkers niet gevonden");
+                res.redirect("back");
+            } else {
+                Survey.findOne({
+                    "organisation": organisation._id, 
+                    "isActiveCompetenceSurvey": true,
+                    "competenceStandardKey": "podd"
+                  }, function(err, survey){
+                    var index = config.competence.survey.competenceCategories.findIndex((e) => e.identifier == 'podd');
+                    if(index == -1){
+                      req.flash("error", "Geen definitie gevonden van deze vragenlijst");
+                      return res.redirect("back");
+                    }
+                    var standard = config.competence.survey.competenceCategories[index];
+                    if(err || !survey){
+                      req.flash("error", "Pillars Overzicht Digitale Deskundigheid niet gevonden voor dit bestuur.");
+                      res.redirect("back");
+                    } else {
+                        SurveyResult.find({
+                            "survey": survey._id
+                        }, function(err, surveyResults){
+                            if(err){
+                                req.flash("error", "Probleem bij inladen van resultaten ... " + err.message);
+                                res.redirect("back");
+                            } else {
+                                var countPerDay = {};
+                                surveyResults.forEach(function (elem) {
+                                    var date = moment(elem.createdAt).format("YYYY-MM-DD");
+                                    if (countPerDay[date]) {
+                                        countPerDay[date] += 1;
+                                    } else {
+                                        countPerDay[date] = 1;
+                                    }
+                                });                                
+                                res.locals.scripts.footer.chartjs = true;
+                                res.render("competence/index", {
+                                    organisation: organisation,
+                                    users: users, 
+                                    survey: survey,
+                                    standard: standard,
+                                    surveyResults: surveyResults,
+                                    countPerDay: countPerDay
+                                });
+                            }
+                        })
+                    }
+                 });
+            }
+        });
+    }
+  });
+});
 
 function retrieveGlobalStatistic(competenceStandardKey){
     return new Promise(function (resolve, reject){

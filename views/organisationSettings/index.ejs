@@ -22,7 +22,7 @@
                 <input 
                   type="checkbox"
                   name="<%=setting%>"
-                  <% if(organisationSettings[setting]) { %> 
+                  <% if(organisation.settings && typeof organisation.settings[setting] !== 'undefined' && organisation.settings[setting]) { %> 
                   checked="checked" <% } %> 
                   >
                 <label><%=labels[setting] %></label>

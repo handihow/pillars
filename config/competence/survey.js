@@ -253,73 +253,97 @@ var competenceCategories = [
       {
         name: "IB",
         title: "ICT basisvaardigheden",
+        abbrTitle: 'ICT basis.',
         parent: "DG",
+        parentAbbrTitle: 'Dig.Gel.',
         parentTitle: "Digitale Geletterdheid"
       },
       {
         name: "MW",
         title: "Mediawijsheid",
+        abbrTitle: 'Mediaw.',
         parent: "DG",
+        parentAbbrTitle: 'Dig.Gel.',
         parentTitle: "Digitale Geletterdheid"
       },
       {
         name: "IV",
         title: "Informatievaardigheden",
+        abbrTitle: 'Informatiev.',
         parent: "DG",
+        parentAbbrTitle: 'Dig.Gel.',
         parentTitle: "Digitale Geletterdheid"
       },
       {
         name: "CT",
         title: "Computational Thinking",
+        abbrTitle: 'Comp.Think.',
         parent: "DG",
+        parentAbbrTitle: 'Dig.Gel.',
         parentTitle: "Digitale Geletterdheid"
       },
       {
         name: "IG",
         title: "Instructie geven",
+        abbrTitle: 'Instr.Gvn.',
         parent: "PDH",
+        parentAbbrTitle: 'Ped.Did.Han.',
         parentTitle: "Pedagogisch Didactisch Handelen"
       },
       {
         name: "LTNL",
         title: "Laten leren",
+        abbrTitle: 'Laten Lrn.',
         parent: "PDH",
+        parentAbbrTitle: 'Ped.Did.Han.',
         parentTitle: "Pedagogisch Didactisch Handelen"
       },
       {
         name: "TTSN",
         title: "Toetsen",
+        abbrTitle: 'Toetsen',
         parent: "PDH",
+        parentAbbrTitle: 'Ped.Did.Han.',
         parentTitle: "Pedagogisch Didactisch Handelen"
       },
       {
         name: "OVVG",
         title: "Ontwikkelingen volgen in vakgebied",
+        abbrTitle: 'Ontw.Vol.i.Vakg.',
         parent: "PO",
+        parentAbbrTitle: 'Pers.Ontw.',
         parentTitle: "Persoonlijke Ontwikkeling"
       },
       {
         name: "DVE",
         title: "Delen van ervaringen",
+        abbrTitle: 'Dln. v. Erv.',
         parent: "PO",
+        parentAbbrTitle: 'Pers.Ontw.',
         parentTitle: "Persoonlijke Ontwikkeling"
       },
       {
         name: "RE",
         title: "Registreren",
+        abbrTitle: 'Registr.',
         parent: "WSC",
+        parentAbbrTitle: 'Werk.i.d.Schoolc.',
         parentTitle: "Werken in de schoolcontext"
       },
       {
         name: "VEV",
         title: "Volgen en verantwoorden",
+        abbrTitle: 'Vlgn.e.Verantw.',
         parent: "WSC",
+        parentAbbrTitle: 'Werk.i.d.Schoolc.',
         parentTitle: "Werken in de schoolcontext"
       },
       {
         name: "COM",
         title: "Communiceren",
+        abbrTitle: 'Communicrn.',
         parent: "WSC",
+        parentAbbrTitle: 'Werk.i.d.Schoolc.',
         parentTitle: "Werken in de schoolcontext"
       }
     ],
@@ -374,38 +398,39 @@ survey.calculateStatistics = function(survey, surveyResults){
       });
     } else {
       surveyResults.forEach(function(surveyResult){
-        if(surveyResult.statistics){
-          statistics.forEach(function(stat){
-            stat.statistics.push(surveyResult.statistics[stat.name] ? surveyResult.statistics[stat.name] : 0);
-          });
-        } else {
           statistics.forEach(function(stat, statIndex){
-           var questions = 0;
-           var total = 0;
-           Object.keys(surveyResult.result).forEach(function(key){
-              var value = surveyResult.result[key];
-              if(typeof value == 'string' && (value == "true" || value == "false")){
-                transformedValue = value == "true" ? 1 : 0;
-              } else if(typeof value == 'string'){
-                transformedValue = parseFloat(value);
-              } else if(typeof value == 'boolean'){
-                transformedValue = value ? 1 : 0;
-              }
-              if(statIndex == 0 && !isNaN(transformedValue)) {
-                 //this is the general statistics
-                 questions += 1;
-                 total += transformedValue;
-              }
-              var name = key.substring(0,key.indexOf("-"));
-              if(name == stat.name){
-                 questions += 1;
-                 total += transformedValue;            
-              }
-            });
-            var result = Math.round(total / questions * 100);
-            stat.statistics.push(result);
+            if(statIndex === 0 && typeof surveyResult.score !== 'undefined'){
+              stat.statistics.push(surveyResult.score * 100);
+            } else if(surveyResult.statistics && surveyResult.statistics[stat.name]){
+              stat.statistics.push(surveyResult.statistics[stat.name])
+            } else {
+              var questions = 0;
+               var total = 0;
+               Object.keys(surveyResult.result).forEach(function(key){
+                  var value = surveyResult.result[key];
+                  if(typeof value == 'string' && (value == "true" || value == "false")){
+                    transformedValue = value == "true" ? 1 : 0;
+                  } else if(typeof value == 'string'){
+                    transformedValue = parseFloat(value);
+                  } else if(typeof value == 'boolean'){
+                    transformedValue = value ? 1 : 0;
+                  }
+                  if(statIndex == 0 && !isNaN(transformedValue)) {
+                     //this is the general statistics
+                     questions += 1;
+                     total += transformedValue;
+                  }
+                  var name = key.substring(0,key.indexOf("-"));
+                  if(name == stat.name){
+                     questions += 1;
+                     total += transformedValue;            
+                  }
+                });
+                var result = Math.round(total / questions * 100);
+                stat.statistics.push(result);
+            }
+           
          });
-        }
       });
     }
 	} 
@@ -7228,20 +7253,46 @@ survey.rubric = {
 survey.podd = {
  "locale": "nl",
  "title": {
-  "nl": "PODD"
- },
- "description": {
   "nl": "Pillars Overzicht Digitale Deskundigheid"
  },
  "logo": {
-  "nl": "http://pillars.school/wp-content/uploads/2017/06/cropped-pillars-logo2.png"
+  "nl": "https://pillars.school/wp-content/uploads/2020/07/pillars-podd-logo_1.png"
  },
- "logoWidth": 100,
- "logoHeight": 100,
+ "logoWidth": 120,
+ "logoHeight": 120,
  "logoPosition": "right",
  "pages": [
   {
-   "name": "Profile",
+   "name": "START",
+   "elements": [
+    {
+     "type": "image",
+     "name": "logo",
+     "width": "30%",
+     "minWidth": "300",
+     "maxWidth": "",
+     "imageLink": "https://pillars.school/wp-content/uploads/2020/07/Survey-Pillars-01.png",
+     "imageFit": "cover",
+     "imageHeight": 175,
+     "imageWidth": 175
+    },
+    {
+     "type": "html",
+     "name": "welcomeMessage",
+     "width": "70%",
+     "minWidth": "300",
+     "startWithNewLine": false,
+     "html": {
+      "nl": "<h3>Plan jouw digitale groei met Pillars </h3>\n<p>Deze vragenlijst geeft leraren inzicht in alle onderdelen van digitale deskundigheid in het onderwijs. De vragen zijn een mix van zelfbeoordelingen en kennisvragen.</p>\n<p>Na het invullen van de vragen krijg je een overzicht van jouw score op ieder deelgebied. Je kunt met deze uitslag direct een plan van aanpak opstellen.</p>\n<p>Het invullen van deze vragenlijst duurt ongeveer 30 minuten. Je kunt tussendoor stoppen en op een later moment verdergaan.</p>"
+     }
+    }
+   ],
+   "title": {
+    "nl": "Welkom"
+   }
+  },
+  {
+   "name": "PROFILE1",
    "elements": [
     {
      "type": "text",
@@ -7291,10 +7342,10 @@ survey.podd = {
      "defaultValue": "false",
      "isRequired": true,
      "labelTrue": {
-      "nl": "Middelbare school"
+      "nl": "Voortgezet Onderwijs"
      },
      "labelFalse": {
-      "nl": "Basisschool"
+      "nl": "Primair Onderwijs"
      },
      "valueTrue": "Middelbaar",
      "valueFalse": "Basis"
@@ -7362,7 +7413,7 @@ survey.podd = {
    }
   },
   {
-   "name": "ExtraInfo",
+   "name": "PROFILE2",
    "elements": [
     {
      "type": "checkbox",
@@ -7585,6 +7636,9 @@ survey.podd = {
       "default": "Wat kun jij met een tekstverwerker (Word / Google Docs / Pages)?",
       "nl": "Weet je wat deze apparaten doen en kun je ermee werken?"
      },
+     "description": {
+      "nl": "Beoordeel je kennis van 1 ster tot 4 sterren\n"
+     },
      "isRequired": true,
      "istestquestion": true,
      "subject": "DG",
@@ -7648,6 +7702,9 @@ survey.podd = {
      "type": "imagepicker",
      "name": "2DGIB-TKST",
      "title": "Wat kun jij met een tekstverwerker (Word / Google Docs / Pages)?",
+     "description": {
+      "nl": "Beoordeel je kennis van 1 ster tot 4 sterren"
+     },
      "isRequired": true,
      "istestquestion": true,
      "subject": "DG",
@@ -7707,6 +7764,9 @@ survey.podd = {
      "title": {
       "default": "Wat kun jij met een tekstverwerker (Word / Google Docs / Pages)?",
       "nl": "Wat kun jij met een spreadsheet (Excel / Google sheets / Numbers)?"
+     },
+     "description": {
+      "nl": "Beoordeel je kennis van 1 ster tot 4 sterren"
      },
      "isRequired": true,
      "istestquestion": true,
@@ -7774,6 +7834,9 @@ survey.podd = {
       "default": "Wat kun jij met een tekstverwerker (Word / Google Docs / Pages)?",
       "nl": "Wat kun jij met een presentatie (Powerpoint / Google presentaties / Prezi)?"
      },
+     "description": {
+      "nl": "Beoordeel je kennis van 1 ster tot 4 sterren"
+     },
      "isRequired": true,
      "istestquestion": true,
      "subject": "DG",
@@ -7839,6 +7902,9 @@ survey.podd = {
      "title": {
       "default": "Wat kun jij met een tekstverwerker (Word / Google Docs / Pages)?",
       "nl": "Hoe goed kun jij documenten opslaan en delen?\n"
+     },
+     "description": {
+      "nl": "Beoordeel je kennis van 1 ster tot 4 sterren"
      },
      "isRequired": true,
      "istestquestion": true,
@@ -7906,6 +7972,9 @@ survey.podd = {
       "default": "Wat kun jij met een tekstverwerker (Word / Google Docs / Pages)?",
       "nl": "Wat weet jij van het World Wide Web?\n"
      },
+     "description": {
+      "nl": "Beoordeel je kennis van 1 ster tot 4 sterren"
+     },
      "isRequired": true,
      "istestquestion": true,
      "subject": "DG",
@@ -7970,7 +8039,10 @@ survey.podd = {
      "name": "7DGIB-VID",
      "title": {
       "default": "Wat kun jij met een tekstverwerker (Word / Google Docs / Pages)?",
-      "nl": "\nWat kun jij met beeld en videomateriaal?\n"
+      "nl": "Wat kun jij met beeld en videomateriaal?\n"
+     },
+     "description": {
+      "nl": "Beoordeel je kennis van 1 ster tot 4 sterren"
      },
      "isRequired": true,
      "istestquestion": true,
@@ -8036,7 +8108,10 @@ survey.podd = {
      "name": "8DGIB-EML",
      "title": {
       "default": "Wat kun jij met een tekstverwerker (Word / Google Docs / Pages)?",
-      "nl": "\nHoe goed kun je omgaan met email?\n\n"
+      "nl": "Hoe goed kun je omgaan met email?\n\n"
+     },
+     "description": {
+      "nl": "Beoordeel je kennis van 1 ster tot 4 sterren"
      },
      "isRequired": true,
      "istestquestion": true,
@@ -8104,6 +8179,9 @@ survey.podd = {
       "default": "Wat kun jij met een tekstverwerker (Word / Google Docs / Pages)?",
       "nl": "Hoe goed kun je omgaan met video conference programma's zoals Zoom, Teams en Google Meet?\n"
      },
+     "description": {
+      "nl": "Beoordeel je kennis van 1 ster tot 4 sterren"
+     },
      "isRequired": true,
      "istestquestion": true,
      "subject": "DG",
@@ -8161,7 +8239,7 @@ survey.podd = {
    }
   },
   {
-   "name": "DGMW",
+   "name": "DGMW1",
    "elements": [
     {
      "type": "imagepicker",
@@ -8270,7 +8348,7 @@ survey.podd = {
      "type": "checkbox",
      "name": "2DGMW-BERN",
      "title": {
-      "nl": "Hoe beoordeel jij de berichten op jouw social media feeds? Klik 4 goede antwoorden aan.\n"
+      "nl": "Hoe beoordeel jij de waarheid van berichten op jouw social media feeds? Klik 4 goede antwoorden aan."
      },
      "correctAnswer": [
       "1",
@@ -8412,10 +8490,22 @@ survey.podd = {
       }
      ],
      "choicesOrder": "random"
-    },
+    }
+   ],
+   "title": {
+    "nl": "Mediawijsheid (1/2)"
+   },
+   "description": {
+    "nl": "Digitale Geletterdheid"
+   }
+  },
+  {
+   "name": "DGMW2",
+   "elements": [
     {
      "type": "checkbox",
      "name": "4DGMW-GGVNS",
+     "minWidth": "",
      "title": {
       "nl": "Wat is van belang bij het ontvangen en verzenden van gegevens via email en social media.  Klik 4 goede antwoorden aan.\n"
      },
@@ -8561,14 +8651,14 @@ survey.podd = {
     }
    ],
    "title": {
-    "nl": "Mediawijsheid"
+    "nl": "Mediawijsheid (2/2)"
    },
    "description": {
     "nl": "Digitale Geletterdheid"
    }
   },
   {
-   "name": "DGIV",
+   "name": "DGIV1",
    "elements": [
     {
      "type": "html",
@@ -8730,7 +8820,20 @@ survey.podd = {
       }
      ],
      "choicesOrder": "random"
-    },
+    }
+   ],
+   "title": {
+    "default": "Tekstverwerken",
+    "nl": "Informatievaardigheden (1/2)"
+   },
+   "description": {
+    "default": "Digitale Geletterdheid - ICT Basisvaardigheden",
+    "nl": "Digitale Geletterdheid"
+   }
+  },
+  {
+   "name": "DGIV2",
+   "elements": [
     {
      "type": "checkbox",
      "name": "3DGIV-ACT",
@@ -8952,16 +9055,14 @@ survey.podd = {
     }
    ],
    "title": {
-    "default": "Tekstverwerken",
-    "nl": "Informatievaardigheden"
+    "nl": "Informatievaardigheden (2/2)"
    },
    "description": {
-    "default": "Digitale Geletterdheid - ICT Basisvaardigheden",
     "nl": "Digitale Geletterdheid"
    }
   },
   {
-   "name": "DGCT",
+   "name": "DGCT1",
    "elements": [
     {
      "type": "checkbox",
@@ -9189,7 +9290,18 @@ survey.podd = {
       }
      ],
      "choicesOrder": "random"
-    },
+    }
+   ],
+   "title": {
+    "nl": "Computational Thinking (1/2)"
+   },
+   "description": {
+    "nl": "Digitale Geletterdheid"
+   }
+  },
+  {
+   "name": "DGCT2",
+   "elements": [
     {
      "type": "radiogroup",
      "name": "4DGCT-ALG",
@@ -9284,7 +9396,7 @@ survey.podd = {
     }
    ],
    "title": {
-    "nl": "Computational Thinking"
+    "nl": "Computational Thinking (2/2)"
    },
    "description": {
     "nl": "Digitale Geletterdheid"
@@ -9639,7 +9751,8 @@ survey.podd = {
        },
        "score": 1
       }
-     ]
+     ],
+     "isAllRowRequired": true
     }
    ],
    "visibleIf": "{isTeacher} = true",
@@ -9848,7 +9961,8 @@ survey.podd = {
        },
        "score": 1
       }
-     ]
+     ],
+     "isAllRowRequired": true
     }
    ],
    "visibleIf": "{isTeacher} = true",
@@ -9946,7 +10060,8 @@ survey.podd = {
        },
        "score": 1
       }
-     ]
+     ],
+     "isAllRowRequired": true
     }
    ],
    "title": {
@@ -10028,7 +10143,8 @@ survey.podd = {
        },
        "score": 2
       }
-     ]
+     ],
+     "isAllRowRequired": true
     }
    ],
    "title": {
@@ -10188,7 +10304,8 @@ survey.podd = {
        },
        "score": 2
       }
-     ]
+     ],
+     "isAllRowRequired": true
     }
    ],
    "title": {
@@ -10282,7 +10399,8 @@ survey.podd = {
        "visibleIf": "{isSecondarySchool} = 'Basis'",
        "score": 2
       }
-     ]
+     ],
+     "isAllRowRequired": true
     }
    ],
    "visibleIf": "{isTeacher} = true",
@@ -10364,7 +10482,8 @@ survey.podd = {
        },
        "score": 2
       }
-     ]
+     ],
+     "isAllRowRequired": true
     }
    ],
    "title": {
@@ -10390,7 +10509,7 @@ survey.podd = {
    "name": "ACTIONS",
    "elements": [
     {
-     "type": "matrix",
+     "type": "matrixdropdown",
      "name": "actionPlan",
      "title": {
       "nl": "Wil je je verder ontwikkelen op de volgende onderdelen?"
@@ -10398,11 +10517,51 @@ survey.podd = {
      "description": {
       "nl": "J = Ja, N = Nee, T = Twijfel, L = Later"
      },
+     "isRequired": true,
      "columns": [
-      "J",
-      "N",
-      "T",
-      "L"
+      {
+       "name": "develop",
+       "title": {
+        "nl": "Opnemen in plan"
+       },
+       "cellType": "radiogroup",
+       "isRequired": true,
+       "choices": [
+        "J",
+        "N",
+        "T",
+        "L"
+       ]
+      },
+      {
+       "name": "action",
+       "title": {
+        "nl": "Actie"
+       },
+       "cellType": "dropdown",
+       "choices": [
+        "Teamtraining",
+        "Externe training",
+        "Zelfstudie",
+        "Online training",
+        "Advies gewenst"
+       ],
+       "hasOther": true
+      },
+      {
+       "name": "comment",
+       "title": {
+        "nl": "Toelichting (optioneel)"
+       },
+       "cellType": "text"
+      }
+     ],
+     "choices": [
+      "Teamtraining",
+      "Externe training",
+      "Zelfstudie",
+      "Online studie",
+      "Advies gewensd"
      ],
      "rows": [
       {
@@ -10484,16 +10643,6 @@ survey.podd = {
        "visibleIf": "{isTeacher} = true"
       }
      ]
-    },
-    {
-     "type": "comment",
-     "name": "commentActionPlan",
-     "title": {
-      "nl": "Opmerkingen actieplan"
-     },
-     "description": {
-      "nl": "Je kunt hier opmerkingen / ideeën plaatsen over jouw actieplan"
-     }
     }
    ],
    "title": {
@@ -10571,7 +10720,8 @@ survey.podd = {
         "nl": "Digitale kennis leerlingen"
        }
       }
-     ]
+     ],
+     "isAllRowRequired": true
     },
     {
      "type": "comment",
@@ -10612,7 +10762,8 @@ survey.podd = {
  ],
  "showPageTitles": false,
  "showQuestionNumbers": "off",
- "showProgressBar": "bottom"
+ "showProgressBar": "bottom",
+ "firstPageIsStarted": true
 };
 
 module.exports = survey;

@@ -91,10 +91,14 @@ router.post("/:sid/private", middleware.isLoggedIn, function(req, res){
                   error: "Foutmelding: gebruiker niet gevonden."
                 })
               } else {
+                var surveyAnswers = JSON.parse(req.body.result);
                 let surveyResult = SurveyResult({
                   survey: survey._id,
-                  result: JSON.parse(req.body.result),
+                  result: surveyAnswers,
                   score: req.body.score,
+                  statistics: req.body.statistics ? JSON.parse(req.body.statistics) : undefined,
+                  flags: req.body.flags ? JSON.parse(req.body.flags) : undefined,
+                  questionScores: req.body.questionScores ? JSON.parse(req.body.questionScores) : undefined,
                   organisation: req.user.organisation,
                   user: user._id,
                   isCompetenceSurvey: survey.isCompetenceSurvey ? true : false,
@@ -117,6 +121,34 @@ router.post("/:sid/private", middleware.isLoggedIn, function(req, res){
                       });
                   } else {
                     user.numberOfSurveyResults = user.numberOfSurveyResults ? user.numberOfSurveyResults + 1 : 1;
+                    if(survey.completenceStandardKey && survey.completenceStandardKey === 'podd'){
+                      user.firstName = surveyAnswers.firstName;
+                      user.lastName = surveyAnswers.lastName;
+                      user.isTeacher = surveyAnswers.isTeacher;
+                      user.job = surveyAnswers.job;
+                      user.publicProfile = surveyAnswers.publicProfile;
+                    }
+                    if(surveyAnswers.dateOfBirth){
+                      user.dateOfBirth = surveyAnswers.dateOfBirth;
+                    }
+                    if(surveyAnswers.gender){
+                      user.gender = surveyAnswers.gender;
+                    }
+                    if(surveyAnswers.gradeLevelGroup){
+                      user.gradeLevelGroup = surveyAnswers.gradeLevelGroup;
+                    }
+                    if(surveyAnswers.technologyAdoption){
+                      user.technologyAdoption = surveyAnswers.technologyAdoption;
+                    }
+                    if(surveyAnswers.hardwareAdoption){
+                      user.hardwareAdoption = surveyAnswers.hardwareAdoption;
+                    }
+                    if(surveyAnswers.softwarePreference){
+                      user.softwarePreference = surveyAnswers.softwarePreference;
+                    }
+                    if(surveyAnswers.hardwarePreference){
+                      user.hardwarePreference = surveyAnswers.hardwarePreference;
+                    }
                     user.save(function(err, user){
                       if(err){
                         res.contentType('json');

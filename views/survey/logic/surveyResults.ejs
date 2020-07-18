@@ -1,4 +1,110 @@
 <script>
+
+	setCustomSurveyProperties = function(){
+      var customSurveyProperties =  
+        [
+          {
+            identifier: 'isprofilequestion',
+            title: 'Is profielvraag',
+            type: 'boolean',
+            default: false,
+            dependsOn: null
+          },
+          {
+            identifier: 'istestquestion',
+            title: 'Is onderdeel van test',
+            type: 'boolean',
+            default: false,
+            dependsOn: null
+          },
+          {
+            identifier: 'subject',
+            title: 'Onderdeel',
+            type: 'choices',
+            dependsOn: 'istestquestion',
+            choices: [
+                {value: 'DG', text: 'Digitale geletterdheid'}, 
+                {value: 'PDH', text: 'Pedagogisch didactisch handelen'}, 
+                {value: 'PO', text: 'Persoonlijke ontwikkeling'},
+                {value: 'WSC', text: 'Werken in de schoolcontext'}
+            ]
+          }, 
+          { 
+            identifier: 'topic',
+            title: 'Subonderdeel',
+            type: 'choices',
+            dependsOn: 'subject',
+            choices: function(obj){
+                var entity = !!obj
+                    ? obj.subject
+                    : null;
+                //If targetEntity is empty then return the empty array
+                if (!entity) {
+                    return [];
+                } else {
+                    var choices = [];
+                    categories.forEach(function(ac){
+                        if(ac.parent === entity){
+                            choices.push({
+                                value: ac.value,
+                                text: ac.text
+                            })
+                        }
+                    })
+                    return choices;
+                }
+            }
+          },
+          {
+            identifier: 'maxscore',
+            title: 'Maximum score',
+            type: 'number',
+            default: 100,
+            dependsOn: 'istestquestion'
+          },
+          {
+            identifier: 'minscore',
+            title: 'Min score vaardig',
+            type: 'number',
+            dependsOn: 'istestquestion',
+          }
+        ];
+        customSurveyProperties.forEach(property => {
+          if(property.type === 'choices'){
+            //It uses rest full service and choicesCallback function to tell property editor that choices are loaded from the web
+            Survey.Serializer.addProperty('question', { 
+              name: property.identifier, 
+              title: property.title,
+              dependsOn: property.dependsOn,
+              visibleIf: function(obj){
+                if(property.dependsOn && !obj[property.dependsOn]){
+                  return false;
+                } else {
+                  return true;
+                }
+              },
+              choices: property.choices                
+            });
+          } else {
+            Survey.Serializer.addProperty('question', { 
+              name: property.identifier, 
+              type: property.type, 
+              default: property.default,
+              dependsOn: property.dependsOn,
+              visibleIf: function(obj){
+                if(property.dependsOn && !obj[property.dependsOn]){
+                  return false;
+                } else {
+                  return true;
+                }
+              }
+             });
+          }
+        });
+        // add score value to each itemvalue (matrix, select, dropdown)
+        Survey.Serializer.addProperty('itemvalue', {name: 'score', type: 'number'});
+    }
+
 	$(document).ready(function() {
 
 		if (typeof Survey == "undefined") {
@@ -72,6 +178,10 @@
 		var surveyInfoText = $( '#surveyText' ).text();
 
 		var surveyInfo = JSON.parse(surveyInfoText || '[]');
+
+		if(surveyInfo.competenceStandardKey === 'podd'){
+			setCustomSurveyProperties();
+		}
 
 		var surveyData = surveyInfo.survey;
 
@@ -183,7 +293,14 @@
 			    });
 		}
 
-      	var surveyColumns = survey.getAllQuestions().map(function(q, i) {
+		var surveyQuestions;
+	    if(surveyInfo.competenceStandardKey==='podd'){
+	    	surveyQuestions = survey.getAllQuestions().filter(q => q.istestquestion);
+	    } else {
+	    	surveyQuestions = survey.getAllQuestions();
+	    }
+
+      	var surveyColumns = surveyQuestions.map(function(q, i) {
       	  // var maxColumnsFromSurvey = surveyInfo.isPublic ? 4 : 1;
           return {
           	type: q.getType(),
@@ -199,15 +316,20 @@
             mRender: function(data, type, row) {
               survey.data = row;
               var value = q.value;
-              var text = ''
-              if(value === "true" || (typeof value === 'boolean' && value)){
+              var text = '-';
+              if(surveyInfo.competenceStandardKey === 'podd'){
+              	var index = result.findIndex(r => r.user._id === row._id);
+              	if(index>-1 && typeof result[index]['questionScores'][q.name] !== 'undefined'){
+              		text = result[index]['questionScores'][q.name] + '%';
+              	}
+              } else if(surveyInfo.competenceStandardKey === 'podd'){
+              	text = '-';
+              } else if(value === "true" || (typeof value === 'boolean' && value)){
               	text = "100%"
               } else if (value === "false" || typeof value === 'boolean') {
                 text = "0%"	
               } else if(typeof value !== 'undefined') {
               	text = (parseFloat(value) * 100).toString() + "%"
-              } else {
-              	text = "-"
               }
               return "<div data-variation='very wide' data-tooltip='" + q.title + "'>" + text + "</div>"
             }
@@ -218,10 +340,20 @@
 
 	    var table = $("#resultsTable").DataTable({
 	    	rowCallback: function(row, data){
-	    		survey.getAllQuestions().forEach((q,i) => {
+	    		surveyQuestions.forEach((q,i) => {
 	    			var cellValue = data[q.name];
 	    			var columnIndex = 5 + i;
-	    			if(cellValue === "true" || cellValue === "1" || cellValue === "0.75" || (typeof cellValue === 'boolean' && cellValue)){
+	    			if(surveyInfo.competenceStandardKey === 'podd'){
+	    				var index = result.findIndex(r => r.user._id === data._id);
+		              	if(index>-1 && typeof result[index]['questionScores'][q.name] !== 'undefined'){
+		              		var score = result[index]['questionScores'][q.name];
+		              		if(score < q.minscore/q.maxscore * 100){
+		              			$("td:eq(" + columnIndex + ")", row).addClass("negative");
+		              		} else {
+		              			$("td:eq(" + columnIndex + ")", row).addClass("positive");
+		              		}
+		              	}
+	    			} else if(cellValue === "true" || cellValue === "1" || cellValue === "0.75" || (typeof cellValue === 'boolean' && cellValue)){
 	    				$("td:eq(" + columnIndex + ")", row).addClass("positive");
 	    			} else if(cellValue === "false" || cellValue === "0" || cellValue === "0.25" || typeof cellValue === 'boolean'){
 	    				$("td:eq(" + columnIndex + ")", row).addClass("negative");
@@ -336,19 +468,21 @@
 	    SurveyAnalytics.GaugePlotly.types = ["bullet"];
 	    SurveyAnalytics.GaugePlotly.showAsPercentage = true
 
-	    SurveyAnalytics.VisualizerBase.customColors = 
-	    			hasBooleanRadiogroupQuestions ? 
-	    			[
-	                    'rgba(227,6,19 ,1)',
-	                    'rgba(0,159,227, 1)',
-	                ] :
-	    			[
-	                    'rgba(0,159,227, 1)',
-	                    'rgba(227,6,19 ,1)',
-	                    'rgba(249,178,51, 1)',
-	                    'rgba(0, 0, 0, 1)',
-	                    'rgba(18,172,19, 1)',
-	                ];
+    	SurveyAnalytics.VisualizerBase.customColors = 
+    			hasBooleanRadiogroupQuestions && surveyInfo.competenceStandardKey !== 'podd' ? 
+    			[
+                    'rgba(227,6,19 ,1)',
+                    'rgba(0,159,227, 1)',
+                ] :
+    			[
+                    'rgba(0,159,227, 1)',
+                    'rgba(227,6,19 ,1)',
+                    'rgba(249,178,51, 1)',
+                    'rgba(0, 0, 0, 1)',
+                    'rgba(18,172,19, 1)',
+                ];	
+	    
+	    
 
 		var visPanel = new SurveyAnalytics.VisualizationPanel(document.getElementById("resultCharts"), survey.getAllQuestions(), normalizedData, { allowDynamicLayout: false }, chartVisibility);
 

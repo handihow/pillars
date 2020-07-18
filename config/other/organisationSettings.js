@@ -19,9 +19,9 @@ organisationSettings.topics =
     privacy: "Algemene Verordering Gegevensbescherming",
     hardware: "Hardware",
     software: "(Digitale) Leermiddelen",
-    competenceNew: "Overzicht Digitale Deskundigheid",
+    competenceNew: "Overzicht Digitale Deskundigheid (geavanceerd)",
     competenceStudents: "Digitale Geletterdheid Leerlingen",
-    competence: "Deskundigheid (LEGACY)",
+    competence: "Deskundigheid (basis)",
     management: "Organisatie",
     pillars: "Pillars Berekening",
     evaluations: "Evaluatie"

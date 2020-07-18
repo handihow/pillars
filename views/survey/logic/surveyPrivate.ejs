@@ -45,13 +45,14 @@
 			survey.mode = 'display';
 			var surveyDataText = $( '#surveyData' ).text();
 			var surveyData = JSON.parse(surveyDataText);
+			console.log(surveyData);
 			var normalizedData = {};
 		    survey.getAllQuestions().forEach(function(q) {
 		      if (surveyData[q.name] === undefined) {
 		        normalizedData[q.name] = "";
-		      } else if(surveyData[q.name] === true) {
+		      } else if(surveyData[q.name] === true && surveyData.competenceStandardKey && surveyData.competenceStandardKey !== 'podd') {
 		      	normalizedData[q.name] = "true"
-		      } else if(surveyData[q.name] === false) {
+		      } else if(surveyData[q.name] === false && surveyData.competenceStandardKey && surveyData.competenceStandardKey !== 'podd') {
 		      	normalizedData[q.name] = "false"
 		      } else {
 		      	normalizedData[q.name] = surveyData[q.name];
