@@ -10,7 +10,7 @@
         <script src="https://surveyjs.azureedge.net/1.7.20/survey.pdf.js"></script>
         <script src="https://unpkg.com/sortablejs@1.7.0/Sortable.js"></script>
         <script src="https://surveyjs.azureedge.net/1.7.20/surveyjs-widgets.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.2.0/papaparse.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.1.1/exceljs.min.js"></script>
         <link href="https://surveyjs.azureedge.net/1.7.20/survey.css" type="text/css" rel="stylesheet"/>
         
         <style>
@@ -72,9 +72,9 @@
 
         <div id="surveyElementContainer">
             <%if(isShow){%>
-                <button class="survey__button" onclick="saveSurveyToPdf()" style="margin:10px">Download PDF</button>
+                <!-- <button class="survey__button" onclick="saveSurveyToPdf()" style="margin:10px">Download PDF</button> -->
                 <button class="survey__button" type="button" 
-                    onclick="window.open('', '_self', ''); window.close();">Sluiten</button>
+                    onclick="window.open('', '_self', ''); window.close();" style="margin:10px">Sluiten</button>
                 <div id="surveyData" hidden><%= JSON.stringify(surveyResult.result) %></div>
             <%}%>
             <div id="surveyElement" style="display:inline-block;width:100%;"></div>
@@ -432,31 +432,62 @@
                   return score;
                 }
 
-                createCSV = function(){
-                    var csvContent = Papa.unparse(questionResults, {
-                        delimiter: ";",
-                        columns: ['ID', 'Vraag', 'Onderdeel', 'Min score', 'Max score', 'Score', 'Advies']
+                createExcel = function(){
+                    
+                    const workbook = new ExcelJS.Workbook();
+                    const sheet = workbook.addWorksheet('PODD resultaten');
+                    sheet.columns = [
+                      { header: 'ID', key: 'id', width: 20 , style: {font: {bold: true}}},
+                      { header: 'Vraag', key: 'question', width: 70 , style: {font: {bold: true}}},
+                      { header: 'Onderdeel', key: 'topic', width: 20 , style: {font: {bold: true}}},
+                      { header: 'Min Score', key: 'minscore', width: 10 , style: {font: {bold: true}}},
+                      { header: 'Max Score', key: 'maxscore', width: 10 , style: {font: {bold: true}}},
+                      { header: 'Score', key: 'score', width: 10 , style: {font: {bold: true}}},
+                      { header: 'Advies', key: 'advice', width: 20 , style: {font: {bold: true}}},
+                    ];
+                    questionResults.forEach(function(result){
+                        var row = sheet.addRow(result);
+                        row.font = {bold: false};
+                        if(result.advice === 'Score te laag'){
+                            row.fill = {
+                              type: 'pattern',
+                              pattern: 'solid',
+                              fgColor: { argb:'FFFFFF00' }
+                            };
+                        }
                     });
-                    var csvData = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
-                    var csvURL =  null;
-                    if (navigator.msSaveBlob)
-                    {
-                        csvURL = navigator.msSaveBlob(csvData, 'overzichtpillars.csv');
-                    }
-                    else
-                    {
-                        csvURL = window.URL.createObjectURL(csvData);
-                    }
 
-                    var tempLink = document.createElement('a');
-                    tempLink.href = csvURL;
-                    tempLink.setAttribute('download', 'overzichtpillars.csv');
-                    tempLink.click();
+                    workbook.xlsx.writeBuffer().then(function (data) {
+                        var excelData = new Blob([data], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
+                        var excelURL =  null;
+                        if (navigator.msSaveBlob)
+                        {
+                            excelURL = navigator.msSaveBlob(excelData, 'overzichtpillars.xlsx');
+                        }
+                        else
+                        {
+                            excelURL = window.URL.createObjectURL(excelData);
+                        }
+
+                        var tempLink = document.createElement('a');
+                        tempLink.href = excelURL;
+                        tempLink.setAttribute('download', 'overzichtpillars.xlsx');
+                        tempLink.click();
+
+                    });
+                                        
                 }
 
                 if(surveyKey==='podd'){
-                    survey.onCurrentPageChanging.add(function(sender){
-                        if(survey.currentPage.name === 'WSCCOM'){
+
+
+                    survey.onCurrentPageChanging.add(function(sender, options){
+                        if(options.newCurrentPage.name === 'WSCCOM' && options.oldCurrentPage === 'ADVISE'){
+                            options.allowChanging = false;
+                        } else {
+                            options.allowChanging = true;
+                        }
+                        if(options.newCurrentPage.name === 'ADVISE'){
                             survey.showPrevButton = false;
                             var numberQuestions = {}; 
                             var numberWrongAnswered = {};
@@ -483,13 +514,13 @@
                                         var result = calculateQuestionScore(question);
                                         var percent = result/question.maxscore;
                                         questionResults.push({
-                                            'ID': question.name,
-                                            'Vraag': question.fullTitle,
-                                            'Onderdeel': cat.title,
-                                            'Min score': question.minscore,
-                                            'Max score': question.maxscore,
-                                            'Score': result,
-                                            'Advies': result < question.minscore ? 'Score te laag' : 'Vaardig'
+                                            'id': question.name,
+                                            'question': question.fullTitle,
+                                            'topic': cat.title,
+                                            'minscore': question.minscore,
+                                            'maxscore': question.maxscore,
+                                            'score': result,
+                                            'advice': result < question.minscore ? 'Score te laag' : 'Vaardig'
                                         });
                                         questionScores[question.name] = Math.round(percent*100);
                                         total += percent;
@@ -523,11 +554,13 @@
                             html += `
                                 <h4>Hulpmiddel, geen test!</h4>
                                 <p>Dit overzicht geeft inzicht in deelgebieden waar je jezelf in kunt verbeteren. Je hebt het niet goed of fout gedaan. Je krijgt na deze test nog uitgebreid de kans om jouw antwoorden te analyzeren.</p>
-                                <button class="survey__button" onclick="createCSV()" style="margin:10px">Download Resultaten</button>
+                                <button class="survey__button" onclick="createExcel()" style="margin:10px">Download Resultaten</button>
                             `;
                             var adviceQuestion = survey.getQuestionByName('advice');
                             adviceQuestion.html = html;
                             score = grandTotalQuestions === 0 ? 0 : Math.round(grandTotal / grandTotalQuestions * 100) / 100;
+                        } else {
+                            survey.showPrevButton = true;
                         }
                     })
                 }

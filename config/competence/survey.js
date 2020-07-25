@@ -7619,6 +7619,87 @@ survey.podd = {
        }
       }
      ]
+    },
+    {
+     "type": "matrix",
+     "name": "feedbackSchool",
+     "visibleIf": "{isTeacher} = true",
+     "title": {
+      "nl": "Beoordeel jouw school op digitaal gebied. Bij ons op school is/zijn er:\n"
+     },
+     "description": {
+      "nl": "O = Onvoldoende, M = Matig, V = Voldoende, G = Goed"
+     },
+     "isRequired": true,
+     "subject": "WSC",
+     "topic": "DVE",
+     "columns": [
+      "O",
+      "M",
+      "V",
+      "G"
+     ],
+     "rows": [
+      {
+       "value": "1",
+       "text": {
+        "nl": "Hardware (laptop, desktop, tablet enz)"
+       }
+      },
+      {
+       "value": "2",
+       "text": {
+        "nl": "Digitale leermiddelen"
+       }
+      },
+      {
+       "value": "3",
+       "text": {
+        "nl": "Internet"
+       }
+      },
+      {
+       "value": "4",
+       "text": {
+        "nl": "Wifi"
+       }
+      },
+      {
+       "value": "5",
+       "text": {
+        "nl": "Technische ondersteuning/hulp "
+       }
+      },
+      {
+       "value": "6",
+       "text": {
+        "nl": "Aandacht /tijd van leraren voor digitale technologieën"
+       }
+      },
+      {
+       "value": "7",
+       "text": {
+        "nl": "Digitale kennis leraren"
+       }
+      },
+      {
+       "value": "8",
+       "text": {
+        "nl": "Digitale kennis leerlingen"
+       }
+      }
+     ],
+     "isAllRowRequired": true
+    },
+    {
+     "type": "comment",
+     "name": "feedbackCommentSchool",
+     "title": {
+      "nl": "Jouw feedback op digitaal gebied op school"
+     },
+     "description": {
+      "nl": "Geef aub aan hoe de school zich op digitaal gebied kan verbeteren"
+     }
     }
    ],
    "visibleIf": "{additionalInfo} = true",
@@ -7680,6 +7761,14 @@ survey.podd = {
        },
        "score": 100,
        "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1DGIN-APPA_D.png"
+      },
+      {
+       "value": "5",
+       "text": {
+        "nl": "+ extra"
+       },
+       "score": 150,
+       "imageLink": "https://ucarecdn.com/2a6f0762-a2c2-43cc-9548-975ef3e6ca04/7DGIBVID_a.png"
       }
      ],
      "colCount": 2,
@@ -10652,87 +10741,6 @@ survey.podd = {
   {
    "name": "FEEDBACK",
    "elements": [
-    {
-     "type": "matrix",
-     "name": "feedbackSchool",
-     "visibleIf": "{isTeacher} = true",
-     "title": {
-      "nl": "Beoordeel jouw school op digitaal gebied. Bij ons op school is/zijn er:\n"
-     },
-     "description": {
-      "nl": "O = Onvoldoende, M = Matig, V = Voldoende, G = Goed"
-     },
-     "isRequired": true,
-     "subject": "WSC",
-     "topic": "DVE",
-     "columns": [
-      "O",
-      "M",
-      "V",
-      "G"
-     ],
-     "rows": [
-      {
-       "value": "1",
-       "text": {
-        "nl": "Hardware (laptop, desktop, tablet enz)"
-       }
-      },
-      {
-       "value": "2",
-       "text": {
-        "nl": "Digitale leermiddelen"
-       }
-      },
-      {
-       "value": "3",
-       "text": {
-        "nl": "Internet"
-       }
-      },
-      {
-       "value": "4",
-       "text": {
-        "nl": "Wifi"
-       }
-      },
-      {
-       "value": "5",
-       "text": {
-        "nl": "Technische ondersteuning/hulp "
-       }
-      },
-      {
-       "value": "6",
-       "text": {
-        "nl": "Aandacht /tijd van leraren voor digitale technologieën"
-       }
-      },
-      {
-       "value": "7",
-       "text": {
-        "nl": "Digitale kennis leraren"
-       }
-      },
-      {
-       "value": "8",
-       "text": {
-        "nl": "Digitale kennis leerlingen"
-       }
-      }
-     ],
-     "isAllRowRequired": true
-    },
-    {
-     "type": "comment",
-     "name": "feedbackCommentSchool",
-     "title": {
-      "nl": "Jouw feedback op digitaal gebied op school"
-     },
-     "description": {
-      "nl": "Geef aub aan hoe de school zich op digitaal gebied kan verbeteren"
-     }
-    },
     {
      "type": "rating",
      "name": "ratingPillars",
