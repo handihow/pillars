@@ -7761,14 +7761,6 @@ survey.podd = {
        },
        "score": 100,
        "imageLink": "https://pillars.school/wp-content/uploads/2020/07/1DGIN-APPA_D.png"
-      },
-      {
-       "value": "5",
-       "text": {
-        "nl": "+ extra"
-       },
-       "score": 150,
-       "imageLink": "https://ucarecdn.com/2a6f0762-a2c2-43cc-9548-975ef3e6ca04/7DGIBVID_a.png"
       }
      ],
      "colCount": 2,
