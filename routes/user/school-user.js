@@ -80,6 +80,54 @@ router.get("/newSocial", middleware.isNotDemoAccount, middleware.isSchoolOwner, 
     });
 });
 
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
+
+//BULK NEW - form to upload CSV FILE with user info
+router.get("/csv-import", middleware.isSchoolOwner, function(req, res){
+  School.findById(req.params.id, function(err, school){
+    if(err || !school) {
+      req.flash("error", "School niet gevonden");
+      res.redirect("/schools");
+    } else {
+      res.render("csv-import/main", {
+        school: school, 
+        columns: config.user.columns, 
+        header: 'user',
+        link: 'https://pillars.school/wp-content/uploads/2020/07/Pillars-csv-import-model-voor-medewerkers.xlsx'
+      });        
+    }
+  });
+});
+
+//CREATE - creates new hardware in the database and links it to school from the bulk upload
+router.post("/csv-import", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
+   School.findById(req.params.id, function(err, school){ 
+     if(err || !school){
+       return res.json({success: false, message: 'School niet gevonden'});
+     }
+     var newUserItems = JSON.parse(req.body.items);
+     asyncForEach(newUserItems, async function(user, i){
+        var email = user.username.replace(/<\/?[^>]+(>|$)/g, "");
+        //create new school user in DB
+        if(!validateEmail(email)){
+          return res.json({success: false, message: 'Email adres ' + email + ' is ongeldig'});
+        }
+        var role = user.role === 'Admin' ? 'sadmin' : 'suser';
+        var password = user.password && user.password.length > 7 ? user.password : null;
+        var hasError = await registerUser(email, school, role, password, user.firstName, user.lastName);
+        if(hasError){
+          return res.json({success: false, message: hasError.errorMessage});
+        }
+        if(i==newUserItems.length-1){
+          return res.json({success: true, message: 'Medewerkers succesvol toegevoegd!'})
+        }
+      })
+   });
+ });
+
 //NEW - form to create bulk new school user
 router.get("/newBulk", middleware.isNotDemoAccount, middleware.isSchoolOwner, function(req, res){
     School.findById(req.params.id, function(err, school){
@@ -156,10 +204,6 @@ router.post("/userBulk", middleware.isNotDemoAccount, middleware.isSchoolOwner, 
             res.redirect("back");
         } else {          
           var newUsers = req.body.usernames.replace(/<\/?[^>]+(>|$)/g, "").split(/[ ,]+/);
-          function validateEmail(email) {
-              var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-              return re.test(String(email).toLowerCase());
-          }
           var newUsersClean = [];
           var newUsersUnclean = [];
           newUsers.forEach(function(email){
@@ -208,6 +252,7 @@ function registerUser(username, school, role, password, firstName, lastName){
   return new Promise(resolve => {
       var newUser = new User({username: username, role: role ? role : 'suser', firstName: firstName ? firstName : null, lastName: lastName ? lastName : null});
       var generatedPassword = Math.random().toString(36).substr(2, 8);
+      console.log(newUser);
       User.register(newUser, password ? password : generatedPassword, function(err, user){
         if(err){
           return resolve(true);

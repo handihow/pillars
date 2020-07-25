@@ -1,7 +1,7 @@
 <h2 class="ui centered header">Accounts</h2>
 
 <div class="ui divider"></div>
-<% if(userview==="school") { %>
+<%if(typeof school !== 'undefined'){%>
   <div class="ui icon buttons">
     <a class="ui <%if(url===("/schools/"+school._id+"/user")){ %> active <%}%> button" 
         href="/schools/<%=school._id%>/user"
@@ -18,6 +18,11 @@
         data-content="Grafieken">
         <i class="chart pie icon"></i>
     </a>
+    <a class="ui <%if(url===("/schools/"+school._id+"/user/csv-import")){ %> active <%}%> button" 
+        href="/schools/<%=school._id%>/user/csv-import"
+        data-content="Upload lijst met medewerkers">
+        <i class="upload icon"></i>
+    </a>
   </div>
   <div class="ui dropdown item">
       <a class="ui icon button" data-content="Accounts toevoegen"><i class="add icon"></i></a>
@@ -27,9 +32,10 @@
         <div class="divider"></div>
         <div class="header">Bulk import medewerkers</div>
         <a class="item" href="/schools/<%=school._id%>/user/newBulk/"><i class="th list icon"></i> Lijst met email adressen invoeren (Google / Office365)</a>
+        <a class="item" href="/schools/<%=school._id%>/user/csv-import/"><i class="upload icon"></i> Csv bestand uploaden</a>
       </div>
   </div>
-<%} else if(userview==="organisation"){%>
+<%} else if(typeof organisation !== 'undefined'){%>
   <div class="ui icon buttons">
     <a class="ui <%if(url===("/organisations/"+organisation._id+"/org-user")){ %> active <%}%> button" 
         href="/organisations/<%=organisation._id%>/org-user"

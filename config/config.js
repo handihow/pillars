@@ -25,6 +25,8 @@ var organisationSettings = require('./other/organisationSettings'); //organisati
 var formsCSS = require('./other/formsCSS'); //custom css for forms in the application
 var forms = require('./other/form'); //form column information
 
+var userColumns = require('./user/columns');
+
 //Definition of config variable
 var config = {};
 //hardware
@@ -65,6 +67,9 @@ config.organisationSettingTopics = organisationSettings.topics;
 config.formsCSS = formsCSS;
 config.forms = forms;
 
-config.currentSchoolYear = "2019/2020"
+config.user = {};
+config.user.columns = userColumns;
+
+config.currentSchoolYear = "2020/2021"
 
 module.exports = config;
