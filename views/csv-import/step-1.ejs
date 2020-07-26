@@ -2,7 +2,8 @@
 
   <h2 class="ui header">
     Upload csv file
-    <div class="sub header">Voeg <%=header%> lijst toe aan <%= school.name %> via csv bestand</div>
+    <div class="sub header">Voeg <%=typeof title !=='undefined'? title: header%> lijst toe aan 
+      <%= typeof school !=='undefined' ? school.name : organisation.name %> via csv bestand</div>
   </h2>
   <h4>Instructies</h4>
   <div class="ui accordion">
@@ -17,7 +18,7 @@
           <li class="item"><strong><%=column.description%></strong> (<%=column.data%>)</li>
         <%})%>
       </ul>
-      <p>Je kunt Excel gebruiken voor het samenstellen van de lijst <%=header%>. Het template voor aanleveren van gegevens downloaden via <a href="<%=link%>" target=_blank>deze link</a>. In het template staan alle velden die je kunt importeren als kolomhoofden.
+      <p>Je kunt Excel gebruiken voor het samenstellen van de lijst <%=typeof title !=='undefined'?title:header%>. Het template voor aanleveren van gegevens downloaden via <a href="<%=link%>" target=_blank>deze link</a>. In het template staan alle velden die je kunt importeren als kolomhoofden.
     </div>
     <div class="title">
       <i class="dropdown icon"></i>
@@ -25,7 +26,7 @@
     </div>
     <div class="content">
       <p>Je kunt geen Excel lijst uploaden maar alleen csv: bewaar jouw lijst als csv.</p>
-      <p>Je kunt wel Excel gebruiken voor het samenstellen van de lijst <%=header%>. Het template voor aanleveren van gegevens downloaden via <a href="<%=link%>" target=_blank>deze link</a>.
+      <p>Je kunt wel Excel gebruiken voor het samenstellen van de lijst <%=typeof title !=='undefined'?title:header%>. Het template voor aanleveren van gegevens downloaden via <a href="<%=link%>" target=_blank>deze link</a>.
       <p>Als je klaar bent met het invullen van het Excel template, kun je het bestand exporteren als csv bestand en uploaden via deze csv wizard.</p>
     </div>
     <div class="title">

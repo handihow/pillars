@@ -80,10 +80,6 @@ router.get("/newSocial", middleware.isNotDemoAccount, middleware.isSchoolOwner, 
     });
 });
 
-function validateEmail(email) {
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-}
 
 //BULK NEW - form to upload CSV FILE with user info
 router.get("/csv-import", middleware.isSchoolOwner, function(req, res){
@@ -96,6 +92,7 @@ router.get("/csv-import", middleware.isSchoolOwner, function(req, res){
         school: school, 
         columns: config.user.columns, 
         header: 'user',
+        title: 'medewerkers',
         link: 'https://pillars.school/wp-content/uploads/2020/07/Pillars-csv-import-model-voor-medewerkers.xlsx'
       });        
     }
@@ -109,17 +106,17 @@ router.post("/csv-import", middleware.isNotDemoAccount, middleware.isSchoolOwner
        return res.json({success: false, message: 'School niet gevonden'});
      }
      var newUserItems = JSON.parse(req.body.items);
-     asyncForEach(newUserItems, async function(user, i){
+     config.user.helpers.asyncForEach(newUserItems, async function(user, i){
         var email = user.username.replace(/<\/?[^>]+(>|$)/g, "");
         //create new school user in DB
-        if(!validateEmail(email)){
+        if(!config.user.helpers.validateEmail(email)){
           return res.json({success: false, message: 'Email adres ' + email + ' is ongeldig'});
         }
         var role = user.role === 'Admin' ? 'sadmin' : 'suser';
         var password = user.password && user.password.length > 7 ? user.password : null;
-        var hasError = await registerUser(email, school, role, password, user.firstName, user.lastName);
+        var hasError = await config.user.helpers.registerUser(email, school, null, role, password, user.firstName, user.lastName);
         if(hasError){
-          return res.json({success: false, message: hasError.errorMessage});
+          return res.json({success: false, message: 'Probleem bij importeren van ' + email + '. Mogelijk is dit email adres van een reeds bestaand account.'});
         }
         if(i==newUserItems.length-1){
           return res.json({success: true, message: 'Medewerkers succesvol toegevoegd!'})
@@ -207,7 +204,7 @@ router.post("/userBulk", middleware.isNotDemoAccount, middleware.isSchoolOwner, 
           var newUsersClean = [];
           var newUsersUnclean = [];
           newUsers.forEach(function(email){
-            if(validateEmail(email)){
+            if(config.user.helpers.validateEmail(email)){
               newUsersClean.push(email);
             } else {
               newUsersUnclean.push(email);
@@ -226,11 +223,11 @@ router.post("/userBulk2", middleware.isNotDemoAccount, middleware.isSchoolOwner,
             req.flash("error", "School niet gevonden");
             res.redirect("back");
         } else {
-            asyncForEach(req.body.usernames, async function(username, i){
+            config.user.helpers.asyncForEach(req.body.usernames, async function(username, i){
               //create new school user in DB
-              var hasError = await registerUser(username, school, null, null, null);
+              var hasError = await config.user.helpers.registerUser(username, school, null, null, null, null);
               if(hasError){
-                req.flash("error", hasError.errorMessage);
+                req.flash("error", 'Probleem bij importeren van ' + username + '. Mogelijk is dit email adres van een reeds bestaand account.');
                 return res.redirect("/schools/" + school._id + "/user");
               }
               if(i==req.body.usernames.length-1){
@@ -241,33 +238,6 @@ router.post("/userBulk2", middleware.isNotDemoAccount, middleware.isSchoolOwner,
         }
     });
 });
-
-async function asyncForEach(array, callback) {
-  for (let index = 0; index < array.length; index++) {
-    await callback(array[index], index, array);
-  }
-}
-
-function registerUser(username, school, role, password, firstName, lastName){
-  return new Promise(resolve => {
-      var newUser = new User({username: username, role: role ? role : 'suser', firstName: firstName ? firstName : null, lastName: lastName ? lastName : null});
-      var generatedPassword = Math.random().toString(36).substr(2, 8);
-      console.log(newUser);
-      User.register(newUser, password ? password : generatedPassword, function(err, user){
-        if(err){
-          return resolve(true);
-        }
-        user.school = school._id;
-        user.organisation = school.organisation;
-        user.save();
-        //add user to school users
-        school.users.push(user);
-        school.save(function(_){
-          resolve(false);
-        });
-      });  
-  });
-}
 
 
 //DESTROY route to delete school user from database

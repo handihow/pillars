@@ -52,6 +52,11 @@
         data-content="Grafieken">
         <i class="chart pie icon"></i>
     </a>
+    <a class="ui <%if(url===("/organisations/"+organisation._id+"/org-user/csv-import")){ %> active <%}%> button" 
+        href="/organisations/<%=organisation._id%>/org-user/csv-import"
+        data-content="Upload lijst met bestuur medewerkers">
+        <i class="upload icon"></i>
+    </a>
   </div>
   <div class="ui dropdown item">
       <a class="ui icon button" data-content="Accounts toevoegen"><i class="add icon"></i></a>

@@ -5,6 +5,9 @@
 <%if(typeof school !== 'undefined'){%>
   <% include ../partials/school-header %>
   <%- include('../' +header +'/header')  %>
+<%} else if(header === 'user'){%>
+  <% include ../partials/organisation-header %>
+  <%- include('../' +header +'/header')  %>
 <%} else if(typeof organisation !== 'undefined'){%>
   <% include ../partials/organisation-header %>
   <%- include('../overview/' + header +'-header')  %>
@@ -45,7 +48,8 @@
   </div>
 </div>
 
-<div id="organisationData" hidden><%=typeof organisation !== 'undefined' ? 'true' : 'false'%></div>
+<div id="organisationData" hidden><%=typeof organisation !== 'undefined' ? JSON.stringify(organisation) : 'false'%></div>
+<div id="schoolData" hidden><%=typeof school !== 'undefined' ? JSON.stringify(school) : 'false'%></div>
 
 <%if(typeof school !== 'undefined'){%>
   <% include ../partials/school-footer %>
@@ -124,14 +128,18 @@
   	var columnText = $('#columnData').text();
   	var columnData = JSON.parse(columnText);
 
-    var hasOrganisationText = $('#organisationData').text();
-    var hasOrganisation = hasOrganisationText === "true" ? true : false;
+    var organisationText = $('#organisationData').text();
+    var hasOrganisation = organisationText !== "false" ? true : false;
+    var organisationData = hasOrganisation ? JSON.parse(organisationText) : null;
+
+    var schoolText = $('#schoolData').text();
+    var hasSchool = schoolText !== "false" ? true : false;
+    var schoolData = hasSchool ? JSON.parse(schoolText) : null;
 
   	$('.clearable.ui.selection.dropdown')
 	  .dropdown({
 	    clearable: true
-	  })
-	;
+	  });
 
   	changeStepVisibility(step);
 
@@ -253,8 +261,16 @@
     });
 
     $('#importData').click(function(){
+      var ajaxUrl; var successRedirect;
+      if(!hasOrganisation){
+        ajaxUrl = "/schools/" + schoolData._id + "/<%=header%>/csv-import";
+        successRedirect = "/schools/" + schoolData._id + "/<%=header%>";
+      } else if(hasOrganisation){
+        ajaxUrl = "/organisations/" + organisationData._id + "/org-<%=header%>/csv-import";
+        successRedirect = "/organisations/"+ organisationData._id + "/org-<%=header%>"
+      }
     	$.ajax({
-    		url: "/schools/<%=school._id%>/<%=header%>/csv-import",
+    		url: ajaxUrl,
     		type: 'post',
     		dataType: 'json',
     		data: {
@@ -273,7 +289,7 @@
     					$('#successHandler').modal('hide');
     				},
     				onApprove: function(){
-    				    window.location.href = "/schools/<%=school._id%>/<%=header%>";
+    				    window.location.href = successRedirect;
     				}
     			}).modal('show');
     		}

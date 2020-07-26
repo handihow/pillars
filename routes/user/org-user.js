@@ -147,6 +147,50 @@ router.post("/", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, 
     })
 });
 
+//BULK NEW - form to upload CSV FILE with user info
+router.get("/csv-import", middleware.isAuthenticatedBadmin, function(req, res){
+  Organisation.findById(req.params.id, function(err, organisation){
+    if(err || !organisation) {
+      req.flash("error", "Bestuur niet gevonden");
+      res.redirect("back");
+    } else {
+      res.render("csv-import/main", {
+        organisation: organisation, 
+        columns: config.user.columns, 
+        header: 'user',
+        title: 'medewerkers',
+        link: 'https://pillars.school/wp-content/uploads/2020/07/Pillars-csv-import-model-voor-medewerkers.xlsx'
+      });        
+    }
+  });
+});
+
+//CREATE - creates new hardware in the database and links it to organisation from the bulk upload
+router.post("/csv-import", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
+   Organisation.findById(req.params.id, function(err, organisation){ 
+     if(err || !organisation){
+       return res.json({success: false, message: 'Bestuur niet gevonden'});
+     }
+     var newUserItems = JSON.parse(req.body.items);
+     config.user.helpers.asyncForEach(newUserItems, async function(user, i){
+        var email = user.username.replace(/<\/?[^>]+(>|$)/g, "");
+        //create new school user in DB
+        if(!config.user.helpers.validateEmail(email)){
+          return res.json({success: false, message: 'Email adres ' + email + ' is ongeldig'});
+        }
+        var role = user.role === 'Admin' ? 'badmin' : 'buser';
+        var password = user.password && user.password.length > 7 ? user.password : null;
+        var hasError = await config.user.helpers.registerUser(email, null, organisation, role, password, user.firstName, user.lastName);
+        if(hasError){
+          return res.json({success: false, message: 'Probleem bij importeren van ' + email + '. Mogelijk is dit email adres van een reeds bestaand account.'});
+        }
+        if(i==newUserItems.length-1){
+          return res.json({success: true, message: 'Medewerkers succesvol toegevoegd!'})
+        }
+      })
+   });
+ });
+
 
 //DESTROY route to delete bestuur user from database
 router.delete("/:uid", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){

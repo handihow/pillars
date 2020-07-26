@@ -4,7 +4,8 @@ var columns = [
 		description: "Email",
 		short: "Email",
 		data: 'tekstveld',
-		hidden: false
+		hidden: false,
+		required: true
 	}, 
 	{
 		id: 'role', 
@@ -13,6 +14,7 @@ var columns = [
 		data: "tekstveld",
 		hidden: false,
 		hasStandardValue: true,
+		required: true,
 		standardValueFieldType: 'select',
 		standardValue: 'Medewerker',
 		standardValueOptions: ['Medewerker', 'Admin']
@@ -22,21 +24,23 @@ var columns = [
 		description: 'Voornaam',
 		short: "Voornaam",
 		data: 'tekstveld',
-		hidden: false
+		hidden: false,
+		required: true
 	}, 
 	{
 		id: 'lastName', 
 		description: 'Achternaam',
 		short: "Achternaam",
 		data: 'tekstveld',
-		hidden: false
+		hidden: false,
+		required: true
 	},
 	{
 		id: 'password', 
 		description: 'Wachtwoord',
 		short: "Wachtwoord",
 		data: 'tekstveld',
-		hidden: false
+		hidden: true
 	}
 ];
 

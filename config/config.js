@@ -26,6 +26,7 @@ var formsCSS = require('./other/formsCSS'); //custom css for forms in the applic
 var forms = require('./other/form'); //form column information
 
 var userColumns = require('./user/columns');
+var userHelpers = require('./user/helpers');
 
 //Definition of config variable
 var config = {};
@@ -69,6 +70,7 @@ config.forms = forms;
 
 config.user = {};
 config.user.columns = userColumns;
+config.user.helpers = userHelpers;
 
 config.currentSchoolYear = "2020/2021"
 
