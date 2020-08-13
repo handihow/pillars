@@ -31,6 +31,11 @@
   margin: auto;
 }
 
+.sa_question__title{
+  font-family: unset;
+  font-size: unset;
+}
+
 .survey__container{
   max-width: 1200px;
   margin: auto;
@@ -70,7 +75,7 @@
 
 #analysis__container{
   margin: auto;
-  max-width: 800px;
+  max-width: 1000px;
 }
 
 #progressOnPieChartCalcs {

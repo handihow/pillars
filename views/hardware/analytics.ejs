@@ -31,8 +31,11 @@
                     '#12ac13',
                 ];
 
-	var visPanel = new SurveyAnalytics.VisualizationPanel(document.getElementById("surveyResult"), survey.getAllQuestions(), normalizedData, { allowDynamicLayout: false });
-	visPanel.render();
+    var surveyResultNode = document.getElementById("surveyResult");
+    surveyResultNode.innerHTML = "";
+	var visPanel = new SurveyAnalytics.VisualizationPanel(survey.getAllQuestions(), normalizedData, 
+		{ allowDynamicLayout: false, allowHideQuestions: false });
+	visPanel.render(surveyResultNode);
 
 	window.dispatchEvent(new Event('resize'));
 

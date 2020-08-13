@@ -30,7 +30,7 @@ var surveySchema = mongoose.Schema (
         highLevel: {type: Number, default: 75},
         surveyOption: String,
         results: [],
-        chartElementVisibility: [],
+        chartElementVisibility: {},
     }, { usePushEach: true, timestamps: true }
 );
 

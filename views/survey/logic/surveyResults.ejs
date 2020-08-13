@@ -129,6 +129,8 @@
 			        }
 				}
 			})
+
+			window.dispatchEvent(new Event('resize'));
 		}
 
 
@@ -430,22 +432,12 @@
 	    
 	    var hasBooleanRadiogroupQuestions = false;
 
-	    const chartElementVisibility = surveyInfo.chartElementVisibility ? surveyInfo.chartElementVisibility : [];
-	    const chartVisibility = [];
-	    survey.getAllQuestions().forEach(function(q){
-	    	const questionIndex = chartElementVisibility.findIndex(ce => ce.name === q.name);
-		      if(questionIndex === -1){
-		          //this question was added
-		        chartVisibility.push({
-		          name: q.name,
-		          displayName: q.title ? q.title : q.name,
-		          visibility: 0,
-		          type: null
-		        })
-		      } else {
-		        chartVisibility.push(chartElementVisibility[questionIndex]);
-		      }
-	    })
+	    const chartElementVisibility = surveyInfo.chartElementVisibility ? surveyInfo.chartElementVisibility : undefined;
+	    var elements = undefined;
+
+	    if (chartElementVisibility && !Array.isArray(chartElementVisibility)) {
+	        elements = chartElementVisibility.elements;
+	    }
 
 	    var normalizedData = vispanelresults.map(function(item) {
 		    survey.getAllQuestions().forEach(function(q) {
@@ -454,9 +446,9 @@
 		      }
 		      if (item[q.name] === undefined) {
 		        item[q.name] = "";
-		      } else if(item[q.name] === true) {
+		      } else if(item[q.name] === true && surveyInfo.competenceStandardKey !== 'podd') {
 		      	item[q.name] = "true"
-		      } else if(item[q.name] === false) {
+		      } else if(item[q.name] === false && surveyInfo.competenceStandardKey !== 'podd') {
 		      	item[q.name] = "false"
 		      } 
 		    });
@@ -483,19 +475,24 @@
                 ];	
 	    
 	    
+        var surveyResultNode = document.getElementById("resultCharts");
+		surveyResultNode.innerHTML = "";
 
-		var visPanel = new SurveyAnalytics.VisualizationPanel(document.getElementById("resultCharts"), survey.getAllQuestions(), normalizedData, { allowDynamicLayout: false }, chartVisibility);
+		var filteredSurveyQuestions = survey.getAllQuestions().filter(q => q.getType() !== 'html' && q.getType() !== 'image')
 
+		var visPanel = window.visPanel = new SurveyAnalytics.VisualizationPanel(filteredSurveyQuestions, normalizedData, 
+			{}, elements);
 
+		// visPanel.allowDynamicLayout = false;
 		visPanel.showHeader = true;
-        visPanel.onVisibleElementsChanged.add((sender, options) => {
-          const elements = sender.getElements();
+		
+        visPanel.onStateChanged.add(function() {
           $.ajax({
               url: '/api/chartvisibility/'+surveyInfo._id,
               type: 'POST',
               contentType: 'application/json',
               data: JSON.stringify({
-                chartElementVisibility: elements
+              	chartElementVisibility: visPanel.state
               }),
               success: function(response){
                 if(response.success){
@@ -513,11 +510,8 @@
               }
             })
         });
-
-
-		visPanel.render();
-
 		
+        visPanel.render(surveyResultNode);
 
 		if(surveyInfo.isCompetenceSurvey){
 
@@ -625,8 +619,6 @@
 		}
 
 		$('#loader').hide();
-
-		window.dispatchEvent(new Event('resize'));
 	
 	});
 </script>

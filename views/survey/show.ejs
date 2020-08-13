@@ -11,9 +11,9 @@
   <button class="ui <%if(surveyResults.length==0){%>active<%}%> icon button" 
           id="infoButton" 
           data-content="Bewerk enquête"><i class="edit icon"></i></button>
-  <button class="ui icon button" id="tableButton" 
+  <button class="ui <%if(surveyResults.length>0){%>active<%}%> icon button" id="tableButton" 
           data-content="Tabel met resultaten"><i class="table icon"></i></button>
-  <button class="ui <%if(surveyResults.length>0){%>active<%}%> icon button" 
+  <button class="ui icon button" 
           id="chartButton"
           data-content="Grafieken"><i class="chart pie icon"></i></button>
   <% if(survey.isCompetenceSurvey){%>
@@ -34,10 +34,10 @@
   <% include ./show/info %>
 </div>
 
-  <div id="table" class="transition hidden enable_horizontal_scroll">
+  <div id="table" class="transition <%if(surveyResults.length==0){%> hidden <%}%> enable_horizontal_scroll">
     <% include ./show/table %>
   </div>
-  <div id="chart" class="transition <%if(surveyResults.length==0){%> hidden <%}%>">
+  <div id="chart" class="transition hidden">
     <% include ./show/chart %>
   </div>
   <% if(survey.isCompetenceSurvey){%>
