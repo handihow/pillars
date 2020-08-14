@@ -26,10 +26,19 @@
   <% if(organisationSettings.competenceNew){ %>
     <a class="vertical item <%if(url.includes("/schools/"+school._id+"/podd")) { %> active <% } %>" 
         href="/schools/<%= school._id %>/podd" 
-        data-content="Pillars Overzicht Digitale Deskundigheid">
+        data-content="Pillars Overzicht Digitale Deskundigheid Leerkrachten">
       
       <i class="certificate icon"></i>
-      <span class="hide-mobile">Deskundigheid *</span>
+      <span class="hide-mobile">Deskundigheid LKR</span>
+    </a>
+  <% } %>
+  <% if(organisationSettings.competenceStudents){ %>
+    <a class="vertical item <%if(url.includes("/schools/"+school._id+"/ddl")) { %> active <% } %>" 
+        href="/schools/<%= school._id %>/ddl" 
+        data-content="Digitale Deskundigheid Leerlingen">
+      
+      <i class="student icon"></i>
+      <span class="hide-mobile">Deskundigheid LL</span>
     </a>
   <% } %>
   <%if(organisationSettings.competence){ %>

@@ -1,35 +1,18 @@
-
-<!--FORM FIELDS PART 1-->
-<div class="four fields">
-    <div class="field">
-      <label>Minimum beoordeelde deskundigheid</label>
-      <input type="number" name="standard[competence][competenceRating][standard]" 
-      value="<%=standard.competence.competenceRating.standard%>">
-    </div>
-    <div class="field">
-      <label>Minimum gemiddelde effectiviteit</label>
-      <input type="number" name="standard[competence][softwareRating][standard]" 
-      value="<%=standard.competence.softwareRating.standard%>">
-    </div>
+<h5>Pillars vragenlijsten versie 2</h5>
+<div class="two fields">
+  <div class="field">
+        <label>Max score Pillars Overzicht Digitale Deskundigheid</label>
+        <input type="number" name="standard[competence][podd][maxScore]" 
+        value="<%= standard.competence.podd ? standard.competence.podd.maxScore : 0 %>">
+  </div> 
+  <div class="field">
+        <label>Max score Digitale Deskundigheid Leerlingen</label>
+        <input type="number" name="standard[competence][ddl][maxScore]" 
+        value="<%= standard.competence.ddl ? standard.competence.ddl.maxScore : 0 %>">
+  </div> 
 </div>
-
-<!--FORM FIELDS PART 2 = MAXIMUM SCORES-->
-<div class="four fields">
-    <div class="field">
-      <label>Max score beoordeelde deskundigheid</label>
-      <input type="number" name="standard[competence][competenceRating][maxScore]" 
-      value="<%=standard.competence.competenceRating.maxScore%>">
-    </div>
-    <div class="field">
-      <label>Max score gemiddelde effectiviteit</label>
-      <input type="number" name="standard[competence][softwareRating][maxScore]" 
-      value="<%=standard.competence.softwareRating.maxScore%>">
-    </div>
-    <div class="field">
-      <label>Max score ondersteuning nodig</label>
-      <input type="number" name="standard[competence][support][maxScore]" value="<%=standard.competence.support.maxScore%>">
-    </div>
-</div>
+<div class="ui divider"></div>
+<h5>Pillars vragenlijsten versie 1</h5>
 <div class="four fields">
     <div class="field">
       <label>Max score ICT Geletterdheid</label>
@@ -52,6 +35,8 @@
       value="<%=standard.competence.personalDevelopment.maxScore%>">
     </div>
 </div>
+<div class="ui divider"></div>
+<h5>Vragenlijsten Alpha Scholengroep</h5>
 <div class="four fields">
     <div class="field">
       <label>Max score Instrumentele vaardigheden</label>
@@ -69,6 +54,8 @@
       value="<%=standard.competence.mediaSkills.maxScore%>">
     </div>
 </div>
+<div class="ui divider"></div>
+<h5>Overige vragenlijsten / meetinstrumenten (geen deskundigheidstests!)</h5>
 <div class="four fields">
     <div class="field">
       <label>Max score Observatieinstrument ICT gebruik</label>
@@ -79,5 +66,38 @@
       <label>Max score Rubric</label>
       <input type="number" name="standard[competence][rubric][maxScore]" 
       value="<%= standard.competence.rubric ? standard.competence.rubric.maxScore : 0 %>">
+    </div>
+</div>
+<div class="ui divider"></div>
+<h5>Vervallen velden (niet beschikbaar)</h5>
+<!--FORM FIELDS PART 1-->
+<div class="four fields">
+    <div class="field">
+      <label>Minimum beoordeelde deskundigheid</label>
+      <input type="number" name="standard[competence][competenceRating][standard]" 
+      value="0" disabled="">
+    </div>
+    <div class="field">
+      <label>Minimum gemiddelde effectiviteit</label>
+      <input type="number" name="standard[competence][softwareRating][standard]" 
+      value="0" disabled="">
+    </div>
+</div>
+
+<!--FORM FIELDS PART 2 = MAXIMUM SCORES-->
+<div class="four fields">
+    <div class="field">
+      <label>Max score beoordeelde deskundigheid</label>
+      <input type="number" name="standard[competence][competenceRating][maxScore]" 
+      value="0" disabled="">
+    </div>
+    <div class="field">
+      <label>Max score gemiddelde effectiviteit</label>
+      <input type="number" name="standard[competence][softwareRating][maxScore]" 
+      value="0" disabled="">
+    </div>
+    <div class="field">
+      <label>Max score ondersteuning nodig</label>
+      <input type="number" name="standard[competence][support][maxScore]" value="0" disabled="">
     </div>
 </div>

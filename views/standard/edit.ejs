@@ -14,9 +14,10 @@
 
     <div class="ui warning message">
       <div class="header">
-        Criteria zijn vervallen bij deskundigheid
+        Nieuwe normeringen voor deskundigheid
       </div>
-      De drie normen "Beoordeelde deskundigheid", "Gemiddelde effectiviteit" en "Ondersteuning nodig" zijn vervallen. U krijgt een waarschuwing bij de Pillars score als u nog altijd punten toekent aan deze criteria. Zorg ervoor dat deze criteria op maximale score 0 staan, en dat de 5 punten verdeeld worden over de verschillende deskundigheid tests.
+      <p>De drie normen "Beoordeelde deskundigheid", "Gemiddelde effectiviteit" en "Ondersteuning nodig" zijn vervallen. U krijgt een waarschuwing bij de Pillars score als u nog altijd punten toekent aan deze criteria. Deze velden zijn niet meer beschikbaar en standaard ingesteld op 0.</p>
+      <p>Je kunt kiezen uit drie verschillende soorten tests. Gebruik deze niet door elkaar.</p>
     </div>
     <form class="ui form" action="/organisations/<%=organisation._id%>/standard/<%=standard._id%>?_method=PUT" 
           method="POST" id="standardForm" novalidate>

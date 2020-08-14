@@ -2,9 +2,9 @@
   Deskundigheid
 </div>
 <%var competenceLabels = ["ICT Geletterdheid", "Pedagogisch Didactisch Handelen", "Werken in de schoolcontext", 
-                          "Persoonlijke Ontwikkeling", "Instumentele vaardigheden", "Informatievaardigheden", "Mediawijsheid"];
+                          "Persoonlijke Ontwikkeling", "Instumentele vaardigheden", "Informatievaardigheden", "Mediawijsheid", "Pillars Overzicht Digitale Deskundigheid", "Digitale Deskundigheid Leerlingen"];
   var competenceIds = ['ictSkills', 'pedagogicalDidacticalSkills', 'workInSchoolContext', 'personalDevelopment', 'instrumentalSkills',
-                          'informationSkills', 'mediaSkills'];
+                          'informationSkills', 'mediaSkills', 'podd', 'ddl'];
   var competenceStatistics = [];
   var competenceColors = ['red', 'blue', 'yellow', '', 'green', 'orange', 'pink', 'grey'];
   var j = 0
@@ -19,7 +19,7 @@
   });
 %>
 <h3 class="ui header">Deskundigheidstests</h3>
-<p>Op de <%=school.name%> zijn deskundigheidstests afgenomen op de gebieden <%=competenceStatistics.map(cs => cs.label).join(', ')%>. 
+<p>Op de <%=school.name%> zijn deskundigheidstests afgenomen met de vragenlijst(en) <%=competenceStatistics.map(cs => cs.label).join(', ')%>. 
   Bij de <a href="/schools/<%=school._id%>/pillars/settings">instellingen</a> kan een tijdrange worden ingesteld die mogelijk van toepassing is op de berekening. 
   <%if(school.timeRange ==='ALL'){%>
     Op dit moment is er geen tijdrange geselecteerd en worden alle testresultaten (ook van eventueel reeds gearchiveerde tests) meegeteld.

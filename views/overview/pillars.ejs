@@ -47,6 +47,101 @@
 
 
 <div id="organisation" data-value="<%=JSON.stringify(organisation)%>"></div> 
+<div id="results" data-value="<%=JSON.stringify(results)%>"></div>
 
 <% include ../partials/organisation-footer %>
 <% include ../partials/footer %>
+
+<script>
+  //load jQuery when document is ready
+$(document).ready(function() {
+    var organisation = $('#organisation').attr('data-value')?JSON.parse($('#organisation').attr('data-value')):null;  
+    var results = $('#results').attr('data-value')?JSON.parse($('#results').attr('data-value')):null;    
+    // Chart.defaults.global.legend.display = false;
+    var ctx = $('#overview-graph');
+    hardwareBackgroundColors = [];
+    hardwareBorderColors = []
+    softwareBackgroundColors = [];
+    softwareBorderColors = [];
+    competenceBackgroundColors = [];
+    competenceBorderColors = [];
+    managementBackgroundColors = [];
+    managementBorderColors = [];
+    results.forEach(function(result){
+        hardwareBackgroundColors.push('rgba(227,6,19, 0.7)');
+        hardwareBorderColors.push('rgba(227,6,19,1)');
+        softwareBackgroundColors.push('rgba(0,159,227, 0.7)');
+        softwareBorderColors.push('rgba(0,159,227, 1)');
+        competenceBackgroundColors.push('rgba(249,178,51, 0.7)');
+        competenceBorderColors.push('rgba(249,178,51, 1)');
+        managementBackgroundColors.push('rgba(0, 0, 0, 0.7)');
+        managementBorderColors.push('rgba(0, 0, 0, 1)');
+    })
+    var myChart = new Chart(ctx, {
+      type: 'horizontalBar',
+      data: {
+        labels: results.map(o => o.school),
+        datasets: [{
+            label: 'Hardware',
+            data: results.map(o => o.total.hardware),
+            backgroundColor: hardwareBackgroundColors,
+            borderColor: hardwareBorderColors,
+            borderWidth: 2
+          },
+          {
+            label: 'Digitale Leermiddelen',
+            data: results.map(o => o.total.software),
+            backgroundColor: softwareBackgroundColors,
+            borderColor: softwareBorderColors,
+            borderWidth: 2
+          },
+          {
+            label: 'Deskundigheid',
+            data: results.map(o => o.total.competence),
+            backgroundColor: competenceBackgroundColors,
+            borderColor: competenceBorderColors,
+            borderWidth: 2
+          },
+          {
+            label: 'Organisatie',
+            data: results.map(o => o.total.management),
+            backgroundColor: managementBackgroundColors,
+            borderColor: managementBorderColors,
+            borderWidth: 2
+          }
+        ]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            stacked: true,
+            ticks: {
+              beginAtZero: true
+            }
+          }],
+          xAxes: [{
+            stacked: true,
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+
+        },
+        plugins: {
+            datalabels: {
+                anchor: 'center',
+                align: 'center',
+                color:'black',
+                backgroundColor: 'rgba(255,255,255,0.5)',
+                formatter: function(value, context){
+                    return Math.round(value/5 * 1000)/10 + "%"
+                }
+            }
+        }
+      }
+    });
+    $('#loader').hide();
+
+});
+
+</script>

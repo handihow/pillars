@@ -1,39 +1,26 @@
 <!--SHOW DESKUNDIGHEID NORMERING -->
 <div class="ui warning message">
   <div class="header">
-    Criteria zijn vervallen
+    Drie soorten deskundigheidstests
   </div>
-  De drie normen "Beoordeelde deskundigheid", "Gemiddelde effectiviteit" en "Ondersteuning nodig" zijn vervallen. U krijgt een waarschuwing bij de Pillars score als u nog altijd punten toekent aan deze criteria. Zorg ervoor dat deze criteria op maximale score 0 staan, en dat de 5 punten verdeeld worden over de verschillende deskundigheid tests.
+  Er zijn drie verschillende soorten deskundigheidstests. Gebruik deze niet door elkaar heen. Neem contact op met Pillars als je hierover onvoldoende bent geinformeerd.
 </div>
+
+<h3>Persoonlijke Tests Maximale Score</h3>
+<div class="ui divider"></div>
+<h5>Pillars vragenlijsten versie 2</h5>
 <div class="ui stackable grid">
-  
-  <div class="four wide column">
-    <h4 class="content">Beoordeelde deskundigheid</h4>
-    <div class="content"><%=standard.competence.competenceRating.standard%></div>
+  <div class="eight wide column">
+    <h4 class="content">Pillars Overzicht Digitale Deskundigheid</h4>
+    <div class="content"><%=standard.competence.podd ? standard.competence.podd.maxScore : 0%></div>
   </div>
-  <div class="four wide column">
-    <h4 class="content">Max score</h4>
-    <div class="content"><%=standard.competence.competenceRating.maxScore%></div>
-  </div>
-  <div class="four wide column">
-    <h4 class="content">Gemiddelde effectiviteit</h4>
-    <div class="content"><%=standard.competence.softwareRating.standard%></div>
-  </div>
-  <div class="four wide column">
-    <h4 class="content">Max score</h4>
-    <div class="content"><%=standard.competence.softwareRating.maxScore%></div>
-  </div>
-  <div class="four wide column">
-    <h4 class="content">Ondersteuning nodig</h4>
-    <div class="content">Nee</div>
-  </div>
-  <div class="four wide column">
-    <h4 class="content">Max score</h4>
-    <div class="content"><%=standard.competence.support.maxScore%></div>
+  <div class="eight wide column">
+    <h4 class="content">Digitale Deskundigheid Leerlingen</h4>
+    <div class="content"><%=standard.competence.ddl ? standard.competence.ddl.maxScore : 0%></div>
   </div>
 </div>
 <div class="ui divider"></div>
-<h3>Persoonlijke Tests Maximale Score</h3>
+<h5>Pillars vragenlijsten versie 1</h5>
 <div class="ui stackable grid">
   <div class="four wide column">
     <h4 class="content">ICT Geletterdheid</h4>
@@ -52,6 +39,8 @@
     <div class="content"><%=standard.competence.personalDevelopment.maxScore%></div>
   </div>
 </div>
+<div class="ui divider"></div>
+<h5>Vragenlijsten Alpha Scholengroep</h5>
 <div class="ui stackable grid">
   <div class="four wide column">
     <h4 class="content">Instrumentele vaardigheden</h4>
@@ -66,6 +55,8 @@
     <div class="content"><%=standard.competence.mediaSkills.maxScore%></div>
   </div>
 </div>
+<div class="ui divider"></div>
+<h5>Overige vragenlijsten / meetinstrumenten (geen deskundigheidstests!)</h5>
 <div class="ui stackable grid">
   <div class="four wide column">
     <h4 class="content">Observatieinstrument ICT gebruik</h4>

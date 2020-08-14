@@ -20,7 +20,7 @@ organisationSettings.topics =
     hardware: "Hardware",
     software: "(Digitale) Leermiddelen",
     competenceNew: "Overzicht Digitale Deskundigheid (geavanceerd)",
-    competenceStudents: "Digitale Geletterdheid Leerlingen",
+    competenceStudents: "Digitale Deskundigheid Leerlingen",
     competence: "Deskundigheid (basis)",
     management: "Organisatie",
     pillars: "Pillars Berekening",
