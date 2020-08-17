@@ -18,7 +18,7 @@
       <i class="dont icon"></i>
       Nog geen klassen.
     </div>
-    <%if(typeof school !== 'undefined'){%>
+    <%if(typeof school !== 'undefined' && currentUser.role !=='suser'){%>
     	<a class="ui primary button" href="/schools/<%=school._id%>/classroom">Beheer klassen</a>
     <%}%>
   </div>
@@ -44,12 +44,43 @@
 	    </div>
 	  </div>
 	  <div class="extra content">
-	  	<button class="ui secondary button login__procedure" >Inlogprocedure</button>
+	  	<button class="ui secondary button login__procedure" >Instructies</button>
 	  	<a class="ui primary button <%if(classroom.numberOfSurveys===0){%> disabled <%}%>" 
 	  		href="/schools/<%=school._id%>/classroom/<%=classroom._id%>">Resultaten</a>
 	  </div>
 	</div>
 <%})%>
+</div>
+
+<div id="classroomsText" hidden><%= JSON.stringify(classrooms)%></div>
+
+<div class="ui modal" id="procedure__modal">
+	<i class="close icon"></i>
+	<div class="header">
+      Inlog Instructies voor <span class="classroom__name"></span>
+    </div>
+    <div class="content">
+	    <h5>Instructies voor leerlingen</h5>
+	    <ol>
+	    	<li>Ga naar <a href="https://pillars.school" target=_blank>https://pillars.school</a></li>
+	    	<li>Klik op "Inloggen". Deze knop staat op de home pagina en ook rechts bovenin de menu balk</li>
+	    	<li>Op het inlogscherm, klik op de knop "Klascode invoeren"</li>
+	    	<li>De klascode voor <span class="classroom__name"></span> is <strong id="classroom__code"></strong></li>
+	    	<li>Er wordt automatisch een leerlingaccount gemaakt en de leerling kan beginnen met de test</li>
+	    </ol>
+	    <h5>Overige informatie</h5>
+	    <ul>
+	    	<li>Het maximum aantal leerlingaccounts voor deze klas is <strong id="classroom__studentCount"></strong> (dit is het aantal leerlingen + 1)</li>
+	    	<li>De app geeft een foutmelding als het maximum aantal is bereikt. Er kunnen dan geen tests meer worden gedaan met deze klascode.</li>
+	    </ul>
+	 
+	 </div>
+	 <div class="actions">
+	    <a href="" class="ui primary right labeled icon button" id="mailto__button">
+	      Instructies in nieuwe email
+	      <i class="envelope icon"></i>
+	    </a>
+	 </div>
 </div>
 
 <%if(typeof school !== 'undefined'){%>
@@ -60,9 +91,22 @@
 <%- include('../partials/footer') %>
 
 <script>
+
 	$(document).ready(function() {
+		var classroomsText = $( '#classroomsText' ).text();
+        var classrooms = JSON.parse(classroomsText);
+
 		$(".login__procedure").click(function(){
-			console.log('clicked ' + $(".login__procedure").index(this));
+			var index = $(".login__procedure").index(this);
+			var classroom = classrooms[index];
+			$('.classroom__name').text(classroom.name);
+			$('#classroom__code').text(classroom._id);
+			$('#classroom__studentCount').text(classroom.numberStudents + 1);
+			var subject = encodeURIComponent('Pillars Digitale Deskundigheid Leerlingen');
+			var body = encodeURIComponent("Ga naar https://pillars.school \n Klik op 'Inloggen' \n Klik op de knop 'Klascode invoeren' \n De klascode voor " + classroom.name + " is \n \n" + classroom._id);
+			var emailUrl = "mailto:abc@example.com?subject=" + subject + "&body=" + body;
+			$('#mailto__button').attr("href", emailUrl);
+			$('#procedure__modal').modal('show');
 	      });
 	});
 
