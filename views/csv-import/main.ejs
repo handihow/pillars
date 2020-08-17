@@ -1,15 +1,15 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
 
 <%if(typeof school !== 'undefined'){%>
-  <% include ../partials/school-header %>
+  <%- include('../partials/school-header') %>
   <%- include('../' +header +'/header')  %>
 <%} else if(header === 'user'){%>
-  <% include ../partials/organisation-header %>
+  <%- include('../partials/organisation-header') %>
   <%- include('../' +header +'/header')  %>
 <%} else if(typeof organisation !== 'undefined'){%>
-  <% include ../partials/organisation-header %>
+  <%- include('../partials/organisation-header') %>
   <%- include('../overview/' + header +'-header')  %>
 <%}%>
 
@@ -34,9 +34,9 @@
 	</div>
 </div>
 
-<div id="step1"><% include ./step-1 %></div>
-<div id="step2"><% include ./step-2 %></div>
-<div id="step3"><% include ./step-3 %></div>
+<div id="step1"><%- include('./step-1') %></div>
+<div id="step2"><%- include('./step-2') %></div>
+<div id="step3"><%- include('./step-3') %></div>
 
 <div id="columnData" hidden><%=JSON.stringify(columns)%></div>
 <div class="ui modal" id="successHandler">
@@ -52,12 +52,12 @@
 <div id="schoolData" hidden><%=typeof school !== 'undefined' ? JSON.stringify(school) : 'false'%></div>
 
 <%if(typeof school !== 'undefined'){%>
-  <% include ../partials/school-footer %>
+  <%- include('../partials/school-footer') %>
 <%} else if(typeof organisation !== 'undefined'){%>
-  <% include ../partials/organisation-footer %>
+  <%- include('../partials/organisation-footer') %>
 <%}%>
 
-<% include ../partials/footer %>
+<%- include('../partials/footer') %>
 
 <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.2.0/papaparse.min.js"></script>
 

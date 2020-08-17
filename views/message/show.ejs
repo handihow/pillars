@@ -1,10 +1,10 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
 <%if(onOrganisationPage){%>
-    <% include ../partials/organisation-header %>
+    <%- include('../partials/organisation-header') %>
 <%} else {%>
-    <% include ../partials/school-header %>
+    <%- include('../partials/school-header') %>
 <% } %>
 <div class="ui huge header"><%= message.title %></div>
 <div class="ui top attached">
@@ -26,8 +26,8 @@
 </div>
 
 <%if(onOrganisationPage){%>
-    <% include ../partials/organisation-footer %>
+    <%- include('../partials/organisation-footer') %>
 <%} else {%>
-    <% include ../partials/school-footer %>
+    <%- include('../partials/school-footer') %>
 <% } %>    
-<% include ../partials/footer %>
+<%- include('../partials/footer') %>

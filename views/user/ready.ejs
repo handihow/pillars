@@ -1,7 +1,7 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
-<% include ../partials/user-header %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
+<%- include('../partials/user-header') %>
 <%var name='Medewerker'; var compareName= user.role == 'sadmin' || user.role == 'suser' ? 'School' : 'Bestuur';%>
      <div class="ui grid">
       <div class="fourteen wide column">
@@ -110,7 +110,7 @@
             <%surveys.forEach(function(survey, index){%>
                 <%if(!survey.isActiveCompetenceSurvey){ %>
                   <%var resultsUrl = null%>
-                  <% include ../partials/competence-chart/competence-chart %>
+                  <%- include('../partials/competence-chart/competence-chart') %>
                 <%}%>
             <%})%>
           </div>
@@ -131,5 +131,5 @@
 <div id="surveysInfo" hidden><%= JSON.stringify(surveys)%></div>
 <div id="resultsInfo" hidden><%= JSON.stringify(results)%></div>
     
-<% include ../partials/user-footer%>        
-<% include ../partials/footer %>
+<%- include('../partials/user-footer') %>        
+<%- include('../partials/footer') %>

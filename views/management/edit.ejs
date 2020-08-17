@@ -1,19 +1,19 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
-<% include ../partials/school-header %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
+<%- include('../partials/school-header') %>
 
     <h2 class="ui header"><i class="sitemap icon"></i>Organisatie van Leerkrachten van <%= school.name %></h2>
     <div class="ui divider"></div>
     <form class="ui form" action="/schools/<%=school._id%>/management?_method=PUT" method="POST" id="managementForm" novalidate>
           <!--VISION-->
           <h4 class="ui dividing header">Visie</h4>
-          <% include ./edit/agreement %>
+          <%- include('./edit/agreement') %>
           <h4 class="ui dividing header">Netwerkbeheer</h4>
           <!--NETWORK-->
-          <% include ./edit/networkAdjustment %>
-          <% include ./edit/networkProblemSolving %>
-          <% include ./edit/incidentReporting %>
+          <%- include('./edit/networkAdjustment') %>
+          <%- include('./edit/networkProblemSolving') %>
+          <%- include('./edit/incidentReporting') %>
           <!--ROLES-->
           <%school.management.roles.forEach(function(role, index){%>
             <h4 class="ui dividing header"><%=role.role%></h4>
@@ -69,5 +69,5 @@
     </div>
 </div>
 
-<% include ../partials/school-footer %>
-<% include ../partials/footer %>
+<%- include('../partials/school-footer') %>
+<%- include('../partials/footer') %>

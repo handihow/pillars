@@ -1,10 +1,10 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
 <%if(schoolLevel){%>
-  <% include ../partials/school-header %>
+  <%- include('../partials/school-header') %>
 <%} else { %>
-  <% include ../partials/organisation-header %>
+  <%- include('../partials/organisation-header') %>
 <%}%>
 <h2 class="ui centered header"><%=survey.name%></h2>
 <div class="ui icon buttons">
@@ -31,23 +31,23 @@
 <div class="ui divider"></div>
 
 <div id="info" class="transition <%if(surveyResults.length>0){%> hidden <%}%>">
-  <% include ./show/info %>
+  <%- include('./show/info') %>
 </div>
 
   <div id="table" class="transition <%if(surveyResults.length==0){%> hidden <%}%> enable_horizontal_scroll">
-    <% include ./show/table %>
+    <%- include('./show/table') %>
   </div>
   <div id="chart" class="transition hidden">
-    <% include ./show/chart %>
+    <%- include('./show/chart') %>
   </div>
   <% if(survey.isCompetenceSurvey){%>
     <div id="analysis" class="transition hidden">
-      <% include ./show/analysis %>
+      <%- include('./show/analysis') %>
     </div>
     <div id="statistics" hidden><%=JSON.stringify(statistics)%></div>
   <%} else if(survey.isSoftwareSurvey){%>
       <div id="bubbles" class="transition hidden">
-      <% include ./show/bubbles %>
+      <%- include('./show/bubbles') %>
     </div>
     <div id="bubblesInfo" hidden><%=JSON.stringify(bubbles)%></div>
   <%}%>
@@ -55,9 +55,9 @@
   <div id="surveyResults" hidden><%= JSON.stringify(surveyResults)%></div>
   
 <%if(schoolLevel){%>
-  <% include ../partials/school-footer %>
+  <%- include('../partials/school-footer') %>
 <% } else { %>
-  <% include ../partials/organisation-footer %>
+  <%- include('../partials/organisation-footer') %>
 <% }%>
 
-<% include ../partials/footer %>
+<%- include('../partials/footer') %>

@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 var config = require("../../config/config");
 var mongoose = require("mongoose");
-
+var School = require('../../models/school');
 
 router.post("/", function(req, res){
 	var dataArray = Object.keys(req.body.data).map(function(key){return {...req.body.data[key], id: key}});
@@ -14,19 +14,51 @@ router.post("/", function(req, res){
 	} else if(req.body.action === 'remove') {
 		deleteRecords(req, res, dataArray, collectionName, error);
 	} else {
-		var newRecords = Object.keys(req.body.data).map(function(key){ return {...req.body.data[key]}});
-		collectionName.insertMany(newRecords)
-				    .then(function (docs) {
-				        res.json({
-							data: docs,
-						});
-				    })
-				    .catch(function(error){
-				    	res.json({
-							data: [],
-							error: error && error.message ? error.message : 'Er ging iets mis...'
-						});
-				    })
+		var newRecords;
+		if(req.body.schoolId){
+			newRecords = Object.keys(req.body.data).map(function(key){ return {school: req.body.schoolId, ...req.body.data[key]}});
+		} else {
+			newRecords = Object.keys(req.body.data).map(function(key){ return {...req.body.data[key]}});
+		}
+		collectionName.create(newRecords[0], function(err, record){
+			if(err){
+				res.json({
+					data: [],
+					error: error && error.message ? error.message : 'Er ging iets mis...'
+				});
+			} else {
+				if(req.body.schoolId){
+		    		School.findById(req.body.schoolId, function(err, school){
+		    			if(err){
+		    				res.json({
+								data: [],
+								error: error && error.message ? error.message : 'Er ging iets mis...'
+							});
+		    			} else {
+				            school[req.body.collectionId].push(record._id);
+				            //then save the school
+				            school.save(function(err){
+				              if(err){
+				                res.json({
+									data: [],
+									error: error && error.message ? error.message : 'Er ging iets mis...'
+								});
+				              } else {
+				                res.json({
+									data: [record],
+								});               
+				              }
+				            });
+		    			}
+		    		})
+		    	} else {
+		    		res.json({
+						data: [record],
+					});
+		    	}
+
+			}
+		});
 	}
 })
 

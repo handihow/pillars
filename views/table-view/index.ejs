@@ -1,14 +1,14 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
 <%if(typeof school !== 'undefined'){%>
-  <% include ../partials/school-header %>
+  <%- include('../partials/school-header') %>
   <%- include('../' +header +'/header')  %>
 <%} else if(typeof organisation !== 'undefined'){%>
-  <% include ../partials/organisation-header %>
+  <%- include('../partials/organisation-header') %>
   <%- include('../overview/' + header +'-header')  %>
 <%} else {%>
-  <% include ../partials/admin-header %>
+  <%- include('../partials/admin-header') %>
 <%}%>
 
 
@@ -44,15 +44,16 @@
 <div id="allowNewEntriesData" hidden><%= typeof allowNewEntries !== 'undefined' && allowNewEntries ? 'true' : 'false'%></div>
 <div id="headerData" hidden><%=header%></div>
 <div id="organisationData" hidden><%=typeof organisation !== 'undefined' ? 'true' : 'false'%></div>
+<div id="schoolData" hidden><%=typeof school !== 'undefined' ? JSON.stringify(school) : '' %></div>
 
 <%if(typeof school !== 'undefined'){%>
-  <% include ../partials/school-footer %>
+  <%- include('../partials/school-footer') %>
 <%} else if(typeof organisation !== 'undefined'){%>
-  <% include ../partials/organisation-footer %>
+  <%- include('../partials/organisation-footer') %>
 <%} else {%>
-  <% include ../partials/admin-footer %>
+  <%- include('../partials/admin-footer') %>
 <%}%>
-<% include ../partials/footer %>
+<%- include('../partials/footer') %>
 
 <script>
 
@@ -67,6 +68,10 @@
 
     var itemsText = $('#itemsData').text();
     var itemsData = JSON.parse(itemsText);
+
+    var schoolText = $('#schoolData').text();
+    var schoolData = schoolText.length>0 ? JSON.parse(schoolText) : null;
+    
 
     var hasWarningRowText = $('#warningRowData').text();
     var hasWarningRow = hasWarningRowText === "true" ? true : false;
@@ -171,7 +176,8 @@
         ajax: {
           url: '/api/tableeditor',
           data: {
-            collectionId: header
+            collectionId: header,
+            schoolId: schoolData ? schoolData._id : null
           }
         },
         fields: fields,

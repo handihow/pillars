@@ -1,9 +1,9 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
-<% include ../partials/school-header %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
+<%- include('../partials/school-header') %>
 
-<% include ./header %>
+<%- include('./header') %>
 
 <div id="analysis__container">
 	<div id="surveyResult"></div>
@@ -11,5 +11,5 @@
 <div id="data" hidden><%=JSON.stringify(school.software)%></div>
 <div id="schoolType" hidden><%=JSON.stringify(school.isSecondarySchool || 'false')%></div>
 
-<% include ../partials/school-footer %>
-<% include ../partials/footer %>
+<%- include('../partials/school-footer') %>
+<%- include('../partials/footer') %>

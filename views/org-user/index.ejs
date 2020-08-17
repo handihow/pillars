@@ -1,7 +1,7 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
-<% include ../partials/organisation-header %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
+<%- include('../partials/organisation-header') %>
 
   
   <h2 class="ui center aligned header">Bestuur Medewerkers</h2>
@@ -28,9 +28,9 @@
       <!--make a card for each buser-->
       <% users.forEach(function(user, index){ %>
         <%var schoolUser = false%>
-        <% include ../partials/user-card %>
+        <%- include('../partials/user-card', {user: user, schoolUser: false}) %>
       <% }); %>
     </div>
 
-<% include ../partials/organisation-footer %>
-<% include ../partials/footer %>
+<%- include('../partials/organisation-footer') %>
+<%- include('../partials/footer') %>

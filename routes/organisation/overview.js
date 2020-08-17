@@ -465,7 +465,7 @@ router.get("/podd", middleware.isAuthenticatedBadmin, function(req, res){
                                     }
                                 });                                
                                 res.locals.scripts.footer.chartjs = true;
-                                res.render("competence/index", {
+                                res.render("competence/podd", {
                                     organisation: organisation,
                                     users: users, 
                                     survey: survey,

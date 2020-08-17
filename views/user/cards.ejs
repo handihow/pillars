@@ -1,12 +1,12 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
 <%if(userview==="school"){ %>
-  <% include ../partials/school-header %>
+  <%- include('../partials/school-header') %>
 <%} else if(userview==="organisation"){%>
-  <% include ../partials/organisation-header %>
+  <%- include('../partials/organisation-header') %>
 <%}%>
-<% include ./header %>
+<%- include('./header') %>
       
       <%if(users.length===0){%>
         <div class="ui placeholder segment">
@@ -19,15 +19,14 @@
       <div class="ui three doubling cards">
         <!--make a card for each user-->
         <% users.forEach(function(user, index){ %>
-          <%var schoolUser = userview==='school' ? true: false%>
-          <% include ../partials/user-card %>
+          <%- include('../partials/user-card', {user: user, schoolUser: userview==='school' ? true: false, index: index}) %>
         <% }); %>
        </div>
 
 
 <%if(userview==="school"){ %>
-  <% include ../partials/school-footer %>
+  <%- include('../partials/school-footer') %>
 <%} else if(userview==="organisation"){%>
-  <% include ../partials/organisation-footer %>
+  <%- include('../partials/organisation-footer') %>
 <%}%>
-<% include ../partials/footer %>
+<%- include('../partials/footer') %>

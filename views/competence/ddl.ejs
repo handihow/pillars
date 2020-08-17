@@ -1,17 +1,17 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
 <%if(typeof school !== 'undefined'){%>
-  <% include ../partials/school-header %>
-  <% include ./header  %>
+  <%- include('../partials/school-header') %>
+  <%- include('./header', {title: 'Digitale Deskundigheid Leerlingen'}) %>
 <%} else if(typeof organisation !== 'undefined'){%>
-  <% include ../partials/organisation-header %>
-  <%- include('../overview/competence-header')  %>
+  <%- include('../partials/organisation-header') %>
+  <%- include('../overview/competence-header', {title: 'Digitale Deskundigheid Leerlingen'})  %>
 <%}%>
 
 <%if(surveyResults.length>0){%>
   <div class="ui three column stackable grid">
-    <%var progress = surveyResults.length/users.length*100%>
+    <%var progress = surveyResults.length/students.length*100%>
     <div class="column">
        <h2 class="ui header">
         <i class="user icon"></i>
@@ -30,15 +30,15 @@
         </div>
         <div class="statistic">
           <div class="value">
-            <%=users.length%>
+            <%=students.length%>
           </div>
           <div class="label">
             Totaal
           </div>
         </div>
-        <div class="statistic <%=users.length === surveyResults.length ? 'green' : 'red'%>">
+        <div class="statistic <%=students.length === surveyResults.length ? 'green' : 'red'%>">
           <div class="value">
-            <%=users.length - surveyResults.length%>
+            <%=students.length - surveyResults.length%>
           </div>
           <div class="label">
             Ontbrekend
@@ -177,15 +177,19 @@
 <div id="standardData" hidden><%=JSON.stringify(standard)%></div>
 <div id="surveyResultsData" hidden><%=JSON.stringify(surveyResults)%></div>
 <%if(typeof school !== 'undefined'){%>
-  <% include ../partials/school-footer %>
+  <%- include('../partials/school-footer') %>
 <%} else if(typeof organisation !== 'undefined'){%>
-  <% include ../partials/organisation-footer %>
+  <%- include('../partials/organisation-footer') %>
 <%}%>
-<% include ../partials/footer %>
+<%- include('../partials/footer') %>
 
 <script>
 
   $(document).ready(function() {
+
+    var surveyResultsText = $('#surveyResultsData').text();
+    var surveyResultsData = JSON.parse(surveyResultsText);
+    if(surveyResultsData.length === 0) return;
 
     var countPerDayText = $('#countPerDayData').text();
     var countPerDayData = JSON.parse(countPerDayText);
@@ -239,9 +243,7 @@
             }
         }
     });
-    var surveyResultsText = $('#surveyResultsData').text();
-    var surveyResultsData = JSON.parse(surveyResultsText);
-    console.log(surveyResultsData);
+    
     var standardText = $('#standardData').text();
     var standardData = JSON.parse(standardText);
     var skilled = [];

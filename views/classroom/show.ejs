@@ -1,0 +1,65 @@
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
+
+<div class="ui container">
+<h2 class="ui header"><i class="student icon"></i></i><%= classroom.name %></h2>
+<div class="ui divider"></div>
+<div class="ui stackable grid">
+  <div class="four wide column">
+    <h4 class="content">Klas naam</h4> 
+    <div class="content"><%= classroom.name %></div>
+  </div>
+  <div class="four wide column">
+    <h4 class="content">Omschrijving</h4>
+    <div class="content"><%= classroom.description %></div>
+  </div>
+  <div class="four wide column">
+    <h4 class="content">Niveau</h4>
+    <div class="content"><%= classroom.level %></div>
+  </div>
+  <div class="four wide column">
+    <h4 class="content">Code</h4>
+    <div class="content"><%=classroom._id%> </div>
+  </div>
+</div>
+<div class="ui divider"></div>
+<div class="ui stackable grid">
+  <div class="eight wide column">
+    <div class="ui header">Docenten</div>
+    <%if(classroom.teachers.length === 0){%>
+      Geen docenten
+    <%} else {%>
+      <ul>
+        <%classroom.teachers.forEach(function(teacher){%>
+          <%if(teacher.firstName && teacher.lastName){%>
+            <li><%=teacher.firstName%> <%=teacher.lastName%></li>
+          <%} else {%>
+            <li><%=teacher.username%></li>
+          <%}%>
+        <%})%>
+      </ul>
+    <%}%>
+  </div>
+  <div class="eight wide column">
+    <div class="ui header">Leerlingen</div>
+    <%if(classroom.students.length === 0){%>
+      Geen leerlingen
+    <%} else {%>
+      <ul>
+        <%classroom.students.forEach(function(student){%>
+          <%if(student.firstName && student.lastName){%>
+            <li><%=student.firstName%> <%=student.lastName%></li>
+          <%} else {%>
+            <li><%=student.username%></li>
+          <%}%>
+        <%})%>
+      </ul>
+    <%}%>
+  </div>
+</div>
+
+<div class="ui divider"></div>
+<button type="button" class="ui button" onclick="goBack()">Terug</button>
+
+<%- include('../partials/footer') %>

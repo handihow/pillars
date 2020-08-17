@@ -1,9 +1,9 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
-<% include ../partials/school-header %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
+<%- include('../partials/school-header') %>
 
-<% include ./header %>
+<%- include('./header') %>
 
 
 <form class="ui form" action="/schools/<%=school._id%>/software/settings?_method=PUT" method="POST" id="softwareSettingsForm">

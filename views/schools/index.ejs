@@ -1,10 +1,10 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
 <% if(organisationLevel){ %> 
-  <% include ../partials/organisation-header %>
+  <%- include('../partials/organisation-header') %>
 <% } else { %>
-  <% include ../partials/dashboard-header %>
+  <%- include('../partials/dashboard-header') %>
 <% } %>
 
 <div class="ui container">
@@ -28,14 +28,14 @@
     <!--cards with schools-->
     <div class="ui three stackable cards">
       <% schools.forEach(function(school){ %>
-        <% include ../partials/school-card %>
+        <%- include('../partials/school-card', {school: school}) %>
       <% }); %>
     </div>
 </div>
 
 <% if(organisationLevel){ %> 
-  <% include ../partials/organisation-footer %>
+  <%- include('../partials/organisation-footer') %>
 <% } else { %>
-  <% include ../partials/dashboard-footer %>
+  <%- include('../partials/dashboard-footer') %>
 <% } %>
-<% include ../partials/footer %>
+<%- include('../partials/footer') %>

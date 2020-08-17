@@ -19,12 +19,15 @@ var Organisation = require("./models/organisation");
 //ROUTES RELATED TO MODELS
 var hardwareModelRoutes = require('./routes/hardware/hardware');
 var formModelRoutes = require('./routes/forms/forms');
+var classroomModelRoutes = require('./routes/classroom/classroom');
+
 // //ROUTES RELATED TO SCHOOLS
 var schoolRoutes = require("./routes/school/schools");
 var hardwareRoutes = require("./routes/school/hardware");
 var softwareRoutes = require("./routes/school/software");
 var competenceRoutes = require("./routes/school/competence");
 var poddRoutes = require("./routes/school/podd");
+var ddlRoutes = require("./routes/school/ddl");
 var managementRoutes = require("./routes/school/management");
 var pillarsRoutes = require("./routes/school/pillars");
 var evaluationRoutes = require("./routes/school/evaluation");
@@ -32,6 +35,7 @@ var informationRoutes = require("./routes/school/information");
 var processingActivityRoutes = require("./routes/school/processingActivity");
 var securityIncidentRoutes = require("./routes/school/securityIncident");
 var surveyRoutes = require("./routes/school/survey");
+var classroomRoutes = require('./routes/school/classroom');
 //ROUTES RELATED TO USERS
 var orgUserRoutes = require("./routes/user/org-user");
 var schoolUserRoutes = require("./routes/user/school-user");
@@ -71,6 +75,7 @@ mongoose.connect(process.env.DATABASEURL, {
   useFindAndModify: false,
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useCreateIndex: true,
 });
 
 //APP CONFIG
@@ -188,12 +193,14 @@ app.use(function(req, res, next){
 //ROUTES RELATED TO MODELS
 app.use("/hardware/:id", hardwareModelRoutes);
 app.use("/form/:id", formModelRoutes);
+app.use("/classroom/:id", classroomModelRoutes);
 //ROUTES RELATED TO SCHOOLS
 app.use("/schools", schoolRoutes);
 app.use("/schools/:id/hardware", hardwareRoutes);
 app.use("/schools/:id/software", softwareRoutes);
 app.use("/schools/:id/competence", competenceRoutes);
 app.use("/schools/:id/podd", poddRoutes);
+app.use("/schools/:id/ddl", ddlRoutes);
 app.use("/schools/:id/management", managementRoutes);
 app.use("/schools/:id/pillars", pillarsRoutes);
 app.use("/schools/:id/evaluation", evaluationRoutes);
@@ -201,6 +208,7 @@ app.use("/schools/:id/information", informationRoutes);
 app.use("/schools/:id/processingActivity", processingActivityRoutes);
 app.use("/schools/:id/securityIncident", securityIncidentRoutes);
 app.use("/schools/:id/survey", surveyRoutes);
+app.use("/schools/:id/classroom", classroomRoutes);
 //ROUTES RELATED TO USERS
 app.use("/schools/:id/user", schoolUserRoutes);
 app.use("/user/:id/evaluation", userEvalRoutes);

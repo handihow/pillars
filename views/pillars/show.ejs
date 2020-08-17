@@ -1,7 +1,7 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
-<% include ../partials/school-header %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
+<%- include('../partials/school-header') %>
 
     <div class="html-content">
       <div class="ui grid">
@@ -44,17 +44,17 @@
       <div id="result" data-value="<%=JSON.stringify(result)%>"></div>
       <% var statColumnWidth = "five"%>
       <% var imgColumnWidth = "eleven"%>
-      <% include ./show/total %>
+      <%- include(' ./show/total') %>
       <!--HARDWARE-->
-      <% include ./show/hardware %>
+      <%- include(' ./show/hardware') %>
       <!--SOFTWARE-->
-      <% include ./show/software %>
+      <%- include(' ./show/software') %>
       <!--COMPETENCE-->
-      <% include ./show/competence %>
+      <%- include(' ./show/competence') %>
       <!--MANAGEMENT-->
-      <% include ./show/management %>
+      <% -include ('./show/management') %>
   </div>
 
-<% include ../partials/school-footer %>
-<% include ../partials/footer %>
-<% include ./logic %>
+<%- include('../partials/school-footer') %>
+<%- include('../partials/footer') %>
+<%- include(' ./logic') %>

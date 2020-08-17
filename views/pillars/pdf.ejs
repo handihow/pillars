@@ -1,6 +1,6 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
   <div id="result" data-value="<%=JSON.stringify(result)%>"></div>  
   
   <h2 class="ui center aligned icon header">
@@ -31,21 +31,21 @@
             <%= school.name %>
           </div>
         </h2>
-        <% include ./show/total %> 
+        <%- include('./show/total') %> 
       </div>
       <div class="pdf__page">
-        <% include ./show/hardware %> 
+        <%- include('./show/hardware') %> 
       </div>
       <div class="pdf__page">
-        <% include ./show/software %> 
+        <%- include('./show/software') %> 
       </div>
       <div class="pdf__page">
-        <% include ./show/competence %>
+        <%- include('./show/competence') %>
       </div>
       <div class="pdf__page">
-        <% include ./show/management %>
+        <%- include('./show/management') %>
       </div>
   </div>
 
-<% include ../partials/footer %>
-<% include ./logic %>
+<%- include('../partials/footer') %>
+<%- include('./logic') %>

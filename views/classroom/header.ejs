@@ -1,0 +1,29 @@
+
+<h2 class="ui centered header">
+  <%if(school.logo || school.uploadedLogo){%><img 
+        class="ui image" 
+        src="<%=school.uploadedLogo ? school.uploadedLogo : school.logo %>"><%}%>
+  <div class="content">
+    <%= school.name %>
+  </div>
+</h2>
+<% if(!(currentUser.role==="suser")) { %>
+<div class="ui icon buttons">
+  <a class="ui <%if(url===("/schools/"+school._id)){ %> active <%}%> button" 
+      href="/schools/<%=school._id%>" 
+      data-content="Algemene informatie">
+      <i class="info icon"></i>
+  </a>
+  <a class="ui <%if(url===("/schools/"+school._id+"/classroom")){ %> active <%}%> button" 
+      href="/schools/<%=school._id%>/classroom"
+      data-content="Klassen">
+        <i class="student icon"></i>
+  </a>
+  <a class="ui <%if(url===("/schools/"+school._id+"/classroom/csv-import")){ %> active <%}%> button" 
+      href="/schools/<%=school._id%>/classroom/csv-import"
+      data-content="Csv import klassen">
+      <i class="upload icon"></i>
+  </a>
+</div>
+<%}%>
+<div class="ui divider"></div>

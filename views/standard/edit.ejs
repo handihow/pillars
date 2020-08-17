@@ -1,7 +1,7 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
-<% include ../partials/organisation-header %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
+<%- include('../partials/organisation-header') %>
 
 <div class="ui container">
     <h2 class="ui center aligned icon header">
@@ -33,19 +33,19 @@
       </div>
       <div class="ui bottom attached tab segment active" data-tab="first">
           <!--edit hardware standard-->
-          <%  include edit/hardware %>
+          <%- include('edit/hardware') %>
       </div>
       <div class="ui bottom attached tab segment" data-tab="second">
           <!--edit software standard-->
-          <% include edit/software %>
+          <%- include('edit/software') %>
       </div>
       <div class="ui bottom attached tab segment" data-tab="third">
           <!--edit competence standard-->
-          <% include edit/competence %>
+          <%- include('edit/competence') %>
       </div>
       <div class="ui bottom attached tab segment" data-tab="fourth">
           <!--edit management standard-->
-          <% include edit/management %> 
+          <%- include('edit/management') %> 
       </div>
       
       <button class="ui button" type="submit">Bewaren</button>
@@ -53,5 +53,5 @@
     </form>  
 </div>
 
-<% include ../partials/organisation-footer%>
-<% include ../partials/footer %>
+<%- include('../partials/organisation-footer') %>
+<%- include('../partials/footer') %>

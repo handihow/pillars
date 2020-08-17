@@ -1,11 +1,11 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
 <%if(typeof school !== 'undefined'){%>
-  <% include ../partials/school-header %>
-  <% include ./header  %>
+  <%- include('../partials/school-header') %>
+  <%- include('./header') %>
 <%} else if(typeof organisation !== 'undefined'){%>
-  <% include ../partials/organisation-header %>
+  <%- include('../partials/organisation-header') %>
   <%- include('../overview/hardware-header')  %>
 <%}%>
 
@@ -170,11 +170,11 @@
 <%}%>
 <div id="trackedHardwareData" hidden><%=JSON.stringify(trackedHardware)%></div>
 <%if(typeof school !== 'undefined'){%>
-  <% include ../partials/school-footer %>
+  <%- include('../partials/school-footer') %>
 <%} else if(typeof organisation !== 'undefined'){%>
-  <% include ../partials/organisation-footer %>
+  <%- include('../partials/organisation-footer') %>
 <%}%>
-<% include ../partials/footer %>
+<%- include('../partials/footer') %>
 
 <script>
 

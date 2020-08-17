@@ -1,7 +1,7 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
-<% include ../partials/user-header %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
+<%- include('../partials/user-header') %>
 <h2 class="ui header">
   <%if(user.imageUrl){%>
       <img 
@@ -107,5 +107,5 @@
       <a class="ui primary button right" href="/user/<%=user._id%>/edit">Gegevens wijzigen</a>
     <% } %>
 
-<% include ../partials/user-footer %>
-<% include ../partials/footer %>
+<%- include('../partials/user-footer') %>
+<%- include('../partials/footer') %>

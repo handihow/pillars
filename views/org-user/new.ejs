@@ -1,7 +1,7 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
-<% include ../partials/organisation-header %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
+<%- include('../partials/organisation-header') %>
 
 <% var generatedPassword = Math.random().toString(36).substr(2, 8) %>
 
@@ -55,5 +55,5 @@
     </form>
     </div>
 
-<% include ../partials/organisation-footer %>
-<% include ../partials/footer %>
+<%- include('../partials/organisation-footer') %>
+<%- include('../partials/footer') %>

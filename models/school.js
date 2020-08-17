@@ -8,6 +8,7 @@ var Test = require("./test");
 var Evaluation = require("./evaluation");
 var Setting = require("./setting");
 var SurveyResult = require('./surveyResult');
+var Classroom = require('./classroom');
 
 var scholenSchema=  mongoose.Schema({
     schoolIdNumber: {type: String, required: true},
@@ -48,6 +49,14 @@ var scholenSchema=  mongoose.Schema({
     users: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
+    }],
+    students: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    }],
+    classroom: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Classroom"
     }],
     hardware: [{
         type: mongoose.Schema.Types.ObjectId,

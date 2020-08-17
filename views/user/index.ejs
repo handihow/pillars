@@ -1,12 +1,12 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
 <%if(userview==="school"){ %>
-  <% include ../partials/school-header %>
+  <%- include('../partials/school-header') %>
 <%} else if(userview==="organisation"){%>
-  <% include ../partials/organisation-header %>
+  <%- include('../partials/organisation-header') %>
 <%}%>
-<% include ./header %>
+<%- include('./header') %>
 
 <%if(users.length===0){%>
 <div class="ui placeholder segment">
@@ -50,7 +50,7 @@
         <td><%= user.school && user.school[0] ? user.school[0].name : '-'%></td>
       <%}%>
       <td>
-        <% include ../partials/user-role %>
+        <%- include('../partials/user-role', {user: user}) %>
       </td>
       <td>
         <%if(user.updatedAt){%>
@@ -124,8 +124,8 @@
 </div>
 
 <%if(userview==="school"){ %>
-  <% include ../partials/school-footer %>
+  <%- include('../partials/school-footer') %>
 <%} else if(userview==="organisation"){%>
-  <% include ../partials/organisation-footer %>
+  <%- include('../partials/organisation-footer') %>
 <%}%>
-<% include ../partials/footer %>
+<%- include('../partials/footer') %>

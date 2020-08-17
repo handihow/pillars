@@ -1,0 +1,521 @@
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
+<%if(typeof school !== 'undefined'){%>
+  <%- include('../partials/school-header') %>
+  <%- include('./header', {title: 'Pillars Overzicht Digitale Deskundigheid'}) %>
+<%} else if(typeof organisation !== 'undefined'){%>
+  <%- include('../partials/organisation-header') %>
+  <%- include('../overview/competence-header', {title: 'Pillars Overzicht Digitale Deskundigheid'})  %>
+<%}%>
+
+<%if(surveyResults.length>0){%>
+  <div class="ui three column stackable grid">
+    <%var progress = surveyResults.length/users.length*100%>
+    <div class="column">
+       <h2 class="ui header">
+        <i class="user icon"></i>
+        <div class="content">
+          Inzendingen
+        </div>
+      </h2>
+      <div class="ui tiny three statistics">
+        <div class="statistic">
+          <div class="value">
+            <%=surveyResults.length%>
+          </div>
+          <div class="label">
+            Ingezonden
+          </div>
+        </div>
+        <div class="statistic">
+          <div class="value">
+            <%=users.length%>
+          </div>
+          <div class="label">
+            Totaal
+          </div>
+        </div>
+        <div class="statistic <%=users.length === surveyResults.length ? 'green' : 'red'%>">
+          <div class="value">
+            <%=users.length - surveyResults.length%>
+          </div>
+          <div class="label">
+            Ontbrekend
+          </div>
+        </div>
+      </div>
+      <div class="ui small indicating progress" data-value="<%=progress%>" data-total="100" id="userProgress">
+        <div class="bar"></div>
+        <div class="label">Inzendingen</div>
+      </div>
+    </div>
+    <div class="column">
+      <h2 class="ui header">
+        <i class="tasks icon"></i>
+        <div class="content">
+          Onderdelen
+        </div>
+      </h2>
+      <% var countSkilledArray = surveyResults.map((sr) => Object.values(sr.flags).reduce((a, flag) => a + flag, 0)) %>
+      <% var skilledCategories = Math.round(countSkilledArray.reduce((a,b) => a + b, 0) / countSkilledArray.length * 10) / 10 %>
+      <div class="ui tiny three statistics">
+        <div class="statistic">
+          <div class="value">
+            <%=(standard.categories.length - skilledCategories).toString().replace(".", ",")%>
+          </div>
+          <div class="label">
+            Deskundig
+          </div>
+        </div>
+        <div class="statistic ">
+          <div class="value">
+            <%=standard.categories.length%>
+          </div>
+          <div class="label">
+            Totaal
+          </div>
+        </div>
+        <div class="statistic <%=skilledCategories > 0 ? 'red' : 'green'%>">
+          <div class="value">
+            <%=skilledCategories.toString().replace('.',',')%>
+          </div>
+          <div class="label">
+            Onbekwaam
+          </div>
+        </div>
+      </div>
+      <div class="ui small indicating progress" data-value="<%=(standard.categories.length - skilledCategories)/standard.categories.length*100%>" data-total="100" id="skilledProgress">
+        <div class="bar"></div>
+        <div class="label">Deskundigheid op onderdelen</div>
+      </div>
+    </div>
+    <div class="column">
+      <h2 class="ui header">
+      <i class="chart pie icon"></i>
+      <div class="content">
+        Score
+      </div>
+    </h2>
+    <% var averageScore = Math.round(surveyResults.reduce((a,b) => a + b.score, 0) / surveyResults.length * 100) %>
+    <div class="ui tiny three statistics">
+      <div class="statistic">
+        <div class="value">
+          <%=averageScore%>%
+        </div>
+        <div class="label">
+          Gemiddeld
+        </div>
+      </div>
+      <div class="statistic">
+        <div class="value">
+          <%=survey.minimumLevel%>%
+        </div>
+        <div class="label">
+          Minimaal
+        </div>
+      </div>
+      <div class="statistic">
+        <div class="value">
+          <%=survey.highLevel%>%
+        </div>
+        <div class="label">
+          Zeer kundig
+        </div>
+      </div>
+    </div>
+    <div class="ui small indicating progress" data-value="<%=averageScore%>" data-total="100" id="averageScore">
+        <div class="bar"></div>
+        <div class="label">Gemiddelde score</div>
+      </div>
+    </div>
+  </div>
+  <div class="ui divider"></div>
+  <h2 class="ui centered header">Aantal inzendingen per dag</h2>
+  <canvas id="countPerDay" width="400" height="100"></canvas>
+  <div class="ui divider"></div>
+  <h2 class="ui centered header">Deskundigheid op onderdelen</h2>
+  <canvas id="countSkilled" width="400" height="150"></canvas>
+  <div class="ui divider"></div>
+  <h2 class="ui centered header">Score op onderdelen</h2>
+  <canvas id="averageScoreChart" width="400" height="150"></canvas>
+  <div class="ui divider"></div>
+  <h2 class="ui centered header">Nascholingsbehoefte op onderdelen</h2>
+  <div class="ui three doubling cards">
+    <!--make a card for each type of hardware-->
+    <% standard.categories.forEach(function(cat){ %>
+    <div class="ui card">
+      <div class="content">
+        <div class="header"><%= cat.title%></div>
+        <div class="meta"><%= cat.parentTitle%></div>
+      </div>
+      <div class="content">
+          <canvas id="<%=cat.name%>"></canvas>
+      </div>
+    </div>
+    <% }); %>
+  </div>
+  <%if(typeof school !== 'undefined'){%>
+    <br>
+    <a class="ui primary button" href="/schools/<%=school._id%>/survey/<%=survey._id%>" target=_blank>Meer overzichten</a>
+  <%}%>
+  <%if(typeof organisation !== 'undefined'){%>
+    <br>
+    <a class="ui primary button" href="/organisations/<%=organisation._id%>/survey/<%=survey._id%>" target=_blank>Meer overzichten</a>
+  <%}%>
+<%} else {%>
+<div class="ui placeholder segment">
+    <div class="ui icon header">
+      <i class="dont icon"></i>
+      Nog geen inzendingen
+    </div>
+  </div>
+<%}%>
+
+<div id="countPerDayData" hidden><%=JSON.stringify(countPerDay)%></div>
+<div id="surveyData" hidden><%=JSON.stringify(survey)%></div>
+<div id="standardData" hidden><%=JSON.stringify(standard)%></div>
+<div id="surveyResultsData" hidden><%=JSON.stringify(surveyResults)%></div>
+<%if(typeof school !== 'undefined'){%>
+  <%- include('../partials/school-footer') %>
+<%} else if(typeof organisation !== 'undefined'){%>
+  <%- include('../partials/organisation-footer') %>
+<%}%>
+<%- include('../partials/footer') %>
+
+<script>
+
+  $(document).ready(function() {
+
+    var countPerDayText = $('#countPerDayData').text();
+    var countPerDayData = JSON.parse(countPerDayText);
+    var countPerDayArray = [];
+    Object.keys(countPerDayData).forEach(function(key){
+        countPerDayArray.push({
+            t: new Date(key),
+            y: countPerDayData[key]
+        })
+    });
+    var countPerDayCtx = $('#countPerDay');
+    var chart = new Chart(countPerDayCtx, {
+        type: 'line',
+        data: {
+          datasets: [{
+                label: "Inzendingen per dag",
+                data: countPerDayArray,
+                backgroundColor: "rgba(0,159,227, 0.2)",
+                borderColor: "#009FE3",
+                borderWidth: 2
+            }]
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    time: {
+                        unit: 'day',
+                        displayFormats: {
+                          'day': 'D MMM' 
+                        }
+                    },
+                    ticks: {
+                      source: 'data'
+                    }
+                }],
+                yAxes: [{
+                  ticks: {
+                    beginAtZero: true,
+                    stepSize: 1
+                  }
+                }]
+            },
+            plugins: {
+                datalabels: {
+                    display: false,
+                },
+            },
+            legend: {
+              position: 'bottom'
+            }
+        }
+    });
+    var surveyResultsText = $('#surveyResultsData').text();
+    var surveyResultsData = JSON.parse(surveyResultsText);
+    console.log(surveyResultsData);
+    var standardText = $('#standardData').text();
+    var standardData = JSON.parse(standardText);
+    var skilled = [];
+    var notSkilled = [];
+    var labels = [];
+    var averageScore = [];
+    var minScore = [];
+    var maxScore = [];
+    var dougnutCharts = {};
+    standardData.categories.forEach(function(cat, index, categories){
+      var indexInParent = categories.filter(c => c.parent === cat.parent).findIndex(c => c.name === cat.name);
+      if(indexInParent === 1){
+        labels.push({title: cat.name, parent: cat.parent, fullTitle: cat.title, fullParentTitle: cat.parentTitle});
+      } else {
+        labels.push({title: cat.name, parent: null, fullTitle: cat.title, fullParentTitle: cat.parentTitle});
+      }
+      var countSkilled = 0;
+      var countNotSkilled = 0;
+      var total = 0;
+      var quantity = 0;
+      var min = 100;
+      var max = 0;
+      var yes = 0;
+      var no = 0;
+      var doubt = 0;
+      var later = 0;
+      surveyResultsData.forEach(function(sr){
+        if(sr.flags[cat.name] !== 'undefined' && sr.flags[cat.name]){
+          countNotSkilled ++;
+        } else if(sr.flags[cat.name] !== 'undefined'){
+          countSkilled ++;
+        }
+        if(sr.statistics[cat.name] !== 'undefined'){
+          total += sr.statistics[cat.name];
+          quantity += 1;
+          if(sr.statistics[cat.name] < min){
+            min = sr.statistics[cat.name];
+          }
+          if(sr.statistics[cat.name] > max){
+            max = sr.statistics[cat.name];
+          }
+        }
+        if(sr.result && sr.result.actionPlan && sr.result.actionPlan[cat.name] && sr.result.actionPlan[cat.name].develop){
+          switch(sr.result.actionPlan[cat.name].develop) {
+            case 'J':
+              yes ++
+              break;
+            case 'N':
+              no ++
+              break;
+            case 'T':
+              doubt ++
+              break;
+            case 'L':
+              later ++
+              break;
+            default:
+              // code block
+          }
+        }
+      });
+      skilled.push(countSkilled);
+      notSkilled.push(countNotSkilled);
+      averageScore.push(quantity === 0 ? 0 : Math.round(total / quantity));
+      minScore.push(min);
+      maxScore.push(max);
+
+      //create dougnut for each
+      var doughnutCtx = $('#'+ cat.name);
+      dougnutCharts[cat.name] = new Chart(doughnutCtx, {
+          type: 'doughnut',
+          data: {
+            datasets: [{
+                data: [yes, no, doubt, later],
+                backgroundColor : [
+                        'rgba(0,159,227, 0.7)',
+                        'rgba(227,6,19, 0.7)',
+                        'rgba(249,178,51, 0.7)',
+                        'rgba(0, 0, 0, 0.7)'
+                    ],
+                borderColor: [
+                        'rgba(0,159,227, 1)',
+                        'rgba(227,6,19,1)',
+                        'rgba(249,178,51, 1)',
+                        'rgba(0, 0, 0, 1)'
+                    ]
+            }],
+            labels: [
+                'Ja',
+                'Nee',
+                'Twijfel',
+                'Later'
+            ]
+         },
+         options: {
+          legend: {
+              position: 'right'
+            }
+         }
+      });
+    })
+    var countSkilledCtx = $('#countSkilled');
+    var chart = new Chart(countSkilledCtx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+                  label: "Onbekwaam",
+                  data: notSkilled,
+                  backgroundColor: "rgba(227,6,19, 0.5)",
+                  borderColor: "rgba(227,6,19, 1)",
+                  borderWidth: 2,
+                  xAxisID:'axis1'
+            },
+            {
+                  label: "Vaardig",
+                  data: skilled,
+                  backgroundColor: "rgba(0,159,227, 0.5)",
+                  borderColor: "rgba(0,159,227, 1)",
+                  borderWidth: 2,
+                  xAxisID:'axis1'
+            }
+          ]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                  stacked: true,
+                  ticks: {
+                    beginAtZero: true,
+                    minStepSize: 1
+                  }
+                }],
+                xAxes: [
+                  {
+                    id: 'axis1',
+                    stacked: true,
+                    ticks:{
+                      callback:function(label){
+                        return label.title
+                      }
+                    }
+                  },
+                  {
+                    id: 'axis2',
+                    type: 'category',
+                    position: 'top',
+                    gridLines: {
+                      drawOnChartArea: false, // only want the grid lines for one axis to show up
+                    },
+                    ticks:{
+                      callback:function(label){
+                        return label.parent
+                      },
+                      minRotation: 0,
+                      maxRotation: 0,
+                      autoSkip: false,
+                    },
+
+                  }
+                ]
+            },
+            plugins: {
+                datalabels: {
+                    display: false,
+                },
+            },
+            tooltips: {
+              callbacks: {
+                  label: function(tooltipItem, data) {
+                      return data.datasets[tooltipItem.datasetIndex].label + ': ' + tooltipItem.value + ' (' + labels[tooltipItem.index].fullTitle + '-' + labels[tooltipItem.index].fullParentTitle + ')';
+                  }
+              }
+            },
+            legend: {
+              position: 'bottom'
+            }
+        }
+    });
+    var averageScoreCtx = $('#averageScoreChart');
+    var chart = new Chart(averageScoreCtx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+                  label: "Gemiddelde score",
+                  data: averageScore,
+                  backgroundColor: "rgba(0,159,227, 0.5)",
+                  borderColor: "rgba(0,159,227, 1)",
+                  borderWidth: 2,
+                  xAxisID:'axis1'
+            },
+            {
+                  label: "Minimum score",
+                  data: minScore,
+                  fill: false,
+                  backgroundColor: "rgba(227,6,19, 1)",
+                  borderColor: "rgba(227,6,19, 1)",
+                  borderWidth: 1.5,
+                  xAxisID:'axis1',
+                  type: 'line',
+                  steppedLine: 'middle',
+                  pointRadius: 0
+            },
+            {
+                  label: "Maximum score",
+                  data: maxScore,
+                  fill: false,
+                  backgroundColor: "black",
+                  borderColor: "black",
+                  borderWidth: 1.5,
+                  xAxisID:'axis1',
+                  type: 'line',
+                  steppedLine: 'middle',
+                  pointRadius: 0
+            }
+          ]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                  ticks: {
+                    beginAtZero: true,
+                    minStepSize: 1
+                  }
+                }],
+                xAxes: [
+                  {
+                    id: 'axis1',
+                    stacked: true,
+                    ticks:{
+                      callback:function(label){
+                        return label.title
+                      }
+                    }
+                  },
+                  {
+                    id: 'axis2',
+                    type: 'category',
+                    position: 'top',
+                    gridLines: {
+                      drawOnChartArea: false, // only want the grid lines for one axis to show up
+                    },
+                    ticks:{
+                      callback:function(label){
+                        return label.parent
+                      },
+                      minRotation: 0,
+                      maxRotation: 0,
+                      autoSkip: false,
+                    },
+
+                  }
+                ]
+            },
+            plugins: {
+                datalabels: {
+                    display: false,
+                },
+            },
+            tooltips: {
+              callbacks: {
+                  label: function(tooltipItem, data) {
+                      return data.datasets[tooltipItem.datasetIndex].label + ': ' + tooltipItem.value + ' (' + labels[tooltipItem.index].fullTitle + '-' + labels[tooltipItem.index].fullParentTitle + ')';
+                  }
+              }
+            },
+            legend: {
+              position: 'bottom'
+            }
+        }
+    });
+
+  });
+</script>

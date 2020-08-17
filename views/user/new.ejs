@@ -1,7 +1,7 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
-<% include ../partials/school-header %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
+<%- include('../partials/school-header') %>
 <% var generatedPassword = Math.random().toString(36).substr(2, 8) %>
 
     <h2 class="ui header"><i class="users icon"></i> Medewerker Toevoegen aan <%= school.name %></h2>
@@ -55,5 +55,5 @@
         </form>
     </div>
     
-<% include ../partials/school-footer %>
-<% include ../partials/footer %>
+<%- include('../partials/school-footer') %>
+<%- include('../partials/footer') %>

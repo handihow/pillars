@@ -1,8 +1,8 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
-<% include ../partials/organisation-header %>
-<% include ./hardware-header %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
+<%- include('../partials/organisation-header') %>
+<%- include('./hardware-header') %>
 
 <div id="analysis__container">
 	<div id="surveyResult"></div>
@@ -10,5 +10,5 @@
 <div id="data" hidden><%=JSON.stringify(organisationHardware.hardware)%></div>
 
 
-<% include ../partials/organisation-footer %>
-<% include ../partials/footer %>
+<%- include('../partials/organisation-footer') %>
+<%- include('../partials/footer') %>

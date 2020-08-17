@@ -1,19 +1,9 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
-<% include ../partials/school-header %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
+<%- include('../partials/school-header') %>
+<%- include('../classroom/header') %>
 
-<!-- <h2 class="ui header"><i class="university icon"></i><%= school.name %></h2> -->
-
-<h2 class="ui header">
-  <%if(school.logo || school.uploadedLogo){%><img 
-        class="ui image" 
-        src="<%=school.uploadedLogo ? school.uploadedLogo : school.logo %>"><%}%>
-  <div class="content">
-    <%= school.name %>
-  </div>
-</h2>
-<div class="ui divider"></div>
 <div class="ui modal floorMap">
   <div class="header">Plattegrond</div>
   <div class="image content">
@@ -124,5 +114,5 @@
 </div>
 
 
-<% include ../partials/school-footer %>
-<% include ../partials/footer %>
+<%- include('../partials/school-footer') %>
+<%- include('../partials/footer') %>

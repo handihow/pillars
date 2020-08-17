@@ -1,7 +1,7 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
-<% include ../partials/user-header %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
+<%- include('../partials/user-header') %>
     <h2 class="ui header"><i class="bar chart icon"></i><%=survey.name%></h2>
     <div class="ui two statistics">
         <div class="ui tiny horizontal statistic">
@@ -31,5 +31,5 @@
     </a>
     <button type="button" class="ui button" onclick="goBack()">Terug</button>
 
-<% include ../partials/user-footer%>
-<% include ../partials/footer %>
+<%- include('../partials/user-footer') %>
+<%- include('../partials/footer') %>

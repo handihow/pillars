@@ -28,6 +28,8 @@ var forms = require('./other/form'); //form column information
 var userColumns = require('./user/columns');
 var userHelpers = require('./user/helpers');
 
+var classroomColumns = require('./classroom/columns');
+
 //Definition of config variable
 var config = {};
 //hardware
@@ -71,6 +73,9 @@ config.forms = forms;
 config.user = {};
 config.user.columns = userColumns;
 config.user.helpers = userHelpers;
+
+config.classroom = {};
+config.classroom.columns = classroomColumns;
 
 config.currentSchoolYear = "2020/2021"
 

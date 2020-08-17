@@ -48,7 +48,7 @@ router.get("/", middleware.isSchoolOwner, function(req, res){
                             }
                         });                                
                         res.locals.scripts.footer.chartjs = true;
-                        res.render("competence/index", {
+                        res.render("competence/podd", {
                             school: school,
                             users: school.users, 
                             survey: survey,

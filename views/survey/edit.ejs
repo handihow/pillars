@@ -1,11 +1,11 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
 <%if(schoolLevel){%>
-  <% include ../partials/school-header %>
+  <%- include('../partials/school-header') %>
   <h2 class="ui top attached header">Enquête Bewerken van <%= school.name %></h2>
 <%} else { %>
-  <% include ../partials/organisation-header %>
+  <%- include('../partials/organisation-header') %>
   <h2 class="ui top attached header">Enquête Bewerken</h2>
 <% } %>
   <form class="ui form" action="/organisations/<%=organisation._id%>/survey/<%=survey._id%>?_method=PUT" 
@@ -45,9 +45,9 @@
 
 <%if(schoolLevel){%>
   <div id="schoolId" hidden><%=school._id%></div>
-  <% include ../partials/school-footer %>
+  <%- include('../partials/school-footer') %>
 <%} else {%>
   <div id="organisationId" hidden><%=organisation._id%></div>
-  <% include ../partials/organisation-footer %>
+  <%- include('../partials/organisation-footer') %>
 <% } %>
-<% include ../partials/footer %>
+<%- include('../partials/footer') %>

@@ -1,6 +1,6 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
     
     <h2 class="ui header"><i class="desktop icon"></i></i><%= hardware.type %> - <%= hardware.name %></h2>
     <div id="hardwareForm"></div>
@@ -9,4 +9,4 @@
     <div id="mode" hidden><%= mode %></div>
     <div id="formsCSS" hidden><%= JSON.stringify(formsCSS) %></div>
 
-<% include ../partials/footer %>
+<%- include('../partials/footer') %>

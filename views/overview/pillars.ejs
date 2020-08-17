@@ -1,8 +1,8 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
-<% include ../partials/organisation-header %>
-<% include ../partials/organisation-overview-header %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
+<%- include('../partials/organisation-header') %>
+<%- include('../partials/organisation-overview-header') %>
 
 <div class="ui placeholder segment" id="loader">
   <div class="ui active inverted dimmer">
@@ -49,8 +49,8 @@
 <div id="organisation" data-value="<%=JSON.stringify(organisation)%>"></div> 
 <div id="results" data-value="<%=JSON.stringify(results)%>"></div>
 
-<% include ../partials/organisation-footer %>
-<% include ../partials/footer %>
+<%- include('../partials/organisation-footer') %>
+<%- include('../partials/footer') %>
 
 <script>
   //load jQuery when document is ready

@@ -6,8 +6,8 @@
         <script src="https://unpkg.com/jquery"></script>
         <script src="https://surveyjs.azureedge.net/1.7.26/survey.jquery.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"></script>
-        <!-- <script src="https://unpkg.com/jspdf@1.5.3/dist/jspdf.min.js"></script> -->
-        <!-- <script src="https://surveyjs.azureedge.net/1.7.26/survey.pdf.js"></script> -->
+        <script src="https://unpkg.com/jspdf@1.5.3/dist/jspdf.min.js"></script>
+        <script src="https://surveyjs.azureedge.net/1.7.26/survey.pdf.js"></script>
         <script src="https://unpkg.com/sortablejs@1.7.0/Sortable.js"></script>
         <script src="https://surveyjs.azureedge.net/1.7.26/surveyjs-widgets.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.1.1/exceljs.min.js"></script>
@@ -72,7 +72,7 @@
 
         <div id="surveyElementContainer">
             <%if(isShow){%>
-                <!-- <button class="survey__button" onclick="saveSurveyToPdf()" style="margin:10px">Download PDF</button> -->
+                <button class="survey__button" onclick="saveSurveyToPdf()" style="margin:10px">Download PDF</button>
                 <button class="survey__button" type="button" 
                     onclick="window.open('', '_self', ''); window.close();" style="margin:10px">Sluiten</button>
                 <div id="surveyData" hidden><%= JSON.stringify(surveyResult.result) %></div>

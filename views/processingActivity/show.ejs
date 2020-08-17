@@ -1,10 +1,10 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
 <%if(schoolLevel){%>
-  <% include ../partials/school-header %>
+  <%- include('../partials/school-header') %>
 <%} else { %>
-  <% include ../partials/organisation-header %>
+  <%- include('../partials/organisation-header') %>
 <% } %>
 
  <div class="ui container">
@@ -23,34 +23,34 @@
     <a class="item" data-tab="tenth">10. B.I.V.</a>
   </div>
   <div class="ui bottom attached tab segment active" data-tab="first">
-      <% include show/part1 %>
+      <%- include('show/part1') %>
   </div>
   <div class="ui bottom attached tab segment" data-tab="second">
-      <% include show/part2 %>
+      <%- include('show/part2') %>
   </div>
   <div class="ui bottom attached tab segment" data-tab="third">
-      <% include show/part3 %>
+      <%- include('show/part3') %>
   </div>
   <div class="ui bottom attached tab segment" data-tab="fourth">
-       <% include show/part4 %>
+       <%- include('show/part4') %>
   </div>
   <div class="ui bottom attached tab segment" data-tab="fifth">
-       <% include show/part5 %>
+       <%- include('show/part5') %>
   </div>
   <div class="ui bottom attached tab segment" data-tab="sixth">
-       <% include show/part6 %>
+       <%- include('show/part6') %>
   </div>
   <div class="ui bottom attached tab segment" data-tab="seventh">
-       <% include show/part7 %>
+       <%- include('show/part7') %>
   </div>
   <div class="ui bottom attached tab segment" data-tab="eighth">
-       <% include show/part8 %>
+       <%-include ('show/part8')%>
   </div>
   <div class="ui bottom attached tab segment" data-tab="nineth">
-       <% include show/part9 %>
+       <%- include('show/part9') %>
   </div>
   <div class="ui bottom attached tab segment" data-tab="tenth">
-       <% include show/part10 %>
+       <%- include('show/part10') %>
   </div>
 
 <%if(schoolLevel && !processingActivity.isValidForAllOrganisation){%>
@@ -63,7 +63,7 @@
     action="/schools/<%= school._id %>/processingActivity/<%=processingActivity._id%>?_method=DELETE" 
     method="POST">
     <button class="ui red basic button">Verwijderen</button>
-  <% include ../partials/school-footer %>
+  <%- include('../partials/school-footer') %>
 <%} else if(!schoolLevel) {%>
     <a id="edit" 
     class="ui primary basic button" 
@@ -76,4 +76,4 @@
     <button class="ui red basic button">Verwijderen</button>
     </div>
 <% } %>
-<% include ../partials/footer %>
+<%- include('../partials/footer') %>

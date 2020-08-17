@@ -1,6 +1,6 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
     <div class="ui container">
       <h2 class="ui center aligned header">
         <%if(organisation.logo){%><img class="ui image"  src="<%=organisation.logo%>"><%}%>
@@ -11,15 +11,16 @@
 
       <div class="ui grid stackable">
         <div class="six wide column">
-          <% include ./tasks%>
+          <%- include('./tasks')%>
         </div>
         <div class="six wide column">
-          <% include ./organisation %>
-          <% include ./schools%>
-
+          <%if(currentUser.role !=='student'){%>
+            <%- include('./organisation') %>
+            <%- include('./schools')%>
+          <%}%>
 
           <div class="ui segment">
-            <% include ./profile %>
+            <%- include('./profile') %>
           </div>
         </div>
         <div class="four wide column">
@@ -44,4 +45,4 @@
       </div>
     </div>   
 
-<% include ../partials/footer %>
+<%- include('../partials/footer') %>

@@ -1,12 +1,12 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
 <%if(userview==="school"){ %>
-  <% include ../partials/school-header %>
+  <%- include('../partials/school-header') %>
 <%} else if(userview==="organisation"){%>
-  <% include ../partials/organisation-header %>
+  <%- include('../partials/organisation-header') %>
 <%}%>
-<% include ./header %>
+<%- include('./header') %>
 
 <%if(users.length===0){%>
 <div class="ui placeholder segment">
@@ -23,8 +23,8 @@
 <div id="data" hidden><%=JSON.stringify(users)%></div>
 
 <%if(userview==="school"){ %>
-  <% include ../partials/school-footer %>
+  <%- include('../partials/school-footer') %>
 <%} else if(userview==="organisation"){%>
-  <% include ../partials/organisation-footer %>
+  <%- include('../partials/organisation-footer') %>
 <%}%>
-<% include ../partials/footer %>
+<%- include('../partials/footer') %>

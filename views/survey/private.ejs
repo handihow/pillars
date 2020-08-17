@@ -1,9 +1,9 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
 
 <% if(isShow) { %>
-	<% include ../partials/user-header%>
+	<%- include('../partials/user-header') %>
 	<button class="ui button" id="saveToPDFbtn" style="margin:10px">Download PDF</button>
 	<div class="ui divider"></div>
 	<div id="surveyData" hidden><%= JSON.stringify(surveyResult.result) %></div>
@@ -21,8 +21,8 @@
 	</div>
 
 <% if(isShow) { %>
-	<% include ../partials/user-footer%>
+	<%- include('../partials/user-footer') %>
 <%} else {%>
 	</div>
 <% } %>
-<% include ../partials/footer %>
+<%- include('../partials/footer') %>

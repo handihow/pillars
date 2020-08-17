@@ -1,9 +1,6 @@
 <script>
 
 	var mode = $( '#mode' ).text();
-
-  var formsCSSText = $('#formsCSS').text();
-  var formsCSS = JSON.parse(formsCSSText);
 	
 	var hardwareForm;
 
@@ -14,8 +11,8 @@
 	 	hardwareForm = {"locale":"nl","title":{"nl":"Hardware toevoegen"},"completedHtml":{"nl":"Hardware wordt verwerkt..."},"loadingHtml":{"nl":"Even geduld aub..."},"pages":[{"name":"short","elements":[{"type":"paneldynamic","name":"hardware","title":{"nl":"Voer hardware in"},"templateElements":[{"type":"dropdown","name":"type","startWithNewLine":false,"title":{"nl":"Type hardware"},"isRequired":true,"choices":["Desktop","Multipoint computer","Laptop","Digitaal schoolbord","Tablet","Chromebook","Telefoon","Kopieermachine","Printer","Access Point","Robotica","Beamer","Monitor","Switch","Server","Koptelefoon","Geluidsinstallatie"]},{"type":"text","name":"name","startWithNewLine":false,"title":{"nl":"Naam hardware"},"isRequired":true},{"type":"dropdown","name":"deploymentYear","title":{"nl":"Jaar ingebruikname"},"isRequired":true,"choices":["2020","2019","2018","2017","2016","2015",{"value":"2014","text":{"nl":"Ouder dan 2014"}},{"value":"0","text":{"nl":"Onbekend"}}],"hasOther":true,"otherText":{"nl":"Anders, nl."}},{"type":"dropdown","name":"memory","visibleIf":"{panel.type} contains \"Desktop\" or {panel.type} contains \"Multipoint computer\" or {panel.type} contains \"Laptop\" or {panel.type} contains \"Chromebook\"","startWithNewLine":false,"title":{"nl":"Werkgeheugen (GB)"},"isRequired":true,"choices":[{"value":"2","text":{"nl":"2 GB"}},{"value":"4","text":{"nl":"4 GB"}},{"value":"8","text":{"nl":"8 GB"}},{"value":"16","text":{"nl":"16 GB"}},{"value":"32","text":{"nl":"32 GB"}},{"value":"0","text":{"nl":"Niet van toepassing"}}],"hasOther":true,"otherText":{"nl":"Anders, nl."}},{"type":"text","name":"numberDevices","startWithNewLine":false,"title":{"nl":"Aantal apparaten"},"defaultValue":1,"isRequired":true,"validators":[{"type":"numeric","minValue":1,"maxValue":100}],"inputType":"number"},{"type":"text","name":"numberWorkPlacesMultipoint","visibleIf":"{panel.type} = \"Multipoint computer\"","startWithNewLine":false,"title":{"nl":"Aantal werkplekken per multipoint"},"isRequired":true,"validators":[{"type":"numeric","minValue":1,"maxValue":10}],"inputType":"number"},{"type":"text","name":"screensizeDigibord","visibleIf":"{panel.type} = \"Digitaal schoolbord\"","startWithNewLine":false,"title":{"nl":"Beelddiagonaal in inches"},"isRequired":true,"inputType":"number"},{"type":"boolean","name":"isTouchscreenDigibord","visibleIf":"{panel.type} = \"Digitaal schoolbord\"","startWithNewLine":false,"indent":11,"title":{"nl":"Touchscreen digitaal schoolbord"},"isRequired":true,"labelTrue":"Ja","labelFalse":"Nee"}],"panelCount":1,"minPanelCount":1,"confirmDelete":true,"confirmDeleteText":{"nl":"Weet je zeker dat je deze regel wilt verwijderen?"},"panelAddText":{"nl":"Regel toevoegen"},"panelRemoveText":{"nl":"Regel verwijderen"}}],"title":{"nl":"Snelle invoer"}}],"showTitle":false,"showPageTitles":false,"showQuestionNumbers":"off"}
 	} 
 
-  var survey = new Survey.Model(hardwareForm);
-  $("#hardwareForm").Survey({model: survey, css: formsCSS});
+  window.survey = new Survey.Model(hardwareForm);
+  $("#hardwareForm").Survey({model: survey});
   survey.locale = 'nl';
   var urlParams = new URLSearchParams(window.location.search);
   if(urlParams.has('type')){

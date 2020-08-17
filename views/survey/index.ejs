@@ -1,10 +1,10 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
 <%if(schoolLevel){%>
-<% include ../partials/school-header %>
+<%- include('../partials/school-header') %>
 <% } else {%>
-  <% include ../partials/organisation-header %> 
+  <%- include('../partials/organisation-header') %> 
 <%}%>
 
 <div class="ui container">
@@ -20,6 +20,10 @@
       <%if(typeof organisation.settings !== 'undefined' && organisation.settings.competenceNew){%>
       <a class="item" href="/organisations/<%=organisation._id%>/survey/podd/competence">
         Pillars Overzicht Digitale Deskundigheid</a>
+      <%}%>
+      <%if(typeof organisation.settings !== 'undefined' && organisation.settings.competenceStudents){%>
+      <a class="item" href="/organisations/<%=organisation._id%>/survey/ddl/competence">
+        Digitale Deskundigheid Leerlingen</a>
       <%}%>
       <div class="item">
         Deskundigheidstests Pillars
@@ -117,8 +121,8 @@
     </div>
 
     <%if(schoolLevel){%>
-  <% include ../partials/school-footer %>
+  <%- include('../partials/school-footer') %>
 <%} else {%>
-  <% include ../partials/organisation-footer%>
+  <% include('../partials/organisation-footer') %>
 <% } %>
-<% include ../partials/footer %>
+<%- include('../partials/footer') %>

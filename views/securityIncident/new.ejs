@@ -1,10 +1,10 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
 <%if(schoolLevel){%>
-  <% include ../partials/school-header %>
+  <%- include('../partials/school-header') %>
 <%} else { %>
-	 <% include ../partials/organisation-header %>
+	 <%- include('../partials/organisation-header') %>
 <%}%>
     <h2 class="ui header">Beveiligingsincident Toevoegen</h2>
     <div id="securityIncidentForm"></div>
@@ -15,5 +15,5 @@
 <%} else {%>
   <div id="organisationId" hidden><%= organisation._id%></div>
 <% } %>
-<% include ../partials/school-footer %>
-<% include ../partials/footer %>
+<%- include('../partials/school-footer') %>
+<%- include('../partials/footer') %>

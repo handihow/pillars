@@ -1,0 +1,69 @@
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
+<%if(typeof school !== 'undefined'){%>
+  <%- include('../partials/school-header') %>
+<%} else if(typeof organisation !== 'undefined'){%>
+  <%- include('../partials/organisation-header') %>
+<%}%>
+<%if(typeof school !== 'undefined'){%>
+	<a class="ui right floated primary button" href="/schools/<%=school._id%>/classroom">Beheer klassen</a>
+<%}%>
+<h2 class="ui header"><i class="student icon"></i></i>Digitale Deskundigheid Leerlingen</h2>
+<div class="ui divider"></div>	
+
+<%if(classrooms.length===0){%>
+  <div class="ui placeholder segment">
+    <div class="ui icon header">
+      <i class="dont icon"></i>
+      Nog geen klassen.
+    </div>
+    <%if(typeof school !== 'undefined'){%>
+    	<a class="ui primary button" href="/schools/<%=school._id%>/classroom">Beheer klassen</a>
+    <%}%>
+  </div>
+<%}%>
+
+<div class="ui cards">
+<%classrooms.forEach(function(classroom){%>
+	<div class="ui card">
+	  <div class="ui top attached progress" data-percent="<%= Math.ceil(classroom.numberOfSurveys / classroom.numberStudents * 100)%>">
+	    <div class="bar"></div>
+	  </div>
+	  <div class="content">
+	    <div class="header"><%= classroom.name %></div>
+	    <div class="meta">
+	       <%=classroom.level%>
+	    </div>
+	    <div class="description">
+	      
+	      <span class="date">
+		      <i class="code icon"></i>
+		      <%=classroom._id%>
+		    </span>
+	    </div>
+	  </div>
+	  <div class="extra content">
+	  	<button class="ui secondary button login__procedure" >Inlogprocedure</button>
+	  	<a class="ui primary button <%if(classroom.numberOfSurveys===0){%> disabled <%}%>" 
+	  		href="/schools/<%=school._id%>/classroom/<%=classroom._id%>">Resultaten</a>
+	  </div>
+	</div>
+<%})%>
+</div>
+
+<%if(typeof school !== 'undefined'){%>
+  <%- include('../partials/school-footer') %>
+<%} else if(typeof organisation !== 'undefined'){%>
+  <%- include('../partials/organisation-footer') %>
+<%}%>
+<%- include('../partials/footer') %>
+
+<script>
+	$(document).ready(function() {
+		$(".login__procedure").click(function(){
+			console.log('clicked ' + $(".login__procedure").index(this));
+	      });
+	});
+
+</script>

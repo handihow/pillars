@@ -1,7 +1,7 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
-<% include ../partials/school-header %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
+<%- include('../partials/school-header') %>
 
 <h2 class="ui header">
   <i class="tablet alternate icon"></i>Digitale Leermiddelen voor <%= subject %> Toevoegen aan <%= school.name %>
@@ -45,12 +45,12 @@
   </div>
   <!--NON-CORE SUBJECTS-->
   <% if(subject === config.subjects.noncore) { %> 
-    <% include ./new/noncore %>
+    <%- include('./new/noncore') %>
   <% } else { %>
   <!--CORE SUBJECTS -->
     <!-- INPUT FOR THE CORE SUBJECT -->
     <% if(subject === config.subjects.ict) { %>
-      <% include ./new/ict %>
+      <%- include('./new/ict') %>
     <% } else { %>
       <input type="hidden" name="software[subject]" value="<%= subject %>">
     <% } %>
@@ -120,5 +120,5 @@
   <div class="ui error message"></div>
 </form>
 
-<% include ../partials/school-footer %>
-<% include ../partials/footer %>
+<%- include('../partials/school-footer') %>
+<%- include('../partials/footer') %>

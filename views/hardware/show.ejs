@@ -1,6 +1,6 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
 
 <div class="ui container">
 <h2 class="ui header"><i class="desktop icon"></i></i><%= hardware.type %> - <%= hardware.name %></h2>
@@ -109,4 +109,4 @@
 <div class="ui divider"></div>
 <button type="button" class="ui button" onclick="goBack()">Terug</button>
 
-<% include ../partials/footer %>
+<%- include('../partials/footer') %>

@@ -1,6 +1,6 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
 <%var name='Medewerker'; var compareName= user.role == 'sadmin' || user.role == 'suser' ? 'School' : 'Bestuur';%>
  <h2 class="ui center aligned icon header">
     <i class="file pdf icon"></i>
@@ -70,4 +70,4 @@
 <div id="surveysInfo" hidden><%= JSON.stringify(surveys)%></div>
 <div id="resultsInfo" hidden><%= JSON.stringify(results)%></div>
     
-<% include ../partials/footer %>
+<%- include('../partials/footer') %>

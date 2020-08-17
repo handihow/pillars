@@ -142,7 +142,7 @@ router.post("/csv-import", middleware.isNotDemoAccount, middleware.isSchoolOwner
    newHardwareItems.forEach(function(hardware, i, a){
     if(!hardware.type){hardware.type="Desktop"}
     hardware.owner = req.user._id;
-    hardware.school = req.params.id;
+    hardware.school = mongoose.Types.ObjectId(req.params.id);
     newHardware.push(hardware);
   });
    //store the newHardware array to the database

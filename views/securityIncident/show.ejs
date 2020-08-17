@@ -1,10 +1,10 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
 <%if(schoolLevel){%>
-  <% include ../partials/school-header %>
+  <%- include('../partials/school-header') %>
 <%} else { %>
- <% include ../partials/organisation-header %>
+ <%- include('../partials/organisation-header') %>
 <%}%>
 
 <h2 class="ui header"><i class="shield alternate icon"></i><%=securityIncident.securityIncidentName%></h2>
@@ -24,7 +24,7 @@
     action="/schools/<%= school._id %>/securityIncident/<%=securityIncident._id%>?_method=DELETE" 
     method="POST">
     <button class="ui red basic button">Verwijderen</button>
-  <% include ../partials/school-footer %>
+  <%- include('../partials/school-footer') %>
 <%} else if(!schoolLevel) {%>
     <a id="edit" 
     class="ui primary basic button" 
@@ -38,5 +38,5 @@
     </div>
 <% } %>
 
-<% include ../partials/school-footer%>
-<% include ../partials/footer %>
+<%- include('../partials/school-footer')%>
+<%- include('../partials/footer') %>

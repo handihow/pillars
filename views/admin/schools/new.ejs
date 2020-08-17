@@ -1,7 +1,7 @@
-<% include ../../partials/header %>
-<% include ../../partials/main-menu %>
-<% include ../../partials/flash-message %>
-<% include ../../partials/admin-header %>
+<%- include('../../partials/header') %>
+<%- include('../../partials/main-menu') %>
+<%- include('../../partials/flash-message') %>
+<%- include('../../partials/admin-header') %>
 
     <div class="ui center aligned header">Scholen uit DUO Database Toevoegen</div>
     <form class="ui tiny form" action="/admin/schools" method="POST" id="scholenToevoegen" novalidate>
@@ -64,5 +64,5 @@
           <button class="ui button" type="submit">Bewaren</button>
     </form>
 
-<% include ../../partials/admin-footer %>
-<% include ../../partials/footer %>
+<%- include('../../partials/admin-footer') %>
+<%- include('../../partials/footer') %>

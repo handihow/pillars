@@ -1,13 +1,13 @@
-<% include ../partials/header %>
-<% include ../partials/main-menu %>
-<% include ../partials/flash-message %>
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
 <%if(schoolLevel){%>
-  <% include ../partials/school-header %>
+  <%- include('../partials/school-header') %>
 
   <h2 class="ui top attached header">Verwerkingsovereenkomst Toevoegen aan <%= school.name %></h2>
   <form class="ui small form" action="/schools/<%=school._id%>/processingActivity" method="POST" id="processingActivityForm">
 <%} else { %>
-  <% include ../partials/organisation-header %>
+  <%- include('../partials/organisation-header') %>
   <h2 class="ui header">Verwerkingsovereenkomst Toevoegen</h2>
   <form class="ui small form" action="/organisations/<%=organisation._id%>/processingActivity" method="POST" 
     id="processingActivityForm">
@@ -25,41 +25,41 @@
     <a class="item" data-tab="tenth">10. B.I.V.</a>
   </div>
   <div class="ui bottom attached tab segment active" data-tab="first">
-      <% include new/part1 %>
+      <%- include('new/part1')%>
   </div>
   <div class="ui bottom attached tab segment" data-tab="second">
-      <% include new/part2 %>
+      <%- include('new/part2')%>
   </div>
   <div class="ui bottom attached tab segment" data-tab="third">
-      <% include new/part3 %>
+      <%- include('new/part3')%>
   </div>
   <div class="ui bottom attached tab segment" data-tab="fourth">
-       <% include new/part4 %>
+       <%- include('new/part4')%>
   </div>
   <div class="ui bottom attached tab segment" data-tab="fifth">
-       <% include new/part5 %>
+       <%- include('new/part5')%>
   </div>
   <div class="ui bottom attached tab segment" data-tab="sixth">
-       <% include new/part6 %>
+       <%- include('new/part6')%>
   </div>
   <div class="ui bottom attached tab segment" data-tab="seventh">
-       <% include new/part7 %>
+       <%- include('new/part7')%>
   </div>
   <div class="ui bottom attached tab segment" data-tab="eighth">
-       <% include new/part8 %>
+       <%- include('new/part8')%>
   </div>
   <div class="ui bottom attached tab segment" data-tab="nineth">
-       <% include new/part9 %>
+       <%- include('new/part9')%>
   </div>
   <div class="ui bottom attached tab segment" data-tab="tenth">
-       <% include new/part10 %>
+       <%- include('new/part10') %>
   </div>
   <button class="ui button" type="submit">Bewaren</button>
   <div class="ui error message"></div>
 </form>
 <%if(schoolLevel){%>
-  <% include ../partials/school-footer %>
+  <%- include('../partials/school-footer') %>
 <%} else {%>
-  <% include ../partials/organisation-footer %>
+  <%- include('../partials/organisation-footer') %>
 <% } %>
-<% include ../partials/footer %>
+<%- include('../partials/footer') %>
