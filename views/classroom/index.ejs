@@ -62,16 +62,19 @@
     <div class="content">
 	    <h5>Instructies voor leerlingen</h5>
 	    <ol>
-	    	<li>Ga naar <a href="https://pillars.school" target=_blank>https://pillars.school</a></li>
-	    	<li>Klik op "Inloggen". Deze knop staat op de home pagina en ook rechts bovenin de menu balk</li>
-	    	<li>Op het inlogscherm, klik op de knop "Klascode invoeren"</li>
-	    	<li>De klascode voor <span class="classroom__name"></span> is <strong id="classroom__code"></strong></li>
+	    	<li>Ga naar <a href="https://app.pillars.school/ddl" target=_blank>https://app.pillars.school/ddl</a></li>
+	    	<li>Voer de klascode in. De klascode voor <span class="classroom__name"></span> is <strong id="classroom__code"></strong></li>
 	    	<li>Er wordt automatisch een leerlingaccount gemaakt en de leerling kan beginnen met de test</li>
 	    </ol>
 	    <h5>Overige informatie</h5>
 	    <ul>
-	    	<li>Het maximum aantal leerlingaccounts voor deze klas is <strong id="classroom__studentCount"></strong> (dit is het aantal leerlingen + 1)</li>
-	    	<li>De app geeft een foutmelding als het maximum aantal is bereikt. Er kunnen dan geen tests meer worden gedaan met deze klascode.</li>
+	    	<li>Het maximum aantal leerlingaccounts voor deze klas is <strong id="classroom__studentCount"></strong> (dit is het aantal leerlingen + 1).</li>
+	    	<li>De automatische gebruikersnaam van de leerling is een uniek nummer van 6 cijfers.</li>
+	    	<li>Het wachtwoord van het leerlingaccount is de klascode.</li>
+	    	<li>Leerlingen kunnen later m.b.v. deze gebruikersnaam/wachtwoord combinatie opnieuw inloggen.</li>
+	    	<li>Leerlingen kunnen tijdens de test optioneel hun naam invullen (of anoniem blijven door dit niet te doen).</li>
+	    	<li>Leerlingen kunnen (eventueel) het account omzetten op hun school email adres en zelf een nieuw wachtwoord kiezen.</li>
+	    	<li>De app geeft een foutmelding als het maximum aantal is bereikt. Er kunnen dan geen leerling accounts meer worden gemaakt met deze klascode.</li>
 	    </ul>
 	 
 	 </div>
@@ -102,9 +105,9 @@
 			$('.classroom__name').text(classroom.name);
 			$('#classroom__code').text(classroom._id);
 			$('#classroom__studentCount').text(classroom.numberStudents + 1);
-			var subject = encodeURIComponent('Pillars Digitale Deskundigheid Leerlingen');
-			var body = encodeURIComponent("Ga naar https://pillars.school \n Klik op 'Inloggen' \n Klik op de knop 'Klascode invoeren' \n De klascode voor " + classroom.name + " is \n \n" + classroom._id);
-			var emailUrl = "mailto:abc@example.com?subject=" + subject + "&body=" + body;
+			var subject = encodeURIComponent('Digitale Deskundigheid Leerlingen');
+			var body = encodeURIComponent("Ga naar het volgende web adres: \n \n https://app.pillars.school/ddl \n \n Voer de klascode in. De klascode voor " + classroom.name + " is: \n \n" + classroom._id);
+			var emailUrl = "mailto:?subject=" + subject + "&body=" + body;
 			$('#mailto__button').attr("href", emailUrl);
 			$('#procedure__modal').modal('show');
 	      });

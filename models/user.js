@@ -27,6 +27,10 @@ var UserSchema = new mongoose.Schema({
   school: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "School"
+  }],
+  classroom: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Classroom"
   }], 
   tests: [{
     type: mongoose.Schema.Types.ObjectId,

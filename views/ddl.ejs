@@ -1,0 +1,48 @@
+<%- include('./partials/header') %>
+<%- include('./partials/flash-message') %>
+
+<div class="home-container">
+  <div class="home-box">
+      <div class="ui large inverted header">Klascode invoeren</div>
+      <form action="/ddl" method="post" class="ui inverted form" id="ddl">
+        <div class="field">
+          <label for="klascode">Klascode</label>
+          <input name="classroom" placeholder="Klascode">
+          <small>Alvast success met de test!</small>
+        </div>
+        <button type="submit" class="ui primary button">Test beginnen</button>
+        <div class="ui error message"></div>
+      </form>
+  </div> 
+</div>
+
+    <ul class="slideshow">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+
+<%- include('./partials/footer') %>
+
+<script>
+  $('#ddl')
+  .form({
+    fields: {
+      classroom: {
+        identifier: 'classroom',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Klascode is verplicht'
+          },
+          {
+            type   : 'exactLength[24]',
+            prompt : 'Klascode heeft {ruleValue} tekens'
+          }
+        ]
+      },
+    }
+  })
+</script>

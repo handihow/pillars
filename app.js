@@ -62,6 +62,7 @@ var verifyEmailRoutes = require("./routes/user/verify-email");
 var loginRoutes = require("./routes/user/login");
 var registerRoutes = require("./routes/user/register");
 var retrievePasswordRoutes = require("./routes/user/retrieve-password");
+var startStudentTestRoutes = require("./routes/user/ddl");
 var indexRoutes = require("./routes/index");
 //ROUTES API CALLS
 var emailApiRoutes = require('./routes/api/emails');
@@ -237,6 +238,7 @@ app.use("/admin/users", adminUserRoutes);
 app.use("/admin", adminRoutes);
 //HOME PAGES
 app.use("/verify", verifyEmailRoutes);
+app.use("/ddl", startStudentTestRoutes);
 app.use("/", loginRoutes);
 app.use("/", registerRoutes);
 app.use("/", retrievePasswordRoutes);
