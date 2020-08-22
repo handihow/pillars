@@ -164,7 +164,7 @@
     <a class="ui primary button" href="/organisations/<%=organisation._id%>/survey/<%=survey._id%>" target=_blank>Meer overzichten</a>
   <%}%>
 <%} else {%>
-<div class="ui placeholder segment">
+  <div class="ui placeholder segment">
     <div class="ui icon header">
       <i class="dont icon"></i>
       Nog geen inzendingen
@@ -241,7 +241,6 @@
     });
     var surveyResultsText = $('#surveyResultsData').text();
     var surveyResultsData = JSON.parse(surveyResultsText);
-    console.log(surveyResultsData);
     var standardText = $('#standardData').text();
     var standardData = JSON.parse(standardText);
     var skilled = [];

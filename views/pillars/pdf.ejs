@@ -19,8 +19,6 @@
     </div>
   </div>
   <div class="ui divider"></div>
-  <% var statColumnWidth = "eight"%>
-  <% var imgColumnWidth = "eight"%>
   <div class="pdf-content enable_horizontal_scroll">
       <div class="pdf__page">
         <h2 class="ui header">
@@ -31,19 +29,19 @@
             <%= school.name %>
           </div>
         </h2>
-        <%- include('./show/total') %> 
+        <%- include('./show/total', {statColumnWidth: "eight", imgColumnWidth: "eight"}) %> 
       </div>
       <div class="pdf__page">
-        <%- include('./show/hardware') %> 
+        <%- include('./show/hardware', {statColumnWidth: "eight", imgColumnWidth: "eight"}) %> 
       </div>
       <div class="pdf__page">
-        <%- include('./show/software') %> 
+        <%- include('./show/software', {statColumnWidth: "eight", imgColumnWidth: "eight"}) %> 
       </div>
       <div class="pdf__page">
-        <%- include('./show/competence') %>
+        <%- include('./show/competence', {statColumnWidth: "eight", imgColumnWidth: "eight"}) %>
       </div>
       <div class="pdf__page">
-        <%- include('./show/management') %>
+        <%- include('./show/management', {statColumnWidth: "eight", imgColumnWidth: "eight"}) %>
       </div>
   </div>
 

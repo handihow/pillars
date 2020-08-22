@@ -2,7 +2,7 @@
 
 <div class="ui divider"></div>
 <%if(typeof school !== 'undefined'){%>
-  <div class="ui icon buttons">
+  <div class="ui small basic icon buttons">
     <a class="ui <%if(url===("/schools/"+school._id+"/user")){ %> active <%}%> button" 
         href="/schools/<%=school._id%>/user"
         data-content="Lijst met accounts">
@@ -25,7 +25,7 @@
     </a>
   </div>
   <div class="ui dropdown item">
-      <a class="ui icon button" data-content="Accounts toevoegen"><i class="add icon"></i></a>
+      <a class="ui small basic icon button" data-content="Accounts toevoegen"><i class="add icon"></i></a>
       <div class="menu">
         <a class="item" href="/schools/<%=school._id%>/user/new/"><i class="add user icon"></i> Account Toevoegen met Email/Wachtwoord</a>
         <a class="item" href="/schools/<%=school._id%>/user/newSocial/"><i class="add user icon"></i> Account Toevoegen met Schoolaccount (Google / Office365)</a>
@@ -36,7 +36,7 @@
       </div>
   </div>
 <%} else if(typeof organisation !== 'undefined'){%>
-  <div class="ui icon buttons">
+  <div class="ui small basic icon buttons">
     <a class="ui <%if(url===("/organisations/"+organisation._id+"/org-user")){ %> active <%}%> button" 
         href="/organisations/<%=organisation._id%>/org-user"
         data-content="Lijst met accounts">
@@ -59,7 +59,7 @@
     </a>
   </div>
   <div class="ui dropdown item">
-      <a class="ui icon button" data-content="Accounts toevoegen"><i class="add icon"></i></a>
+      <a class="ui small basic icon button" data-content="Accounts toevoegen"><i class="add icon"></i></a>
       <div class="menu">
             <a class="item" href="/organisations/<%=organisation._id%>/org-user/new/">Bestuur Toevoegen met Email/Wachtwoord</a>
             <a class="item" href="/organisations/<%=organisation._id%>/org-user/newSocial/">Bestuur Toevoegen met Schoolaccount</a>

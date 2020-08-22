@@ -8,7 +8,7 @@
   </div>
 </h2>
 <% if(!(currentUser.role==="suser")) { %>
-<div class="ui icon buttons">
+<div class="ui small basic icon buttons">
   <a class="ui <%if(url===("/schools/"+school._id)){ %> active <%}%> button" 
       href="/schools/<%=school._id%>" 
       data-content="Algemene informatie">

@@ -1,5 +1,5 @@
 <h2 class="ui centered header">Hardware</h2>
-<div class="ui icon buttons">
+<div class="ui small basic icon buttons">
   <a class="ui <%if(url===("/schools/"+school._id+"/hardware")){ %> active <%}%> button" 
       href="/schools/<%=school._id%>/hardware" 
       data-content="Kaarten met totalen">
@@ -22,7 +22,7 @@
   </a>
 </div>
 <% if(!(currentUser.role==="suser")) { %>
-  <div class="ui icon buttons">
+  <div class="ui small basic icon buttons">
     <a class="ui <%if(url===("/schools/"+school._id+"/hardware/csv-import")){ %> active <%}%> button" 
         href="/schools/<%=school._id%>/hardware/csv-import"
         data-content="Upload lijst met hardware">
@@ -35,7 +35,7 @@
     </a>
   </div>
   <div class="ui dropdown item">
-      <a class="ui icon button" data-content="Hardware toevoegen"><i class="add icon"></i></a>
+      <a class="ui small basic icon button" data-content="Hardware toevoegen"><i class="add icon"></i></a>
       <div class="menu">
         <a class="item" href="/schools/<%=school._id%>/hardware/new/short">
           Snel toevoegen

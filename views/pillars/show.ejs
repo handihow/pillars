@@ -42,19 +42,17 @@
       <% } %>
       <!-- RESULT VARIABLE -->   
       <div id="result" data-value="<%=JSON.stringify(result)%>"></div>
-      <% var statColumnWidth = "five"%>
-      <% var imgColumnWidth = "eleven"%>
-      <%- include(' ./show/total') %>
+      <%- include('./show/total', {statColumnWidth: "five", imgColumnWidth: "eleven"}) %>
       <!--HARDWARE-->
-      <%- include(' ./show/hardware') %>
+      <%- include('./show/hardware', {statColumnWidth: "five", imgColumnWidth: "eleven"}) %>
       <!--SOFTWARE-->
-      <%- include(' ./show/software') %>
+      <%- include('./show/software', {statColumnWidth: "five", imgColumnWidth: "eleven"}) %>
       <!--COMPETENCE-->
-      <%- include(' ./show/competence') %>
+      <%- include('./show/competence', {statColumnWidth: "five", imgColumnWidth: "eleven"}) %>
       <!--MANAGEMENT-->
-      <% -include ('./show/management') %>
+      <% -include ('./show/management', {statColumnWidth: "five", imgColumnWidth: "eleven"}) %>
   </div>
 
 <%- include('../partials/school-footer') %>
 <%- include('../partials/footer') %>
-<%- include(' ./logic') %>
+<%- include('./logic') %>
