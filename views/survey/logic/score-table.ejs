@@ -1,0 +1,266 @@
+<script>
+
+    if (typeof Survey == "undefined") {
+       console.log('survey model not defined');
+	}
+
+	var resultsInfo = $( '#surveyResults' ).text();
+
+	var result = JSON.parse(resultsInfo || '[]');
+
+	if(result.length===0){
+		console.log('no survey results');
+	}
+
+	var surveyInfoText = $( '#surveyText' ).text();
+
+	var surveyInfo = JSON.parse(surveyInfoText || '[]');
+
+	if(surveyInfo.competenceStandardKey === 'podd'){
+		setCustomSurveyProperties();
+	}
+
+	var surveyData = surveyInfo.survey;
+
+	var survey = new Survey.Model(surveyData);
+
+	var results = result.map(function(r) {
+        	returnedData = r.result || {};
+        	if(!surveyInfo.isPublic && Object.keys(returnedData).length > 0){
+        		returnedData.firstName = r.user.firstName ? r.user.firstName : '-';
+        		returnedData.lastName = r.user.lastName ? r.user.lastName : '-';
+        		returnedData.email = r.user.username ? r.user.username : '-';
+        		returnedData.function = r.user.publicProfile && r.user.job ? r.user.job : '-';
+        		returnedData.age = r.user.publicProfile && 
+        								r.user.dateOfBirth ? ~~((Date.now() - new Date(r.user.dateOfBirth)) / (31557600000)) : 
+        								'-';
+        		returnedData.gender = r.user.publicProfile && r.user.gender ? r.user.gender : '-';
+        		returnedData.gradeLevel = r.user.publicProfile && r.user.gradeLevelGroup ? r.user.gradeLevelGroup : '-';
+        		returnedData.isTeacher = r.user.publicProfile &&  r.user.isTeacher ? 'onderwijzend' : 'ondersteunend of -';
+        		returnedData.organisation = r.user ? r.user.organisation.name : '-';
+        		returnedData.school = r.user ? r.user.school.map(s => s.name).join() : '-';
+        		returnedData.city = r.user ? r.user.school.map(s => s.city).join() : '-';
+        	}
+        	returnedData.date = r.createdAt ? r.createdAt.slice(0,10).split('-').reverse().join('/') : '-';
+        	returnedData.link = r.user.publicProfile ? '<a href="/survey/' + r._id + '/result" target=_blank>Inzending</a>' : 'Geen inzage';
+        	if(surveyInfo.isCompetenceSurvey){
+        		returnedData.chart = r.user._id && r.user.publicProfile ? '<a href="/survey/' + r.survey + '/' + r.user._id + '" target=_blank>Grafiek</a>' : 'Geen inzage';	
+        	}
+          return returnedData;
+        });
+
+	    var standardColumns = [];
+	 	
+	 	standardColumns.push({
+	 		data: 'date',
+	 		sTitle: 'Datum'
+	 	})
+
+	 	if(!surveyInfo.isPublic){
+	 		standardColumns.push({
+		 		data: 'firstName',
+		 		sTitle: 'Voornaam',
+		 		bVisible: true
+		 	});
+		 	standardColumns.push({
+		 		data: 'lastName',
+		 		sTitle: 'Achternaam',
+		 		bVisible: true
+		 	});
+		 	standardColumns.push({
+		 		data: 'email',
+		 		sTitle: 'Email'
+		 	});
+		 	standardColumns.push({
+		 		data: 'function',
+		 		sTitle: 'Functie',
+		 		bVisible: false
+		 	});
+		 	standardColumns.push({
+		 		data: 'age',
+		 		sTitle: 'Leeftijd',
+		 		bVisible: false
+		 	});
+		 	standardColumns.push({
+		 		data: 'gender',
+		 		sTitle: 'Geslacht',
+		 		bVisible: false
+		 	});
+		 	standardColumns.push({
+		 		data: 'gradeLevel',
+		 		sTitle: 'Bouw',
+		 		bVisible: false
+		 	});
+		 	standardColumns.push({
+		 		data: 'isTeacher',
+		 		sTitle: 'Personeeltype',
+		 		bVisible: false
+		 	});
+		 	standardColumns.push({
+		 		data: 'organisation',
+		 		sTitle: 'Organisatie',
+		 		bVisible: false
+		 	});
+		 	standardColumns.push({
+		 		data: 'school',
+		 		sTitle: 'School',
+		 		bVisible: false
+		 	});
+		 	standardColumns.push({
+		 		data: 'city',
+		 		sTitle: 'Plaatsnaam',
+		 		bVisible: false
+		 	});
+	 	};
+
+	 	standardColumns.push({
+		    	data: 'link',
+		    	sTitle: 'Bekijk',
+		    	sortable: false
+		    });
+
+	 	if(surveyInfo.isCompetenceSurvey){
+		 	standardColumns.push({
+			    	data: 'chart',
+			    	sTitle: 'Grafiek',
+			    	sortable: false
+			    });
+		}
+
+		var surveyQuestions;
+	    if(surveyInfo.competenceStandardKey==='podd'){
+	    	surveyQuestions = survey.getAllQuestions().filter(q => q.istestquestion);
+	    	console.log(surveyQuestions.map(sq => sq.title))
+	    } else {
+	    	surveyQuestions = survey.getAllQuestions();
+	    }
+
+      	var surveyColumns = surveyQuestions.map(function(q, i) {
+      	  // var maxColumnsFromSurvey = surveyInfo.isPublic ? 4 : 1;
+          return {
+          	type: q.getType(),
+          	choices: ['radiogroup','checkbox','dropdown'].includes(q.getType()) ? q.choices.map(c => c.text) : [],
+          	values: ['radiogroup','checkbox','dropdown'].includes(q.getType()) ? q.choices.map(c => c.value) : [],
+          	question: q,
+            data: q.name,
+            tooltip: q.title ? q.title : q.name,
+            sTitle: (i+1).toString(),
+            className: 'dt-body-right',
+            // sTitle: (q.title || "").trim(" ") || q.name,
+            // bVisible: i > maxColumnsFromSurvey ? false : true,
+            mRender: function(data, type, row) {
+              survey.data = row;
+              var value = q.value;
+              var text = '-';
+              if(surveyInfo.competenceStandardKey === 'podd' || surveyInfo.competenceStandardKey === 'ddl'){
+              	var index = result.findIndex(r => r.user._id === row._id);
+              	if(index>-1 && typeof result[index]['questionScores'][q.name] !== 'undefined'){
+              		text = result[index]['questionScores'][q.name] + '%';
+              	}
+              } else if(surveyInfo.competenceStandardKey === 'podd'){
+              	text = '-';
+              } else if(value === "true" || (typeof value === 'boolean' && value)){
+              	text = "100%"
+              } else if (value === "false" || typeof value === 'boolean') {
+                text = "0%"	
+              } else if(typeof value !== 'undefined') {
+              	text = (parseFloat(value) * 100).toString() + "%"
+              }
+              return "<div data-variation='very wide' data-tooltip='" + q.title + "'>" + text + "</div>"
+            }
+          };
+        });
+
+	    var columns = standardColumns.concat(surveyColumns);
+
+	    var table = $("#resultsTable").DataTable({
+	    	rowCallback: function(row, data){
+	    		surveyQuestions.forEach((q,i) => {
+	    			var cellValue = data[q.name];
+	    			var columnIndex = 6 + i;
+	    			if(surveyInfo.competenceStandardKey === 'podd' || surveyInfo.competenceStandardKey === 'ddl'){
+	    				var index = result.findIndex(r => r.user._id === data._id);
+		              	if(index>-1 && typeof result[index]['questionScores'][q.name] !== 'undefined'){
+		              		var score = result[index]['questionScores'][q.name];
+		              		if(score < q.minscore/q.maxscore * 100){
+		              			$("td:eq(" + columnIndex + ")", row).addClass("negative");
+		              		} else {
+		              			$("td:eq(" + columnIndex + ")", row).addClass("positive");
+		              		}
+		              	}
+	    			} else if(cellValue === "true" || cellValue === "1" || cellValue === "0.75" || (typeof cellValue === 'boolean' && cellValue)){
+	    				$("td:eq(" + columnIndex + ")", row).addClass("positive");
+	    			} else if(cellValue === "false" || cellValue === "0" || cellValue === "0.25" || typeof cellValue === 'boolean'){
+	    				$("td:eq(" + columnIndex + ")", row).addClass("negative");
+	    			} else if(cellValue === "0.5"){
+	    				$("td:eq(" + columnIndex + ")", row).addClass("warning");
+	    			}
+	    		})
+	    		
+	    	},
+	    	pageLength: 50,
+	    	retrieve: true,
+	        columns: columns,
+	        data: results,
+	        dom: 'Bfrtip',
+	        buttons: [
+	            'copy', 'csv', 'excel', 'colvis'
+	        ],
+	        "language": {
+			    "sProcessing": "Bezig...",
+			    "sLengthMenu": "_MENU_ resultaten weergeven",
+			    "sZeroRecords": "Geen resultaten gevonden",
+			    "sInfo": "_START_ tot _END_ van _TOTAL_ resultaten",
+			    "sInfoEmpty": "Geen resultaten om weer te geven",
+			    "sInfoFiltered": " (gefilterd uit _MAX_ resultaten)",
+			    "sInfoPostFix": "",
+			    "sSearch": "Zoeken:",
+			    "sEmptyTable": "Geen resultaten aanwezig in de tabel",
+			    "sInfoThousands": ".",
+			    "sLoadingRecords": "Een moment geduld aub - bezig met laden...",
+			    "oPaginate": {
+			        "sFirst": "Eerste",
+			        "sLast": "Laatste",
+			        "sNext": "Volgende",
+			        "sPrevious": "Vorige"
+			    },
+			    "oAria": {
+			        "sSortAscending":  ": activeer om kolom oplopend te sorteren",
+			        "sSortDescending": ": activeer om kolom aflopend te sorteren"
+			    },
+			    "buttons": {
+	                "colvis": "Zichtbare kolommen"
+	            }
+			},
+			initComplete: function () {
+				if(surveyInfo.isPublic){
+					return; //no filters on public surveys
+				}
+	            this.api().columns([1,2,3,4,6,7,8,9,10,11]).every( function () {
+	                var column = this;
+	                var select = $('<select><option value=""></option></select>')
+	                    .appendTo( $(column.header() ))
+	                    .on( 'change', function () {
+	                        var val = $.fn.dataTable.util.escapeRegex(
+	                            $(this).val()
+	                        );
+	 
+	                        column
+	                            .search( val ? '^'+val+'$' : '', true, false )
+	                            .draw();
+	                    } );
+	 
+	                column.data().unique().sort().each( function ( d, j ) {
+	                	if(d && typeof d==='string' && d.length>0){
+	                		select.append('<option value="' + d + '">' + d.substr(0,30) + '</option>')
+	                	} else if(d && Array.isArray(d)){
+	                		select.append('<option value="' + d.join(',') + '">' + d.join(',') + '</option>')
+	                	}
+	                } );
+	            } );
+	        }
+	      });
+
+	$('#loader').hide();
+
+</script>

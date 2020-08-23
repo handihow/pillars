@@ -3,10 +3,17 @@
 <%- include('../partials/flash-message') %>
 <%if(typeof school !== 'undefined'){%>
   <%- include('../partials/school-header') %>
-  <%- include('./header', {title: 'Pillars Overzicht Digitale Deskundigheid'}) %>
+  <%- include('./header', {
+    title: survey.competenceStandardTitle, 
+    competenceStandardKey: survey.competenceStandardKey,
+    showManageClassroomsButton: false
+  }) %>
 <%} else if(typeof organisation !== 'undefined'){%>
   <%- include('../partials/organisation-header') %>
-  <%- include('../overview/competence-header', {title: 'Pillars Overzicht Digitale Deskundigheid'})  %>
+  <%- include('../overview/competence-header', {
+    title: survey.competenceStandardTitle, 
+    competenceStandardKey: survey.competenceStandardKey
+  })  %>
 <%}%>
 
 <%if(surveyResults.length>0){%>
@@ -155,10 +162,6 @@
     </div>
     <% }); %>
   </div>
-  <%if(typeof school !== 'undefined'){%>
-    <br>
-    <a class="ui primary button" href="/schools/<%=school._id%>/survey/<%=survey._id%>" target=_blank>Meer overzichten</a>
-  <%}%>
   <%if(typeof organisation !== 'undefined'){%>
     <br>
     <a class="ui primary button" href="/organisations/<%=organisation._id%>/survey/<%=survey._id%>" target=_blank>Meer overzichten</a>

@@ -19,8 +19,20 @@ router.get('/', middleware.isLoggedIn, function(req, res){
   })
 });
 
-router.get("/all", middleware.isSchoolOwner, function(req, res){
-   School.findById(req.params.id)
+router.get("/score-table", middleware.isSchoolOwner, function(req, res){
+   processDdlResults(req, res, 'score-table');
+});
+
+router.get("/survey-analytics", middleware.isSchoolOwner, function(req, res){
+   processDdlResults(req, res, 'survey-analytics');
+});
+
+router.get("/boxplot-analysis", middleware.isSchoolOwner, function(req, res){
+   processDdlResults(req, res, 'boxplot-analysis');
+});
+
+const processDdlResults = (req, res, path) => {
+  School.findById(req.params.id)
    .populate("students")
    .exec(function(err, school){
     if(err ||!school){
@@ -37,6 +49,7 @@ router.get("/all", middleware.isSchoolOwner, function(req, res){
               req.flash("error", "Geen definitie gevonden van deze vragenlijst");
               return res.redirect("back");
             }
+            survey.survey = config.competence.survey.ddl;
             var standard = config.competence.survey.competenceCategories[index];
             if(err || !survey){
               req.flash("error", "Digitale Deskundigheid Leerlingen niet gevonden voor dit bestuur.");
@@ -45,39 +58,48 @@ router.get("/all", middleware.isSchoolOwner, function(req, res){
                 SurveyResult.find({
                     "survey": survey._id,
                     "school": school._id
-                }, function(err, surveyResults){
+                })
+                .populate({path : 'user', populate : {path : 'organisation'}})
+                .populate({path : 'user', populate : {path : 'school'}})
+                .exec(function(err, surveyResults){
                     if(err){
                         req.flash("error", "Probleem bij inladen van resultaten ... " + err.message);
                         res.redirect("back");
                     } else {
-                        var countPerDay = {};
-                        surveyResults.forEach(function (elem) {
-                            var date = moment(elem.createdAt).format("YYYY-MM-DD");
-                            if (countPerDay[date]) {
-                                countPerDay[date] += 1;
-                            } else {
-                                countPerDay[date] = 1;
-                            }
-                        });
-                        if(surveyResults.length > 0){
-                          res.locals.scripts.footer.chartjs = true;
-                        }
-                        res.render("competence/ddl", {
+                        if(path === 'score-table'){
+                          res.locals.scripts.header.datatables = true;
+                          res.locals.scripts.footer.surveyjs = true;
+                          res.locals.scripts.footer.datatables = true;
+                          res.render("competence/score-table", {
                             school: school,
-                            students: school.students, 
+                            users: school.students, 
                             survey: survey,
-                            standard: standard,
+                            surveyResults: surveyResults
+                          })
+                        } else if(path === 'survey-analytics'){
+                          res.locals.scripts.footer.surveyjs = true;
+                          res.locals.scripts.header.surveyanalytics = true; 
+                          res.render("competence/survey-analytics", {
+                            school: school,
+                            survey: survey,
+                            surveyResults: surveyResults
+                          })
+                        } else if(path === 'boxplot-analysis'){
+                          res.locals.scripts.header.plotly = true;
+                          var statistics = config.competence.survey.calculateStatistics(survey, surveyResults);
+                          res.render("competence/boxplot-analysis", {
+                            school: school,
+                            survey: survey,
                             surveyResults: surveyResults,
-                            countPerDay: countPerDay
-                        });
+                            statistics: statistics
+                          })
+                        }
                     }
                 })
             }
          });
-
     }
   });
-});
-
+}
 
 module.exports = router;

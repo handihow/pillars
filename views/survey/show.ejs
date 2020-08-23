@@ -61,3 +61,13 @@
 <% }%>
 
 <%- include('../partials/footer') %>
+<%if(survey.competenceStandardKey === 'podd'){%>
+  <%- include('./logic/custom-properties-surveyjs')%>
+<%}%>
+<%- include('./logic/score-table')%>
+<%- include('./logic/survey-analytics')%>
+<% if(survey.isCompetenceSurvey){%>
+  <%- include('./logic/boxplot-analysis')%>
+<%} else if(survey.isSoftwareSurvey){%>
+  <%- include('./logic/bubbles-chart')%>
+<%}%>

@@ -6,11 +6,13 @@
 <%} else if(typeof organisation !== 'undefined'){%>
   <%- include('../partials/organisation-header') %>
 <%}%>
-<%if(typeof school !== 'undefined'){%>
-	<a class="ui right floated primary button" href="/schools/<%=school._id%>/classroom">Beheer klassen</a>
+<%if(currentUser.role !=='suser'){%>
+	<%- include('../competence/header', {
+	title: 'Digitale Deskundigheid Leerlingen', 
+	competenceStandardKey: 'ddl',
+	showManageClassroomsButton: true
+	}) %>
 <%}%>
-<h2 class="ui header"><i class="student icon"></i></i>Digitale Deskundigheid Leerlingen</h2>
-<div class="ui divider"></div>	
 
 <%if(classrooms.length===0){%>
   <div class="ui placeholder segment">

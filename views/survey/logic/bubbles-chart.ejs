@@ -1,0 +1,41 @@
+<script>
+	var bubblesString = $( '#bubblesInfo' ).text();
+
+	var bubbles = JSON.parse(bubblesString || '[]');
+
+	console.log(bubbles);
+	
+	var traces = [];
+
+	bubbles.x.forEach(function(bubble, index){
+		var newTrace = {
+		  x: [bubbles.x[index]],
+		  y: [bubbles.y[index]],
+		  text: [bubbles.text[index]],
+		  mode: 'markers',
+		  marker: {
+		    color: [bubbles.color[index]],
+		    size: [bubbles.size[index]],
+		  },
+		  name: bubbles.text[index],
+		};
+		traces.push(newTrace);
+	})
+
+	var data = traces;
+
+	var layout = {
+	  title: 'Frequentie versus Noodzaak en Kwaliteit',
+	  showlegend: true,
+	  height: 600,
+	  width: 1000,
+	  xaxis: {
+	  	title: 'Frequentie (0 = weinig, 1 = zeer vaak)'
+	  },
+	  yaxis: {
+	  	title: 'Noodzaak (0 = niet belangrijk, 1 = essentieel)'
+	  }
+	};
+
+	Plotly.newPlot('bubblesChart', data, layout);
+</script>

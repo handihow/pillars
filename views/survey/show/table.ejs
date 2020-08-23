@@ -1,21 +1,19 @@
-    <h2 class="ui header"><i class="list icon"></i>Inzendingen</h2>
-    <%if(surveyResults.length===0){%>
-    <div class="ui placeholder segment">
-      <div class="ui icon header">
-        <i class="dont icon"></i>
-        Nog geen inzendingen
-      </div>
+<h2 class="ui header"><i class="list icon"></i>Inzendingen</h2>
+<%if(surveyResults.length===0){%>
+<div class="ui placeholder segment">
+  <div class="ui icon header">
+    <i class="dont icon"></i>
+    Nog geen inzendingen
+  </div>
+</div>
+<%} else {%>
+  <div class="ui divider"></div>
+  <div class="ui placeholder segment" id="loader">
+    <div class="ui active inverted dimmer">
+      <div class="ui text loader">Laden..</div>
     </div>
-    <%} else {%>
-      <div class="ui divider"></div>
-      <div class="ui placeholder segment" id="loader">
-        <div class="ui active inverted dimmer">
-          <div class="ui text loader">Laden..</div>
-        </div>
-        <p></p>
-      </div>
-      <table id="resultsTable" class="ui celled small table display" width="100%"></table>
-      
-
-    <%}%>
+    <p></p>
+  </div>
+  <table id="resultsTable" class="ui celled small table display" width="100%"></table>
+<%}%>
     

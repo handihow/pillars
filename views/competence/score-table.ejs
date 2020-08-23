@@ -1,0 +1,42 @@
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
+<%if(typeof school !== 'undefined'){%>
+  <%- include('../partials/school-header') %>
+  <%- include('./header', {
+  	title: survey.competenceStandardTitle, 
+  	competenceStandardKey: survey.competenceStandardKey,
+    showManageClassroomsButton: survey.competenceStandardKey === 'ddl'
+  }) %>
+<%}%>
+
+<h2 class="ui header"><i class="list icon"></i>Inzendingen</h2>
+<%if(surveyResults.length===0){%>
+<div class="ui placeholder segment">
+  <div class="ui icon header">
+    <i class="dont icon"></i>
+    Nog geen inzendingen
+  </div>
+</div>
+<%} else {%>
+  <div class="ui divider"></div>
+  <div class="ui placeholder segment" id="loader">
+    <div class="ui active inverted dimmer">
+      <div class="ui text loader">Laden..</div>
+    </div>
+    <p></p>
+  </div>
+  <div class="enable_horizontal_scroll">
+    <table id="resultsTable" class="ui celled small table display" width="100%"></table>
+  </div>
+<%}%>
+
+<div id="surveyText" hidden><%= JSON.stringify(survey)%></div>
+<div id="surveyResults" hidden><%= JSON.stringify(surveyResults)%></div>
+
+<%if(typeof school !== 'undefined'){%>
+  <%- include('../partials/school-footer') %>
+<%}%>
+<%- include('../partials/footer') %>
+<%- include('../survey/logic/custom-properties-surveyjs')%>
+<%- include('../survey/logic/score-table')%>

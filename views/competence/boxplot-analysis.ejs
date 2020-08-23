@@ -1,0 +1,38 @@
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
+<%if(typeof school !== 'undefined'){%>
+  <%- include('../partials/school-header') %>
+  <%- include('./header', {
+  	title: survey.competenceStandardTitle, 
+  	competenceStandardKey: survey.competenceStandardKey,
+    showManageClassroomsButton: survey.competenceStandardKey === 'ddl'
+  }) %>
+<%} %>
+
+<h2 class="ui header"><i class="list icon"></i>Resultaten per deelgebied</h2>
+<%if(surveyResults.length===0){%>
+<div class="ui placeholder segment">
+  <div class="ui icon header">
+    <i class="dont icon"></i>
+    Nog geen inzendingen
+  </div>
+</div>
+<%} else {%>
+  <div class="ui divider"></div>
+  <div class="ui placeholder segment" id="loader">
+    <div class="ui active inverted dimmer">
+      <div class="ui text loader">Laden..</div>
+    </div>
+    <p></p>
+  </div>
+  <div id="analysisChart" class="ui stackable grid"></div>
+<%}%>
+
+<div id="statistics" hidden><%=JSON.stringify(statistics)%></div>
+
+<%if(typeof school !== 'undefined'){%>
+  <%- include('../partials/school-footer') %>
+<%}%>
+<%- include('../partials/footer') %>
+<%- include('../survey/logic/boxplot-analysis')%>
