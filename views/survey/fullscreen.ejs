@@ -4,14 +4,14 @@
         <link rel="shortcut icon" href="/img/logo.ico" type="image/x-icon" />
         <meta name="viewport" content="width=device-width"/>
         <script src="https://unpkg.com/jquery"></script>
-        <script src="https://surveyjs.azureedge.net/1.7.27/survey.jquery.js"></script>
+        <script src="https://surveyjs.azureedge.net/1.7.28/survey.jquery.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"></script>
         <script src="https://unpkg.com/jspdf@1.5.3/dist/jspdf.min.js"></script>
-        <script src="https://surveyjs.azureedge.net/1.7.27/survey.pdf.js"></script>
+        <script src="https://surveyjs.azureedge.net/1.7.28/survey.pdf.js"></script>
         <script src="https://unpkg.com/sortablejs@1.7.0/Sortable.js"></script>
-        <script src="https://surveyjs.azureedge.net/1.7.27/surveyjs-widgets.js"></script>
+        <script src="https://surveyjs.azureedge.net/1.7.28/surveyjs-widgets.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.1.1/exceljs.min.js"></script>
-        <link href="https://surveyjs.azureedge.net/1.7.27/survey.css" type="text/css" rel="stylesheet"/>
+        <link href="https://surveyjs.azureedge.net/1.7.28/survey.css" type="text/css" rel="stylesheet"/>
         
         <style>
             table {
@@ -225,7 +225,7 @@
                 .StylesManager
                 .applyTheme();
 
-                if(surveyKey === 'podd'){
+                if(surveyKey === 'podd' || surveyKey === 'ddl'){
                     setCustomSurveyProperties();
                 }
 
@@ -269,9 +269,9 @@
                     survey.getAllQuestions().forEach(function(q) {
                       if (surveyData[q.name] === undefined) {
                         normalizedData[q.name] = "";
-                      } else if(surveyData[q.name] === true && surveyKey !== 'podd') {
+                      } else if(surveyData[q.name] === true && (surveyKey !== 'podd' || surveyKey !== 'ddl')) {
                         normalizedData[q.name] = "true"
-                      } else if(surveyData[q.name] === false && surveyKey !== 'podd') {
+                      } else if(surveyData[q.name] === false && (surveyKey !== 'podd' || surveyKey !== 'ddl')) {
                         normalizedData[q.name] = "false"
                       } else {
                         normalizedData[q.name] = surveyData[q.name];
@@ -359,7 +359,7 @@
                      var data = {
                             result: JSON.stringify(result.data)
                         };
-                     if(surveyKey === 'podd'){
+                     if(surveyKey === 'podd' || surveyKey === 'ddl'){
                         data.score = score;
                         data.statistics = JSON.stringify(scores);
                         data.flags = JSON.stringify(flags);
@@ -478,7 +478,7 @@
                                         
                 }
 
-                if(surveyKey==='podd'){
+                if(surveyKey==='podd' || surveyKey === 'ddl'){
 
 
                     survey.onCurrentPageChanging.add(function(sender, options){
@@ -564,8 +564,6 @@
                         }
                     })
                 }
-
-
             
             
         </script>

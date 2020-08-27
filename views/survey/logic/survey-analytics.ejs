@@ -78,7 +78,7 @@
 	var filteredSurveyQuestions = survey.getAllQuestions().filter(q => q.getType() !== 'html' && q.getType() !== 'image')
 
 	var visPanel = window.visPanel = new SurveyAnalytics.VisualizationPanel(filteredSurveyQuestions, normalizedData, 
-		{}, elements);
+		{allowDynamicLayout: false}, elements);
 
 	// visPanel.allowDynamicLayout = false;
 	visPanel.showHeader = true;

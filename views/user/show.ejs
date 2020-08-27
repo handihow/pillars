@@ -31,13 +31,11 @@
       <div class="content"><%=user.lastName%></div>
     </div>
     <div class="four wide column">
-      <h4 class="content">Rol</h4></h4>
-      <div class="content"><%if(user.role==="badmin"){%>Bestuur admin
-        <%} else if(user.role==="buser"){%>Bestuur medewerker
-        <%} else if(user.role==="sadmin"){%>School admin
-        <%} else if(user.role==="padmin"){%>Pillars admin
-        <%} else {%>School medewerker<%}%></div>
+      <h4 class="content">Rol</h4>
+      <div class="content">
+        <%- include('../partials/user-role', {user: user})%>
       </div>
+    </div>
     </div>
     <div class="ui stackable grid">
       <div class="four wide column">

@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router({mergeParams: true});
 var School = require("../../models/school");
+var Classroom = require("../../models/classroom");
 var Survey = require("../../models/survey");
 var SurveyResult = require("../../models/surveyResult");
 var Organisation = require("../../models/organisation");
@@ -111,6 +112,11 @@ router.post("/:sid/private", middleware.isLoggedIn, function(req, res){
                 if((user.role==='suser' || user.role==='sadmin') && user.school && user.school.length>0){
                   let schoolId = user.school[0];
                   surveyResult.school = schoolId;
+                } else if(user.role==='student'){
+                  let schoolId = user.school[0];
+                  surveyResult.school = schoolId;
+                  let classroomId = user.classroom[0];
+                  surveyResult.classroom = classroomId;
                 }
                 SurveyResult.create(surveyResult, function(err, createdSurveyResult){
                   if (err) {
@@ -121,12 +127,16 @@ router.post("/:sid/private", middleware.isLoggedIn, function(req, res){
                       });
                   } else {
                     user.numberOfSurveyResults = user.numberOfSurveyResults ? user.numberOfSurveyResults + 1 : 1;
-                    if(survey.completenceStandardKey && survey.completenceStandardKey === 'podd'){
+                    if(survey.competenceStandardKey === 'podd'){
                       user.firstName = surveyAnswers.firstName;
                       user.lastName = surveyAnswers.lastName;
                       user.isTeacher = surveyAnswers.isTeacher;
                       user.job = surveyAnswers.job;
                       user.publicProfile = surveyAnswers.publicProfile;
+                    } else if (survey.competenceStandardKey === 'ddl') {
+                      user.firstName = surveyAnswers.firstName;
+                      user.lastName = surveyAnswers.lastName;
+                      user.isTeacher = false;
                     }
                     if(surveyAnswers.dateOfBirth){
                       user.dateOfBirth = surveyAnswers.dateOfBirth;
@@ -166,6 +176,22 @@ router.post("/:sid/private", middleware.isLoggedIn, function(req, res){
                                 res.send({ 
                                   success: false, 
                                   error: 'Probleem bij updaten van school. Server geeft fout: ' + err.message 
+                                });
+                              } else {
+                                res.contentType('json');
+                                res.send({ success: true, surveyResultId:  createdSurveyResult._id});
+                              }
+                            });
+                          })
+                        } else if(user.role==='student' && user.classroom && user.classroom.length>0){
+                          Classroom.findById(user.classroom[0], function(err, classroom){
+                            classroom.surveyResults.push(createdSurveyResult._id);
+                            classroom.save(function(err, classroom){
+                              if(err){
+                                res.contentType('json');
+                                res.send({ 
+                                  success: false, 
+                                  error: 'Probleem bij updaten van klas. Server geeft fout: ' + err.message 
                                 });
                               } else {
                                 res.contentType('json');

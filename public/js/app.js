@@ -484,17 +484,26 @@ $("#evaluationForm").validate();
      }
    });
 
+  // custom form validation rule
+  $.fn.form.settings.rules.validUsername = function(value) {
+    if(Number.isInteger(value) && value > 100000 && value <1000000){
+      return true;
+    }
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase()) ;
+  };
+
   //Validation of the login form
   $("#login").form({
     fields:{ 
       "username": {
         identifier: "username",
         rules: [
-        {
-          type: "email",
-          prompt: "Vul een geldig email adres in"
-        }
-        ]
+          {
+            type: "validUsername",
+            prompt: "Vul een geldig email adres in"
+          }
+         ]
       },
       "password": {
         identifier: "password",

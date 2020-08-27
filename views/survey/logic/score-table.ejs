@@ -16,7 +16,7 @@
 
 	var surveyInfo = JSON.parse(surveyInfoText || '[]');
 
-	if(surveyInfo.competenceStandardKey === 'podd'){
+	if(surveyInfo.competenceStandardKey === 'podd' || surveyInfo.competenceStandardKey === 'ddl'){
 		setCustomSurveyProperties();
 	}
 
@@ -128,7 +128,7 @@
 		}
 
 		var surveyQuestions;
-	    if(surveyInfo.competenceStandardKey==='podd'){
+	    if(surveyInfo.competenceStandardKey==='podd' || surveyInfo.competenceStandardKey === 'ddl'){
 	    	surveyQuestions = survey.getAllQuestions().filter(q => q.istestquestion);
 	    	console.log(surveyQuestions.map(sq => sq.title))
 	    } else {

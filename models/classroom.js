@@ -35,6 +35,10 @@ var classroomSchema=  mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     }],
+    surveyResults: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "SurveyResult"
+    }],
     isSecondarySchool: {type: Boolean, default: false},
 }, { usePushEach: true, timestamps: true });
 

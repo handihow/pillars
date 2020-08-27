@@ -1,6 +1,7 @@
 var mongoose = require("mongoose");
 var Survey = require("./survey");
 var Statistic = require("./statistic");
+var Classroom = require("./classroom");
 var School = require("./school");
 var Organisation = require("./organisation");
 var calcs = require("../config/competence/survey");
@@ -25,6 +26,10 @@ var surveyResultSchema = mongoose.Schema (
         user: {                                 
               type: mongoose.Schema.Types.ObjectId,
               ref: "User"
+        },
+        classroom: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Classroom"
         },
         school: {                                 
               type: mongoose.Schema.Types.ObjectId,
