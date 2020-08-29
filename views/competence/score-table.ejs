@@ -7,7 +7,7 @@
     	title: survey.competenceStandardTitle, 
     	competenceStandardKey: survey.competenceStandardKey,
       showManageClassroomsButton: survey.competenceStandardKey === 'ddl',
-      classroom: classroom ? true : false
+      classroom: typeof classroom !== 'undefined' ? true : undefined
     }) %>
 <%}%>
 

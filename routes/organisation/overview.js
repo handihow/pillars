@@ -420,68 +420,80 @@ function retrieveOrganisationSurveyResults(survey, organisation){
 }
 
 router.get("/podd", middleware.isAuthenticatedBadmin, function(req, res){
-   Organisation.findById(req.params.id)
-  .exec(function(err, organisation){
-    if(err ||!organisation){
-      req.flash("error", "Bestuur niet gevonden.");
-      res.redirect("back");
-    } else {
-        User.find({
-            "organisation": organisation._id
-        }, function(err, users){
-            if(err){
-                req.flash("error", "Medewerkers niet gevonden");
-                res.redirect("back");
-            } else {
-                Survey.findOne({
-                    "organisation": organisation._id, 
-                    "isActiveCompetenceSurvey": true,
-                    "competenceStandardKey": "podd"
-                  }, function(err, survey){
-                    var index = config.competence.survey.competenceCategories.findIndex((e) => e.identifier == 'podd');
-                    if(index == -1){
-                      req.flash("error", "Geen definitie gevonden van deze vragenlijst");
-                      return res.redirect("back");
-                    }
-                    var standard = config.competence.survey.competenceCategories[index];
-                    if(err || !survey){
-                      req.flash("error", "Pillars Overzicht Digitale Deskundigheid niet gevonden voor dit bestuur.");
-                      res.redirect("back");
-                    } else {
-                        SurveyResult.find({
-                            "survey": survey._id
-                        }, function(err, surveyResults){
-                            if(err){
-                                req.flash("error", "Probleem bij inladen van resultaten ... " + err.message);
-                                res.redirect("back");
-                            } else {
-                                var countPerDay = {};
-                                surveyResults.forEach(function (elem) {
-                                    var date = moment(elem.createdAt).format("YYYY-MM-DD");
-                                    if (countPerDay[date]) {
-                                        countPerDay[date] += 1;
-                                    } else {
-                                        countPerDay[date] = 1;
-                                    }
-                                });                                
-                                res.locals.scripts.footer.chartjs = true;
-                                res.render("competence/podd", {
-                                    organisation: organisation,
-                                    users: users, 
-                                    survey: survey,
-                                    standard: standard,
-                                    surveyResults: surveyResults,
-                                    countPerDay: countPerDay
-                                });
-                            }
-                        })
-                    }
-                 });
-            }
-        });
-    }
-  });
+    handleNewCompetenceGetRoutes(req, res, 'podd');
 });
+
+router.get("/ddl", middleware.isAuthenticatedBadmin, function(req, res){
+    handleNewCompetenceGetRoutes(req, res, 'ddl');
+});
+
+function handleNewCompetenceGetRoutes(req, res, route){
+    if(route === 'ddl') {
+        res.send('coming soon');
+        return
+    }
+    Organisation.findById(req.params.id)
+      .exec(function(err, organisation){
+        if(err ||!organisation){
+          req.flash("error", "Bestuur niet gevonden.");
+          res.redirect("back");
+        } else {
+            User.find({
+                "organisation": organisation._id
+            }, function(err, users){
+                if(err){
+                    req.flash("error", "Medewerkers niet gevonden");
+                    res.redirect("back");
+                } else {
+                    Survey.findOne({
+                        "organisation": organisation._id, 
+                        "isActiveCompetenceSurvey": true,
+                        "competenceStandardKey": route
+                      }, function(err, survey){
+                        var index = config.competence.survey.competenceCategories.findIndex((e) => e.identifier == route);
+                        if(index == -1){
+                          req.flash("error", "Geen definitie gevonden van deze vragenlijst");
+                          return res.redirect("back");
+                        }
+                        var standard = config.competence.survey.competenceCategories[index];
+                        if(err || !survey){
+                          req.flash("error", "Pillars Overzicht Digitale Deskundigheid niet gevonden voor dit bestuur.");
+                          res.redirect("back");
+                        } else {
+                            SurveyResult.find({
+                                "survey": survey._id
+                            }, function(err, surveyResults){
+                                if(err){
+                                    req.flash("error", "Probleem bij inladen van resultaten ... " + err.message);
+                                    res.redirect("back");
+                                } else {
+                                    var countPerDay = {};
+                                    surveyResults.forEach(function (elem) {
+                                        var date = moment(elem.createdAt).format("YYYY-MM-DD");
+                                        if (countPerDay[date]) {
+                                            countPerDay[date] += 1;
+                                        } else {
+                                            countPerDay[date] = 1;
+                                        }
+                                    });                                
+                                    res.locals.scripts.footer.chartjs = true;
+                                    res.render("competence/" + route, {
+                                        organisation: organisation,
+                                        users: users, 
+                                        survey: survey,
+                                        standard: standard,
+                                        surveyResults: surveyResults,
+                                        countPerDay: countPerDay
+                                    });
+                                }
+                            })
+                        }
+                     });
+                }
+            });
+        }
+      });
+}
 
 function retrieveGlobalStatistic(competenceStandardKey){
     return new Promise(function (resolve, reject){
