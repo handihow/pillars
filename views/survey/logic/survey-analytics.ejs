@@ -21,7 +21,6 @@
 	}
 
 	var surveyData = surveyInfo.survey;
-  console.log(surveyData);
 
 	var survey = new Survey.Model(surveyData);
 
@@ -58,17 +57,18 @@
   SurveyAnalytics.GaugePlotly.showAsPercentage = true
 
 	SurveyAnalytics.VisualizerBase.customColors = 
-			hasBooleanRadiogroupQuestions && surveyInfo.competenceStandardKey !== 'podd' ? 
+			hasBooleanRadiogroupQuestions && 
+      surveyInfo.competenceStandardKey !== 'podd' && surveyInfo.competenceStandardKey !== 'ddl' ? 
 			[
                 'rgba(227,6,19 ,1)',
                 'rgba(0,159,227, 1)',
             ] :
 			[
-                'rgba(0,159,227, 1)',
-                'rgba(227,6,19 ,1)',
-                'rgba(249,178,51, 1)',
-                'rgba(0, 0, 0, 1)',
-                'rgba(18,172,19, 1)',
+                'rgba(0,159,227, 0.7)',
+                'rgba(227,6,19 ,0.7)',
+                'rgba(249,178,51, 0.7)',
+                'rgba(0, 0, 0, 0.7)',
+                'rgba(18,172,19, 0.7)',
             ];	
     
     
