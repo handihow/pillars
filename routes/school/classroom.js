@@ -2,6 +2,8 @@ var express = require("express");
 var router = express.Router({mergeParams: true});
 var School = require("../../models/school");
 var Classroom = require("../../models/classroom");
+var Survey = require("../../models/survey");
+var SurveyResult = require("../../models/surveyResult");
 var config = require("../../config/config");
 var middleware = require("../../middleware");
 var mongoose = require("mongoose");
@@ -96,35 +98,57 @@ router.post("/csv-import", middleware.isSchoolOwner, function(req, res){
 
 //INDEX - results of classroom
 router.get("/:cid", middleware.isLoggedIn, function(req, res){
-  // School.findById(req.params.id).exec(function(err, school){
-  //   if(err || !school) {
-  //     req.flash("error", "School niet gevonden");
-  //     res.redirect("back");
-  //   } else {
-  //     Classroom.find({
-  //       school: school._id
-  //     }, function(err, classrooms){
-  //       if(err){
-  //         req.flash("error", "Probleem bij het inladen van klassen");
-  //         res.redirect("back");
-  //       } else {
-  //         res.locals.scripts.header.datatables = true;
-  //         res.locals.scripts.footer.datatables = true;
-  //         res.render("table-view/index", {
-  //           school: school, 
-  //           items: classrooms, 
-  //           columns: config.classroom.columns,
-  //           header: 'classroom',
-  //           title: 'Klas',
-  //           hasWarningRow: false,
-  //           allowNewEntries: true
-  //         });  
-  //       }
-  //     })  
-  //   }
-  // });
-  res.send('coming soon');
+  School.findById(req.params.id)
+   .populate("students")
+   .exec(function(err, school){
+    if(err ||!school){
+      req.flash("error", "School niet gevonden.");
+      res.redirect("back");
+    } else {
+        Survey.findOne({
+            "organisation": school.organisation, 
+            "isActiveCompetenceSurvey": true,
+            "competenceStandardKey": "ddl"
+          }, function(err, survey){
+            var index = config.competence.survey.competenceCategories.findIndex((e) => e.identifier == 'ddl');
+            if(index == -1){
+              req.flash("error", "Geen definitie gevonden van deze vragenlijst");
+              return res.redirect("back");
+            }
+            survey.survey = config.competence.survey.ddl;
+            var standard = config.competence.survey.competenceCategories[index];
+            if(err || !survey){
+              req.flash("error", "Digitale Deskundigheid Leerlingen niet gevonden voor dit bestuur.");
+              res.redirect("back");
+            } else {
+                SurveyResult.find({
+                    "survey": survey._id,
+                    "classroom": req.params.cid
+                })
+                .populate({path : 'user', populate : {path : 'organisation'}})
+                .populate({path : 'user', populate : {path : 'school'}})
+                .populate({path : 'user', populate : {path : 'classroom'}})
+                .exec(function(err, surveyResults){
+                    if(err){
+                        req.flash("error", "Probleem bij inladen van resultaten ... " + err.message);
+                        res.redirect("back");
+                    } else {
+                        res.locals.scripts.header.datatables = true;
+                        res.locals.scripts.footer.surveyjs = true;
+                        res.locals.scripts.footer.datatables = true;
+                        res.render("competence/score-table", {
+                          school: school,
+                          users: school.students, 
+                          survey: survey,
+                          surveyResults: surveyResults,
+                          classroom: true
+                        });
+                    }
+                })
+            }
+         });
+    }
+  });
 });
-
 
 module.exports = router;

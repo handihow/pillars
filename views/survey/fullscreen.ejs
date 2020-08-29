@@ -265,6 +265,7 @@
                     survey.mode = 'display';
                     var surveyDataText = $( '#surveyData' ).text();
                     var surveyData = JSON.parse(surveyDataText);
+                    console.log(surveyData);
                     var normalizedData = {};
                     survey.getAllQuestions().forEach(function(q) {
                       if (surveyData[q.name] === undefined) {
@@ -278,6 +279,26 @@
                       }
                     });
                     survey.data = normalizedData;
+                    if(surveyKey === 'podd' || surveyKey === 'ddl'){
+                        survey
+                        .onAfterRenderQuestion
+                        .add(function (survey, options) {
+                            //Return if there is max score  
+                            if (!options.question.istestquestion) 
+                                return;
+                            var maxScore=document.createElement("span"); 
+                            maxScore.innerHTML = '/ '+ options.question.maxscore;
+                            var score = document.createElement("span");
+                            score.innerHTML = calculateQuestionScore(options.question);
+                        
+                            var header = options
+                                .htmlElement
+                                .querySelector("div");
+                            header.prepend(maxScore);
+                            header.prepend(score);
+                            // options.question.readOnly = true;
+                        });
+                    }
                 }
 
                 function saveSurveyToPdf() {
@@ -544,9 +565,9 @@
                             if(flaggedCategories.length === 0){
                                 html += '<p>Gefeliciteerd! Er zijn geen deelgebieden waar je onvoldoende hebt gescoord.</p>'
                             } else {
-                                html += '<p>Op de volgende deelgebieden heb je op minimaal één onderdeel niet de gestelde norm behaald.</p><ul>'
+                                html += '<p>Op de volgende deelgebieden heb je op minimaal één vraag minder punten gehaald dan de gestelde norm:</p><ul>'
                                 flaggedCategories.forEach(function(cat){
-                                    html += '<li>' + cat.title + ': je hebt op ' + numberWrongAnswered[cat.name] + ' van de ' + numberQuestions[cat.name] + ' vragen te laag gescoord</li>'
+                                    html += '<li>' + cat.title + ': op ' + numberWrongAnswered[cat.name] + ' van de ' + numberQuestions[cat.name] + ' vragen</li>'
                                 });
                                 html += '</ul><p>We adviseren je om deze deelgebieden op te nemen in je actieplan.</p>'
                             }

@@ -3,11 +3,12 @@
 <%- include('../partials/flash-message') %>
 <%if(typeof school !== 'undefined'){%>
   <%- include('../partials/school-header') %>
-  <%- include('./header', {
-  	title: survey.competenceStandardTitle, 
-  	competenceStandardKey: survey.competenceStandardKey,
-    showManageClassroomsButton: survey.competenceStandardKey === 'ddl'
-  }) %>
+    <%- include('./header', {
+    	title: survey.competenceStandardTitle, 
+    	competenceStandardKey: survey.competenceStandardKey,
+      showManageClassroomsButton: survey.competenceStandardKey === 'ddl',
+      classroom: classroom ? true : false
+    }) %>
 <%}%>
 
 <h2 class="ui header"><i class="list icon"></i>Inzendingen</h2>
