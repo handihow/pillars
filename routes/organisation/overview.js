@@ -428,15 +428,13 @@ router.get("/ddl", middleware.isAuthenticatedBadmin, function(req, res){
 });
 
 function handleNewCompetenceGetRoutes(req, res, route){
-    if(route === 'ddl') {
-        res.send('coming soon');
-        return
-    }
     Organisation.findById(req.params.id)
       .exec(function(err, organisation){
         if(err ||!organisation){
           req.flash("error", "Bestuur niet gevonden.");
           res.redirect("back");
+        } else if(route === 'ddl') {
+          res.render("coming-soon", {organisation: organisation, title: 'Digitale Deskundigheid Leerlingen'});
         } else {
             User.find({
                 "organisation": organisation._id

@@ -61,7 +61,7 @@
 <% }%>
 
 <%- include('../partials/footer') %>
-<%if(survey.competenceStandardKey === 'podd'){%>
+<%if(survey.competenceStandardKey === 'podd' || survey.competenceStandardKey === 'ddl'){%>
   <%- include('./logic/custom-properties-surveyjs')%>
 <%}%>
 <%- include('./logic/score-table')%>
