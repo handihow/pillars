@@ -589,8 +589,10 @@
                                 <p>Dit overzicht geeft inzicht in deelgebieden waar je jezelf in kunt verbeteren. Je hebt het niet goed of fout gedaan. Je krijgt na deze test nog uitgebreid de kans om jouw antwoorden te analyzeren.</p>
                                 <button class="survey__button" onclick="createExcel()" style="margin:10px">Download Resultaten</button>
                             `;
-                            var adviceQuestion = survey.getQuestionByName('advice');
-                            adviceQuestion.html = html;
+                            if(surveyKey === 'podd'){
+                                var adviceQuestion = survey.getQuestionByName('advice');
+                                adviceQuestion.html = html;    
+                            }
                             score = grandTotalQuestions === 0 ? 0 : Math.round(grandTotal / grandTotalQuestions * 100) / 100;
                         } else {
                             survey.showPrevButton = true;
