@@ -110,7 +110,7 @@
             <%surveys.forEach(function(survey, index){%>
                 <%if(!survey.isActiveCompetenceSurvey){ %>
                   <%var resultsUrl = null%>
-                  <%- include('../partials/competence-chart/competence-chart') %>
+                  <%- include('../partials/competence-chart/competence-chart', {survey: survey, name: name, index: index, compareName: compareName, resultsUrl: resultsUrl}) %>
                 <%}%>
             <%})%>
           </div>
