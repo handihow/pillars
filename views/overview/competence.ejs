@@ -17,7 +17,7 @@
   <%surveys.forEach(function(survey, index){%>
       <%if(survey.isActiveCompetenceSurvey){ %>
         <%var resultsUrl = "/organisations/" + organisation._id +"/survey/" + survey._id%>
-        <%- include('../partials/competence-chart/competence-chart') %>
+        <%- include('../partials/competence-chart/competence-chart', {survey: survey, name: name, index: index, compareName: compareName, resultsUrl: resultsUrl}) %>
       <%}%>
   <%})%>
 </div>
@@ -28,7 +28,7 @@
     <%surveys.forEach(function(survey, index){%>
         <%if(!survey.isActiveCompetenceSurvey){ %>
           <%var resultsUrl = "/organisations/" + organisation._id +"/survey/" + survey._id%>
-          <%- include('../partials/competence-chart/competence-chart') %>
+          <%- include('../partials/competence-chart/competence-chart', {survey: survey, name: name, index: index, compareName: compareName, resultsUrl: resultsUrl}) %>
         <%}%>
     <%})%>
   </div>
