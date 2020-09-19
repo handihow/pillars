@@ -12,6 +12,7 @@ var Test = require("../../models/test");
 router.get("/", middleware.isSchoolOwner, function(req, res){
     School.findById(req.params.id)
     .populate({path: 'users', options: { sort: { 'lastName': 'asc' } } })
+    .populate({path: 'students', options: { sort: { 'lastName': 'asc' } } })
     .exec(function(err, school){
         if(err || !school) {
             req.flash("error", "School niet gevonden");
@@ -19,8 +20,34 @@ router.get("/", middleware.isSchoolOwner, function(req, res){
         } else {
             res.locals.scripts.header.datatables = true;
             res.locals.scripts.footer.datatables = true;
-            res.locals.scripts.footer.tinymce = true;
-            res.render("user/index", {school: school, users: school.users, userview :"school"});
+            var schoolUsers = [];
+            school.users.forEach(user => {
+              var firstName = user.firstName ? user.firstName : '-';
+              var lastName = user.lastName ? user.lastName : '-';
+              schoolUsers.push({
+                ...user._doc,
+                firstName: firstName,
+                lastName: lastName
+              })
+            })
+            school.students.forEach(student => {
+              var firstName = student.firstName ? student.firstName : '-';
+              var lastName = student.lastName ? student.lastName : '-';
+              schoolUsers.push({
+                ...student._doc,
+                firstName: firstName,
+                lastName: lastName
+              })
+            })
+            res.render("table-view/index", {
+              school: school, 
+              items: schoolUsers, 
+              columns: config.user.columns(true, false),
+              header: 'user',
+              hasWarningRow: false,
+              email: true,
+              allowNewEntries: false
+            });     
         }
     });
 });
@@ -29,12 +56,13 @@ router.get("/", middleware.isSchoolOwner, function(req, res){
 router.get("/cards", middleware.isSchoolOwner, function(req, res){
     School.findById(req.params.id)
     .populate({path: 'users', options: { sort: { 'lastName': 'asc' } } })
+    .populate({path: 'students', options: { sort: { 'lastName': 'asc' } } })
     .exec(function(err, school){
         if(err || !school) {
             req.flash("error", "School niet gevonden");
             res.redirect("back");
         } else {
-          res.render("user/cards", {school: school, users: school.users, userview: "school"});
+          res.render("user/cards", {school: school, users: school.users.concat(school.students), userview: "school"});
         }
     });
 });
@@ -43,6 +71,7 @@ router.get("/cards", middleware.isSchoolOwner, function(req, res){
 router.get("/charts", middleware.isSchoolOwner, function(req, res){
     School.findById(req.params.id)
     .populate({path: 'users', options: { sort: { 'lastName': 'asc' } } })
+    .populate({path: 'students', options: { sort: { 'lastName': 'asc' } } })
     .exec(function(err, school){
         if(err || !school) {
             req.flash("error", "School niet gevonden");
@@ -50,7 +79,7 @@ router.get("/charts", middleware.isSchoolOwner, function(req, res){
         } else {
           res.locals.scripts.header.surveyanalytics = true;
           res.locals.scripts.footer.useranalytics = true;
-          res.render("user/charts", {school: school, users: school.users, userview: "school"});
+          res.render("user/charts", {school: school, users: school.users.concat(school.students), userview: "school"});
         }
     });
 });
@@ -90,7 +119,7 @@ router.get("/csv-import", middleware.isSchoolOwner, function(req, res){
     } else {
       res.render("csv-import/main", {
         school: school, 
-        columns: config.user.columns, 
+        columns: config.user.columns(true, true), 
         header: 'user',
         title: 'medewerkers',
         link: 'https://pillars.school/wp-content/uploads/2020/07/Pillars-csv-import-model-voor-medewerkers.xlsx'
@@ -112,7 +141,10 @@ router.post("/csv-import", middleware.isNotDemoAccount, middleware.isSchoolOwner
         if(!config.user.helpers.validateEmail(email)){
           return res.json({success: false, message: 'Email adres ' + email + ' is ongeldig'});
         }
-        var role = user.role === 'Admin' ? 'sadmin' : 'suser';
+        var role = 'suser';
+        if(user.role === 'Admin'){
+          role = 'sadmin';
+        }
         var password = user.password && user.password.length > 7 ? user.password : null;
         var hasError = await config.user.helpers.registerUser(email, school, null, role, password, user.firstName, user.lastName);
         if(hasError){

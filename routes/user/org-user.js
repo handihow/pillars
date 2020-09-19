@@ -24,8 +24,28 @@ router.get("/", middleware.isLoggedIn, function(req, res){
             } else {
               res.locals.scripts.header.datatables = true;
               res.locals.scripts.footer.datatables = true;
-              res.locals.scripts.footer.tinymce = true;
-              res.render("user/index", {users: users, organisation: organisation, userview: 'organisation'});        
+              let supplementedUsers = [];
+              users.forEach(user => {
+                var schoolName = user.school && user.school[0] ? user.school[0].name : '-';
+                var firstName = user.firstName ? user.firstName : '-';
+                var lastName = user.lastName ? user.lastName : '-';
+                supplementedUsers.push({
+                  schoolName: schoolName,
+                  ...user._doc,
+                  firstName: firstName,
+                  lastName: lastName
+                })
+              });
+              res.render("table-view/index", {
+                organisation: organisation, 
+                items: supplementedUsers, 
+                columns: config.user.columns(false, false),
+                header: 'user',
+                hasWarningRow: false,
+                email: true,
+                allowNewEntries: false
+              });    
+              // res.render("user/index", {users: users, organisation: organisation, userview: 'organisation'});        
             }
         });
       }
@@ -156,7 +176,7 @@ router.get("/csv-import", middleware.isAuthenticatedBadmin, function(req, res){
     } else {
       res.render("csv-import/main", {
         organisation: organisation, 
-        columns: config.user.columns, 
+        columns: config.user.columns(false, true), 
         header: 'user',
         title: 'medewerkers',
         link: 'https://pillars.school/wp-content/uploads/2020/07/Pillars-csv-import-model-voor-medewerkers.xlsx'
@@ -178,7 +198,10 @@ router.post("/csv-import", middleware.isNotDemoAccount, middleware.isAuthenticat
         if(!config.user.helpers.validateEmail(email)){
           return res.json({success: false, message: 'Email adres ' + email + ' is ongeldig'});
         }
-        var role = user.role === 'Admin' ? 'badmin' : 'buser';
+        var role = 'buser';
+        if(user.role === 'Admin'){
+          role = 'badmin';
+        }
         var password = user.password && user.password.length > 7 ? user.password : null;
         var hasError = await config.user.helpers.registerUser(email, null, organisation, role, password, user.firstName, user.lastName);
         if(hasError){

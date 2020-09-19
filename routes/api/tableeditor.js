@@ -66,7 +66,8 @@ router.post("/", function(req, res){
 //UPDATE
 async function updateRecords(req, res, dataArray, collectionName, results, error){	
 	for (var i = dataArray.length - 1; i >= 0; i--) {
-		var result = await updateRecord(dataArray[i], collectionName);
+		let record = dataArray[i];
+		var result = await updateRecord(record, collectionName);
 		results.push(result);
 	}
 	res.json({

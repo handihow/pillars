@@ -433,8 +433,6 @@ function handleNewCompetenceGetRoutes(req, res, route){
         if(err ||!organisation){
           req.flash("error", "Bestuur niet gevonden.");
           res.redirect("back");
-        } else if(route === 'ddl') {
-          res.render("coming-soon", {organisation: organisation, title: 'Digitale Deskundigheid Leerlingen'});
         } else {
             User.find({
                 "organisation": organisation._id
@@ -448,6 +446,10 @@ function handleNewCompetenceGetRoutes(req, res, route){
                         "isActiveCompetenceSurvey": true,
                         "competenceStandardKey": route
                       }, function(err, survey){
+                        if(route === 'ddl'){
+                            res.redirect('/organisations/' + organisation._id + '/survey/' + survey._id);
+                            return;
+                        }
                         var index = config.competence.survey.competenceCategories.findIndex((e) => e.identifier == route);
                         if(index == -1){
                           req.flash("error", "Geen definitie gevonden van deze vragenlijst");

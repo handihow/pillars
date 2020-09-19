@@ -42,9 +42,65 @@
 <div id="itemsData" hidden><%=JSON.stringify(items)%></div>
 <div id="warningRowData" hidden><%=hasWarningRow !== 'undefined' && hasWarningRow ? 'true' : 'false'%></div>
 <div id="allowNewEntriesData" hidden><%= typeof allowNewEntries !== 'undefined' && allowNewEntries ? 'true' : 'false'%></div>
+<div id="emailData" hidden><%= typeof email !== 'undefined' && email ? 'true' : 'false'%></div>
 <div id="headerData" hidden><%=header%></div>
 <div id="organisationData" hidden><%=typeof organisation !== 'undefined' ? 'true' : 'false'%></div>
 <div id="schoolData" hidden><%=typeof school !== 'undefined' ? JSON.stringify(school) : '' %></div>
+
+<div class="ui modal" id="compose-email-modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Stap 1. Maak bericht voor verzenden naar <span class='numberOfEmailRespondents'></span> email adres(sen)
+  </div>
+  <div class="content">
+    <h4>Naar</h4>
+    <div class="emailAddressInfo"></div>
+    <h4>Selecteer template</h4>
+    <div class="ui buttons">
+      <button class="ui button" id="invitationEmailBtn">Uitnodigen</button>
+      <button class="ui button" id="reminderEmailBtn">Herinneren</button>
+      <button class="ui button" id="newAccountBtn">Nieuw account</button>
+      <button class="ui button" id="emptyEmailBtn">Lege email</button>
+    </div>
+    <form class="ui form">
+      <div class="required field">
+        <label>Onderwerp</label>  
+        <input id="emailSubject">
+      </div>
+      <div class="required field">
+          <label>Bericht</label>  
+          <textarea id="emailBody"></textarea>
+      </div>
+    </form>
+  </div>
+  <div class="actions">
+    <div class="ui positive approve right labeled icon button" id="btn-modal-1">
+      Naar stap 2: verzenden
+      <i class="checkmark icon"></i>
+    </div>
+  </div>
+</div>
+
+<div class="ui modal" id="confirm-send-email-modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Stap 2. Bevestig bericht voor verzenden naar <span class='numberOfEmailRespondents'></span> email adres(sen)
+  </div>
+  <div class="content">
+    <h4>Naar</h4>
+    <div class="emailAddressInfo"></div>
+    <h4>Onderwerp</h4>
+    <div id="emailSubjectConfirm"></div>
+    <h4>Bericht</h4>
+    <div id="emailBodyConfirm"></div>
+  </div>
+  <div class="actions">
+    <div class="ui positive approve right labeled icon button">
+      Verzenden
+      <i class="checkmark icon"></i>
+    </div>
+  </div>
+</div>
 
 <%if(typeof school !== 'undefined'){%>
   <%- include('../partials/school-footer') %>
@@ -83,8 +139,16 @@
     var allowNewEntriesText = $('#allowNewEntriesData').text();
     var allowNewEntries = allowNewEntriesText === "true" ? true : false;
 
+    var emailText = $('#emailData').text();
+    var email = emailText === "true" ? true : false;
+
     var hasOrganisationText = $('#organisationData').text();
     var hasOrganisation = hasOrganisationText === "true" ? true : false;
+
+    var roleRowIndex = 3;
+    if(hasOrganisation){
+      roleRowIndex = 4;
+    }
 
     var urlParams = new URLSearchParams(window.location.search);
     var searchParam = ""
@@ -107,6 +171,9 @@
           orderable: false,
           bVisible: true,
           render: function ( data, type, row ) {
+            if(typeof data.publicProfile !== 'undefined' && !data.publicProfile){
+              return '<a>Prive</a>'
+            }
             return '<a href="/' + header + '/' + data._id + '">Bekijk</a>';
           }
       }
@@ -129,17 +196,40 @@
     }
     
     columnData.forEach(function(column){
-      tableColumns.push({
-        data: column.id,
-        sTitle: column.short,
-        bVisible: !column.hidden
-      });
+      if(column.id === 'role'){
+        tableColumns.push({
+          data: column.id,
+          sTitle: column.short,
+          bVisible: !column.hidden,
+          render: function ( data, type, row ) {
+              if(row.role === 'student'){
+                return "<div class='ui mini blue label'>Leerling</div>"
+              } else if(row.role === 'suser'){
+                return "<div class='ui mini orange label'>School medewerker</div>"
+              } else if(row.role === 'sadmin'){
+                return "<div class='ui mini yellow label'>School admin</div>"
+              } else if(row.role === 'buser'){
+                return "<div class='ui mini olive label'>Bestuur medewerker</div>"
+              } else if(row.role === 'badmin'){
+                return "<div class='ui mini green label'>Bestuur admin</div>"
+              } else {
+                return "<div class='ui mini teal label'>Pillars admin</div>"
+              }
+            }
+        });
+      } else {
+        tableColumns.push({
+          data: column.id,
+          sTitle: column.short,
+          bVisible: !column.hidden
+        });  
+      }
       if(column.standardValueFieldType && column.standardValueFieldType === 'select'){
         var options = [];
         column.standardValueOptions.forEach(function(option){
           options.push({
-            label: option,
-            value: option
+            label: option.label ? option.label : option,
+            value: option.value ? option.value : option,
           })
         })        
         fields.push({
@@ -154,7 +244,6 @@
           name: column.id
         })
       }
-      
      })
 
     if(hasWarningRow){
@@ -221,10 +310,180 @@
         'colvis',
         'excel',
       ];
+
     if(allowNewEntries){
       buttons.unshift({
         extend: 'create', editor: editor
       })
+    }
+
+    if(email){
+      buttons.push({
+              extend: 'selected',
+              editor: editor,
+              action: function ( e, dt, node, config ) {
+                  var rows = dt.rows( { selected: true } ).data();
+
+                  var emailArr = [];
+                  for(var i=0; i<rows.length; i++){
+                    emailArr.push(rows[i].username);
+                  }
+
+                  var emailTxt = '';
+
+                  if(emailArr.length < 3){
+                    emailTxt = emailArr.join(', ');
+                  } else {
+                    emailTxt = emailArr.slice(0,3).join(', ') + ' en nog ' + (emailArr.length - 3).toString() + ' andere'
+                  }
+
+                  $('.emailAddressInfo').text(emailTxt);
+                  $('.numberOfEmailRespondents').text(rows.length);
+
+                  var invitationEmailSubject = 'Uitnodiging test ICT vaardigheden Pillars'
+
+                  var invitationEmailBody = 
+                  `<h4>Uitnodiging ICT vaardigheden test</h4>
+                  <p>De directie van jouw school heeft je uitgenodigd om een ICT vaardigheden test te doen op Pillars.
+                  We vragen je om in te loggen op de <a href="https://app.pillars.school/login">Pillars website</a>
+                  met jouw schoolaccount. Gebruik hiervoor de knoppen Google / Microsoft of stel een wachtwoord in.</p>
+                  <p></p>
+                  <p>Pillars helpt jouw school met het complexe vraagstuk rondom ICT en onderwijs.
+                  Een belangrijk onderdeel hiervan is het testen van de digitale vaardigheden van medewerkers op school.</p>
+                  <p></p>
+                  <p>Voor meer informatie, bekijk aub het <a href="https://youtu.be/CZd81ncn2oA">YouTube introductiefilmje Pillars</a>.</p>
+                  <p></p>
+                  <p>Met vriendelijke groeten,</p>
+                  <p></p>
+                  <p><strong>Team Pillars</strong></p>`
+
+                  var reminderEmailSubject = 'Herinnering test ICT vaardigheden Pillars'
+
+                  var reminderEmailBody = 
+                  `<h4>Herinnering ICT vaardigheden test</h4>
+                  <p>De directie van jouw school heeft je eerder uitgenodigd om een ICT vaardigheden test te doen op Pillars.
+                  We vragen je om in te loggen op de <a href="https://app.pillars.school/login">Pillars website</a>
+                  met jouw schoolaccount. Gebruik hiervoor de knoppen Google / Microsoft of stel een wachtwoord in.</p>
+                  <p></p>
+                  <p>Pillars helpt jouw school met het complexe vraagstuk rondom ICT en onderwijs.
+                  Een belangrijk onderdeel hiervan is het testen van de digitale vaardigheden van medewerkers op school.</p>
+                  <p></p>
+                  <p>Voor meer informatie, bekijk aub het <a href="https://youtu.be/CZd81ncn2oA">YouTube introductiefilmje Pillars</a>.</p>
+                  <p></p>
+                  <p>Met vriendelijke groeten,</p>
+                  <p></p>
+                  <p><strong>Team Pillars</strong></p>`
+
+                  var welcomeEmailSubject = 'Welkom bij Pillars!'
+
+                  var welcomeEmailBody = 
+                  `<h4>Welkom bij Pillars!</h4>
+                  <p>De directie van jouw school heeft je uitgenodigd om deel te nemen aan Pillars.
+                  We vragen je om in te loggen op de <a href="https://app.pillars.school/login">Pillars website</a>
+                  met jouw schoolaccount. Gebruik hiervoor de knoppen Google / Microsoft of stel een wachtwoord in.</p>
+                  <p></p>
+                  <p>Pillars helpt jouw school met het complexe vraagstuk rondom ICT en onderwijs.
+                  Een belangrijk onderdeel hiervan is het testen van de digitale vaardigheden van medewerkers op school.</p>
+                  <p></p>
+                  <p>Voor meer informatie, bekijk aub het <a href="https://youtu.be/CZd81ncn2oA">YouTube introductiefilmje Pillars</a>.</p>
+                  <p></p>
+                  <p>Met vriendelijke groeten,</p>
+                  <p></p>
+                  <p><strong>Team Pillars</strong></p>`
+
+                  var emailBody = invitationEmailBody;
+                  var emailSubject = invitationEmailSubject;
+                  
+                  $('textarea#emailBody').tinymce({
+                      script_url : 'https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=d4xdezp2zrecxro0s9vxbmnaah075az3ag0kutbsoj6c46m4',
+                      selector: 'textarea#emailSubject',  // change this value according to your HTML
+                      branding: false,
+                      menubar: false,
+                      plugins: "link",
+                      toolbar: "undo redo | styleselect | bold italic | link",
+                      setup : function(editor) {
+                        editor.on('init', function (e) {
+                          editor.setContent(invitationEmailBody);
+                        });
+                        editor.on("change", function(){
+                            emailBody = tinymce.activeEditor.getContent();
+                        });
+                      }
+                  });
+
+                  $('#emailSubject').val(invitationEmailSubject);
+
+                  $('#invitationEmailBtn').click(function(){
+                    $('#emailSubject').val(invitationEmailSubject)
+                    tinymce.activeEditor.setContent(invitationEmailBody);
+                  });
+
+                  $('#reminderEmailBtn').click(function(){
+                    $('#emailSubject').val(reminderEmailSubject)
+                    tinymce.activeEditor.setContent(reminderEmailBody);
+                  });
+
+                  $('#newAccountBtn').click(function(){
+                    $('#emailSubject').val(welcomeEmailSubject)
+                    tinymce.activeEditor.setContent(welcomeEmailBody);
+                  });
+
+                  $('#emptyEmailBtn').click(function(){
+                    $('#emailSubject').val('')
+                    tinymce.activeEditor.setContent('');
+                  });
+
+                  $('#compose-email-modal')
+                  .modal({
+                    allowMultiple: false,
+                    closable: true,
+                    onApprove : function() {
+                      emailSubject = $('#emailSubject').val();
+                      emailBody = tinymce.activeEditor.getContent();
+                      $('#emailSubjectConfirm').text(emailSubject);
+                      $('#emailBodyConfirm').html(emailBody);
+                      return true;
+                    }
+                  })
+                  .modal('show');
+
+                  $('#confirm-send-email-modal')
+                  .modal('attach events', '#btn-modal-1')
+                  .modal({
+                    closable: true,
+                    onApprove: function(){
+                      if(emailBody.length === 0 || emailSubject.length === 0 || emailArr.length === 0){
+                        alert('Geen ontvangers of onderwerp / bericht is leeg... Probeer het opnieuw');
+                      } else {
+                        $.ajax({
+                          url: '/api/emails',
+                          type: 'POST',
+                          contentType: 'application/json',
+                          data: JSON.stringify({
+                            emailarray: emailArr,
+                            emailsubject: emailSubject,
+                            emailbody: emailBody
+                          }),
+                          success: function(response){
+                            if(response.success){
+                              alert('Emails verstuurd!');
+                              return true;
+                            } else {
+                              alert('Fout bij het verzenden van emails ...' + response.message);
+                              return false;
+                            }
+                            
+                          },
+                          error: function(error){
+                            alert('Fout bij het verzenden van emails ...' + error.errorThrown);
+                            return false;
+                          }
+                        })
+                      }
+                    }
+                  })
+              }
+          });
     }
 
 
@@ -278,6 +537,10 @@
         }
       }
     };
+
+    if(email){
+      dataTableSettings.language.buttons.selected = 'Emailen';
+    }
 
     var table = $("#dynamicTable").DataTable({
         ...dataTableSettings,

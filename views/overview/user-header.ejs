@@ -1,0 +1,36 @@
+<h2 class="ui centered header">
+  Accounts
+</h2>
+
+
+<div class="ui small basic icon buttons">
+<a class="ui <%if(url===("/organisations/"+organisation._id+"/org-user")){ %> active <%}%> button" 
+    href="/organisations/<%=organisation._id%>/org-user"
+    data-content="Lijst met accounts">
+      <i class="list icon"></i>
+</a>
+<a class="ui <%if(url===("/organisations/"+organisation._id+"/org-user/cards")){ %> active <%}%> button" 
+    href="/organisations/<%=organisation._id%>/org-user/cards" 
+    data-content="Kaarten">
+    <i class="th icon"></i>
+</a>
+<a class="ui <%if(url===("/organisations/"+organisation._id+"/org-user/charts")){ %> active <%}%> button" 
+    href="/organisations/<%=organisation._id%>/org-user/charts"
+    data-content="Grafieken">
+    <i class="chart pie icon"></i>
+</a>
+<a class="ui <%if(url===("/organisations/"+organisation._id+"/org-user/csv-import")){ %> active <%}%> button" 
+    href="/organisations/<%=organisation._id%>/org-user/csv-import"
+    data-content="Upload lijst met bestuur medewerkers">
+    <i class="upload icon"></i>
+</a>
+</div>
+<div class="ui dropdown item">
+  <a class="ui small basic icon button" data-content="Accounts toevoegen"><i class="add icon"></i></a>
+  <div class="menu">
+        <a class="item" href="/organisations/<%=organisation._id%>/org-user/new/">Bestuur Toevoegen met Email/Wachtwoord</a>
+        <a class="item" href="/organisations/<%=organisation._id%>/org-user/newSocial/">Bestuur Toevoegen met Schoolaccount</a>
+    </div>
+</div>
+
+<div class="ui divider"></div>
