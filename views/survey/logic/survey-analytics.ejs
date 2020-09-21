@@ -1,5 +1,4 @@
 <script>
-	console.log('script is running')
   if (typeof Survey == "undefined") {
 	   console.log('survey model not defined');
 	}
@@ -29,11 +28,30 @@
   var hasBooleanRadiogroupQuestions = false;
 
   const chartElementVisibility = surveyInfo.chartElementVisibility ? surveyInfo.chartElementVisibility : undefined;
-  var elements = undefined;
-
-  if (chartElementVisibility && !Array.isArray(chartElementVisibility)) {
-      elements = chartElementVisibility.elements;
+  
+  const filteredSurveyQuestions = survey.getAllQuestions().filter(q => q.getType() !== 'html' && q.getType() !== 'image')
+  
+  let elements = undefined;
+  if(chartElementVisibility && !Array.isArray(chartElementVisibility)){
+    console.log(chartElementVisibility);
+    elements = [];
+    const visibleElements = chartElementVisibility.elements;
+    filteredSurveyQuestions.forEach(question => {
+      const visibleElementIndex = visibleElements.findIndex(ve => ve.name === question.name);
+      if(visibleElementIndex === -1){
+        //question is not part of visibility state
+        elements.push({
+          name: question.name,
+          displayName: question.title,
+          visibility: 0
+        });
+      } else {
+        elements.push(visibleElements[visibleElementIndex]);
+      }
+    });
   }
+
+  console.log(elements);
 
   var normalizedData = vispanelresults.map(function(item) {
     survey.getAllQuestions().forEach(function(q) {
@@ -75,10 +93,8 @@
   var surveyResultNode = document.getElementById("resultCharts");
 	surveyResultNode.innerHTML = "";
 
-	var filteredSurveyQuestions = survey.getAllQuestions().filter(q => q.getType() !== 'html' && q.getType() !== 'image')
-
 	var visPanel = window.visPanel = new SurveyAnalytics.VisualizationPanel(filteredSurveyQuestions, normalizedData, 
-		{allowDynamicLayout: false}, elements);
+		{allowDynamicLayout: false, labelTruncateLength:-1, haveCommercialLicense: true}, elements);
 
 	// visPanel.allowDynamicLayout = false;
 	visPanel.showHeader = true;
@@ -113,5 +129,29 @@
     $('#loader').hide();
     
     window.dispatchEvent(new Event('resize'));
+
+    //
+
+    var statisticsString = $( '#statistics' ).text();
+
+    var statistics = JSON.parse(statisticsString || '[]');
+
+    statistics.forEach((stat, index) => {
+      if(index > 0){
+        const statQuestions = filteredSurveyQuestions.filter(q => q.name.includes(stat.name));
+        const numberQuestions = statQuestions.length.toString();
+        const supplementedText = statQuestions.length === 1 ? ' vraag' : ' vragen';
+        $('#'+stat.name+'__number').text(numberQuestions + supplementedText);
+        let appendedHtml = '';
+        statQuestions.forEach(sq => {
+          appendedHtml += "<div class='item'>" + sq.title + "</div>";
+        })
+        $('#'+stat.name).append(appendedHtml);
+      }
+    });
+
+    $('#showSurveyInformation').click(function() {
+      $('#surveyInformation').modal('show')
+    });
 
 </script>

@@ -27,6 +27,10 @@
         class="ui icon button" 
         data-content="Alle resultaten ophalen"><i class="sync icon"></i></a>
   <% } %>
+  <% if(survey.isCompetenceSurvey){%>
+    <button class="ui icon button" id="showSurveyInformation"
+    data-content="Informatie over deze test"><i class="info icon"></i></button>
+  <% } %>
 </div>
 <div class="ui divider"></div>
 
@@ -53,6 +57,31 @@
   <%}%>
   <div id="surveyText" hidden><%= JSON.stringify(survey)%></div>
   <div id="surveyResults" hidden><%= JSON.stringify(surveyResults)%></div>
+
+  <div class="ui modal" id="surveyInformation">
+    <i class="close icon"></i>
+    <div class="header">
+      Onderdelen van deze vragenlijst
+    </div>
+    <div class="content">
+      <div class="ui ordered list">
+        <%statistics.forEach((stat,i) => {%>
+          <%if(i>0){%>
+            <div class="item">
+                <strong><%=stat.title%></strong> heeft <span id="<%=stat.name%>__number"></span>
+                <div class="list" id="<%=stat.name%>"></div>
+            </div>
+          <%}%>
+        <%})%>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui positive right labeled icon button">
+        Bedankt
+        <i class="checkmark icon"></i>
+      </div>
+    </div>
+  </div>
   
 <%if(schoolLevel){%>
   <%- include('../partials/school-footer') %>
