@@ -1,137 +1,39 @@
 <script>
-  if (typeof Survey == "undefined") {
-	   console.log('survey model not defined');
-	}
-
-	var resultsInfo = $( '#surveyResults' ).text();
-
-	var result = JSON.parse(resultsInfo || '[]');
-
-	if(result.length===0){
-		console.log('no survey results');
-	}
-
-	var surveyInfoText = $( '#surveyText' ).text();
-
-	var surveyInfo = JSON.parse(surveyInfoText || '[]');
-
-	if(surveyInfo.competenceStandardKey === 'podd'){
-		setCustomSurveyProperties();
-	}
-
-	var surveyData = surveyInfo.survey;
-
-	var survey = new Survey.Model(surveyData);
-
-  var vispanelresults = result.map(r => r.result);
   
-  var hasBooleanRadiogroupQuestions = false;
+  function drawSurveyAnalytics(){
+    if (typeof Survey == "undefined") {
+  	   return
+  	}
 
-  const chartElementVisibility = surveyInfo.chartElementVisibility ? surveyInfo.chartElementVisibility : undefined;
-  
-  const filteredSurveyQuestions = survey.getAllQuestions().filter(q => q.getType() !== 'html' && q.getType() !== 'image')
-  
-  let elements = undefined;
-  if(chartElementVisibility && !Array.isArray(chartElementVisibility)){
-    console.log(chartElementVisibility);
-    elements = [];
-    const visibleElements = chartElementVisibility.elements;
-    filteredSurveyQuestions.forEach(question => {
-      const visibleElementIndex = visibleElements.findIndex(ve => ve.name === question.name);
-      if(visibleElementIndex === -1){
-        //question is not part of visibility state
-        elements.push({
-          name: question.name,
-          displayName: question.title,
-          visibility: 0
-        });
-      } else {
-        elements.push(visibleElements[visibleElementIndex]);
-      }
-    });
-  }
+  	var resultsInfo = $( '#surveyResults' ).text();
 
-  console.log(elements);
+  	var result = JSON.parse(resultsInfo || '[]');
 
-  var normalizedData = vispanelresults.map(function(item) {
-    survey.getAllQuestions().forEach(function(q) {
-      if(q.getType()=='radiogroup'){
-      	hasBooleanRadiogroupQuestions = true;
-      }
-      if (item[q.name] === undefined) {
-        item[q.name] = "";
-      } else if(item[q.name] === true && surveyInfo.competenceStandardKey !== 'podd') {
-      	item[q.name] = "true"
-      } else if(item[q.name] === false && surveyInfo.competenceStandardKey !== 'podd') {
-      	item[q.name] = "false"
-      } 
-    });
-    return item;
-  });
-  
-  SurveyAnalytics.SelectBasePlotly.types = ["pie", "bar", "doughnut"];
+  	if(result.length===0){
+  		console.log('no survey results');
+  	}
 
-  SurveyAnalytics.GaugePlotly.types = ["bullet"];
-  SurveyAnalytics.GaugePlotly.showAsPercentage = true
+  	var surveyInfoText = $( '#surveyText' ).text();
 
-	SurveyAnalytics.VisualizerBase.customColors = 
-			hasBooleanRadiogroupQuestions && 
-      surveyInfo.competenceStandardKey !== 'podd' && surveyInfo.competenceStandardKey !== 'ddl' ? 
-			[
-                'rgba(227,6,19 ,1)',
-                'rgba(0,159,227, 1)',
-            ] :
-			[
-                'rgba(0,159,227, 0.7)',
-                'rgba(227,6,19 ,0.7)',
-                'rgba(249,178,51, 0.7)',
-                'rgba(0, 0, 0, 0.7)',
-                'rgba(18,172,19, 0.7)',
-            ];	
+  	var surveyInfo = JSON.parse(surveyInfoText || '[]');
+
+  	if(surveyInfo.competenceStandardKey === 'podd'){
+  		setCustomSurveyProperties();
+  	}
+
+  	var surveyData = surveyInfo.survey;
+
+  	var survey = new Survey.Model(surveyData);
+
+    var vispanelresults = result.map(r => r.result);
     
+    var hasBooleanRadiogroupQuestions = false;
+
+    const chartElementVisibility = surveyInfo.chartElementVisibility ? surveyInfo.chartElementVisibility : undefined;
+
+
+    const filteredSurveyQuestions = survey.getAllQuestions().filter(q => q.getType() !== 'html' && q.getType() !== 'image');
     
-  var surveyResultNode = document.getElementById("resultCharts");
-	surveyResultNode.innerHTML = "";
-
-	var visPanel = window.visPanel = new SurveyAnalytics.VisualizationPanel(filteredSurveyQuestions, normalizedData, 
-		{allowDynamicLayout: false, labelTruncateLength:-1, haveCommercialLicense: true}, elements);
-
-	// visPanel.allowDynamicLayout = false;
-	visPanel.showHeader = true;
-	
-    visPanel.onStateChanged.add(function() {
-      $.ajax({
-          url: '/api/chartvisibility/'+surveyInfo._id,
-          type: 'POST',
-          contentType: 'application/json',
-          data: JSON.stringify({
-          	chartElementVisibility: visPanel.state
-          }),
-          success: function(response){
-            if(response.success){
-              console.log('saved chart element visibility successfully')
-              return true;
-            } else {
-              alert('Fout bij het bewaren van zichtbaarheid van grafieken ...' + response.message);
-              return false;
-            }
-            
-          },
-          error: function(error){
-            alert('Fout bij het bewaren van zichtbaarheid van grafieken ...' + error.errorThrown);
-            return false;
-          }
-        })
-    });
-	
-    visPanel.render(surveyResultNode);
-
-    $('#loader').hide();
-    
-    window.dispatchEvent(new Event('resize'));
-
-    //
-
     var statisticsString = $( '#statistics' ).text();
 
     var statistics = JSON.parse(statisticsString || '[]');
@@ -153,5 +55,109 @@
     $('#showSurveyInformation').click(function() {
       $('#surveyInformation').modal('show')
     });
+    
+    let elements = undefined;
+    if(chartElementVisibility && !Array.isArray(chartElementVisibility)){
+      console.log(chartElementVisibility);
+      elements = [];
+      const visibleElements = chartElementVisibility.elements;
+      filteredSurveyQuestions.forEach(question => {
+        const visibleElementIndex = visibleElements.findIndex(ve => ve.name === question.name);
+        if(visibleElementIndex === -1){
+          //question is not part of visibility state
+          elements.push({
+            name: question.name,
+            displayName: question.title,
+            visibility: 0
+          });
+        } else {
+          elements.push(visibleElements[visibleElementIndex]);
+        }
+      });
+    }
+
+    var normalizedData = vispanelresults.map(function(item) {
+      survey.getAllQuestions().forEach(function(q) {
+        if(q.getType()=='radiogroup'){
+        	hasBooleanRadiogroupQuestions = true;
+        }
+        if (item[q.name] === undefined) {
+          item[q.name] = "";
+        } else if(item[q.name] === true && surveyInfo.competenceStandardKey !== 'podd') {
+        	item[q.name] = "true"
+        } else if(item[q.name] === false && surveyInfo.competenceStandardKey !== 'podd') {
+        	item[q.name] = "false"
+        } 
+      });
+      return item;
+    });
+    
+    SurveyAnalytics.SelectBasePlotly.types = ["pie", "bar", "doughnut"];
+
+    SurveyAnalytics.GaugePlotly.types = ["bullet"];
+    SurveyAnalytics.GaugePlotly.showAsPercentage = true
+
+  	SurveyAnalytics.VisualizerBase.customColors = 
+  			hasBooleanRadiogroupQuestions && 
+        surveyInfo.competenceStandardKey !== 'podd' && surveyInfo.competenceStandardKey !== 'ddl' ? 
+  			[
+                  'rgba(227,6,19 ,1)',
+                  'rgba(0,159,227, 1)',
+              ] :
+  			[
+                  'rgba(0,159,227, 0.7)',
+                  'rgba(227,6,19 ,0.7)',
+                  'rgba(249,178,51, 0.7)',
+                  'rgba(0, 0, 0, 0.7)',
+                  'rgba(18,172,19, 0.7)',
+              ];	
+
+    var surveyResultNode = document.getElementById("resultCharts");
+    if(!surveyResultNode){
+      return;
+    }
+  	surveyResultNode.innerHTML = "";
+
+  	var visPanel = window.visPanel = new SurveyAnalytics.VisualizationPanel(filteredSurveyQuestions, normalizedData, 
+  		{allowDynamicLayout: false, labelTruncateLength:-1, haveCommercialLicense: true}, elements);
+
+  	// visPanel.allowDynamicLayout = false;
+  	visPanel.showHeader = true;
+  	
+      visPanel.onStateChanged.add(function() {
+        $.ajax({
+            url: '/api/chartvisibility/'+surveyInfo._id,
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+            	chartElementVisibility: visPanel.state
+            }),
+            success: function(response){
+              if(response.success){
+                console.log('saved chart element visibility successfully')
+                return true;
+              } else {
+                alert('Fout bij het bewaren van zichtbaarheid van grafieken ...' + response.message);
+                return false;
+              }
+              
+            },
+            error: function(error){
+              alert('Fout bij het bewaren van zichtbaarheid van grafieken ...' + error.errorThrown);
+              return false;
+            }
+          })
+      });
+  	
+      visPanel.render(surveyResultNode);
+
+      $('#loader').hide();
+      
+      window.dispatchEvent(new Event('resize'));
+    }
+
+  drawSurveyAnalytics();
+
+
 
 </script>
