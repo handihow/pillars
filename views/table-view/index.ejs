@@ -44,7 +44,7 @@
 <div id="allowNewEntriesData" hidden><%= typeof allowNewEntries !== 'undefined' && allowNewEntries ? 'true' : 'false'%></div>
 <div id="emailData" hidden><%= typeof email !== 'undefined' && email ? 'true' : 'false'%></div>
 <div id="headerData" hidden><%=header%></div>
-<div id="organisationData" hidden><%=typeof organisation !== 'undefined' ? 'true' : 'false'%></div>
+<div id="organisationData" hidden><%=typeof organisation !== 'undefined' ? JSON.stringify(organisation) : ''%></div>
 <div id="schoolData" hidden><%=typeof school !== 'undefined' ? JSON.stringify(school) : '' %></div>
 
 <div class="ui modal" id="compose-email-modal">
@@ -142,11 +142,12 @@
     var emailText = $('#emailData').text();
     var email = emailText === "true" ? true : false;
 
-    var hasOrganisationText = $('#organisationData').text();
-    var hasOrganisation = hasOrganisationText === "true" ? true : false;
+    var organisationText = $('#organisationData').text();
+    var organisationData = organisationText.length>0 ? JSON.parse(organisationText) : null;
+    var hasOrganisation = organisationText.length>0  ? true : false;
 
     var roleRowIndex = 3;
-    if(hasOrganisation){
+    if(hasOrganisation && header !== 'school'){
       roleRowIndex = 4;
     }
 
@@ -173,15 +174,18 @@
           render: function ( data, type, row ) {
             if(typeof data.publicProfile !== 'undefined' && !data.publicProfile){
               return '<a>Prive</a>'
+            } else if(header === 'school'){
+              return '<a href="/' + header + 's/' + data._id + '">Bekijk</a>';
+            } else {
+              return '<a href="/' + header + '/' + data._id + '">Bekijk</a>';
             }
-            return '<a href="/' + header + '/' + data._id + '">Bekijk</a>';
           }
       }
     ];
 
     var fields = [];
 
-    if(hasOrganisation){
+    if(hasOrganisation && header !== 'school'){
       tableColumns.push({
         data: 'schoolName',
         sTitle: 'Instellingsnaam',
@@ -266,7 +270,8 @@
           url: '/api/tableeditor',
           data: {
             collectionId: header,
-            schoolId: schoolData ? schoolData._id : null
+            schoolId: schoolData ? schoolData._id : null,
+            organisationId: header === 'school' ? organisationData._id : null
           }
         },
         fields: fields,

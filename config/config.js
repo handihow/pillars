@@ -29,6 +29,7 @@ var userColumns = require('./user/columns');
 var userHelpers = require('./user/helpers');
 
 var classroomColumns = require('./classroom/columns');
+var schoolColumns = require('./school/columns');
 
 //Definition of config variable
 var config = {};
@@ -76,6 +77,9 @@ config.user.helpers = userHelpers;
 
 config.classroom = {};
 config.classroom.columns = classroomColumns;
+
+config.school = {};
+config.school.columns = schoolColumns;
 
 config.currentSchoolYear = "2020/2021"
 

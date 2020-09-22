@@ -3,11 +3,13 @@
 <%- include('../partials/flash-message') %>
 <% if(organisationLevel){ %> 
   <%- include('../partials/organisation-header') %>
+  <%- include('../overview/school-header')%>
 <% } else { %>
   <%- include('../partials/dashboard-header') %>
 <% } %>
 
 <div class="ui container">
+  <% if(!organisationLevel){ %> 
     <h2 class="ui center aligned header">
       <%if(organisation.logo){%>
           <img class="ui image"  src="<%=organisation.logo%>">
@@ -16,6 +18,7 @@
     </h2>
     <!--divider and then all cards for schools-->
     <div class="ui divider"></div>
+  <%}%>
     <!-- placeholder if no schools -->
     <%if(schools.length===0){%>
       <div class="ui placeholder segment">

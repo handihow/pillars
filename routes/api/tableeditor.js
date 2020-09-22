@@ -17,14 +17,17 @@ router.post("/", function(req, res){
 		var newRecords;
 		if(req.body.schoolId){
 			newRecords = Object.keys(req.body.data).map(function(key){ return {school: req.body.schoolId, ...req.body.data[key]}});
+		} else if(req.body.organisationId){
+			newRecords = Object.keys(req.body.data).map(function(key){ return {organisation: req.body.organisationId, ...req.body.data[key]}});
 		} else {
 			newRecords = Object.keys(req.body.data).map(function(key){ return {...req.body.data[key]}});
 		}
 		collectionName.create(newRecords[0], function(err, record){
 			if(err){
+				console.error(err);
 				res.json({
 					data: [],
-					error: error && error.message ? error.message : 'Er ging iets mis...'
+					error: err && err.message ? err.message : 'Er ging iets mis...'
 				});
 			} else {
 				if(req.body.schoolId){
