@@ -23,8 +23,8 @@ var scholenSchema=  mongoose.Schema({
     uploadedLogo: String,
     inspectionResult: String,
     floorMap: String,
-    countStudents: Number,
-    countClassrooms: Number,
+    countStudents: {type: Number, default: 0},
+    countClassrooms: {type: Number, default: 0},
     network: {
         wired: {type: Boolean, default: false},
         wireless: {type: Boolean, default: false}
