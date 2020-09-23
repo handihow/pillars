@@ -24,6 +24,7 @@ router.get("/", middleware.isLoggedIn, function(req, res){
             } else {
               res.locals.scripts.header.datatables = true;
               res.locals.scripts.footer.datatables = true;
+              res.locals.scripts.footer.tinymce = true;
               let supplementedUsers = [];
               users.forEach(user => {
                 var schoolName = user.school && user.school[0] ? user.school[0].name : '-';

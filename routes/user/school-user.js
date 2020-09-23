@@ -20,6 +20,7 @@ router.get("/", middleware.isSchoolOwner, function(req, res){
         } else {
             res.locals.scripts.header.datatables = true;
             res.locals.scripts.footer.datatables = true;
+            res.locals.scripts.footer.tinymce = true;
             var schoolUsers = [];
             school.users.forEach(user => {
               var firstName = user.firstName ? user.firstName : '-';
