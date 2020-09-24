@@ -205,7 +205,7 @@
     var surveyResultNode = document.getElementById("surveyResult");
     surveyResultNode.innerHTML = "";
 	var visPanel = new SurveyAnalytics.VisualizationPanel(survey.getAllQuestions(), normalizedData, 
-		{ allowDynamicLayout: false, allowHideQuestions: false });
+		{ allowDynamicLayout: false, labelTruncateLength: 60, haveCommercialLicense: true, allowHideQuestions: false });
 	visPanel.render(surveyResultNode);
 
 	window.dispatchEvent(new Event('resize'));
