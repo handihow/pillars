@@ -80,9 +80,19 @@
 
 <form class="ui form" action="/schools/<%=school._id%>/software" method="POST" id="softwareForm" novalidate hidden>
   <!--NAAM DIGITALE LEERMIDDEL-->
-  <div class="required field">
-    <label>Naam</label>  
-    <input type="text" name="software[name]" placeholder="Naam digitale leermiddel" id="softwareName">
+  <div class="three fields">
+    <div class="required field">
+      <label>Naam</label>  
+      <input type="text" name="software[name]" placeholder="Naam digitale leermiddel" id="softwareName">
+    </div>
+    <div class="field">
+      <label>Aantal licenties</label>  
+      <input type="number" name="software[licences]" placeholder="Aantal licenties">
+    </div>
+    <div class="field">
+      <label>Kosten per licentie in EURO (afgerond geheel bedrag)</label>  
+      <input type="number" name="software[cost]" placeholder="Kosten per licentie">
+    </div>
   </div>
   <!--NON-CORE SUBJECTS-->
   <% if(subject === config.subjects.noncore) { %> 
@@ -95,7 +105,7 @@
     <% } else { %>
       <input type="hidden" name="software[subject]" value="<%= subject %>">
     <% } %>
-    <div class="two fields">
+    <div class="three fields">
       <div class="required field">
         <label>Software functies</label>
         <select multiple="" name="software[functionalities]" class="ui dropdown" id="softwareFunctionalities">
@@ -114,37 +124,33 @@
           <% }) %>
         </select>
       </div>
+      <% if(school.isSecondarySchool){ %>
+        <div class="required field">
+          <label>Klassen</label>
+          <select multiple="" name="software[gradeLevels]" class="ui dropdown">
+            <option value="">Selecteer klassen</option>
+            <% for(var i=0; i < 6; i++) { %>
+            <option value="Klas <%= i + 1 %>">Klas <%= i+ 1 %></option>
+            <% } %>
+          </select>
+        </div>
+      <% } else { %>
+        <div class="required field">
+          <label>Groepen</label>
+          <select multiple="" name="software[gradeLevels]" class="ui dropdown" id="softwareGradeLevels">
+            <option value="">Selecteer groepen</option>
+            <% for(var i=0; i < 8; i++) { %>
+            <option value="Groep <%= i + 1 %>">Groep <%= i+ 1 %></option>
+            <% } %>
+          </select>
+        </div>
+      <% } %>
     </div>
-    <% if(school.isSecondarySchool){ %>
-    <div class="required field">
-      <label>Klassen</label>
-      <select multiple="" name="software[gradeLevels]" class="ui dropdown">
-        <option value="">Selecteer klassen</option>
-        <% for(var i=0; i < 6; i++) { %>
-        <option value="Klas <%= i + 1 %>">Klas <%= i+ 1 %></option>
-        <% } %>
-      </select>
-    </div>
-    <% } else { %>
-    <div class="required field">
-      <label>Groepen</label>
-      <select multiple="" name="software[gradeLevels]" class="ui dropdown" id="softwareGradeLevels">
-        <option value="">Selecteer groepen</option>
-        <% for(var i=0; i < 8; i++) { %>
-        <option value="Groep <%= i + 1 %>">Groep <%= i+ 1 %></option>
-        <% } %>
-      </select>
-    </div>
-    <% } %>
   <% } %>
   <div class="three fields">
     <div class="field">
       <label>Leverancier</label>  
       <input type="text" name="software[supplier]" placeholder="Leverancier digitale leermiddel" id="softwareSupplier">
-    </div>
-    <div class="field">
-      <label>Aantal licenties</label>  
-      <input type="number" name="software[licences]" placeholder="Aantal licenties">
     </div>
     <div class="field">
       <label>Type leermiddel</label>
@@ -155,7 +161,7 @@
       </select>
     </div>
   </div>
-  <div class="disabled field">
+  <div class="disabled field" hidden>
     <label>Metadata</label>  
     <input type="text" name="software[metadata]" placeholder="Metadata uit Edurep" id="softwareMetadata">
   </div>

@@ -9,6 +9,7 @@ var softwareSchema = mongoose.Schema (
         ratings: [ String ],
         effectiveness: Number,
         licences: Number,
+        cost: {type: Number, default: 0},
         supplier: String,
         typeOfSoftware: {type: String, default: "Digitaal"},
         created: {type: Date, default: Date.now},

@@ -25,12 +25,15 @@
 			const teachingMethodIndex = teachingMethodData.findIndex(tm => tm._id === id);
 			if(teachingMethodIndex > -1){
 				const teachingMethod = teachingMethodData[teachingMethodIndex];
+				if($( "#subjectInput" ).length){
+					$( "#subjectInput" ).dropdown('set selected',teachingMethod.subject);
+				}
 				$( "#softwareName" ).val( teachingMethod.name );
 				$( "#softwareFunctionalities" ).dropdown('set selected',teachingMethod.functionalities);
 				$( "#softwareRatings" ).dropdown('set selected',teachingMethod.ratings);
 				$( "#softwareGradeLevels"  ).dropdown('set selected',teachingMethod.gradeLevels);
 				$( "#softwareSupplier" ).val( teachingMethod.supplier );
-				$( "#softwareType" ).val( teachingMethod.typeOfSoftware );
+				$( "#softwareType" ).dropdown('set selected',teachingMethod.typeOfSoftware);
 				showStep2();
 			}
 		})
