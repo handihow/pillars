@@ -240,6 +240,7 @@
           label: column.description,
           name: column.id,
           type:  "select",
+          multiple: column.multiselect ? true : false,
           options: options
         })
       } else {

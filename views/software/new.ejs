@@ -7,14 +7,55 @@
   <i class="tablet alternate icon"></i>Digitale Leermiddelen voor <%= subject %> Toevoegen aan <%= school.name %>
 </h2>
 <div class="ui divider"></div>
-
-
-<div class="ui fluid action input">
-  <input type="text" placeholder="Zoek leermiddelen in Edurep - Kennisnet databank" id="edurep">
-  <button class="ui primary button search">
-    Zoeken
-  </button>
+<div class="ui steps">
+  <a class="active step" id="stepper__step1">
+    <i class="search icon"></i>
+    <div class="content">
+      <div class="title">Selecteer leermiddel</div>
+      <div class="description">Kies lesmethode of zoek in Edurep</div>
+    </div>
+  </a>
+  <a class="disabled step" id="stepper__step2">
+    <i class="edit icon"></i>
+    <div class="content">
+      <div class="title">Aanvullende informatie</div>
+      <div class="description">Vul aan en bewaar jouw leermiddel</div>
+    </div>
+  </a>
 </div>
+
+<div id="teachingMethodData" hidden><%=JSON.stringify(teachingMethods)%></div>
+
+<div class="ui segment" id="step1">
+  <div class="ui two column very relaxed grid">
+    <div class="column">
+      <div class="ui header">Kies lesmethode</div>
+      <div class="ui list">
+        <%teachingMethods.forEach(method => {%>
+          <div class="item teachingMethod" id="<%=method._id%>">
+            <div class="header"><a><%=method.name%></a></div>
+            <div class="description">
+              <%=method.supplier%>    
+            </div>
+          </div>
+        <%})%>
+      </div>
+    </div>
+    <div class="column">
+      <div class="ui header">Zoek leermiddelen in Edurep</div>
+      <div class="ui fluid action input">
+        <input type="text" placeholder="Zoek leermiddelen in Edurep - Kennisnet databank" id="edurep">
+        <button class="ui primary button search">
+          Zoeken
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="ui vertical divider">
+    of
+  </div>
+</div>
+
 
 
 <div class="ui modal edurep">
@@ -37,7 +78,7 @@
 <div id="subject" hidden><%= subject%></div>
 <div id="isSecondarySchool" hidden><%=school.isSecondarySchool%></div>
 
-<form class="ui form" action="/schools/<%=school._id%>/software" method="POST" id="softwareForm" novalidate>
+<form class="ui form" action="/schools/<%=school._id%>/software" method="POST" id="softwareForm" novalidate hidden>
   <!--NAAM DIGITALE LEERMIDDEL-->
   <div class="required field">
     <label>Naam</label>  
@@ -54,23 +95,25 @@
     <% } else { %>
       <input type="hidden" name="software[subject]" value="<%= subject %>">
     <% } %>
-    <div class="required field">
-      <label>Software functies</label>
-      <select multiple="" name="software[functionalities]" class="ui dropdown">
-        <option value="">Selecteer functies</option>
-        <% school.settings.software.functionalities.forEach(function(functionality) { %>
-        <option value="<%=functionality%>"><%=functionality%></option>
-        <% }) %>
-      </select>
-    </div>
-     <div class="field">
-      <label>Kwaliteitsnormen</label>
-      <select multiple="" name="software[ratings]" class="ui dropdown">
-        <option value="">Selecteer kwaliteitsnormen</option>
-        <% school.settings.software.ratings.forEach(function(rating) { %>
-        <option value="<%=rating%>"><%=rating%></option>
-        <% }) %>
-      </select>
+    <div class="two fields">
+      <div class="required field">
+        <label>Software functies</label>
+        <select multiple="" name="software[functionalities]" class="ui dropdown" id="softwareFunctionalities">
+          <option value="">Selecteer functies</option>
+          <% school.settings.software.functionalities.forEach(function(functionality) { %>
+          <option value="<%=functionality%>"><%=functionality%></option>
+          <% }) %>
+        </select>
+      </div>
+       <div class="field">
+        <label>Kwaliteitsnormen</label>
+        <select multiple="" name="software[ratings]" class="ui dropdown" id="softwareRatings">
+          <option value="">Selecteer kwaliteitsnormen</option>
+          <% school.settings.software.ratings.forEach(function(rating) { %>
+          <option value="<%=rating%>"><%=rating%></option>
+          <% }) %>
+        </select>
+      </div>
     </div>
     <% if(school.isSecondarySchool){ %>
     <div class="required field">
@@ -85,7 +128,7 @@
     <% } else { %>
     <div class="required field">
       <label>Groepen</label>
-      <select multiple="" name="software[gradeLevels]" class="ui dropdown">
+      <select multiple="" name="software[gradeLevels]" class="ui dropdown" id="softwareGradeLevels">
         <option value="">Selecteer groepen</option>
         <% for(var i=0; i < 8; i++) { %>
         <option value="Groep <%= i + 1 %>">Groep <%= i+ 1 %></option>
@@ -105,7 +148,7 @@
     </div>
     <div class="field">
       <label>Type leermiddel</label>
-      <select name="software[typeOfSoftware]" class="ui dropdown">
+      <select name="software[typeOfSoftware]" class="ui dropdown" id="softwareType">
         <option value="Digitaal" selected="">Digitaal leermiddel</option>
         <option value="Niet digitaal">Niet digitaal leermiddel</option>
         <option value="Beide">Beide</option>

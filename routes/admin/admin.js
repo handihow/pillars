@@ -6,6 +6,7 @@ var User = require("../../models/user");
 var Organisation = require("../../models/organisation");
 var Standard = require("../../models/standard");
 var Form = require('../../models/form');
+var TeachingMethod = require('../../models/teachingMethod');
 var config = require("../../config/config");
 
 
@@ -27,11 +28,23 @@ router.get("/", middleware.isPadmin, function(req, res){
             return res.redirect("back");
           }
           Form.countDocuments({}).exec((err, formCount) => {
-          if (err) {
-              req.flash("error", err.message);
-              return res.redirect("back");
+            if (err) {
+                req.flash("error", err.message);
+                return res.redirect("back");
             }
-            res.render("admin/dashboard", { organisationCount: organisationCount, schoolCount: schoolCount, userCount: userCount, formCount: formCount });
+            TeachingMethod.countDocuments({}).exec((err, teachingMethodCount) => {
+              if (err) {
+                req.flash("error", err.message);
+                return res.redirect("back");
+              }
+              res.render("admin/dashboard", { 
+                organisationCount: organisationCount, 
+                schoolCount: schoolCount, 
+                userCount: userCount, 
+                formCount: formCount,
+                teachingMethodCount: teachingMethodCount
+              });
+            });
           });
         });
       });
@@ -51,6 +64,26 @@ router.get("/forms", middleware.isPadmin, function(req,res){
         items: forms, 
         columns: config.forms,
         header: 'form',
+        hasWarningRow: false,
+        allowNewEntries: true
+      });     
+    }
+  })
+});
+
+//get list of teaching methods
+router.get("/teachingmethods", middleware.isPadmin, function(req,res){
+  TeachingMethod.find(function(err, teachingMethods){
+    if(err){
+      req.flash("error", err.message);
+      res.redirect("back");
+    } else {
+      res.locals.scripts.header.datatables = true;
+      res.locals.scripts.footer.datatables = true;
+      res.render("table-view/index", {
+        items: teachingMethods, 
+        columns: config.teachingMethods,
+        header: 'teachingMethod',
         hasWarningRow: false,
         allowNewEntries: true
       });     

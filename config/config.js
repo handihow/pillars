@@ -24,6 +24,7 @@ var inspectionResults = require('./other/inspectionResults'); //school inspectio
 var organisationSettings = require('./other/organisationSettings'); //organisation settings
 var formsCSS = require('./other/formsCSS'); //custom css for forms in the application
 var forms = require('./other/form'); //form column information
+var teachingMethods = require('./teachingmethod/columns');
 
 var userColumns = require('./user/columns');
 var userHelpers = require('./user/helpers');
@@ -70,6 +71,7 @@ config.organisationSettings = organisationSettings.standard;
 config.organisationSettingTopics = organisationSettings.topics;
 config.formsCSS = formsCSS;
 config.forms = forms;
+config.teachingMethods = teachingMethods;
 
 config.user = {};
 config.user.columns = userColumns;

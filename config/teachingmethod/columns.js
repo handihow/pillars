@@ -1,6 +1,6 @@
 var functionality = require('../software/functionality'); 
 var ratings = require('../software/ratings');
-var subjects = required('../software/subjects');
+var subjects = require('../software/subjects');
 var classrooms = ['Groep 1', 'Groep 2', 'Groep 3', 'Groep 4', 'Groep 5', 'Groep 6', 'Groep 7', 'Groep 8'];
 var standardClassrooms = classrooms.slice(3);
 
@@ -13,7 +13,7 @@ var columns = [
 		hidden: false,
 		required: true,
 		standardValueFieldType: 'select',
-		standardValueOptions: subjects.primary.core
+		standardValueOptions: subjects.primary.map(s => s.subject)
 	},
 	{
 		id: 'name', 
@@ -30,7 +30,8 @@ var columns = [
 		data: 'tekstveld',
 		hidden: false,
 		hasStandardValue: true,
-		standardValueFieldType: 'multi-select',
+		standardValueFieldType: 'select',
+		multiselect: true,
 		standardValue: functionality,
 		standardValueOptions: functionality
 	}, 
@@ -41,7 +42,8 @@ var columns = [
 		data: 'tekstveld',
 		hidden: false,
 		hasStandardValue: true,
-		standardValueFieldType: 'multi-select',
+		standardValueFieldType: 'select',
+		multiselect: true,
 		standardValue: standardClassrooms,
 		standardValueOptions: classrooms
 	},
@@ -52,7 +54,8 @@ var columns = [
 		data: 'tekstveld',
 		hidden: false,
 		hasStandardValue: true,
-		standardValueFieldType: 'multi-select',
+		standardValueFieldType: 'select',
+		multiselect: true,
 		standardValue: ratings,
 		standardValueOptions: ratings
 	},

@@ -125,7 +125,7 @@
     
     survey.locale = 'nl';
     
-    $("#evaluationForm").Survey({model: survey, css: formsCSS});
+    $("#evaluationForm").Survey({model: survey});
 
     var schoolId = $( '#schoolId' ).text();
     var url = window.location.origin + "/schools/" + schoolId + "/evaluation"; //post url for new evaluation

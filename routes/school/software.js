@@ -3,6 +3,7 @@ var router = express.Router({mergeParams: true});
 var School = require("../../models/school");
 var Software = require("../../models/software");
 var Survey = require("../../models/survey");
+var TeachingMethod = require("../../models/teachingMethod");
 var middleware = require("../../middleware");
 var json2csv = require("json2csv");
 var config = require("../../config/config");
@@ -171,9 +172,30 @@ router.get("/new/:subject", middleware.isNotDemoAccount , middleware.isSchoolOwn
             req.flash("error", "School niet gevonden.");
             res.redirect("back");
         } else {
-            res.locals.scripts.footer.edurep = true;
-            res.render("software/new", {school: school, subject: req.params.subject});        
-        }
+          let queryParams = {};
+          if(subject === 'Overige'){
+            queryParams = {subject: {$in: config.software.subjects.primary.filter(s => !s.isCore).map(s => s.subject)}};
+          } else {
+            queryParams = {subject: subject};
+          }
+          TeachingMethod.find(
+            queryParams, 
+            null, 
+            {sort : { name : 1 }}, 
+            function(err, teachingMethods){
+            if(err){
+              req.flash("error", "Probleem bij vinden van lesmethodes.");
+              res.redirect("back");
+            } else {
+              res.locals.scripts.footer.edurep = true;
+              res.render("software/new", {
+                school: school, 
+                subject: subject,
+                teachingMethods: teachingMethods
+              });  
+            }
+          });     
+        } 
     });
 });
 

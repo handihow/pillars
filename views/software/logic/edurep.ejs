@@ -1,6 +1,40 @@
 <script>
 	$(document).ready(function() {
 
+		var teachingMethodText = $('#teachingMethodData').text();
+    	var teachingMethodData = JSON.parse(teachingMethodText);
+
+		function showStep1(){
+			$( "#step1").show();
+			$( "#softwareForm").hide();
+			$( "#stepper__step1").removeClass("completed").addClass("active");
+			$( "#stepper__step2").removeClass("active").addClass("disabled");
+		}
+
+		function showStep2(){
+			$( "#step1").hide();
+			$( "#softwareForm").show();
+			$( "#stepper__step1").removeClass("active").addClass("completed");
+			$( "#stepper__step2").removeClass("disabled").addClass("active");
+		}
+
+		$("#stepper__step1").click(showStep1);
+
+		$(".teachingMethod.item").click(function(){
+			const id = $(this).attr('id');
+			const teachingMethodIndex = teachingMethodData.findIndex(tm => tm._id === id);
+			if(teachingMethodIndex > -1){
+				const teachingMethod = teachingMethodData[teachingMethodIndex];
+				$( "#softwareName" ).val( teachingMethod.name );
+				$( "#softwareFunctionalities" ).dropdown('set selected',teachingMethod.functionalities);
+				$( "#softwareRatings" ).dropdown('set selected',teachingMethod.ratings);
+				$( "#softwareGradeLevels"  ).dropdown('set selected',teachingMethod.gradeLevels);
+				$( "#softwareSupplier" ).val( teachingMethod.supplier );
+				$( "#softwareType" ).val( teachingMethod.typeOfSoftware );
+				showStep2();
+			}
+		})
+
 		$('.ui.button.search')
 		  .api({
 		  	onResponse: function(response) {
@@ -30,6 +64,7 @@
 							$( "#softwareMetadata" ).val( JSON.stringify(record) );
 							$('.ui.modal.edurep').modal('hide');
 							$('#edurep').val('');
+							showStep2();
 						})
 		  			});
 		  			$('.ui.modal.edurep').modal('show')
