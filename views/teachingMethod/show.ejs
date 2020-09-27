@@ -1,0 +1,90 @@
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
+
+<div class="ui container">
+
+<h2 class="ui  header">
+	<i class="desktop icon"></i>
+	<div class="content"><%= teachingMethod.name %></div>
+</h2>
+<button class="ui right floated button" onclick="goBack()">Terug</button>
+<div class="ui divider"></div>
+<div class="ui stackable grid">
+	<div class="four wide column">
+	  <h4 class="content">Vak</h4> 
+	  <div class="content"><%= teachingMethod.subject %></div>
+	</div>
+	<div class="four wide column">
+	  <h4 class="content">Naam</h4>
+	  <div class="content"><%= teachingMethod.name %></div>
+	</div>
+	<div class="four wide column">
+      <h4 class="content">Leverancier</h4>
+      <div class="content"><%= teachingMethod.supplier %></div>
+    </div>
+    <div class="four wide column">
+      <h4 class="content">Type leermiddel</h4>
+      <div class="content"><%= teachingMethod.typeOfSoftware %></div>
+    </div>
+    <div class="four wide column">
+      <h4 class="content">Functies</h4>
+      <% functionalities.forEach(function(functionality){ %>
+	      <div class="content">
+	        <% if(teachingMethod.functionalities.includes(functionality)) { %>
+	        <i class="green checkmark icon"></i> <%=functionality%><% } else { %>
+	        <i class="red remove icon"></i> <%=functionality%><% } %>
+	      </div>
+      <% }); %>
+    </div>
+     <div class="four wide column">
+      <% if(teachingMethod.isSecondarySchool){ %>
+      <h4 class="content">Klassen</h4>
+      <% for(i=1; i<=6; i++){ %>
+      <div class="content">
+        <% if(teachingMethod.gradeLevels.includes("Klas " + i)) { %>
+        <i class="green checkmark icon"></i> <%= "Klas " + i %><% } else { %>
+        <i class="red remove icon"></i> <%= "Klas " + i %><% } %>
+      </div>
+      <% }; %>
+      <%} else { %>
+      <h4 class="content">Groepen</h4>
+      <% for(i=1; i<=8; i++){ %>
+      <div class="content">
+        <% if(teachingMethod.gradeLevels.includes("Groep " + i)) { %>
+        <i class="green checkmark icon"></i> <%= "Groep " + i %><% } else { %>
+        <i class="red remove icon"></i> <%= "Groep " + i %><% } %>
+      </div>
+      <% }; %>
+      <% } %>
+    </div>
+    <div class="four wide column">
+      <h4 class="content">Kwaliteitsnormen</h4>
+      <% ratings.forEach(function(rating){ %>
+	      <div class="content">
+	        <% if(teachingMethod.ratings.includes(rating)) { %>
+	        <i class="green checkmark icon"></i> <%=rating%><% } else { %>
+	        <i class="red remove icon"></i> <%=rating%><% } %>
+	      </div>
+      <% }); %>
+    </div>
+    <div class="four wide column">
+      <h4 class="content">Type onderwijs</h4>
+      <div class="content"><%= teachingMethod.isSecondarySchool ? 'Middelbaar onderwijs' : 'Basisonderwijs' %></div>
+    </div>
+</div>
+<div class="ui divider"></div>
+<h2 class="ui header">Scholen met deze lesmethode</h2>
+<div class="ui list">
+	<%software.forEach(item => {%>
+		<a class="item" href="/software/<%=item._id%>">
+			<div class="content">
+				<div class="header"><%=item.school.name%></div>
+				<div class="description"><%=item.name%> ingevoerd op 
+					<%=item.created.toJSON().slice(0,10).split('-').reverse().join('/')%></div>
+			</div>
+		</a>
+	<%})%>
+</div>
+
+<%- include('../partials/footer') %>

@@ -15,11 +15,6 @@
       data-content="Grafieken">
       <i class="chart pie icon"></i>
   </a>
-  <a class="ui <%if(url===("/schools/"+school._id+"/software/download")){ %> active <%}%> button" 
-      href="/schools/<%=school._id%>/software/download"
-      data-content="Download lijst met digitale leermiddelen">
-      <i class="download icon"></i>
-  </a>
 </div>
 <% if(!(currentUser.role==="suser")) { %>
   <div class="ui small basic icon buttons">
