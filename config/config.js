@@ -8,6 +8,7 @@ var ratings = require('./software/ratings'); //software ratings
 var subjects = require('./software/subjects'); //software subjects
 var softwareStandards = require('./software/standards'); //software Pillars standards
 var softwareSurvey = require('./software/survey'); //software survey
+var softwareColumns = require('./software/columns'); //software columns
 //import competence configuration files
 var competenceSurvey = require('./competence/survey'); //competence survey
 var competenceStandards = require('./competence/standards'); //competence standards
@@ -50,6 +51,7 @@ config.software.functionality = functionality;
 config.software.ratings = ratings;
 config.software.standards = softwareStandards;
 config.software.survey = softwareSurvey;
+config.software.columns = softwareColumns;
 
 //competence
 config.competence = {};

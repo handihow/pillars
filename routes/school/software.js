@@ -32,15 +32,27 @@ router.get("/list", middleware.isLoggedIn, function(req, res){
             req.flash("error", "School niet gevonden.");
             res.redirect("back");
         } else {
-             Survey.findOne({organisation: school.organisation,isActiveSoftwareSurvey: true})
-                    .exec(function(err, survey){
-                        if(err){
-                          req.flash("error", err.message);
-                          res.redirect("back");
-                        } else {
-                          res.render("software/index-list", {school: school, survey: survey});
-                        }
-                    })
+             Survey.findOne({
+               organisation: school.organisation,
+               isActiveSoftwareSurvey: true
+             })
+            .exec(function(err, survey){
+                if(err){
+                  req.flash("error", err.message);
+                  res.redirect("back");
+                } else {
+                  res.locals.scripts.header.datatables = true;
+                  res.locals.scripts.footer.datatables = true;
+                  res.render("table-view/index", {
+                    school: school, 
+                    items: school.software, 
+                    columns: config.software.columns(school.isSecondarySchool),
+                    header: 'software',
+                    hasWarningRow: false,
+                    survey: survey
+                  });
+                }
+            })
         }
     });
 });
@@ -174,9 +186,20 @@ router.get("/new/:subject", middleware.isNotDemoAccount , middleware.isSchoolOwn
         } else {
           let queryParams = {};
           if(subject === 'Overige'){
-            queryParams = {subject: {$in: config.software.subjects.primary.filter(s => !s.isCore).map(s => s.subject)}};
+            queryParams = {
+              subject: {$in: config.software.subjects.primary.filter(s => !s.isCore).map(s => s.subject)}
+            };
+          } else if(subject === 'ICT Geletterdheid'){
+             queryParams = {
+              subject: {$in: config.software.subjects.primary.filter(s => s.isICT).map(s => s.subject)}
+            };
           } else {
-            queryParams = {subject: subject};
+            queryParams = {
+              subject: subject
+            };
+          }
+          if(school.isSecondarySchool){
+            queryParams.isSecondarySchool = true;
           }
           TeachingMethod.find(
             queryParams, 
@@ -207,8 +230,13 @@ router.post("/", middleware.isNotDemoAccount, middleware.isSchoolOwner, function
           req.flash("error", "Software niet gevonden");
           res.redirect("scholen/"+req.params.id+"/software");
       } else {
+      let newSoftware = req.body.software;
+      console.log(newSoftware);
+      if(newSoftware.teachingMethod.length === 0){
+        delete newSoftware.teachingMethod;
+      }
       //create new software in DB
-      Software.create(req.body.software, function(err, software){
+      Software.create(newSoftware, function(err, software){
           if(err){
               req.flash("error", err.message);
               res.redirect("back");
@@ -216,7 +244,6 @@ router.post("/", middleware.isNotDemoAccount, middleware.isSchoolOwner, function
               software.school = school._id;
               software.save();
               school.software.push(software);
-              school.isToegevoegdSoftware = true;
               school.save();
               req.flash("Digitaal Leermiddel toegevoegd");
               //redirect to school software show page

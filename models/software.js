@@ -7,15 +7,19 @@ var softwareSchema = mongoose.Schema (
         functionalities: [String],
         gradeLevels: [String],
         ratings: [ String ],
-        effectiveness: Number,
-        licences: Number,
+        effectiveness: {type: Number, default: 1},
+        licences: {type: Number, default: 1},
         cost: {type: Number, default: 0},
-        supplier: String,
+        supplier: {type: String, default: ''},
         typeOfSoftware: {type: String, default: "Digitaal"},
         created: {type: Date, default: Date.now},
         school: {
           type:   mongoose.Schema.Types.ObjectId,
           ref: "School"
+        },
+        teachingMethod: {
+          type:   mongoose.Schema.Types.ObjectId,
+          ref: "TeachingMethod"
         },
         metadata: {}
     }, { usePushEach: true }

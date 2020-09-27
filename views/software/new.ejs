@@ -49,6 +49,11 @@
           Zoeken
         </button>
       </div>
+      <div class="ui horizontal divider">
+        of
+      </div>
+      <div class="ui header">Leermiddel handmatig toevoegen</div>
+      <button class="ui button" id="skip__step1__btn">Handmatig toevoegen</button>
     </div>
   </div>
   <div class="ui vertical divider">
@@ -164,6 +169,10 @@
   <div class="disabled field" hidden>
     <label>Metadata</label>  
     <input type="text" name="software[metadata]" placeholder="Metadata uit Edurep" id="softwareMetadata">
+  </div>
+  <div class="disabled field" hidden>
+    <label>Lesmethode</label>  
+    <input type="text" name="software[teachingMethod]" placeholder="ID van lesmethode" id="softwareTeachingMethodId">
   </div>
   <button class="ui button" type="submit">Bewaren</button>
   <div class="ui error message"></div>

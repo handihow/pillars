@@ -154,7 +154,9 @@
     var urlParams = new URLSearchParams(window.location.search);
     var searchParam = ""
     if(urlParams.has('type')){
-      searchParam = urlParams.get('type')
+      searchParam = urlParams.get('type');
+    } else if(urlParams.has('subject')){
+      searchParam = ['Overige', 'ICT Geletterdheid'].includes(urlParams.get('subject')) ? '' : urlParams.get('subject');
     }
 
     var tableColumns = [

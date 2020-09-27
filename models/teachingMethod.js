@@ -9,7 +9,8 @@ var teachingMethodSchema = mongoose.Schema (
         ratings: [ String ],
         effectiveness: Number,
         supplier: String,
-        typeOfSoftware: {type: String, default: "Digitaal"}
+        typeOfSoftware: {type: String, default: "Digitaal"},
+        isSecondarySchool: {type: Boolean, default: false}
     }, { usePushEach: true, timestamps: true }
 );
 

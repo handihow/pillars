@@ -20,6 +20,7 @@ var Organisation = require("./models/organisation");
 var hardwareModelRoutes = require('./routes/hardware/hardware');
 var formModelRoutes = require('./routes/forms/forms');
 var classroomModelRoutes = require('./routes/classroom/classroom');
+var softwareModelRoutes = require('./routes/software/software');
 
 // //ROUTES RELATED TO SCHOOLS
 var schoolRoutes = require("./routes/school/schools");
@@ -195,6 +196,7 @@ app.use(function(req, res, next){
 app.use("/hardware/:id", hardwareModelRoutes);
 app.use("/form/:id", formModelRoutes);
 app.use("/classroom/:id", classroomModelRoutes);
+app.use("/software/:id", softwareModelRoutes);
 //ROUTES RELATED TO SCHOOLS
 app.use("/schools", schoolRoutes);
 app.use("/schools/:id/hardware", hardwareRoutes);

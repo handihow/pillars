@@ -17,7 +17,7 @@
         <% if(school.settings.software.subjects[subject].includes(software.subject)) { count += 1 %>
         <% } %>
         <% }); %>
-        <%= count %>
+        <a href="/schools/<%=school._id%>/software/list/?subject=<%=subject%>"><%= count %></a>
       </div>
     </div>
     <% if(!(currentUser.role==="suser")) { %>

@@ -20,6 +20,8 @@
 
 		$("#stepper__step1").click(showStep1);
 
+		$("#skip__step1__btn").click(showStep2);
+
 		$(".teachingMethod.item").click(function(){
 			const id = $(this).attr('id');
 			const teachingMethodIndex = teachingMethodData.findIndex(tm => tm._id === id);
@@ -34,6 +36,7 @@
 				$( "#softwareGradeLevels"  ).dropdown('set selected',teachingMethod.gradeLevels);
 				$( "#softwareSupplier" ).val( teachingMethod.supplier );
 				$( "#softwareType" ).dropdown('set selected',teachingMethod.typeOfSoftware);
+				$( "#softwareTeachingMethodId").val( teachingMethod._id );
 				showStep2();
 			}
 		})

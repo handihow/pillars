@@ -1,8 +1,8 @@
 var functionality = require('../software/functionality'); 
 var ratings = require('../software/ratings');
 var subjects = require('../software/subjects');
-var classrooms = ['Groep 1', 'Groep 2', 'Groep 3', 'Groep 4', 'Groep 5', 'Groep 6', 'Groep 7', 'Groep 8'];
-var standardClassrooms = classrooms.slice(3);
+var classrooms = ['Groep 1', 'Groep 2', 'Groep 3', 'Groep 4', 'Groep 5', 'Groep 6', 'Groep 7', 'Groep 8', 'Klas 1', 'Klas 2', 'Klas 3', 'Klas 4', 'Klas 5', 'Klas 6'];
+var standardClassrooms = classrooms.slice(3,6);
 
 var columns = [ 
 	{
@@ -13,7 +13,7 @@ var columns = [
 		hidden: false,
 		required: true,
 		standardValueFieldType: 'select',
-		standardValueOptions: subjects.primary.map(s => s.subject)
+		standardValueOptions: Array.from(new Set(subjects.primary.map(s => s.subject).concat(subjects.secondary.map(s => s.subject))))
 	},
 	{
 		id: 'name', 
@@ -78,7 +78,18 @@ var columns = [
 		standardValueFieldType: 'select',
 		standardValue: 'Digitaal',
 		standardValueOptions: ['Digitaal', 'Niet digitaal', 'Beide']
-	}, 
+	},
+	{
+		id: 'isSecondarySchool',
+		description: 'Middelbare school',
+		short: 'Middelbare school',
+		data: 'ja/nee',
+		hidden: true,
+		hasStandardValue: true,
+		standardValueFieldType: 'select',
+		standardValue: 'false',
+		standardValueOptions: ['false', 'true']
+	},
 ];
 
 
