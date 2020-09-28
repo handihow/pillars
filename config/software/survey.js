@@ -96,6 +96,10 @@ survey.kennisnet =
  "title": {
   "nl": "Beoordeling (digitaal) leermiddel"
  },
+ "logo":{"nl":"http://pillars.school/wp-content/uploads/2017/06/cropped-pillars-logo2.png"},
+ "logoWidth":100,
+ "logoHeight":100,
+ "logoPosition":"right",
  "pages": [
   {
    "name": "choices",
@@ -1006,7 +1010,7 @@ survey.kennisnet =
    }
   }
  ],
- "showTitle": false,
+ "showTitle": true,
  "showQuestionNumbers": "off",
  "showProgressBar": "bottom"
 };

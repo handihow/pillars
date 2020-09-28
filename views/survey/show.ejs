@@ -57,7 +57,7 @@
   <%}%>
   <div id="surveyText" hidden><%= JSON.stringify(survey)%></div>
   <div id="surveyResults" hidden><%= JSON.stringify(surveyResults)%></div>
-
+  <% if(survey.isCompetenceSurvey){%>
   <div class="ui modal" id="surveyInformation">
     <i class="close icon"></i>
     <div class="header">
@@ -82,6 +82,7 @@
       </div>
     </div>
   </div>
+  <%}%>
   
 <%if(schoolLevel){%>
   <%- include('../partials/school-footer') %>

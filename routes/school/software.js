@@ -49,7 +49,7 @@ router.get("/list", middleware.isLoggedIn, function(req, res){
                     columns: config.software.columns(school.isSecondarySchool),
                     header: 'software',
                     hasWarningRow: false,
-                    survey: survey
+                    surveyId: survey ? survey._id : undefined
                   });
                 }
             })

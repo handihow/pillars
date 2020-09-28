@@ -128,9 +128,11 @@
 		}
 
 		var surveyQuestions;
+		console.log(surveyInfo);
 	    if(surveyInfo.competenceStandardKey==='podd' || surveyInfo.competenceStandardKey === 'ddl'){
 	    	surveyQuestions = survey.getAllQuestions().filter(q => q.istestquestion);
-	    	console.log(surveyQuestions.map(sq => sq.title))
+	    } else if(surveyInfo.isActiveSoftwareSurvey){
+	    	surveyQuestions = survey.getAllQuestions().filter(q => q.getType() === 'rating');
 	    } else {
 	    	surveyQuestions = survey.getAllQuestions();
 	    }

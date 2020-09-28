@@ -32,6 +32,7 @@
               <th></th>
             <% }) %>
             <%if(hasWarningRow){%><th></th><%}%>
+            <%if(typeof surveyId !== 'undefined'){%><th></th><%}%>
           </tr>
         </thead>
         <tbody id="dynamicTableBody"></tbody>
@@ -46,6 +47,7 @@
 <div id="headerData" hidden><%=header%></div>
 <div id="organisationData" hidden><%=typeof organisation !== 'undefined' ? JSON.stringify(organisation) : ''%></div>
 <div id="schoolData" hidden><%=typeof school !== 'undefined' ? JSON.stringify(school) : '' %></div>
+<div id="surveyData" hidden><%=typeof surveyId !== 'undefined' ? surveyId : '' %></div>
 
 <div class="ui modal" id="compose-email-modal">
   <i class="close icon"></i>
@@ -127,7 +129,9 @@
 
     var schoolText = $('#schoolData').text();
     var schoolData = schoolText.length>0 ? JSON.parse(schoolText) : null;
-    
+
+    var surveyText = $('#surveyData').text();
+    var surveyData = surveyText.length>0 ? surveyText : null;
 
     var hasWarningRowText = $('#warningRowData').text();
     var hasWarningRow = hasWarningRowText === "true" ? true : false;
@@ -264,6 +268,19 @@
         name: 'warning',
         type: "readonly"
       })
+    }
+
+    if(surveyText){
+      tableColumns.push({
+          data: null,
+          sTitle: 'Beoordeel',
+          className: 'selectable',
+          orderable: false,
+          bVisible: true,
+          render: function ( data, type, row ) {
+            return "<a href='/survey/" + surveyData + "/private?course=" + data.subject + "&name=" + data.name + "&supplier=" + data.supplier + "&gradeLevels=" + data.gradeLevels + "&school=" + schoolData.name + "&type=" + data.typeOfSoftware + "&softwareId=" + data._id + "' target=_blank>Beoordeel</a>";
+          }
+      });
     }
 
     editor = new $.fn.dataTable.Editor( {

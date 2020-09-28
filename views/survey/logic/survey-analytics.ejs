@@ -31,8 +31,12 @@
 
     const chartElementVisibility = surveyInfo.chartElementVisibility ? surveyInfo.chartElementVisibility : undefined;
 
-
-    const filteredSurveyQuestions = survey.getAllQuestions().filter(q => q.getType() !== 'html' && q.getType() !== 'image');
+    let filteredSurveyQuestions;
+    if(surveyInfo.isActiveSoftwareSurvey){
+      filteredSurveyQuestions = survey.getAllQuestions().filter(q => q.getType() === 'rating');
+    } else {
+      filteredSurveyQuestions = survey.getAllQuestions().filter(q => q.getType() !== 'html' && q.getType() !== 'image');
+    }   
     
     var statisticsString = $( '#statistics' ).text();
 
