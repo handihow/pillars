@@ -37,6 +37,10 @@ const processResults = (req, res, path) => {
             "isActiveCompetenceSurvey": true,
             "competenceStandardKey": "podd"
           }, function(err, survey){
+            if(err || ! survey){
+              req.flash("error", "Geen vragenlijst gevonden");
+              return res.redirect("back");
+            }
             var index = config.competence.survey.competenceCategories.findIndex((e) => e.identifier == 'podd');
             if(index == -1){
               req.flash("error", "Geen definitie gevonden van deze vragenlijst");
