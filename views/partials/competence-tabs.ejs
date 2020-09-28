@@ -1,0 +1,52 @@
+<div class="ui secondary pointing menu"> 
+  <% if(organisationSettings.competenceNew && typeof school !== 'undefined'){ %>
+    <a class="item <%if(url.includes("/schools/"+school._id+"/podd")) { %> active <% } %>" 
+        href="/schools/<%= school._id %>/podd" 
+        data-content="Pillars Overzicht Digitale Deskundigheid Leerkrachten">
+      <i class="user icon"></i>
+      <span class="hide-mobile">Leraren</span>
+    </a>
+  <% } %>
+  <% if(organisationSettings.competenceStudents && typeof school !== 'undefined'){ %>
+    <a class="item <%if(url.includes("/schools/"+school._id+"/ddl")) { %> active <% } %>" 
+        href="/schools/<%= school._id %>/ddl" 
+        data-content="Digitale Deskundigheid Leerlingen">
+      
+      <i class="student icon"></i>
+      <span class="hide-mobile">Leerlingen</span>
+    </a>
+  <% } %>
+  <%if(organisationSettings.competence && typeof school !== 'undefined'){ %>
+    <a class="item <%if(url.includes("/schools/"+school._id+"/competence")) { %> active <% } %>" 
+        href="/schools/<%= school._id %>/competence" 
+        data-content="Deskundigheid">
+      
+      <i class="certificate icon"></i>
+      <span class="hide-mobile">Deskundigheid</span>
+    </a>
+  <% } %>
+  <% if(typeof organisation !== 'undefined' && organisation.settings && organisation.settings.competenceNew){ %>
+  <a class="item <%if(url.includes("/organisations/"+organisation._id+'/overview/podd')) { %> active <% } %>" 
+      href="/organisations/<%= organisation._id %>/overview/podd" 
+      data-content="Pillars Overzicht Digitale Deskundigheid Leerkrachten">
+    <i class="user ninja icon" ></i>
+    <span class="hide-mobile">Leraren</span>
+  </a>
+  <%} %>
+  <% if(typeof organisation !== 'undefined' && organisation.settings && organisation.settings.competenceStudents){ %>
+  <a class="item <%if(url.includes("/organisations/"+organisation._id+'/overview/ddl')) { %> active <% } %>" 
+      href="/organisations/<%= organisation._id %>/overview/ddl" 
+      data-content="Digitale Deskundigheid Leerlingen">
+    <i class="student icon" ></i>
+    <span class="hide-mobile">Leerlingen</span>
+  </a>
+  <%} %>
+  <%if(typeof organisation !== 'undefined' && organisation.settings && organisation.settings.competence){%>
+  <a class="item <%if(url.includes("/organisations/"+organisation._id+'/overview/competence')) { %> active <% } %>" 
+      href="/organisations/<%= organisation._id %>/overview/competence" 
+      data-content="Deskundigheid">
+    <i class="certificate icon" ></i>
+    <span class="hide-mobile">Deskundigheid</span>
+  </a>
+<%}%>
+</div>

@@ -446,10 +446,7 @@ function handleNewCompetenceGetRoutes(req, res, route){
                         "isActiveCompetenceSurvey": true,
                         "competenceStandardKey": route
                       }, function(err, survey){
-                        if(route === 'ddl'){
-                            res.redirect('/organisations/' + organisation._id + '/survey/' + survey._id);
-                            return;
-                        }
+                        
                         var index = config.competence.survey.competenceCategories.findIndex((e) => e.identifier == route);
                         if(index == -1){
                           req.flash("error", "Geen definitie gevonden van deze vragenlijst");
@@ -459,6 +456,9 @@ function handleNewCompetenceGetRoutes(req, res, route){
                         if(err || !survey){
                           req.flash("error", "Pillars Overzicht Digitale Deskundigheid niet gevonden voor dit bestuur.");
                           res.redirect("back");
+                        } else if(route === 'ddl'){
+                            res.redirect('/organisations/' + organisation._id + '/survey/' + survey._id);
+                            return;
                         } else {
                             SurveyResult.find({
                                 "survey": survey._id

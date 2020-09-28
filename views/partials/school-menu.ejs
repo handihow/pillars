@@ -23,33 +23,13 @@
     </a>
   <% } %>
   <% if(currentUser.role ==="badmin" || currentUser.role==="sadmin" || currentUser.role=== "buser" || currentUser.role==="padmin") { %>
-  <% if(organisationSettings.competenceNew){ %>
-    <a class="vertical item <%if(url.includes("/schools/"+school._id+"/podd")) { %> active <% } %>" 
-        href="/schools/<%= school._id %>/podd" 
-        data-content="Pillars Overzicht Digitale Deskundigheid Leerkrachten">
-      
-      <i class="certificate icon"></i>
-      <span class="hide-mobile">Deskundigheid LKR</span>
-    </a>
-  <% } %>
-  <% if(organisationSettings.competenceStudents){ %>
-    <a class="vertical item <%if(url.includes("/schools/"+school._id+"/ddl")) { %> active <% } %>" 
-        href="/schools/<%= school._id %>/ddl" 
-        data-content="Digitale Deskundigheid Leerlingen">
-      
-      <i class="student icon"></i>
-      <span class="hide-mobile">Deskundigheid LL</span>
-    </a>
-  <% } %>
-  <%if(organisationSettings.competence){ %>
-    <a class="vertical item <%if(url.includes("/schools/"+school._id+"/competence")) { %> active <% } %>" 
-        href="/schools/<%= school._id %>/competence" 
-        data-content="Deskundigheid">
-      
-      <i class="certificate icon"></i>
-      <span class="hide-mobile">Deskundigheid</span>
-    </a>
-  <% } %>
+  <% var firstPage = organisationSettings.competenceNew ? 'podd' : 'competence'%>
+  <a class="vertical item <%if(url.includes("/schools/"+school._id+"/"+firstPage)) { %> active <% } %>" 
+      href="/schools/<%= school._id %>/<%=firstPage%>" 
+      data-content="Deskundigheid">
+    <i class="certificate icon"></i>
+    <span class="hide-mobile">Deskundigheid</span>
+  </a>
   <% if(organisationSettings.management){ %>
     <a class="vertical item <%if(url.includes("/schools/"+school._id+"/management")) { %> active <% } %>" 
         href="/schools/<%= school._id %>/management" 

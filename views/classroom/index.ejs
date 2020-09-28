@@ -3,6 +3,7 @@
 <%- include('../partials/flash-message') %>
 <%if(typeof school !== 'undefined'){%>
   <%- include('../partials/school-header') %>
+  <%- include('../partials/competence-tabs', {school: school})%>
 <%} else if(typeof organisation !== 'undefined'){%>
   <%- include('../partials/organisation-header') %>
 <%}%>

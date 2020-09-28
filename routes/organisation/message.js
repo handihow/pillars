@@ -13,7 +13,11 @@ router.get("/", middleware.isLoggedIn, function(req, res){
       req.flash("error", err.message);
       res.redirect("back");
     } else {
-      Message.find({organisation: organisation._id}).populate("owner").exec(function(err, messages){
+      Message.find(
+        {organisation: organisation._id},
+        null,
+        {sort: {title: 1}}
+      ).populate("owner").exec(function(err, messages){
         if(err) {
           req.flash("error", err.message);
           res.redirect("back");

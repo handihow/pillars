@@ -11,7 +11,11 @@ router.get("/", middleware.isSchoolOwner, function(req, res){
       req.flash("error", err.message);
       res.redirect("back");
     } else {
-      Message.find({organisation: school.organisation}).exec(function(err, messages){
+      Message.find(
+        {organisation: school.organisation},
+        null,
+        {sort: {title: 1}}
+      ).exec(function(err, messages){
         if(err){
           req.flash("error", err.message);
           res.redirect("back");
