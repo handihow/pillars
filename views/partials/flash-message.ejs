@@ -1,12 +1,19 @@
+<% if(error && error.length > 0) { %>
 <div class="ui container" id="flash-message">
-  <% if(error && error.length > 0) { %>
-    <div class="ui red message">
-      <%= error %>
-    </div>
-  <% } %>
-  <% if (success && success.length > 0) { %>
-      <div class="ui green message">
-      <%= success %>
-    </div>
-  <% } %>
+  <div class="ui red message" id="errortoast">
+      <div class="content">
+          <%= error %>
+      </div>
+  </div>
 </div>
+<% } %>
+<% if (success && success.length > 0) { %>
+<div class="ui container" id="flash-message">
+  <div class="ui green message" id="successtoast">
+      <div class="content">
+          <%= success %>
+      </div>
+  </div>
+</div>
+<% } %>
+

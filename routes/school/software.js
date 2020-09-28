@@ -245,7 +245,7 @@ router.post("/", middleware.isNotDemoAccount, middleware.isSchoolOwner, function
               software.save();
               school.software.push(software);
               school.save();
-              req.flash("Digitaal Leermiddel toegevoegd");
+              req.flash("success","Digitaal Leermiddel toegevoegd");
               //redirect to school software show page
               res.redirect("/schools/"+school._id+"/software");
           }

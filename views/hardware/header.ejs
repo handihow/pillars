@@ -34,19 +34,21 @@
         <i class="settings icon"></i>
     </a>
   </div>
-  <div class="ui dropdown item">
-      <a class="ui small basic icon button" data-content="Hardware toevoegen"><i class="add icon"></i></a>
-      <div class="menu">
-        <a class="item" href="/schools/<%=school._id%>/hardware/new/short">
-          Snel toevoegen
-        </a>
-        <a class="item" href="/schools/<%=school._id%>/hardware/new/long">
-          Uitgebreid toevoegen
-        </a>
-        <a class="item" href="/schools/<%=school._id%>/hardware/csv-import">
-          Csv bestand uploaden
-        </a>
-      </div>
+  <div class="ui small basic icon buttons">
+    <div class="ui dropdown item">
+        <a class="ui button" data-content="Hardware toevoegen"><i class="add icon"></i></a>
+        <div class="menu">
+          <a class="item" href="/schools/<%=school._id%>/hardware/new/short">
+            Snel toevoegen
+          </a>
+          <a class="item" href="/schools/<%=school._id%>/hardware/new/long">
+            Uitgebreid toevoegen
+          </a>
+          <a class="item" href="/schools/<%=school._id%>/hardware/csv-import">
+            Csv bestand uploaden
+          </a>
+        </div>
+    </div>
   </div>
 <%}%>
 <div class="ui divider"></div>

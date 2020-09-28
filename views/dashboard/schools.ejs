@@ -1,11 +1,11 @@
 <%if(currentUser.role=='sadmin'){%>
 	<div class="ui segment">
-		<h4 class="ui header">
+		<h3 class="ui header">
 	        <i class="tasks icon"></i>
 	        <div class="content">
 	          Status school
 	        </div>
-	      </h4>
+	      </h3>
 		<%- include('./school') %>
 	</div>
 <% } %>
@@ -20,12 +20,12 @@
 <%} else {%>
 
 	<div class="ui segment">
-	  <h5 class="ui header">
+	  <h3 class="ui header">
         <i class="university icon"></i>
         <div class="content">
           Scholen
         </div>
-      </h5>
+      </h3>
 		<div class="ui relaxed divided list">
 		<% schools.forEach(function(school){ %>
 		  <div class="item">

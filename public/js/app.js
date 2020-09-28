@@ -4,6 +4,18 @@ function goBack() { window.history.back(); }
 //load jQuery when document is ready
 $(document).ready(function() {
 
+    if($("#errortoast").length) {
+      setTimeout(function() {
+          $("#errortoast").fadeOut('slow')
+      }, 5000);
+    }
+
+    if($("#successtoast").length) {
+      setTimeout(function() {
+          $("#successtoast").fadeOut('slow')
+      }, 3000);
+    }
+
     //generic functionality to prevent deleting by accident
     if($("#delete").length > 0) {
       $("#delete").click(function(){
@@ -49,7 +61,7 @@ $(document).ready(function() {
       ;
     }
 
-    if($('.menu .item').length > 0){
+    if($('.tabular.menu').length > 0){
       //activating the tabs menu;
       $('.menu .item')
       .tab();
