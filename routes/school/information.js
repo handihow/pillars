@@ -12,15 +12,15 @@ router.get("/", middleware.isSchoolOwner, function(req, res){
       res.redirect("back");
     } else {
       Message.find(
-        {organisation: school.organisation},
+        {organisation: school.organisation, school: {$exists: false}},
         null,
         {sort: {title: 1}}
-      ).exec(function(err, messages){
+      ).populate("owner").exec(function(err, messages){
         if(err){
           req.flash("error", err.message);
           res.redirect("back");
         } else {
-          res.render("message/school", {school: school, messages: messages});
+          res.render("message/school", {school: school, messages: messages, canAdd: false});
         }
       });
     }

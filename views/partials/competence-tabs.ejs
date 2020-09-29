@@ -5,7 +5,7 @@
         href="/schools/<%= school._id %>/podd" 
         data-content="Pillars Overzicht Digitale Deskundigheid Leerkrachten">
       <i class="user icon"></i>
-      <span class="hide-mobile">Leraren</span>
+      Leraren
     </a>
   <% } %>
   <% if(organisationSettings.competenceStudents && typeof school !== 'undefined'){ %>
@@ -14,7 +14,7 @@
         data-content="Digitale Deskundigheid Leerlingen">
       
       <i class="student icon"></i>
-      <span class="hide-mobile">Leerlingen</span>
+      Leerlingen
     </a>
   <% } %>
   <%if(organisationSettings.competence && typeof school !== 'undefined'){ %>
@@ -23,15 +23,15 @@
         data-content="Deskundigheid">
       
       <i class="certificate icon"></i>
-      <span class="hide-mobile">Deskundigheid</span>
+      Deskundigheid
     </a>
   <% } %>
   <% if(typeof organisation !== 'undefined' && organisation.settings && organisation.settings.competenceNew){ %>
   <a class="item <%if(url.includes("/organisations/"+organisation._id+'/overview/podd')) { %> active <% } %>" 
       href="/organisations/<%= organisation._id %>/overview/podd" 
       data-content="Pillars Overzicht Digitale Deskundigheid Leerkrachten">
-    <i class="user ninja icon" ></i>
-    <span class="hide-mobile">Leraren</span>
+    <i class="user icon" ></i>
+    Leraren
   </a>
   <%} %>
   <% if(typeof organisation !== 'undefined' && organisation.settings && organisation.settings.competenceStudents){ %>
@@ -39,7 +39,7 @@
       href="/organisations/<%= organisation._id %>/overview/ddl" 
       data-content="Digitale Deskundigheid Leerlingen">
     <i class="student icon" ></i>
-    <span class="hide-mobile">Leerlingen</span>
+    Leerlingen
   </a>
   <%} %>
   <%if(typeof organisation !== 'undefined' && organisation.settings && organisation.settings.competence){%>
@@ -47,7 +47,7 @@
       href="/organisations/<%= organisation._id %>/overview/competence" 
       data-content="Deskundigheid">
     <i class="certificate icon" ></i>
-    <span class="hide-mobile">Deskundigheid</span>
+    Deskundigheid
   </a>
 <%}%>
 </div>

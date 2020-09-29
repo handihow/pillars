@@ -1,3 +1,9 @@
+@media screen and (max-width: 800px) {
+  .hidden__mobile {
+    display: none !important;
+  }
+}
+
 .ui.progress:last-child{
   margin-top: 20px !important;
 }
@@ -64,7 +70,7 @@
 }
 
 #pillars-logo {
-  margin-top: 4px;
+  /*margin-top: 3px;*/
   width: 120px;
   height: 45px;
 }

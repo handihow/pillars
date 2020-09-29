@@ -1,23 +1,47 @@
 <%- include('../partials/header') %>
 <%- include('../partials/main-menu') %>
 <%- include('../partials/flash-message') %>
-<%- include('../partials/organisation-header') %>
+<% if(typeof school !== 'undefined'){%>
+    <%- include('../partials/school-header') %>
+<% } else if(typeof organisation !== 'undefined'){%>
+    <%- include('../partials/organisation-header') %>
+<%}%>
 
 <div class="ui container">
     <div class="ui huge header">Beleid Toevoegen</div>
-    <form class="ui form" action="/organisations/<%=organisation._id%>/message" method="POST" id="messageForm" novalidate>
-        <div class="required field">
-            <label>Titel</label>  
-            <input type="text" name="message[title]" placeholder="Titel van jouw beleid..." id="message[title]">
+    <% if(typeof school !== 'undefined'){%>
+        <form class="ui form" action="/schools/<%=school._id%>/message" method="POST" id="messageForm" novalidate>
+    <% } else if(typeof organisation !== 'undefined'){%>
+        <form class="ui form" action="/organisations/<%=organisation._id%>/message" method="POST" id="messageForm" novalidate>
+    <%}%>
+        <div class="two fields">
+            <div class="required field">
+                <label>Titel</label>  
+                <input type="text" name="message[title]" placeholder="Titel van jouw beleid..." id="message[title]">
+            </div>
+            <div class="required field">
+              <label>Upload thumbnail</label>
+              <input  type="hidden" 
+                    role="uploadcare-uploader" 
+                    name="message[thumbnailImage]"
+                    value="https://ucarecdn.com/e97d5084-3b6f-4e28-8fb8-3c087d2fec7e/information1481584_640.png"
+                    data-image-shrink="256x256"
+                    data-multiple="false"/>
+            </div>
         </div>
         <div class="required field">
             <label>Beleid</label>  
             <textarea name="message[message]" placeholder="Jouw beleid... " ></textarea>
         </div>
-        <button class="ui button" type="submit">Bewaren</button>
+        <button class="ui primary button" type="submit">Bewaren</button>
         <div class="ui error message"></div>
     </form>
 </div>
 
-<%- include('../partials/organisation-footer') %>
+<% if(typeof school !== 'undefined'){%>
+    <%- include('../partials/school-footer') %>
+<% } else if(typeof organisation !== 'undefined'){%>
+    <%- include('../partials/organisation-footer') %>
+<%}%>
+
 <%- include('../partials/footer') %>

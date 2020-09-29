@@ -1,33 +1,47 @@
 <%- include('../partials/header') %>
 <%- include('../partials/main-menu') %>
 <%- include('../partials/flash-message') %>
-<%if(onOrganisationPage){%>
+<%if(typeof organisation !== 'undefined'){%>
     <%- include('../partials/organisation-header') %>
-<%} else {%>
+<%} else if(typeof school !=='undefined') {%>
     <%- include('../partials/school-header') %>
 <% } %>
-<div class="ui huge header"><%= message.title %></div>
+
+<h2 class="ui header">
+  <img src="<%= message.thumbnailImage %>" class="ui circular image">
+  <div class="content">
+    <%= message.title %>
+    <div class="sub header">
+        <%= message.owner.firstName ? message.owner.firstName : message.owner.username %>
+        <%= message.owner.lastName ? message.owner.lastName : '' %> op
+        <%= message.created.toJSON().slice(0,10).split('-').reverse().join('/') %>
+    </div>
+  </div>
+</h2>
+<div class="ui divider"></div>
 <div class="ui top attached">
     <div class="item">
-        <div class="content">
-            <span><%= message.created.toJSON().slice(0,10).split('-').reverse().join('/') %></span>
-        </div>
         <div class="description" id="down">
             <p><%- message.message %></p>
         </div>
         <% if((currentUser.role === 'badmin' || currentUser.role ==='padmin') 
-                    && message.organisation.equals(currentUser.organisation) && onOrganisationPage) { %>
+                    && message.organisation.equals(currentUser.organisation) && typeof message.school === 'undefined' && onOrganisationPage) { %>
         <a class="ui primary basic button" href="/organisations/<%=organisation._id%>/message/<%= message._id %>/edit">Bewerken</a>
         <form id="delete" action="/organisations/<%=organisation._id%>/message/<%= message._id %>?_method=DELETE" method="POST">
             <button class="ui red basic button">Verwijderen</button>
         </form>
-        <% } %>
+        <% } else if(currentUser.role !== 'suser' && message.organisation.equals(currentUser.organisation) && typeof message.school !== 'undefined' && !onOrganisationPage ){%>
+        <a class="ui primary basic button" href="/schools/<%=school._id%>/message/<%= message._id %>/edit">Bewerken</a>
+        <form id="delete" action="/schools/<%=school._id%>/message/<%= message._id %>?_method=DELETE" method="POST">
+            <button class="ui red basic button">Verwijderen</button>
+        </form>
+        <%}%>
     </div>
 </div>
 
-<%if(onOrganisationPage){%>
+<%if(typeof organisation !=='undefined'){%>
     <%- include('../partials/organisation-footer') %>
-<%} else {%>
+<%} else if(typeof school !=='undefined') {%>
     <%- include('../partials/school-footer') %>
 <% } %>    
 <%- include('../partials/footer') %>

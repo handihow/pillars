@@ -1,9 +1,9 @@
-<div class="ui brown inverted small labeled icon menu">
+<div class="ui brown inverted tiny labeled icon menu">
   <a class="item" 
       href="https://pillars.school" 
       target="_blank" 
       data-content="Opent Pillars website in nieuw venster">
-    <img src="/img/logo_horizontaal.png" id="pillars-logo">
+    <img class="ui fluid image" src="/img/logo_horizontaal.png" id="pillars-logo">
   </a>
   <a class="item" href="/home/" data-content="Startpagina">
       <i class="home icon"></i>
@@ -12,15 +12,15 @@
   <div class="centered menu">
     <%if(typeof isOnDashboard !=='undefined' && isOnDashboard){%>
     <%} else if(typeof organisation !=='undefined' && organisation !== null && organisation.name){%>
-      <div class="item">
+      <div class="item hidden__mobile">
         <i class="building icon"></i><%=organisation.name%>
       </div>
     <%} else if(typeof school !=='undefined' && school !== null && school.name){%>
-      <div class="item">
+      <div class="item hidden__mobile">
          <i class="university icon"></i><%=school.name%>
       </div>
     <%} else if(typeof user !=='undefined' &&  user !== null && user.firstName && user.lastName) {%>
-      <div class="item">
+      <div class="item hidden__mobile">
          <i class="user circle icon"></i><%=user.firstName + ' ' +user.lastName%>
       </div>
     <% } %>
@@ -40,7 +40,7 @@
        <% } %>
       <img class="ui avatar image profile" src="<%=url%>">
     </a>
-    <a class="horizontal item" 
+    <a class="horizontal item hidden__mobile" 
         href="https://pillars.school/docs" target="_blank" 
         data-content="Opent handleiding in nieuw venster">
       <i class="question icon"></i>

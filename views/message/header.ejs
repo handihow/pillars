@@ -1,0 +1,39 @@
+<div class="ui secondary pointing menu"> 
+  <% if(typeof school !== 'undefined'){ %>
+    <a class="item <%if(url === "/schools/"+school._id+"/information") { %> active <% } %>" 
+        href="/schools/<%= school._id %>/information" 
+        data-content="Beleid van bestuur">
+      <i class="building icon"></i>
+      Bestuur
+    </a>
+    <a class="item <%if(url === "/schools/"+school._id+"/message") { %> active <% } %>" 
+        href="/schools/<%= school._id %>/message" 
+        data-content="Beleid van deze school">
+      <i class="university icon"></i>
+      School
+    </a>
+  <% } %>
+  <% if(typeof organisation !== 'undefined'){ %>
+    <a class="item <%if(url === "/organisations/"+organisation._id+"/message") { %> active <% } %>" 
+        href="/organisations/<%= organisation._id %>/message" 
+        data-content="Beleid van bestuur">
+      <i class="building icon" ></i>
+      Bestuur
+    </a>
+    <a class="item <%if(url === "/organisations/"+organisation._id+"/message/schools") { %> active <% } %>" 
+        href="/organisations/<%= organisation._id %>/message/schools" 
+        data-content="Beleid van scholen">
+      <i class="university icon" ></i>
+      Scholen
+    </a>
+  <%} %>
+</div>
+<%if(canAdd && typeof organisation !== 'undefined'){%>
+  <a class="primary ui button" href="/organisations/<%=organisation._id%>/message/new">Beleid Toevoegen</a>
+  <!--divider and then all messages-->
+  <div class="ui divider"></div>
+<%} else if(canAdd){%>
+  <a class="primary ui button" href="/schools/<%=school._id%>/message/new">Beleid Toevoegen</a>
+  <!--divider and then all messages-->
+  <div class="ui divider"></div>
+<%}%>

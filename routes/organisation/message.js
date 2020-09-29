@@ -14,7 +14,7 @@ router.get("/", middleware.isLoggedIn, function(req, res){
       res.redirect("back");
     } else {
       Message.find(
-        {organisation: organisation._id},
+        {organisation: organisation._id, school: {$exists: false}},
         null,
         {sort: {title: 1}}
       ).populate("owner").exec(function(err, messages){
@@ -22,7 +22,30 @@ router.get("/", middleware.isLoggedIn, function(req, res){
           req.flash("error", err.message);
           res.redirect("back");
         } else {
-          res.render("message/index", {messages: messages, organisation: organisation});         
+          res.render("message/index", {messages: messages, organisation: organisation, canAdd: true});         
+        }
+      });        
+    }
+  });
+});
+
+//INDEX ROUTE FOR SCHOOL MESSAGES
+router.get("/schools", middleware.isLoggedIn, function(req, res){
+  Organisation.findById(req.params.id,function(err, organisation){
+    if(err || !organisation) {
+      req.flash("error", err.message);
+      res.redirect("back");
+    } else {
+      Message.find(
+        {organisation: organisation._id, school: {$exists: true}},
+        null,
+        {sort: {school: 1, title: 1}}
+      ).populate("owner").populate("school").exec(function(err, messages){
+        if(err) {
+          req.flash("error", err.message);
+          res.redirect("back");
+        } else {
+          res.render("message/index", {messages: messages, organisation: organisation, canAdd: false});         
         }
       });        
     }
@@ -37,6 +60,7 @@ router.get("/new", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin
       res.redirect("back");
     } else {
       res.locals.scripts.header.tinymce = true;
+      res.locals.scripts.header.uploadcare = true;
       res.render("message/new", {organisation: organisation});     
     }
   });
@@ -50,7 +74,7 @@ router.get("/:mid", middleware.isLoggedIn, function(req, res){
       req.flash("error", err.message);
       res.redirect("back");
     } else {
-      Message.findById(req.params.mid, function(err, message){
+      Message.findById(req.params.mid).populate("owner").exec(function(err, message){
         if(err ||!message){
           req.flash("error", "Beleid niet gevonden.");
           res.redirect("back");
@@ -76,6 +100,7 @@ router.get("/:mid/edit", middleware.isNotDemoAccount, middleware.isAuthenticated
           res.redirect("/organisations/" + organisation._id + "/message");
         } else {
           res.locals.scripts.header.tinymce = true;
+          res.locals.scripts.header.uploadcare = true;
           res.render("message/edit", {message: message, organisation: organisation});
         }
       });
@@ -83,24 +108,24 @@ router.get("/:mid/edit", middleware.isNotDemoAccount, middleware.isAuthenticated
   });
 });
 
-//SHOW ROUTE SCHOOLS
-router.get("/:mid/:sid", middleware.isLoggedIn, function(req, res){
-  School.findById(req.params.sid,function(err, school){
-    if(err || !school) {
-      req.flash("error", err.message);
-      res.redirect("back");
-    } else {
-      Message.findById(req.params.mid, function(err, message){
-        if(err ||!message){
-          req.flash("error", "Beleid niet gevonden.");
-          res.redirect("back");
-        } else {
-          res.render("message/show", {message: message, school: school, onOrganisationPage: false});            
-        }
-      });   
-    }
-  });
-});
+// //SHOW ROUTE SCHOOLS
+// router.get("/:mid/:sid", middleware.isLoggedIn, function(req, res){
+//   School.findById(req.params.sid,function(err, school){
+//     if(err || !school) {
+//       req.flash("error", err.message);
+//       res.redirect("back");
+//     } else {
+//       Message.findById(req.params.mid).populate("owner").exec(function(err, message){
+//         if(err ||!message){
+//           req.flash("error", "Beleid niet gevonden.");
+//           res.redirect("back");
+//         } else {
+//           res.render("message/show", {message: message, school: school, onOrganisationPage: false});            
+//         }
+//       });   
+//     }
+//   });
+// });
 
 //CREATE ROUTE
 router.post("/", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, function(req, res){
@@ -120,7 +145,7 @@ router.post("/", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmin, 
         message.owner = req.user._id;
         message.organisation = organisation._id;
         message.save();
-        req.flash("success", "Bericht toegevoegd");
+        req.flash("success", "Beleid toegevoegd");
         res.redirect("/organisations/" + organisation._id + "/message"); 
       }
     }); 
@@ -132,10 +157,10 @@ router.put("/:mid", middleware.isNotDemoAccount, middleware.isAuthenticatedBadmi
   req.body.message.body = req.sanitize(req.body.message.body);
   Message.findByIdAndUpdate(req.params.mid, req.body.message, function(err, message){
     if(err || !message){
-      req.flash("error", "Bericht niet gevonden.");
+      req.flash("error", "Beleid niet gevonden.");
       res.redirect("/message");
     } else {
-      req.flash("success", "Bericht updated");
+      req.flash("success", "Beleid geupdated");
       res.redirect("/organisations/" + req.params.id + "/message/" + req.params.mid);
     }
   });
@@ -148,7 +173,7 @@ router.delete("/:mid", middleware.isNotDemoAccount, middleware.isAuthenticatedBa
       req.flash("error", "Er is iets misgegaan. Probeer beleid opnieuw te verwijderen.");
       res.redirect("back");
     } else {
-      req.flash("success", "Bericht verwijderd");
+      req.flash("success", "Beleid verwijderd");
       res.redirect("/organisations/" + req.params.id + "/message");  
     }
   });

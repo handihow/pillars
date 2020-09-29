@@ -2,10 +2,7 @@
 <%- include('../partials/main-menu') %>
 <%- include('../partials/flash-message') %>
 <%- include('../partials/school-header') %>
-
-<!--MESSAGES-->
-        <h2 class="ui centered header">Beleid van het Bestuur</h2>
-        <div class="ui divider"></div>
+<%- include('./header', {school: school, canAdd: canAdd})%>
     <!-- placeholder if no messages -->
     <%if(messages.length===0){%>
       <div class="ui placeholder segment">
@@ -18,23 +15,28 @@
     <!--cards with messages-->
     <div class="ui three doubling cards">
       <% messages.forEach(function(message){ %>
-      <div class="card">
+      <a class="card" href="/schools/<%=school._id%>/message/<%=message._id%>">
         <div class="content">
-          <div class="header"><a href="/organisations/<%=school.organisation%>/message/<%=message._id%>/<%=school._id%>">
-            <%= message.title %></a>
+          <img class="right floated mini ui image" src="<%=message.thumbnailImage%>">
+          <div class="header">
+            <%= message.title %>
           </div>
-          <div class="description">
-            <%= message.message ? message.message.replace(/(&nbsp;)*/g,"").replace(/<\/?[^>]+(>|$)/g, "").substring(0,100) : null%> ...
+          <div class="meta">
+            <%= message.created.toJSON().slice(0,10).split('-').reverse().join('/') %>
           </div>
+          <%var text = message.message ? message.message.replace(/(&nbsp;)*/g,"").replace(/<\/?[^>]+(>|$)/g, "") : '';%>
           <div class="description">
-            Datum: <%= message.created.toJSON().slice(0,10).split('-').reverse().join('/') %>
+            <%= text.length > 85 ? text.substring(0,85) + '...' : text %>
           </div>
         </div>
-        <a class="ui bottom attached button" href="/organisations/<%=school.organisation%>/message/<%=message._id%>/<%=school._id%>">
-          <i class="show icon"></i>
-          Bekijk 
-        </a>
-      </div>
+        <div class="extra content">
+          <span>
+            <i class="user icon"></i>
+            <%= message.owner.firstName ? message.owner.firstName : message.owner.username %>
+            <%= message.owner.lastName ? message.owner.lastName : '' %>
+          </span>
+        </div>
+      </a>
       <% }); %>
     </div>
         

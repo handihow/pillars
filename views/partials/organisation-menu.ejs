@@ -74,8 +74,8 @@
   <%}%>
 
   <% if(organisation.settings !== 'undefined' && organisation.settings.messages){ %>
-    <a class="vertical item <%if(url.includes('/organisations/'+organisation._id+'/message/')) { %> active <% } %>" 
-      href="/organisations/<%= organisation._id %>/message/" data-content="Beleid">
+    <a class="vertical item <%if(url.includes('/organisations/'+organisation._id+'/message')) { %> active <% } %>" 
+      href="/organisations/<%= organisation._id %>/message" data-content="Beleid">
       <i class="info circle icon"></i>
       <span class="hide-mobile">Beleid</span>
     </a>

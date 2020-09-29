@@ -2,13 +2,8 @@
 <%- include('../partials/main-menu') %>
 <%- include('../partials/flash-message') %>
 <%- include('../partials/organisation-header') %>
-
-    <h2 class="ui centered header">
-      Beleid
-    </h2>
-    <a class="positive ui button right" href="/organisations/<%=organisation._id%>/message/new">Beleid Toevoegen</a>
-    <!--divider and then all messages-->
-    <div class="ui divider"></div>
+<%- include('./header', {organisation: organisation, canAdd: canAdd})%>
+  
     <!-- placeholder if no messages -->
     <%if(messages.length===0){%>
       <div class="ui placeholder segment">
@@ -19,26 +14,36 @@
       </div>
     <%}%>
     <!--cards with messages-->
-    <div class="ui three doubling cards">
+    <div class="ui three doubling link cards">
       <% messages.forEach(function(message){ %>
-      <div class="card">
+      <a class="card" href="/organisations/<%=organisation._id%>/message/<%=message._id%>">
         <div class="content">
-          <div class="header"><a href="/organisations/<%=organisation._id%>/message/<%=message._id%>"><%= message.title %></a></div>
-          <div class="description">
-            <%= message.message ? message.message.replace(/(&nbsp;)*/g,"").replace(/<\/?[^>]+(>|$)/g, "").substring(0,100) : null%> ...
+          <img class="right floated mini ui image" src="<%=message.thumbnailImage%>">
+          <div class="header">
+            <%= message.title %>
           </div>
-          <div class="description">
-            Datum: <%= message.created.toJSON().slice(0,10).split('-').reverse().join('/') %>
+          <div class="meta">
+            <%= message.created.toJSON().slice(0,10).split('-').reverse().join('/') %>
           </div>
+          <%var text = message.message ? message.message.replace(/(&nbsp;)*/g,"").replace(/<\/?[^>]+(>|$)/g, "") : '';%>
           <div class="description">
-            Gemaakt door: <%= message.owner.username %>
+            <%= text.length > 85 ? text.substring(0,85) + '...' : text %>
           </div>
         </div>
-        <a class="ui bottom attached button" href="/organisations/<%=organisation._id%>/message/<%=message._id%>">
-          <i class="show icon"></i>
-          Bekijk 
-        </a>
-      </div>
+        <div class="extra content">
+          <%if(typeof message.school !== 'undefined'){%>
+            <span class="right floated">
+              <i class="university icon"></i>
+              <%= message.school.name %>
+            </span>
+          <%}%>
+          <span>
+            <i class="user icon"></i>
+            <%= message.owner.firstName ? message.owner.firstName : message.owner.username %>
+            <%= message.owner.lastName ? message.owner.lastName : '' %>
+          </span>
+        </div>
+      </a>
       <% }); %>
     </div>
 

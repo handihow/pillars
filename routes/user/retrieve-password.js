@@ -38,7 +38,11 @@ router.post('/forgot', function(req, res, next) {
     },
     function(token, user, done) {
       var template = "./emails/forgot.ejs";
-      ejs.renderFile(template, user, function(err, html){
+      ejs.renderFile(template, {
+        firstName: user.firstName ? user.firstName : user.username,
+        lastName: user.lastName ? user.lastName : '',
+        resetPasswordToken: token
+      }, function(err, html){
         if(err){
           req.flash("error", err.message);
           return res.redirect("/forgot");

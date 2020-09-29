@@ -344,6 +344,15 @@ $("#messageForm")
         prompt: "Dit veld is verplicht"
       }
       ]
+    },
+    "message[thumbnailImage]": {
+      identifier: "message[thumbnailImage]",
+      rules: [
+      {
+        type: "empty",
+        prompt: "Dit veld is verplicht"
+      }
+      ]
     }
   }
 });  
