@@ -6,6 +6,7 @@ var asyncr = require("async");
 var crypto = require("crypto");
 var ejs = require("ejs");
 var config = require("../../config/config");
+var Email = require("../../models/email");
 
 //RETRIEVE PASSWORD FORM
 router.get("/forgot", function(req, res){
@@ -49,12 +50,24 @@ router.post('/forgot', function(req, res, next) {
         }
         //send the email
         var request = config.email.nocc(user.username, user.firstName + " " + user.lastName, "Pillars Wachtwoord Reset", html);
+        var email = {
+          user: user,
+          school: user.school && user.school[0] ? user.school : null,
+          organisation: user.organisation, 
+          emailAddress: user.username,
+          subject: "Pillars Wachtwoord Reset",
+          emailBody: html
+        };
         request
         .then((result) => {
+          email.result = 'success';
+          Email.create(email);
           req.flash('success', 'Er is een email gestuurd naar ' + user.username + ' met verdere instructies.');
           res.redirect('/forgot');
         })
         .catch((err) => {
+          email.result = 'failed';
+          Email.create(email);
           req.flash('error', err.message);
           res.redirect("/forgot");
         });

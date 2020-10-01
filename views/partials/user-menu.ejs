@@ -22,6 +22,13 @@
     <span class="hide-mobile">Resultaten</span>
   </a>
 
+  <a class="vertical item <%if(url==="/user/"+user._id+"/emails") { %> active <% } %>" 
+      href="/user/<%= user._id %>/emails" 
+      data-content="Emails">
+    <i class="envelope icon"></i>
+    <span class="hide-mobile">Emails</span>
+  </a>
+
   <a class="vertical item <%if(url==="/user/"+user._id+"/evaluation") { %> active <% } %>" 
       href="/user/<%= user._id %>/evaluation" 
       data-content="Evaluaties">

@@ -351,15 +351,15 @@
 
                   var emailArr = [];
                   for(var i=0; i<rows.length; i++){
-                    emailArr.push(rows[i].username);
+                    emailArr.push(rows[i]);
                   }
 
                   var emailTxt = '';
 
                   if(emailArr.length < 3){
-                    emailTxt = emailArr.join(', ');
+                    emailTxt = emailArr.map(e => e.username).join(', ');
                   } else {
-                    emailTxt = emailArr.slice(0,3).join(', ') + ' en nog ' + (emailArr.length - 3).toString() + ' andere'
+                    emailTxt = emailArr.slice(0,3).map(e => e.username).join(', ') + ' en nog ' + (emailArr.length - 3).toString() + ' andere'
                   }
 
                   $('.emailAddressInfo').text(emailTxt);

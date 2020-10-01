@@ -68,6 +68,12 @@
       <span class="hide-mobile">Beleid</span>
     </a>
   <% } %>
+  <a class="vertical item <%if(url.includes("/schools/"+school._id+"/email")) { %> active <% } %>" 
+      href="/schools/<%= school._id %>/email" 
+      data-content="Emails">
+    <i class="envelope icon"></i>
+    <span class="hide-mobile">Emails</span>
+  </a>
   <a class="vertical item <%if(url.includes("/schools/"+school._id+"/survey")) { %> active <% } %>" 
       href="/schools/<%= school._id %>/survey" 
       data-content="Enquêtes">

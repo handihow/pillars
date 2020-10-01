@@ -91,12 +91,13 @@
         	item[q.name] = "true"
         } else if(item[q.name] === false && surveyInfo.competenceStandardKey !== 'podd') {
         	item[q.name] = "false"
-        } 
+        }
       });
       return item;
     });
     
-    SurveyAnalytics.SelectBasePlotly.types = ["pie", "bar", "doughnut"];
+    SurveyAnalytics.SelectBasePlotly.types = ["bar"];
+    SurveyAnalytics.VisualizationManager.unregisterVisualizerForAll(SurveyAnalytics.WordCloud);
 
     SurveyAnalytics.GaugePlotly.types = ["bullet"];
     SurveyAnalytics.GaugePlotly.showAsPercentage = true
@@ -123,9 +124,16 @@
   	surveyResultNode.innerHTML = "";
 
   	var visPanel = window.visPanel = new SurveyAnalytics.VisualizationPanel(filteredSurveyQuestions, normalizedData, 
-  		{allowDynamicLayout: false, labelTruncateLength:-1, haveCommercialLicense: true}, elements);
+  		{allowDynamicLayout: false, labelTruncateLength:60, haveCommercialLicense: true}, elements);
 
-  	// visPanel.allowDynamicLayout = false;
+    survey.getAllQuestions().forEach(function(q){
+      if(q.getType()=='checkbox' || q.getType()=='radiogroup' || q.getType()=='dropdown' || q.getType()=='imagepicker'){
+          var chartVisualizer = visPanel.getVisualizer(q.name);
+          chartVisualizer.setLabelsOrder("desc");
+        }
+      });
+  	
+    // visPanel.allowDynamicLayout = false;
   	visPanel.showHeader = true;
   	
       visPanel.onStateChanged.add(function() {

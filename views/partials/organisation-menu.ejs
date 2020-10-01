@@ -52,7 +52,12 @@
     <span class="hide-mobile">Overzichten</span>
   </a>
   <%}%>
-
+  <a class="vertical item <%if(url.includes("/organisations/"+organisation._id+"/overview/email")) { %> active <% } %>" 
+      href="/organisations/<%= organisation._id %>/overview/email" 
+      data-content="Emails">
+    <i class="envelope icon"></i>
+    <span class="hide-mobile">Emails</span>
+  </a>
   <a class="vertical item <%if(url.includes('/organisations/'+organisation._id+'/survey/')) { %> active <% } %>" 
     href="/organisations/<%= organisation._id %>/survey/" data-content="Enquetes">
     <i class="question circle icon"></i>

@@ -22,6 +22,7 @@ var formModelRoutes = require('./routes/forms/forms');
 var classroomModelRoutes = require('./routes/classroom/classroom');
 var softwareModelRoutes = require('./routes/software/software');
 var teachingMethodModelRoutes = require('./routes/teachingmethod/teachingmethod');
+var emailModelRoutes = require('./routes/email/email');
 
 // //ROUTES RELATED TO SCHOOLS
 var schoolRoutes = require("./routes/school/schools");
@@ -39,6 +40,7 @@ var processingActivityRoutes = require("./routes/school/processingActivity");
 var securityIncidentRoutes = require("./routes/school/securityIncident");
 var surveyRoutes = require("./routes/school/survey");
 var classroomRoutes = require('./routes/school/classroom');
+var emailRoutes = require('./routes/school/email');
 //ROUTES RELATED TO USERS
 var orgUserRoutes = require("./routes/user/org-user");
 var schoolUserRoutes = require("./routes/user/school-user");
@@ -200,6 +202,7 @@ app.use("/form/:id", formModelRoutes);
 app.use("/classroom/:id", classroomModelRoutes);
 app.use("/software/:id", softwareModelRoutes);
 app.use("/teachingmethod/:id", teachingMethodModelRoutes);
+app.use("/email/:id", emailModelRoutes);
 //ROUTES RELATED TO SCHOOLS
 app.use("/schools", schoolRoutes);
 app.use("/schools/:id/hardware", hardwareRoutes);
@@ -216,6 +219,7 @@ app.use("/schools/:id/processingActivity", processingActivityRoutes);
 app.use("/schools/:id/securityIncident", securityIncidentRoutes);
 app.use("/schools/:id/survey", surveyRoutes);
 app.use("/schools/:id/classroom", classroomRoutes);
+app.use("/schools/:id/email", emailRoutes);
 //ROUTES RELATED TO USERS
 app.use("/schools/:id/user", schoolUserRoutes);
 app.use("/user/:id/evaluation", userEvalRoutes);

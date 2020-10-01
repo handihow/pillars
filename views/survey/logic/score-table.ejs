@@ -128,7 +128,6 @@
 		}
 
 		var surveyQuestions;
-		console.log(surveyInfo);
 	    if(surveyInfo.competenceStandardKey==='podd' || surveyInfo.competenceStandardKey === 'ddl'){
 	    	surveyQuestions = survey.getAllQuestions().filter(q => q.istestquestion);
 	    } else if(surveyInfo.isActiveSoftwareSurvey){
@@ -151,6 +150,9 @@
             // sTitle: (q.title || "").trim(" ") || q.name,
             // bVisible: i > maxColumnsFromSurvey ? false : true,
             mRender: function(data, type, row) {
+              console.log(data);
+              console.log(type);
+              console.log(row)
               survey.data = row;
               var value = q.value;
               var text = '-';

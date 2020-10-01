@@ -6,6 +6,7 @@ var SurveyResult = require("../../models/surveyResult");
 var middleware = require("../../middleware");
 var config = require("../../config/config");
 var Survey = require("../../models/survey");
+var Email = require("../../models/email");
 var _ = require("lodash");
 
 //SHOW ROUTE - PROFILE PAGE
@@ -38,6 +39,24 @@ router.get("/surveys", middleware.isLoggedIn, function(req, res){
           var existingSurveySurveyResults = surveyResults.filter(sr => sr.survey && sr.survey._id);
           res.locals.scripts.footer.dashboard = true;
           res.render("user/surveys", {surveyResults: existingSurveySurveyResults, user: user});
+        }
+      });
+    }
+  });
+});
+
+router.get("/emails", middleware.isLoggedIn, function(req, res){
+  User.findById(req.params.id).sort({"createdAt" : -1}).exec(function(err, user){
+    if(err || !user){
+      req.flash("error", err);
+      res.redirect("back");
+    } else {
+      Email.find({user: user}, function(err, emails){
+        if(err){
+          req.flash("error", err);
+          res.redirect("back");
+        } else {
+          res.render("email/index", {user: user, emails: emails});  
         }
       });
     }

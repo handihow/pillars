@@ -1,0 +1,48 @@
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
+<%if(typeof user !=='undefined'){%>
+	<%- include('../partials/user-header') %>
+<%} else if(typeof school !=='undefined'){%>
+	<%- include('../partials/school-header') %>
+<%} else if(typeof organisation !=='undefined'){%>
+	<%- include('../partials/organisation-header') %>
+<%}%>
+
+  <div class="ui centered header">Emails</div>
+  <div class="ui divider"></div>
+  <%if(!emails || emails.length===0){%>
+  	<div class="ui placeholder segment">
+	    <div class="ui icon header">
+	      <i class="dont icon"></i>
+	      Nog geen emails
+	    </div>
+	  </div>
+  <%}%>
+	<div class="ui feed">
+		<% emails.forEach(function(email){ %>
+		  <div class="event">
+		  	<div class="label">
+		  	<% if(email.result ==='success') { %>
+		        <i class="green checkmark icon"></i><% } else { %>
+		        <i class="red remove icon"></i><% } %>
+		    </div>
+		    <div class="content">
+		    	<div class="summary">
+			        <a href="/email/<%=email._id%>">Email</a> "<%= email.subject %>" verstuurd naar email adres <%= email.emailAddress %>.
+			        <div class="date"><%=email.createdAt.toJSON().slice(0,10).split('-').reverse().join('/')%></div>
+			    </div>
+		    </div>
+		  </div>
+		<%});%>
+	</div>
+  <div class="ui divider"></div>
+
+<%if(typeof user !=='undefined'){%>
+	<%- include('../partials/user-footer') %>
+<%} else if(typeof school !=='undefined'){%>
+	<%- include('../partials/school-footer') %>
+<%} else if(typeof organisation !=='undefined'){%>
+	<%- include('../partials/organisation-footer') %>
+<%}%>
+<%- include('../partials/footer') %>

@@ -1,0 +1,54 @@
+<%- include('../partials/header') %>
+<%- include('../partials/main-menu') %>
+<%- include('../partials/flash-message') %>
+
+<div class="ui container">
+
+  <h2 class="ui  header">
+  	<i class="envelope icon"></i>
+  	<div class="content">Email</div>
+  </h2>
+  <button class="ui right floated button" onclick="goBack()">Terug</button>
+  <div class="ui divider"></div>
+  <div class="ui grid">
+    <div class="four wide column">
+      <h4 class="content">
+        Geadresseerde
+      </h4>
+      <div class="content">
+        <%=email.emailAddress%>
+      </div>
+    </div>
+    <div class="four wide column">
+      <h4 class="content">
+        Onderwerp
+      </h4>
+      <div class="content">
+        <%=email.subject%>
+      </div>
+    </div>
+    <div class="four wide column">
+      <h4 class="content">
+        Datum
+      </h4>
+      <div class="content">
+        <%=email.createdAt.toJSON().slice(0,10).split('-').reverse().join('/')%>
+      </div>
+    </div>
+    <div class="four wide column">
+      <h4 class="content">
+        Resultaat
+      </h4>
+      <div class="content">
+        <% if(email.result ==='success') { %>
+              <i class="green checkmark icon"></i>Verstuurd<% } else { %>
+              <i class="red remove icon"></i>Niet verstuurd<% } %>
+      </div>
+    </div>
+  </div>
+  <div class="ui divider"></div>
+  <div>
+    <%-email.emailBody%>
+  </div>
+</div>
+<%- include('../partials/footer') %>

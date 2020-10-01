@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router({mergeParams: true});
 var School = require("../../models/school");
 var Survey = require("../../models/survey");
+var Email = require("../../models/email");
 var User = require("../../models/user");
 var SurveyResult = require("../../models/surveyResult");
 var middleware = require("../../middleware");
@@ -665,5 +666,30 @@ router.get("/pillars/download", middleware.isAuthenticatedBadmin, function(req, 
         };    
     });
 });
+
+//INDEX ROUTE FOR EMAILS
+router.get("/email", middleware.isAuthenticatedBadmin, function(req, res){
+  Organisation.findById(req.params.id,function(err, organisation){
+    if(err || !organisation) {
+      req.flash("error", err.message);
+      res.redirect("back");
+    } else {
+      Email.find(
+        {organisation: organisation._id},
+        null,
+        {sort: {"createdAt" : -1}}
+      ).exec(function(err, emails){
+        if(err) {
+          req.flash("error", err.message);
+          res.redirect("back");
+        } else {
+          res.render("email/index", {emails: emails, organisation: organisation});         
+        }
+      });        
+    }
+  });
+});
+
+module.exports = router;
 
 module.exports = router;

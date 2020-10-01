@@ -7,6 +7,7 @@ var middleware = require("../../middleware");
 var ejs = require("ejs");
 var config = require("../../config/config");
 var Test = require("../../models/test");
+var Email = require("../../models/email");
 
 //INDEX - list of users of the school
 router.get("/", middleware.isSchoolOwner, function(req, res){
@@ -207,12 +208,24 @@ router.post("/", middleware.isNotDemoAccount, middleware.isSchoolOwner, function
                       }
                     //send the email
                       var request = config.email.nocc(user.username, user.firstName + " " + user.lastName, "Welkom bij Pillars", html);
+                      var email = {
+                        user: user,
+                        school: user.school,
+                        organisation: user.organisation, 
+                        emailAddress: user.username,
+                        subject: "Welkom bij Pillars",
+                        emailBody: html
+                      };
                       request
                       .then((result) => {
+                        email.result = 'success';
+                        Email.create(email);
                         req.flash("success", "Nieuwe medewerker geregistreerd! Er is een email verstuurd met inlog gegevens en verdere instructies.");
                         res.redirect("/schools/" + school._id + "/user");
                       })
                       .catch((err) => {
+                        email.result = 'failed';
+                        Email.create(email);
                         req.flash("error", "Fout bij verzenden van email. Foutmelding: " + err);
                         res.redirect("/schools/" + school._id + "/user");
                       });

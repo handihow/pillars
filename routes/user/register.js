@@ -7,6 +7,7 @@ var crypto = require("crypto");
 var ejs = require("ejs");
 var config = require("../../config/config");
 var Organisation = require("../../models/organisation");
+var Email = require("../../models/email");
 
 //SHOW REGISTER FORM FOR ORGANISATION ADMINS (BADMIN)
 router.get("/register", function(req,res){
@@ -64,12 +65,23 @@ router.post("/register", function(req,res){
                         }
                         //send the email
                         var request = config.email.cc(user.username, user.firstName + " " + user.lastName, "Welkom bij Pillars", html);
+                        var email = {
+                          user: user,
+                          organisation: user.organisation, 
+                          emailAddress: user.username,
+                          subject: "Welkom bij Pillars",
+                          emailBody: html
+                        };
                         request
                         .then((result) => {
+                          email.result = 'success';
+                          Email.create(email);
                           req.flash("success", "Welkom bij Pillars!");
                           res.redirect("/schools");
                         })
                         .catch((err) => {
+                          email.result = 'failed';
+                          Email.create(email);
                           req.flash('error', err.message);
                           res.redirect("/");
                         });
