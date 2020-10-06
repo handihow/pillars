@@ -130,6 +130,7 @@ $(document).ready(function() {
     }
 
     if($('#resultsTable').length == 0 && $('#dynamicTable').length == 0 && $(".ui table").length > 0 ) {
+      console.log('I have a table')
 
       var urlParams = new URLSearchParams(window.location.search);
       var searchParam = ""
@@ -173,8 +174,9 @@ $(document).ready(function() {
           },
         }
       };
-
-      var table = $(".ui table").DataTable(dataTableSettings);
+      if ( $.isFunction($.fn.DataTable) ) {
+        var table = $(".ui table").DataTable(dataTableSettings);
+      }
 
     }
 

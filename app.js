@@ -16,6 +16,8 @@ var config = require("./config/config");
 var Organisation = require("./models/organisation");
 
 //REQUIRING ROUTES
+var scriptRoutes = require('./routes/scripts');
+
 //ROUTES RELATED TO MODELS
 var hardwareModelRoutes = require('./routes/hardware/hardware');
 var formModelRoutes = require('./routes/forms/forms');
@@ -196,6 +198,7 @@ app.use(function(req, res, next){
 
 
 //USE ROUTES
+app.use("/scripts", scriptRoutes);
 //ROUTES RELATED TO MODELS
 app.use("/hardware/:id", hardwareModelRoutes);
 app.use("/form/:id", formModelRoutes);
@@ -252,6 +255,7 @@ app.use("/ddl", startStudentTestRoutes);
 app.use("/", loginRoutes);
 app.use("/", registerRoutes);
 app.use("/", retrievePasswordRoutes);
+
 app.use(indexRoutes);
 
 //LISTEN ON PORT

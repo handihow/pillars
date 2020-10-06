@@ -62,7 +62,6 @@
     
     let elements = undefined;
     if(chartElementVisibility && !Array.isArray(chartElementVisibility)){
-      console.log(chartElementVisibility);
       elements = [];
       const visibleElements = chartElementVisibility.elements;
       filteredSurveyQuestions.forEach(question => {
@@ -124,15 +123,8 @@
   	surveyResultNode.innerHTML = "";
 
   	var visPanel = window.visPanel = new SurveyAnalytics.VisualizationPanel(filteredSurveyQuestions, normalizedData, 
-  		{allowDynamicLayout: false, labelTruncateLength:60, haveCommercialLicense: true}, elements);
+  		{allowDynamicLayout: false, labelTruncateLength:60, haveCommercialLicense: true, answersOrder: "desc"}, elements);
 
-    survey.getAllQuestions().forEach(function(q){
-      if(q.getType()=='checkbox' || q.getType()=='radiogroup' || q.getType()=='dropdown' || q.getType()=='imagepicker'){
-          var chartVisualizer = visPanel.getVisualizer(q.name);
-          chartVisualizer.setLabelsOrder("desc");
-        }
-      });
-  	
     // visPanel.allowDynamicLayout = false;
   	visPanel.showHeader = true;
   	

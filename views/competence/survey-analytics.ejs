@@ -3,12 +3,20 @@
 <%- include('../partials/flash-message') %>
 <%if(typeof school !== 'undefined'){%>
   <%- include('../partials/school-header') %>
+  <%- include('../partials/competence-tabs', {school: school})%>
   <%- include('./header', {
-  	title: survey.competenceStandardTitle, 
-  	competenceStandardKey: survey.competenceStandardKey,
-    showManageClassroomsButton: survey.competenceStandardKey === 'ddl'
+    title: survey.competenceStandardTitle, 
+    competenceStandardKey: survey.competenceStandardKey,
+    showManageClassroomsButton: false
   }) %>
-<%} %>
+<%} else if(typeof organisation !== 'undefined'){%>
+  <%- include('../partials/organisation-header') %>
+  <%- include('../partials/competence-tabs', {organisation: organisation})%>
+  <%- include('../overview/competence-header', {
+    title: survey.competenceStandardTitle, 
+    competenceStandardKey: survey.competenceStandardKey
+  })  %>
+<%}%>
 
 <h2 class="ui header"><i class="chart pie icon"></i>Grafieken</h2>
 <div class="ui divider"></div>  
@@ -20,9 +28,7 @@
   </div>
 </div>
 <%} else {%>
-  <div id="analysis__container">
     <div id="resultCharts"></div>
-  </div>
 <%}%>
 
 <div id="surveyText" hidden><%= JSON.stringify(survey)%></div>
@@ -30,6 +36,8 @@
 
 <%if(typeof school !== 'undefined'){%>
   <%- include('../partials/school-footer') %>
+<%} else if(typeof organisation !== 'undefined'){%>
+  <%- include('../partials/organisation-footer') %>
 <%}%>
 <%- include('../partials/footer') %>
 

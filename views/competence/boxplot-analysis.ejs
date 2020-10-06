@@ -3,12 +3,20 @@
 <%- include('../partials/flash-message') %>
 <%if(typeof school !== 'undefined'){%>
   <%- include('../partials/school-header') %>
+  <%- include('../partials/competence-tabs', {school: school})%>
   <%- include('./header', {
-  	title: survey.competenceStandardTitle, 
-  	competenceStandardKey: survey.competenceStandardKey,
-    showManageClassroomsButton: survey.competenceStandardKey === 'ddl'
+    title: survey.competenceStandardTitle, 
+    competenceStandardKey: survey.competenceStandardKey,
+    showManageClassroomsButton: false
   }) %>
-<%} %>
+<%} else if(typeof organisation !== 'undefined'){%>
+  <%- include('../partials/organisation-header') %>
+  <%- include('../partials/competence-tabs', {organisation: organisation})%>
+  <%- include('../overview/competence-header', {
+    title: survey.competenceStandardTitle, 
+    competenceStandardKey: survey.competenceStandardKey
+  })  %>
+<%}%>
 
 <h2 class="ui header"><i class="list icon"></i>Resultaten per deelgebied</h2>
 <%if(surveyResults.length===0){%>
@@ -33,6 +41,8 @@
 
 <%if(typeof school !== 'undefined'){%>
   <%- include('../partials/school-footer') %>
+<%} else if(typeof organisation !== 'undefined'){%>
+  <%- include('../partials/organisation-footer') %>
 <%}%>
 <%- include('../partials/footer') %>
 <%- include('../survey/logic/boxplot-analysis')%>

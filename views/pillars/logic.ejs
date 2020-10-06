@@ -1,6 +1,8 @@
 <script>
+
 	//load jQuery when document is ready
 	$(document).ready(function() {
+
 	    if($('#pdf__progress').length>0){
 	        $('#pdf__progress').hide(); 
 	    }
@@ -28,7 +30,7 @@
 	        pdf.save("Pillars Score Rapport.pdf");
 	        $('#pdf__progress').progress('increment');
 	        $('.buttons').show();
-	         $('#pdf__progress').hide();
+	        $('#pdf__progress').hide();
 	    });
 
 	    
