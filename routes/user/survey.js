@@ -75,14 +75,11 @@ router.post("/:sid/private", middleware.isLoggedIn, function(req, res){
               });
 
           } else if(surveyResult.length>0 && survey.isActiveCompetenceSurvey) {
-
             res.contentType('json');
             res.send({ 
                 success: false, 
                 error: 'Foutmelding: u heeft deze vragenlijst al eerder ingevuld.'
               });
-
-
           } else {
             User.findById(req.user._id, function(err, user){
               if(err || !user){
@@ -168,8 +165,9 @@ router.post("/:sid/private", middleware.isLoggedIn, function(req, res){
                         })
                       } else {
                         if((user.role==='suser' || user.role==='sadmin') && user.school && user.school.length>0){
-                          School.findById(user.school[0], function(err, school){
+                          School.findById(user.school[0]).populate("users").exec(function(err, school){
                             school.surveyResults.push(createdSurveyResult._id);
+                            var toEmails = school.users.filter(u => u.role === 'sadmin').map(u => u.username);
                             school.save(function(err, school){
                               if(err){
                                 res.contentType('json');
@@ -177,6 +175,42 @@ router.post("/:sid/private", middleware.isLoggedIn, function(req, res){
                                   success: false, 
                                   error: 'Probleem bij updaten van school. Server geeft fout: ' + err.message 
                                 });
+                              } else if(survey.competenceStandardKey === 'podd' && toEmails.length > 0) {
+                                var firstName = user.firstName ? user.firstName : user.username;
+                                var lastName = user.lastName ? user.lastName : "";
+                                var fullName =  firstName + " " + lastName;
+                                var competenceCategoryIndex = config.competence.survey.competenceCategories.findIndex(c => c.identifier === 'podd');
+                                if(competenceCategoryIndex > -1){
+                                  var competenceCategories = config.competence.survey.competenceCategories[competenceCategoryIndex].categories;
+                                  var {result: {actionPlan}} = createdSurveyResult;
+                                  var actionPlanCategories = [];
+                                  Object.keys(actionPlan).map(function(key) {
+                                    var categoryIndex = competenceCategories.findIndex(cc => cc.name === key);
+                                    if(categoryIndex > -1 && actionPlan[key].develop === 'J'){
+                                      actionPlanCategories.push(competenceCategories[categoryIndex].title);
+                                    }
+                                  })
+                                }
+                                var subject = fullName + " heeft test ingediend";
+                                var data = {
+                                  fullName: fullName,
+                                  schoolName: school.name,
+                                  actionPlanCategories: actionPlanCategories.join(', '),
+                                  subject: subject
+                                }
+                                var request = config.email.podd(toEmails, subject, data);
+                                request
+                                  .then((result) => {
+                                    res.contentType('json');
+                                    res.send({ success: true, surveyResultId:  createdSurveyResult._id});
+                                  })
+                                  .catch((err) => {
+                                    res.contentType('json');
+                                    res.send({ 
+                                      success: false, 
+                                      error: 'Probleem bij verzenden van email. Server geeft fout: ' + err.message 
+                                    });
+                                  });
                               } else {
                                 res.contentType('json');
                                 res.send({ success: true, surveyResultId:  createdSurveyResult._id});

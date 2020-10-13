@@ -38,4 +38,17 @@ email.invite = function(emails, subject, html){
   return sgMail.send(msg);
 }
 
+email.podd = function(toEmails, subject, data){
+  const to = toEmails.length === 1 ? toEmails[0] : toEmails;
+  console.log(to);
+  const msg = {
+    to: to,
+    from: 'Pillars - voor optimale ict-resultaten <notifications@pillars.school>',
+    templateId: 'd-5835ff6b1a354f57a291198edf91f6d9',
+    dynamic_template_data: data,
+    subject: subject
+  };
+  return sgMail.send(msg);
+}
+
 module.exports = email;
