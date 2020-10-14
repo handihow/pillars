@@ -27,8 +27,8 @@
     </a>
   <% } %>
   <% if(typeof organisation !== 'undefined' && organisation.settings && organisation.settings.competenceNew){ %>
-  <a class="item <%if(url.includes("/organisations/"+organisation._id+'/overview/podd')) { %> active <% } %>" 
-      href="/organisations/<%= organisation._id %>/overview/podd" 
+  <a class="item <%if(url.includes("/organisations/"+organisation._id+'/podd')) { %> active <% } %>" 
+      href="/organisations/<%= organisation._id %>/podd" 
       data-content="Pillars Overzicht Digitale Deskundigheid Leerkrachten">
     <i class="user icon" ></i>
     Leraren

@@ -29,6 +29,11 @@
     
     var hasBooleanRadiogroupQuestions = false;
 
+    if(surveyInfo.competenceStandardKey === 'podd'){
+      survey.getQuestionByName('2WSCRE-SYSTKNNS').title = 'In het leerlingenadministratiesysteem kan ik';
+      survey.getQuestionByName('WSCVEV-VOLG').title = 'In het leerlingenvolgsysteem kan ik';
+    }
+
     const chartElementVisibility = surveyInfo.chartElementVisibility ? surveyInfo.chartElementVisibility : undefined;
 
     let filteredSurveyQuestions;

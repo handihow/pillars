@@ -2,4 +2,19 @@
   <%= title %>
 </h2>
 
+<div class="ui small basic icon buttons">
+	<a class="ui <%if(url===("/organisations/"+organisation._id+"/" + competenceStandardKey)){ %> active <%}%> icon button" 
+          href="/organisations/<%=organisation._id%>/<%=competenceStandardKey%>"
+          data-content="Resultaten <%=title%>"><i class="info icon"></i></a>
+	<a class="ui <%if(url===("/organisations/"+organisation._id+"/" + competenceStandardKey + "/score-table")){ %> active <%}%> icon button" 
+          href="/organisations/<%=organisation._id%>/<%=competenceStandardKey%>/score-table"
+          data-content="Tabel met score resultaten"><i class="table icon"></i></a>
+	<a class="ui <%if(url===("/organisations/"+organisation._id+"/" + competenceStandardKey + "/survey-analytics")){ %> active <%}%> icon button" 
+	      href="/organisations/<%=organisation._id%>/<%=competenceStandardKey%>/survey-analytics"
+	      data-content="Grafieken van vragen en antwoorden"><i class="chart pie icon"></i></a>
+	<a class="ui  <%if(url===("/organisations/"+organisation._id+"/" + competenceStandardKey +"/boxplot-analysis")){ %> active <%}%>icon button"
+		href="/organisations/<%=organisation._id%>/<%=competenceStandardKey%>/boxplot-analysis"
+	      data-content="Boxplot analyse"><i class="chart bar icon"></i></a>
+</div>
+
 <div class="ui divider"></div>

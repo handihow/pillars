@@ -36,9 +36,10 @@
     <span class="hide-mobile">Digitale leermiddelen</span>
   </a>
   <%}%>
-  <% var firstPage = organisation.settings !== 'undefined' && organisation.settings.competenceNew ? 'podd' : 'competence'%>
-  <a class="vertical item <%if(url.includes('/organisations/'+organisation._id+'/overview/'+firstPage)) { %> active <% } %>" 
-      href="/organisations/<%= organisation._id %>/overview/<%=firstPage%>" 
+  <% var firstPage = organisation.settings !== 'undefined' && organisation.settings.competenceNew ? 
+          '/podd' : '/overview/competence'%>
+  <a class="vertical item <%if(url.includes('/organisations/'+organisation._id+firstPage)) { %> active <% } %>" 
+      href="/organisations/<%= organisation._id %><%=firstPage%>" 
       data-content="Deskundigheid">
     <i class="certificate icon" ></i>
     <span class="hide-mobile">Deskundigheid</span>

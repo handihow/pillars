@@ -57,6 +57,7 @@ var securityIncidentOrganisationRoutes = require("./routes/organisation/security
 var messageRoutes = require("./routes/organisation/message");
 var organisationSettingsRoutes = require("./routes/organisation/settings");
 var overviewRoutes = require("./routes/organisation/overview");
+var poddOrganisationRoutes = require("./routes/organisation/podd");
 var surveyOrganisationRoutes = require("./routes/organisation/survey");
 var organisationSchoolRoutes = require("./routes/organisation/schools");
 //ROUTES RELATED TO PILLARS ADMINISTRATION
@@ -236,6 +237,7 @@ app.use("/organisations/:id/standard", standardRoutes);
 app.use("/organisations/:id/processingActivity", processingActivityOrganisationRoutes);
 app.use("/organisations/:id/securityIncident", securityIncidentOrganisationRoutes);
 app.use("/organisations/:id/overview", overviewRoutes);
+app.use("/organisations/:id/podd",poddOrganisationRoutes);
 app.use("/organisations/:id/organisationSettings", organisationSettingsRoutes);
 app.use("/organisations/:id/message", messageRoutes);
 app.use("/organisations/:id/survey", surveyOrganisationRoutes);
