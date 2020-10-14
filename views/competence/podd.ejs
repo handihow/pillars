@@ -66,7 +66,13 @@
           Onderdelen
         </div>
       </h2>
-      <% var countSkilledArray = surveyResults.map((sr) => Object.values(sr.flags).reduce((a, flag) => a + flag, 0)) %>
+      <% var countSkilledArray = surveyResults.map((sr) => {
+          if(sr.flags){
+            return Object.values(sr.flags).reduce((a, flag) => a + flag, 0);
+          } else {
+            return 0;
+          }
+        })%>
       <% var skilledCategories = Math.round(countSkilledArray.reduce((a,b) => a + b, 0) / countSkilledArray.length * 10) / 10 %>
       <div class="ui tiny three statistics">
         <div class="statistic">
@@ -241,7 +247,7 @@
         }
     });
     var surveyResultsText = $('#surveyResultsData').text();
-    var surveyResultsData = JSON.parse(surveyResultsText);
+    var surveyResultsData = JSON.parse(surveyResultsText).filter(sr => sr.flags);
     var standardText = $('#standardData').text();
     var standardData = JSON.parse(standardText);
     var skilled = [];
@@ -269,9 +275,9 @@
       var doubt = 0;
       var later = 0;
       surveyResultsData.forEach(function(sr){
-        if(sr.flags[cat.name] !== 'undefined' && sr.flags[cat.name]){
+        if(sr.flags && sr.flags[cat.name] !== 'undefined' && sr.flags[cat.name]){
           countNotSkilled ++;
-        } else if(sr.flags[cat.name] !== 'undefined'){
+        } else if(sr.flags && sr.flags[cat.name] !== 'undefined'){
           countSkilled ++;
         }
         if(sr.statistics[cat.name] !== 'undefined'){
