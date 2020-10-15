@@ -61,7 +61,8 @@ const processResults = (req, res, path) => {
                 }
                 SurveyResult.find({
                     "survey": survey._id,
-                    "organisation": organisation._id
+                    "organisation": organisation._id,
+                    "score": {$gt: 0}
                 })
                 .populate({path : 'user', populate : {path : 'organisation'}})
                 .populate({path : 'user', populate : {path : 'school'}})

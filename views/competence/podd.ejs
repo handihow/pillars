@@ -179,6 +179,22 @@
   </div>
 <%}%>
 
+<div class="ui modal">
+  <div class="ui icon header">
+    <i class="handshake icon"></i>
+    Actie plan samenvatting op deelgebied <span id="actionArea"></span>
+  </div>
+  <div class="content">
+    <div class="ui relaxed divided list" id="actionSummaryList"></div>
+  </div>
+  <div class="actions">
+    <div class="ui green ok inverted button">
+      <i class="checkmark icon"></i>
+      Bedankt
+    </div>
+  </div>
+</div>
+
 <div id="countPerDayData" hidden><%=JSON.stringify(countPerDay)%></div>
 <div id="surveyData" hidden><%=JSON.stringify(survey)%></div>
 <div id="standardData" hidden><%=JSON.stringify(standard)%></div>
@@ -280,7 +296,7 @@
         } else if(sr.flags && sr.flags[cat.name] !== 'undefined'){
           countSkilled ++;
         }
-        if(sr.statistics[cat.name] !== 'undefined'){
+        if(sr.statistics[cat.name]){
           total += sr.statistics[cat.name];
           quantity += 1;
           if(sr.statistics[cat.name] < min){
@@ -345,7 +361,40 @@
          options: {
           legend: {
               position: 'right'
+            },
+          events: ['click'],
+          onClick: (evt) => {
+            const firstPoint = dougnutCharts[cat.name].getElementAtEvent(evt)[0];
+
+            if (firstPoint) {
+                $('#actionSummaryList').empty();
+                const label = dougnutCharts[cat.name].data.labels[firstPoint._index];
+                const value = dougnutCharts[cat.name].data.datasets[firstPoint._datasetIndex].data[firstPoint._index];
+                const filteredSurveyResults = surveyResultsData
+                .filter(sr => sr.result && sr.result.actionPlan && sr.result.actionPlan[cat.name] && sr.result.actionPlan[cat.name].develop && sr.result.actionPlan[cat.name].develop === label[0])
+                $('#actionArea').text(cat.name + ' (antwoord ' + label + ', ' + value + ' medewerkers)');
+                filteredSurveyResults.forEach(fsr => {
+                  const beforeHTML = '<div class="item"><div class="header">';
+                  const firstName = fsr.user && fsr.user.firstName ? fsr.user.firstName : fsr.result.firstName ? fsr.result.firstName : '-';
+                  const lastName = fsr.user && fsr.user.lastName ? fsr.user.lastName : '';
+                  const organisationName = fsr.user && fsr.user.school && fsr.user.school[0] ? fsr.user.school[0].name : fsr.user && fsr.user.organisation && fsr.user.organisation.name ? fsr.user.organisation.name : '-';
+                  const betweenHTML = '</div>'
+                  let contentHTML = '';
+                  if(fsr.result.actionPlan[cat.name].action){
+                      contentHTML = fsr.result.actionPlan[cat.name].action;
+                  }
+                  if(fsr.result.actionPlan[cat.name].comment){
+                      contentHTML = contentHTML + ' - ' + fsr.result.actionPlan[cat.name].comment;
+                  }
+                  const afterHTML = '</div>'
+                  const fullHTML = beforeHTML + firstName + ' ' + lastName + ' van ' + organisationName + betweenHTML + contentHTML + afterHTML;
+                  $('#actionSummaryList').append(fullHTML);
+                })
+                $('.ui.modal')
+                  .modal('show')
+                ;
             }
+          }
          }
       });
     })
