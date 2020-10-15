@@ -74,6 +74,7 @@ const processResults = (req, res, path) => {
                               }
                           });                                
                           res.locals.scripts.footer.chartjs = true;
+                          res.locals.scripts.footer.exceljs = true;
                           res.render("competence/podd", {
                               school: school,
                               users: school.users, 

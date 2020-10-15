@@ -188,7 +188,10 @@
     <div class="ui relaxed divided list" id="actionSummaryList"></div>
   </div>
   <div class="actions">
-    <div class="ui green ok inverted button">
+    <div class="ui primary button" id="exceldownload">
+      Download lijst
+    </div>
+    <div class="ui green ok button">
       <i class="checkmark icon"></i>
       Bedankt
     </div>
@@ -207,6 +210,43 @@
 <%- include('../partials/footer') %>
 
 <script>
+
+  createExcel = function(filteredSurveyResults){
+                    
+    const workbook = new ExcelJS.Workbook();
+    const sheet = workbook.addWorksheet('Lijst actieplan');
+    sheet.columns = [
+      { header: 'Naam', key: 'fullname', width: 30 , style: {font: {bold: true}}},
+      { header: 'School/bestuur', key: 'organisation', width: 30 , style: {font: {bold: true}}},
+      { header: 'In actieplan', key: 'develop', width: 10 , style: {font: {bold: true}}},
+      { header: 'Trainingsvorm', key: 'action', width: 20 , style: {font: {bold: true}}},
+      { header: 'Commentaar', key: 'comment', width: 50 , style: {font: {bold: true}}},
+    ];
+    filteredSurveyResults.forEach(function(result){
+        var row = sheet.addRow(result);
+        row.font = {bold: false};
+    });
+
+    workbook.xlsx.writeBuffer().then(function (data) {
+        var excelData = new Blob([data], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
+        var excelURL =  null;
+        if (navigator.msSaveBlob)
+        {
+            excelURL = navigator.msSaveBlob(excelData, 'pillars_actieplan_overzicht.xlsx');
+        }
+        else
+        {
+            excelURL = window.URL.createObjectURL(excelData);
+        }
+
+        var tempLink = document.createElement('a');
+        tempLink.href = excelURL;
+        tempLink.setAttribute('download', 'pillars_actieplan_overzicht.xlsx');
+        tempLink.click();
+
+    });
+  }
+                             
 
   $(document).ready(function() {
 
@@ -371,28 +411,43 @@
                 const label = dougnutCharts[cat.name].data.labels[firstPoint._index];
                 const value = dougnutCharts[cat.name].data.datasets[firstPoint._datasetIndex].data[firstPoint._index];
                 const filteredSurveyResults = surveyResultsData
-                .filter(sr => sr.result && sr.result.actionPlan && sr.result.actionPlan[cat.name] && sr.result.actionPlan[cat.name].develop && sr.result.actionPlan[cat.name].develop === label[0])
+                .filter(sr => sr.result && sr.result.actionPlan && sr.result.actionPlan[cat.name] && sr.result.actionPlan[cat.name].develop && sr.result.actionPlan[cat.name].develop === label[0]);
                 $('#actionArea').text(cat.name + ' (antwoord ' + label + ', ' + value + ' medewerkers)');
+                const excelSummarySurveyResults = [];
                 filteredSurveyResults.forEach(fsr => {
-                  const beforeHTML = '<div class="item"><div class="header">';
-                  const firstName = fsr.user && fsr.user.firstName ? fsr.user.firstName : fsr.result.firstName ? fsr.result.firstName : '-';
-                  const lastName = fsr.user && fsr.user.lastName ? fsr.user.lastName : '';
-                  const organisationName = fsr.user && fsr.user.school && fsr.user.school[0] ? fsr.user.school[0].name : fsr.user && fsr.user.organisation && fsr.user.organisation.name ? fsr.user.organisation.name : '-';
-                  const betweenHTML = '</div>'
-                  let contentHTML = '';
-                  if(fsr.result.actionPlan[cat.name].action){
-                      contentHTML = fsr.result.actionPlan[cat.name].action;
+                  if(fsr.user){
+                    const beforeHTML = '<div class="item"><div class="header">';
+                    const firstName = fsr.user.firstName ? fsr.user.firstName : fsr.user.username;
+                    const lastName = fsr.user && fsr.user.lastName ? fsr.user.lastName : '';
+                    const organisationName = fsr.user.school && fsr.user.school[0] ? fsr.user.school[0].name : fsr.user.organisation.name;
+                    const betweenHTML = '</div>'
+                    let contentHTML = '';
+                    let action = '';
+                    if(fsr.result.actionPlan[cat.name].action){
+                      action = fsr.result.actionPlan[cat.name].action;
+                      contentHTML = contentHTML + action;
+                    }
+                    let comment = '';
+                    if(fsr.result.actionPlan[cat.name].comment){
+                      let comment = fsr.result.actionPlan[cat.name].comment;
+                      contentHTML = contentHTML + ' - ' + comment;
+                    }
+                    const afterHTML = '</div>'
+                    const fullHTML = beforeHTML + firstName + ' ' + lastName + ' van ' + organisationName + betweenHTML + contentHTML + afterHTML;
+                    $('#actionSummaryList').append(fullHTML);
+                    excelSummarySurveyResults.push({
+                      fullname: firstName + ' ' + lastName,
+                      organisation: organisationName,
+                      develop: label,
+                      action: action,
+                      comment: comment
+                    })
                   }
-                  if(fsr.result.actionPlan[cat.name].comment){
-                      contentHTML = contentHTML + ' - ' + fsr.result.actionPlan[cat.name].comment;
-                  }
-                  const afterHTML = '</div>'
-                  const fullHTML = beforeHTML + firstName + ' ' + lastName + ' van ' + organisationName + betweenHTML + contentHTML + afterHTML;
-                  $('#actionSummaryList').append(fullHTML);
                 })
                 $('.ui.modal')
                   .modal('show')
                 ;
+                $('#exceldownload').click(() => createExcel(excelSummarySurveyResults));
             }
           }
          }

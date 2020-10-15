@@ -82,6 +82,7 @@ const processResults = (req, res, path) => {
                               }
                           });                                
                           res.locals.scripts.footer.chartjs = true;
+                          res.locals.scripts.footer.exceljs = true;
                           res.render("competence/podd", {
                               organisation: organisation,
                               users: users, 

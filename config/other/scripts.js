@@ -31,7 +31,8 @@ var scripts = {
 			softwareanalytics: false,
 			tinymce: false,
 			pdf: false,
-			useranalytics: false
+			useranalytics: false,
+			exceljs: false
 		}
 };
 
