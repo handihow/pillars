@@ -492,7 +492,8 @@
                     stacked: true,
                     ticks:{
                       callback:function(label){
-                        return label.title
+                        const labelTitle = label.title;
+                        return labelTitle;
                       }
                     }
                   },
@@ -505,7 +506,8 @@
                     },
                     ticks:{
                       callback:function(label){
-                        return label.parent
+                        const labelParent = label.parent;
+                        return labelParent;
                       },
                       minRotation: 0,
                       maxRotation: 0,
@@ -522,9 +524,13 @@
             },
             tooltips: {
               callbacks: {
-                  label: function(tooltipItem, data) {
-                      return data.datasets[tooltipItem.datasetIndex].label + ': ' + tooltipItem.value + ' (' + labels[tooltipItem.index].fullTitle + '-' + labels[tooltipItem.index].fullParentTitle + ')';
-                  }
+                title: function(tooltipItem,data){
+                  return tooltipItem[0].xLabel.fullTitle;
+                },
+                label: function(tooltipItem, data) {
+                  const labelStr = data.datasets[tooltipItem.datasetIndex].label + ': ' + tooltipItem.value + ' (' + labels[tooltipItem.index].fullParentTitle + ')';
+                    return labelStr;
+                }
               }
             },
             legend: {
@@ -616,9 +622,13 @@
             },
             tooltips: {
               callbacks: {
-                  label: function(tooltipItem, data) {
-                      return data.datasets[tooltipItem.datasetIndex].label + ': ' + tooltipItem.value + ' (' + labels[tooltipItem.index].fullTitle + '-' + labels[tooltipItem.index].fullParentTitle + ')';
-                  }
+                title: function(tooltipItem,data){
+                  return tooltipItem[0].xLabel.fullTitle;
+                },
+                label: function(tooltipItem, data) {
+                  const labelStr = data.datasets[tooltipItem.datasetIndex].label + ': ' + tooltipItem.value + ' (' + labels[tooltipItem.index].fullParentTitle + ')';
+                    return labelStr;
+                }
               }
             },
             legend: {
