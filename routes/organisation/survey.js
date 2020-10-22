@@ -9,6 +9,7 @@ var User = require("../../models/user");
 var config = require("../../config/config");
 var ObjectId = require('mongoose').Types.ObjectId; 
 var json2csv = require("json2csv");
+var transformResults = require("../../config/competence/transformSurveyResultsToTable");
 
 //INDEX ROUTE
 router.get("/", middleware.isLoggedIn,middleware.findOrganisation, function(req, res){
@@ -82,9 +83,15 @@ function handleShowRoute(req, res, limit){
           res.locals.scripts.footer.surveyResults = true;
           res.locals.scripts.header.datatables = true;
           res.locals.scripts.footer.datatables = true;
+          var results;
+          if(survey.competenceStandardKey === 'podd' || survey.competenceStandardKey === 'ddl'){
+            results = transformResults(returnedSurveyResults);
+          } else {
+            results = returnedSurveyResults;
+          }
           res.render("survey/show", {
             survey: survey,
-            surveyResults: returnedSurveyResults,
+            surveyResults: results,
             statistics: statistics,
             bubbles: bubbles,
             schoolLevel: false, 

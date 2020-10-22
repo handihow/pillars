@@ -7,6 +7,7 @@ var SurveyResult = require("../../models/surveyResult");
 var config = require("../../config/config");
 var middleware = require("../../middleware");
 var mongoose = require("mongoose");
+var transformResults = require("../../config/competence/transformSurveyResultsToTable");
 
 //INDEX - list of hardware
 router.get("/", middleware.isSchoolOwner, function(req, res){
@@ -129,6 +130,13 @@ router.get("/:cid", middleware.isLoggedIn, function(req, res){
                 .populate({path : 'user', populate : {path : 'school'}})
                 .populate({path : 'user', populate : {path : 'classroom'}})
                 .exec(function(err, surveyResults){
+                  //filter out surveyResults that have no user
+                  var returnedSurveyResults = [];
+                  surveyResults.forEach(function(surveyResult){
+                    if(surveyResult.user && surveyResult.user._id){
+                      returnedSurveyResults.push(surveyResult);
+                    }
+                  });
                     if(err){
                         req.flash("error", "Probleem bij inladen van resultaten ... " + err.message);
                         res.redirect("back");
@@ -136,11 +144,12 @@ router.get("/:cid", middleware.isLoggedIn, function(req, res){
                         res.locals.scripts.header.datatables = true;
                         res.locals.scripts.footer.surveyjs = true;
                         res.locals.scripts.footer.datatables = true;
+                        var results = transformResults(returnedSurveyResults);
                         res.render("competence/score-table", {
                           school: school,
                           users: school.students, 
                           survey: survey,
-                          surveyResults: surveyResults,
+                          surveyResults: results,
                           classroom: true
                         });
                     }

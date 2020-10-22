@@ -5,6 +5,7 @@ var Survey = require('../../models/survey');
 var SurveyResult = require('../../models/surveyResult');
 var middleware = require("../../middleware");
 var config = require("../../config/config");
+var transformResults = require("../../config/competence/transformSurveyResultsToTable");
 var moment = require("moment");
 var User = require("../../models/user");
 
@@ -71,9 +72,16 @@ const processResults = (req, res, path) => {
                         req.flash("error", "Probleem bij inladen van resultaten ... " + err.message);
                         res.redirect("back");
                     } else {
+                      //filter out surveyResults that have no user
+                      var returnedSurveyResults = [];
+                      surveyResults.forEach(function(surveyResult){
+                        if(surveyResult.user && surveyResult.user._id){
+                          returnedSurveyResults.push(surveyResult);
+                        }
+                      });
                         if(path === 'general'){
                           var countPerDay = {};
-                          surveyResults.forEach(function (elem) {
+                          returnedSurveyResults.forEach(function (elem) {
                               var date = moment(elem.createdAt).format("YYYY-MM-DD");
                               if (countPerDay[date]) {
                                   countPerDay[date] += 1;
@@ -88,18 +96,19 @@ const processResults = (req, res, path) => {
                               users: users, 
                               survey: survey,
                               standard: standard,
-                              surveyResults: surveyResults,
+                              surveyResults: returnedSurveyResults,
                               countPerDay: countPerDay
                           });
                         } else if(path === 'score-table'){
                           res.locals.scripts.header.datatables = true;
                           res.locals.scripts.footer.surveyjs = true;
                           res.locals.scripts.footer.datatables = true;
+                          var results = transformResults(returnedSurveyResults);
                           res.render("competence/score-table", {
                             organisation: organisation,
                             users: users, 
                             survey: survey,
-                            surveyResults: surveyResults
+                            surveyResults: results
                           })
                         } else if(path === 'survey-analytics'){
                           res.locals.scripts.footer.surveyjs = true;
@@ -107,15 +116,15 @@ const processResults = (req, res, path) => {
                           res.render("competence/survey-analytics", {
                             organisation: organisation,
                             survey: survey,
-                            surveyResults: surveyResults
+                            surveyResults: returnedSurveyResults
                           })
                         } else if(path === 'boxplot-analysis'){
                           res.locals.scripts.header.plotly = true;
-                          var statistics = config.competence.survey.calculateStatistics(survey, surveyResults);
+                          var statistics = config.competence.survey.calculateStatistics(survey, returnedSurveyResults);
                           res.render("competence/boxplot-analysis", {
                             organisation: organisation,
                             survey: survey,
-                            surveyResults: surveyResults,
+                            surveyResults: returnedSurveyResults,
                             statistics: statistics
                           })
                         }
