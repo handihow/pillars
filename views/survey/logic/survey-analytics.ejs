@@ -1,6 +1,6 @@
 <script>
   
-  function drawSurveyAnalytics(){
+  $(document).ready(function() {
     if (typeof Survey == "undefined") {
   	   return
   	}
@@ -17,7 +17,7 @@
 
   	var surveyInfo = JSON.parse(surveyInfoText || '[]');
 
-  	if(surveyInfo.competenceStandardKey === 'podd'){
+  	if(surveyInfo.competenceStandardKey === 'podd' || surveyInfo.competenceStandardKey === 'ddl'){
   		setCustomSurveyProperties();
   	}
 
@@ -25,8 +25,6 @@
 
   	var survey = new Survey.Model(surveyData);
 
-    var vispanelresults = result.map(r => r.result);
-    
     var hasBooleanRadiogroupQuestions = false;
 
     if(surveyInfo.competenceStandardKey === 'podd'){
@@ -84,22 +82,23 @@
       });
     }
 
-    var normalizedData = vispanelresults.map(function(item) {
-      survey.getAllQuestions().forEach(function(q) {
-        if(q.getType()=='radiogroup'){
-        	hasBooleanRadiogroupQuestions = true;
-        }
-        if (item[q.name] === undefined) {
-          item[q.name] = "";
-        } else if(item[q.name] === true && surveyInfo.competenceStandardKey !== 'podd') {
-        	item[q.name] = "true"
-        } else if(item[q.name] === false && surveyInfo.competenceStandardKey !== 'podd') {
-        	item[q.name] = "false"
-        }
+    var normalizedData = result.map(function(r) {
+        var item = r.result;
+        survey.getAllQuestions().forEach(function(q) {
+          if(q.getType()=='radiogroup'){
+            hasBooleanRadiogroupQuestions = true;
+          }
+          if (item[q.name] === undefined) {
+            item[q.name] = "";
+          } else if(item[q.name] === true) {
+            item[q.name] = "true"
+          } else if(item[q.name] === false) {
+            item[q.name] = "false"
+          }
+        });
+        return item;
       });
-      return item;
-    });
-    
+        
     SurveyAnalytics.SelectBasePlotly.types = ["bar"];
     SurveyAnalytics.VisualizationManager.unregisterVisualizerForAll(SurveyAnalytics.WordCloud);
 
@@ -123,6 +122,7 @@
 
     var surveyResultNode = document.getElementById("resultCharts");
     if(!surveyResultNode){
+      console.log('no node for survey analytics')
       return;
     }
   	surveyResultNode.innerHTML = "";
@@ -170,9 +170,7 @@
       $('#loader').hide();
       
       window.dispatchEvent(new Event('resize'));
-    }
-
-  drawSurveyAnalytics();
+    })
 
 
 

@@ -39,6 +39,7 @@ const transformResults = function(surveyResults){
     	  } = r;
     const result = {
       ...questionScores,
+      result: r.result,
       date: createdAt,
       firstName: firstName,
       lastName: lastName,

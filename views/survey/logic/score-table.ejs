@@ -24,6 +24,11 @@
 
 	var survey = new Survey.Model(surveyData);
 
+	if(surveyInfo.competenceStandardKey === 'podd'){
+      survey.getQuestionByName('2WSCRE-SYSTKNNS').title = 'In het leerlingenadministratiesysteem kan ik';
+      survey.getQuestionByName('WSCVEV-VOLG').title = 'In het leerlingenvolgsysteem kan ik';
+    }
+
 	var results;
 
 	if(surveyInfo.competenceStandardKey !== 'podd' && surveyInfo.competenceStandardKey !== 'ddl'){
