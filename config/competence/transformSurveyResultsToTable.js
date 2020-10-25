@@ -20,23 +20,24 @@ const transformResults = function(surveyResults){
       console.err(e);
     }
     const {_id : id,
-    	   survey: surveyId,
-    	   user: 
-    		{
-    			firstName, 
-    			lastName, 
-    			username : email, 
-    			job, 
-    			dateOfBirth, 
-    			gender, 
-    			publicProfile, 
-    			isTeacher, 
-    			gradeLevelGroup, 
-    			organisation: 
-    				{name: orgName} = {name: '-'},
-    		    school
-    		} = {}
-    	  } = r;
+      	   survey: surveyId,
+      	   user: 
+        		{
+        			firstName, 
+        			lastName, 
+        			username : email, 
+        			job, 
+        			dateOfBirth, 
+        			gender, 
+        			publicProfile, 
+        			isTeacher, 
+        			gradeLevelGroup, 
+        			organisation: 
+        				{name: orgName} = {name: '-'},
+        		  school,
+              _id: userId
+        		} = {}
+      	  } = r;
     const result = {
       ...questionScores,
       result: r.result,
@@ -53,7 +54,7 @@ const transformResults = function(surveyResults){
       school: school && school[0] ? school[0].name : '-',
       city: school && school[0] ? school[0].city : '-',
       link: publicProfile ? '<a href="/survey/' + id + '/result" target=_blank>Inzending</a>' : 'Geen inzage',
-      chart: publicProfile ? '<a href="/survey/' + surveyId + '/' + id + '" target=_blank>Grafiek</a>' : 'Geen inzage'
+      chart: publicProfile ? '<a href="/survey/' + surveyId + '/' + userId + '" target=_blank>Grafiek</a>' : 'Geen inzage'
     }
     results.push(result);
   });

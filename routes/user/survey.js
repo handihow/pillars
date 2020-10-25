@@ -295,7 +295,7 @@ router.get("/:sid/:uid", middleware.isLoggedIn, function(req, res){
 		} else {
 			User.findById(req.params.uid).populate('schools').exec(function(err, user){
 				if(err || !user){
-					req.flash("error", "Medewerker is niet gevonden. Foutmelding: " + err ? err.message : '-');
+					req.flash("error", "Medewerker is niet gevonden. Foutmelding: " + err);
 					res.redirect("back");
 				} else {
 					res.locals.scripts.footer.individualResults = true;
