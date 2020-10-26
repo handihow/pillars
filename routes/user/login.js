@@ -17,7 +17,7 @@ router.post("/login", passport.authenticate("local",
   if(req.user && req.user.twoFactorEnabled){
     res.redirect("/user/"+req.user._id+"/twofactorauth/login");
   } else {
-    res.redirect("home");
+    res.redirect("/home");
   }
 });
 
@@ -33,7 +33,7 @@ router.get('/auth/google/callback', passport.authenticate('google', { failureRed
     if(req.user && req.user.twoFactorEnabled){
       res.redirect("/user/"+req.user._id+"/twofactorauth/login");
     } else {
-      res.redirect("home");
+      res.redirect("/home");
     }
   });
 
@@ -49,7 +49,7 @@ router.get('/auth/azureadoauth2/callback',
     if(req.user && req.user.twoFactorEnabled){
       res.redirect("/user/"+req.user._id+"/twofactorauth/login");
     } else {
-      res.redirect("home");
+      res.redirect("/home");
     }
   });
 
