@@ -1,0 +1,40 @@
+<%- include('../../partials/header') %>
+<%- include('../../partials/main-menu') %>
+<%- include('../../partials/flash-message') %>
+<%- include('../../partials/user-header') %>
+<h2 class="ui header">
+  <%if(user.imageUrl){%>
+      <img 
+        class="ui image" 
+        src="<%=user.imageUrl %>">
+  <%}%>
+  <div class="content">
+    <% if(user.firstName && user.lastName){ %>
+      <%= user.firstName + ' ' + user.lastName %>
+    <% } else {%>
+      <%= user.username %>
+    <% } %>
+  </div>
+</h2>
+<div class="ui divider"></div>
+<%if(user.twoFactorEnabled){%>
+  <div class="ui placeholder segment">
+    <div class="ui icon header">
+      <i class="user shield icon"></i>
+      Twee-staps-verificatie is geactiveerd
+    </div>
+    <p>Twee-staps-verificatie (ook wel twee-factor-authenticatie genoemd) is een extra beveiligingslaag voor jouw Pillars account naast het wachtwoord. Deze extra laag voorkomt dat ongewenste personen toegang kunnen krijgen tot jouw account wanneer ze het wachtwoord hebben achterhaald. Contacteer Pillars support als je problemen ondervindt bij het inloggen met twee-staps-verificatie.</p>
+    <a class="ui primary button" href="http://pillars.school/neem-contact-met-ons-op/" target="_blank">Support</a>
+  </div>
+<%} else {%>
+  <div class="ui placeholder segment">
+    <div class="ui icon header">
+      <i class="user shield icon"></i>
+      Twee-staps-verificatie is niet actief
+    </div>
+    <a class="ui primary button" href="/user/<%=user._id%>/twofactorauth/stepone">Activeer</a>
+  </div>
+<%}%>
+
+<%- include('../../partials/user-footer') %>
+<%- include('../../partials/footer') %>

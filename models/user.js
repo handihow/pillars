@@ -46,7 +46,10 @@ var UserSchema = new mongoose.Schema({
   technologyAdoption: String,
   hardwareAdoption: String,
   softwarePreference: String,
-  hardwarePreference: String
+  hardwarePreference: String,
+  twoFactorTempSecret: String,
+  twoFactorSecret: String,
+  twoFactorEnabled: {type: Boolean, default: false}
 }, { usePushEach: true, timestamps: true });
 
 UserSchema.pre('save', function(next) {

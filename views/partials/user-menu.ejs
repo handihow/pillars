@@ -36,6 +36,14 @@
     <span class="hide-mobile">Evaluaties</span>
   </a>
 
+  <a class="vertical item <%if(url==="/user/"+user._id+"/twofactorauth") { %> active <% } %>" 
+      href="/user/<%= user._id %>/twofactorauth" 
+      data-content="Twee-staps-verificatie">
+    <i class="user shield icon"></i>
+    <span class="hide-mobile">Twee-staps-verificatie</span>
+  </a>
+
+
   <%if(currentUser.role ==='badmin' || currentUser.role === 'padmin'){%>
     <a class="vertical item <%if(url.includes("/user/"+user._id+"/account")) { %> active <% } %>" 
         href="/user/<%= user._id %>/account" 

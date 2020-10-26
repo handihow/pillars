@@ -11,10 +11,14 @@ router.get("/login", function(req, res){
 //HANDLE LOG-IN LOGIC
 router.post("/login", passport.authenticate("local", 
 {
-  successRedirect: "/home",
   failureRedirect: "/login",
   failureFlash: true
 }), function(req, res){
+  if(req.user && req.user.twoFactorEnabled){
+    res.redirect("/user/"+req.user._id+"/twofactorauth/login");
+  } else {
+    res.redirect("home");
+  }
 });
 
 //AUTH WITH GOOGLE
@@ -26,7 +30,11 @@ router.get("/auth/google", passport.authenticate('google', {
 router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login', failureFlash: true }),
   (req, res) => {
     // Successful authentication, redirect home
-    res.redirect('/home');
+    if(req.user && req.user.twoFactorEnabled){
+      res.redirect("/user/"+req.user._id+"/twofactorauth/login");
+    } else {
+      res.redirect("home");
+    }
   });
 
 //AUTH WITH OFFICE 365
@@ -38,7 +46,11 @@ router.get('/auth/azureadoauth2/callback',
   passport.authenticate('azure_ad_oauth2', { failureRedirect: '/login', failureFlash: true }),
   function (req, res) {
     // Successful authentication, redirect home.
-    res.redirect('/home');
+    if(req.user && req.user.twoFactorEnabled){
+      res.redirect("/user/"+req.user._id+"/twofactorauth/login");
+    } else {
+      res.redirect("home");
+    }
   });
 
 //LOG OUT ROUTE

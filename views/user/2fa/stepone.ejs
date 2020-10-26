@@ -1,0 +1,29 @@
+<%- include('../../partials/header') %>
+<%- include('../../partials/main-menu') %>
+<%- include('../../partials/flash-message') %>
+<%- include('../../partials/user-header') %>
+
+	<div class="ui header">1. Download app</div>
+	<p>Er zijn verschillende applicaties voor je mobiele telefoon die controlecodes kunnen genereren waarmee je kan inloggen. Een gegenereerde code is een beperkte tijd geldig, daarna zal een nieuwe code gegenereerd worden. Installeer de app voordat je verder gaat met de volgende stap.</p>
+	<ul>
+		<li>
+			<a href="https://apps.apple.com/nl/app/google-authenticator/id388497605">Download Google Authenticator voor iOS</a>
+		</li>
+		<li>
+			<a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=nl">Download Google Authenticator voor Android</a>
+		</li>
+	</ul>
+
+	<div class="ui divider"></div>
+
+	<div class="ui header">2. Scan QR-code in app</div>
+	<p>Stel de applicatie juist in door de volgende QR-code te scannen. Tijdens de volgende stap wordt gevraagd om een controlecode in te voeren. Deze stap is de controle dat de verificatie goed werkt.</p>
+	<img class="ui centered medium image" src="<%=data_url%>">
+
+	<div class="ui divider"></div>
+	<a class="ui primary button" href="/user/<%=user._id%>/twofactorauth/steptwo">Verder</a>
+	<a class="ui button" href="/user/<%=user._id%>/twofactorauth">Annuleren</a>
+
+
+<%- include('../../partials/user-footer') %>
+<%- include('../../partials/footer') %>

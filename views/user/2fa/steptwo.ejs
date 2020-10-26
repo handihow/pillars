@@ -1,0 +1,24 @@
+<%- include('../../partials/header') %>
+<%- include('../../partials/main-menu') %>
+<%- include('../../partials/flash-message') %>
+<%- include('../../partials/user-header') %>
+
+	<div class="ui header">Vul de controlecode in</div>
+	<p>Vul de code in die de app geeft. Daarmee bevestig je dat de code werkt en activeer je twee-staps-verificatie voor je account.</p>
+	
+	<form class="ui form" action="/user/<%=user._id%>/twofactorauth/activate" method="POST">
+
+		<div class="ui labeled input">
+		  <div class="ui label">
+		    code
+		  </div>
+		  <input name="code" type="number" placeholder="Controle code...">
+		</div>
+		<div class="ui divider"></div>
+		<button class="ui primary button" type="submit">Activeer twee-staps-verificatie</button>
+		<a class="ui button" href="/user/<%=user._id%>/twofactorauth">Annuleren</a>
+	</form>
+
+
+<%- include('../../partials/user-footer') %>
+<%- include('../../partials/footer') %>

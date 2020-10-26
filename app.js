@@ -50,6 +50,7 @@ var userProfileRoutes = require("./routes/user/user-profile");
 var userEvalRoutes = require("./routes/user/user-eval");
 var userSurveyRoutes = require("./routes/user/survey");
 var userManageAccountRoutes = require("./routes/user/manage-account");
+var twofactorauthRoutes = require("./routes/user/two-factor-auth");
 //ROUTES RELATED TO ORGANISATION
 var standardRoutes = require("./routes/organisation/standard");
 var processingActivityOrganisationRoutes = require("./routes/organisation/processingActivity");
@@ -228,6 +229,7 @@ app.use("/schools/:id/email", emailRoutes);
 app.use("/schools/:id/user", schoolUserRoutes);
 app.use("/user/:id/evaluation", userEvalRoutes);
 app.use("/user/:id/account", userManageAccountRoutes);
+app.use("/user/:id/twofactorauth", twofactorauthRoutes);
 app.use("/user/:id", userProfileRoutes);
 app.use("/organisations/:id/org-user", orgUserRoutes);
 app.use("/survey", userSurveyRoutes);
