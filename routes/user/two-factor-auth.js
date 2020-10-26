@@ -17,7 +17,7 @@ router.get("/", middleware.isLoggedIn, function(req, res){
   });
 });
 
-router.get("/stepone", middleware.isLoggedIn, function(req, res){
+router.get("/stepone", middleware.isUser, function(req, res){
   User.findById(req.params.id, async function(err, user){
     if(err || !user){
       req.flash("error", err);
@@ -40,7 +40,7 @@ router.get("/stepone", middleware.isLoggedIn, function(req, res){
   });
 });
 
-router.get("/steptwo", middleware.isLoggedIn, function(req, res){
+router.get("/steptwo", middleware.isUser, function(req, res){
   User.findById(req.params.id, function(err, user){
     if(err || !user){
       req.flash("error", err);
@@ -52,7 +52,7 @@ router.get("/steptwo", middleware.isLoggedIn, function(req, res){
 });
 
 
-router.post("/activate", middleware.isLoggedIn, function(req, res){
+router.post("/activate", middleware.isUser, function(req, res){
   User.findById(req.params.id, async function(err, user){
     if(err || !user){
       req.flash("error", err);
