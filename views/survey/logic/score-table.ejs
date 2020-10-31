@@ -157,13 +157,16 @@
       	  		data: q.name,
       	  		sTitle: q.name,
       	  		mRender: function(data, type, row){
-      	  			var text = data ? data + '%' : 'N/B';
+      	  			if(typeof data === 'undefined' || typeof data === null){
+      	  				return "<div class='ui tiny label' data-variation='very wide' data-tooltip='" + q.title + "'>N/B</div>"
+      	  			}
+      	  			var text =  data + '%';
       	  			var color = '';
-      	  			if(data && data > 70){
+      	  			if(data > 70){
       	  				color = 'green';
-      	  			} else if(data && data > 30){
+      	  			} else if(data > 30){
       	  				color = 'yellow';
-      	  			} else if(data){
+      	  			} else {
       	  				color = 'red';
       	  			}
       	  			return "<div class='ui " + color + " tiny label' data-variation='very wide' data-tooltip='" + q.title + "'>" + text + "</div>"
@@ -185,14 +188,7 @@
 	              survey.data = row;
 	              var value = q.value;
 	              var text = '-';
-	              if(surveyInfo.competenceStandardKey === 'podd' || surveyInfo.competenceStandardKey === 'ddl'){
-	              	var index = result.findIndex(r => r.user._id === row._id);
-	              	if(index>-1 && typeof result[index]['questionScores'][q.name] !== 'undefined'){
-	              		text = result[index]['questionScores'][q.name] + '%';
-	              	}
-	              } else if(surveyInfo.competenceStandardKey === 'podd'){
-	              	text = '-';
-	              } else if(value === "true" || (typeof value === 'boolean' && value)){
+	              if(value === "true" || (typeof value === 'boolean' && value)){
 	              	text = "100%"
 	              } else if (value === "false" || typeof value === 'boolean') {
 	                text = "0%"	
