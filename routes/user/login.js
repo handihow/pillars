@@ -1,6 +1,18 @@
 var express = require("express");
 var router = express.Router();
 var passport = require("passport");
+var speakeasy = require("speakeasy");
+var User = require("../../models/user");
+
+var successHandler = function(req, res){
+  if(req.user && req.user.twoFactorEnabled){
+    res.redirect("/twofactorauth/login");
+  } else if(req.user) {
+    res.redirect("/home");
+  } else {
+    res.redirect("/login");
+  }
+}
 
 //SHOW LOGIN FORM
 router.get("/login", function(req, res){
@@ -14,11 +26,7 @@ router.post("/login", passport.authenticate("local",
   failureRedirect: "/login",
   failureFlash: true
 }), function(req, res){
-  if(req.user && req.user.twoFactorEnabled){
-    res.redirect("/user/"+req.user._id+"/twofactorauth/login");
-  } else {
-    res.redirect("/home");
-  }
+   successHandler(req, res);
 });
 
 //AUTH WITH GOOGLE
@@ -30,11 +38,7 @@ router.get("/auth/google", passport.authenticate('google', {
 router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login', failureFlash: true }),
   (req, res) => {
     // Successful authentication, redirect home
-    if(req.user && req.user.twoFactorEnabled){
-      res.redirect("/user/"+req.user._id+"/twofactorauth/login");
-    } else {
-      res.redirect("/home");
-    }
+    successHandler(req, res);
   });
 
 //AUTH WITH OFFICE 365
@@ -46,12 +50,39 @@ router.get('/auth/azureadoauth2/callback',
   passport.authenticate('azure_ad_oauth2', { failureRedirect: '/login', failureFlash: true }),
   function (req, res) {
     // Successful authentication, redirect home.
-    if(req.user && req.user.twoFactorEnabled){
-      res.redirect("/user/"+req.user._id+"/twofactorauth/login");
+    successHandler(req, res);
+  });
+
+router.get("/twofactorauth/login", function(req, res){
+  User.findById(req.user, function(err, user){
+    if(err || !user){
+      req.flash("error", err);
+      res.redirect("back");
     } else {
-      res.redirect("/home");
+      res.render("user/2fa/login", {user: user});
     }
   });
+});
+
+router.post("/twofactorauth/login", function(req, res){
+  User.findById(req.user, function(err, user){
+    if(err || !user){
+      req.flash("error", err);
+      res.redirect("back");
+    } else {
+      const code = req.body.code;
+      const verified = speakeasy.totp.verify({ secret: user.twoFactorSecret,
+                                       encoding: 'base32',
+                                       token: code });
+      if(verified){
+        res.redirect("/home");  
+      } else {
+        req.flash("error", "Controle code is onjuist. Probeer het opnieuw.")
+        res.redirect("back");  
+      }
+    }
+  });
+})
 
 //LOG OUT ROUTE
 router.get("/logout", function(req, res){

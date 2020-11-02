@@ -77,36 +77,5 @@ router.post("/activate", middleware.isUser, function(req, res){
   });
 });
 
-router.get("/login", function(req, res){
-  User.findById(req.params.id, function(err, user){
-    if(err || !user){
-      req.flash("error", err);
-      res.redirect("back");
-    } else {
-      res.render("user/2fa/login", {user: user});
-    }
-  });
-});
-
-router.post("/login", function(req, res){
-  User.findById(req.params.id, function(err, user){
-    if(err || !user){
-      req.flash("error", err);
-      res.redirect("back");
-    } else {
-      const code = req.body.code;
-      const verified = speakeasy.totp.verify({ secret: user.twoFactorSecret,
-                                       encoding: 'base32',
-                                       token: code });
-      if(verified){
-      	res.redirect("/home");	
-      } else {
-      	req.flash("error", "Controle code is onjuist. Probeer het opnieuw.")
-      	res.redirect("back");	
-      }
-    }
-  });
-})
-
 
 module.exports = router;
