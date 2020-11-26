@@ -3,12 +3,21 @@ var router = express.Router();
 var passport = require("passport");
 var speakeasy = require("speakeasy");
 var User = require("../../models/user");
+var Organisation = require("../../models/organisation");
 
 var successHandler = function(req, res){
-  if(req.user && req.user.twoFactorEnabled){
-    res.redirect("/twofactorauth/login");
-  } else if(req.user) {
-    res.redirect("/home");
+  if(req.user){
+    Organisation.findById(req.user.organisation, function(err, organisation){
+      if(err || !organisation){
+        return res.redirect("/logout");
+      } else if(organisation.isDisabled){
+        return res.redirect("/account-disabled");
+      } else if(req.user.twoFactorEnabled) {
+        res.redirect("/twofactorauth/login");
+      } else {
+        res.redirect("/home");
+      }
+    });
   } else {
     res.redirect("/login");
   }
@@ -83,6 +92,13 @@ router.post("/twofactorauth/login", function(req, res){
     }
   });
 })
+
+//DISABLED ACCOUNT ROUTE
+router.get("/account-disabled", function(req, res){
+ req.logout();
+ req.flash("error", "Account is niet actief. Neem contact op met de beheerder.");
+ res.redirect("/");
+});
 
 //LOG OUT ROUTE
 router.get("/logout", function(req, res){

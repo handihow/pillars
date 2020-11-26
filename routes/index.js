@@ -43,28 +43,28 @@ function renderHomePageContent(req, res, schools){
   Organisation.findById(req.user.organisation, function(err, organisation){
     if(err) {return callbackErrorFunction(err)};
     if(!organisation){return noDataErrorFunction('Organisatie')};
-      Survey.find(
-        {$or: 
-        [
-          {$and: [
-            {organisation: req.user.organisation}, 
-            {"isActiveCompetenceSurvey": true},
-           ]},
-           {$and: [
-            {organisation: req.user.organisation}, 
-            {"isActiveSoftwareSurvey": true}
-           ]},
-        ]}, function(err, returnedSurveys){
+    Survey.find(
+      {$or: 
+      [
+        {$and: [
+          {organisation: req.user.organisation}, 
+          {"isActiveCompetenceSurvey": true},
+         ]},
+         {$and: [
+          {organisation: req.user.organisation}, 
+          {"isActiveSoftwareSurvey": true}
+         ]},
+      ]}, function(err, returnedSurveys){
+      if(err) {return callbackErrorFunction(err)};
+      SurveyResult.find({"user": new ObjectId(req.user._id)}, function(err, surveyResults){
         if(err) {return callbackErrorFunction(err)};
-        SurveyResult.find({"user": new ObjectId(req.user._id)}, function(err, surveyResults){
-          if(err) {return callbackErrorFunction(err)};
-            res.locals.scripts.footer.dashboard = true;
-            surveys = returnedSurveys.filter(s => s.isActiveCompetenceSurvey);
-            var hasActiveSoftwareSurvey = returnedSurveys.findIndex(s => s.isActiveSoftwareSurvey) > -1 ? true : false;
-            res.render("dashboard/index", {schools, organisation, surveys, surveyResults, hasActiveSoftwareSurvey, isOnDashboard: true}); 
-        })
-      });
-    });  
+          res.locals.scripts.footer.dashboard = true;
+          surveys = returnedSurveys.filter(s => s.isActiveCompetenceSurvey);
+          var hasActiveSoftwareSurvey = returnedSurveys.findIndex(s => s.isActiveSoftwareSurvey) > -1 ? true : false;
+          res.render("dashboard/index", {schools, organisation, surveys, surveyResults, hasActiveSoftwareSurvey, isOnDashboard: true}); 
+      })
+    });
+  });  
 }
 
 function callbackErrorFunction(err){
