@@ -266,21 +266,8 @@
                     survey.mode = 'display';
                     var surveyDataText = $( '#surveyData' ).text();
                     var surveyData = JSON.parse(surveyDataText);
-                    console.log(surveyData);
-                    var normalizedData = {};
-                    survey.getAllQuestions().forEach(function(q) {
-                      if (surveyData[q.name] === undefined) {
-                        normalizedData[q.name] = "";
-                      } else if(surveyData[q.name] === true && (surveyKey !== 'podd' || surveyKey !== 'ddl')) {
-                        normalizedData[q.name] = "true"
-                      } else if(surveyData[q.name] === false && (surveyKey !== 'podd' || surveyKey !== 'ddl')) {
-                        normalizedData[q.name] = "false"
-                      } else {
-                        normalizedData[q.name] = surveyData[q.name];
-                      }
-                    });
-                    survey.data = normalizedData;
                     if(surveyKey === 'podd' || surveyKey === 'ddl'){
+                        for(key in surveyData) survey.setValue(key, surveyData[key]);
                         survey
                         .onAfterRenderQuestion
                         .add(function (survey, options) {
@@ -299,6 +286,20 @@
                             header.prepend(score);
                             // options.question.readOnly = true;
                         });
+                    } else {
+                        var normalizedData = {};
+                        survey.getAllQuestions().forEach(function(q) {
+                          if (surveyData[q.name] === undefined) {
+                            normalizedData[q.name] = "";
+                          } else if(surveyData[q.name] === true) {
+                            normalizedData[q.name] = "true"
+                          } else if(surveyData[q.name] === false) {
+                            normalizedData[q.name] = "false"
+                          } else {
+                            normalizedData[q.name] = surveyData[q.name];
+                          }
+                        });
+                        survey.data = normalizedData;
                     }
                 }
 
@@ -346,7 +347,7 @@
                     if (storageSt && storageSt.length>0){
                         res = JSON.parse(storageSt); //Create the survey state for the demo. This line should be deleted in the real app.
                     } else {
-                        res.data =  currentUser;
+                        for(key in currentUser) survey.setValue(key, currentUser[key]);
                     }
 
                     //Set the loaded data into the survey.
@@ -355,7 +356,7 @@
                     }
                         
                     if (res.data) {
-                        survey.data = res.data;
+                        for(key in res.data) survey.setValue(key, res.data[key]);
                     }
                 }
 
