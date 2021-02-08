@@ -200,6 +200,9 @@
             y: countPerDayData[key]
         })
     });
+    countPerDayArray.sort(function(a,b){
+      return b.t - a.t;
+    })
     var countPerDayCtx = $('#countPerDay');
     var chart = new Chart(countPerDayCtx, {
         type: 'line',

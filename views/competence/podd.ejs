@@ -256,9 +256,12 @@
     Object.keys(countPerDayData).forEach(function(key){
         countPerDayArray.push({
             t: new Date(key),
-            y: countPerDayData[key]
+            y: countPerDayData[key],
         })
     });
+    countPerDayArray.sort(function(a,b){
+      return b.t - a.t;
+    })
     var countPerDayCtx = $('#countPerDay');
     var chart = new Chart(countPerDayCtx, {
         type: 'line',
@@ -278,7 +281,7 @@
                     time: {
                         unit: 'day',
                         displayFormats: {
-                          'day': 'D MMM' 
+                          'day': 'D MMM'
                         }
                     },
                     ticks: {
