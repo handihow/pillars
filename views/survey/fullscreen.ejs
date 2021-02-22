@@ -6,7 +6,7 @@
         <script type="text/javascript" charset="utf8" src="/scripts/jquery.min.js"></script>
         <script type="text/javascript" charset="utf8" src="/scripts/survey.jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"></script>
-        <script src="https://unpkg.com/jspdf@1.5.3/dist/jspdf.min.js"></script>
+        <script src="https://unpkg.com/jspdf@2.3.0/dist/jspdf.umd.min.js"></script>
         <script type="text/javascript" charset="utf8" src="/scripts/survey.pdf.min.js"></script>
         <script src="https://unpkg.com/sortablejs@1.7.0/Sortable.js"></script>
         <script type="text/javascript" charset="utf8" src="/scripts/surveyjs-widgets.min.js"></script>
@@ -246,6 +246,7 @@
 
                 var currentUserText = $( '#currentUser' ).text();
                 var currentUser = JSON.parse(currentUserText);
+                console.log(currentUser);
 
                 if(softwareJSON.hasInfo){
                     survey.data = {
@@ -337,27 +338,37 @@
 
                 function loadState(survey) {
                     if(isShow !=='false'){return}
-                    //Here should be the code to load the data from your database
-                    var storageSt = window
-                        .localStorage
-                        .getItem(storageName) || '';
 
+                    $.ajax({
+                        url: window.location.origin + "/api/temporarysurveyresult/" + surveyId + "_" + currentUser._id,
+                        type: "GET",
+                        success: function (data) {
+                            if(data.success){
+                                var res = {};
+                                if (data.data){
+                                    res = data.data;
+                                } else {
+                                    for(key in currentUser) survey.setValue(key, currentUser[key]);
+                                }
 
-                    var res = {};
-                    if (storageSt && storageSt.length>0){
-                        res = JSON.parse(storageSt); //Create the survey state for the demo. This line should be deleted in the real app.
-                    } else {
-                        for(key in currentUser) survey.setValue(key, currentUser[key]);
-                    }
+                                //Set the loaded data into the survey.
+                                if (res.currentPageNo) {
+                                    survey.currentPageNo = res.currentPageNo;
+                                }
+                                    
+                                if (res.data) {
+                                    for(key in res.data) survey.setValue(key, res.data[key]);
+                                }
+                            } else {
+                                console.error(data.message);
+                            }
+                        },
+                        error: function(err) {
+                            console.error('Er ging iets mis');
+                        }
+                    });
 
-                    //Set the loaded data into the survey.
-                    if (res.currentPageNo) {
-                        survey.currentPageNo = res.currentPageNo;
-                    }
-                        
-                    if (res.data) {
-                        for(key in res.data) survey.setValue(key, res.data[key]);
-                    }
+                    
                 }
 
                 function saveState(survey) {
@@ -366,10 +377,19 @@
                         currentPageNo: survey.currentPageNo,
                         data: survey.data
                     };
-                    //Here should be the code to save the data into your database
-                    window
-                        .localStorage
-                        .setItem(storageName, JSON.stringify(res));
+                    $.ajax({
+                        url: window.location.origin + "/api/temporarysurveyresult/" + surveyId + "_" + currentUser._id,
+                        type: "POST",
+                        data: res,
+                        success: function (data) {
+                            if(!data.success){
+                                alert(data.message)
+                            }
+                        },
+                        error: function(err) {
+                            alert('Er ging iets mis');
+                        }
+                    });
                 }
 
                 //Load the initial state
@@ -387,29 +407,31 @@
                 survey
                 .onComplete
                 .add(function (result) {
-                     //kill the timer
-                     clearInterval(timerId);
-                     //remove survey answers from local storage
-                     localStorage.removeItem(storageName);
-                     var data = {
-                            result: JSON.stringify(result.data)
-                        };
-                     if(surveyKey === 'podd' || surveyKey === 'ddl'){
-                        data.score = score;
-                        data.statistics = JSON.stringify(scores);
-                        data.flags = JSON.stringify(flags);
-                        data.questionScores = JSON.stringify(questionScores);
-                     }
-                     $.ajax({
+                 //kill the timer
+                 clearInterval(timerId);
+
+                 var data = {
+                        result: JSON.stringify(result.data)
+                    };
+                 $.ajax({
                         url: window.location.origin + "/survey/" + surveyId + "/private",
                         type: "POST",
                         data: data,
                         success: function (data) {
                             if(data.success){
-                                document
-                                .querySelector('#surveyResult')
-                                .innerHTML = "<a href='" + window.location.origin + "/survey/" 
-                                                + data.surveyResultId +  "/result'>Bekijk je inzending</a>";
+                                //need to delete the temporary survey results now
+                                $.ajax({
+                                    url: window.location.origin + "/api/temporarysurveyresult/" + surveyId + "_" + currentUser._id,
+                                    type: "DELETE",
+                                    success: function (data) {
+                                        if(!data.success){
+                                            alert(data.message)
+                                        }
+                                    },
+                                    error: function(err) {
+                                        alert('Er ging iets mis');
+                                    }
+                                });
                             } else {
                                 alert(data.error);
                             }
@@ -418,7 +440,6 @@
                             alert('Er ging iets mis');
                         }
                     });
-
                 });
 
                 calculateQuestionScore = function(q){
@@ -596,6 +617,28 @@
                                 adviceQuestion.html = html;    
                             }
                             score = grandTotalQuestions === 0 ? 0 : Math.round(grandTotal / grandTotalQuestions * 100) / 100;
+                            
+                            var data = {
+                                    result: JSON.stringify(sender.data),
+                                    score: score,
+                                    statistics: JSON.stringify(scores),
+                                    flags: JSON.stringify(flags),
+                                    questionScores: JSON.stringify(questionScores)
+                            };
+                             
+                            $.ajax({
+                                url: window.location.origin + "/survey/" + surveyId + "/private",
+                                type: "POST",
+                                data: data,
+                                success: function (data) {
+                                    if(!data.success){
+                                        console.error(data.error);
+                                    }
+                                },
+                                error: function(err) {
+                                    console.error('Er ging iets mis');
+                                }
+                            });
                         } else {
                             survey.showPrevButton = true;
                         }
