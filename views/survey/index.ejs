@@ -19,7 +19,11 @@
     <div class="menu">
       <%if(typeof organisation.settings !== 'undefined' && organisation.settings.competenceNew){%>
       <a class="item" href="/organisations/<%=organisation._id%>/survey/podd/competence">
-        Pillars Overzicht Digitale Deskundigheid</a>
+        Pillars Overzicht Digitale Deskundigheid V1</a>
+      <%}%>
+      <%if(typeof organisation.settings !== 'undefined' && organisation.settings.competenceNew){%>
+      <a class="item" href="/organisations/<%=organisation._id%>/survey/poddv2/competence">
+        Pillars Overzicht Digitale Deskundigheid V2</a>
       <%}%>
       <%if(typeof organisation.settings !== 'undefined' && organisation.settings.competenceStudents){%>
       <a class="item" href="/organisations/<%=organisation._id%>/survey/ddl/competence">

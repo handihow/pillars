@@ -246,7 +246,6 @@
 
                 var currentUserText = $( '#currentUser' ).text();
                 var currentUser = JSON.parse(currentUserText);
-                console.log(currentUser);
 
                 if(softwareJSON.hasInfo){
                     survey.data = {
@@ -464,6 +463,13 @@
                           q.rateValues.map(rv => score += rv.value == q.value ? rv.score : 0);
                         }
                         break;
+                      case "ranking":
+                        console.log(q.value);
+                        if(q.value && Array.isArray(q.value) && q.value.length > 3){
+                          var top4Choices = q.value.slice(0,4);
+                          q.choices.map(c => score += top4Choices.includes(c.value) ? c.score : 0 );
+                        }
+                        break;
                       case "matrix":
                         q.rows.map(r => {
                           let rowValue = getSafe(() => q.value[r.value], 'norowvalue');
@@ -534,7 +540,7 @@
                                         
                 }
 
-                if(surveyKey==='podd' || surveyKey === 'ddl'){
+                if(['ddl', 'podd'].includes(surveyKey)){
 
 
                     survey.onCurrentPageChanging.add(function(sender, options){
@@ -610,11 +616,13 @@
                             html += `
                                 <h4>Hulpmiddel, geen test!</h4>
                                 <p>Dit overzicht geeft inzicht in deelgebieden waar je jezelf in kunt verbeteren. Je hebt het niet goed of fout gedaan. Je krijgt na deze test nog uitgebreid de kans om jouw antwoorden te analyzeren.</p>
+                                <h4>Actieplan maken</h4>
+                                <p>Je bent nog niet helemaal klaar. Je kunt met behulp van onderstaande knop een overzicht van alle vragen en de score downloaden. Je kunt dit overzicht gebruiken voor het formuleren van jouw actie plan. Op de volgende pagina kun je het actieplan maken.</p>
                                 <button class="survey__button" onclick="createExcel()" style="margin:10px">Download Resultaten</button>
                             `;
                             if(surveyKey === 'podd'){
                                 var adviceQuestion = survey.getQuestionByName('advice');
-                                adviceQuestion.html = html;    
+                                adviceQuestion.html = html;  
                             }
                             score = grandTotalQuestions === 0 ? 0 : Math.round(grandTotal / grandTotalQuestions * 100) / 100;
                             
