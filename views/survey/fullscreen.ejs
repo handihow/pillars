@@ -466,7 +466,6 @@
                         }
                         break;
                       case "ranking":
-                        console.log(q.value);
                         if(q.value && Array.isArray(q.value) && q.value.length > 3){
                           var top4Choices = q.value.slice(0,4);
                           q.choices.map(c => score += top4Choices.includes(c.value) ? c.score : 0 );
@@ -628,6 +627,7 @@
                             }
                             score = grandTotalQuestions === 0 ? 0 : Math.round(grandTotal / grandTotalQuestions * 100) / 100;
                             
+                            if(isShow !=='false'){return}
                             var data = {
                                     result: JSON.stringify(sender.data),
                                     score: score,
