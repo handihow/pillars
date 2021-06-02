@@ -29,6 +29,13 @@ router.get("/login", function(req, res){
  res.render("login"); 
 });
 
+//LOGIN FORM MS TEAMS TAB
+router.get("/teams-login", function(req, res){
+  res.render("teams-login", {
+    appId: process.env.AZURE_CLIENT_ID
+  }); 
+});
+
 //HANDLE LOG-IN LOGIC
 router.post("/login", passport.authenticate("local", 
 {
